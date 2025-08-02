@@ -242,9 +242,13 @@ const CrfCommon = React.lazy(() => import('./views/Master/RequestManagement/CrfC
 const CrfDashboardMaster = React.lazy(() => import('./views/Master/RequestManagement/DashboardMaster/DashboardMaster'))
 const DataCollectionMaster = React.lazy(() => import('./views/Master/RequestManagement/DataCollectionMaster/DataCollection'))
 const DepartmentMapping = React.lazy(() => import('./views/Master/RequestManagement/DepartmentMapping/DepartmentMaping'))
-const AmsMaster = React.lazy(() => import('./views/Master/AmsMaster/AmsMaster'))
-const AmsPatientDetails = React.lazy(() => import('./views/Ams/AmsMain'))
+const AmsMaster=React.lazy(()=>import('./views/Master/AmsMaster/AmsMaster'))
+const AmsPatientDetails=React.lazy(()=>import('./views/Ams/AmsMain'))
+const AmsPatientDetailsReport =React.lazy(()=>import('./views/Report/AmsReport/AmsPatientDetailsReport'))
+const DashboardMain=React.lazy(()=>import('./views/Ams/AmsDashboard/DashboardMain'))
 const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
+const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
+
 
 
 
@@ -497,7 +501,10 @@ const routes = [
   { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
   { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
   { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
+  { path: '/Home/amsPatientDetailsReport', exact: true, name: 'Ams Patient Details Report', component: AmsPatientDetailsReport },
+  { path: '/Home/amsDashboardMain', exact: true, name: 'Ams Dashboard', component: DashboardMain },
   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
+  { path: '/Home/DeliveryMarking_Report', exact: true, name: 'DeliveryMarking_Report', component: DeliveryMarking_Report },
 
 
   

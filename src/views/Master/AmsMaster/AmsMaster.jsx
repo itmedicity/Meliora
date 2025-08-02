@@ -1,9 +1,7 @@
-import { Box, Button, Checkbox, CircularProgress, CssVarsProvider, Option, Select } from '@mui/joy'
+import { Box, Checkbox, CircularProgress, CssVarsProvider, Option, Select } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
-import CardMasterClose from 'src/views/Components/CardMasterClose'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
-import RefreshIcon from '@mui/icons-material/Refresh'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import AntibioticMasterTable from './AntibioticMasterTable'
 import AntibioticFromEllider from './AntibioticFromEllider'
@@ -12,6 +10,10 @@ import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/Commo
 import { useSelector } from 'react-redux'
 import { useQueryClient } from 'react-query'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import SaveIcon from '@mui/icons-material/Save';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const AmsMaster = () => {
 
@@ -296,55 +298,76 @@ const AmsMaster = () => {
   }, [history])
 
   return (
-    <CardMasterClose title={'Antibiotic Register'} close={backtoSetting} >
-      <CssVarsProvider>
-        <Box sx={{ display: 'flex', gap: 3 }}>
-          <Box sx={{ width: 405 }}>
-            <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
-              <Box sx={{ flex: 1 }}>
-                <TextFieldCustom
-                  type="text"
-                  size="sm"
-                  name="antibioticSearch"
-                  value={antibioticSearch || ''}
-                  onchange={updateAntibioticSearch}
-                  placeholder={'Find Antibiotic From Ellider'}
-                ></TextFieldCustom>
-              </Box>
-              <CusIconButton
+    <Box>
+      <Box sx={{ bgcolor: '#eff3f6', flex: 1, height: 32, display: 'flex' }}>
+        <Box sx={{ flex: 1, p: .5 }}>
+          Antibiotic Master
+        </Box>
+        <CusIconButton
+          size="sm"
+          variant="outlined"
+          color="primary"
+          clickable="true"
+          onClick={backtoSetting}
+        >
+          <CloseIcon fontSize="small" />
+        </CusIconButton>
+      </Box>
+      <Box sx={{ flex: 1, p: 1 }}>
+
+
+
+        <CssVarsProvider>
+
+
+          <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
+            <Box sx={{ minWidth: 500 }}>
+              <TextFieldCustom
+                type="text"
                 size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={SearchAntibiotic}
-              >
-                <ManageSearchIcon fontSize="small" />
-              </CusIconButton>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                clickable="true"
-                onClick={ResetAntibioticSearch}
-              >
-                <RefreshIcon fontSize="small" />
-              </CusIconButton>
+                name="antibioticSearch"
+                value={antibioticSearch || ''}
+                onchange={updateAntibioticSearch}
+                placeholder={'Find Antibiotic From Ellider'}
+              ></TextFieldCustom>
             </Box>
-            {loading === true ?
-              <CircularProgress thickness={2} sx={{ mt: 1 }} /> :
-              <>
-                {antibioticOpen === 1 ? (
-                  <Box sx={{ flex: 1, mt: 0.5 }}>
-                    <AntibioticFromEllider
-                      antibioticList={antibioticList}
-                      antibioticData={antibioticData}
-                    />
-                  </Box>
-                ) : null}
-              </>}
-            <Box sx={{ flex: 1, display: 'flex', mt: 2, pl: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Item code</Box>
-              <Box sx={{ flex: 1 }}>
+            <CusIconButton
+              size="sm"
+              variant="outlined"
+              color="primary"
+              clickable="true"
+              onClick={SearchAntibiotic}
+            >
+              <ManageSearchIcon fontSize="small" />
+            </CusIconButton>
+            <CusIconButton
+              size="sm"
+              variant="outlined"
+              color="primary"
+              clickable="true"
+              onClick={ResetAntibioticSearch}
+            >
+              <RefreshIcon fontSize="small" />
+            </CusIconButton>
+          </Box>
+          {loading === true ?
+            <CircularProgress thickness={2} sx={{ mt: 1 }} /> :
+            <>
+              {antibioticOpen === 1 ? (
+                <Box sx={{ flex: 1, mt: 0.5 }}>
+                  <AntibioticFromEllider
+                    antibioticList={antibioticList}
+                    antibioticData={antibioticData}
+                  />
+                </Box>
+              ) : null}
+            </>}
+
+
+          <Box sx={{ border: 1, borderColor: 'lightgrey', mt: 1, borderRadius: 3 }}>
+            <Box sx={{ flex: 1, display: 'flex', flexWrap: 'wrap', pt: 2, gap: 1.2, pl: 1 }}>
+              <Box sx={{ width: 100 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Item code</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -353,10 +376,9 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Item describtion</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 330 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Item describtion</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -365,10 +387,9 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Composition/volume</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 330 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Composition/volume</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -377,30 +398,30 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>VED Analysis</Box>
-              <Box sx={{ flex: 1 }}>
-                <Select
-                  size="sm"
-                  name="vedAnalysis"
-                  value={vedAnalysis || ""}
-                  onChange={(e, newValue) => {
-                    setFormData(prev => ({
-                      ...prev,
-                      vedAnalysis: newValue,
-                    }));
-                  }}
-                >
-                  <Option value="Vital">Vital</Option>
-                  <Option value="Essential">Essential</Option>
-                  <Option value="Desirable">Desirable</Option>
-                </Select>
+
+              <Box sx={{ width: 150 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>VED Analysis</Box>
+                <Box >
+                  <Select
+                    size="sm"
+                    name="vedAnalysis"
+                    value={vedAnalysis || ""}
+                    onChange={(e, newValue) => {
+                      setFormData(prev => ({
+                        ...prev,
+                        vedAnalysis: newValue,
+                      }));
+                    }}
+                  >
+                    <Option value="Vital">Vital</Option>
+                    <Option value="Essential">Essential</Option>
+                    <Option value="Desirable">Desirable</Option>
+                  </Select>
+                </Box>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Dosage Form</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 300 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Dosage Form</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -409,10 +430,9 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Item Strip</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 100 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Item Strip</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -421,10 +441,9 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Pegnancy Category</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 170 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Pregnancy Category</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -433,10 +452,9 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Storage Condition</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 250 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Storage Condition</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -445,23 +463,21 @@ const AmsMaster = () => {
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Max Retail Price</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 150 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Max Retail Price</Box>
                 <TextFieldCustom
                   type="number"
                   size="sm"
                   name="mrp"
                   value={mrp || ""}
-                  startDecorator="₹"
+                  startDecorator="Rs"
                   onchange={handleInputChange}
                 ></TextFieldCustom>
               </Box>
-            </Box>
-            <Box sx={{ flex: 1, display: 'flex', pl: 0.5, pt: 0.5 }}>
-              <Box sx={{ width: 150, fontSize: 15, pt: 0.5 }}>Manufacturer</Box>
-              <Box sx={{ flex: 1 }}>
+
+              <Box sx={{ width: 300 }}>
+                <Box sx={{ fontSize: 15, pl: .5 }}>Manufacturer</Box>
                 <TextFieldCustom
                   type="text"
                   size="sm"
@@ -471,70 +487,104 @@ const AmsMaster = () => {
                 ></TextFieldCustom>
               </Box>
             </Box>
-
-            <Box sx={{ flex: 1, display: 'flex', pl: 1, pt: 2 }}>
-              <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, display: 'flex', pt: 2, pl: 1 }}>
+              <Box sx={{ width: 120, }}>
                 <Checkbox
                   label="Antibiotic"
                   name="antibiotic"
                   checked={antibiotic}
                   onChange={handleCheckboxChange}
                 />
+              </Box>
+
+              <Box sx={{ width: 120, }}>
                 <Checkbox
                   label="Inactive"
                   name="inactive"
                   checked={inactive}
                   onChange={handleCheckboxChange}
-                  sx={{ mt: 1 }}
                 />
               </Box>
-              <Box sx={{ flex: 1.5 }}>
+
+              <Box sx={{ width: 120, }}>
                 <Checkbox
                   label="Restricted"
                   name="restricted"
                   checked={restricted}
                   onChange={handleCheckboxChange}
                 />
+              </Box>
+              <Box sx={{ width: 200, }}>
                 <Checkbox
                   label="Stopped Medicine"
                   name="stoppedMedicine"
                   checked={stoppedMedicine}
                   onChange={handleCheckboxChange}
-                  sx={{ mt: 1 }}
+
                 />
               </Box>
-              <Box sx={{ flex: 0.9 }}>
+
+
+              <Box sx={{ width: 120, }}>
                 <Checkbox
                   label="High Risk"
                   name="highRisk"
                   checked={highRisk}
                   onChange={handleCheckboxChange}
                 />
+              </Box>
+
+
+              <Box sx={{ width: 120, }}>
                 <Checkbox
                   label="Status"
                   name="status"
                   checked={status}
                   onChange={handleCheckboxChange}
-                  sx={{ mt: 1 }}
                 />
               </Box>
             </Box>
 
-            <Box sx={{ flex: 1, display: 'flex', pt: 1.5, gap: 1 }}>
-              <Button variant="soft" sx={{ width: 100, border: 1 }} onClick={SubmitAntibiotic}>
-                Save
-              </Button>
-              <Button variant="soft" sx={{ width: 100, border: 1 }} onClick={RefreshAntibiotic}>
-                Refresh
-              </Button>
+            <Box sx={{ flex: 1, display: 'flex', gap: .5, mt: 1, p: .5, bgcolor: '#fbfcfe' }}>
+              <CusIconButton
+                size="sm"
+                variant="outlined"
+                color="primary"
+                clickable="true"
+                onClick={SubmitAntibiotic}
+              >
+                <SaveIcon fontSize="small" />
+              </CusIconButton>
+              <CusIconButton
+                size="sm"
+                variant="outlined"
+                color="primary"
+                clickable="true"
+                onClick={RefreshAntibiotic}
+              >
+                <RefreshIcon fontSize="small" />
+              </CusIconButton>
             </Box>
           </Box>
-          <Box sx={{ flex: 1, overflow: 'scroll', height: '70vh' }}>
+
+          <Box sx={{ flex: 1, }}>
             <AntibioticMasterTable editMast={editMast} />
           </Box>
-        </Box>
-      </CssVarsProvider>
-    </CardMasterClose>
+        </CssVarsProvider>
+
+      </Box>
+      <Box sx={{ bgcolor: '#eff3f6', flex: 1, height: 35, display: 'flex', justifyContent: 'flex-end' }}>
+        <CusIconButton
+          size="sm"
+          variant="outlined"
+          color="primary"
+          clickable="true"
+          onClick={backtoSetting}
+        >
+          <CloseIcon fontSize="small" />
+        </CusIconButton>
+      </Box>
+    </Box>
   )
 }
 
