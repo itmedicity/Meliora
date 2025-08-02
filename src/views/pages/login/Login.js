@@ -49,8 +49,7 @@ const Login = () => {
         .catch((error) => {
           return error;
         })
-      const data = result.data;
-
+      const data = result.data;    
       if (data.success === 0) {
 
         errorNotify("User does not exsit");
@@ -68,7 +67,11 @@ const Login = () => {
           empdeptname: data.dept_name,
           apptoken: data.app_token,
           logOut: data.logOutTime,
-          designation: data.desg_name
+          designation: data.desg_name,
+          sectionInchargeName:data.section_incharge_name,
+          sectionInchargeId:data.section_incharge_id,
+          sectionHodName:data.section_hod_name,
+          sectionHodId:data.section_hod_id,
         }
         if (loggedDetl.empname !== null) {
           dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
