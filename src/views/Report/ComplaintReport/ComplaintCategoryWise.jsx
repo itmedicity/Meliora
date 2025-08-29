@@ -97,6 +97,7 @@ const ComplaintCategoryWise = () => {
                         slno: val.complaint_slno,
                         date: format(new Date(val.compalint_date), 'dd-MM-yyyy'),
                         location: val.location !== null ? val.location : "Not Given",
+                        deptLocation: val.room_location !== null ? val.room_location : val.cm_complaint_location !== null ? val.cm_complaint_location : "Not Given",
                         desc: val.complaint_desc,
                         createuser: val.createuser,
                         category: val.complaint_type_name !== null ? val.complaint_type_name : "Not Given",
@@ -128,7 +129,8 @@ const ComplaintCategoryWise = () => {
     const [columnDefs] = useState([
         { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 100 },
         { headerName: "Date", field: "date", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
-        { headerName: "Location", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Department Section", field: "location", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+        { headerName: "Location", field: "deptLocation", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
         { headerName: "Complaint Description", field: "desc", autoHeight: true, wrapText: true, minWidth: 300 },
         { headerName: "Category", field: "category", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },
         { headerName: "Priority", field: "priority", autoHeight: true, wrapText: true, minWidth: 150, filter: "true" },

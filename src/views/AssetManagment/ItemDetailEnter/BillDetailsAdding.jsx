@@ -170,7 +170,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
     const billpatchData = useMemo(() => {
         return {
-            am_bill_mast_slno: bill_mastslno,
+            am_bill_mast_slno: bill_mastslno || null,
             am_bill_amount: billAmount,
             edit_user: id,
             am_item_map_slno: am_item_map_slno
@@ -180,7 +180,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
     const billpatchDataSpare = useMemo(() => {
         return {
-            am_bill_mast_slno: bill_mastslno,
+            am_bill_mast_slno: bill_mastslno || null,
             am_bill_amount: billAmount,
             edit_user: id,
             am_spare_item_map_slno: am_spare_item_map_slno
@@ -189,7 +189,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
     const SaveBillDetails = useCallback((e) => {
         e.preventDefault()
-       
+
 
         const updateBillDetails = async (billpatchData) => {
             const result = await axioslogin.patch('/ItemMapDetails/BillDetailsUpdate', billpatchData);
@@ -220,20 +220,20 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             }
         }
 
-        if(billAmount === 0){
+        if (billAmount === 0) {
             infoNotify(`Enter ${assetSpare === 1 ? "Asset Value" : "Spare Value"}`);
-        }else{
-        if (bill_mastslno === '') {
-            warningNotify("Please Select Any Bill before save")
         } else {
+            // if (bill_mastslno === '') {
+            //     warningNotify("Please Select Any Bill before save")
+            // } else {
             if (assetSpare === 1) {
                 updateBillDetails(billpatchData)
             } else {
                 updateBillDetailsSpare(billpatchDataSpare)
             }
+            // }
         }
-    }
-    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count,billAmount])
+    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count, billAmount])
 
     const BillReferesh = useCallback(() => {
         const resetfrm = {
