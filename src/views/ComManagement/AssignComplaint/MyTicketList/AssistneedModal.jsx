@@ -6,16 +6,36 @@ import { Box, Button, CssVarsProvider, Modal, ModalDialog } from '@mui/joy';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AssistantEmpSelect from 'src/views/CommonSelectCode/AssistantEmpSelect';
 import { useSelector } from 'react-redux';
-import _ from 'underscore';
 import { format } from 'date-fns';
 
 const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistOpen, count, setCount }) => {
 
-
     const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name,
         rm_floor_name, location, complaint_type_name, } = assistNeed
 
-    const id = useSelector((state) => state.LoginUserData.empid, _.isEqual)
+    const complaintLocation = rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name ?
+        ` ${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''}${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${(rm_insidebuildblock_name && rm_floor_name) ? ' - ' : ''}${rm_floor_name ? rm_floor_name : ''}`
+        : "Not Updated"
+
+    const id = useSelector((state) => {
+        return state.LoginUserData.empid
+    })
+    const emp_name = useSelector((state) => {
+        return state.LoginUserData.empname
+    })
+    const inchargeName = useSelector((state) => {
+        return state.LoginUserData.sectionInchargeName
+    })
+    const hodName = useSelector((state) => {
+        return state.LoginUserData.sectionHodName
+    })
+    const inchargeId = useSelector((state) => {
+        return state.LoginUserData.sectionInchargeId
+    })
+    const hodId = useSelector((state) => {
+        return state.LoginUserData.sectionHodId
+    })
+
     const [assistemp, setAssistemp] = useState([])
     const [assistedEmployees, setAssistedEmployees] = useState([])
 
@@ -58,9 +78,18 @@ const AssistneedModal = ({ assistNeed, assistOpen, setassistNeedFlag, setAssistO
             assist_flag: 1,
             assist_requested_emp: id,
             assign_rect_status: 0,
-            assigned_user: id
+            assigned_user: id,
+            assist_requested_employee: emp_name,
+            inchargeName: inchargeName,
+            inchargeId: inchargeId,
+            hodName: hodName,
+            hodId: hodId,
+            complaint_desc: complaint_desc,
+            complaint_type_name: complaint_type_name,
+            ticket_raised_section: location,
+            complaintLocation: complaintLocation
         }
-    }, [complaint_slno, assistemp, id]);
+    }, [complaint_slno, assistemp, id, emp_name, hodId, inchargeName, inchargeId, hodName, complaint_desc, complaint_type_name, location, complaintLocation]);
 
     const Assistent = useCallback(() => {
         const AssistentEmp = async () => {
