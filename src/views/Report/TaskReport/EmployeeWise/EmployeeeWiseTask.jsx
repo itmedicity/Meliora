@@ -132,10 +132,6 @@ const EmployeeeWiseTask = () => {
                 </Box>
                 <Box sx={{ flex: 1, ml: 1 }}>
                     <Typography sx={{ pl: 1, fontWeight: 300, }}>Employee</Typography>
-                    {/* <TmDeptSectionSelect
-                        deptsec={deptsecs}
-                        setDeptSec={setDeptSecs}
-                    /> */}
                     <TMemployeeSelect
                         employee={employee}
                         setEmployee={setEmployee} />

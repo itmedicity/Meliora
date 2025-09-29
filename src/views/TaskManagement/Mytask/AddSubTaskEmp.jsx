@@ -8,11 +8,13 @@ import TmMultEmpSelectUnderDeptSec from 'src/views/CommonSelectCode/TmMultEmpSel
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import moment from 'moment'
+import { useQueryClient } from 'react-query'
 
-const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tableRendering, tm_project_slno, tableCount, setTableCount, tm_task_due_date, }) => {
+const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, tm_project_slno, tableCount, setTableCount, tm_task_due_date, }) => {
 
-    const [employeeSubTask, setEmployeeSubTask] = useState(0)
+    const [employeeSubTask, setEmployeeSubTask] = useState([])
     const dispatch = useDispatch();
+    const queryClient = useQueryClient()
     const [subTaskMast, setSubTaskMast] = useState({
         tm_sub_task_slno: '',
         tm_subtask_name: '',
@@ -73,6 +75,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
     const closeSubTask = useCallback((e) => {
         setflag(0)
     }, [setflag])
+
     const addSubTaskData = useCallback((e) => {
         e.preventDefault()
         const InsertMastSubTask = async (insertMastSubTask) => {
@@ -101,7 +104,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                             const { message, success } = value
                             if (success === 1) {
                                 succesNotify("Subtask Created Successfully")
-                                setTableRendering(tableRendering + 1)
+                                queryClient.invalidateQueries('getAllSubtaskUnderTask')
                                 setTableCount(tableCount + 1)
                                 closeSubTask()
                             }
@@ -111,7 +114,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                         })
                     } else {
                         succesNotify("Subtask Created Successfully")
-                        setTableRendering(tableRendering + 1)
+                        queryClient.invalidateQueries('getAllSubtaskUnderTask')
                         setTableCount(tableCount + 1)
                         closeSubTask()
                     }
@@ -123,7 +126,9 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
         } else {
             infoNotify('please fill mandatory fields  while adding subtask')
         }
-    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, tableRendering, setTableRendering, tableCount, setTableCount, employeeSubTask, tm_subtask_duedate])
+    }, [closeSubTask, id, insertMastSubTask, tm_subtask_name, tableCount, queryClient, setTableCount, employeeSubTask, tm_subtask_duedate])
+
+
     return (
         <Box>
             <Box sx={{ display: 'flex', }}>
@@ -171,7 +176,7 @@ const AddSubTaskEmp = ({ tm_task_slno, projectz, setflag, setTableRendering, tab
                                         max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
                                     },
                                 }}
-                                style={{ minHeight: 57 }}
+                                style={{ minHeight: 55 }}
                                 disabled={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))}
                             ></TextFieldCustom>
                         </Box>

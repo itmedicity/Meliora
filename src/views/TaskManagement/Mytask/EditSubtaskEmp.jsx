@@ -10,18 +10,19 @@ import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SubTaskProgressTable from './SubTaskProgressTable';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRendering, tableCount, setTableCount, tm_task_due_date }) => {
+import { useQueryClient } from 'react-query';
 
-    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, em_name, tm_project_slno, main_task_slno, create_date,
-        tm_mast_duedate_count } = subTaskData
+const EditSubtaskEmp = ({ subTaskData, setflag, tableCount, setTableCount, tm_task_due_date }) => {
 
+    const { tm_task_slno, tm_task_status, tm_pending_remark, tm_onhold_remarks, tm_completed_remarks, tm_project_slno, main_task_slno, create_date,
+        tm_mast_duedate_count, tm_assigne_emp } = subTaskData
 
-    const [employeeSubTask, setEmployeeSubTask] = useState(0)
+    const queryClient = useQueryClient()
+    const [employeeSubTask, setEmployeeSubTask] = useState(tm_assigne_emp || [])
     const dispatch = useDispatch();
     const [empArry, setEmpArry] = useState([])
     const [tabledataProgress, setTableDataProgress] = useState([])
@@ -32,7 +33,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
     const [onPendingSub, setOnPendingSub] = useState(tm_task_status === 4 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 3 ? false : false)
     const [checkFlagSub, setcheckFlagSub] = useState(tm_task_status)
     const [valueSubProgress, setvalueSubProgress] = useState(0)
-    const [changeAssignee, setchangeAssignee] = useState(0)
     const [countDue, setcountDue] = useState(0)
     const [checksubtaskdue, setchecksubtaskdue] = useState('')
     const [subTaskMast, setSubTaskMastEdit] = useState({
@@ -125,20 +125,24 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
     const id = useSelector((state) => {
         return state.LoginUserData.empid
     })
-    const postEmpDetails = employeeSubTask && employeeSubTask.map((val) => {
-        return {
+
+    const postSubtaskEmpDetails = Array.isArray(employeeSubTask)
+        ? employeeSubTask.map((val) => ({
             tm_task_slno: tm_task_slno,
             tm_assigne_emp: val,
             tm_detail_status: 1,
-            tm_detl_create: id
-        }
-    })
-    const inactive = empArry && empArry.map((val) => {
-        return {
+            tm_detl_create: id,
+        }))
+        : [];
+
+    const inactive = Array.isArray(empArry)
+        ? empArry.map((val) => ({
             tm_task_slno: tm_task_slno,
             tm_assigne_emp: val.tm_assigne_emp,
-        }
-    })
+        }))
+        : [];
+
+
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
@@ -207,6 +211,8 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         getSubTask(tm_task_slno)
         getMastEmployee(tm_task_slno);
     }, [tm_task_slno, dispatch, tm_completed_remarks, tm_onhold_remarks, tm_pending_remark, id])
+
+
     const updateSubTask = useMemo(() => {
         return {
             tm_task_slno: tm_task_slno,
@@ -289,6 +295,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             tm_task_slno: tm_task_slno
         }
     }, [tm_task_slno])
+
     useEffect(() => {
         const getProgress = async () => {
             const result = await axioslogin.post('/taskManagement/viewSubProgress', ProgressDataSub);
@@ -324,6 +331,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
         setTaskProgressSub(form)
     }
+
     const InsertProgressSub = useCallback((e) => {
         e.preventDefault()
         if (tm_progres_date !== '') {
@@ -346,6 +354,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
             infoNotify('Please Select Date For Entering Task Progress')
         }
     }, [postProgressSub, progressCountSub, tm_progres_date, tableCount, setTableCount])
+
     const rowSelectSubProgress = useCallback((data) => {
         setvalueSubProgress(1)
         const {
@@ -391,87 +400,262 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
         }
     }, [patchProgressSub, progressCountSub, tm_progres_date,])
 
-    const SubmitTask = useCallback((e) => {
-        e.preventDefault()
-        const UpdateTask = async (updateSubTask) => {
-            const result = await axioslogin.patch('/taskManagement/updateSubTask', updateSubTask)
-            return result.data
-        }
-        const Inactiveemp = async (inactive) => {
-            const result = await axioslogin.post(`/taskManagement/employeeInactive`, inactive);
-            return result.data
-        }
-        const UpdateSubTaskDtl = async (postEmpDetails) => {
-            const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postEmpDetails);
-            return result.data
+    // const SubmitTask = useCallback((e) => {
+    //     e.preventDefault()
+    //     const UpdateTask = async (updateSubTask) => {
+    //         const result = await axioslogin.patch('/taskManagement/updateSubTask', updateSubTask)
+    //         return result.data
+    //     }
+    //     const Inactiveemp = async (inactive) => {
+    //         const result = await axioslogin.post(`/taskManagement/employeeInactive`, inactive);
+    //         return result.data
+    //     }
+    //     const UpdateSubTaskDtl = async (postSubtaskEmpDetails) => {
+    //         const result = await axioslogin.post(`/taskManagement/insertSubtaskDetail`, postSubtaskEmpDetails);
+    //         return result.data
+    //     }
+    //     if (subTaskName !== '') {
+    //         UpdateTask(updateSubTask).then((value) => {
+    //             const { message, success } = value
+    //             if (success === 2) {
+    //                 if (postSubtaskEmpDetails.length > 0) {
+    //                     if (employeeSubTask !== 0) {
+    //                         Inactiveemp(inactive).then((value) => {
+    //                             const { message, succes } = value
+    //                             if (succes === 1) {
+    //                                 UpdateSubTaskDtl(postSubtaskEmpDetails)
+    //                                 const { message, success } = value
+    //                                 if (success === 1) {
+    //                                     if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
+    //                                         || (onPendingSub === true && pendingremarkSub === null)) {
+    //                                         infoNotify('please enter Remarks')
+    //                                     } else {
+    //                                         queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                                         succesNotify(message)
+    //                                         setTableCount(tableCount + 1)
+    //                                         reset()
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                                     setTableCount(tableCount + 1)
+    //                                     reset()
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
+    //                                     || (onPendingSub === true && pendingremarkSub === null)) {
+    //                                     infoNotify('please enter Remarks')
+    //                                 } else {
+    //                                     queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                                     succesNotify(message)
+    //                                     setTableCount(tableCount + 1)
+    //                                     reset()
+    //                                 }
+    //                             }
+    //                         })
+    //                         queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                         succesNotify(message)
+    //                         setTableCount(tableCount + 1)
+    //                         reset()
+    //                     }
+    //                     else {
+    //                         if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
+    //                             || (onPendingSub === true && pendingremarkSub === null)) {
+    //                             infoNotify('please enter Remarks')
+    //                         } else {
+    //                             queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                             succesNotify(message)
+    //                             setTableCount(tableCount + 1)
+    //                             reset()
+    //                         }
+    //                     }
+    //                 }
+    //                 else {
+    //                     if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
+    //                         || (onPendingSub === true && pendingremarkSub === null)) {
+    //                         infoNotify('please enter Remarks')
+    //                     } else {
+    //                         queryClient.invalidateQueries('getAllSubtaskUnderTask')
+    //                         succesNotify(message)
+    //                         setTableCount(tableCount + 1)
+    //                         reset()
+    //                     }
+    //                 }
+
+    //             }
+    //             else {
+    //                 warningNotify(message)
+    //             }
+    //         })
+    //     }
+    //     else {
+    //         infoNotify('please Fill Mandatory fields While Editing Subtask')
+    //     }
+    // }, [updateSubTask, inactive, postSubtaskEmpDetails, subTaskName, setTableCount, tableCount, completedremarksSub, onHoldSub, onholdremarksSub, onPendingSub,
+    //     pendingremarkSub, reset, completedSub, employeeSubTask, queryClient])
+
+    const SubmitTask = useCallback(async (e) => {
+        e.preventDefault();
+
+        if (!subTaskName) {
+            infoNotify("Please fill mandatory fields while editing subtask");
+            return;
         }
 
-        if (subTaskName !== '') {
-            UpdateTask(updateSubTask).then((value) => {
-                const { message, success } = value
-                if (success === 2) {
-                    if (employeeSubTask !== 0) {
-                        Inactiveemp(inactive).then((value) => {
-                            const { message, succes } = value
-                            if (succes === 1) {
-                                UpdateSubTaskDtl(postEmpDetails)
-                                const { message, success } = value
-                                if (success === 1) {
-                                    if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
-                                        || (onPendingSub === true && pendingremarkSub === null)) {
-                                        infoNotify('please enter Remarks')
-                                    } else {
-                                        succesNotify(message)
-                                        setTableRendering(tableRendering + 1)
-                                        setTableCount(tableCount + 1)
-                                        reset()
-                                    }
-                                }
-                                else {
-                                    setTableRendering(tableRendering + 1)
-                                    setTableCount(tableCount + 1)
-                                }
-                            }
-                            else {
-                                if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
-                                    || (onPendingSub === true && pendingremarkSub === null)) {
-                                    infoNotify('please enter Remarks')
-                                } else {
-                                    succesNotify(message)
-                                    reset()
-                                }
-                            }
-                        })
-                        succesNotify(message)
-                        reset()
-                    }
-                    else {
-                        if ((completedSub === true && completedremarksSub === null) || (onHoldSub === true && onholdremarksSub === null)
-                            || (onPendingSub === true && pendingremarkSub === null)) {
-                            infoNotify('please enter Remarks')
-                        } else {
-                            succesNotify(message)
-                            setTableRendering(tableRendering + 1)
-                            setTableCount(tableCount + 1)
-                            reset()
-                        }
-                    }
+        const remarksMissing =
+            (completedSub && !completedremarksSub) ||
+            (onHoldSub && !onholdremarksSub) ||
+            (onPendingSub && !pendingremarkSub);
+
+        if (remarksMissing) {
+            infoNotify("Please enter remarks");
+            return;
+        }
+
+        try {
+            const { message: updateMsg, success: updateSuccess } =
+                await axioslogin.patch("/taskManagement/updateSubTask", updateSubTask).then(res => res.data);
+
+            if (updateSuccess !== 2) {
+                warningNotify(updateMsg);
+                return;
+            }
+
+            if (postSubtaskEmpDetails.length > 0 && employeeSubTask.length > 0) {
+                const { message: inactiveMsg, success: inactiveSuccess } =
+                    await axioslogin.post("/taskManagement/employeeInactive", inactive).then(res => res.data);
+                if (inactiveSuccess === 1) {
+                    const { message: detailMsg, success: detailSuccess } =
+                        await axioslogin.post("/taskManagement/insertSubtaskDetail", postSubtaskEmpDetails).then(res => res.data);
+
+                    succesNotify(detailSuccess === 1 ? detailMsg : inactiveMsg);
+                } else {
+                    const { message: detailMsg, success: detailSuccess } =
+                        await axioslogin.post("/taskManagement/insertSubtaskDetail", postSubtaskEmpDetails).then(res => res.data);
+                    succesNotify(detailSuccess === 1 ? detailMsg : null);
                 }
-                else {
-                    warningNotify(message)
-                }
-            })
-        }
-        else {
-            infoNotify('please Fill Mandatory fields While Editing Subtask')
-        }
-    }, [updateSubTask, inactive, postEmpDetails, subTaskName, tableRendering, setTableRendering, setTableCount, tableCount, completedremarksSub, onHoldSub, onholdremarksSub, onPendingSub,
-        pendingremarkSub, reset, completedSub, employeeSubTask])
+            } else {
+                const { message: detailMsg, success: detailSuccess } =
+                    await axioslogin.post("/taskManagement/insertSubtaskDetail", postSubtaskEmpDetails).then(res => res.data);
+                succesNotify(detailSuccess === 1 ? detailMsg : null);
 
-    const changeEmp = useCallback((e) => {
-        setchangeAssignee(1)
+            }
 
-    }, [])
+            queryClient.invalidateQueries("getAllSubtaskUnderTask");
+            setTableCount(c => c + 1);
+            reset();
+
+        } catch (err) {
+            warningNotify("Something went wrong");
+        }
+    }, [
+        subTaskName,
+        updateSubTask,
+        postSubtaskEmpDetails,
+        employeeSubTask,
+        inactive,
+        completedSub,
+        onHoldSub,
+        onPendingSub,
+        completedremarksSub,
+        onholdremarksSub,
+        pendingremarkSub,
+        queryClient,
+        setTableCount,
+        reset,
+    ]);
+
+
+
+
+
+    // const SubmitTask = useCallback(async (e) => {
+    //     e.preventDefault();
+
+    //     if (!subTaskName) {
+    //         infoNotify("Please fill mandatory fields while editing subtask");
+    //         return;
+    //     }
+    //     try {
+    //         const { message: updateMsg, success: updateSuccess } =
+    //             await axioslogin.patch("/taskManagement/updateSubTask", updateSubTask).then(res => res.data);
+
+    //         if (updateSuccess !== 2) {
+    //             warningNotify(updateMsg);
+    //             return;
+    //         }
+    //         const remarksMissing =
+    //             (completedSub && !completedremarksSub) ||
+    //             (onHoldSub && !onholdremarksSub) ||
+    //             (onPendingSub && !pendingremarkSub);
+
+    //         if (postSubtaskEmpDetails.length > 0) {
+    //             if (employeeSubTask !== 0) {
+    //                 console.log(";dd");
+
+    //                 const { message: inactiveMsg, success: inactiveSuccess } =
+    //                     await axioslogin.post("/taskManagement/employeeInactive", inactive).then(res => res.data);
+
+    //                 if (inactiveSuccess === 1) {
+    //                     const { message: detailMsg, success: detailSuccess } =
+    //                         await axioslogin.post("/taskManagement/insertSubtaskDetail", postSubtaskEmpDetails).then(res => res.data);
+
+    //                     if (detailSuccess === 1) {
+    //                         if (remarksMissing) {
+    //                             infoNotify("Please enter remarks");
+    //                             return;
+    //                         }
+    //                         succesNotify(detailMsg);
+    //                     } else {
+    //                         succesNotify(inactiveMsg);
+    //                     }
+    //                 } else {
+    //                     if (remarksMissing) {
+    //                         infoNotify("Please enter remarks");
+    //                         return;
+    //                     }
+    //                     succesNotify(inactiveMsg);
+    //                 }
+    //             } else {
+    //                 if (remarksMissing) {
+    //                     infoNotify("Please enter remarks");
+    //                     return;
+    //                 }
+    //                 succesNotify(updateMsg);
+    //             }
+    //         } else {
+
+    //             if (remarksMissing) {
+    //                 infoNotify("Please enter remarks");
+    //                 return;
+    //             }
+    //             succesNotify(updateMsg);
+    //         }
+    //         queryClient.invalidateQueries("getAllSubtaskUnderTask");
+    //         setTableCount(c => c + 1);
+    //         reset();
+
+    //     } catch (err) {
+    //         warningNotify("Something went wrong");
+    //     }
+    // }, [
+    //     updateSubTask,
+    //     inactive,
+    //     postSubtaskEmpDetails,
+    //     subTaskName,
+    //     setTableCount,
+    //     completedremarksSub,
+    //     onHoldSub,
+    //     onholdremarksSub,
+    //     onPendingSub,
+    //     pendingremarkSub,
+    //     reset,
+    //     completedSub,
+    //     employeeSubTask,
+    //     queryClient,
+    // ]);
+
 
     const getAllDueDates = useCallback(() => {
         const getDueDate = async () => {
@@ -525,7 +709,6 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                         Due Date<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
                     <Box sx={{ display: 'flex' }}>
-
                         <Tooltip color="warning" title={tm_mast_duedate_count >= countDue ? 'Cant Change Duedate, Change Limit Exceeded' : ''}>
                             <Box sx={{ flex: 1 }}>
                                 <Tooltip color="warning" title={tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date))) ?
@@ -543,7 +726,7 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                                                     max: moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
                                                 },
                                             }}
-                                            style={{ minHeight: 57 }}
+                                            style={{ minHeight: 55 }}
                                             disabled={tm_mast_duedate_count >= countDue || tm_task_due_date && moment(new Date()).isAfter(moment(new Date(tm_task_due_date)))}
                                         ></TextFieldCustom>
                                     </Box>
@@ -561,29 +744,11 @@ const EditSubtaskEmp = ({ subTaskData, setflag, tableRendering, setTableRenderin
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5, display: 'flex' }}>
                         Assignee<Typography sx={{ color: '#B32800' }}>*</Typography>
                     </Box>
-                    {changeAssignee === 0 ?
-                        <Box sx={{ display: 'flex', }}>
-                            <Box sx={{ flex: 1, }}>
-                                <Textarea
-                                    type="text"
-                                    name="em_name"
-                                    value={em_name}
-                                    disabled
-                                    style={{ minHeight: 57 }}
-                                >
-                                </Textarea></Box>
-                            <Box sx={{ pt: 2 }}>
-                                <Tooltip title="Change Assignees">
-                                    <ChangeCircleIcon sx={{ cursor: 'pointer' }}
-                                        onClick={changeEmp} />
-                                </Tooltip>
-                            </Box>
-                        </Box>
-                        :
-                        <TmMultEmpSelectUnderDeptSec
-                            value={employeeSubTask}
-                            setValue={setEmployeeSubTask}
-                        />}
+                    <TmMultEmpSelectUnderDeptSec
+                        value={employeeSubTask}
+                        setValue={setEmployeeSubTask}
+                    />
+
                 </Box>
                 <Box sx={{ flex: 1.5, mr: .5 }}>
                     <Box sx={{ color: '#000C66', fontFamily: 'Georgia', pl: .5 }}>

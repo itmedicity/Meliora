@@ -38,6 +38,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
         billImage: '',
         bill_mastslno: ''
     })
+
     //Destructuring
     const { billNo, billdate, vendor, billImage, bill_mastslno } = BillDtl
 
@@ -88,7 +89,6 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             am_bill_date: billDate,
         }
     }, [billDate, supplier])
-
 
     const searchBillList = useCallback(() => {
         const gettingData = async (searchdata, am_bill_mast_slno) => {
@@ -233,7 +233,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
             }
             // }
         }
-    }, [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count, billAmount])
+    }, [billpatchData, assetSpare, billpatchDataSpare, setCount, count, billAmount])
 
     const BillReferesh = useCallback(() => {
         const resetfrm = {

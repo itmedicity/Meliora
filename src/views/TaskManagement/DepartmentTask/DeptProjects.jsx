@@ -16,13 +16,11 @@ const DeptProjects = ({ setTableCount, tableCount }) => {
     const [projectData, setProjectData] = useState([])
     const [editProjectFlag, setEditProjectFlag] = useState(0)
     const [editProjectModalOpen, setEditProjectModalOpen] = useState(false)
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
 
     useEffect(() => {
-        const getDeptGoals = async () => {
-            const result = await axioslogin.get(`/taskManagement/getDeptProjects/${empsecid}`);
+        const getDeptProjects = async () => {
+            const result = await axioslogin.get(`/taskManagement/getDeptProjects/${empDept}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setProjectz(data)
@@ -31,8 +29,8 @@ const DeptProjects = ({ setTableCount, tableCount }) => {
                 setProjectz([])
             }
         }
-        getDeptGoals()
-    }, [tableCount, empsecid])
+        getDeptProjects()
+    }, [tableCount, empDept])
 
     const CreateProject = useCallback(() => {
         setAddProjectFlag(1)
@@ -93,7 +91,6 @@ const DeptProjects = ({ setTableCount, tableCount }) => {
                                         display: 'flex', mt: .3,
                                         borderBottom: .1, mx: 1.5,
                                         borderColor: 'lightgrey', minHeight: 35,
-                                        maxHeight: 80,
                                         pt: .5,
                                     }}
                                 >

@@ -586,12 +586,12 @@ const PerformanceMain = () => {
                             <Typography sx={{ fontSize: 15, pl: .5 }}>Employee Performance Sheet</Typography>
                         </Box>
                         <Box sx={{
-                            width: 220, margin: 'auto', bgcolor: '#E9EEF7', borderRadius: 0, mr: 1, px: 1, py: .5, display: 'flex',
+                            width: 250, margin: 'auto', bgcolor: '#E9EEF7', borderRadius: 0, mr: 1, px: 1, py: .5, display: 'flex',
                             borderBottom: 1, borderColor: '#CDD7E1',
                         }}>
-                            <PersonIcon sx={{ color: '#492B08', p: .1 }} />&nbsp;<TMemployeeSelect employee={employee} setEmployee={setEmployee} />
+                            <PersonIcon sx={{ color: '#492B08', mt: .8 }} />&nbsp;<TMemployeeSelect employee={employee} setEmployee={setEmployee} />
                         </Box>
-                        <Box sx={{ width: 200, margin: 'auto', bgcolor: '#E9EEF7', borderRadius: 0, mr: 5, }}>
+                        <Box sx={{ width: 200, margin: 'auto', bgcolor: '#E9EEF7', borderRadius: 0, mr: 5, py: .7 }}>
                             <Inputcomponent
                                 name="searchMonthAndYear"
                                 type="month"

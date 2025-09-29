@@ -16,13 +16,12 @@ const DeptGoals = ({ setTableCount, tableCount }) => {
     const [goalData, setgoalData] = useState([])
     const [editGoalFlag, setEditGoalFlag] = useState(0)
     const [editGoalModalOpen, setEditGoalModalOpen] = useState(false)
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
 
     useEffect(() => {
         const getAllGoals = async () => {
-            const result = await axioslogin.get(`/taskManagement/getDeptGoals/${empsecid}`);
+            const result = await axioslogin.get(`/taskManagement/getDeptGoals/${empDept}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setgoalz(data)
@@ -32,7 +31,7 @@ const DeptGoals = ({ setTableCount, tableCount }) => {
             }
         }
         getAllGoals()
-    }, [tableCount, empsecid])
+    }, [tableCount, empDept])
 
     const CreateGoal = useCallback(() => {
         setAddGoalFlag(1)
@@ -90,7 +89,6 @@ const DeptGoals = ({ setTableCount, tableCount }) => {
                                         display: 'flex', mt: .3,
                                         borderBottom: .1, mx: 1.5,
                                         borderColor: 'lightgrey', minHeight: 35,
-                                        maxHeight: 80,
                                         pt: .5,
                                     }}
                                 >

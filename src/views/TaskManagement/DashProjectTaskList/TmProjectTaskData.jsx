@@ -5,8 +5,7 @@ import Accordion from '@mui/joy/Accordion';
 import accordionDetailsClasses from '@mui/joy/AccordionDetails';
 import AccordionSummary, { accordionSummaryClasses, } from '@mui/joy/AccordionSummary';
 import Avatar from '@mui/joy/Avatar';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
+import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontalRightRounded';
 import TmProjectCircularProgress from './TmProjectCircularProgress';
@@ -15,23 +14,21 @@ import CountDowncomponent from '../CountDown/CountDowncomponent';
 import EventIcon from '@mui/icons-material/Event';
 
 const TmProjectTaskData = () => {
-    const dispatch = useDispatch();
-    const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
+
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
     const [allProject, setAllProject] = useState([])
-    useEffect(() => {
-        dispatch(getDepartSecemployee(empsecid))
-    }, [dispatch, empsecid])
+
 
     useEffect(() => {
         const getAllProjectUnderSection = async () => {
-            const result = await axioslogin.get(`/taskmanagement/getDeptProjects/${empsecid}`);
+            const result = await axioslogin.get(`/taskmanagement/getDeptProjects/${empDept}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setAllProject(data)
             }
         }
-        getAllProjectUnderSection(empsecid)
-    }, [empsecid])
+        getAllProjectUnderSection(empDept)
+    }, [empDept])
 
     const isPastDue = (tm_task_due_date) => {
         const today = new Date();

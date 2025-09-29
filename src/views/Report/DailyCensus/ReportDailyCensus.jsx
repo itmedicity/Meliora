@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 import dayjs from 'dayjs'
 
 const ReportDailyCensus = ({ tableData, calculateTotal }) => {
-    console.log(tableData, "tableData new");
 
     const { oraTotAdm, oraTotDis, oraTotDeath, oraTotal, oraDamaTot, oraLamaTot, totYesterday, totAdmission, totDischarge, totTransIn, totTransOut, totDeath, totalcensus } = calculateTotal
 

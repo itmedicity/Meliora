@@ -81,7 +81,6 @@ const DashboardTabs = () => {
                         p: 0
                     }} >
                         <Suspense fallback={<LinearProgress variant="plain" />} >
-                            {/* <GraphMain /> */}
                             <TmEmployeeTaskData />
                         </Suspense>
                     </TabPanel>

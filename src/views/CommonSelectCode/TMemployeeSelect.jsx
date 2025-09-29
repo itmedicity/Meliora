@@ -1,39 +1,59 @@
-import React, { useEffect, memo, useState, Fragment, useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import Autocomplete from '@mui/joy/Autocomplete';
-import { CssVarsProvider } from '@mui/joy/';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
+import { axioslogin } from '../Axios/Axios';
+import { useQuery } from 'react-query';
+import { Autocomplete, Box, CssVarsProvider } from '@mui/joy';
 
-const TMemployeeSelect = ({ employee, setEmployee }) => {
+const TMemployeeSelect = ({ employee = 0, setEmployee }) => {
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
 
-    const empnameselect = useSelector((state) => { return state.getDepartSecemployee.departsecempList || 0 })
-    const [employees, setemployees] = useState([{ em_id: 0, em_name: '' }]);
-    const [value, setValue] = useState(employees[0]);
-    const [inputValue, setInputValue] = useState('');
+    const { data: getAllEmpUnderdept = [] } = useQuery(
+        ['getAllEmployeesUnderDepartment', empDept],
+        async () => {
+            const result = await axioslogin.get(
+                `/taskManagement/getAllEmpUnderdept/${empDept}`
+            );
+            return result.data?.data || [];
+        },
+        { enabled: !!empDept }
+    );
+
+    const sortEmployeesBySection = (employees = []) => {
+        return [...employees].sort((a, b) => {
+            if (a.sec_id === b.sec_id) {
+                return a.em_name.localeCompare(b.em_name);
+            }
+            return a.sec_id - b.sec_id;
+        });
+    };
+    const sortedOptions = sortEmployeesBySection(getAllEmpUnderdept);
+
+    const selectedObject = React.useMemo(() => {
+        if (!sortedOptions.length) return null;
+        if (employee === 0) return null;
+        return sortedOptions.find(emp => emp.em_id === employee) || null;
+    }, [employee, sortedOptions]);
 
 
-    useEffect(() => {
-        if (empnameselect.length > 0) {
-            setemployees(empnameselect);
-        }
-    }, [empnameselect]);
-    const Onclick = useCallback((value) => {
-        if (value !== null) {
-
-            setValue(value)
-            setEmployee(value.em_id)
-        }
-        else {
-            setEmployee(0)
-        }
-        return
-    }, [setEmployee])
     return (
-        <Fragment >
-            <CssVarsProvider>
+        <CssVarsProvider>
+            <Box>
                 <Autocomplete
+                    options={sortedOptions}
+                    value={selectedObject}
+                    onChange={(event, newValue) => {
+                        setEmployee(newValue ? newValue.em_id : 0);
+                    }}
+                    getOptionLabel={(option) => option.em_name}
+                    groupBy={(option) => option.sec_id?.toString() || '0'}
+                    placeholder="Select Employee"
+                    slotProps={{
+                        input: {
+                            placeholder: 'Search…',
+                        },
+                    }}
                     sx={{
-                        width: '100%',
-                        minHeight: 35,
+
                         bgcolor: 'transparent',
                         '--Input-radius': '0px',
                         borderTop: 0,
@@ -46,11 +66,9 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
                             borderColor: 'neutral.outlinedHoverBorder',
                         },
                         '&::before': {
-                            border: '1px solid var(--Input-focusedHighlight)',
                             transform: 'scaleX(0)',
                             left: 0,
                             right: 0,
-                            // bottom: '-2px',
                             top: 'unset',
                             transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
                             borderRadius: 0,
@@ -59,29 +77,37 @@ const TMemployeeSelect = ({ employee, setEmployee }) => {
                             transform: 'scaleX(1)',
                         },
                     }}
-                    value={employee === 0 ? employees : value}
-                    placeholder="search employee"
-                    clearOnBlur
-                    style={{ minHeight: 28, fontWeight: 500, }}
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                        // setDeptSec(newValue.sec_id)
-                        Onclick(newValue);
-                    }}
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                    }}
-                    loading={true}
-                    loadingText="Loading..."
-                    freeSolo
-                    isOptionEqualToValue={(option, value) => option.em_id === value.em_id}
-                    getOptionLabel={(option) => option.em_name || ''}
-                    options={employees}
-                />
-            </CssVarsProvider>
-        </Fragment>
-    )
-}
+                    renderGroup={(params) => {
+                        const sample = sortedOptions.find(
+                            (emp) => emp.sec_id?.toString() === params.group
+                        );
+                        const sectionName = sample?.sec_name || 'OTHERS';
 
-export default memo(TMemployeeSelect)
+                        return (
+                            <li key={params.key}>
+                                <Box
+                                    sx={{
+                                        pl: 2.5,
+                                        py: 0.5,
+                                        color: '#3270adff',
+                                        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                                        fontWeight: 700,
+                                        fontSize: 13,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.8px',
+                                    }}
+                                >
+                                    {sectionName}
+                                </Box>
+                                <ul style={{ paddingLeft: 10 }}>{params.children}</ul>
+                            </li>
+                        );
+                    }}
+                />
+            </Box>
+        </CssVarsProvider>
+
+    );
+};
+
+export default memo(TMemployeeSelect);
