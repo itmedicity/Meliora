@@ -38,7 +38,7 @@ const DepartmentMain = () => {
             <Box sx={{ flex: 1, height: 35, borderBottom: 1, borderColor: 'lightgrey', pt: .8, pl: .8, color: '#C7C8CB', bgcolor: 'white' }}>
                 My Department Task
             </Box>
-            <Box sx={{ flex: 1, border: .1, m: .3, borderColor: '#EAEAEA', borderRadius: 1, bgcolor: 'white', }}>
+            <Box sx={{ flex: 1, border: .1, m: .1, borderColor: '#EAEAEA', borderRadius: 1, bgcolor: 'white', }}>
                 <Box sx={{ mt: 1, display: 'flex' }}>
                     <Box sx={{ mt: .8, mx: .5 }}>
                         <CssVarsProvider>

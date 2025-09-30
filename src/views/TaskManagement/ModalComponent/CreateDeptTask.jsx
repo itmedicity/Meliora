@@ -17,10 +17,12 @@ import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSel
 import ProjectCreation from './ProjectCreation';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation';
+import { useQueryClient } from 'react-query';
 
 const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, setTableCount }) => {
 
     const dispatch = useDispatch();
+    const queryClient = useQueryClient()
     const [selectFile, setSelectFile] = useState([]);
     const [employee, setEmployee] = useState([])
     const [insertId, setInsertId] = useState(0)
@@ -33,12 +35,10 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
         return state.LoginUserData.empid
     })
 
-    const secName = useSelector((state) => {
-        return state.LoginUserData.empdeptsec
-    })
     const deeptName = useSelector((state) => {
         return state.LoginUserData.empdeptname
     })
+
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
@@ -184,6 +184,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                         const { success, message } = value
                                         if (success === 1) {
                                             succesNotify("Task Created with file attach Successfully")
+                                            queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+                                            queryClient.invalidateQueries('getAllSubtaskUnderTask')
                                             setTableCount(tableCount + 1)
                                             handleClose()
                                         }
@@ -194,6 +196,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                 }
                                 else {
                                     succesNotify("Task Created Successfully")
+                                    queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+                                    queryClient.invalidateQueries('getAllSubtaskUnderTask')
                                     setTableCount(tableCount + 1)
                                     handleClose()
                                 }
@@ -211,6 +215,8 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                 const { success, message } = value
                                 if (success === 1) {
                                     succesNotify("Task Created with file attach Successfully")
+                                    queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+                                    queryClient.invalidateQueries('getAllSubtaskUnderTask')
                                     setTableCount(tableCount + 1)
                                     handleClose()
                                 }
@@ -221,7 +227,10 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                         }
                         //No file
                         else {
+
                             succesNotify("Task Created Successfully")
+                            queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+                            queryClient.invalidateQueries('getAllSubtaskUnderTask')
                             setTableCount(tableCount + 1)
                             handleClose()
                         }
@@ -234,7 +243,9 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
         } else {
             infoNotify('Please fill the mandatory fields')
         }
-    }, [handleClose, employee, handleImageUpload, id, insertMastTask, tm_task_name, selectFile, setInsertId, setTableCount, tableCount, tm_task_due_date])
+    }, [handleClose, employee, handleImageUpload, id, insertMastTask, tm_task_name, selectFile, setInsertId, setTableCount, tableCount, tm_task_due_date, queryClient])
+
+
     const CreateProject = useCallback(() => {
         setAddProjectFlag(1)
         setaddProjectlModalOpen(true)
@@ -313,15 +324,6 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                             type="text"
                                             name="deeptName"
                                             value={deeptName}
-                                            disabled
-                                        />
-                                    </Box>
-                                    <Box sx={{ flex: 1, ml: .5 }}>
-                                        <Typography sx={{ pl: 1.5, color: '#003B73', fontWeight: 600, fontSize: 12 }}>Section </Typography>
-                                        <Inputcomponent
-                                            type="text"
-                                            name="secName"
-                                            value={secName}
                                             disabled
                                         />
                                     </Box>
@@ -419,7 +421,7 @@ const CreateDeptTask = ({ open, setAddModalFlag, setaddModalOpen, tableCount, se
                                             style={{ display: 'none' }}
                                             onChange={handleFileChange}
                                             name="file"
-                                            multiple // Add this attribute to allow multiple file selections
+                                            multiple
                                         />
                                     </Box>
                                     <Box sx={{ display: 'flex', flex: 1, overflowX: "scroll", overflow: 'hidden', mx: .5 }}>

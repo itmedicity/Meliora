@@ -24,13 +24,12 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
     const [statuscount, setstatuscount] = useState(0)
     const [taskcount, settaskcount] = useState(0)
     const [projectcount, setProjectcount] = useState(0)
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
 
     useEffect(() => {
         const getCompletedTable = async () => {
-            const result = await axioslogin.get(`/TmTableView/departmentCompleted/${empsecid}`);
+            const result = await axioslogin.get(`/TmTableView/deptCompleted/${empDept}`);
             const { success, data } = result.data;
             if (data.length !== 0) {
                 if (success === 2) {
@@ -76,8 +75,8 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                 setTableData([])
             }
         }
-        getCompletedTable(empsecid)
-    }, [empsecid, tableCount])
+        getCompletedTable(empDept)
+    }, [empDept, tableCount])
 
     const handleClose = useCallback(() => {
         setimage(0)
@@ -136,7 +135,7 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                     height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                     bgcolor: 'white'
                 }}>
-                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
+                    <Box sx={{ width: 120, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task No.</Box>
                     <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12 }}>Action</Box>
                     <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Files</Box>
                     <Box sx={{ width: 220, fontWeight: 600, color: '#444444', fontSize: 12, pl: 1, }}>Completion exceed</Box>
@@ -156,11 +155,10 @@ const DeptCompleted = ({ setTableCount, tableCount }) => {
                         return (
                             <Box key={val.tm_task_slno} sx={{
                                 flex: 1, display: 'flex', mt: .3, borderBottom: 2, mx: 1.5, borderColor: 'lightgrey', minHeight: 30,
-                                maxHeight: 80,
                                 background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
                                 pt: .5,
                             }}>
-                                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
+                                <Box sx={{ width: 120, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.tm_task_slno}</Box>
                                 <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12 }}>
                                     <EditIcon
                                         sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6}

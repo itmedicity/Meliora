@@ -19,7 +19,6 @@ import EditSubtaskEmp from '../Mytask/EditSubtaskEmp';
 import SubtaskTableEmp from '../Mytask/SubtaskTableEmp';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import moment from 'moment';
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
 import DueDateModal from '../ModalComponent/DueDateModal';
@@ -29,18 +28,22 @@ import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSel
 import ProjectCreation from '../ModalComponent/ProjectCreation';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation';
+import { useQueryClient } from 'react-query';
+
 
 const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, tableCount, setTableCount, searchFlag, taskcount, settaskcount,
     statuscount, setstatuscount, projectcount, setProjectcount }) => {
 
-    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, em_name, create_date, tm_project_name, tm_task_due_date, tm_mast_duedate_count,
-        tm_project_duedate } = masterData
+    const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, create_date, tm_project_name, tm_task_due_date, tm_mast_duedate_count,
+        tm_project_duedate, tm_assigne_emp } = masterData
+
+
 
     const dispatch = useDispatch();
+    const queryClient = useQueryClient()
     const [departmentMast, setdepartmentMast] = useState(0)
     const [departmentSecMast, setdepartmentSecMast] = useState(0)
-    const [employeeMast, setEmployeeMast] = useState(0)
-    const [tableRendering, setTableRendering] = useState(0)
+    const [employeeMast, setEmployeeMast] = useState(tm_assigne_emp || [])
     const [empArry, setEmpArry] = useState([])
     const [arry, setArry] = useState([])
     const [flag, setflag] = useState(0)
@@ -54,11 +57,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [onPending, setOnPending] = useState(tm_task_status === 4 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 3 ? false : false)
     const [checkFlag, setcheckFlag] = useState(tm_task_status)
     const [subTask, setSubTask] = useState([])
-    const [viewSubTask, setViewSubTask] = useState(0)
     const [progresstabledata, setProgressTableData] = useState([])
     const [progressCount, setprogressCount] = useState(0)
     const [completeFlag, setCompleteFlag] = useState(0)
-    const [changeAssignee, setchangeAssignee] = useState(0)
     const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
     const [dueDateModal, setdueDateModal] = useState(false)
     const [dueDates, setdueDates] = useState([])
@@ -66,6 +67,8 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     const [addProjectModalOpen, setaddProjectlModalOpen] = useState(false)
     const [dueDateProject, setdueDateProject] = useState('')
     const [countDue, setcountDue] = useState(0)
+
+
     let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const id = useSelector((state) => { return state.LoginUserData.empid })
     const [taskData, setTaskData] = useState({
@@ -77,8 +80,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         onHoldRemaks: '',
         completedRemarks: '',
     })
-
-
 
     const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
     const taskDataUpdate = useCallback(
@@ -258,9 +259,7 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         getDueDate()
     }, [tm_task_slno])
 
-    const secName = useSelector((state) => {
-        return state.LoginUserData.empdeptsec
-    })
+
     const empdept = useSelector((state) => {
         return state.LoginUserData.empdept
     })
@@ -448,14 +447,26 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
         completed, newDate, tm_mast_duedate_count, tm_task_due_date, id])
 
-    const postEmpDetails = employeeMast && employeeMast.map((val) => {
-        return {
-            tm_task_slno: tm_task_slno,
+    // const postEmpDetails = employeeMast && employeeMast.map((val) => {
+    //     return {
+    //         tm_task_slno: tm_task_slno,
+    //         tm_assigne_emp: val,
+    //         tm_detail_status: 1,
+    //         tm_detl_create: id
+    //     }
+    // })
+
+    const postEmpDetails = Array.isArray(employeeMast)
+        ? employeeMast.map((val) => ({
+            tm_task_slno,
             tm_assigne_emp: val,
             tm_detail_status: 1,
-            tm_detl_create: id
-        }
-    })
+            tm_detl_create: id,
+        }))
+        : [];
+
+
+
 
     const inactive = empArry && empArry.map((val) => {
         return {
@@ -485,164 +496,245 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
         return compressedFile
     }, []);
 
-    const SubmitTask = useCallback((e) => {
-        e.preventDefault()
-        const UpdateTask = async (updateMasterTask) => {
-            const result = await axioslogin.patch('/taskManagement/updateMasterTask', updateMasterTask)
-            return result.data
-        }
-        const Inactiveemp = async (inactive) => {
-            const result = await axioslogin.post('/taskManagement/employeeInactive', inactive);
-            return result.data
-        }
-        const UpdateSubTaskDtl = async (postEmpDetails) => {
-            const result = await axioslogin.post('/taskManagement/insertDetail', postEmpDetails);
-            return result.data
-        }
+    // const SubmitTask = useCallback((e) => {
+    //     e.preventDefault()
+    //     const UpdateTask = async (updateMasterTask) => {
+    //         const result = await axioslogin.patch('/taskManagement/updateMasterTask', updateMasterTask)
+    //         return result.data
+    //     }
+    //     const Inactiveemp = async (inactive) => {
+    //         const result = await axioslogin.post('/taskManagement/employeeInactive', inactive);
+    //         return result.data
+    //     }
+    //     const UpdateSubTaskDtl = async (postEmpDetails) => {
+    //         const result = await axioslogin.post('/taskManagement/insertDetail', postEmpDetails);
+    //         return result.data
+    //     }
 
-        const InsertFile = async (selectTaskfile, tm_task_slno) => {
-            try {
-                const formData = new FormData();
-                formData.append('id', tm_task_slno);
-                for (const taskFile of selectTaskfile) {
-                    if (taskFile.type.startsWith('image')) {
-                        const compressedFile = await handleImageUpload(taskFile);
-                        formData.append('files', compressedFile, compressedFile.name);
-                    } else {
-                        formData.append('files', taskFile, taskFile.name);
-                    }
-                }
-                // Use the Axios instance and endpoint that matches your server setup
-                const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-                return uploadResult.data;
-            } catch (error) {
-                warningNotify('An error occurred during file upload.');
+    //     const InsertFile = async (selectTaskfile, tm_task_slno) => {
+    //         try {
+    //             const formData = new FormData();
+    //             formData.append('id', tm_task_slno);
+    //             for (const taskFile of selectTaskfile) {
+    //                 if (taskFile.type.startsWith('image')) {
+    //                     const compressedFile = await handleImageUpload(taskFile);
+    //                     formData.append('files', compressedFile, compressedFile.name);
+    //                 } else {
+    //                     formData.append('files', taskFile, taskFile.name);
+    //                 }
+    //             }
+    //             // Use the Axios instance and endpoint that matches your server setup
+    //             const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
+    //                 headers: {
+    //                     'Content-Type': 'multipart/form-data',
+    //                 },
+    //             });
+    //             return uploadResult.data;
+    //         } catch (error) {
+    //             warningNotify('An error occurred during file upload.');
+    //         }
+    //     };
+
+    //     try {
+    //         if ((taskName !== '') && (dueDate !== '')) {
+    //             UpdateTask(updateMasterTask).then((value) => {
+    //                 const { message, success } = value
+    //                 if (success === 2) {
+    //                     if (selectTaskfile.length !== 0) {
+    //                         InsertFile(selectTaskfile, tm_task_slno).then((value) => {
+    //                             const { success, message } = value
+    //                             if (success === 1) {
+    //                                 if (employeeMast !== 0) {
+    //                                     Inactiveemp(inactive).then((value) => {
+    //                                         const { message, succes } = value
+    //                                         if (succes === 1) {
+    //                                             UpdateSubTaskDtl(postEmpDetails)
+    //                                             const { message, success } = value
+    //                                             if (success === 1) {
+
+    //                                                 queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                                 succesNotify(message)
+    //                                                 setTableCount(tableCount + 1)
+    //                                                 settaskcount(taskcount + 1)
+    //                                                 setstatuscount(statuscount + 1)
+    //                                                 setProjectcount(projectcount + 1)
+    //                                                 handleEditClose()
+
+    //                                             }
+    //                                             else {
+
+    //                                                 queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                                 setTableCount(tableCount + 1)
+    //                                                 settaskcount(taskcount + 1)
+    //                                                 setstatuscount(statuscount + 1)
+    //                                                 setProjectcount(projectcount + 1)
+    //                                                 handleEditClose()
+    //                                             }
+    //                                         }
+    //                                         else {
+
+    //                                             queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                             setTableCount(tableCount + 1)
+    //                                             settaskcount(taskcount + 1)
+    //                                             setstatuscount(statuscount + 1)
+    //                                             setProjectcount(projectcount + 1)
+    //                                             handleEditClose()
+    //                                             succesNotify(message)
+    //                                         }
+    //                                     })
+    //                                     succesNotify("Task Updated with file attach Successfully")
+    //                                     settaskcount(taskcount + 1)
+    //                                     handleEditClose()
+    //                                 } else {
+    //                                     queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                     succesNotify(message)
+    //                                     setTableCount(tableCount + 1)
+    //                                     settaskcount(taskcount + 1)
+    //                                     setstatuscount(statuscount + 1)
+    //                                     setProjectcount(projectcount + 1)
+    //                                     handleEditClose()
+    //                                 }
+    //                             }
+    //                             else {
+    //                                 warningNotify(message)
+    //                             }
+    //                         })
+    //                     }
+    //                     //WITHOUT FILE UPLOAD
+    //                     else {
+    //                         if (employeeMast !== 0) {
+    //                             Inactiveemp(inactive).then((value) => {
+    //                                 const { message, succes } = value
+    //                                 if (succes === 1) {
+    //                                     UpdateSubTaskDtl(postEmpDetails)
+    //                                     const { message, success } = value
+    //                                     if (success === 1) {
+    //                                         queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                         setTableCount(tableCount + 1)
+    //                                         settaskcount(taskcount + 1)
+    //                                         setstatuscount(statuscount + 1)
+    //                                         setProjectcount(projectcount + 1)
+    //                                         succesNotify(message)
+    //                                         handleEditClose()
+    //                                         console.log("Updated succesfully");
+
+    //                                     } else {
+
+    //                                         queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                         setTableCount(tableCount + 1)
+    //                                         settaskcount(taskcount + 1)
+    //                                         setstatuscount(statuscount + 1)
+    //                                         setProjectcount(projectcount + 1)
+    //                                         handleEditClose()
+    //                                     }
+    //                                 }
+    //                                 else {
+    //                                     queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                                     succesNotify(message)
+    //                                     settaskcount(taskcount + 1)
+    //                                     handleEditClose()
+    //                                 }
+    //                             })
+
+    //                             queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                             succesNotify(message)
+    //                             settaskcount(taskcount + 1)
+    //                             handleEditClose()
+    //                         }
+    //                         else {
+
+    //                             queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //                             succesNotify(message)
+    //                             setTableCount(tableCount + 1)
+    //                             settaskcount(taskcount + 1)
+    //                             setstatuscount(statuscount + 1)
+    //                             setProjectcount(projectcount + 1)
+    //                             handleEditClose()
+    //                         }
+    //                     }
+    //                 }
+    //                 else {
+    //                     warningNotify(message)
+    //                 }
+    //             })
+    //         } else {
+    //             infoNotify('please Fill Mandatory Feilds')
+    //         }
+    //     } catch (error) {
+    //         infoNotify(error)
+    //     } finally {
+    //         queryClient.invalidateQueries('getAllIncompleteTaskUnderDept')
+    //     }
+
+    // }, [updateMasterTask, inactive, postEmpDetails, taskName, selectTaskfile, tm_task_slno, handleEditClose, handleImageUpload, tableCount, setTableCount, dueDate,
+    //     employeeMast, settaskcount, taskcount, setstatuscount, statuscount, setProjectcount, projectcount])
+
+
+    const SubmitTask = useCallback(async (e) => {
+        e.preventDefault();
+        try {
+            if (!taskName || !dueDate) {
+                infoNotify("Please fill mandatory fields");
+                return;
             }
-        };
+            const { success, message } = await axioslogin.patch("/taskManagement/updateMasterTask", updateMasterTask).then(res => res.data);
+            if (success !== 2) {
+                warningNotify(message);
+                return;
+            }
+            if (selectTaskfile.length > 0) {
+                const formData = new FormData();
+                formData.append("id", tm_task_slno);
+                for (const taskFile of selectTaskfile) {
+                    if (taskFile.type.startsWith("image")) {
+                        const compressedFile = await handleImageUpload(taskFile);
+                        formData.append("files", compressedFile, compressedFile.name);
+                    } else {
+                        formData.append("files", taskFile, taskFile.name);
+                    }
+                }
+                const fileRes = await axioslogin.post("/TmFileUpload/uploadFile/task", formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+                ).then(res => res.data);
+                if (fileRes.success !== 1) {
+                    warningNotify(fileRes.message);
+                    return;
+                }
+            }
+            if (postEmpDetails.length > 0) {
+                if (employeeMast !== 0) {
+                    const empRes = await axioslogin.post("/taskManagement/employeeInactive", inactive).then(res => res.data);
+                    if (empRes.succes === 1) {
+                        const subTaskRes = await axioslogin.post("/taskManagement/insertDetail", postEmpDetails).then(res => res.data);
+                        if (subTaskRes.success === 1) {
+                            succesNotify(subTaskRes.message);
+                        }
+                    }
+                } else {
 
-        if ((taskName !== '') && (dueDate !== '')) {
-            UpdateTask(updateMasterTask).then((value) => {
-                const { message, success } = value
-                if (success === 2) {
-                    if (selectTaskfile.length !== 0) {
-                        InsertFile(selectTaskfile, tm_task_slno).then((value) => {
-                            const { success, message } = value
-                            if (success === 1) {
-                                if (employeeMast !== 0) {
-                                    Inactiveemp(inactive).then((value) => {
-                                        const { message, succes } = value
-                                        if (succes === 1) {
-                                            UpdateSubTaskDtl(postEmpDetails)
-                                            const { message, success } = value
-                                            if (success === 1) {
-                                                succesNotify(message)
-                                                setTableCount(tableCount + 1)
-                                                settaskcount(taskcount + 1)
-                                                setstatuscount(statuscount + 1)
-                                                setProjectcount(projectcount + 1)
-                                                handleEditClose()
-                                            }
-                                            else {
-                                                handleEditClose()
-                                                setTableCount(tableCount + 1)
-                                                settaskcount(taskcount + 1)
-                                                setstatuscount(statuscount + 1)
-                                                setProjectcount(projectcount + 1)
-                                            }
-                                        }
-                                        else {
-                                            succesNotify(message)
-                                            setTableCount(tableCount + 1)
-                                            settaskcount(taskcount + 1)
-                                            setstatuscount(statuscount + 1)
-                                            setProjectcount(projectcount + 1)
-                                            handleEditClose()
-                                        }
-                                    })
-                                    succesNotify("Task Updated with file attach Successfully")
-                                    handleEditClose()
-                                } else {
-                                    succesNotify(message)
-                                    setTableCount(tableCount + 1)
-                                    settaskcount(taskcount + 1)
-                                    setstatuscount(statuscount + 1)
-                                    setProjectcount(projectcount + 1)
-                                    handleEditClose()
-                                }
-                            }
-                            else {
-                                warningNotify(message)
-                            }
-                        })
-                    }
-                    //WITHOUT FILE UPLOAD
-                    else {
-                        if (employeeMast !== 0) {
-                            Inactiveemp(inactive).then((value) => {
-                                const { message, succes } = value
-                                if (succes === 1) {
-                                    UpdateSubTaskDtl(postEmpDetails)
-                                    const { message, success } = value
-                                    if (success === 1) {
-                                        setTableCount(tableCount + 1)
-                                        settaskcount(taskcount + 1)
-                                        setstatuscount(statuscount + 1)
-                                        setProjectcount(projectcount + 1)
-                                        succesNotify(message)
-                                        setTableCount(tableCount + 1)
-                                        handleEditClose()
-                                    } else {
-                                        handleEditClose()
-                                        setTableCount(tableCount + 1)
-                                        settaskcount(taskcount + 1)
-                                        setstatuscount(statuscount + 1)
-                                        setProjectcount(projectcount + 1)
-                                    }
-                                }
-                                else {
-                                    succesNotify(message)
-                                    handleEditClose()
-                                }
-                            })
-                            succesNotify(message)
-                            handleEditClose()
-                            // setTableCount(tableCount + 1)
-                        }
-                        else {
-                            succesNotify(message)
-                            setTableCount(tableCount + 1)
-                            settaskcount(taskcount + 1)
-                            setstatuscount(statuscount + 1)
-                            setProjectcount(projectcount + 1)
-                            handleEditClose()
-                        }
-                    }
                 }
-                else {
-                    warningNotify(message)
-                }
-            })
-        } else {
-            infoNotify('please Fill Mandatory Feilds')
+            }
+            queryClient.invalidateQueries("getAllIncompleteTaskUnderDept");
+            setTableCount(c => c + 1);
+            settaskcount(c => c + 1);
+            setstatuscount(c => c + 1);
+            setProjectcount(c => c + 1);
+            succesNotify("Task updated successfully");
+            handleEditClose();
+        } catch (error) {
+            infoNotify("Error occurred: " + error.message);
         }
-    }, [updateMasterTask, inactive, postEmpDetails, taskName, selectTaskfile, tm_task_slno, handleEditClose, handleImageUpload, tableCount, setTableCount, dueDate,
-        employeeMast, settaskcount, taskcount, setstatuscount, statuscount, setProjectcount, projectcount])
+    }, [taskName, dueDate, updateMasterTask, selectTaskfile, tm_task_slno, employeeMast, inactive, postEmpDetails, handleImageUpload, queryClient, setTableCount,
+        settaskcount, setstatuscount, setProjectcount, handleEditClose]);
+
 
     const handleRemoveTaskFile = (index) => {
         setselectTaskfile((prevTaskFiles) => {
             const updatedFiles = [...prevTaskFiles];
-            updatedFiles.splice(index, 1); // Remove the file at the specified index
+            updatedFiles.splice(index, 1);
             return updatedFiles;
         });
     };
-
-    const changeEmp = useCallback((e) => {
-        setchangeAssignee(1)
-    }, [])
 
     const CreateProject = useCallback(() => {
         setAddProjectFlag(1)
@@ -650,11 +742,10 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
     }, [])
     const isProjectOverdue = moment().isAfter(moment(dueDateProject));
 
+
     return (
         <Box>
-            <Modal
-                open={open}
-            >
+            <Modal open={open}>
                 < ModalDialog
                     sx={{
                         width: '90vw',
@@ -745,11 +836,12 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                             </Box>
                             <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 1 }}>
                                 <Typography sx={{
-                                    flex: 1.7, color: '#003B73', fontWeight: 600, fontSize: 12,
+                                    flex: 1,
+                                    color: '#003B73', fontWeight: 600, fontSize: 12,
                                     display: 'flex', justifyContent: 'flex-end', pt: 2, pr: 1.5
                                 }}>
                                     Department</Typography>
-                                <Box sx={{ flex: 2.3, pr: .5 }}>
+                                <Box sx={{ pr: .5, flex: 3.5 }}>
                                     <Inputcomponent
                                         type="text"
                                         name="dept_name"
@@ -757,28 +849,13 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                         disabled
                                     />
                                 </Box>
-                                <Typography sx={{
-                                    width: 110, color: '#003B73', fontWeight: 600, fontSize: 12,
-                                    pt: 1.8, pl: 2
-                                }}>
-                                    Section</Typography>
-                                <Box sx={{ flex: 2.6, }}>
-                                    <Inputcomponent
-                                        type="text"
-                                        name="secName"
-                                        value={secName}
-                                        disabled
-                                    />
-                                </Box>
+
                             </Box>
                             <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 1 }}>
                                 <Typography sx={{
                                     flex: 1.7, color: '#003B73', fontWeight: 600, fontSize: 12,
                                     display: 'flex', justifyContent: 'flex-end', pt: 1.5, pr: 1.5
-                                }}>
-                                    Created Date</Typography>
-
-
+                                }}>  Created Date</Typography>
                                 <Box sx={{ flex: 2.3, }}>
                                     <Inputcomponent
                                         type="text"
@@ -848,29 +925,9 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                 }}>
                                     Assignees<span style={{ color: '#74112F', fontSize: 15 }} >*</span></Typography>
                                 <Box sx={{ flex: 3.5 }}>
-                                    {changeAssignee === 0 ?
-                                        <Box sx={{ display: 'flex', }}>
-                                            <Box sx={{ flex: 1, }}>
-                                                <Inputcomponent
-                                                    type="text"
-                                                    name="em_name"
-                                                    value={em_name}
-                                                    disabled
-                                                />
-                                            </Box>
-                                            <Box sx={{ pt: .5 }}>
-                                                <Tooltip title="Change Assignees">
-                                                    <ChangeCircleIcon sx={{ cursor: 'pointer' }}
-                                                        onClick={changeEmp} />
-                                                </Tooltip>
-                                            </Box>
-                                        </Box> :
-                                        <Box sx={{ display: 'flex', }}>
-                                            <Box sx={{ flex: 1, }}>
-                                                <TmMultAssigneesSelect value={employeeMast} setValue={setEmployeeMast} />
-                                            </Box>
-                                        </Box>
-                                    }
+                                    <Box sx={{ flex: 1, }}>
+                                        <TmMultAssigneesSelect value={employeeMast} setValue={setEmployeeMast} />
+                                    </Box>
                                 </Box>
                             </Box>
                             <Box sx={{ flex: 1, display: 'flex', mt: 2, }}>
@@ -1204,8 +1261,6 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 <AddSubTaskEmp
                                                     tm_task_slno={tm_task_slno}
                                                     tm_task_due_date={tm_task_due_date}
-                                                    setTableRendering={setTableRendering}
-                                                    tableRendering={tableRendering}
                                                     setflag={setflag}
                                                     tm_project_slno={tm_project_slno}
                                                     tableCount={tableCount}
@@ -1218,35 +1273,28 @@ const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, t
                                                 <Box>
                                                     <EditSubtaskEmp setflag={setflag} subTaskData={subTaskData}
                                                         setsubTaskData={setsubTaskData}
-                                                        setTableRendering={setTableRendering}
-                                                        tableRendering={tableRendering}
                                                         tableCount={tableCount}
                                                         setTableCount={setTableCount}
                                                         tm_task_due_date={tm_task_due_date}
                                                     />
                                                 </Box>
-                                                : null
-                                    }
+                                                : null}
                                 </Box>
                                 <Box>
-                                    <Box>
-                                        < SubtaskTableEmp
-                                            completeFlag={completeFlag}
-                                            setCompleteFlag={setCompleteFlag}
-                                            tableCount={tableCount}
-                                            arry={arry}
-                                            setArry={setArry}
-                                            tm_task_slno={tm_task_slno}
-                                            setflag={setflag}
-                                            selectForEditsSubTask={selectForEditsSubTask}
-                                            tableRendering={tableRendering}
-                                            setTableRendering={setTableRendering}
-                                            subTask={subTask}
-                                            setSubTask={setSubTask}
-                                            viewSubTask={viewSubTask}
-                                            setViewSubTask={setViewSubTask}
-                                        />
-                                    </Box>
+
+                                    <SubtaskTableEmp
+                                        completeFlag={completeFlag}
+                                        setCompleteFlag={setCompleteFlag}
+                                        tableCount={tableCount}
+                                        setTableCount={setTableCount}
+                                        arry={arry}
+                                        setArry={setArry}
+                                        tm_task_slno={tm_task_slno}
+                                        setflag={setflag}
+                                        selectForEditsSubTask={selectForEditsSubTask}
+                                        subTask={subTask}
+                                        setSubTask={setSubTask}
+                                    />
                                 </Box>
                                 <Box sx={{ height: 5, }}></Box>
                             </Box> : null}

@@ -7,26 +7,23 @@ import PersonIcon from '@mui/icons-material/Person';
 const EmployeeTask = () => {
 
     const [allEmpTask, setallEmpTask] = useState([])
-    const empsecid = useSelector((state) => {
-        return state.LoginUserData.empsecid
-    })
+    const empDept = useSelector((state) => state.LoginUserData.empdept);
 
     useEffect(() => {
         const getAllEmployeeTask = async () => {
-            const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empsecid}`);
+            const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empDept}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setallEmpTask(data)
             }
         }
-        getAllEmployeeTask(empsecid)
-    }, [empsecid])
+        getAllEmployeeTask(empDept)
+    }, [empDept])
 
     return (
         <Box sx={{ flex: 1 }}>
             <Box sx={{
-                height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
-                bgcolor: 'white'
+                height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5, bgcolor: 'white'
             }}>
                 <Box sx={{ flex: .5, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
                 <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Employee Id</Box>
@@ -38,7 +35,6 @@ const EmployeeTask = () => {
                 {allEmpTask?.map((val, index) => {
                     return <Box key={index} sx={{
                         flex: 1, display: 'flex', mt: .3, borderBottom: 2, mx: 1.5, borderColor: 'lightgrey', minHeight: 30,
-                        maxHeight: 80,
                         background: 'white',
                         pt: .5,
                     }}>

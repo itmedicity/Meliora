@@ -248,7 +248,9 @@ const AmsPatientDetailsReport =React.lazy(()=>import('./views/Report/AmsReport/A
 const DashboardMain=React.lazy(()=>import('./views/Ams/AmsDashboard/DashboardMain'))
 const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus'))
 const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
-
+const HoldticketReport = React.lazy(() => import('./views/Report/ComplaintReport/HoldTicketReport'))
+const PendingTicketsReport = React.lazy(() => import('./views/Report/ComplaintReport/PendingTicketsReport'))
+const PendingTicketsCountReport = React.lazy(() => import('./views/Report/ComplaintReport/PendingTicketsCountReport'))
 
 
 
@@ -505,11 +507,11 @@ const routes = [
   { path: '/Home/amsDashboardMain', exact: true, name: 'Ams Dashboard', component: DashboardMain },
   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
   { path: '/Home/DeliveryMarking_Report', exact: true, name: 'DeliveryMarking_Report', component: DeliveryMarking_Report },
-
-
+  { path: '/Home/HoldticketReport', exact: true, name: 'HoldticketReport', component: HoldticketReport },
+  { path: '/Home/PendingTicketsReport', exact: true, name: 'PendingTicketsReport', component: PendingTicketsReport },
+  { path: '/Home/PendingTicketsCountReport', exact: true, name: 'PendingTicketsCountReport', component: PendingTicketsCountReport },
   
-
-
 ]
 
 export default routes
+

@@ -1,7 +1,6 @@
 import { Badge, Box } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
+import { useSelector } from 'react-redux';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import accordionDetailsClasses from '@mui/joy/AccordionDetails';
 import accordionSummaryClasses from '@mui/joy/AccordionSummary';
@@ -13,12 +12,12 @@ import EmployeeProgressBar from './EmployeeProgressBar';
 import AllTaskListUnderProject from './AllTaskListUnderProject';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { infoNotify } from 'src/views/Common/CommonCode';
+import { useQuery } from 'react-query';
 
 const TmEmployeeTaskData = () => {
 
-    const dispatch = useDispatch();
-    const empsecid = useSelector((state) => { return state.LoginUserData.empsecid })
-    const empnameselect = useSelector((state) => { return state.getDepartSecemployee.departsecempList || 0 })
+
+    const empDept = useSelector((state) => state.LoginUserData.empdept)
     const [employees, setemployees] = useState([{ em_id: 0, em_name: '' }]);
     const [allEmpTask, setallEmpTask] = useState([])
     const [EmpDetalArry, setEmpDetalArry] = useState([])
@@ -26,25 +25,33 @@ const TmEmployeeTaskData = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [employeeData, setEmployeeData] = useState([])
 
-    useEffect(() => {
-        dispatch(getDepartSecemployee(empsecid))
-    }, [dispatch, empsecid])
+    const { data: getAllEmpUnderdept = [] } = useQuery(
+        ['getAllEmployeesUnderDepartment', empDept],
+        async () => {
+            const result = await axioslogin.get(
+                `/taskManagement/getAllEmpUnderdept/${empDept}`
+            );
+            return result.data?.data || [];
+        },
+        { enabled: !!empDept }
+    );
 
     useEffect(() => {
-        if (empnameselect.length > 0) {
-            setemployees(empnameselect);
+        if (getAllEmpUnderdept.length > 0) {
+            setemployees(getAllEmpUnderdept);
         }
-    }, [empnameselect]);
+    }, [getAllEmpUnderdept]);
+
     useEffect(() => {
         const getAllEmployeeTask = async () => {
-            const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empsecid}`);
+            const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empDept}`);
             const { success, data } = result.data;
             if (success === 2) {
                 setallEmpTask(data)
             }
         }
-        getAllEmployeeTask(empsecid)
-    }, [empsecid])
+        getAllEmployeeTask(empDept)
+    }, [empDept])
 
     useEffect(() => {
         if ((allEmpTask.length !== 0) && (employees.length !== 0)) {
@@ -107,18 +114,18 @@ const TmEmployeeTaskData = () => {
 
                             <Box sx={{ flex: 1, display: 'flex', borderBottom: 1, Pb: .5, borderColor: '#D9E4EC', boxShadow: ' 1px', }}>
 
-                                <Box sx={{ flex: .2, py: .5, }}>
+                                <Box sx={{ wisth: 65, py: .5, }}>
                                     <Avatar color='primary' size='sm'>
                                         <PersonIcon />
                                     </Avatar>
                                 </Box>
-                                <Box sx={{ flex: .8, pt: 1, pl: .3, fontWeight: 600 }}>
+                                <Box sx={{ width: 230, pt: 1, pl: .3, fontWeight: 600 }}>
                                     <Typography sx={{ fontSize: 13, }}>{capEmpName}</Typography>
                                 </Box>
-                                <Box sx={{ flex: 5, pt: 2, }}>
+                                <Box sx={{ flex: 1, pt: 2, }}>
                                     <EmployeeProgressBar val={val} />
                                 </Box>
-                                <Box sx={{ flex: .2, pl: 2, cursor: 'pointer' }}>
+                                <Box sx={{ wisth: 55, px: 2, cursor: 'pointer' }}>
                                     <Badge badgeContent={val.TT} variant="solid" color='neutral' onClick={() => openModal(val)} >
                                         <Box sx={{ mr: .2, fontSize: 15, borderRadius: 3, pl: 1, flex: .1, display: 'flex' }}  >
                                             <AssignmentOutlinedIcon sx={{ color: '#0B1C47' }} />

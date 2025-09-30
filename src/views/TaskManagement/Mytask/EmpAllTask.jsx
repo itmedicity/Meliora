@@ -344,7 +344,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                 height: 45, mt: .5, mx: 1.5, display: 'flex', borderBottom: 1, borderTop: 1, borderColor: 'lightgray', pt: 1.5,
                                 bgcolor: 'white'
                             }}>
-                                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
+                                <Box sx={{ width: 100, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task No.</Box>
                                 <Box sx={{ width: 70, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Action</Box>
                                 <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Files</Box>
                                 <Box sx={{ width: 140, textAlign: 'center', fontWeight: 600, color: '#444444', fontSize: 12, }}>Status</Box>
@@ -368,7 +368,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                 background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
                                                 pt: .5,
                                             }}>
-                                                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
+                                                <Box sx={{ width: 100, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.tm_task_slno}</Box>
                                                 <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12 }}>
                                                     <EditIcon
                                                         sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6}
@@ -488,7 +488,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                     background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
                                                     pt: .5,
                                                 }}>
-                                                    <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
+                                                    <Box sx={{ width: 100, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.tm_task_slno}</Box>
                                                     <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12 }}>
                                                         <EditIcon
                                                             sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6}
@@ -608,7 +608,7 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
                                                         background: val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
                                                         pt: .5,
                                                     }}>
-                                                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
+                                                        <Box sx={{ width: 100, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.tm_task_slno}</Box>
                                                         <Box sx={{ width: 60, textAlign: 'center', fontWeight: 600, color: 'grey', fontSize: 12 }}>
                                                             <EditIcon
                                                                 sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }} size={6}
