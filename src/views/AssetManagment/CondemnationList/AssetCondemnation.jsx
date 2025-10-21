@@ -6,9 +6,9 @@ import { getAssetUnderCondmnation } from 'src/api/AssetApis'
 import { infoNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import * as XLSX from 'xlsx'
-import { format } from 'date-fns'
 import DownloadIcon from '@mui/icons-material/Download'
 import CondemSubmitionModal from './CondemSubmitionModal'
+import FormattedDate from 'src/views/Components/FormattedDate'
 
 const AssetCondemnation = ({ empdept }) => {
   const { data: AsssetCodmnation } = useQuery({
@@ -181,7 +181,7 @@ const AssetCondemnation = ({ empdept }) => {
                         {val.condm_trans_emp}
                       </Box>
                       <Box sx={{ width: 145, fontWeight: 600, color: '#444444', fontSize: 12 }}>
-                        {val.item_condm_date ? format(new Date(val.item_condm_date), 'dd MMM yyyy,  hh:mm a') : ''}
+                        <FormattedDate date={val.item_condm_date} />
                       </Box>
                     </Box>
                   )

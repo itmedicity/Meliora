@@ -8,8 +8,9 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import Inputcomponent from '../TaskComponents/Inputcomponent'
 import { getGoalsList } from 'src/redux/actions/TmGoalsList.action'
 import moment from 'moment'
+import { taskColor } from 'src/color/Color'
 
-const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, setTableCount }) => {
+const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, }) => {
   const dispatch = useDispatch()
   const CloseGoal = useCallback(() => {
     setAddGoalFlag(0)
@@ -72,7 +73,6 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
           const { message, success } = result.data
           if (success === 1) {
             succesNotify(message)
-            setTableCount(tableCount + 1)
             dispatch(getGoalsList())
             reset()
             CloseGoal()
@@ -87,190 +87,184 @@ const GoalCreation = ({ open, setAddGoalFlag, setaddGoalModalOpen, tableCount, s
         infoNotify('Please fill Manadatory Feilds')
       }
     },
-    [postGoal, tm_goal_name, tableCount, CloseGoal, dispatch, reset, setTableCount]
+    [postGoal, tm_goal_name, CloseGoal, dispatch, reset]
   )
 
   return (
     <Box>
       <CssVarsProvider>
         <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
           open={open}
+          aria-labelledby="create-goal-title"
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            pl: 1,
-            borderRadius: 10
+            p: 2,
           }}
         >
-          <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
-            <Box sx={{ flex: 1 }}>
-              <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
+          <ModalDialog
+            variant="outlined"
+            sx={{
+              width: { xs: '90vw', sm: '70vw', md: '40vw' },
+              borderRadius: 'lg',
+              p: 0,
+              bgcolor: 'background.body',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 2,
+                py: 1.5,
+                borderBottom: '1px solid',
+                borderColor: 'neutral.outlinedBorder',
+                bgcolor: 'white',
+              }}
+            >
+              <Box sx={{ display: 'flex' }}>
+                <RadarIcon sx={{ height: 40, width: 40, color: taskColor.darkPurple }} />
                 <Typography
-                  sx={{
-                    color: 'lightgray',
-                    fontSize: 12,
-                    pl: 1,
-                    flex: 1,
-                    pt: 1.5,
-                    fontWeight: 900
-                  }}
+                  level="title-sm"
+                  sx={{ fontWeight: 700, color: taskColor.darkPurple, pt: 1.5 }}
                 >
-                  Create A New Goal
+                  Create a New Goal
                 </Typography>
-                <HighlightOffIcon
-                  sx={{
-                    height: 40,
-                    width: 40,
-                    cursor: 'pointer',
-                    color: '#52688F',
-                    p: 1,
-                    '&:hover': { color: '#BA0F30' }
-                  }}
-                  onClick={CloseGoal}
+              </Box>
+
+              <HighlightOffIcon
+                onClick={CloseGoal}
+                sx={{
+                  cursor: 'pointer',
+                  color: taskColor.darkPurple,
+                }}
+              />
+            </Box>
+
+            {/* Content */}
+            <Box
+              sx={{
+                p: 4,
+                overflowY: 'auto',
+                overflowX: 'hidden', // ✅ prevents horizontal scroll
+                maxHeight: '75vh',
+              }}
+            >
+              {/* Goal Name */}
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 1 }}
+                >
+                  Goal<span style={{ color: '#74112F' }}> *</span>
+                </Typography>
+                <Inputcomponent
+                  placeholder="New Goal"
+                  type="text"
+                  name="tm_goal_name"
+                  value={tm_goal_name}
+                  onchange={GoalsMastUpdate}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 50, mt: 1 }}></Box>
+
+              {/* Date Section */}
               <Box
-                style={{
-                  marginLeft: 50,
-                  marginTop: '-0.99em',
-                  paddingLeft: 2,
-                  zIndex: 2,
-                  backgroundColor: 'white',
-                  borderRadius: 35,
-                  position: 'absolute',
-                  fontSize: '0.75em'
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  mb: 3,
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' }, // ✅ responsive layout
                 }}
               >
-                <RadarIcon sx={{ height: 70, width: 70 }} />
-              </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 7, pl: 5.8 }}>Create Goal</Typography>
-              <Box sx={{ maxHeight: '65vh', overflow: 'auto' }}>
-                <Box sx={{ flex: 1, mx: 3, mt: 4 }}>
+                <Box sx={{ flex: 1, minWidth: 0 }}> {/* ✅ prevents overflow */}
                   <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
+                    level="body-sm"
+                    sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
                   >
-                    Goal
-                    <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
+                    From Date<span style={{ color: '#74112F' }}> *</span>
                   </Typography>
                   <Inputcomponent
-                    placeholder="New Goal"
-                    type="text"
-                    name="tm_goal_name"
-                    value={tm_goal_name}
+                    type="datetime-local"
+                    name="tm_goal_fromdate"
+                    value={tm_goal_fromdate}
                     onchange={GoalsMastUpdate}
+                    sx={{ width: '100%' }} // ✅ fill container width
                   />
                 </Box>
-                <Box sx={{ flex: 1, mx: 3, mt: 3.5, display: 'flex' }}>
-                  <Box sx={{ flex: 1, mr: 1.5 }}>
-                    <Typography
-                      sx={{
-                        pl: 1.5,
-                        color: '#003B73',
-                        fontWeight: 600,
-                        textUnderline: 1,
-                        fontSize: 12
-                      }}
-                    >
-                      From Date
-                      <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                    </Typography>
-                    <Inputcomponent
-                      placeholder="New Goal"
-                      type="datetime-local"
-                      name="tm_goal_fromdate"
-                      value={tm_goal_fromdate}
-                      onchange={GoalsMastUpdate}
-                    />
-                  </Box>
-                  <Box sx={{ flex: 1, ml: 1.5 }}>
-                    <Typography
-                      sx={{
-                        pl: 1.5,
-                        color: '#003B73',
-                        fontWeight: 600,
-                        textUnderline: 1,
-                        fontSize: 12
-                      }}
-                    >
-                      Due Date
-                      <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                    </Typography>
-                    <Inputcomponent
-                      placeholder="New Goal"
-                      type="datetime-local"
-                      name="tm_goal_duedate"
-                      value={tm_goal_duedate}
-                      slotProps={{
-                        input: {
-                          min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                        }
-                      }}
-                      onchange={GoalsMastUpdate}
-                    />
-                  </Box>
-                </Box>
-                <Box sx={{ mt: 5, mx: 3 }}>
+
+                <Box sx={{ flex: 1, minWidth: 0 }}> {/* ✅ prevents overflow */}
                   <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
+                    level="body-sm"
+                    sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
                   >
-                    Describtion
+                    Due Date<span style={{ color: '#74112F' }}> *</span>
                   </Typography>
-                  <Textarea
-                    minRows={1}
-                    maxRows={5}
-                    placeholder="Describtion"
-                    variant="plain"
-                    sx={{
-                      borderBottom: '2px solid',
-                      borderColor: 'neutral.outlinedBorder',
-                      borderRadius: 0,
-                      '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder'
+                  <Inputcomponent
+                    type="datetime-local"
+                    name="tm_goal_duedate"
+                    value={tm_goal_duedate}
+                    slotProps={{
+                      input: {
+                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                       },
-                      '&::before': {
-                        border: '1px solid var(--Textarea-focusedHighlight)',
-                        transform: 'scaleX(0)',
-                        left: 0,
-                        right: 0,
-                        bottom: '-2px',
-                        top: 'unset',
-                        transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0
-                      },
-                      '&:focus-within::before': {
-                        transform: 'scaleX(1)'
-                      }
                     }}
-                    name="tm_goal_description"
-                    value={tm_goal_description}
-                    onChange={e => GoalsMastUpdate(e)}
+                    onchange={GoalsMastUpdate}
+                    sx={{ width: '100%' }} // ✅ fill container width
                   />
                 </Box>
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={InsertGoals}>
-                    Create
-                  </Button>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={CloseGoal}>
-                    {' '}
-                    Cancel
-                  </Button>
-                </Box>
+              </Box>
+
+              {/* Description */}
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
+                >
+                  Description
+                </Typography>
+                <Textarea
+                  minRows={1}
+                  maxRows={5}
+                  placeholder="Describtion"
+                  variant="plain"
+                  sx={{
+                    borderBottom: '2px solid',
+                    borderColor: 'neutral.outlinedBorder',
+                    borderRadius: 0,
+                    '&:hover': {
+                      borderColor: 'neutral.outlinedHoverBorder'
+                    },
+                    '&::before': {
+                      border: '1px solid var(--Textarea-focusedHighlight)',
+                      transform: 'scaleX(0)',
+                      left: 0,
+                      right: 0,
+                      bottom: '-2px',
+                      top: 'unset',
+                      transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
+                      borderRadius: 0
+                    },
+                    '&:focus-within::before': {
+                      transform: 'scaleX(1)'
+                    }
+                  }}
+                  name="tm_goal_description"
+                  value={tm_goal_description}
+                  onChange={e => GoalsMastUpdate(e)}
+                />
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button variant="plain" color="neutral" onClick={InsertGoals}>
+                  Create
+                </Button>
+                <Button variant="plain" color="neutral" onClick={CloseGoal}>
+                  Cancel
+                </Button>
               </Box>
             </Box>
           </ModalDialog>

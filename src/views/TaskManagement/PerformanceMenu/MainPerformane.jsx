@@ -10,6 +10,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { axioslogin } from 'src/views/Axios/Axios'
 import PersonIcon from '@mui/icons-material/Person'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
+import { errorNotify } from 'src/views/Common/CommonCode'
 
 const MainPerformane = () => {
   const empid = useSelector(state => {
@@ -334,23 +336,43 @@ const MainPerformane = () => {
     return () => clearInterval(interval)
   }, [searchEmployeeTaskData])
 
+  // useEffect(() => {
+  //   const getEmployeeImage = async employee => {
+  //     const result = await axioslogin.get(`/TmGraph/EmployeeImage/getEmployeeImage/${employee}`)
+  //     const { success } = result.data
+  //     if (success === 1) {
+  //       const data = result.data
+  //       const fileNames = data.data
+  //       const fileUrls = fileNames.map(fileName => {
+  //         return `${PUBLIC_NAS_FOLDER}/TaskEmployeeImage/${employee}/${fileName}`
+  //       })
+  //       setImageUrls(fileUrls)
+  //     } else {
+  //       setImageUrls([])
+  //     }
+  //   }
+  //   getEmployeeImage(employee)
+  // }, [employee])
+
+
   useEffect(() => {
-    const getEmployeeImage = async employee => {
-      const result = await axioslogin.get(`/TmGraph/EmployeeImage/getEmployeeImage/${employee}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskEmployeeImage/${employee}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-      } else {
-        setImageUrls([])
+    if (!employee) return;
+    let isMounted = true;
+    const getEmployeeImage = async () => {
+      try {
+        const images = await getFilesFromZip('/TmGraph/EmployeeImage/getEmployeeImage', employee);
+        if (isMounted) {
+          setImageUrls(images);
+        }
+      } catch (error) {
+        errorNotify('Error fetching documents:', error);
       }
-    }
-    getEmployeeImage(employee)
-  }, [employee])
+    };
+    getEmployeeImage();
+    return () => {
+      isMounted = false;
+    };
+  }, [employee]);
 
   const sortedOverdueTaskList =
     OverdueTaskList &&

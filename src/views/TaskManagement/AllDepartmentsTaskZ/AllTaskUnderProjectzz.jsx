@@ -6,7 +6,8 @@ import CountDowncomponent from '../CountDown/CountDowncomponent'
 import EditTaskInDir from './EditTaskInDir'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import JSZip from 'jszip'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
+import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
 
 const AllTaskUnderProjectzz = ({ value }) => {
   const { tm_project_slno } = value
@@ -66,93 +67,29 @@ const AllTaskUnderProjectzz = ({ value }) => {
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
 
-  const fileView = async val => {
-    const { tm_task_slno } = val
-    setgetarry(val)
-    setEditModalOpen(false)
-    setEditModalFlag(0)
-    setimage(0) // Initialize imageViewModalFlag to 0 initially
-    setimageViewModalOpen(false) // Close the modal if it was open
-    // try {
-    //   const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-    //   const { success } = result.data
-    //   if (success === 1) {
-    //     const data = result.data
-    //     const fileNames = data.data
-    //     const fileUrls = fileNames.map(fileName => {
-    //       return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-    //     })
-    //     setImageUrls(fileUrls)
-    //     // Open the modal only if there are files
-    //     if (fileUrls.length > 0) {
-    //       setimage(1)
-    //       setimageViewModalOpen(true)
-    //       setSelectedImages(val)
-    //     } else {
-    //       warningNotify('No Image attached')
-    //     }
-    //   } else {
-    //     warningNotify('No Image Attached')
-    //   }
-    // } catch (error) {
-    //   warningNotify('Error in fetching files:', error)
-    // }
-    const getImage = async tm_task_slno => {
-      try {
-        const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`, {
-          responseType: 'blob'
-        });
 
-        const contentType = result.headers['content-type'] || '';
-        if (contentType?.includes('application/json')) {
-          return;
-        } else {
-          const zip = await JSZip.loadAsync(result.data);
-          // Extract image files (e.g., .jpg, .png)
-          const imageEntries = Object.entries(zip.files).filter(
-            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
-          );
-          // Convert each to a Blob URL
-          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-          //   const blob = await fileObj.async('blob');
-          //   const url = URL.createObjectURL(blob);
-          //   return { imageName: filename, url };
-          // });
-          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-            // Get the original blob (no type)
-            const originalBlob = await fileObj.async('blob');
-            // Determine MIME type based on filename extension (or any other logic)
-            let mimeType = '';
-            if (filename.endsWith('.pdf')) {
-              mimeType = 'application/pdf';
-            } else if (filename.endsWith('.png')) {
-              mimeType = 'image/png';
-            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
-              mimeType = 'image/jpeg';
-            } else {
-              mimeType = 'application/octet-stream'; // fallback
-            }
-            // Recreate blob with correct type
-            const blobWithType = new Blob([originalBlob], { type: mimeType });
-            // Create URL from new blob
-            const url = URL.createObjectURL(blobWithType);
-            return { imageName: filename, url, blob: blobWithType };
-          });
-          const images = await Promise.all(imagePromises);
-          setImageUrls(images)
-          setimage(1)
-          setimageViewModalOpen(true)
-          setSelectedImages(val)
-          // setImageShowFlag(1)
-          // setImageShow(true)
-        }
-      } catch (error) {
-        console.error('Error fetching or processing images:', error);
-        // setImageArry([])
+
+
+  const fileView = async (val) => {
+    const { tm_task_slno } = val;
+    setgetarry(val);
+    setimage(1);
+    setimageViewModalOpen(true);
+    setSelectedImages(val);
+    try {
+      const images = await getFilesFromZip('/TmFileUpload/uploadFile/getTaskFile', tm_task_slno);
+      if (images && images.length > 0) {
+        setImageUrls(images);
+      } else {
+        setImageUrls([]);
+        warningNotify('No images attached for this task.');
       }
+    } catch (error) {
+      errorNotify('Error fetching task images:', error);
+      setImageUrls([]);
     }
-    getImage(tm_task_slno)
-  }
+  };
+
 
   return (
     <Box>

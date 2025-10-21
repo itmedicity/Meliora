@@ -1,138 +1,76 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { Box, Button, Chip, Modal, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
-import CloseIcon from '@mui/icons-material/Close'
-import { useDispatch, useSelector } from 'react-redux'
-import ModeEditIcon from '@mui/icons-material/ModeEdit'
-import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { DialogActions } from '@mui/material'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
-import { getprojectFrTaskCreation } from 'src/redux/actions/TmProjectsList.action'
-import imageCompression from 'browser-image-compression'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import EmpProgressTable from '../Mytask/EmpProgressTable'
-import AddSubTaskEmp from '../Mytask/AddSubTaskEmp'
-import EditSubtaskEmp from '../Mytask/EditSubtaskEmp'
-import SubtaskTableEmp from '../Mytask/SubtaskTableEmp'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
-import moment from 'moment'
-import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone'
-import DueDateModal from '../ModalComponent/DueDateModal'
-import CancelIcon from '@mui/icons-material/Cancel'
-import Inputcomponent from '../TaskComponents/Inputcomponent'
-import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSelect'
-import ProjectCreation from '../ModalComponent/ProjectCreation'
-import AttachmentIcon from '@mui/icons-material/Attachment'
-import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation'
+import { Box, Button, Chip, Grid, Modal, ModalDialog, Textarea, Tooltip, Typography, } from '@mui/joy'
+import { useDispatch, useSelector } from 'react-redux';
+import TextFieldCustom from 'src/views/Components/TextFieldCustom';
+import { DialogActions } from '@mui/material';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
+import CusCheckBox from 'src/views/Components/CusCheckBox';
+import { getprojectFrTaskCreation } from 'src/redux/actions/TmProjectsList.action';
+import imageCompression from 'browser-image-compression';
+import EmpProgressTable from '../Mytask/EmpProgressTable';
+import AddIcon from '@mui/icons-material/Add';
+import moment from 'moment';
+import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone';
+import DueDateModal from '../ModalComponent/DueDateModal';
+import Inputcomponent from '../TaskComponents/Inputcomponent';
+import TmMultAssigneesSelect from 'src/views/CommonSelectCode/TmMultAssigneesSelect';
+import ProjectCreation from '../ModalComponent/ProjectCreation';
+import TmProjectListInTaskCreaation from 'src/views/CommonSelectCode/TmProjectListInTaskCreaation';
+import { useQueryClient } from '@tanstack/react-query';
+import RadarIcon from '@mui/icons-material/Radar'
+import { taskColor } from 'src/color/Color';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import AddSubTaskEmp from '../Mytask/AddSubTaskEmp';
+import EditSubtaskEmp from '../Mytask/EditSubtaskEmp';
+import SubtaskTableEmp from '../Mytask/SubtaskTableEmp';
+import FileViewSingle from 'src/views/Components/FileViewSingle';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
-const ModalEditTask = ({
-  open,
-  masterData,
-  setEditModalFlag,
-  setEditModalOpen,
-  tableCount,
-  setTableCount,
-  searchFlag,
-  taskcount,
-  settaskcount,
-  statuscount,
-  setstatuscount,
-  projectcount,
-  setProjectcount
-}) => {
-  const {
-    tm_task_slno,
-    main_task_slno,
-    tm_project_slno,
-    tm_task_status,
-    dept_name,
-    em_name,
-    create_date,
-    tm_project_name,
-    tm_task_due_date,
-    tm_mast_duedate_count,
-    tm_project_duedate
-  } = masterData
+const ModalEditTask = ({ open, masterData, setEditModalFlag, setEditModalOpen, }) => {
 
-  const dispatch = useDispatch()
+  const { tm_task_slno, main_task_slno, tm_project_slno, tm_task_status, dept_name, create_date, tm_project_name, tm_task_due_date, tm_mast_duedate_count,
+    tm_assigne_emp } = masterData
+
+
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient()
   const [departmentMast, setdepartmentMast] = useState(0)
   const [departmentSecMast, setdepartmentSecMast] = useState(0)
-  const [employeeMast, setEmployeeMast] = useState(0)
-  const [tableRendering, setTableRendering] = useState(0)
+  const [employeeMast, setEmployeeMast] = useState(tm_assigne_emp || [])
   const [empArry, setEmpArry] = useState([])
-  const [arry, setArry] = useState([])
   const [flag, setflag] = useState(0)
   const [subTaskData, setsubTaskData] = useState([])
   const [selectTaskfile, setselectTaskfile] = useState([])
   const [projectz, setprojectz] = useState(tm_project_slno === null ? '' : tm_project_slno)
   const [value, setvalue] = useState(0)
-  const [completed, setCompleted] = useState(
-    tm_task_status === 1
-      ? true
-      : tm_task_status === 2
-        ? false
-        : tm_task_status === 3
-          ? false
-          : tm_task_status === 4
-            ? false
-            : false
-  )
-  const [onProgress, setOnProgress] = useState(
-    tm_task_status === 2
-      ? true
-      : tm_task_status === 1
-        ? false
-        : tm_task_status === 3
-          ? false
-          : tm_task_status === 4
-            ? false
-            : false
-  )
-  const [onHold, setOnHold] = useState(
-    tm_task_status === 3
-      ? true
-      : tm_task_status === 1
-        ? false
-        : tm_task_status === 2
-          ? false
-          : tm_task_status === 4
-            ? false
-            : false
-  )
-  const [onPending, setOnPending] = useState(
-    tm_task_status === 4
-      ? true
-      : tm_task_status === 1
-        ? false
-        : tm_task_status === 2
-          ? false
-          : tm_task_status === 3
-            ? false
-            : false
-  )
+  const [completed, setCompleted] = useState(tm_task_status === 1 ? true : tm_task_status === 2 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
+  const [onProgress, setOnProgress] = useState(tm_task_status === 2 ? true : tm_task_status === 1 ? false : tm_task_status === 3 ? false : tm_task_status === 4 ? false : false)
+  const [onHold, setOnHold] = useState(tm_task_status === 3 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 4 ? false : false)
+  const [onPending, setOnPending] = useState(tm_task_status === 4 ? true : tm_task_status === 1 ? false : tm_task_status === 2 ? false : tm_task_status === 3 ? false : false)
   const [checkFlag, setcheckFlag] = useState(tm_task_status)
-  const [subTask, setSubTask] = useState([])
-  const [viewSubTask, setViewSubTask] = useState(0)
   const [progresstabledata, setProgressTableData] = useState([])
   const [progressCount, setprogressCount] = useState(0)
   const [completeFlag, setCompleteFlag] = useState(0)
-  const [changeAssignee, setchangeAssignee] = useState(0)
   const [dueDateModalFlag, setdueDateModalFlag] = useState(0)
   const [dueDateModal, setdueDateModal] = useState(false)
   const [dueDates, setdueDates] = useState([])
   const [addProjectFlag, setAddProjectFlag] = useState(0)
   const [addProjectModalOpen, setaddProjectlModalOpen] = useState(false)
   const [dueDateProject, setdueDateProject] = useState('')
+  const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
+  const [imageShow, setImageShow] = useState(false)
+  const [imageShowFlag, setImageShowFlag] = useState(0)
   const [countDue, setcountDue] = useState(0)
-  let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-  const id = useSelector(state => {
-    return state.LoginUserData.empid
-  })
+  const [tableCount, setTableCount] = useState(0)
+
+
+  let newDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  const id = useSelector((state) => { return state.LoginUserData.empid })
   const [taskData, setTaskData] = useState({
     tm_task_slno: '',
     taskName: '',
@@ -140,25 +78,26 @@ const ModalEditTask = ({
     description: '',
     pendingRemarks: '',
     onHoldRemaks: '',
-    completedRemarks: ''
+    completedRemarks: '',
   })
 
   const { taskName, dueDate, description, onHoldRemaks, pendingRemarks, completedRemarks } = taskData
   const taskDataUpdate = useCallback(
-    e => {
+    (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setTaskData({ ...taskData, [e.target.name]: value })
     },
-    [taskData]
+    [taskData],
   )
-  const ChangeCompleted = useCallback(e => {
+  const ChangeCompleted = useCallback((e) => {
     if (e.target.checked === true) {
       setCompleted(true)
       setOnProgress(false)
       setOnHold(false)
       setOnPending(false)
       setcheckFlag(1)
-    } else {
+    }
+    else {
       setCompleted(false)
       setOnProgress(false)
       setOnHold(false)
@@ -166,14 +105,15 @@ const ModalEditTask = ({
       setcheckFlag(0)
     }
   }, [])
-  const ChangeOnProgress = useCallback(e => {
+  const ChangeOnProgress = useCallback((e) => {
     if (e.target.checked === true) {
       setCompleted(false)
       setOnProgress(true)
       setOnHold(false)
       setOnPending(false)
       setcheckFlag(2)
-    } else {
+    }
+    else {
       setCompleted(false)
       setOnProgress(false)
       setOnHold(false)
@@ -181,14 +121,15 @@ const ModalEditTask = ({
       setcheckFlag(0)
     }
   }, [])
-  const ChangeOnHold = useCallback(e => {
+  const ChangeOnHold = useCallback((e) => {
     if (e.target.checked === true) {
       setCompleted(false)
       setOnHold(true)
       setOnProgress(false)
       setOnPending(false)
       setcheckFlag(3)
-    } else {
+    }
+    else {
       setCompleted(false)
       setOnProgress(false)
       setOnHold(false)
@@ -196,14 +137,15 @@ const ModalEditTask = ({
       setcheckFlag(0)
     }
   }, [])
-  const ChangeOnPending = useCallback(e => {
+  const ChangeOnPending = useCallback((e) => {
     if (e.target.checked === true) {
       setCompleted(false)
       setOnProgress(false)
       setOnHold(false)
       setOnPending(true)
       setcheckFlag(4)
-    } else {
+    }
+    else {
       setCompleted(false)
       setOnProgress(false)
       setOnHold(false)
@@ -219,13 +161,13 @@ const ModalEditTask = ({
     progress_emp: id,
     tm_task_progress: ''
   })
-  const { progress_slno, tm_progres_date, tm_task_progress } = taskProgress
+  const { progress_slno, tm_progres_date, tm_task_progress, } = taskProgress
   const ProgresssUpdate = useCallback(
-    e => {
+    (e) => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setTaskProgress({ ...taskProgress, [e.target.name]: value })
     },
-    [taskProgress]
+    [taskProgress],
   )
   const postProgress = useMemo(() => {
     return {
@@ -234,7 +176,7 @@ const ModalEditTask = ({
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
       main_task_slno: main_task_slno,
-      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
+      tm_task_progress: tm_task_progress === '' ? null : tm_task_progress,
     }
   }, [tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, main_task_slno, id])
 
@@ -245,7 +187,7 @@ const ModalEditTask = ({
       tm_task_status: checkFlag,
       tm_progres_date: tm_progres_date === '' ? null : tm_progres_date,
       progress_emp: id,
-      tm_task_progress: tm_task_progress
+      tm_task_progress: tm_task_progress,
     }
   }, [progress_slno, tm_task_slno, checkFlag, tm_progres_date, tm_task_progress, id])
 
@@ -257,11 +199,11 @@ const ModalEditTask = ({
 
   useEffect(() => {
     const getProgress = async () => {
-      const result = await axioslogin.post('/taskManagement/viewProgress', ProgressData)
-      const { success, data } = result.data
+      const result = await axioslogin.post('/taskManagement/viewProgress', ProgressData);
+      const { success, data } = result.data;
       if (data.length !== 0) {
         if (success === 2) {
-          const arry = data?.map(val => {
+          const arry = data?.map((val) => {
             const obj = {
               progress_slno: val.progress_slno,
               tm_task_slno: val.tm_task_slno,
@@ -273,22 +215,25 @@ const ModalEditTask = ({
             return obj
           })
           setProgressTableData(arry)
-        } else {
+        }
+        else {
           setProgressTableData([])
         }
       }
+
     }
     getProgress(ProgressData)
-  }, [progressCount, tableCount, ProgressData])
+  }, [progressCount, ProgressData])
 
   useEffect(() => {
     const getDueCount = async () => {
-      const result = await axioslogin.get(`/TmAllDeptTask/getDuedateCount/${1}`)
-      const { data } = result.data
+      const result = await axioslogin.get(`/TmAllDeptTask/getDuedateCount/${1}`);
+      const { data } = result.data;
       if (data.length !== 0) {
         const { tm_duedate_count } = data[0]
         setcountDue(tm_duedate_count)
-      } else {
+      }
+      else {
         setcountDue(0)
       }
     }
@@ -298,7 +243,7 @@ const ModalEditTask = ({
   const getAllDueDates = useCallback(() => {
     const getDueDate = async () => {
       const result = await axioslogin.get(`/taskManagement/getAllDueDates/${tm_task_slno}`)
-      const { success, data } = result.data
+      const { success, data } = result.data;
       if (success === 2) {
         if (data.length > 1) {
           setdueDates(data)
@@ -314,13 +259,11 @@ const ModalEditTask = ({
     getDueDate()
   }, [tm_task_slno])
 
-  const secName = useSelector(state => {
-    return state.LoginUserData.empdeptsec
-  })
-  const empdept = useSelector(state => {
+
+  const empdept = useSelector((state) => {
     return state.LoginUserData.empdept
   })
-  const empsecid = useSelector(state => {
+  const empsecid = useSelector((state) => {
     return state.LoginUserData.empsecid
   })
   useEffect(() => {
@@ -329,7 +272,7 @@ const ModalEditTask = ({
 
   useEffect(() => {
     dispatch(getprojectFrTaskCreation())
-  }, [dispatch])
+  }, [dispatch,])
 
   const handleEditClose = useCallback(() => {
     setEditModalFlag(0)
@@ -340,42 +283,57 @@ const ModalEditTask = ({
     const form = {
       progress_slno: '',
       tm_progres_date: '',
-      tm_task_progress: ''
+      tm_task_progress: '',
     }
     setTaskProgress(form)
   }, [])
 
-  const InsertProgress = useCallback(
-    e => {
-      e.preventDefault()
-      if (tm_progres_date !== '') {
-        const InsertMastProgress = async postProgress => {
-          const result = await axioslogin.post('/taskManagement/insertProgress', postProgress)
+  const InsertProgress = useCallback((e) => {
+    e.preventDefault()
+    if (tm_progres_date !== '') {
+      const InsertMastProgress = async (postProgress) => {
+        const result = await axioslogin.post('/taskManagement/insertProgress', postProgress)
 
-          const { message, success } = result.data
-          if (success === 1) {
-            succesNotify(message)
-            setprogressCount(progressCount + 1)
-            setTableCount(tableCount + 1)
-            setprogressCount(progressCount + 1)
-            resetProgress()
-          } else if (success === 0) {
-            infoNotify(message)
-          } else {
-            infoNotify(message)
-          }
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setprogressCount(progressCount + 1)
+
+          queryClient.invalidateQueries({
+            queryKey: ['getAllSubTaskUnderTask'],
+            exact: false,
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['getEmpAllTasksList'],
+            exact: false,
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['getIncompletedAllTaskUnderDepartment'],
+            exact: false,
+          });
+          resetProgress()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
         }
-        InsertMastProgress(postProgress)
-      } else {
-        infoNotify('Please Select Date For Entering Task Progress')
       }
-    },
-    [postProgress, progressCount, tm_progres_date, setTableCount, tableCount, resetProgress]
-  )
+      InsertMastProgress(postProgress)
+    } else {
+      infoNotify('Please Select Date For Entering Task Progress')
+    }
+  }, [postProgress, progressCount, tm_progres_date, resetProgress, queryClient])
 
-  const rowSelect = useCallback(data => {
+  const rowSelect = useCallback((data) => {
     setvalue(1)
-    const { progress_slno, tm_task_slno, tm_task_status, tm_progres_date, progress_emp, tm_task_progress } = data
+    const {
+      progress_slno,
+      tm_task_slno,
+      tm_task_status,
+      tm_progres_date,
+      progress_emp,
+      tm_task_progress
+    } = data
     const frmdata = {
       progress_slno: progress_slno,
       tm_task_slno: tm_task_slno,
@@ -385,39 +343,53 @@ const ModalEditTask = ({
       tm_task_progress: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgress(frmdata)
+    setOnProgress(true)
+    setCompleted(false)
+    setOnHold(false)
+    setOnPending(false)
   }, [])
 
-  const UpdateProgress = useCallback(
-    e => {
-      e.preventDefault()
-      if (tm_progres_date !== '') {
-        const UpdateProgressMast = async patchProgress => {
-          const result = await axioslogin.patch('/taskManagement/updateProgress', patchProgress)
-          const { message, success } = result.data
-          if (success === 2) {
-            succesNotify(message)
-            setprogressCount(progressCount + 1)
-            resetProgress()
-            setvalue(0)
-          } else if (success === 0) {
-            infoNotify(message)
-          } else {
-            infoNotify(message)
-          }
+  const UpdateProgress = useCallback((e) => {
+    e.preventDefault()
+    if (tm_progres_date !== '') {
+      const UpdateProgressMast = async (patchProgress) => {
+        const result = await axioslogin.patch('/taskManagement/updateProgress', patchProgress)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
+          succesNotify("Subtask Created Successfully")
+          queryClient.invalidateQueries({
+            queryKey: ['getAllSubTaskUnderTask'],
+            exact: false,
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['getEmpAllTasksList'],
+            exact: false,
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['getIncompletedAllTaskUnderDepartment'],
+            exact: false,
+          });
+          setprogressCount(progressCount + 1)
+          resetProgress()
+          setvalue(0)
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
         }
-        UpdateProgressMast(patchProgress)
-      } else {
-        infoNotify('Please Select Date For Entering Task Progress')
       }
-    },
-    [patchProgress, progressCount, tm_progres_date, resetProgress]
-  )
+      UpdateProgressMast(patchProgress)
+    } else {
+      infoNotify('Please Select Date For Entering Task Progress')
+    }
+  }, [patchProgress, progressCount, tm_progres_date, queryClient, resetProgress])
 
   useEffect(() => {
     if (tm_project_slno !== null) {
-      const getprojectduedate = async tm_project_slno => {
-        const result = await axioslogin.get(`/TmGraph/projectduedate/${tm_project_slno}`)
-        const { success, data } = result.data
+      const getprojectduedate = async (tm_project_slno) => {
+        const result = await axioslogin.get(`/TmGraph/projectduedate/${tm_project_slno}`);
+        const { success, data } = result.data;
         if (success === 2) {
           const { tm_project_duedate } = data[0]
           setdueDateProject(tm_project_duedate)
@@ -427,30 +399,22 @@ const ModalEditTask = ({
     }
   }, [tm_project_slno])
 
+
   useEffect(() => {
-    const getMasterTask = async tm_task_slno => {
-      const result = await axioslogin.get(`/taskManagement/viewMasterTaskByid/${tm_task_slno}`)
-      const { success, data } = result.data
+    const getMasterTask = async (tm_task_slno) => {
+      const result = await axioslogin.get(`/taskManagement/viewMasterTaskByid/${tm_task_slno}`);
+      const { success, data } = result.data;
       if (success === 2) {
-        const {
-          tm_task_slno,
-          tm_task_name,
-          tm_task_due_date,
-          tm_task_description,
-          tm_project_slno,
-          tm_task_status,
-          tm_pending_remark,
-          tm_onhold_remarks,
-          tm_completed_remarks
-        } = data[0]
+        const { tm_task_slno, tm_task_name, tm_task_due_date, tm_task_description, tm_project_slno, tm_task_status,
+          tm_pending_remark, tm_onhold_remarks, tm_completed_remarks } = data[0]
         const formdata = {
           taskSlno: tm_task_slno,
           taskName: tm_task_name,
-          dueDate: tm_task_due_date ? tm_task_due_date : '',
-          description: tm_task_description ? tm_task_description : '',
-          pendingRemarks: tm_pending_remark ? tm_pending_remark : '',
-          onHoldRemaks: tm_onhold_remarks ? tm_onhold_remarks : '',
-          completedRemarks: tm_completed_remarks ? tm_completed_remarks : ''
+          dueDate: (tm_task_due_date ? tm_task_due_date : ''),
+          description: (tm_task_description ? tm_task_description : ''),
+          pendingRemarks: (tm_pending_remark ? tm_pending_remark : ''),
+          onHoldRemaks: (tm_onhold_remarks ? tm_onhold_remarks : ''),
+          completedRemarks: (tm_completed_remarks ? tm_completed_remarks : ''),
         }
         setTaskData(formdata)
         setdepartmentMast(empdept)
@@ -458,40 +422,38 @@ const ModalEditTask = ({
         setprojectz(tm_project_slno === null ? '' : tm_project_slno)
         setCompleted(tm_task_status === 1 ? true : false)
         setOnProgress(tm_task_status === 2 ? true : false)
-      } else {
+      }
+      else {
         setTaskData(false)
       }
     }
-    const getMastEmployee = async tm_task_slno => {
-      const result = await axioslogin.get(`/taskManagement/viewMasterEmpByid/${tm_task_slno}`)
-      const { success, data } = result.data
+    const getMastEmployee = async (tm_task_slno) => {
+      const result = await axioslogin.get(`/taskManagement/viewMasterEmpByid/${tm_task_slno}`);
+      const { success, data } = result.data;
       if (data.length !== 0) {
         if (success === 2) {
-          const setEmpData =
-            data &&
-            data.map(val => {
-              return {
-                tm_create_detl_slno: val.tm_create_detl_slno,
-                tm_assigne_emp: val.tm_assigne_emp,
-                tm_detl_edit: id
-              }
-            })
+          const setEmpData = data && data.map((val) => {
+            return {
+              tm_create_detl_slno: val.tm_create_detl_slno,
+              tm_assigne_emp: val.tm_assigne_emp,
+              tm_detl_edit: id
+            }
+          })
           setEmpArry(setEmpData)
-        } else {
+        }
+        else {
           setEmpArry([])
         }
       }
+
     }
     getMasterTask(tm_task_slno)
-    getMastEmployee(tm_task_slno)
+    getMastEmployee(tm_task_slno);
   }, [tm_task_slno, dispatch, empdept, empsecid, tm_project_slno, setEmpArry, id])
 
-  const openAddSubtask = useCallback(
-    () => {
-      setflag(1)
-    },
-    [setflag]
-  )
+  const openAddSubtask = useCallback(() => {
+    setflag(1)
+  }, [setflag])
 
   const updateMasterTask = useMemo(() => {
     return {
@@ -507,667 +469,442 @@ const ModalEditTask = ({
       tm_completed_remarks: completedRemarks === '' ? null : completedRemarks,
       tm_project_slno: projectz === '' ? null : projectz,
       tm_complete_date: completed === true ? newDate : null,
-      tm_mast_duedate_count: tm_task_due_date !== dueDate ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
-      edit_user: id
+      tm_mast_duedate_count: (tm_task_due_date !== dueDate) ? tm_mast_duedate_count + 1 : tm_mast_duedate_count,
+      edit_user: id,
     }
-  }, [
-    tm_task_slno,
-    taskName,
-    checkFlag,
-    dueDate,
-    description,
-    departmentMast,
-    departmentSecMast,
-    pendingRemarks,
-    onHoldRemaks,
-    completedRemarks,
-    projectz,
-    completed,
-    newDate,
-    tm_mast_duedate_count,
-    tm_task_due_date,
-    id
-  ])
+  }, [tm_task_slno, taskName, checkFlag, dueDate, description, departmentMast, departmentSecMast, pendingRemarks, onHoldRemaks, completedRemarks, projectz,
+    completed, newDate, tm_mast_duedate_count, tm_task_due_date, id])
 
-  const postEmpDetails =
-    employeeMast &&
-    employeeMast.map(val => {
-      return {
-        tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val,
-        tm_detail_status: 1,
-        tm_detl_create: id
-      }
-    })
+  const postEmpDetails = Array.isArray(employeeMast)
+    ? employeeMast.map((val) => ({
+      tm_task_slno,
+      tm_assigne_emp: val,
+      tm_detail_status: 1,
+      tm_detl_create: id,
+    }))
+    : [];
 
-  const inactive =
-    empArry &&
-    empArry.map(val => {
-      return {
-        tm_task_slno: tm_task_slno,
-        tm_assigne_emp: val.tm_assigne_emp
-      }
-    })
 
-  const selectForEditsSubTask = useCallback(
-    value => {
-      setflag(2)
-      setsubTaskData(value)
-    },
-    [setsubTaskData]
-  )
 
-  const handleTaskFileChange = useCallback(
-    e => {
-      const newFiles = [...selectTaskfile]
-      newFiles.push(e.target.files[0])
-      setselectTaskfile(newFiles)
-    },
-    [selectTaskfile, setselectTaskfile]
-  )
 
-  const handleImageUpload = useCallback(async imageFile => {
+  const inactive = empArry && empArry.map((val) => {
+    return {
+      tm_task_slno: tm_task_slno,
+      tm_assigne_emp: val.tm_assigne_emp,
+    }
+  })
+
+  const selectForEditsSubTask = useCallback((value) => {
+    setflag(2)
+    setsubTaskData(value)
+  }, [setsubTaskData])
+
+  const handleTaskFileChange = useCallback((e) => {
+    const newFiles = [...selectTaskfile]
+    newFiles.push(e.target.files[0])
+    setselectTaskfile(newFiles)
+  }, [selectTaskfile, setselectTaskfile])
+
+  const handleImageUpload = useCallback(async (imageFile) => {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true
+      useWebWorker: true,
     }
     const compressedFile = await imageCompression(imageFile, options)
     return compressedFile
-  }, [])
+  }, []);
 
-  const SubmitTask = useCallback(
-    e => {
-      e.preventDefault()
-      const UpdateTask = async updateMasterTask => {
-        const result = await axioslogin.patch('/taskManagement/updateMasterTask', updateMasterTask)
-        return result.data
-      }
-      const Inactiveemp = async inactive => {
-        const result = await axioslogin.post('/taskManagement/employeeInactive', inactive)
-        return result.data
-      }
-      const UpdateSubTaskDtl = async postEmpDetails => {
-        const result = await axioslogin.post('/taskManagement/insertDetail', postEmpDetails)
-        return result.data
-      }
 
-      const InsertFile = async (selectTaskfile, tm_task_slno) => {
-        try {
-          const formData = new FormData()
-          formData.append('id', tm_task_slno)
-          for (const taskFile of selectTaskfile) {
-            if (taskFile.type.startsWith('image')) {
-              const compressedFile = await handleImageUpload(taskFile)
-              formData.append('files', compressedFile, compressedFile.name)
-            } else {
-              formData.append('files', taskFile, taskFile.name)
+
+  const SubmitTask = useCallback(async (e) => {
+    e.preventDefault();
+    try {
+      if (!taskName || !dueDate) {
+        infoNotify("Please fill mandatory fields");
+        return;
+      }
+      const { success, message } = await axioslogin.patch("/taskManagement/updateMasterTask", updateMasterTask).then(res => res.data);
+      if (success !== 2) {
+        warningNotify(message);
+        return;
+      }
+      if (selectTaskfile.length > 0) {
+        const formData = new FormData();
+        formData.append("id", tm_task_slno);
+        for (const taskFile of selectTaskfile) {
+          if (taskFile.type.startsWith("image")) {
+            const compressedFile = await handleImageUpload(taskFile);
+            formData.append("files", compressedFile, compressedFile.name);
+          } else {
+            formData.append("files", taskFile, taskFile.name);
+          }
+        }
+        const fileRes = await axioslogin.post("/TmFileUpload/uploadFile/task", formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        ).then(res => res.data);
+        if (fileRes.success !== 1) {
+          warningNotify(fileRes.message);
+          return;
+        }
+      }
+      if (postEmpDetails.length > 0) {
+        if (employeeMast !== 0) {
+          const empRes = await axioslogin.post("/taskManagement/employeeInactive", inactive).then(res => res.data);
+          if (empRes.succes === 1) {
+            const subTaskRes = await axioslogin.post("/taskManagement/insertDetail", postEmpDetails).then(res => res.data);
+            if (subTaskRes.success === 1) {
+              succesNotify(subTaskRes.message);
+              queryClient.invalidateQueries({
+                queryKey: ['getIncompletedAllTaskUnderDepartment'],
+                exact: false,
+              });
             }
           }
-          // Use the Axios instance and endpoint that matches your server setup
-          const uploadResult = await axioslogin.post('/TmFileUpload/uploadFile/task', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          return uploadResult.data
-        } catch (error) {
-          warningNotify('An error occurred during file upload.')
+        } else {
+
         }
       }
 
-      if (taskName !== '' && dueDate !== '') {
-        UpdateTask(updateMasterTask).then(value => {
-          const { message, success } = value
-          if (success === 2) {
-            if (selectTaskfile.length !== 0) {
-              InsertFile(selectTaskfile, tm_task_slno).then(value => {
-                const { success, message } = value
-                if (success === 1) {
-                  if (employeeMast !== 0) {
-                    Inactiveemp(inactive).then(value => {
-                      const { message, succes } = value
-                      if (succes === 1) {
-                        UpdateSubTaskDtl(postEmpDetails)
-                        const { message, success } = value
-                        if (success === 1) {
-                          succesNotify(message)
-                          setTableCount(tableCount + 1)
-                          settaskcount(taskcount + 1)
-                          setstatuscount(statuscount + 1)
-                          setProjectcount(projectcount + 1)
-                          handleEditClose()
-                        } else {
-                          handleEditClose()
-                          setTableCount(tableCount + 1)
-                          settaskcount(taskcount + 1)
-                          setstatuscount(statuscount + 1)
-                          setProjectcount(projectcount + 1)
-                        }
-                      } else {
-                        succesNotify(message)
-                        setTableCount(tableCount + 1)
-                        settaskcount(taskcount + 1)
-                        setstatuscount(statuscount + 1)
-                        setProjectcount(projectcount + 1)
-                        handleEditClose()
-                      }
-                    })
-                    succesNotify('Task Updated with file attach Successfully')
-                    handleEditClose()
-                  } else {
-                    succesNotify(message)
-                    setTableCount(tableCount + 1)
-                    settaskcount(taskcount + 1)
-                    setstatuscount(statuscount + 1)
-                    setProjectcount(projectcount + 1)
-                    handleEditClose()
-                  }
-                } else {
-                  warningNotify(message)
-                }
-              })
-            }
-            //WITHOUT FILE UPLOAD
-            else {
-              if (employeeMast !== 0) {
-                Inactiveemp(inactive).then(value => {
-                  const { message, succes } = value
-                  if (succes === 1) {
-                    UpdateSubTaskDtl(postEmpDetails)
-                    const { message, success } = value
-                    if (success === 1) {
-                      setTableCount(tableCount + 1)
-                      settaskcount(taskcount + 1)
-                      setstatuscount(statuscount + 1)
-                      setProjectcount(projectcount + 1)
-                      succesNotify(message)
-                      setTableCount(tableCount + 1)
-                      handleEditClose()
-                    } else {
-                      handleEditClose()
-                      setTableCount(tableCount + 1)
-                      settaskcount(taskcount + 1)
-                      setstatuscount(statuscount + 1)
-                      setProjectcount(projectcount + 1)
-                    }
-                  } else {
-                    succesNotify(message)
-                    handleEditClose()
-                  }
-                })
-                succesNotify(message)
-                handleEditClose()
-                // setTableCount(tableCount + 1)
-              } else {
-                succesNotify(message)
-                setTableCount(tableCount + 1)
-                settaskcount(taskcount + 1)
-                setstatuscount(statuscount + 1)
-                setProjectcount(projectcount + 1)
-                handleEditClose()
-              }
-            }
-          } else {
-            warningNotify(message)
-          }
-        })
-      } else {
-        infoNotify('please Fill Mandatory Feilds')
-      }
-    },
-    [
-      updateMasterTask,
-      inactive,
-      postEmpDetails,
-      taskName,
-      selectTaskfile,
-      tm_task_slno,
-      handleEditClose,
-      handleImageUpload,
-      tableCount,
-      setTableCount,
-      dueDate,
-      employeeMast,
-      settaskcount,
-      taskcount,
-      setstatuscount,
-      statuscount,
-      setProjectcount,
-      projectcount
-    ]
-  )
+      succesNotify("Task updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ['getIncompletedAllTaskUnderDepartment'],
+        exact: false,
+      });
+      handleEditClose();
+    } catch (error) {
+      infoNotify("Error occurred: " + error.message);
+    }
+  }, [taskName, dueDate, updateMasterTask, selectTaskfile, tm_task_slno, employeeMast, inactive, postEmpDetails, handleImageUpload, queryClient,
+    handleEditClose]);
 
-  const handleRemoveTaskFile = index => {
-    setselectTaskfile(prevTaskFiles => {
-      const updatedFiles = [...prevTaskFiles]
-      updatedFiles.splice(index, 1) // Remove the file at the specified index
-      return updatedFiles
-    })
-  }
 
-  const changeEmp = useCallback(() => {
-    setchangeAssignee(1)
-  }, [])
+  const handleRemoveTaskFile = (index) => {
+    setselectTaskfile((prevTaskFiles) => {
+      const updatedFiles = [...prevTaskFiles];
+      updatedFiles.splice(index, 1);
+      return updatedFiles;
+    });
+  };
 
   const CreateProject = useCallback(() => {
     setAddProjectFlag(1)
     setaddProjectlModalOpen(true)
   }, [])
-  const isProjectOverdue = moment().isAfter(moment(dueDateProject))
+  const isProjectOverdue = moment().isAfter(moment(dueDateProject));
+
+  const ViewImage = useCallback(file => {
+    const fileType = file.url
+      ? file.url.endsWith('.pdf')
+        ? 'pdf'
+        : 'image'
+      : file.type.includes('application/pdf')
+        ? 'pdf'
+        : 'image'
+
+    const fileUrl = file.url || URL.createObjectURL(file)
+    setPreviewFile({ url: fileUrl, type: fileType })
+    setImageShow(true)
+    setImageShowFlag(1)
+  }, [])
+
+  const CloseFile = useCallback(() => {
+    setImageShowFlag(0)
+    setImageShow(false)
+  }, [])
 
   return (
     <Box>
       <Modal open={open}>
-        <ModalDialog
+        < ModalDialog
           sx={{
-            width: '90vw',
-            height: '60vw',
+            width: '80vw',
+            height: '90vw',
             p: 0,
             overflow: 'auto'
           }}
         >
-          {addProjectFlag === 1 ? (
-            <ProjectCreation
-              open={addProjectModalOpen}
-              setTableCount={setTableCount}
-              tableCount={tableCount}
-              setAddProjectFlag={setAddProjectFlag}
-              setaddProjectlModalOpen={setaddProjectlModalOpen}
-            />
+          {imageShowFlag === 1 ? (
+            <Box>
+              <FileViewSingle previewFile={previewFile} imageShow={imageShow} CloseFile={CloseFile} />
+            </Box>
           ) : null}
-          {dueDateModalFlag === 1 ? (
-            <DueDateModal
-              dueDateModal={dueDateModal}
-              dueDates={dueDates}
-              setdueDateModalFlag={setdueDateModalFlag}
-              setdueDateModal={setdueDateModal}
-              taskName={taskName}
-              create_date={create_date}
+          {addProjectFlag === 1 ? <ProjectCreation open={addProjectModalOpen} setTableCount={setTableCount}
+            tableCount={tableCount}
+            setAddProjectFlag={setAddProjectFlag} setaddProjectlModalOpen={setaddProjectlModalOpen}
+          /> : null}
+          {dueDateModalFlag === 1 ?
+            <DueDateModal dueDateModal={dueDateModal} dueDates={dueDates} setdueDateModalFlag={setdueDateModalFlag}
+              setdueDateModal={setdueDateModal} taskName={taskName} create_date={create_date}
               tm_task_due_date={tm_task_due_date}
             />
-          ) : null}
-          <Box sx={{ flex: 1, display: 'flex', mx: 1, mt: 2 }}>
-            <Box sx={{ flex: 1, color: 'grey' }}>Task Management</Box>
-            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              <CancelIcon sx={{ color: 'darkred', cursor: 'pointer' }} onClick={handleEditClose} />
-            </Box>
-          </Box>
-          <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 60, py: 1, pl: 1 }}>
-            <Typography sx={{ color: 'white' }}>
-              <ModeEditIcon sx={{ height: '20px', color: 'white' }} />
-              Task Status
-            </Typography>
-          </Box>
-          <Box>
-            {dueDateModalFlag === 1 ? (
-              <DueDateModal
-                dueDateModal={dueDateModal}
-                taskName={taskName}
-                dueDates={dueDates}
-                setdueDateModalFlag={setdueDateModalFlag}
-                setdueDateModal={setdueDateModal}
-                tm_task_due_date={tm_task_due_date}
-                create_date={create_date}
-              />
-            ) : null}
-          </Box>
-          <Box sx={{ flex: 1, display: 'flex', mx: 2 }}>
-            <Box sx={{ flex: 2 }}>
-              <Box sx={{ flex: 1, mx: 1, display: 'flex', mt: 2 }}>
-                <Typography
-                  sx={{
-                    flex: 1,
-                    pt: 2,
-                    pr: 1.5,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                  }}
-                >
-                  Project
-                </Typography>
-                <Box sx={{ display: 'flex', flex: 3.5 }}>
-                  {main_task_slno === null ? (
-                    <Box sx={{ mt: 0.5, flex: 1 }}>
-                      <TmProjectListInTaskCreaation
-                        projectz={projectz}
-                        setprojectz={setprojectz}
-                        setdueDateProject={setdueDateProject}
-                      />
-                    </Box>
-                  ) : (
-                    <Box sx={{ flex: 1 }}>
-                      {tm_project_name === null ? (
-                        <Inputcomponent type="text" name="tm_project_name" disabled />
-                      ) : (
-                        <Inputcomponent type="text" name="tm_project_name" value={tm_project_name} disabled />
-                      )}
-                    </Box>
-                  )}
-                  <Box sx={{ ml: 0.5, pt: 2 }} onClick={CreateProject}>
-                    <Tooltip title="Create New Project">
-                      <Chip
-                        sx={{
-                          cursor: 'pointer',
-                          bgcolor: 'var(--royal-purple-200)',
-                          color: 'black',
-                          '&:hover': { bgcolor: 'var(--royal-purple-100)' }
-                        }}
-                      >
-                        {' '}
-                        &nbsp;+ create&nbsp;
-                      </Chip>
-                    </Tooltip>
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{ flex: 1, mx: 1, display: 'flex', mt: 2 }}>
-                <Typography
-                  sx={{
-                    flex: 1,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    pt: 1.5,
-                    pr: 1.5
-                  }}
-                >
-                  Task <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                </Typography>
-                <Box sx={{ flex: 3.5 }}>
-                  <Inputcomponent
-                    placeholder="New Task"
-                    type="text"
-                    name="taskName"
-                    value={taskName}
-                    onchange={taskDataUpdate}
-                  />
-                </Box>
-              </Box>
-              <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 1 }}>
-                <Typography
-                  sx={{
-                    flex: 1.7,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    pt: 2,
-                    pr: 1.5
-                  }}
-                >
-                  Department
-                </Typography>
-                <Box sx={{ flex: 2.3, pr: 0.5 }}>
-                  <Inputcomponent type="text" name="dept_name" value={dept_name} disabled />
-                </Box>
-                <Typography
-                  sx={{
-                    width: 110,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    pt: 1.8,
-                    pl: 2
-                  }}
-                >
-                  Section
-                </Typography>
-                <Box sx={{ flex: 2.6 }}>
-                  <Inputcomponent type="text" name="secName" value={secName} disabled />
-                </Box>
-              </Box>
-              <Box sx={{ flex: 1, display: 'flex', mt: 2, mx: 1 }}>
-                <Typography
-                  sx={{
-                    flex: 1.7,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    pt: 1.5,
-                    pr: 1.5
-                  }}
-                >
-                  Created Date
-                </Typography>
+            : null}
 
-                <Box sx={{ flex: 2.3 }}>
-                  <Inputcomponent type="text" name="create_date" value={create_date} disabled />
-                </Box>
-                <Typography
-                  sx={{
-                    width: 110,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    pt: 1.8,
-                    pl: 2.5
-                  }}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              px: 2,
+              py: 1.5,
+              borderBottom: '1px solid',
+              borderColor: 'neutral.outlinedBorder',
+              bgcolor: 'white',
+            }}
+          >
+            <Box sx={{ display: 'flex' }}>
+              <RadarIcon sx={{ height: 40, width: 40, color: taskColor.darkPurple }} />
+              <Typography
+                sx={{ fontWeight: 700, color: taskColor.darkPurple, pt: 1 }}
+              >
+                Task Management
+              </Typography>
+            </Box>
+            <HighlightOffIcon
+              onClick={handleEditClose}
+              sx={{
+                height: 30, width: 30,
+                cursor: 'pointer',
+                color: taskColor.darkPurple,
+              }}
+            />
+          </Box>
+
+
+          <Box sx={{ mx: 10, mt: 1 }}>
+
+            <Box>
+              <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                Project
+              </Typography>
+              <Box sx={{ display: 'flex', }}>
+                {main_task_slno === null ?
+                  <Box sx={{ mt: .5, flex: 1 }}>
+                    <TmProjectListInTaskCreaation projectz={projectz} setprojectz={setprojectz} setdueDateProject={setdueDateProject} />
+                  </Box> :
+                  <Box sx={{ flex: 1 }}>
+                    {tm_project_name === null ?
+                      <Inputcomponent
+                        type="text"
+                        name="tm_project_name"
+                        disabled
+                      />
+                      : <Inputcomponent
+                        type="text"
+                        name="tm_project_name"
+                        value={tm_project_name}
+                        disabled
+                      />}
+                  </Box>
+                }
+                <Box sx={{ ml: .5, pt: 2 }}
+                  onClick={CreateProject}
                 >
-                  Duedate <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                </Typography>
-                <Box sx={{ flex: 2.5 }}>
-                  <Tooltip
-                    color="warning"
-                    title={
-                      tm_mast_duedate_count >= countDue
-                        ? 'Cant Change Duedate, Change Limit Exceeded'
-                        : isProjectOverdue
-                          ? "Due date cannot be change because the selected Project is already overdue.To change tasks due date, please update the Project's due date."
-                          : ''
-                    }
-                    sx={{ width: 280 }}
-                  >
-                    <Box sx={{ pt: 0.4 }}>
-                      {tm_project_slno !== null ? (
-                        <Inputcomponent
-                          type="datetime-local"
-                          name="dueDate"
-                          value={dueDate}
-                          slotProps={{
-                            input: {
-                              // if there is subtasks under this task cant reset duedate lesser than the actual duedate
-                              min:
-                                completeFlag.length === 0
-                                  ? moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                                  : moment(new Date(tm_task_due_date)).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(tm_project_duedate)).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                          }}
-                          onchange={taskDataUpdate}
-                          disabled={tm_mast_duedate_count >= countDue || isProjectOverdue}
-                        />
-                      ) : (
-                        <Inputcomponent
-                          type="datetime-local"
-                          name="dueDate"
-                          value={dueDate}
-                          slotProps={{
-                            input: {
-                              min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                              max: moment(new Date(dueDateProject)).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                          }}
-                          onchange={taskDataUpdate}
-                          disabled={tm_mast_duedate_count >= countDue}
-                        />
-                      )}
-                    </Box>
+                  <Tooltip title="Create New Project">
+                    <Chip sx={{ cursor: 'pointer', bgcolor: '#90CDD0', color: 'black', '&:hover': { bgcolor: '#77A7B0' } }}
+                    >+ create</Chip>
                   </Tooltip>
                 </Box>
-                <Box>
-                  <AutoDeleteTwoToneIcon
-                    sx={{
-                      color: '#92443A',
-                      '&:hover': { color: 'darkred' }
-                    }}
-                    onClick={getAllDueDates}
-                  />
-                </Box>
-              </Box>
-              <Box sx={{ flex: 1, display: 'flex', mt: 2 }}>
-                <Typography
-                  sx={{
-                    flex: 1,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    pt: 1.5,
-                    pr: 1.5
-                  }}
-                >
-                  Assignees<span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                </Typography>
-                <Box sx={{ flex: 3.5 }}>
-                  {changeAssignee === 0 ? (
-                    <Box sx={{ display: 'flex' }}>
-                      <Box sx={{ flex: 1 }}>
-                        <Inputcomponent type="text" name="em_name" value={em_name} disabled />
-                      </Box>
-                      <Box sx={{ pt: 0.5 }}>
-                        <Tooltip title="Change Assignees">
-                          <ChangeCircleIcon sx={{ cursor: 'pointer' }} onClick={changeEmp} />
-                        </Tooltip>
-                      </Box>
-                    </Box>
-                  ) : (
-                    <Box sx={{ display: 'flex' }}>
-                      <Box sx={{ flex: 1 }}>
-                        <TmMultAssigneesSelect value={employeeMast} setValue={setEmployeeMast} />
-                      </Box>
-                    </Box>
-                  )}
-                </Box>
-              </Box>
-              <Box sx={{ flex: 1, display: 'flex', mt: 2 }}>
-                <Typography
-                  sx={{
-                    flex: 1,
-                    color: '#003B73',
-                    fontWeight: 600,
-                    fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    pt: 1.5,
-                    pr: 1.5
-                  }}
-                >
-                  Task Description
-                </Typography>
-                <Box sx={{ flex: 3.5 }}>
-                  <Inputcomponent
-                    placeholder="Describtion"
-                    type="text"
-                    name="description"
-                    value={description}
-                    onchange={taskDataUpdate}
-                  />
-                </Box>
               </Box>
             </Box>
-            <Box sx={{ flex: 0.5 }}></Box>
-          </Box>
-          <Box sx={{ flex: 1, display: 'flex' }}>
-            <Box sx={{ flex: 1.1 }}></Box>
-            <Box sx={{ flex: 8.5 }}>
-              <Box
+
+            <Box sx={{ pt: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                Task<span style={{ color: '#74112F' }}> *</span>
+              </Typography>
+              <Inputcomponent
+                placeholder="New Task"
+                type="text"
+                name="taskName"
+                value={taskName}
+                onchange={taskDataUpdate}
+              />
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, pt: 2 }}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                  Created Date
+                </Typography>
+                <Inputcomponent type="text" name="create_date" value={create_date} disabled />
+              </Box>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    color: taskColor.darkPurple,
+                    pl: 0.5,
+                    fontSize: 13,
+                  }}
+                >
+                  Due Date
+                </Typography>
+
+                <Tooltip
+                  sx={{ width: 250 }}
+                  title={
+                    tm_mast_duedate_count >= countDue
+                      ? 'Change limit exceeded.'
+                      : isProjectOverdue
+                        ? 'Project is overdue. Please update the project due date first.'
+                        : ''
+                  }
+                >
+                  <span>
+                    <Inputcomponent
+                      type="datetime-local"
+                      name="dueDate"
+                      value={dueDate}
+                      inputProps={{
+                        min: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                        max: moment(new Date(dueDateProject)).format('YYYY-MM-DDTHH:mm'),
+                      }}
+                      onChange={taskDataUpdate}
+                      disabled={tm_mast_duedate_count >= countDue || isProjectOverdue}
+                    />
+                  </span>
+                </Tooltip>
+              </Box>
+
+
+              <AutoDeleteTwoToneIcon
+                sx={{ color: '#92443A', cursor: 'pointer', mt: 3 }}
+                onClick={getAllDueDates}
+              />
+            </Box>
+
+            <Box sx={{ pt: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                Department
+              </Typography>
+              <Inputcomponent type="text" name="dept_name" value={dept_name} disabled />
+            </Box>
+
+            <Box sx={{ pt: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                Assignees<span style={{ color: '#74112F' }}> *</span>
+              </Typography>
+              <TmMultAssigneesSelect value={employeeMast} setValue={setEmployeeMast} />
+            </Box>
+
+            <Box sx={{ pt: 1 }}>
+              <Typography sx={{ fontWeight: 700, color: taskColor.darkPurple, pl: .5, fontSize: 13 }}>
+                Task Description
+              </Typography>
+
+              <Inputcomponent
+                placeholder="Description"
+                type="text"
+                name="description"
+                value={description}
+                onchange={taskDataUpdate}
+              />
+            </Box>
+            <Box sx={{
+              border: 1, borderRadius: 1, borderStyle: 'dashed',
+              borderColor: '#887BB0', mt: 1, p: 1,
+            }}>
+
+              <label htmlFor="file-input">
+                <u>Choose File</u>
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                accept=".jpg, .jpeg, .png, .pdf"
+                style={{ display: 'none' }}
+                onChange={handleTaskFileChange}
+                name="selectTaskfile"
+                multiple
+              />
+
+
+              <Grid
+                container
+                spacing={1}
                 sx={{
-                  fontFamily: 'Georgia',
-                  height: 50,
-                  mt: 0.5,
-                  border: 1,
-                  borderRadius: 1,
-                  borderStyle: 'dashed',
+                  mx: 0.5,
+                  overflow: 'visible',
                   display: 'flex',
-                  borderColor: '#887BB0',
-                  flex: 1,
-                  ml: 6,
-                  mr: 30,
-                  py: 1
+                  flexWrap: 'wrap',
+                  alignItems: 'flex-start',
                 }}
               >
-                <Box
-                  sx={{
-                    color: '#0000FF',
-                    cursor: 'pointer',
-                    '&:hover': { color: '#000C66' },
-                    textAlign: 'center',
-                    width: 160,
-                    border: 0.1,
-                    mx: 0.5,
-                    borderRadius: 5,
-                    borderColor: '#E4E5E8'
-                  }}
-                >
-                  <label htmlFor="file-input">
-                    <AttachmentIcon sx={{ color: '#0000FF', cursor: 'pointer', '&:hover': { color: '#000C66' } }} />
-                    <u>Choose File</u>
-                  </label>
-                  <input
-                    id="file-input"
-                    type="file"
-                    accept=".jpg, .jpeg, .png, .pdf"
-                    style={{ display: 'none' }}
-                    onChange={handleTaskFileChange}
-                    name="selectTaskfile"
-                    multiple // Add this attribute to allow multiple file selections
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flex: 1,
-                    overflowX: 'scroll',
-                    overflow: 'hidden',
-                    mx: 0.5
-                  }}
-                >
-                  {selectTaskfile &&
-                    selectTaskfile.map((taskFile, index) => (
-                      <Box key={index}>
-                        <Chip sx={{ bgcolor: '#B7CFDC', width: '100%', ml: 0.5 }}>
-                          {taskFile.name}
-                          <CloseIcon
-                            sx={{
-                              pl: 0.3,
-                              pb: 0.3,
-                              height: 20,
-                              width: 20,
-                              cursor: 'pointer',
-                              color: '#4D0011',
-                              '&:hover': { color: '#BA0F30' }
-                            }}
-                            onClick={() => handleRemoveTaskFile(index)}
-                          />
-                        </Chip>
-                      </Box>
-                    ))}
-                </Box>
-              </Box>
+                {selectTaskfile.length !== 0 &&
+                  selectTaskfile.map((file, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        p: 0.5,
+                        m: 0.5
+                      }}
+                    >
+                      {file.type.includes('image') ? (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={file.name}
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            objectFit: 'cover',
+                            borderRadius: '4px',
+                            marginRight: '8px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => ViewImage(file)}
+                        />
+                      ) : file.type === 'application/pdf' ? (
+                        <PictureAsPdfIcon
+                          sx={{
+                            width: '40px',
+                            height: '40px',
+                            color: '#e53935',
+                            marginRight: '8px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => ViewImage(file)}
+                        />
+                      ) : (
+                        <InsertDriveFileIcon
+                          sx={{
+                            width: '40px',
+                            height: '40px',
+                            color: '#9e9e9e',
+                            marginRight: '8px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => ViewImage(file)}
+                        />
+                      )}
+                      <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.name}</Box>
+                      <ClearSharpIcon
+                        sx={{
+                          pl: 0.3,
+                          pb: 0.3,
+                          height: 20,
+                          width: 20,
+                          cursor: 'pointer',
+                          color: '#4D0011',
+                          mx: 0.5,
+                          '&:hover': { color: '#BA0F30' }
+                        }}
+                        onClick={() => handleRemoveTaskFile(index)}
+                      />
+                    </Box>
+                  ))}
+              </Grid>
+
+
             </Box>
-            <Box sx={{ flex: 0.8 }}></Box>
-          </Box>
-          <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC' }}>
-            <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
-              <Typography sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
-                Task Progress
-              </Typography>
-              <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              <Box sx={{ flex: 1 }}>
-                {main_task_slno !== null ? (
-                  <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+
+            <Box sx={{ pt: 2, display: 'flex', flex: 1, gap: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, px: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {main_task_slno !== null || completeFlag.length === 0 ? (
                     <CusCheckBox
                       color="primary"
                       size="lg"
@@ -1175,36 +912,26 @@ const ModalEditTask = ({
                       value={completed}
                       checked={completed}
                       onCheked={ChangeCompleted}
-                    ></CusCheckBox>
-                  </Box>
-                ) : (
-                  <Box>
-                    {completeFlag.length !== 0 ? (
-                      <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+                    />
+                  ) : (
+                    <Tooltip sx={{ width: 200 }} title={"Unable to complete the main task as subtasks are yet to be completed"} >
+                      <span>
                         <CusCheckBox
                           color="primary"
                           size="lg"
                           name="completed"
                           value={completed}
                           checked={completed}
-                          disabled={true}
-                        ></CusCheckBox>
-                      </Box>
-                    ) : (
-                      <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
-                        <CusCheckBox
-                          color="primary"
-                          size="lg"
-                          name="completed"
-                          value={completed}
-                          checked={completed}
-                          onCheked={ChangeCompleted}
-                        ></CusCheckBox>
-                      </Box>
-                    )}
-                  </Box>
-                )}
-                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                          disabled
+                        />
+                      </span>
+                    </Tooltip>
+
+                  )}
+                  <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task Completed</Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <CusCheckBox
                     color="primary"
                     size="lg"
@@ -1212,9 +939,11 @@ const ModalEditTask = ({
                     value={onProgress}
                     checked={onProgress}
                     onCheked={ChangeOnProgress}
-                  ></CusCheckBox>
+                  />
+                  <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Progress</Box>
                 </Box>
-                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <CusCheckBox
                     color="primary"
                     size="lg"
@@ -1222,9 +951,11 @@ const ModalEditTask = ({
                     value={onHold}
                     checked={onHold}
                     onCheked={ChangeOnHold}
-                  ></CusCheckBox>
+                  />
+                  <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Hold</Box>
                 </Box>
-                <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <CusCheckBox
                     color="primary"
                     size="lg"
@@ -1232,270 +963,219 @@ const ModalEditTask = ({
                     value={onPending}
                     checked={onPending}
                     onCheked={ChangeOnPending}
-                  ></CusCheckBox>
+                  />
+                  <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Pending</Box>
                 </Box>
               </Box>
-              <Box sx={{ flex: 5 }}>
-                <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
-                <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
-              </Box>
-              <Box sx={{ flex: 10 }}>
-                {onHold === true ? (
-                  <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                    <Typography sx={{ pl: 1, fontSize: 20 }}>On Hold Remarks</Typography>
-                    <Box sx={{ m: 1 }}>
-                      <Textarea
-                        type="text"
-                        size="sm"
-                        placeholder="type here..."
-                        variant="outlined"
-                        minRows={4}
-                        maxRows={5}
-                        name="onHoldRemaks"
-                        value={onHoldRemaks}
-                        onChange={taskDataUpdate}
-                      ></Textarea>
-                    </Box>
-                  </Box>
-                ) : null}
-                {completed === true ? (
-                  <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                    <Typography sx={{ pl: 1, fontSize: 20 }}>Completed Remarks</Typography>
-                    <Box sx={{ m: 1 }}>
-                      <Textarea
-                        type="text"
-                        size="sm"
-                        placeholder="type here..."
-                        variant="outlined"
-                        minRows={4}
-                        maxRows={5}
-                        name="completedRemarks"
-                        value={completedRemarks}
-                        onChange={taskDataUpdate}
-                      ></Textarea>
-                    </Box>
-                  </Box>
-                ) : null}
-                {onPending === true ? (
-                  <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                    <Typography sx={{ pl: 1, fontSize: 20 }}>Pending Remarks</Typography>
-                    <Box sx={{ m: 1 }}>
-                      <Textarea
-                        type="text"
-                        size="sm"
-                        placeholder="type here..."
-                        variant="outlined"
-                        minRows={4}
-                        maxRows={5}
-                        name="pendingRemarks"
-                        value={pendingRemarks}
-                        onChange={taskDataUpdate}
-                      ></Textarea>
-                    </Box>
-                  </Box>
-                ) : null}
-              </Box>
-              <Box sx={{ flex: 14 }}></Box>
-            </Box>
-            {onProgress === true ? (
-              <Box sx={{ mx: 2, mt: 2, border: 1, borderColor: '#D9E4EC', borderRadius: 4 }}>
-                <Typography sx={{ pl: 1, fontSize: 20 }}>Task Progress</Typography>
-                <Box sx={{ display: 'flex' }}>
-                  <Box sx={{ flex: 4, pb: 1 }}>
-                    <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Progress Date
-                    </Typography>
-                    <Box sx={{ pl: 1 }}>
-                      <TextFieldCustom
-                        slotProps={{
-                          input: {
-                            min: create_date,
-                            max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                          }
-                        }}
-                        type="datetime-local"
-                        size="sm"
-                        name="tm_progres_date"
-                        value={tm_progres_date}
-                        onchange={ProgresssUpdate}
-                      ></TextFieldCustom>
-                    </Box>
-                  </Box>
-                  <Box sx={{ flex: 15 }}>
-                    <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                      Progress description
-                    </Typography>
-                    <Box sx={{ mx: 1 }}>
-                      <Textarea
-                        type="text"
-                        size="sm"
-                        placeholder="type here..."
-                        variant="outlined"
-                        minRows={1}
-                        maxRows={2}
-                        name="tm_task_progress"
-                        value={tm_task_progress}
-                        onChange={e => ProgresssUpdate(e)}
-                      ></Textarea>
-                    </Box>
-                    <Box sx={{ height: 3 }}></Box>
-                  </Box>
-                  <Box sx={{ pr: 1, pt: 4 }}>
-                    {value === 0 ? (
-                      <Box>
-                        <AddCircleOutlineIcon
-                          sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                          onClick={InsertProgress}
-                        />
-                      </Box>
-                    ) : value === 1 ? (
-                      <Box>
-                        <CheckCircleOutlineIcon
-                          sx={{
-                            fontSize: 30,
-                            cursor: 'pointer',
-                            color: '#003B73',
-                            '&:hover': { color: '#DBA40E' }
-                          }}
-                          onClick={UpdateProgress}
-                        />
-                      </Box>
-                    ) : null}
-                  </Box>
-                </Box>
-              </Box>
-            ) : null}
-            {main_task_slno === null ? (
-              <Box
-                sx={{
-                  m: 2,
-                  border: 1,
-                  borderColor: '#603A70',
-                  borderRadius: 3,
-                  boxShadow: '1px 1px 4px #887BB0'
-                }}
-              >
-                {completed === true ? (
-                  <Box>
-                    <Tooltip
-                      color="warning"
-                      title="unable to add a subtask to a completed task,Please update Main Task Status"
-                      placement="right"
-                    >
-                      <Box
-                        sx={{
-                          mt: 1,
-                          cursor: 'grab',
-                          width: 150,
-                          height: 40,
-                          ml: 1,
-                          border: 1,
-                          borderColor: '#D9E4EC',
-                          borderRadius: 5,
-                          pl: 1,
-                          pt: 0.8
-                        }}
-                      >
-                        Add Subtask&nbsp;
-                        <AddIcon />
-                      </Box>
-                    </Tooltip>
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      mt: 1,
-                      cursor: 'pointer',
-                      width: 150,
-                      height: 40,
-                      ml: 1,
-                      border: 1,
-                      borderColor: '#D9E4EC',
-                      borderRadius: 5,
-                      pl: 1,
-                      pt: 1,
-                      color: '#774A62'
-                    }}
-                    onClick={openAddSubtask}
-                  >
-                    Add Subtask&nbsp;&nbsp;&nbsp;
-                    {flag === 1 ? (
-                      <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} />
-                    ) : flag === 0 || flag === 2 ? (
-                      <AddIcon sx={{ fontSize: 25, color: '#004F76' }} />
-                    ) : null}
-                  </Box>
-                )}
-                <Box sx={{ mt: 1, pl: 1 }}>
-                  {flag === 1 ? (
-                    <Box>
-                      <AddSubTaskEmp
-                        tm_task_slno={tm_task_slno}
-                        tm_task_due_date={tm_task_due_date}
-                        setTableRendering={setTableRendering}
-                        tableRendering={tableRendering}
-                        setflag={setflag}
-                        tm_project_slno={tm_project_slno}
-                        tableCount={tableCount}
-                        setTableCount={setTableCount}
-                        searchFlag={searchFlag}
-                      />
-                    </Box>
-                  ) : flag === 2 ? (
-                    <Box>
-                      <EditSubtaskEmp
-                        setflag={setflag}
-                        subTaskData={subTaskData}
-                        setsubTaskData={setsubTaskData}
-                        setTableRendering={setTableRendering}
-                        tableRendering={tableRendering}
-                        tableCount={tableCount}
-                        setTableCount={setTableCount}
-                        tm_task_due_date={tm_task_due_date}
-                      />
-                    </Box>
-                  ) : null}
-                </Box>
-                <Box>
-                  <Box>
-                    <SubtaskTableEmp
-                      completeFlag={completeFlag}
-                      setCompleteFlag={setCompleteFlag}
-                      tableCount={tableCount}
-                      arry={arry}
-                      setArry={setArry}
-                      tm_task_slno={tm_task_slno}
-                      setflag={setflag}
-                      selectForEditsSubTask={selectForEditsSubTask}
-                      tableRendering={tableRendering}
-                      setTableRendering={setTableRendering}
-                      subTask={subTask}
-                      setSubTask={setSubTask}
-                      viewSubTask={viewSubTask}
-                      setViewSubTask={setViewSubTask}
+              <Box sx={{ flex: 1, pl: 2 }}>
+                {onHold && (
+                  <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                    <Typography sx={{ fontWeight: 600, pb: 1 }}>On Hold Remarks</Typography>
+                    <Textarea
+                      type="text"
+                      size="sm"
+                      placeholder="Type here..."
+                      variant="outlined"
+                      minRows={4}
+                      maxRows={5}
+                      name="onHoldRemaks"
+                      value={onHoldRemaks}
+                      onChange={taskDataUpdate}
                     />
                   </Box>
-                </Box>
-                <Box sx={{ height: 5 }}></Box>
+                )}
+
+                {completed && (
+                  <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                    <Typography sx={{ fontWeight: 600 }}>Completed Remarks</Typography>
+                    <Textarea
+                      type="text"
+                      size="sm"
+                      placeholder="Type here..."
+                      variant="outlined"
+                      minRows={4}
+                      maxRows={5}
+                      name="completedRemarks"
+                      value={completedRemarks}
+                      onChange={taskDataUpdate}
+                    />
+                  </Box>
+                )}
+
+                {onPending && (
+                  <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                    <Typography sx={{ fontWeight: 600 }}>Pending Remarks</Typography>
+                    <Textarea
+                      type="text"
+                      size="sm"
+                      placeholder="Type here..."
+                      variant="outlined"
+                      minRows={4}
+                      maxRows={5}
+                      name="pendingRemarks"
+                      value={pendingRemarks}
+                      onChange={taskDataUpdate}
+                    />
+                  </Box>
+                )}
               </Box>
-            ) : null}
-            <Box sx={{ height: 10 }}></Box>
+            </Box>
           </Box>
+
+          {onProgress === true ? (
+            <Box sx={{ mx: 2, mt: 2, border: 1, borderColor: taskColor.darkPurple, borderStyle: 'dashed', borderRadius: 4 }}>
+              <Typography sx={{ p: 1, fontSize: 20, color: 'black' }}>Add Main Task Progress</Typography>
+
+              <Box sx={{ p: 1, width: 250 }}>
+                <Typography sx={{ color: 'black', fontFamily: 'Georgia', pl: 1 }}>
+                  Progress Date
+                </Typography>
+                <Box sx={{}}>
+                  <TextFieldCustom
+                    slotProps={{
+                      input: {
+                        min: create_date,
+                        max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                      }
+                    }}
+                    type="datetime-local"
+                    size="sm"
+                    name="tm_progres_date"
+                    value={tm_progres_date}
+                    onchange={ProgresssUpdate}
+                  ></TextFieldCustom>
+                </Box>
+              </Box>
+              <Box sx={{ px: 1, }}>
+                <Typography sx={{ color: 'black', fontFamily: 'Georgia', pl: 1 }}>
+                  Progress description
+                </Typography>
+                <Box sx={{}}>
+                  <Textarea
+                    type="text"
+                    size="sm"
+                    placeholder="type here..."
+                    variant="outlined"
+                    minRows={3}
+                    maxRows={5}
+                    name="tm_task_progress"
+                    value={tm_task_progress}
+                    onChange={e => ProgresssUpdate(e)}
+                  ></Textarea>
+                </Box>
+              </Box>
+              <Box sx={{ px: 1, pt: .5, pb: 1 }}>
+                {value === 0 ? (
+                  <Button sx={{ width: 100, color: 'white' }}
+                    size='sm' variant='solid' color='neutral' onClick={InsertProgress} startDecorator={< AddIcon />}>Add</Button>
+                ) : value === 1 ? (
+                  <Button sx={{ width: 100, color: 'white' }}
+                    size='sm' variant='solid' color='neutral' onClick={UpdateProgress} startDecorator={< CreateOutlinedIcon />}>Update</Button>
+                ) : null}
+              </Box>
+
+            </Box>
+          ) : null}
+          <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
+          {main_task_slno === null ? (
+            <Box
+              sx={{
+                mx: 2,
+                border: 1,
+                borderColor: '#603A70',
+                borderRadius: 3,
+                boxShadow: '1px 1px 4px #887BB0'
+              }}
+            >
+              {completed === true ? (
+                <Box>
+                  <Tooltip title="Unable to add a subtask to a completed task" placement="top-start">
+                    <Button
+                      endDecorator={<AddIcon />}
+                      variant='outlined'
+                      color='neutral'
+                      sx={{
+                        m: 1,
+                        '&:hover': {
+                          opacity: 10
+                        }
+                      }}
+                    >
+                      Add Subtask
+                    </Button>
+
+                  </Tooltip>
+                </Box>
+              ) : (
+                <Button
+                  endDecorator={<AddIcon />}
+                  onClick={openAddSubtask}
+                  variant='outlined'
+                  sx={{
+                    m: 1,
+                    '&:hover': {
+                      opacity: 10
+                    }
+                  }}
+                >
+                  Add Subtask
+                </Button>
+
+
+              )}
+              <Box sx={{ mt: 1, pl: 1 }}>
+                {flag === 1 ? (
+                  <Box>
+                    <AddSubTaskEmp
+                      tm_task_slno={tm_task_slno}
+                      tm_task_due_date={tm_task_due_date}
+                      tm_project_slno={tm_project_slno}
+                      setflag={setflag}
+                      setprojectz={setprojectz}
+                      projectz={projectz}
+                    />
+                  </Box>
+                ) : flag === 2 ? (
+                  <Box>
+                    <EditSubtaskEmp
+                      setflag={setflag}
+                      subTaskData={subTaskData}
+                      setsubTaskData={setsubTaskData}
+                      setprojectz={setprojectz}
+                      projectz={projectz}
+                      main_task_slno={main_task_slno}
+                      tm_task_due_date={tm_task_due_date}
+                    />
+                  </Box>
+                ) : null}
+              </Box>
+              <Box>
+                <SubtaskTableEmp
+                  setCompleteFlag={setCompleteFlag}
+                  tm_task_slno={tm_task_slno}
+                  setflag={setflag}
+                  selectForEditsSubTask={selectForEditsSubTask}
+                />
+              </Box>
+            </Box>
+          ) : null}
           <DialogActions>
             <Box sx={{ textAlign: 'right' }}>
-              <Button variant="plain" onClick={SubmitTask} sx={{ color: '#004F76', fontSize: 16 }}>
-                Update
-              </Button>
-              <Button variant="plain" sx={{ color: '#004F76', fontSize: 16 }} onClick={handleEditClose}>
-                Cancel
-              </Button>
+              <Button
+                variant="plain"
+                onClick={SubmitTask}
+                sx={{ color: "#004F76", fontSize: 16, }}
+              >Update</Button>
+              <Button
+                variant="plain"
+                sx={{ color: "#004F76", fontSize: 16, }}
+                onClick={handleEditClose}
+              >Cancel</Button>
             </Box>
           </DialogActions>
         </ModalDialog>
       </Modal>
-    </Box>
+    </Box >
   )
 }
 export default memo(ModalEditTask)

@@ -1,11 +1,14 @@
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Autocomplete from '@mui/joy/Autocomplete'
-import { CssVarsProvider } from '@mui/joy/'
+import { Box, CssVarsProvider } from '@mui/joy/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
+
 const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
-  const RoomsNameNdTypeList = useSelector(state => state.getRoomsNameNdTypeList?.RoomsNameNdTypeList)
+  const RoomsNameNdTypeList = useSelector(
+    state => state.getRoomsNameNdTypeList?.RoomsNameNdTypeList
+  )
 
   const [roomNameType, setRoomNameType] = useState([])
   const [value, setValue] = useState(null)
@@ -13,7 +16,8 @@ const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
 
   useEffect(() => {
     if (roomName !== 0) {
-      let newObj = RoomsNameNdTypeList?.find(e => e.rm_room_slno === roomName) || null
+      let newObj =
+        RoomsNameNdTypeList?.find(e => e.rm_room_slno === roomName) || null
       setValue(newObj)
     }
   }, [roomName, RoomsNameNdTypeList])
@@ -31,7 +35,7 @@ const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
   )
 
   useEffect(() => {
-    if (RoomsNameNdTypeList.length !== 0) {
+    if (RoomsNameNdTypeList?.length !== 0) {
       setRoomNameType(RoomsNameNdTypeList)
     } else {
       setRoomNameType([])
@@ -40,12 +44,13 @@ const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
 
   const getOptionLabel = option => {
     if (option.rm_room_name) {
-      return `${option.rm_room_name} (${option.rm_roomtype_name} - ${option.rm_insidebuildblock_name} - ${option.rm_floor_name})`
+      return `${option.rm_room_name} (${option.rm_roomtype_name} - ${option.rm_insidebuildblock_name})`
     }
     return ''
   }
 
-  const isOptionEqualToValue = (option, value) => option.rm_room_slno === value?.rm_room_slno
+  const isOptionEqualToValue = (option, value) =>
+    option.rm_room_slno === value?.rm_room_slno
 
   return (
     <Fragment>
@@ -73,6 +78,37 @@ const CmRoomNameTypeList = ({ roomName, setRoomName }) => {
           getOptionLabel={getOptionLabel}
           options={roomNameType}
           endDecorator={<ArrowDropDownIcon />}
+          groupBy={(option) => option.rm_floor_name || 'Others'}
+          renderGroup={(params) => (
+            <Box key={params.key}>
+              <Box
+                sx={{
+                  pl: 2.5,
+                  py: 0.5,
+                  color: '#3270adff',
+                  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.8px',
+                }}
+              >
+                {params.group}
+              </Box>
+
+              <Box
+                sx={{
+                  pl: 1,
+                  py: 0.5,
+                  fontSize: 13,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.8px',
+                }}
+              >
+                {params.children}
+              </Box>
+            </Box>
+          )}
         />
       </CssVarsProvider>
     </Fragment>

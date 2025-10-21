@@ -26,7 +26,7 @@ import TextComponent from 'src/views/Components/TextComponent'
 import { format } from 'date-fns'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
-import JSZip from 'jszip'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const MyAssignedList = ({ assistReq, count, setCount }) => {
   const [allPendingCompl, setAllPendingCompl] = useState([])
@@ -69,24 +69,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setValuee(value)
   }, [])
 
-  // useEffect(() => {
-  //     let isMounted = true
-  //     const getAllPendingComplaints = async (id) => {
-  //         const result = await axioslogin.get(`/complaintassign/user/${id}`);
-  //         const { success, data } = result.data;
-  //         if (isMounted) {
-  //             if (success === 1) {
-  //                 setAllPendingCompl(data);
-  //             } else {
-  //                 setAllPendingCompl([]);
-  //             }
-  //         }
-  //     }
-  //     getAllPendingComplaints(id)
-  //     return () => {
-  //         isMounted = false
-  //     };
-  // }, [id, count]);
+
   useEffect(() => {
     let isMounted = true
     setLoading(true) // Start loading
@@ -158,65 +141,19 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setHoldData(val)
   }, [])
 
-  const fileView = async val => {
-    const { complaint_slno } = val
-    setState(prevState => ({
-      ...prevState,
+  const fileView = async (val) => {
+    const { complaint_slno } = val;
+    setState(prev => ({
+      ...prev,
       image: 1,
       imageViewOpen: true
-    }))
-    setfileDetails(val)
-
-    try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`, {
-        responseType: 'blob'
-      });
-
-      const contentType = result.headers['content-type'] || '';
-      if (contentType?.includes('application/json')) {
-        return;
-      } else {
-        const zip = await JSZip.loadAsync(result.data);
-        // Extract image files (e.g., .jpg, .png)
-        const imageEntries = Object.entries(zip.files).filter(
-          ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
-        );
-        // Convert each to a Blob URL
-        // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-        //   const blob = await fileObj.async('blob');
-        //   const url = URL.createObjectURL(blob);
-        //   return { imageName: filename, url };
-        // });
-        const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-          // Get the original blob (no type)
-          const originalBlob = await fileObj.async('blob');
-          // Determine MIME type based on filename extension (or any other logic)
-          let mimeType = '';
-          if (filename.endsWith('.pdf')) {
-            mimeType = 'application/pdf';
-          } else if (filename.endsWith('.png')) {
-            mimeType = 'image/png';
-          } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
-            mimeType = 'image/jpeg';
-          } else {
-            mimeType = 'application/octet-stream'; // fallback
-          }
-          // Recreate blob with correct type
-          const blobWithType = new Blob([originalBlob], { type: mimeType });
-          // Create URL from new blob
-          const url = URL.createObjectURL(blobWithType);
-          return { imageName: filename, url, blob: blobWithType };
-        });
-        const images = await Promise.all(imagePromises);
-        setImageUrls(images)
-      }
-    } catch (error) {
-      setImageUrls([])
-      console.error('Error fetching or processing images:', error);
-    }
+    }));
+    setfileDetails(val);
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getComplaintFile', complaint_slno);
+    setImageUrls(images);
+  };
 
 
-  }
 
   const AssetView = useCallback(
     value => {
@@ -401,7 +338,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                   }}
                 >
                   <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                    {' '}
                     Ticket No. {val.complaint_slno}
                   </Typography>
                   <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center' }}>

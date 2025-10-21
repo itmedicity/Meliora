@@ -1,25 +1,33 @@
 import { Box } from '@mui/joy'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getCondemPendingDatas } from 'src/api/AssetApis'
+import { getCondemPendingDatas, getTopActiveCondemnationLevel } from 'src/api/AssetApis'
 import EditCondemSubmitionModal from '../EditCondemSubmitionModal'
 import Radio from '@mui/joy/Radio'
 import RadioGroup from '@mui/joy/RadioGroup'
 import PendingCondems from './PendingCondems'
 import ViewSubmittedModal from '../ViewSubmittedModal'
-import SelectedDeptRegReqDate from '../DepartmentCondemnation/SelectedDeptRegReqDate'
-import DepartmentcondemList from '../DepartmentCondemnation/DepartmentcondemList'
+import DepartmentcondemList from './DepartmentcondemList'
+import RejectedcondemnListDept from './RejectedcondemnListDept'
 
-const SubmittedCondemList = ({ empdept, empId }) => {
-  const condemStatusFrom = 7
-  const condemstatusTo = 0
+
+const SubmittedCondemList = ({ empdept, empId, setAddmoreItemFlag, setFormDetailsInAddMoreItems, queryClient }) => {
+
+  const { data: ActiveCondemnationLevel } = useQuery({
+    queryKey: ['getActiveCondemnationLevel'],
+    queryFn: () => getTopActiveCondemnationLevel()
+  })
+  const ActiveCondemnations = useMemo(() => ActiveCondemnationLevel || [], [ActiveCondemnationLevel])
+  const level_num = ActiveCondemnations.length > 0 ? ActiveCondemnations[0]?.level_num : null
+
+
   const postCondemDept = useMemo(() => {
     return {
       empdept: empdept,
-      condemStatusFrom: condemStatusFrom,
-      condemstatusTo: condemstatusTo
+      levelNo: level_num
     }
-  }, [empdept, condemstatusTo, condemStatusFrom])
+  }, [empdept, level_num])
+
 
   const [formDetails, setformDetails] = useState([])
   const [modalEditFlag, setmodalEditFlag] = useState(0)
@@ -38,15 +46,17 @@ const SubmittedCondemList = ({ empdept, empId }) => {
     setformDetails(val)
     setmodalEditFlag(1)
     setmodalEditOpen(true)
+    setFormDetailsInAddMoreItems(val)
   }, [])
 
-  const SatusFrom = 8
-  const StatusTo = 1
-  const { data: CondemSubittedData } = useQuery({
+
+  const { data: CondemSubittedData, isLoading: loadingPending } = useQuery({
     queryKey: ['getCondemPendingData', formCount],
     queryFn: () => getCondemPendingDatas(postCondemDept),
-    enabled: empdept !== undefined
+    enabled: empdept !== undefined && level_num !== null
   })
+
+
 
   const [selectedValue, setSelectedValue] = useState('1')
   const handleChange = event => {
@@ -65,6 +75,8 @@ const SubmittedCondemList = ({ empdept, empId }) => {
           empdept={empdept}
           setformCount={setformCount}
           formCount={formCount}
+          setAddmoreItemFlag={setAddmoreItemFlag}
+          queryClient={queryClient}
         />
       ) : null}
       {modalViewFlag === 1 ? (
@@ -90,26 +102,31 @@ const SubmittedCondemList = ({ empdept, empId }) => {
           }}
         >
           <Radio value="1" label="Pendings" color="neutral" />
-          <Radio value="2" label="Select Registered Days" color="neutral" />
-          <Radio value="3" label="All Registered List " color="neutral" />
+          <Radio value="2" label="Approved List " color="neutral" />
+          <Radio value="3" label="Rejected  " color="neutral" />
         </Box>
       </RadioGroup>
 
       {selectedValue === '1' ? (
         <Box>
-          <PendingCondems condemStatusPending={CondemSubittedData} editForm={editForm} viewForm={viewForm} />
+          <PendingCondems condemStatusPending={CondemSubittedData} editForm={editForm} viewForm={viewForm} loadingPending={loadingPending}
+            setAddmoreItemFlag={setAddmoreItemFlag} />
         </Box>
-      ) : selectedValue === '2' ? (
-        <Box>
-          <SelectedDeptRegReqDate SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
-        </Box>
-      ) : selectedValue === '3' ? (
-        <Box>
-          <DepartmentcondemList SatusFrom={SatusFrom} StatusTo={StatusTo} empdept={empdept} viewForm={viewForm} />
-        </Box>
-      ) : (
-        ''
-      )}
+      )
+        : selectedValue === '2' ? (
+          <Box>
+            <DepartmentcondemList empdept={empdept} />
+          </Box>
+        )
+          : selectedValue === '3' ? (
+            <Box>
+              <RejectedcondemnListDept empdept={empdept} editForm={editForm} />
+            </Box>
+          )
+            :
+            (
+              ''
+            )}
     </Box>
   )
 }

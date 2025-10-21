@@ -69,10 +69,10 @@ const Settings = () => {
   // const [qiMast_secThree, setqiMast_secThree] = useState();
   const [dcMast_secOne, setdcMast_secOne] = useState()
   const [taskManagment_secOne, setTaskManagment_secOne] = useState()
-  const [setams_secone, setams_secOne] = useState()
+  // const [setams_secone, setams_secOne] = useState()
   const [setWork_secone, setWork_secOne] = useState()
   const [setWork_secTwo, setWork_sectwo] = useState()
-
+  const [ams_secone, setams_secOne] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -310,8 +310,8 @@ const Settings = () => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {setams_secone &&
-              setams_secone.map(val => {
+            {ams_secone &&
+              ams_secone?.map(val => {
                 return (
                   <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
                     {val.name}

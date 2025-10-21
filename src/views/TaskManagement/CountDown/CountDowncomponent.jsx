@@ -12,11 +12,11 @@ const CountDowncomponent = ({ DueDates }) => {
   const { days, hours, minutes, seconds } = useCountdown(difference, duetimeCalc)
 
   return (
-    <Box sx={{}}>
+    <Box sx={{ width: 150, }}>
       {days === 0 && hours === 0 && minutes === 0 ? (
         <Box sx={{ display: 'flex' }}>
           <Box>
-            <TimerOutlinedIcon sx={{ color: '#BA0F30', fontWeight: 800, m: 0.1 }} />
+            <TimerOutlinedIcon sx={{ color: '#BA0F30', fontWeight: 800, pl: 0.1 }} />
             &nbsp;
           </Box>
           <Box sx={{ flex: 0.1 }}></Box>
@@ -33,7 +33,7 @@ const CountDowncomponent = ({ DueDates }) => {
           {duetimeCalc > 0 ? (
             <Box sx={{ display: 'flex' }}>
               <Box>
-                <RestoreIcon sx={{ color: '#BA0F30', fontWeight: 800, m: 0.1 }} />
+                <RestoreIcon sx={{ color: '#BA0F30', fontWeight: 800, pl: 0.1 }} />
                 &nbsp;
               </Box>
               <Box sx={{ flex: 0.1 }}></Box>
@@ -48,7 +48,7 @@ const CountDowncomponent = ({ DueDates }) => {
           ) : (
             <Box sx={{ display: 'flex' }}>
               <Box>
-                <AlarmTwoToneIcon sx={{ fontWeight: 800, color: '#437081', m: 0.1 }} />
+                <AlarmTwoToneIcon sx={{ fontWeight: 800, color: '#437081', pl: 0.1 }} />
                 &nbsp;
               </Box>
               <Box sx={{ flex: 0.1 }}></Box>

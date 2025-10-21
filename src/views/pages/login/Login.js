@@ -82,7 +82,11 @@ const Login = () => {
             dept_name,
             app_token,
             logOutTime,
-            desg_name
+            desg_name,
+            section_incharge_name,
+            section_hod_name,
+            section_incharge_id,
+            section_hod_id
           } = JSON.parse(userInfo)
           const authData = {
             authNo: btoa(empdtl_slno), //btoa() encodes a string into Base64 format.
@@ -106,7 +110,12 @@ const Login = () => {
             empdeptname: dept_name,
             apptoken: app_token,
             logOut: logOutTime,
-            designation: desg_name
+            designation: desg_name,
+            sectionInchargeName:section_incharge_name,
+            sectionHodName:section_hod_name,
+            sectionInchargeId:section_incharge_id,
+            sectionHodId:section_hod_id
+            
           }
           dispatch({ type: FETCH_LOGIN, payload: loggedDetl })
           localStorage.setItem('app_auth', JSON.stringify(authData))
@@ -232,7 +241,7 @@ const Login = () => {
                 setPassword(e.target.value)
               }}
               type={val ? 'text' : 'password'}
-              InputLabelProps={{ shrink: true }} // ✅ For shrinking label
+              InputLabelProps={{ shrink: true }} // ? For shrinking label
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

@@ -1,12 +1,11 @@
 import { Box, Grid, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { warningNotify } from 'src/views/Common/CommonCode'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import { errorNotify } from 'src/views/Common/CommonCode'
 import FileViewSingle from 'src/views/Components/FileViewSingle'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import InsertPhotoSharpIcon from '@mui/icons-material/InsertPhotoSharp'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const DocumentsList = ({ serviceDetails }) => {
   const { am_lease_mast_slno, am_bill_mastslno, item_asset_no, amccmc_slno, am_item_wargar_slno } = serviceDetails
@@ -16,101 +15,88 @@ const DocumentsList = ({ serviceDetails }) => {
   const [amcCmcDocuments, setamcCmcDocuments] = useState([])
   const [wargarDocument, setwargarDocument] = useState([])
 
-  useEffect(() => {
-    const getleaseDocuments = async () => {
-      try {
-        if (am_lease_mast_slno) {
-          const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${am_lease_mast_slno}/${fileName}`
-            })
-            setleaseDocuments(fileUrls)
-          } else {
-            setleaseDocuments([])
-          }
-        }
-      } catch (error) {
-        warningNotify(error)
-        setleaseDocuments([])
-      }
-    }
-    getleaseDocuments()
-  }, [am_lease_mast_slno])
+
 
   useEffect(() => {
+    if (!am_lease_mast_slno) return;
+    let isMounted = true;
+    const getLeaseDocuments = async () => {
+      try {
+        const images = await getFilesFromZip('/AssetFileUpload/LeaseMasterImageView', am_lease_mast_slno);
+        if (isMounted) {
+          setleaseDocuments(images);
+        }
+      } catch (error) {
+        errorNotify('Error fetching lease documents:', error);
+      }
+    };
+    getLeaseDocuments();
+    return () => {
+      isMounted = false;
+    };
+  }, [am_lease_mast_slno]);
+
+
+  useEffect(() => {
+    if (!am_bill_mastslno) return;
+    let isMounted = true;
     const getDocumentViewBill = async () => {
       try {
-        if (am_bill_mastslno) {
-          const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/BillMaster/${am_bill_mastslno}/${fileName}`
-            })
-            setBilldetailsView(fileUrls)
-          } else {
-            setBilldetailsView([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/BillMasterImageView', am_bill_mastslno);
+        if (isMounted) {
+          setBilldetailsView(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setBilldetailsView([])
+        errorNotify('Error fetching  documents:', error);
       }
-    }
-    getDocumentViewBill()
-  }, [am_bill_mastslno])
+    };
+    getDocumentViewBill();
+    return () => {
+      isMounted = false;
+    };
+  }, [am_bill_mastslno]);
+
+
 
   useEffect(() => {
+    if (!amccmc_slno) return;
+    let isMounted = true;
     const getamcCmcDocuments = async () => {
       try {
-        if (amccmc_slno) {
-          const result = await axioslogin.get(`/AssetFileUpload/AmcCmcImageView/${amccmc_slno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/AMCCMC/${amccmc_slno}/${fileName}`
-            })
-            setamcCmcDocuments(fileUrls)
-          } else {
-            setamcCmcDocuments([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/AmcCmcImageView', amccmc_slno);
+        if (isMounted) {
+          setamcCmcDocuments(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setamcCmcDocuments([])
+        errorNotify('Error fetching documents:', error);
       }
-    }
-    getamcCmcDocuments()
-  }, [amccmc_slno])
+    };
+    getamcCmcDocuments();
+    return () => {
+      isMounted = false;
+    };
+  }, [amccmc_slno]);
 
   useEffect(() => {
+    if (!am_item_wargar_slno) return;
+    let isMounted = true;
     const getWarrentyImage = async () => {
       try {
-        if (am_item_wargar_slno) {
-          const result = await axioslogin.get(`/AssetFileUpload/GaurenteeWarrenteefileView/${am_item_wargar_slno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/GuaranteeWarranty/${am_item_wargar_slno}/${fileName}`
-            })
-            setwargarDocument(fileUrls)
-          } else {
-            setwargarDocument([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/GaurenteeWarrenteefileView', am_item_wargar_slno);
+        if (isMounted) {
+          setwargarDocument(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setwargarDocument([])
+        errorNotify('Error fetching documents:', error);
       }
-    }
-    getWarrentyImage()
-  }, [am_item_wargar_slno])
+    };
+    getWarrentyImage();
+    return () => {
+      isMounted = false;
+    };
+  }, [am_item_wargar_slno]);
+
+
 
   const [imageShowsingleFlag, setImagesingle] = useState(0)
   const [imageShowSingle, setImageShowSingle] = useState(false)
@@ -122,8 +108,8 @@ const DocumentsList = ({ serviceDetails }) => {
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setUplodedFile({ url: fileUrl, type: fileType })

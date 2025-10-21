@@ -9,10 +9,20 @@ import { editicon } from 'src/color/Color'
 const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
   const [disArry, setDisArry] = useState([])
 
+
+
+
+
+
   useEffect(() => {
-    if (displayarry.length !== 0) {
+    if (!Array.isArray(displayarry) || displayarry.length === 0) {
+      return
+    }
+
+
+    else if (displayarry.length !== 0) {
       if (assetSpare === 1) {
-        const dataaa = displayarry.map((val, index) => {
+        const dataaa = displayarry?.map((val, index) => {
           const obj = {
             slno: index + 1,
             am_item_map_slno: val.am_item_map_slno,
@@ -37,7 +47,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
         })
         setDisArry(dataaa)
       } else {
-        const dataaa = displayarry.map((val, index) => {
+        const dataaa = displayarry?.map((val, index) => {
           const obj = {
             slno: index + 1,
             am_spare_item_map_slno: val.am_spare_item_map_slno,
@@ -61,8 +71,12 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
         })
         setDisArry(dataaa)
       }
+
     }
   }, [displayarry, assetSpare])
+
+
+
 
   const [flag, setFlag] = useState(0)
   const [selectedData, setSelectedData] = useState([])
@@ -74,6 +88,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
     setFlag(1)
     setOpen(true)
   }, [])
+
 
   const handleClose = useCallback(() => {
     setOpen(false)
@@ -148,7 +163,7 @@ const ItemListViewTable = ({ assetSpare, displayarry, AddDetails }) => {
   return (
     <Fragment>
       {flag === 1 ? <ItemQrDisplayModel open={open} handleClose={handleClose} selectedData={selectedData} /> : null}
-      <Box sx={{}}>
+      <Box>
         <CusAgGridForMain columnDefs={column} tableData={disArry} />
       </Box>
     </Fragment>

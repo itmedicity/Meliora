@@ -60,7 +60,7 @@ root.render(
 //       </React.StrictMode>
 //     );
 //   } catch (error) {
-//     console.error('❌ Failed to initialize Axios instances:', error);
+
 //   }
 // }
 

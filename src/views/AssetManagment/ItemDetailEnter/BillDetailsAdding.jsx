@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { format } from 'date-fns'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import SupplierSelectMaster from './SupplierSelectMaster'
 import { useDispatch } from 'react-redux'
 import { getSupplierList } from 'src/redux/actions/AmSupplierListSelect'
@@ -20,6 +19,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import CloseIcon from '@mui/icons-material/Close'
 import FileView from '../AssetFileView/FileView'
 import LinkSharpIcon from '@mui/icons-material/LinkSharp'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCount }) => {
   const { am_item_map_slno, am_spare_item_map_slno } = detailArry
@@ -140,27 +140,14 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
     setBillDetail(fromdataset)
   }, [])
 
-  const ViewBillImage = useCallback(() => {
-    const getImage = async bill_mastslno => {
-      const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${bill_mastslno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/BillMaster/${bill_mastslno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-      }
-    }
-    getImage(bill_mastslno)
-  }, [bill_mastslno])
+
+  const ViewBillImage = async () => {
+    setImageShowFlag(1)
+    setImageShow(true)
+    const images = await getFilesFromZip('/AssetFileUpload/BillMasterImageView', bill_mastslno);
+    setImageArry(images);
+  };
+
 
   const handleClose = useCallback(() => {
     setImageShowFlag(0)
@@ -169,7 +156,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
   const billpatchData = useMemo(() => {
     return {
-      am_bill_mast_slno: bill_mastslno,
+      am_bill_mast_slno: bill_mastslno || null,
       am_bill_amount: billAmount,
       edit_user: id,
       am_item_map_slno: am_item_map_slno
@@ -178,7 +165,7 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
 
   const billpatchDataSpare = useMemo(() => {
     return {
-      am_bill_mast_slno: bill_mastslno,
+      am_bill_mast_slno: bill_mastslno || null,
       am_bill_amount: billAmount,
       edit_user: id,
       am_spare_item_map_slno: am_spare_item_map_slno
@@ -219,15 +206,15 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
       if (billAmount === 0) {
         infoNotify(`Enter ${assetSpare === 1 ? 'Asset Value' : 'Spare Value'}`)
       } else {
-        if (bill_mastslno === '') {
-          warningNotify('Please Select Any Bill before save')
+        // if (bill_mastslno === '') {
+        //   warningNotify('Please Select Any Bill before save')
+        // } else {
+        if (assetSpare === 1) {
+          updateBillDetails(billpatchData)
         } else {
-          if (assetSpare === 1) {
-            updateBillDetails(billpatchData)
-          } else {
-            updateBillDetailsSpare(billpatchDataSpare)
-          }
+          updateBillDetailsSpare(billpatchDataSpare)
         }
+        // }
       }
     },
     [billpatchData, assetSpare, billpatchDataSpare, bill_mastslno, setCount, count, billAmount]
