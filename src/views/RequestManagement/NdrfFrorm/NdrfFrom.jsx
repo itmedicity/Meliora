@@ -10,7 +10,6 @@ import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline'
 import CustomeToolTip from 'src/views/Components/CustomeToolTip'
 import { axioslogin } from 'src/views/Axios/Axios'
 import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { urlExist } from 'src/views/Constant/Constant'
 import { ndrfpdfdownloadwithouttable } from '../NdrfPdfComponent/NdrfPdfWotTable'
 import { ndrfpdfdownloadwithtable } from '../NdrfPdfComponent/NdrfPdfWithTable'
@@ -75,10 +74,10 @@ const NdrfFrom = () => {
             val.ndrf_om_approv === 1
               ? 'Approved'
               : val.ndrf_om_approv === 2
-              ? 'Reject'
-              : val.ndrf_om_approv === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ndrf_om_approv === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ndrf_om_remarks: val.ndrf_om_remarks,
           ndrfom_approv_date: val.ndrfom_approv_date,
           ndrf_om_user: val.ndrf_om_user !== null ? val.ndrf_om_user.toLowerCase() : 'Not Updated',
@@ -88,10 +87,10 @@ const NdrfFrom = () => {
             val.ndrf_smo_approv === 1
               ? 'Approved'
               : val.ndrf_smo_approv === 2
-              ? 'Reject'
-              : val.ndrf_smo_approv === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ndrf_smo_approv === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ndrf_smo_remarks: val.ndrf_smo_remarks,
           ndrf_som_aprrov_date: val.ndrf_som_aprrov_date,
           ndrf_smo_user: val.ndrf_smo_user !== null ? val.ndrf_smo_user.toLowerCase() : 'Not Updated',
@@ -101,10 +100,10 @@ const NdrfFrom = () => {
             val.ndrf_cao_approve === 1
               ? 'Approved'
               : val.ndrf_cao_approve === 2
-              ? 'Reject'
-              : val.ndrf_cao_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ndrf_cao_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ndrf_cao_approve_remarks: val.ndrf_cao_approve_remarks,
           ndrf_cao_approv_date: val.ndrf_cao_approv_date,
           ndrf_cao_user: val.ndrf_cao_user !== null ? val.ndrf_cao_user.toLowerCase() : 'Not Updated',
@@ -114,10 +113,10 @@ const NdrfFrom = () => {
             val.ndrf_ed_approve === 1
               ? 'Approved'
               : val.ndrf_ed_approve === 2
-              ? 'Reject'
-              : val.ndrf_ed_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ndrf_ed_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ndrf_ed_approve_remarks: val.ndrf_ed_approve_remarks,
           ndrf_ed_approve_date: val.ndrf_ed_approve_date,
           ndrf_ed_user: val.ndrf_ed_user !== null ? val.ndrf_ed_user.toLowerCase() : 'Not Updated',
@@ -127,10 +126,10 @@ const NdrfFrom = () => {
             val.ndrf_md_approve === 1
               ? 'Approved'
               : val.ndrf_md_approve === 2
-              ? 'Reject'
-              : val.ndrf_md_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ndrf_md_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ndrf_md_approve_remarks: val.ndrf_md_approve_remarks,
           ndrf_md_approve_date: val.ndrf_md_approve_date,
           ndrf_md_user: val.ndrf_md_user !== null ? val.ndrf_md_user.toLowerCase() : 'Not Updated',
@@ -141,10 +140,10 @@ const NdrfFrom = () => {
             val.incharge_approve === 1
               ? 'Approved'
               : val.incharge_approve === 2
-              ? 'Reject'
-              : val.incharge_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.incharge_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           incharge_remark: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
           inch_detial_analysis: val.inch_detial_analysis,
           incharge_apprv_date: val.incharge_apprv_date,
@@ -156,10 +155,10 @@ const NdrfFrom = () => {
             val.hod_approve === 1
               ? 'Approved'
               : val.hod_approve === 2
-              ? 'Reject'
-              : val.hod_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.hod_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
           hod_detial_analysis: val.hod_detial_analysis,
           hod_approve_date: val.hod_approve_date,
@@ -171,10 +170,10 @@ const NdrfFrom = () => {
             val.dms_approve === 1
               ? 'Approved'
               : val.dms_approve === 2
-              ? 'Reject'
-              : val.dms_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.dms_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
           dms_detail_analysis: val.dms_detail_analysis !== null ? val.dms_detail_analysis : 'Not Updated',
           dms_approve_date: val.dms_approve_date,
@@ -186,10 +185,10 @@ const NdrfFrom = () => {
             val.ms_approve === 1
               ? 'Approved'
               : val.ms_approve === 2
-              ? 'Reject'
-              : val.ms_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ms_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
           ms_detail_analysis: val.ms_detail_analysis !== null ? val.ms_detail_analysis : 'Not Updated',
           ms_approve_date: val.ms_approve_date,
@@ -201,10 +200,10 @@ const NdrfFrom = () => {
             val.manag_operation_approv === 1
               ? 'Approved'
               : val.manag_operation_approv === 2
-              ? 'Reject'
-              : val.manag_operation_approv === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.manag_operation_approv === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           manag_operation_remarks: val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
           om_detial_analysis: val.om_detial_analysis !== null ? val.om_detial_analysis : 'Not Updated',
           om_approv_date: val.om_approv_date,
@@ -217,10 +216,10 @@ const NdrfFrom = () => {
             val.senior_manage_approv === 1
               ? 'Approved'
               : val.senior_manage_approv === 2
-              ? 'Reject'
-              : val.senior_manage_approv === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.senior_manage_approv === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
           smo_detial_analysis: val.smo_detial_analysis !== null ? val.smo_detial_analysis : 'Not Updated',
           som_aprrov_date: val.som_aprrov_date,
@@ -231,10 +230,10 @@ const NdrfFrom = () => {
             val.cao_approve === 1
               ? 'Approved'
               : val.cao_approve === 2
-              ? 'Reject'
-              : val.cao_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.cao_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           cao_approve_remarks: val.cao_approve_remarks !== null ? val.cao_approve_remarks : 'Not Updated',
           ceo_detial_analysis: val.ceo_detial_analysis !== null ? val.ceo_detial_analysis : 'Not Updated',
           cao_approv_date: val.cao_approv_date,
@@ -246,10 +245,10 @@ const NdrfFrom = () => {
             val.md_approve === 1
               ? 'Approved'
               : val.md_approve === 2
-              ? 'Reject'
-              : val.md_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.md_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           md_approve_remarks: val.md_approve_remarks,
           md_detial_analysis: val.md_detial_analysis,
           md_approve_date: val.md_approve_date,
@@ -261,10 +260,10 @@ const NdrfFrom = () => {
             val.ed_approve === 1
               ? 'Approved'
               : val.ed_approve === 2
-              ? 'Reject'
-              : val.ed_approve === 3
-              ? 'On-Hold'
-              : 'Not Updated',
+                ? 'Reject'
+                : val.ed_approve === 3
+                  ? 'On-Hold'
+                  : 'Not Updated',
           ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
           ed_detial_analysis: val.ed_detial_analysis,
           ed_approve_date: val.ed_approve_date,
@@ -390,7 +389,7 @@ const NdrfFrom = () => {
     setDataPdf(data)
     const getInchargeSign = async () => {
       if (incharge_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + incharge_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${incharge_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -403,7 +402,7 @@ const NdrfFrom = () => {
     }
     const gethodSign = async () => {
       if (hod_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + hod_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${hod_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -416,7 +415,7 @@ const NdrfFrom = () => {
     }
     const getOmSign = async () => {
       if (ndrf_om_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_om_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${ndrf_om_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -429,7 +428,7 @@ const NdrfFrom = () => {
     }
     const getSMOSign = async () => {
       if (ndrf_smo_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_smo_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${ndrf_smo_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -442,7 +441,7 @@ const NdrfFrom = () => {
     }
     const getCAOSign = async () => {
       if (ndrf_cao_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_cao_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${ndrf_cao_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -455,7 +454,7 @@ const NdrfFrom = () => {
     }
     const getEDSign = async () => {
       if (ndrf_ed_user > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + ndrf_ed_user}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`${ndrf_ed_user}/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)

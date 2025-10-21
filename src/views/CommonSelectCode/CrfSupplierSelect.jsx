@@ -59,8 +59,9 @@ const CrfSupplierSelect = ({ supCode, setSupCode, setSupName }) => {
             border: '1px solid #bbdefb',
             alignItems: 'center',
             fontSize: 14,
-            borderRadius: 5
+            borderRadius: 5,
           }}
+          size="sm"
           value={supCode === 0 ? type : value}
           placeholder="Select Supplier"
           clearOnBlur

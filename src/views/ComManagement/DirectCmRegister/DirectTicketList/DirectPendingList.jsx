@@ -11,7 +11,6 @@ import { keyframes } from '@emotion/react'
 import ViewAssetDetails from '../../ComplaintRegister/TicketLists/ViewAssetDetails'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ComFileView from '../../CmFileView/ComFileView'
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices'
 import PersonIcon from '@mui/icons-material/Person'
@@ -58,7 +57,7 @@ const DirectPendingList = ({ count, setCount, rowSelect, pendingCompl, loading }
         const data = result.data
         const fileNames = data.data
         const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+          return `/ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         // Open the modal only if there are files

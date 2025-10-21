@@ -194,3 +194,91 @@ export const getDirectPendingCompalints = async () => {
     }
   })
 }
+
+export const getDepartmentMaster = async () => {
+  return axioslogin.get('/melioraDepMaster/DeptMasterGet').then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
+}
+
+export const getDepartmentSectionMaster = async () => {
+  return axioslogin.get('/melioraDepMaster/DeptSecMasterGet').then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
+}
+
+export const getDepSecIDMaster = async empsecid => {
+  return axioslogin.get(`/melioraDepMaster/DeptSecMasterGetID/${empsecid}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    } else {
+      return []
+    }
+  })
+}
+
+export const getMelDepSecEmp = async secid => {
+  return axioslogin.get(`/melioraDepMaster/Melempdeptsec/${secid}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    } else {
+      return []
+    }
+  })
+}
+
+export const getallEmployeDetails = async () => {
+  return axioslogin.get('/employee/getall').then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+    else {
+      return []
+    }
+  })
+}
+
+export const getMeLInchHODAuthorization = async () => {
+  return axioslogin.get('/InchHODAuthorization/GetInchHODAuthMeliora').then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+    else {
+      return []
+    }
+  })
+}
+
+export const getcontractItems = async () => {
+  return axioslogin.get('/ContractMaster/GetcontractMaster').then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+    else {
+      return []
+    }
+  })
+}
+
+export const getlocationItems = async () => {
+  return axioslogin.get('/ContractMaster/GetlocationMaster').then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+    else {
+      return []
+    }
+  })
+}

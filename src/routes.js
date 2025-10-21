@@ -274,6 +274,14 @@ const DcReport = React.lazy(() => import('./views/Report/DailyCensus/DailyCensus
 const StaticUrl = React.lazy(() => import('./views/Master/StaticUrl/StaticUrl'))
 const MelioraDepMaster = React.lazy(() => import('./views/Master/MelioraDepMaster/MelioraDepMaster'))
 const MelioraDepSecMaster = React.lazy(() => import('./views/Master/MelioraDepSecMaster/MelioraDepSecMaster'))
+const MelioraHodInchargeMaster = React.lazy(() => import('./views/Master/Meliora_Hod_Incharge/HodIncharge_master'))
+const WorkOrderRegister = React.lazy(() => import('./views/WorkOrder/Workorder'))
+const ContractMaster = React.lazy(() => import('./views/Master/WorkOrder Master/ContractMaster'))
+const WorkLocationMaster = React.lazy(() => import('./views/Master/WorkLocationMaster/Worklocationmaster'))
+const CrfTatReport = React.lazy(() => import('./views/Report/CrmReport/CrfTatReport'))
+const CrfApprovalpending = React.lazy(() => import('./views/Report/CrmReport/CrfAppovalPending'))
+const PendingPo = React.lazy(() => import('./views/Report/CrmReport/PendingPo'))
+
 
 // const routes = [
 //   { path: '/', exact: true, name: 'Home' },
@@ -929,6 +937,14 @@ const routes = [
   { path: 'StaticUrl', name: 'StaticUrl', element: <StaticUrl /> },
   { path: 'MelioraDepMaster', name: 'MelioraDepMaster', element: <MelioraDepMaster /> },
   { path: 'MelioraDepSecMaster', name: 'MelioraDepSecMaster', element: <MelioraDepSecMaster /> },
+  { path: 'MelioraHodInchargeMaster', name: 'MelioraHodInchargeMaster', element: <MelioraHodInchargeMaster /> },
+  { path: 'WorkOrderRegister', name: 'WorkOrderRegister', element: <WorkOrderRegister /> },
+  { path: 'ContractMaster', name: 'ContractMaster', element: <ContractMaster /> },
+  { path: 'WorkLocationMaster', name: 'WorkLocationMaster', element: <WorkLocationMaster /> },
+  { path: 'CrfTatReport', name: 'CrfTatReport', element: <CrfTatReport /> },
+  { path: 'CrfApprovalpending', name: 'CrfApprovalpending', element: <CrfApprovalpending /> },
+  { path: 'PendingPo', name: 'PendingPo', element: <PendingPo /> },
+
 
 ]
 

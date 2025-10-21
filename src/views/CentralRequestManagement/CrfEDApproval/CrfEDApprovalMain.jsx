@@ -697,8 +697,8 @@ const CrfEDApprovalMain = () => {
     }
   }, [])
 
-  if (isEdLoading || isCompLoading || isedKmcLoading || isCompLoadingdef) return <p>Loading...</p>
-  if (edError || compError || kmcError || compErrordef) return <p>Error Occurred.</p>
+  if (isEdLoading || isCompLoading || isCompLoadingdef) return <p>Loading...</p>
+  if (edError || compError || compErrordef) return <p>Error Occurred.</p>
   return (
     <Fragment>
       {ApprovalFlag === 2 ? (

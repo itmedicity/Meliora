@@ -2,7 +2,6 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import FileViewSingle from 'src/views/Components/FileViewSingle'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { Box, Grid } from '@mui/joy'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -18,7 +17,7 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
         if (success === 1) {
           const fileNames = result.data.data
           const fileUrls = fileNames.map(
-            fileName => `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+            fileName => `ComplaintManagement/${complaint_slno}/${fileName}`
           )
 
           if (fileUrls.length > 0) {
@@ -47,8 +46,8 @@ const ComplaintAttachFiles = ({ complaint_slno }) => {
         ? 'pdf'
         : 'image'
       : file.type && file.type.includes('application/pdf')
-      ? 'image'
-      : 'pdf'
+        ? 'image'
+        : 'pdf'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setUplodedFile({ url: fileUrl, type: fileType })

@@ -21,9 +21,8 @@ const BuildingSelectWithoutName = ({ value, setValue }) => {
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
-          size="md"
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          size="sm"
+          sx={{ m: 0, }}
         >
           <Option value={0} disabled>
             Select Building

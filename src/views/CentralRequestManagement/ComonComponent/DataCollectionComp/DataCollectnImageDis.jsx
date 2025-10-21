@@ -1,25 +1,25 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, } from 'react'
 import Modal from '@mui/joy/Modal'
 import Sheet from '@mui/joy/Sheet'
 import { CssVarsProvider } from '@mui/joy'
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button'
 const DataCollectnImageDis = ({ open, handleCloseCollect, imagearray }) => {
-  const [disArry, setDissArry] = useState([])
-  useEffect(() => {
-    if (imagearray && imagearray.length !== 0) {
-      const disimage = imagearray.map(val => {
-        const parts = val.split('/')
-        const fileNamePart = parts[parts.length - 1]
-        const obj = {
-          imageName: fileNamePart,
-          url: val
-        }
-        return obj
-      })
-      setDissArry(disimage)
-    }
-  }, [imagearray])
+  // const [disArry, setDissArry] = useState([])
+  // useEffect(() => {
+  //   if (imagearray && imagearray.length !== 0) {
+  //     const disimage = imagearray.map(val => {
+  //       const parts = val.split('/')
+  //       const fileNamePart = parts[parts.length - 1]
+  //       const obj = {
+  //         imageName: fileNamePart,
+  //         url: val
+  //       }
+  //       return obj
+  //     })
+  //     setDissArry(disimage)
+  //   }
+  // }, [imagearray])
 
   return (
     <CssVarsProvider>
@@ -60,11 +60,12 @@ const DataCollectnImageDis = ({ open, handleCloseCollect, imagearray }) => {
               '::-webkit-scrollbar': { display: 'none' }
             }}
           >
-            {disArry &&
-              disArry.map((value, index) => (
+            {imagearray &&
+              imagearray.map((value, index) => (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
                   {value.imageName.endsWith('.pdf') ? (
                     <embed src={value.url} type="application/pdf" height={820} width="100%" />
+                    // <PdfViewer src={value.url} />
                   ) : (
                     <img alt="" src={value.url} height={820} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   )}

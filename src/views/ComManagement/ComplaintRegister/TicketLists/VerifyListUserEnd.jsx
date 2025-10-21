@@ -11,7 +11,6 @@ import ReplyModalvieww from '../../AssignComplaint/Queries/ReplyModalvieww'
 import MoreIcon from '@mui/icons-material/More'
 import RectifyDetailsModal from './RectifyDetailsModal'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ComFileView from '../../CmFileView/ComFileView'
 import TextComponent from 'src/views/Components/TextComponent'
@@ -132,7 +131,7 @@ const VerifyListUserEnd = ({ count, setCount }) => {
         const data = result.data
         const fileNames = data.data
         const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+          return `/ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         // Open the modal only if there are files
@@ -479,11 +478,9 @@ const VerifyListUserEnd = ({ count, setCount }) => {
                                                                 : "Not Updated"} */}
                               {val.rm_room_name}
                               {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                                ? ` (${val.rm_roomtype_name || ''}${
-                                    val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                                  }${val.rm_insidebuildblock_name || ''}${
-                                    val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                                  }${val.rm_floor_name || ''})`
+                                ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                                }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                                }${val.rm_floor_name || ''})`
                                 : val.cm_complaint_location || 'Not Updated'}
                             </Typography>
                           </Box>

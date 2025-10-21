@@ -41,6 +41,8 @@ export const getOpenTickets = async PostDept => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return [];
     }
   })
 }

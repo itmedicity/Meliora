@@ -40,6 +40,7 @@ const CrfRegistration = ({
   imagearray,
   setImageArry
 }) => {
+
   const history = useNavigate()
   const backtoSetting = useCallback(() => {
     history('/Home')
@@ -738,7 +739,7 @@ const CrfRegistration = ({
         : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
-    setPreviewFile({ url: fileUrl, type: fileType })
+    setPreviewFile({ url: fileUrl, type: fileType, blobfile: file?.blob })
     setCrfRegister(prev => ({
       ...prev,
       imageshow: true,
@@ -1053,7 +1054,7 @@ const CrfRegistration = ({
                         <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>
                           &nbsp;{val.uomName}
                         </td>
-                        <td size="sm" style={{ fontSize: 13 }}>
+                        <td size="sm" style={{ fontSize: 13, overflow: "auto" }}>
                           &nbsp;{val.item_spec}
                         </td>
                         <td size="sm" style={{ fontSize: 12, textAlign: 'center' }}>

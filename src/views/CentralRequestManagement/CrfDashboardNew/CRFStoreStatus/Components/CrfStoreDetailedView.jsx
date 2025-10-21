@@ -4,9 +4,9 @@ import React, { Fragment, memo, useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { GetItemDetailsOfCRFCmp } from '../../../ComonComponent/GetItemDetailsOfCRFCmp'
 import StoreModalView from '../StoreModalView'
+import JSZip from 'jszip'
 const CrfDetailSearchComp = React.lazy(() => import('../../Components/CrfDetailSearchComp'))
 
 const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, companyData }) => {
@@ -24,30 +24,78 @@ const CrfStoreDetailedView = ({ setFlag, disData, setDisData, tableData, company
 
   const viewDetails = useCallback((req_slno, po_number) => {
     const getImage = async req_slno => {
-      try {
-        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-          const fileNames = data
-          const fileUrls = fileNames.map(fileName => {
-            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-          })
+      // try {
+      //   const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+      //   const { success, data } = result.data
+      //   if (success === 1) {
+      //     const fileNames = data
+      //     const fileUrls = fileNames.map(fileName => {
+      //       return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
+      //     })
 
-          const savedFiles = fileUrls.map(val => {
-            const parts = val.split('/')
-            const fileNamePart = parts[parts.length - 1]
-            const obj = {
-              imageName: fileNamePart,
-              url: val
-            }
-            return obj
-          })
-          setImageArry(savedFiles)
+      //     const savedFiles = fileUrls.map(val => {
+      //       const parts = val.split('/')
+      //       const fileNamePart = parts[parts.length - 1]
+      //       const obj = {
+      //         imageName: fileNamePart,
+      //         url: val
+      //       }
+      //       return obj
+      //     })
+      //     setImageArry(savedFiles)
+      //   } else {
+      //     setImageArry([])
+      //   }
+      // } catch (error) {
+      //   warningNotify('An error occurred while getting data')
+      // }
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
         } else {
-          setImageArry([])
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images)
+
         }
       } catch (error) {
-        warningNotify('An error occurred while getting data')
+        console.error('Error fetching or processing images:', error);
+        setImageArry([])
       }
     }
     getImage(req_slno)

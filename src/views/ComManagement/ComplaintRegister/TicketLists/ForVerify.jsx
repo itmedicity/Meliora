@@ -9,12 +9,12 @@ import VerifiedUserSharpIcon from '@mui/icons-material/VerifiedUserSharp'
 import { keyframes } from '@emotion/react'
 import UserEndVerificationModal from '../../DirectCmRegister/UserEndVerificationModal'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ComFileView from '../../CmFileView/ComFileView'
 import ViewAssetDetails from './ViewAssetDetails'
 import { format } from 'date-fns'
+import JSZip from 'jszip'
 
 const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) => {
   const [replyflag, setReplyflag] = useState(0)
@@ -48,27 +48,55 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
     setimage(1)
     setimageViewOpen(true)
     setfileDetails(val)
+    // try {
+    //   const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
+    //   const { success } = result.data
+    //   if (success === 1) {
+    //     const data = result.data
+    //     const fileNames = data.data
+    //     const fileUrls = fileNames.map(fileName => {
+    //       return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+    //     })
+    //     setImageUrls(fileUrls)
+    //     // Open the modal only if there are files
+    //     if (fileUrls.length > 0) {
+    //       setSelectedImages(val)
+    //     } else {
+    //       warningNotify('No Image attached')
+    //     }
+    //   } else {
+    //     warningNotify('No Image Attached')
+    //   }
+    // } catch (error) {
+    //   warningNotify('Error in fetching files:', error)
+    // }
     try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`, {
+        responseType: 'blob'
+      });
+
+      const contentType = result.headers['content-type'] || '';
+      if (contentType?.includes('application/json')) {
+        return;
       } else {
-        warningNotify('No Image Attached')
+        const zip = await JSZip.loadAsync(result.data);
+        // Extract image files (e.g., .jpg, .png)
+        const imageEntries = Object.entries(zip.files).filter(
+          ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+        );
+        // Convert each to a Blob URL
+        const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          const blob = await fileObj.async('blob');
+          const url = URL.createObjectURL(blob);
+          return { imageName: filename, url };
+        });
+        const images = await Promise.all(imagePromises);
+        setImageUrls(images)
       }
     } catch (error) {
-      warningNotify('Error in fetching files:', error)
+      console.error('Error fetching or processing images:', error);
+      // setUploadedImages([])
+      warningNotify('No Image Attached')
     }
   }
 
@@ -295,11 +323,9 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
                   <Box sx={{ width: 300, fontSize: 13 }}>
                     {val.rm_room_name}
                     {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                          val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                          val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                      ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                      }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                      }${val.rm_floor_name ? val.rm_floor_name : ''})`
                       : 'Not Updated'}
                   </Box>
                   <Box sx={{ width: 300, fontSize: 13 }}>{val.cm_complaint_location || 'Not Updated'}</Box>

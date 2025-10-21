@@ -16,6 +16,7 @@ import TmProjectListSearch from 'src/views/CommonSelectCode/TmProjectListSearch'
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded'
 import SelectTaskStatus from '../CreateTask/SelectTaskStatus'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
+import JSZip from 'jszip'
 
 const DeptOverDue = ({ setTableCount, tableCount }) => {
   const [tableData, setTableData] = useState([])
@@ -77,16 +78,16 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                 val.tm_task_status === 1
                   ? 'Completed'
                   : val.tm_task_status === 1
-                  ? 'Completed'
-                  : val.tm_task_status === 2
-                  ? 'On Progress'
-                  : val.tm_task_status === 3
-                  ? 'On Hold'
-                  : val.tm_task_status === 4
-                  ? 'Pending'
-                  : val.tm_task_status === 0
-                  ? 'Not Started'
-                  : 'Not Started',
+                    ? 'Completed'
+                    : val.tm_task_status === 2
+                      ? 'On Progress'
+                      : val.tm_task_status === 3
+                        ? 'On Hold'
+                        : val.tm_task_status === 4
+                          ? 'Pending'
+                          : val.tm_task_status === 0
+                            ? 'Not Started'
+                            : 'Not Started',
               tm_task_file: val.tm_task_file,
               tm_mast_duedate_count: val.tm_mast_duedate_count
             }
@@ -117,31 +118,86 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
     setimage(0) // Initialize imageViewModalFlag to 0 initially
     setimageViewModalOpen(false) // Close the modal if it was open
 
-    try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
+    // try {
+    //   const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
+    //   const { success } = result.data
+    //   if (success === 1) {
+    //     const data = result.data
+    //     const fileNames = data.data
+    //     const fileUrls = fileNames.map(fileName => {
+    //       return `http://192.168.22.9/NAS/TaskManagement/${tm_task_slno}/${fileName}`
+    //     })
+    //     setImageUrls(fileUrls)
 
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
+    //     // Open the modal only if there are files
+    //     if (fileUrls.length > 0) {
+    //       setimage(1)
+    //       setimageViewModalOpen(true)
+    //       setSelectedImages(val)
+    //     } else {
+    //       warningNotify('No Image attached')
+    //     }
+    //   } else {
+    //     warningNotify('No Image attached')
+    //   }
+    // } catch (error) {
+    //   warningNotify('Error in fetching files:', error)
+    // }
+    const getImage = async tm_task_slno => {
+      try {
+        const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageUrls(images)
           setimage(1)
           setimageViewModalOpen(true)
           setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
+          // setImageShowFlag(1)
+          // setImageShow(true)
         }
-      } else {
-        warningNotify('No Image attached')
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
+        // setImageArry([])
       }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
     }
+    getImage(tm_task_slno)
   }
 
   const isPastDue = tm_task_due_date => {
@@ -606,16 +662,16 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -623,14 +679,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -893,16 +949,16 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -910,14 +966,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -1180,16 +1236,16 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -1197,14 +1253,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
@@ -1467,16 +1523,16 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                             val.tm_task_status === null
                               ? '#311E26'
                               : val.tm_task_status === 0
-                              ? '#311E26'
-                              : val.tm_task_status === 1
-                              ? '#94C973'
-                              : val.tm_task_status === 2
-                              ? '#D37506'
-                              : val.tm_task_status === 3
-                              ? '#56382D'
-                              : val.tm_task_status === 4
-                              ? '#5885AF'
-                              : 'transparent',
+                                ? '#311E26'
+                                : val.tm_task_status === 1
+                                  ? '#94C973'
+                                  : val.tm_task_status === 2
+                                    ? '#D37506'
+                                    : val.tm_task_status === 3
+                                      ? '#56382D'
+                                      : val.tm_task_status === 4
+                                        ? '#5885AF'
+                                        : 'transparent',
                           minHeight: 5,
                           fontWeight: 700
                         }}
@@ -1484,14 +1540,14 @@ const DeptOverDue = ({ setTableCount, tableCount }) => {
                         {val.tm_task_status === 0
                           ? 'Not Started'
                           : val.tm_task_status === 1
-                          ? 'Completed'
-                          : val.tm_task_status === 2
-                          ? 'On Progress'
-                          : val.tm_task_status === 3
-                          ? 'On Hold'
-                          : val.tm_task_status === 4
-                          ? 'Pending'
-                          : 'not given'}
+                            ? 'Completed'
+                            : val.tm_task_status === 2
+                              ? 'On Progress'
+                              : val.tm_task_status === 3
+                                ? 'On Hold'
+                                : val.tm_task_status === 4
+                                  ? 'Pending'
+                                  : 'not given'}
                       </Chip>
                     </Box>
                     <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>

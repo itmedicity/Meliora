@@ -8,7 +8,6 @@ import { startOfMonth } from 'date-fns/fp'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import PersonIcon from '@mui/icons-material/Person'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
 

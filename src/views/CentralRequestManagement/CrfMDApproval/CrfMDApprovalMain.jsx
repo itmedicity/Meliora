@@ -95,7 +95,6 @@ const CrfMDApprovalMain = () => {
     staleTime: Infinity
   })
   const mdDataKmc = useMemo(() => mdKmc, [mdKmc])
-
   useEffect(() => {
     if (selectedCompany === '1') {
       if (radiovalue === '9' && mdData) {
@@ -671,8 +670,8 @@ const CrfMDApprovalMain = () => {
     }
   }, [])
 
-  if (isMdLoading || isCompLoading || ismdKmcLoading || isCompLoadingdef) return <p>Loading...</p>
-  if (mdError || compError || kmcError || compErrordef) return <p>Error Occurred.</p>
+  if (isMdLoading || isCompLoading || isCompLoadingdef) return <p>Loading...</p>
+  if (mdError || compError || compErrordef) return <p>Error Occurred.</p>
 
   return (
     <Fragment>

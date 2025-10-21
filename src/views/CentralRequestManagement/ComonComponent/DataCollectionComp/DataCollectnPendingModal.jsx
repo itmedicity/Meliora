@@ -1,5 +1,5 @@
 import { Box, Divider, Modal, ModalClose, ModalDialog } from '@mui/joy'
-import { CssVarsProvider, Typography } from '@mui/joy'
+import { Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'

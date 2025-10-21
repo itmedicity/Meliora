@@ -36,17 +36,24 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
 
   var doc = {
     background: function (currentPage, pageSize) {
-      return {
-        table: {
-          widths: [pageSize.width - 70],
-          heights: [pageSize.height - 80],
-          bold: true,
-          body: [['']]
-        },
-        margin: 30
-      }
+      return [
+        {
+          canvas: [
+            {
+              type: 'rect',
+              x: 0,
+              y: 0,
+              w: 0, // 0 width removes rectangle
+              h: 0,
+              color: 'white',
+              lineWidth: 0
+            }
+          ]
+        }
+      ];
     },
-    pageMargins: [40, 130, 130, 40],
+
+    pageMargins: [30, 130, 130, 40],
     header: {
       margin: 15,
       columns: [
@@ -89,37 +96,38 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
 
     content: [
       {
-        fontSize: 10,
-        margin: [10, 0, 0, 0],
+        fontSize: 12,
+        margin: [180, 0, 0, 0],//for centering
         text: 'CENTRAL REQUEST FORM(CRF)',
         style: 'header',
         bold: true,
-        alignment: 'center'
+        // alignment: 'center'
       },
 
       {
         style: 'tableExample',
+        margin: [0, 10, 0, 0],
         table: {
-          widths: [50, 150, 110, 168],
+          widths: [70, 160, 100, 170],
           body: [
             [
-              { text: 'Request No', fontSize: 8, font: 'Roboto' },
-              { text: reqno, fontSize: 9, bold: true, font: 'Roboto' },
-              { text: 'Date', fontSize: 8, font: 'Roboto' },
-              { text: reqdate, fontSize: 8, bold: true, font: 'Roboto' }
+              { text: 'Request No', fontSize: 10, font: 'Roboto' },
+              { text: reqno, fontSize: 11, bold: true, font: 'Roboto' },
+              { text: 'Date', fontSize: 10, font: 'Roboto' },
+              { text: reqdate, fontSize: 11, bold: true, font: 'Roboto' }
             ],
             [
-              { text: 'Department', fontSize: 8, font: 'Roboto' },
+              { text: 'Department', fontSize: 10, font: 'Roboto' },
               {
                 text: dept_name.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()),
-                fontSize: 9,
+                fontSize: 11,
                 bold: true,
                 font: 'Roboto'
               },
-              { text: 'Department Section', fontSize: 8, font: 'Roboto' },
+              { text: 'Department Section', fontSize: 10, font: 'Roboto' },
               {
                 text: req_deptsec.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()),
-                fontSize: 8,
+                fontSize: 11,
                 bold: true,
                 font: 'Roboto'
               }
@@ -127,21 +135,21 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               // { text: req_deptsec, fontSize: 8, bold: true, font: 'Roboto', textTransform: 'capitalize' }
             ],
             [
-              { text: 'Category', fontSize: 9, font: 'Roboto' },
+              { text: 'Category', fontSize: 10, font: 'Roboto' },
               {
                 text:
                   category !== null ? category.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) : 'Not Given',
                 textTransform: 'capitalize',
-                fontSize: 8,
+                fontSize: 11,
                 bold: true,
                 font: 'Roboto'
               },
-              { text: 'Location', fontSize: 9, font: 'Roboto' },
+              { text: 'Location', fontSize: 10, font: 'Roboto' },
               {
                 text:
                   location !== null ? location.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) : 'Not Given',
                 textTransform: 'capitalize',
-                fontSize: 9,
+                fontSize: 11,
                 bold: true,
                 font: 'Roboto'
               }
@@ -150,10 +158,10 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
         }
       },
       {
-        margin: [0, 3, 0, 0],
+        margin: [0, 10, 0, 0],
         style: 'tableExample',
         table: {
-          widths: [25, 140, 50, 30, 40, 120, 45],
+          widths: [25, 158, 50, 30, 40, 125, 45],
           body: [
             [
               {
@@ -172,38 +180,38 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
             ],
 
             [
-              { text: 'Sl.No', fontSize: 8, bold: true },
-              { text: 'Item Description', fontSize: 8, bold: true },
-              { text: 'Brand \n(if any)', fontSize: 8, bold: true },
-              { text: 'Unit', fontSize: 8, bold: true },
-              { text: 'Quantity', fontSize: 8, bold: true },
-              { text: 'Specification', fontSize: 8, bold: true },
-              { text: 'Approx.\ncost', fontSize: 8, bold: true }
+              { text: 'Sl.No', fontSize: 10, bold: true },
+              { text: 'Item Description', fontSize: 10, bold: true },
+              { text: 'Brand \n(if any)', fontSize: 10, bold: true },
+              { text: 'Unit', fontSize: 10, bold: true },
+              { text: 'Quantity', fontSize: 10, bold: true },
+              { text: 'Specification', fontSize: 10, bold: true },
+              { text: 'Approx.\ncost', fontSize: 10, bold: true }
             ]
           ].concat(
             reqDetails &&
             reqDetails.map(val => [
-              { text: val.item_slno, fontSize: 8 },
-              { text: val.item_desc, fontSize: 8 },
-              { text: val.item_brand, fontSize: 8 },
-              { text: val.uom_name, fontSize: 8 },
-              { text: val.item_qnty, fontSize: 8 },
-              { text: val.item_specification, fontSize: 8 },
-              { text: val.aprox_cost, fontSize: 8 }
+              { text: val.item_slno, fontSize: 11 },
+              { text: val.item_desc, fontSize: 11 },
+              { text: val.item_brand, fontSize: 11 },
+              { text: val.uom_name, fontSize: 11 },
+              { text: val.item_qnty, fontSize: 11 },
+              { text: val.item_specification, fontSize: 11 },
+              { text: val.aprox_cost, fontSize: 11 }
             ])
           )
         }
       },
       {
-        margin: [0, 3, 0, 0],
+        margin: [0, 10, 0, 0],
         style: 'tableExample',
         table: {
-          widths: [505, 650],
+          widths: [527, 650],
           body: [
             [
               {
                 text: 'Actual Requirement:\n',
-                fontSize: 8,
+                fontSize: 10,
                 bold: true,
                 font: 'Roboto'
               }
@@ -212,14 +220,14 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               {
                 text: actual_requirement !== null ? actual_requirement.toLowerCase() : 'Not Provide',
                 textTransform: 'capitalize',
-                fontSize: 8,
+                fontSize: 10,
                 font: 'Roboto'
               }
             ],
             [
               {
                 text: 'Justification for the need:\n',
-                fontSize: 8,
+                fontSize: 10,
                 bold: true,
                 font: 'Roboto'
               }
@@ -228,7 +236,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               {
                 text: needed !== null ? needed.toLowerCase() : 'Not Provide',
                 textTransform: 'capitalize',
-                fontSize: 8,
+                fontSize: 10,
                 font: 'Roboto'
               }
             ]
@@ -241,10 +249,10 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
         }
       },
       {
-        margin: [0, 3, 0, 0],
+        margin: [0, 10, 0, 0],
         style: 'tableExample',
         table: {
-          widths: [25, 140, 50, 30, 40, 120, 45],
+          widths: [25, 158, 50, 30, 40, 125, 45],
           body: [
             [
               {
@@ -262,45 +270,45 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               ''
             ],
             [
-              { text: 'Sl.No', fontSize: 8, bold: true },
-              { text: 'Item Description', fontSize: 8, bold: true },
-              { text: 'Brand \n(if any)', fontSize: 8, bold: true },
-              { text: 'Unit', fontSize: 8, bold: true },
-              { text: 'Quantity', fontSize: 8, bold: true },
-              { text: 'Specification', fontSize: 8, bold: true },
-              { text: 'Approx.\ncost', fontSize: 8, bold: true }
+              { text: 'Sl.No', fontSize: 10, bold: true },
+              { text: 'Item Description', fontSize: 10, bold: true },
+              { text: 'Brand \n(if any)', fontSize: 10, bold: true },
+              { text: 'Unit', fontSize: 10, bold: true },
+              { text: 'Quantity', fontSize: 10, bold: true },
+              { text: 'Specification', fontSize: 10, bold: true },
+              { text: 'Approx.\ncost', fontSize: 10, bold: true }
             ]
           ].concat(
             dataa &&
             dataa.map((val, index) => [
-              { text: index + 1, fontSize: 8 },
-              { text: val.approve_item_desc, fontSize: 8 },
-              { text: val.approve_item_brand, fontSize: 8 },
-              { text: val.apprv_uom, fontSize: 8 },
-              { text: val.item_qnty_approved, fontSize: 8 },
-              { text: val.approve_item_specification, fontSize: 8 },
-              { text: val.approve_aprox_cost, fontSize: 8 }
+              { text: index + 1, fontSize: 11 },
+              { text: val.approve_item_desc, fontSize: 11 },
+              { text: val.approve_item_brand, fontSize: 11 },
+              { text: val.apprv_uom, fontSize: 11 },
+              { text: val.item_qnty_approved, fontSize: 11 },
+              { text: val.approve_item_specification, fontSize: 11 },
+              { text: val.approve_aprox_cost, fontSize: 11 }
             ])
           )
         }
       },
       {
-        margin: [0, 5, 0, 0],
+        margin: [0, 10, 0, 0],
         style: 'tableExample',
         table: {
-          widths: [110, 175, 174, 20],
+          widths: [110, 185, 184, 20],
           body: [
             [
               {
                 colSpan: 4,
                 text: [
-                  { text: 'Medical Director Status: ', bold: true, fontSize: 8, font: 'Roboto' },
+                  { text: 'Medical Director Status: ', bold: true, fontSize: 10, font: 'Roboto' },
                   {
                     text:
                       md_approve !== null
                         ? '            ' + md.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
                         : ' Not Updated',
-                    fontSize: 8,
+                    fontSize: 11,
                     font: 'Roboto'
                   }
                 ]
@@ -311,8 +319,8 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
             ],
 
             [
-              { text: 'Remarks', bold: true, fontSize: 8, font: 'Roboto' },
-              { text: md_approve_remarks, fontSize: 8, font: 'Roboto' },
+              { text: 'Remarks', bold: true, fontSize: 10, font: 'Roboto' },
+              { text: md_approve_remarks, fontSize: 11, font: 'Roboto' },
               {
                 colSpan: 2,
                 rowSpan: 3,
@@ -323,7 +331,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
                   headerRows: 1,
                   body: [
                     [
-                      { text: 'Signature', fontSize: 8, font: 'Roboto' },
+                      { text: 'Signature', fontSize: 9, font: 'Roboto' },
                       { image: 'mdsign', alignment: 'center', fit: [50, 75] }
                     ]
                   ]
@@ -333,19 +341,19 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               ''
             ],
             [
-              { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
+              { text: 'User', bold: true, fontSize: 10, font: 'Roboto' },
               {
                 text: md_user.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()),
                 textTransform: 'capitalize',
-                fontSize: 8,
+                fontSize: 11,
                 font: 'Roboto'
               },
               '',
               ''
             ],
             [
-              { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-              { text: mddate, fontSize: 8, font: 'Roboto' },
+              { text: 'Date', bold: true, fontSize: 10, font: 'Roboto' },
+              { text: mddate, fontSize: 11, font: 'Roboto' },
               '',
               ''
             ]
@@ -353,22 +361,22 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
         }
       },
       {
-        margin: [0, 5, 0, 0],
+        margin: [0, 10, 0, 0],
         style: 'tableExample',
         table: {
-          widths: [110, 175, 174, 20],
+          widths: [110, 185, 184, 20],
           body: [
             [
               {
                 colSpan: 4,
                 text: [
-                  { text: 'Executive Director Status: ', bold: true, fontSize: 8, font: 'Roboto' },
+                  { text: 'Executive Director Status: ', bold: true, fontSize: 10, font: 'Roboto' },
                   {
                     text:
                       ed_approve !== null
                         ? '          ' + ed.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
                         : 'Not Updated',
-                    fontSize: 8,
+                    fontSize: 11,
                     font: 'Roboto'
                   }
                 ]
@@ -378,8 +386,8 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               ''
             ],
             [
-              { text: 'Remarks', bold: true, fontSize: 8, font: 'Roboto' },
-              { text: ed_approve_remarks, fontSize: 8, font: 'Roboto' },
+              { text: 'Remarks', bold: true, fontSize: 10, font: 'Roboto' },
+              { text: ed_approve_remarks, fontSize: 11, font: 'Roboto' },
 
               {
                 colSpan: 2,
@@ -391,7 +399,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
                   headerRows: 1,
                   body: [
                     [
-                      { text: 'Signature', fontSize: 8, font: 'Roboto' },
+                      { text: 'Signature', fontSize: 9, font: 'Roboto' },
                       { image: 'edsign', alignment: 'center', fit: [50, 75] }
                     ]
                   ]
@@ -401,19 +409,19 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
               ''
             ],
             [
-              { text: 'User', bold: true, fontSize: 8, font: 'Roboto' },
+              { text: 'User', bold: true, fontSize: 10, font: 'Roboto' },
               {
                 text: ed_user.toLowerCase().replace(/\b\w/g, char => char.toUpperCase()),
                 textTransform: 'capitalize',
-                fontSize: 8,
+                fontSize: 11,
                 font: 'Roboto'
               },
               '',
               ''
             ],
             [
-              { text: 'Date', bold: true, fontSize: 8, font: 'Roboto' },
-              { text: eddate, fontSize: 8, font: 'Roboto' },
+              { text: 'Date', bold: true, fontSize: 10, font: 'Roboto' },
+              { text: eddate, fontSize: 11, font: 'Roboto' },
               '',
               ''
             ]

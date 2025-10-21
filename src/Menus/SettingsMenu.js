@@ -153,7 +153,9 @@ export const userManagement_two = [
 ]
 export const userManagement_three = [
   { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
-  { to: '/Home/UserCreation', name: 'User Creation', slno: 44 }
+  { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
+  { to: '/Home/MelioraHodInchargeMaster', name: 'Meliora Hod Incharge Authorization', slno: 290 }
+
 ]
 
 //TaskManagement Menu
@@ -161,6 +163,12 @@ export const taskManagement_one = [{ to: '/Home/TMOverdueCountMaster', name: 'Ta
 
 export const ams_one = [{ to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }]
 
+export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
+
+export const Work_two = [
+
+  { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
+]
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },

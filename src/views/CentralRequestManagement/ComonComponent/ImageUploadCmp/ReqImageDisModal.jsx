@@ -1,11 +1,14 @@
-import React, { memo } from 'react'
+import React, { memo, } from 'react'
 import Modal from '@mui/joy/Modal'
 import Sheet from '@mui/joy/Sheet'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button'
 
+
+
 const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
+
   return (
     <CssVarsProvider>
       <Modal
@@ -53,15 +56,35 @@ const ReqImageDisModal = ({ open, handleClose, previewFile }) => {
                 }}
               />
             ) : previewFile.type === 'pdf' ? (
-              <iframe
-                src={previewFile.url}
-                title="PDF Preview"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  border: 'none'
-                }}
+              // <PdfViewer src={previewFile.url} />
+              // <Document
+              //   file={pdfUrl}
+              //   onLoadSuccess={onDocumentLoadSuccess}
+              // >
+              //   <Page pageNumber={pageNumber} scale={1.5} />
+              // </Document>
+
+
+
+              // <iframe
+              //   src={previewFile.url}
+              //   title="PDF Preview"
+              //   style={{
+              //     width: '100%',
+              //     height: '100%',
+              //     border: 'none'
+              //   }}
+              // />
+
+
+              <embed
+                id="pdf-embed"
+                src={`${previewFile?.url}#toolbar=0&navpanes=0&view=FitH`}
+                type="application/pdf"
+                height={850}
+                width="100%"
               />
+
             ) : (
               <Typography variant="h6" color="text.secondary">
                 Unsupported file type.

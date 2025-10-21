@@ -4,8 +4,8 @@ import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp'
+import JSZip from 'jszip'
 const CustomLoadComp = React.lazy(() => import('../../ComonComponent/Components/CustomLoadComp'))
 const CrfDetailSearchComp = React.lazy(() => import('../Components/CrfDetailSearchComp'))
 const PurchaseStatusModalView = React.lazy(() => import('./PurchaseStatusModalView'))
@@ -25,30 +25,78 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
 
   const viewDetails = useCallback((req_slno, po_number) => {
     const getImage = async req_slno => {
-      try {
-        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-          const fileNames = data
-          const fileUrls = fileNames.map(fileName => {
-            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-          })
+      // try {
+      //   const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+      //   const { success, data } = result.data
+      //   if (success === 1) {
+      //     const fileNames = data
+      //     const fileUrls = fileNames.map(fileName => {
+      //       return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
+      //     })
 
-          const savedFiles = fileUrls.map(val => {
-            const parts = val.split('/')
-            const fileNamePart = parts[parts.length - 1]
-            const obj = {
-              imageName: fileNamePart,
-              url: val
-            }
-            return obj
-          })
-          setImageArry(savedFiles)
+      //     const savedFiles = fileUrls.map(val => {
+      //       const parts = val.split('/')
+      //       const fileNamePart = parts[parts.length - 1]
+      //       const obj = {
+      //         imageName: fileNamePart,
+      //         url: val
+      //       }
+      //       return obj
+      //     })
+      //     setImageArry(savedFiles)
+      //   } else {
+      //     setImageArry([])
+      //   }
+      // } catch (error) {
+      //   warningNotify('An error occurred while getting data')
+      // }
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
         } else {
-          setImageArry([])
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images)
+
         }
       } catch (error) {
-        warningNotify('An error occurred while getting data')
+        console.error('Error fetching or processing images:', error);
+        setImageArry([])
       }
     }
     getImage(req_slno)
@@ -119,10 +167,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.incharge_approve === 1
                   ? 'Approved'
                   : val.incharge_approve === 2
-                  ? 'Rejected'
-                  : val.incharge_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.incharge_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               incharge_remarks: val.incharge_remarks !== null ? val.incharge_remarks : 'Not Updated',
               inch_detial_analysis: val.inch_detial_analysis,
               incharge_apprv_date: val.incharge_apprv_date,
@@ -133,10 +181,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.hod_approve === 1
                   ? 'Approved'
                   : val.hod_approve === 2
-                  ? 'Rejected'
-                  : val.hod_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.hod_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
               hod_detial_analysis: val.hod_detial_analysis,
               hod_approve_date: val.hod_approve_date,
@@ -147,10 +195,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.dms_approve === 1
                   ? 'Approved'
                   : val.dms_approve === 2
-                  ? 'Rejected'
-                  : val.dms_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.dms_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
               dms_detail_analysis: val.dms_detail_analysis,
               dms_approve_date: val.dms_approve_date,
@@ -161,10 +209,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.ms_approve === 1
                   ? 'Approved'
                   : val.ms_approve === 2
-                  ? 'Rejected'
-                  : val.ms_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.ms_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
               ms_detail_analysis: val.ms_detail_analysis,
               ms_approve_date: val.ms_approve_date,
@@ -175,10 +223,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.manag_operation_approv === 1
                   ? 'Approved'
                   : val.manag_operation_approv === 2
-                  ? 'Rejected'
-                  : val.manag_operation_approv === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.manag_operation_approv === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               manag_operation_remarks:
                 val.manag_operation_remarks !== null ? val.manag_operation_remarks : 'Not Updated',
               om_detial_analysis: val.om_detial_analysis,
@@ -190,10 +238,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.senior_manage_approv === 1
                   ? 'Approved'
                   : val.senior_manage_approv === 2
-                  ? 'Rejected'
-                  : val.senior_manage_approv === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.senior_manage_approv === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
               smo_detial_analysis: val.smo_detial_analysis,
               som_aprrov_date: val.som_aprrov_date,
@@ -204,10 +252,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.gm_approve === 1
                   ? 'Approved'
                   : val.gm_approve === 2
-                  ? 'Rejected'
-                  : val.gm_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.gm_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
               gm_detial_analysis: val.gm_detial_analysis,
               gm_approv_date: val.gm_approv_date,
@@ -218,10 +266,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.md_approve === 1
                   ? 'Approved'
                   : val.md_approve === 2
-                  ? 'Rejected'
-                  : val.md_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.md_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
               md_detial_analysis: val.md_detial_analysis,
               md_approve_date: val.md_approve_date,
@@ -232,10 +280,10 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.ed_approve === 1
                   ? 'Approved'
                   : val.ed_approve === 2
-                  ? 'Rejected'
-                  : val.ed_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.ed_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
               ed_detial_analysis: val.ed_detial_analysis,
               ed_approve_date: val.ed_approve_date,
@@ -244,83 +292,83 @@ const CrfPurchaseDetailedView = ({ setFlag, disData, setDisData, tableData, poSt
                 val.po_to_supplier === 1
                   ? 'Waiting for Goods'
                   : val.approval_level === 3
-                  ? "Director's Approved"
-                  : val.approval_level === 2
-                  ? 'Purchase Manager Approved'
-                  : val.approval_level === 1
-                  ? 'Purchase Dpt Approved'
-                  : val.po_complete === 1
-                  ? 'PO Completed'
-                  : val.po_prepartion === 1
-                  ? 'PO Prepairing'
-                  : val.quatation_fixing === 1
-                  ? 'Quotation Fixed'
-                  : val.quatation_negotiation === 1
-                  ? 'Quotation Negotiation'
-                  : val.quatation_calling_status === 1
-                  ? 'Quotation Calling'
-                  : val.ack_status === 1
-                  ? 'Puchase Acknowledged'
-                  : val.ed_approve !== null
-                  ? 'ED '
-                  : val.md_approve !== null
-                  ? 'MD'
-                  : val.gm_approve !== null
-                  ? 'GM'
-                  : val.senior_manage_approv !== null
-                  ? 'SMO'
-                  : val.manag_operation_approv !== null
-                  ? 'MO'
-                  : val.ms_approve !== null
-                  ? 'MS'
-                  : val.dms_approve !== null
-                  ? 'DMS'
-                  : val.hod_approve !== null
-                  ? 'HOD'
-                  : val.incharge_approve !== null
-                  ? 'Incharge'
-                  : 'Not Started',
+                    ? "Director's Approved"
+                    : val.approval_level === 2
+                      ? 'Purchase Manager Approved'
+                      : val.approval_level === 1
+                        ? 'Purchase Dpt Approved'
+                        : val.po_complete === 1
+                          ? 'PO Completed'
+                          : val.po_prepartion === 1
+                            ? 'PO Prepairing'
+                            : val.quatation_fixing === 1
+                              ? 'Quotation Fixed'
+                              : val.quatation_negotiation === 1
+                                ? 'Quotation Negotiation'
+                                : val.quatation_calling_status === 1
+                                  ? 'Quotation Calling'
+                                  : val.ack_status === 1
+                                    ? 'Puchase Acknowledged'
+                                    : val.ed_approve !== null
+                                      ? 'ED '
+                                      : val.md_approve !== null
+                                        ? 'MD'
+                                        : val.gm_approve !== null
+                                          ? 'GM'
+                                          : val.senior_manage_approv !== null
+                                            ? 'SMO'
+                                            : val.manag_operation_approv !== null
+                                              ? 'MO'
+                                              : val.ms_approve !== null
+                                                ? 'MS'
+                                                : val.dms_approve !== null
+                                                  ? 'DMS'
+                                                  : val.hod_approve !== null
+                                                    ? 'HOD'
+                                                    : val.incharge_approve !== null
+                                                      ? 'Incharge'
+                                                      : 'Not Started',
 
               now_who_status:
                 val.po_to_supplier === 1
                   ? 5
                   : val.approval_level === 3
-                  ? 5
-                  : val.approval_level === 2
-                  ? 5
-                  : val.approval_level === 1
-                  ? 5
-                  : val.po_complete === 1
-                  ? 5
-                  : val.po_prepartion === 1
-                  ? 5
-                  : val.quatation_fixing === 1
-                  ? 5
-                  : val.quatation_negotiation === 1
-                  ? 5
-                  : val.quatation_calling_status === 1
-                  ? 5
-                  : val.ack_status === 1
-                  ? 5
-                  : val.ed_approve !== null
-                  ? val.ed_approve
-                  : val.md_approve !== null
-                  ? val.md_approve
-                  : val.gm_approve !== null
-                  ? val.gm_approve
-                  : val.senior_manage_approv !== null
-                  ? val.senior_manage_approv
-                  : val.manag_operation_approv !== null
-                  ? val.manag_operation_approv
-                  : val.ms_approve !== null
-                  ? val.ms_approve
-                  : val.dms_approve !== null
-                  ? val.dms_approve
-                  : val.hod_approve !== null
-                  ? val.hod_approve
-                  : val.incharge_approve !== null
-                  ? val.incharge_approve
-                  : 0,
+                    ? 5
+                    : val.approval_level === 2
+                      ? 5
+                      : val.approval_level === 1
+                        ? 5
+                        : val.po_complete === 1
+                          ? 5
+                          : val.po_prepartion === 1
+                            ? 5
+                            : val.quatation_fixing === 1
+                              ? 5
+                              : val.quatation_negotiation === 1
+                                ? 5
+                                : val.quatation_calling_status === 1
+                                  ? 5
+                                  : val.ack_status === 1
+                                    ? 5
+                                    : val.ed_approve !== null
+                                      ? val.ed_approve
+                                      : val.md_approve !== null
+                                        ? val.md_approve
+                                        : val.gm_approve !== null
+                                          ? val.gm_approve
+                                          : val.senior_manage_approv !== null
+                                            ? val.senior_manage_approv
+                                            : val.manag_operation_approv !== null
+                                              ? val.manag_operation_approv
+                                              : val.ms_approve !== null
+                                                ? val.ms_approve
+                                                : val.dms_approve !== null
+                                                  ? val.dms_approve
+                                                  : val.hod_approve !== null
+                                                    ? val.hod_approve
+                                                    : val.incharge_approve !== null
+                                                      ? val.incharge_approve
+                                                      : 0,
 
               hod_image: val.hod_image,
               dms_image: val.dms_image,

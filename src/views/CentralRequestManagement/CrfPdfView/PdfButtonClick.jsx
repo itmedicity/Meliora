@@ -6,7 +6,7 @@ import FileOpenIcon from '@mui/icons-material/FileOpen'
 import { CrfPdfWithDetails } from './CrfPdfWithDetail'
 import { axioslogin } from 'src/views/Axios/Axios'
 import ProfilePicDefault from 'src/assets/images/nosigature.jpg'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+// import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { urlExist } from 'src/views/Constant/Constant'
 import { CrfPdfWithOutDetails } from './CrfPdfWithOutDetails'
 
@@ -29,7 +29,7 @@ const PdfButtonClick = ({ val }) => {
 
     const getMDSign = async () => {
       if (mdid > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + mdid}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)
@@ -43,7 +43,7 @@ const PdfButtonClick = ({ val }) => {
 
     const getEDSign = async () => {
       if (edid > 0) {
-        const profilePic = JSON.stringify(`${PUBLIC_NAS_FOLDER + edid}/signature/signature.jpg`)
+        const profilePic = JSON.stringify(`/signature/signature.jpg`)
         urlExist(profilePic, status => {
           if (status === true) {
             const picUrl = JSON.parse(profilePic)

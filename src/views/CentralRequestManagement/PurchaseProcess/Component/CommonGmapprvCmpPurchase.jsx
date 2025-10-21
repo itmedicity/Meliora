@@ -4,10 +4,9 @@ import { format } from 'date-fns'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { warningNotify } from 'src/views/Common/CommonCode'
 import ImageDisplayModal from '../../ComonComponent/ImageUploadCmp/ImageDisplayModal'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
+import JSZip from 'jszip'
 
 const CommonGmapprvCmpPurchase = ({ DetailViewData, company }) => {
   const { req_slno, gm_approve, gm, gm_approve_remarks, gm_approv_date, gm_user, gm_image } = DetailViewData
@@ -22,31 +21,82 @@ const CommonGmapprvCmpPurchase = ({ DetailViewData, company }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
 
   const ViewGMUploadImage = useCallback(() => {
     const getImage = async req_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/GMUpload/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
+      // const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`)
+      // const { success, data } = result.data
+      // if (success === 1) {
+      //   const fileNames = data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/GMUpload/${fileName}`
+      //   })
+      //   setImageArry(fileUrls)
+      //   setImageShowFlag(1)
+      //   setImageShow(true)
+      // } else {
+      //   warningNotify('Error Occured to display image')
+      //   setImageShowFlag(0)
+      //   setImageShow(false)
+      //   setImageArry([])
+      // }
+
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images)
+          setImageShowFlag(1)
+          setImageShow(true)
+        }
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
         setImageArry([])
+        setImageShow(false)
       }
     }
     getImage(req_slno)
@@ -70,12 +120,12 @@ const CommonGmapprvCmpPurchase = ({ DetailViewData, company }) => {
                   gm_approve === 1
                     ? '#2e7d32'
                     : gm_approve === 2
-                    ? '#bf360c'
-                    : gm_approve === 3
-                    ? '#FF9800'
-                    : gm_approve === 4
-                    ? '#009688'
-                    : '#607D8B',
+                      ? '#bf360c'
+                      : gm_approve === 3
+                        ? '#FF9800'
+                        : gm_approve === 4
+                          ? '#009688'
+                          : '#607D8B',
                 height: 25,
                 pb: 0.5,
                 fontSize: 12,

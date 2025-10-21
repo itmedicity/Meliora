@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useState, memo, useEffect, useMemo, useRe
 import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
@@ -10,7 +10,6 @@ import { format } from 'date-fns'
 import ItemsApprovalCompnt from '../CrfInchargeApproval/ItemsApprovalCompnt'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import AddMoreItemDtails from '../ComonComponent/AddMoreItemDtails'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import imageCompression from 'browser-image-compression'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import CustomIconButtonCmp from '../ComonComponent/Components/CustomIconButtonCmp'
@@ -21,6 +20,7 @@ import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import HodApprovalComponent from './HodApprovalComponent'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone'
 import { useQueryClient } from '@tanstack/react-query'
+import JSZip from 'jszip';
 
 const CrmHodApprovalModal = ({
   open,
@@ -257,26 +257,72 @@ const CrmHodApprovalModal = ({
 
   useEffect(() => {
     const getImage = async req_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`
-        })
+      // const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`)
+      // const { success, data } = result.data
+      // if (success === 1) {
+      //   const fileNames = data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/HodUpload/${fileName}`
+      //   })
 
-        const savedFiles = fileUrls.map(val => {
-          const parts = val.split('/')
-          const fileNamePart = parts[parts.length - 1]
-          const obj = {
-            imageName: fileNamePart,
-            url: val
-          }
-          return obj
-        })
-        setUploadedImages(savedFiles)
-      } else {
-        setUploadedImages([])
+      //   const savedFiles = fileUrls.map(val => {
+      //     const parts = val.split('/')
+      //     const fileNamePart = parts[parts.length - 1]
+      //     const obj = {
+      //       imageName: fileNamePart,
+      //       url: val
+      //     }
+      //     return obj
+      //   })
+      //   setUploadedImages(savedFiles)
+      // } else {
+      //   setUploadedImages([])
+      // }
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfHodImageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setUploadedImages(images)
+        }
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
       }
     }
     getImage(req_slno)

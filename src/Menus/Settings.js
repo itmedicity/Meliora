@@ -27,7 +27,9 @@ import {
   qi_setting_two,
   dc_setting_one,
   taskManagement_one,
-  ams_one
+  ams_one,
+  Work_one,
+  Work_two
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -68,6 +70,10 @@ const Settings = () => {
   const [dcMast_secOne, setdcMast_secOne] = useState()
   const [taskManagment_secOne, setTaskManagment_secOne] = useState()
   const [setams_secone, setams_secOne] = useState()
+  const [setWork_secone, setWork_secOne] = useState()
+  const [setWork_secTwo, setWork_sectwo] = useState()
+
+
 
   const [count, setCount] = useState(0)
   useEffect(() => {
@@ -172,6 +178,11 @@ const Settings = () => {
       //AMS Master
       const ams_setting_section_one = ams_one.filter(val => menuSlnoArray.includes(val.slno))
       setams_secOne(ams_setting_section_one)
+      //Work order
+      const work_setting_section_one = Work_one.filter(val => menuSlnoArray.includes(val.slno))
+      setWork_secOne(work_setting_section_one)
+      const work_setting_section_two = Work_two.filter(val => menuSlnoArray.includes(val.slno))
+      setWork_sectwo(work_setting_section_two)
     })
   }, [count])
 
@@ -629,7 +640,47 @@ const Settings = () => {
           </Box>
         </Box>
       </CardContent>
-
+      {/* work Order */}
+      <CardHeader
+        title={'Work Order'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {setWork_secone &&
+              setWork_secone.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {setWork_secTwo &&
+              setWork_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
+      </CardContent>
       <CardHeader
         title={'User Settings'}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}

@@ -55,7 +55,6 @@ const DailyCensus = () => {
       }
       GetCensusDetails(searchdata).then(value => {
         const { data, success, message } = value
-        console.log(data)
 
         if (success === 1) {
           setTableData(data)

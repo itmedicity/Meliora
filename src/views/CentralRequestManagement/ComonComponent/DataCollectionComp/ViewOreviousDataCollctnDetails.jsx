@@ -4,9 +4,8 @@ import { format } from 'date-fns'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import AttachmentTwoToneIcon from '@mui/icons-material/AttachmentTwoTone'
 import DataCollectnImageDis from './DataCollectnImageDis'
-import { infoNotify } from 'src/views/Common/CommonCode'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { axioslogin } from 'src/views/Axios/Axios'
+import JSZip from 'jszip'
 
 const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
   const [collImageShowFlag, setCollImageShowFlag] = useState(0)
@@ -21,24 +20,71 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
       crf_data_collect_slno: dataClno
     }
     const getImage = async postdata => {
-      try {
-        const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
-        const { success, data } = result.data
+      // try {
+      //   const result = await axioslogin.post('/newCRFRegisterImages/crf/getDataCollectionImage', postdata)
+      //   const { success, data } = result.data
 
-        if (success === 1) {
-          const fileNames = data
-          const fileUrls = fileNames.map(fileName => {
-            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`
-          })
-          setImageArray(fileUrls)
+      //   if (success === 1) {
+      //     const fileNames = data
+      //     const fileUrls = fileNames.map(fileName => {
+      //       return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/datacollection/${dataClno}/${fileName}`
+      //     })
+      //     setImageArray(fileUrls)
+      //   } else {
+      //     infoNotify('No Files Found')
+      //     setImageArray([])
+      //   }
+      // } catch (error) {
+      //   console.error('Error fetching data:', error)
+      //   infoNotify('An error occurred while fetching the files.')
+      //   setImageArray([])
+      // }
+      try {
+        const result = await axioslogin.post(`/newCRFRegisterImages/crf/getDataCollectionImage`, postdata,
+          {
+            responseType: 'blob'
+          }
+        );
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
         } else {
-          infoNotify('No Files Found')
-          setImageArray([])
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArray(images)
         }
       } catch (error) {
-        console.error('Error fetching data:', error)
-        infoNotify('An error occurred while fetching the files.')
-        setImageArray([])
+        console.error('Error fetching or processing images:', error);
       }
     }
     getImage(postdata)
@@ -52,12 +98,12 @@ const ViewOreviousDataCollctnDetails = ({ datacolData }) => {
   const capitalizeWords = str =>
     str
       ? str
-          .toLowerCase()
-          .trim()
-          .replace(/\s+/g, ' ')
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
       : ''
   return (
     <Fragment>

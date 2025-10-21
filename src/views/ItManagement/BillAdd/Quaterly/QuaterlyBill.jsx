@@ -1,10 +1,9 @@
 import { Box, CssVarsProvider, Input, Tooltip, Chip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import { Paper } from '@mui/material'
+// import { Paper } from '@mui/material'
 import UpdatePendingModal from '../UpdatePendingModal'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import { infoNotify } from 'src/views/Common/CommonCode'
 import SearchIcon from '@mui/icons-material/Search'
@@ -13,6 +12,7 @@ import ItBillCategoryList from 'src/views/CommonSelectCode/ItBillCategoryList'
 import { useDispatch } from 'react-redux'
 import { getBillCategory } from 'src/redux/actions/ItBillCategoryList.action'
 import { addMonths, eachMonthOfInterval, format } from 'date-fns'
+import JSZip from 'jszip'
 
 const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
   const [pendingModalOpen, setpendingModalOpen] = useState(false)
@@ -36,17 +36,59 @@ const QuaterlyBill = ({ quaterlydata, billCount, setbillCount }) => {
   const UndatePending = useCallback(value => {
     const { quaterly_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Bills/QuarterlyBill/${quaterly_slno}/${fileName}`
-        })
-        setFilezUrls(fileUrls)
-      } else {
+      // const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`)
+      // const { success } = result.data
+      // if (success === 1) {
+      //   const data = result.data
+      //   const fileNames = data.data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/Bills/QuarterlyBill/${quaterly_slno}/${fileName}`
+      //   })
+      //   setFilezUrls(fileUrls)
+      // } else {
+      //   setFilezUrls([])
+      // }
+      setFilezUrls([])
+      try {
+        const result = await axioslogin.get(`/ItImageUpload/uploadFile/getQuaterlyBillImages/${quaterly_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setFilezUrls(images)
+        }
+      } catch (error) {
         setFilezUrls([])
+        console.error('Error fetching or processing images:', error);
       }
     }
     getbillsFile(quaterly_slno)

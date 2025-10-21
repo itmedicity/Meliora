@@ -750,9 +750,9 @@ const ItemsApprovalCompnt = ({
     req_slno
   ])
 
-  if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading || isItemskmcLoading)
+  if (isItemsLoading || isSlnoLoading || isStatusLoading)
     return <p>Loading...</p>
-  if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError)
+  if (itemsError || slnoError || statusError)
     return <p>Error occurred.</p>
   return (
     <Fragment>

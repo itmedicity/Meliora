@@ -681,8 +681,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   })
 
   const custodianDetails = useMemo(() => custodianDetailsData, [custodianDetailsData])
-  console.log(custodianDetails, "custodianDetails");
-
   useEffect(() => {
     if (isSuccess && custodianDetails?.length > 0) {
       const { am_custdn_asset_no_first, am_custdn_asset_no_second } = custodianDetails[0]

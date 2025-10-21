@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Typography } from '@mui/material'
 import { Box, Button, CssVarsProvider, Modal, ModalDialog } from '@mui/joy'
 import CancelIcon from '@mui/icons-material/Cancel'
+// import PdfViewer from 'src/views/Components/PdfViewer '
 
 const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, setimage }) => {
   const {
@@ -21,13 +22,13 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
   useEffect(() => {
     if (imageUrls.length > 0) {
       const files = imageUrls.map(file => ({
-        url: file,
-        type: file.endsWith('.pdf') ? 'pdf' : 'image'
+        ...file, // keep the original structure (imageName + url)
+        type: file.imageName.toLowerCase().endsWith('.pdf') ? 'pdf' : 'image'
       }))
       setUplodedFile(files)
-    } else {
     }
   }, [imageUrls])
+
 
   const Close = useCallback(() => {
     setimageViewOpen(false)
@@ -86,11 +87,9 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                 <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
                   {rm_room_name}
                   {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
-                    ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${
-                        rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
-                      }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${
-                        rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
-                      }${rm_floor_name ? rm_floor_name : ''})`
+                    ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                    }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                    }${rm_floor_name ? rm_floor_name : ''})`
                     : 'Not Updated'}
                 </Typography>
               ) : null}
@@ -162,6 +161,8 @@ const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, 
                         borderRadius: '4px'
                       }}
                     />
+                    // <PdfViewer src={file.url} />
+
                   )}
                 </Box>
               </Box>

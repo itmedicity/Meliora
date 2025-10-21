@@ -5,8 +5,8 @@ import { Virtuoso } from 'react-virtuoso'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import CustomLoadComp from '../../ComonComponent/Components/CustomLoadComp'
+import JSZip from 'jszip'
 const DashboardApprovalView = React.lazy(() => import('./DashboardApprovalView'))
 const CrfDetailSearchComp = React.lazy(() => import('../Components/CrfDetailSearchComp'))
 
@@ -23,30 +23,78 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
 
   const viewDetails = useCallback(async req_slno => {
     const getImage = async req_slno => {
-      try {
-        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-          const fileNames = data
-          const fileUrls = fileNames.map(fileName => {
-            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-          })
+      // try {
+      //   const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+      //   const { success, data } = result.data
+      //   if (success === 1) {
+      //     const fileNames = data
+      //     const fileUrls = fileNames.map(fileName => {
+      //       return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
+      //     })
 
-          const savedFiles = fileUrls.map(val => {
-            const parts = val.split('/')
-            const fileNamePart = parts[parts.length - 1]
-            const obj = {
-              imageName: fileNamePart,
-              url: val
-            }
-            return obj
-          })
-          setImageArry(savedFiles)
+      //     const savedFiles = fileUrls.map(val => {
+      //       const parts = val.split('/')
+      //       const fileNamePart = parts[parts.length - 1]
+      //       const obj = {
+      //         imageName: fileNamePart,
+      //         url: val
+      //       }
+      //       return obj
+      //     })
+      //     setImageArry(savedFiles)
+      //   } else {
+      //     setImageArry([])
+      //   }
+      // } catch (error) {
+      //   warningNotify('An error occurred while getting data')
+      // }
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
         } else {
-          setImageArry([])
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images)
+
         }
       } catch (error) {
-        warningNotify('An error occurred while getting data')
+        console.error('Error fetching or processing images:', error);
+        setImageArry([])
       }
     }
     GetItemDetailsOfCRFCmp(req_slno, setReqItems, setApproveTableData, setPoDetails)
@@ -112,10 +160,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.incharge_approve === 1
                   ? 'Approved'
                   : val.incharge_approve === 2
-                  ? 'Rejected'
-                  : val.incharge_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.incharge_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               hod_req: val.hod_req,
               hod_approve: val.hod_approve,
               hod_remarks: val.hod_remarks !== null ? val.hod_remarks : 'Not Updated',
@@ -126,10 +174,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.hod_approve === 1
                   ? 'Approved'
                   : val.hod_approve === 2
-                  ? 'Rejected'
-                  : val.hod_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.hod_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               dms_req: val.dms_req,
               dms_approve: val.dms_approve,
               dms_remarks: val.dms_remarks !== null ? val.dms_remarks : 'Not Updated',
@@ -140,10 +188,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.dms_approve === 1
                   ? 'Approved'
                   : val.dms_approve === 2
-                  ? 'Rejected'
-                  : val.dms_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.dms_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               ms_approve_req: val.ms_approve_req,
               ms_approve: val.ms_approve,
               ms_approve_remark: val.ms_approve_remark !== null ? val.ms_approve_remark : 'Not Updated',
@@ -154,10 +202,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.ms_approve === 1
                   ? 'Approved'
                   : val.ms_approve === 2
-                  ? 'Rejected'
-                  : val.ms_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.ms_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               manag_operation_req: val.manag_operation_req,
               manag_operation_approv: val.manag_operation_approv,
               manag_operation_remarks:
@@ -169,10 +217,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.manag_operation_approv === 1
                   ? 'Approved'
                   : val.manag_operation_approv === 2
-                  ? 'Rejected'
-                  : val.manag_operation_approv === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.manag_operation_approv === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               senior_manage_req: val.senior_manage_req,
               senior_manage_approv: val.senior_manage_approv,
               senior_manage_remarks: val.senior_manage_remarks !== null ? val.senior_manage_remarks : 'Not Updated',
@@ -183,10 +231,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.senior_manage_approv === 1
                   ? 'Approved'
                   : val.senior_manage_approv === 2
-                  ? 'Rejected'
-                  : val.senior_manage_approv === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.senior_manage_approv === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               gm_approve_req: val.gm_approve_req,
               gm_approve: val.gm_approve,
               gm_approve_remarks: val.gm_approve_remarks !== null ? val.gm_approve_remarks : 'Not Updated',
@@ -197,10 +245,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.gm_approve === 1
                   ? 'Approved'
                   : val.gm_approve === 2
-                  ? 'Rejected'
-                  : val.gm_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.gm_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               md_approve_req: val.md_approve_req,
               md_approve: val.md_approve,
               md_approve_remarks: val.md_approve_remarks !== null ? val.md_approve_remarks : 'Not Updated',
@@ -211,10 +259,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.md_approve === 1
                   ? 'Approved'
                   : val.md_approve === 2
-                  ? 'Rejected'
-                  : val.md_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.md_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               ed_approve_req: val.ed_approve_req,
               ed_approve: val.ed_approve,
               ed_approve_remarks: val.ed_approve_remarks !== null ? val.ed_approve_remarks : 'Not Updated',
@@ -225,10 +273,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                 val.ed_approve === 1
                   ? 'Approved'
                   : val.ed_approve === 2
-                  ? 'Rejected'
-                  : val.ed_approve === 3
-                  ? 'On-Hold'
-                  : 'Not Done',
+                    ? 'Rejected'
+                    : val.ed_approve === 3
+                      ? 'On-Hold'
+                      : 'Not Done',
               hod_image: val.hod_image,
               dms_image: val.dms_image,
               ms_image: val.ms_image,
@@ -388,10 +436,10 @@ const DetailedViewofCRF = ({ setFlag, disData, setDisData, tableData, companyDat
                             {val.now_who_status === 1
                               ? 'Approved'
                               : val.now_who_status === 2
-                              ? 'Rejected'
-                              : val.now_who_status === 3
-                              ? 'On-Hold'
-                              : ''}
+                                ? 'Rejected'
+                                : val.now_who_status === 3
+                                  ? 'On-Hold'
+                                  : ''}
                           </IconButton>
                         </CssVarsProvider>
                       </Box>

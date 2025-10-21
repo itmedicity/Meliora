@@ -6,8 +6,7 @@ import CountDowncomponent from '../CountDown/CountDowncomponent'
 import EditIcon from '@mui/icons-material/Edit'
 import ModalEditTask from '../CreateTask/ModalEditTask'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { infoNotify } from 'src/views/Common/CommonCode'
 import SearchIcon from '@mui/icons-material/Search'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
@@ -19,6 +18,7 @@ import { getProjectList } from 'src/redux/actions/TmProjectsList.action'
 import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import SquareSharpIcon from '@mui/icons-material/SquareSharp'
+import JSZip from 'jszip'
 
 const AlllTask = ({ setTableCount, tableCount }) => {
   const dispatch = useDispatch()
@@ -96,30 +96,85 @@ const AlllTask = ({ setTableCount, tableCount }) => {
     setEditModalFlag(0)
     setimage(0) // Initialize imageViewModalFlag to 0 initially
     setimageViewModalOpen(false) // Close the modal if it was open
-    try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
+    // try {
+    //   const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
+    //   const { success } = result.data
+    //   if (success === 1) {
+    //     const data = result.data
+    //     const fileNames = data.data
+    //     const fileUrls = fileNames.map(fileName => {
+    //       return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
+    //     })
+    //     setImageUrls(fileUrls)
+    //     // Open the modal only if there are files
+    //     if (fileUrls.length > 0) {
+    //       setimage(1)
+    //       setimageViewModalOpen(true)
+    //       setSelectedImages(val)
+    //     } else {
+    //       warningNotify('No Image attached')
+    //     }
+    //   } else {
+    //     warningNotify('No Image Attached')
+    //   }
+    // } catch (error) {
+    //   warningNotify('Error in fetching files:', error)
+    // }
+    const getImage = async tm_task_slno => {
+      try {
+        const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageUrls(images)
           setimage(1)
           setimageViewModalOpen(true)
           setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
+          // setImageShowFlag(1)
+          // setImageShow(true)
         }
-      } else {
-        warningNotify('No Image Attached')
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
+        // setImageArry([])
       }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
     }
+    getImage(tm_task_slno)
   }
 
   const SearchInTableProject = useCallback(() => {

@@ -1,5 +1,4 @@
 import { Box, Chip, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'
 const QuotationCallComp = ({ poData }) => {

@@ -23,7 +23,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { getDeliveryMarking } from 'src/api/CommonApiCRF'
 import { useQuery } from '@tanstack/react-query'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import JSZip from 'jszip'
 
 const formatDateForInput = date => {
   return date.toISOString().split('T')[0]
@@ -174,24 +174,74 @@ const DeliveryMarkingView = ({ setViewFlag, setimageshowFlag, setimageshow, setP
   //show image
   const viewimage = useCallback(async val => {
     const getImage = async delivery_mark_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/DeliveryMarking/${delivery_mark_slno}/${fileName}`
-        })
-        const savedFiles = fileUrls.map(val => {
-          const parts = val.split('/')
-          const fileNamePart = parts[parts.length - 1]
-          const obj = {
-            imageName: fileNamePart,
-            url: val
-          }
-          return obj
-        })
-        setImageArry(savedFiles)
-      } else {
+      // const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`)
+      // const { success, data } = result.data
+      // if (success === 1) {
+      //   const fileNames = data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/CRF/DeliveryMarking/${delivery_mark_slno}/${fileName}`
+      //   })
+      //   const savedFiles = fileUrls.map(val => {
+      //     const parts = val.split('/')
+      //     const fileNamePart = parts[parts.length - 1]
+      //     const obj = {
+      //       imageName: fileNamePart,
+      //       url: val
+      //     }
+      //     return obj
+      //   })
+      //   setImageArry(savedFiles)
+      // } else {
+      //   setImageArry([])
+      //   warningNotify('No Image to Show')
+      // }
+
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images)
+
+        }
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
         setImageArry([])
         warningNotify('No Image to Show')
       }

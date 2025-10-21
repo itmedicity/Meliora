@@ -1,10 +1,8 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Box, Chip, CssVarsProvider } from '@mui/joy'
 import { Paper, Typography } from '@mui/material'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import EmpStatusUpdationinDash from './EmpStatusUpdationinDash'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'

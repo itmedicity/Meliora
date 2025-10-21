@@ -7,7 +7,6 @@ import PaidIcon from '@mui/icons-material/Paid'
 import SimCardIcon from '@mui/icons-material/SimCard'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation'
-import { Paper } from '@mui/material'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import { useSelector } from 'react-redux'
@@ -73,7 +72,6 @@ const UpdatePendingModal = ({
   const id = useSelector(state => {
     return state.LoginUserData.empid
   })
-
   const PayedStatus = useCallback(e => {
     if (e.target.checked === true) {
       setpayedStatus(true)

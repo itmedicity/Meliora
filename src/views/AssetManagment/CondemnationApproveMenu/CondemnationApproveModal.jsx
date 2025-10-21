@@ -19,7 +19,6 @@ export default CondemnationApproveModal
 // import { useQuery } from 'react-query';
 // import { getCondemAddedDetails, getCondemnationAllDetails, getItemUnderForm } from 'src/api/AssetApis';
 // import { axioslogin } from 'src/views/Axios/Axios';
-// import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 // import DirectionsIcon from '@mui/icons-material/Directions';
 // import FileViewSingle from 'src/views/Components/FileViewSingle';
 // import { Popover } from '@mui/material';

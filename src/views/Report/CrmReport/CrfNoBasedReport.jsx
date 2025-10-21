@@ -1,7 +1,6 @@
 import { Box, Chip, CssVarsProvider, Grid, IconButton, Typography } from '@mui/joy'
 import { format } from 'date-fns'
 import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
-// import { use } from 'react-router-dom/cjs/react-router-dom.min';
 import { useNavigate } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomCloseIconCmp'
@@ -10,9 +9,6 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CustomBackDrop from 'src/views/Components/CustomBackDrop'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { Paper } from '@mui/material'
-// import { ToastContainer } from 'react-toastify'
 import CustomLoadComp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomLoadComp'
 import ReqImageDisModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ReqImageDisModal'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
@@ -21,6 +17,7 @@ import ReqItemDisplay from 'src/views/CentralRequestManagement/ComonComponent/Re
 import ApprovedItemListDis from 'src/views/CentralRequestManagement/ComonComponent/ApprovedItemListDis'
 import CrfReqDetailCmpnt from 'src/views/CentralRequestManagement/CRFRequestMaster/Components/CrfReqDetailCmpnt'
 import UserReceivedItemDetails from 'src/views/CentralRequestManagement/ComonComponent/ApprovalComp/UserReceivedItemDetails'
+import JSZip from 'jszip'
 
 const CrfNoBasedReport = () => {
   const history = useNavigate()
@@ -50,23 +47,66 @@ const CrfNoBasedReport = () => {
       }
 
       const getImage = async req_slno => {
-        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-        const { success, data } = result.data
-        if (success === 1) {
-          const fileNames = data
-          const fileUrls = fileNames.map(fileName => {
-            return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-          })
-          const savedFiles = fileUrls.map(val => {
-            const parts = val.split('/')
-            const fileNamePart = parts[parts.length - 1]
-            const obj = {
-              imageName: fileNamePart,
-              url: val
-            }
-            return obj
-          })
-          setImageArry(savedFiles)
+        // const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+        // const { success, data } = result.data
+        // if (success === 1) {
+        //   const fileNames = data
+        //   const fileUrls = fileNames.map(fileName => {
+        //     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
+        //   })
+        //   const savedFiles = fileUrls.map(val => {
+        //     const parts = val.split('/')
+        //     const fileNamePart = parts[parts.length - 1]
+        //     const obj = {
+        //       imageName: fileNamePart,
+        //       url: val
+        //     }
+        //     return obj
+        //   })
+        //   setImageArry(savedFiles)
+        // }
+        setImageArry([])
+        try {
+          const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+            responseType: 'blob'
+          });
+
+          const contentType = result.headers['content-type'] || '';
+          if (contentType?.includes('application/json')) {
+            return;
+          } else {
+            const zip = await JSZip.loadAsync(result.data);
+            // Extract image files (e.g., .jpg, .png)
+            const imageEntries = Object.entries(zip.files).filter(
+              ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+            );
+            const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+              // Get the original blob (no type)
+              const originalBlob = await fileObj.async('blob');
+
+              // Determine MIME type based on filename extension (or any other logic)
+              let mimeType = '';
+              if (filename.endsWith('.pdf')) {
+                mimeType = 'application/pdf';
+              } else if (filename.endsWith('.png')) {
+                mimeType = 'image/png';
+              } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+                mimeType = 'image/jpeg';
+              } else {
+                mimeType = 'application/octet-stream'; // fallback
+              }
+              // Recreate blob with correct type
+              const blobWithType = new Blob([originalBlob], { type: mimeType });
+              // Create URL from new blob
+              const url = URL.createObjectURL(blobWithType);
+              return { imageName: filename, url, blob: blobWithType };
+            });
+            const images = await Promise.all(imagePromises);
+            setImageArry(images)
+          }
+        } catch (error) {
+          console.error('Error fetching or processing images:', error);
+          setImageArry([])
         }
       }
 

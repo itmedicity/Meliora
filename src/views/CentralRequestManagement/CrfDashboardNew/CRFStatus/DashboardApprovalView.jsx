@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
+import { Box, Grid, Modal, ModalClose, ModalDialog, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { Fragment, memo } from 'react'
 
