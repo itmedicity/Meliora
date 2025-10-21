@@ -214,12 +214,13 @@ export const getCondemSlno = async postCondemMast => {
 }
 export const getCondemPendingDatas = async postCondemDept => {
   return axioslogin.post('/AssetCondemnation/getpendingApprovals', postCondemDept).then(res => {
-    const { success, data } = res.data
+    const { success, data } = res.data 
     if (success === 2) {
       return data
     }
   })
 }
+
 export const getItemUnderForm = async postCondemSlno => {
   return axioslogin.post('/AssetCondemnation/getItemUnderForm', postCondemSlno).then(res => {
     const { success, data } = res.data
@@ -245,14 +246,6 @@ export const getAllDeptCondemList = async postAllDeptcondemList => {
     }
   })
 }
-export const getDeptCondemnationList = async postDeptcondemList => {
-  return axioslogin.post('/AssetCondemnation/getDeptCondemnationList', postDeptcondemList).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
-      return data
-    }
-  })
-}
 
 export const getDeptScrapStore = async postDept => {
   return axioslogin.post('/AssetCondemnation/getDeptScrapStore', postDept).then(res => {
@@ -263,26 +256,81 @@ export const getDeptScrapStore = async postDept => {
   })
 }
 
-export const getCondemnationApprovalRights = async postDept => {
-  return axioslogin.post('/condemApprovalLevel/getCondemnationApprovalRights', postDept).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
-      return data
-    }
-  })
-}
-export const getCondemnationAllDetails = async postCondemSlno => {
-  return axioslogin.post('/condemApprovalLevel/getCondemnationAllDetails', postCondemSlno).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
-      return data
-    }
-  })
-}
-export const getActiveCondemnationLevel = async () => {
-  return axioslogin.get(`/condemApprovalLevel/getActiveCondemnationLevel`).then(res => {
+export const getTopActiveCondemnationLevel = async () => {
+  return axioslogin.get(`/condemApprovalLevel/getTopActiveCondemnationLevel`).then(res => {
     const { success, data } = res.data
     if (success === 2) {
+      return data
+    }
+  })
+}
+export const getActiveCondemnationLevels = async () => {
+  return axioslogin.get(`/condemApprovalLevel/getCondemnActiveApprovalLevel`).then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
+}
+export const getcondemnAllApproved = async postDataa => {
+  return axioslogin.post('/AssetCondemnation/getAllDeptApprovedOrRejected', postDataa).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+    else{
+      return []
+    }
+  })
+}
+
+export const getActiveCondemnationLevel = async () => {
+    return axioslogin.get(`/condemApprovalLevel/getActiveCondemnationLevel`).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getScrapNotCategorized = async () => {
+    return axioslogin.get(`/AssetCondemnation/getScrapNotUnderCategorization`).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+export const getAddedItemNotCategorized = async () => {
+    return axioslogin.get(`/AssetCondemnation/getAddedScrapNotUnderCategorization`).then((res) => {
+        const { success, data } = res.data        
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getcondemdAssetCategoryWiseDashboard = async () => {
+    return axioslogin.get(`/AssetCondemnation/getcondemdAssetCategoryWiseDashboard`).then((res) => {
+        const { success, data } = res.data        
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getSubmittedScarpForms = async () => {
+    return axioslogin.get(`/AssetCondemnation/getSubmittedScarpForms`).then((res) => {
+        const { success, data } = res.data
+        if (success === 2) {
+            return data
+        }
+    })
+}
+
+export const getscrapItemRateDetails= async postScrapFormNo => {
+  return axioslogin.post('/condemMasters/getscrapItemRateDetail', postScrapFormNo).then(res => {
+    const { success, data } = res.data 
+      if (success === 2) {
       return data
     }
   })

@@ -6,7 +6,9 @@ import CountDowncomponent from '../CountDown/CountDowncomponent'
 import GoalCreation from '../ModalComponent/GoalCreation'
 import EditGoalCreation from '../ModalComponent/EditGoalCreation'
 import { Virtuoso } from 'react-virtuoso'
-const AllGoalsList = ({ setTableCount, tableCount }) => {
+
+
+const AllGoalsList = () => {
   const [goalz, setgoalz] = useState([])
   const [addGoalFlag, setAddGoalFlag] = useState(0)
   const [addGoalModalOpen, setaddGoalModalOpen] = useState(false)
@@ -37,7 +39,7 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
       }
     }
     getAllGoals()
-  }, [tableCount])
+  }, [])
   const CreateGoal = useCallback(() => {
     setAddGoalFlag(1)
     setaddGoalModalOpen(true)
@@ -59,8 +61,6 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
       {addGoalFlag === 1 ? (
         <GoalCreation
           open={addGoalModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setAddGoalFlag={setAddGoalFlag}
           setaddGoalModalOpen={setaddGoalModalOpen}
         />
@@ -68,8 +68,6 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
       {editGoalFlag === 1 ? (
         <EditGoalCreation
           open={editGoalModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setEditGoalFlag={setEditGoalFlag}
           setEditGoalModalOpen={setEditGoalModalOpen}
           goalData={goalData}
@@ -152,10 +150,10 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                           val.tm_goal_status === null
                             ? '#311E26'
                             : val.tm_goal_status === 0
-                            ? '#311E26'
-                            : val.tm_goal_status === 1
-                            ? '#94C973'
-                            : 'transparent',
+                              ? '#311E26'
+                              : val.tm_goal_status === 1
+                                ? '#94C973'
+                                : 'transparent',
                         minHeight: 5,
                         fontWeight: 700
                       }}
@@ -163,10 +161,10 @@ const AllGoalsList = ({ setTableCount, tableCount }) => {
                       {val.tm_goal_status === null
                         ? 'InCompleted'
                         : val.tm_goal_status === 0
-                        ? 'Incompleted'
-                        : val.tm_goal_status === 1
-                        ? 'Completed'
-                        : 'not given'}
+                          ? 'Incompleted'
+                          : val.tm_goal_status === 1
+                            ? 'Completed'
+                            : 'not given'}
                     </Chip>
                   </Box>
                   <Box sx={{ width: 150, fontWeight: 600, color: 'grey', fontSize: 12 }}>

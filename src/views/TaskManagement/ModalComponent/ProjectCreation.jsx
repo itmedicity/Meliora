@@ -12,7 +12,7 @@ import { getNonGoalProjectList, getProjectListWithgoal } from 'src/redux/actions
 import moment from 'moment'
 import GoalCreation from './GoalCreation'
 
-const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tableCount, setTableCount }) => {
+const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, }) => {
   const dispatch = useDispatch()
   const [goalz, setgoalz] = useState(0)
   const [dueDateGoal, setdueDateGoal] = useState('')
@@ -91,7 +91,6 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
           const { message, success } = result.data
           if (success === 1) {
             succesNotify(message)
-            setTableCount(tableCount + 1)
             reset()
             CloseProject()
             if (goalz !== 0) {
@@ -110,7 +109,7 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
         infoNotify('Please fill Mandatory feilds')
       }
     },
-    [postProject, tableCount, tm_project_name, goalz, CloseProject, dispatch, reset, setTableCount, tm_project_duedate]
+    [postProject, tm_project_name, goalz, CloseProject, dispatch, reset, tm_project_duedate]
   )
 
   const isGoalOverdue = moment().isAfter(moment(dueDateGoal))
@@ -120,220 +119,206 @@ const ProjectCreation = ({ open, setAddProjectFlag, setaddProjectlModalOpen, tab
       {addGoalFlag === 1 ? (
         <GoalCreation
           open={addGoalModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setAddGoalFlag={setAddGoalFlag}
           setaddGoalModalOpen={setaddGoalModalOpen}
         />
       ) : null}
+
       <CssVarsProvider>
         <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
           open={open}
+          aria-labelledby="create-project-title"
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            pl: 1,
-            borderRadius: 10
+            p: 2,
           }}
         >
-          <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
-            <Box sx={{ flex: 1 }}>
-              <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
+          <ModalDialog
+            variant="outlined"
+            sx={{
+              width: { xs: '90vw', sm: '70vw', md: '43vw' },
+              borderRadius: 'lg',
+              p: 0,
+              bgcolor: 'background.body',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 2,
+                py: 1.5,
+                borderBottom: '1px solid',
+                borderColor: 'neutral.outlinedBorder',
+                bgcolor: 'white',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <AccountTreeSharpIcon sx={{ height: 36, width: 36, color: '#003B73', }} />
                 <Typography
-                  sx={{
-                    color: 'lightgray',
-                    fontSize: 12,
-                    pl: 1,
-                    flex: 1,
-                    pt: 1.5,
-                    fontWeight: 900
-                  }}
+                  level="title-sm"
+                  sx={{ fontWeight: 700, color: '#003B73', ml: 1 }}
                 >
-                  Create A New Project
+                  Create a New Project
                 </Typography>
-                <HighlightOffIcon
-                  sx={{
-                    height: 40,
-                    width: 40,
-                    cursor: 'pointer',
-                    color: '#52688F',
-                    p: 1,
-                    '&:hover': { color: '#BA0F30' }
-                  }}
-                  onClick={CloseProject}
+              </Box>
+
+              <HighlightOffIcon
+                onClick={CloseProject}
+                sx={{
+                  cursor: 'pointer',
+                  color: '#5C469C',
+                  '&:hover': { color: '#BA0F30' },
+                }}
+              />
+            </Box>
+
+            {/* Content */}
+            <Box
+              sx={{
+                p: 4,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                maxHeight: '75vh',
+              }}
+            >
+              {/* Project Name */}
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: '#003B73', fontWeight: 600, pl: 0.5 }}
+                >
+                  Project<span style={{ color: '#74112F' }}> *</span>
+                </Typography>
+                <Inputcomponent
+                  placeholder="New Project"
+                  type="text"
+                  name="tm_project_name"
+                  value={tm_project_name}
+                  onchange={ProjectMastUpdate}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 50, mt: 1 }}></Box>
-              <Box
-                style={{
-                  marginLeft: 50,
-                  marginTop: '-0.99em',
-                  paddingLeft: 2,
-                  zIndex: 2,
-                  backgroundColor: 'white',
-                  borderRadius: 35,
-                  position: 'absolute',
-                  fontSize: '0.75em'
-                }}
-              >
-                <AccountTreeSharpIcon sx={{ height: 60, width: 60, p: 1.5 }} />
-              </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 5, pl: 5.8 }}>
-                Create Project
-              </Typography>
-              <Box sx={{ maxHeight: '60vh', overflow: 'auto' }}>
-                <Box sx={{ flex: 1, mx: 3, mt: 4 }}>
-                  <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
-                  >
-                    Project
-                    <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                  </Typography>
-                  <Inputcomponent
-                    placeholder="New Project"
-                    type="text"
-                    name="tm_project_name"
-                    value={tm_project_name}
-                    onchange={ProjectMastUpdate}
-                  />
-                </Box>
-                <Box sx={{ flex: 1, mx: 3, mt: 2.5 }}>
-                  <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
-                  >
-                    Goal
-                  </Typography>
 
-                  <Box sx={{ flex: 1, display: 'flex' }}>
-                    <TmAllGoalsList goalz={goalz} setgoalz={setgoalz} setdueDateGoal={setdueDateGoal} />
-                    <Box sx={{ ml: 0.5, mt: 2 }} onClick={CreateGoal}>
-                      <Tooltip title="Create New Goal">
-                        <Chip
-                          sx={{
-                            cursor: 'pointer',
-                            bgcolor: 'var(--royal-purple-200) ',
-                            color: 'black',
-                            '&:hover': { bgcolor: 'var(--royal-purple-100)' }
-                          }}
-                        >
-                          &nbsp;+ create&nbsp;
-                        </Chip>
-                      </Tooltip>
-                    </Box>
+              {/* Goal */}
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: '#003B73', fontWeight: 600, pl: 0.5 }}
+                >
+                  Goal
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                  <Box sx={{ flex: 1 }}>
+                    <TmAllGoalsList
+                      goalz={goalz}
+                      setgoalz={setgoalz}
+                      setdueDateGoal={setdueDateGoal}
+                    />
+                  </Box>
+                  <Box>
+                    <Tooltip title="Create New Goal">
+                      <Chip
+                        onClick={CreateGoal}
+                        sx={{
+                          cursor: 'pointer',
+                          bgcolor: 'var(--royal-purple-200)',
+                          color: 'black',
+                          '&:hover': { bgcolor: 'var(--royal-purple-100)' },
+                        }}
+                      >
+                        + Create
+                      </Chip>
+                    </Tooltip>
                   </Box>
                 </Box>
-                <Box sx={{ flex: 1, mx: 3, mt: 3 }}>
-                  <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
-                  >
-                    Due Date
-                    <span style={{ color: '#74112F', fontSize: 15 }}>*</span>
-                  </Typography>
-                  <Tooltip
-                    title={
-                      isGoalOverdue
-                        ? "Due date cannot be added, selected Goal is already overdue. To add Project due date, please update the Goal's due date."
-                        : ''
-                    }
-                    placement="bottom"
-                    color="warning"
-                    sx={{ width: 350 }}
-                  >
-                    <div>
-                      <Inputcomponent
-                        type="datetime-local"
-                        name="tm_project_duedate"
-                        value={tm_project_duedate}
-                        slotProps={{
-                          input: {
-                            min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-                            max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss')
-                          }
-                        }}
-                        disabled={isGoalOverdue}
-                        onchange={ProjectMastUpdate}
-                      />
-                    </div>
-                  </Tooltip>
-                </Box>
-                <Box sx={{ mt: 3, mx: 3 }}>
-                  <Typography
-                    sx={{
-                      pl: 1.5,
-                      color: '#003B73',
-                      fontWeight: 600,
-                      textUnderline: 1,
-                      fontSize: 12
-                    }}
-                  >
-                    Describtion
-                  </Typography>
-                  <Textarea
-                    minRows={1}
-                    maxRows={5}
-                    placeholder="Describtion"
-                    variant="plain"
-                    sx={{
-                      borderBottom: '2px solid',
-                      borderColor: 'neutral.outlinedBorder',
+              </Box>
+
+              {/* Due Date */}
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: '#003B73', fontWeight: 600, pl: 0.5 }}
+                >
+                  Due Date<span style={{ color: '#74112F' }}> *</span>
+                </Typography>
+                <Tooltip
+                  title={
+                    isGoalOverdue
+                      ? "Due date cannot be added, selected Goal is already overdue. To add Project due date, please update the Goal's due date."
+                      : ''
+                  }
+                  placement="bottom"
+                >
+                  <div>
+                    <Inputcomponent
+                      type="datetime-local"
+                      name="tm_project_duedate"
+                      value={tm_project_duedate}
+                      slotProps={{
+                        input: {
+                          min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+                          max: moment(new Date(dueDateGoal)).format('YYYY-MM-DD HH:mm:ss'),
+                        },
+                      }}
+                      disabled={isGoalOverdue}
+                      onchange={ProjectMastUpdate}
+                      sx={{ width: '100%' }}
+                    />
+                  </div>
+                </Tooltip>
+              </Box>
+
+              {/* Description */}
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: '#003B73', fontWeight: 600, pl: 0.5 }}
+                >
+                  Description
+                </Typography>
+                <Textarea
+                  minRows={1}
+                  maxRows={5}
+                  placeholder="Description"
+                  variant="plain"
+                  sx={{
+                    borderBottom: '2px solid',
+                    borderColor: 'neutral.outlinedBorder',
+                    borderRadius: 0,
+                    '&:hover': { borderColor: 'neutral.outlinedHoverBorder' },
+                    '&::before': {
+                      border: '1px solid var(--Textarea-focusedHighlight)',
+                      transform: 'scaleX(0)',
+                      transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
                       borderRadius: 0,
-                      '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder'
-                      },
-                      '&::before': {
-                        border: '1px solid var(--Textarea-focusedHighlight)',
-                        transform: 'scaleX(0)',
-                        left: 0,
-                        right: 0,
-                        bottom: '-2px',
-                        top: 'unset',
-                        transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0
-                      },
-                      '&:focus-within::before': {
-                        transform: 'scaleX(1)'
-                      }
-                    }}
-                    name="tm_project_description"
-                    value={tm_project_description}
-                    onChange={e => ProjectMastUpdate(e)}
-                  />
-                </Box>
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 3, pb: 2, mr: 3 }}>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={InsertProject}>
-                    Create
-                  </Button>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={CloseProject}>
-                    {' '}
-                    Cancel
-                  </Button>
-                </Box>
+                    },
+
+                  }}
+                  name="tm_project_description"
+                  value={tm_project_description}
+                  onChange={e => ProjectMastUpdate(e)}
+                />
+              </Box>
+
+              {/* Actions */}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button variant="plain" color="neutral" onClick={InsertProject}>
+                  Create
+                </Button>
+                <Button variant="plain" color="neutral" onClick={CloseProject}>
+                  Cancel
+                </Button>
               </Box>
             </Box>
           </ModalDialog>
         </Modal>
       </CssVarsProvider>
+
     </Box>
   )
 }

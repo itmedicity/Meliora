@@ -1,9 +1,8 @@
 import {
   Box,
   Button,
-  Chip,
   CssVarsProvider,
-  DialogActions,
+  Grid,
   Modal,
   ModalDialog,
   Textarea,
@@ -11,39 +10,38 @@ import {
   Typography
 } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import CloseIcon from '@mui/icons-material/Close'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import EmpProgressTable from './EmpProgressTable'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import AddSubTaskEmp from './AddSubTaskEmp'
 import SubtaskTableEmp from './SubtaskTableEmp'
 import EditSubtaskEmp from './EditSubtaskEmp'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
 import imageCompression from 'browser-image-compression'
 import moment from 'moment'
 import AutoDeleteTwoToneIcon from '@mui/icons-material/AutoDeleteTwoTone'
 import DueDateModal from '../ModalComponent/DueDateModal'
 import AssignmentSharpIcon from '@mui/icons-material/AssignmentSharp'
 import CancelIcon from '@mui/icons-material/Cancel'
-import AttachmentIcon from '@mui/icons-material/Attachment'
+import { taskColor } from 'src/color/Color'
+import FileViewSingle from 'src/views/Components/FileViewSingle'
+import ClearSharpIcon from '@mui/icons-material/ClearSharp'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
+import AddIcon from '@mui/icons-material/Add';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import FormattedDate from 'src/views/Components/FormattedDate'
+import { useQueryClient } from '@tanstack/react-query'
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 const EmpTaskStatus = ({
   open,
   masterData,
   setEditModalFlag,
   setEditModalOpen,
-  tableCount,
-  setTableCount,
   projectcount,
   setprojectcount,
-  taskcount,
-  settaskcount
 }) => {
   const {
     tm_task_slno,
@@ -111,6 +109,7 @@ const EmpTaskStatus = ({
             ? false
             : false
   )
+  const queryClient = useQueryClient()
   const [checkFlag, setcheckFlag] = useState(tm_task_status)
   const [assignedEmp, setAssignedEmp] = useState([])
   const [progresstabledata, setprogresstabledata] = useState([])
@@ -118,12 +117,14 @@ const EmpTaskStatus = ({
   const [projectz, setprojectz] = useState(tm_project_slno === null ? 0 : tm_project_slno)
   const [value, setvalue] = useState(0)
   const [flag, setflag] = useState(0)
-  const [subTask, setSubTask] = useState([])
   const [arry, setArry] = useState([])
   const [tableRendering, setTableRendering] = useState(0)
   const [subTaskData, setsubTaskData] = useState([])
   const [viewSubTask, setViewSubTask] = useState(0)
   const [selectTaskfile, setselectTaskfile] = useState([])
+  const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
+  const [imageShow, setImageShow] = useState(false)
+  const [imageShowFlag, setImageShowFlag] = useState(0)
   const [updateTask, setupdateTask] = useState({
     pendingRemarks: tm_pending_remark ? tm_pending_remark : '',
     onHoldRemaks: tm_onhold_remarks ? tm_onhold_remarks : '',
@@ -392,15 +393,36 @@ const EmpTaskStatus = ({
                   infoNotify('please enter Remarks')
                 } else {
                   succesNotify('Task updated Successfully with file Upload')
-                  setTableCount(tableCount + 1)
                   setprojectcount(projectcount + 1)
-                  settaskcount(taskcount + 1)
+                  queryClient.invalidateQueries({
+                    queryKey: ['getAllSubTaskUnderTask'],
+                    exact: false,
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ['getEmpAllTasksList'],
+                    exact: false,
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ['getIncompletedAllTaskUnderDepartment'],
+                    exact: false,
+                  });
                   handleEditClose()
                 }
               } else {
-                setTableCount(tableCount + 1)
+
                 setprojectcount(projectcount + 1)
-                settaskcount(taskcount + 1)
+                queryClient.invalidateQueries({
+                  queryKey: ['getAllSubTaskUnderTask'],
+                  exact: false,
+                });
+                queryClient.invalidateQueries({
+                  queryKey: ['getEmpAllTasksList'],
+                  exact: false,
+                });
+                queryClient.invalidateQueries({
+                  queryKey: ['getIncompletedAllTaskUnderDepartment'],
+                  exact: false,
+                });
               }
             })
           } else {
@@ -412,9 +434,19 @@ const EmpTaskStatus = ({
               infoNotify('please enter Remarks')
             } else {
               succesNotify(message)
-              setTableCount(tableCount + 1)
               setprojectcount(projectcount + 1)
-              settaskcount(taskcount + 1)
+              queryClient.invalidateQueries({
+                queryKey: ['getAllSubTaskUnderTask'],
+                exact: false,
+              });
+              queryClient.invalidateQueries({
+                queryKey: ['getEmpAllTasksList'],
+                exact: false,
+              });
+              queryClient.invalidateQueries({
+                queryKey: ['getIncompletedAllTaskUnderDepartment'],
+                exact: false,
+              });
               handleEditClose()
             }
           }
@@ -432,15 +464,13 @@ const EmpTaskStatus = ({
       onHoldRemaks,
       onPending,
       pendingRemarks,
-      tableCount,
       selectTaskfile,
       tm_task_slno,
       handleImageUpload,
-      setTableCount,
+      queryClient,
       projectcount,
       setprojectcount,
-      settaskcount,
-      taskcount
+
     ]
   )
 
@@ -462,7 +492,6 @@ const EmpTaskStatus = ({
           if (success === 1) {
             succesNotify(message)
             setprogressCount(progressCount + 1)
-            setTableCount(tableCount + 1)
             setprogressCount(progressCount + 1)
             resetProgress()
           } else if (success === 0) {
@@ -476,7 +505,7 @@ const EmpTaskStatus = ({
         infoNotify('Please Select Date For Entering Task Progress')
       }
     },
-    [postProgress, setprogressCount, tableCount, setTableCount, progressCount, ProgressDate]
+    [postProgress, setprogressCount, progressCount, ProgressDate]
   )
   const rowSelect = useCallback(data => {
     setvalue(1)
@@ -491,6 +520,10 @@ const EmpTaskStatus = ({
       progressDetails: tm_task_progress === '' ? null : tm_task_progress
     }
     setTaskProgress(frmdata)
+    setOnProgress(true)
+    setCompleted(false)
+    setOnHold(false)
+    setOnPending(false)
   }, [])
   const UpdateProgress = useCallback(
     e => {
@@ -519,10 +552,9 @@ const EmpTaskStatus = ({
     [patchProgress, progressCount, ProgressDate]
   )
 
-  const openAddSubtask = useCallback(
-    () => {
-      setflag(1)
-    },
+  const openAddSubtask = useCallback(() => {
+    setflag(1)
+  },
     [setflag]
   )
 
@@ -530,8 +562,9 @@ const EmpTaskStatus = ({
     value => {
       setflag(2)
       setsubTaskData(value)
+
     },
-    [setsubTaskData]
+    [setsubTaskData,]
   )
 
   const handleRemoveTaskFile = index => {
@@ -561,18 +594,45 @@ const EmpTaskStatus = ({
     getDueDate()
   }, [tm_task_slno])
 
+  const ViewImage = useCallback(file => {
+    const fileType = file.url
+      ? file.url.endsWith('.pdf')
+        ? 'pdf'
+        : 'image'
+      : file.type.includes('application/pdf')
+        ? 'pdf'
+        : 'image'
+
+    const fileUrl = file.url || URL.createObjectURL(file)
+    setPreviewFile({ url: fileUrl, type: fileType })
+    setImageShow(true)
+    setImageShowFlag(1)
+  }, [])
+
+  const CloseFile = useCallback(() => {
+    setImageShowFlag(0)
+    setImageShow(false)
+  }, [])
+
+
   return (
     <Box>
       <CssVarsProvider>
+
         <Modal open={open}>
           <ModalDialog
             sx={{
               overflowY: 'scroll',
-              width: '90vw',
-              height: '60vw',
+              width: '85vw',
+              height: '90vh',
               p: 0
             }}
           >
+            {imageShowFlag === 1 ? (
+              <Box>
+                <FileViewSingle previewFile={previewFile} imageShow={imageShow} CloseFile={CloseFile} />
+              </Box>
+            ) : null}
             <Box>
               {dueDateModalFlag === 1 ? (
                 <DueDateModal
@@ -586,10 +646,12 @@ const EmpTaskStatus = ({
                 />
               ) : null}
             </Box>
+
+
+
             <Box sx={{ borderRight: 1, borderLeft: 1, borderBottom: 1, borderColor: '#D9E4EC' }}>
               <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
-                <Typography sx={{ color: 'lightgray', fontSize: 12, pl: 1, flex: 1, pt: 1, fontWeight: 900 }}>
-                  {' '}
+                <Typography sx={{ color: taskColor.darkPurple, pl: 1, flex: 1, pt: 1, fontWeight: 900 }}>
                   My Task
                 </Typography>
                 <CancelIcon
@@ -604,7 +666,7 @@ const EmpTaskStatus = ({
                   onClick={handleEditClose}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 40, mt: 1 }}></Box>
+              <Box sx={{ flex: 1, bgcolor: taskColor.darkPurple, height: 40, mt: 1 }}></Box>
               <Box
                 style={{
                   marginLeft: 50,
@@ -617,147 +679,188 @@ const EmpTaskStatus = ({
                   fontSize: '0.75em'
                 }}
               >
-                <AssignmentSharpIcon sx={{ height: 50, width: 50, p: 1.5 }} />
+                <AssignmentSharpIcon sx={{ height: 30, width: 30, color: taskColor.darkPurple, m: 1 }} />
               </Box>
               <Box>
-                <Box sx={{ flex: 1, mt: 4 }}>
-                  {tm_project_name !== null ? (
-                    <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                      <Box sx={{ flex: 0.9, ml: 3 }}>Project</Box>
-                      <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_project_name}</Box>
-                    </Box>
-                  ) : null}
-                  <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3 }}>Task Name</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_task_name}</Box>
-                  </Box>
-                  <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3 }}>Department</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{dept_name}</Box>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3 }}>Section</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{sec_name}</Box>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3 }}>Assignees</Box>
-                    <Box sx={{ flex: 8, color: '#970C10', textTransform: 'capitalize', mr: 2 }}>
-                      :&nbsp;{assignedEmp}
-                    </Box>
-                  </Box>
-                  <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3, fontFamily: 'Georgia' }}>Created date</Box>
-                    <Box sx={{ flex: 8, mr: 2 }}>:&nbsp;{create_date}</Box>
-                  </Box>
-                  <Box sx={{ display: 'flex', pt: 1, color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3, fontFamily: 'Georgia' }}>Due date</Box>
-                    <Box sx={{ flex: 8, mr: 2, display: 'flex' }}>
-                      :&nbsp;{tm_task_due_date}
-                      <Box sx={{ ml: 1 }}>
-                        <Tooltip title={'Changed Duedates'}>
-                          <AutoDeleteTwoToneIcon
-                            sx={{ color: '#391306', cursor: 'pointer' }}
-                            onClick={getAllDueDates}
-                          />
-                        </Tooltip>
+                <Box sx={{ flex: 1, mt: 4, color: taskColor.darkPurple, ml: 4, pr: 2 }}>
+                  {tm_project_name && (
+                    <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                      <Box sx={{ width: '120px', fontWeight: 600 }}>Project</Box>
+                      <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                        : {tm_project_name}
                       </Box>
                     </Box>
+                  )}
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Task Number</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {tm_task_slno}
+                    </Box>
                   </Box>
-                  <Box sx={{ display: 'flex', pt: 1, fontFamily: 'Georgia', color: '#000C66' }}>
-                    <Box sx={{ flex: 0.9, ml: 3 }}>Description</Box>
-                    <Box sx={{ flex: 8, textTransform: 'capitalize', mr: 2 }}>:&nbsp;{tm_task_description}</Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Task Name</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {tm_task_name}
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Department</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {dept_name}
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Section</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {sec_name}
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Assignees</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {assignedEmp}
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Created Date</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : <FormattedDate date={create_date} />
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'center' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Due Date</Box>
+                    <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', color: taskColor.darkPurple, fontWeight: 600 }}>
+                      :&nbsp;<FormattedDate date={tm_task_due_date} />
+                      <Tooltip title="Changed Duedates">
+                        <AutoDeleteTwoToneIcon
+                          sx={{ color: '#391306', cursor: 'pointer', ml: 1 }}
+                          onClick={getAllDueDates}
+                        />
+                      </Tooltip>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', py: 0.5, alignItems: 'flex-start' }}>
+                    <Box sx={{ width: '120px', fontWeight: 600 }}>Description</Box>
+                    <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600 }}>
+                      : {tm_task_description}
+                    </Box>
                   </Box>
                 </Box>
-                <Box
-                  sx={{
-                    fontFamily: 'Georgia',
-                    height: 50,
-                    mt: 0.5,
-                    border: 1,
-                    borderRadius: 1,
-                    borderStyle: 'dashed',
-                    display: 'flex',
-                    borderColor: '#887BB0',
-                    mx: 2.3,
-                    py: 1
-                  }}
-                >
-                  <Box
+
+                <Box sx={{
+                  border: 1, borderRadius: 1, borderStyle: 'dashed',
+                  borderColor: '#887BB0', mx: 3, pb: 2, px: 1,
+                }}>
+
+                  <label htmlFor="file-input">
+                    <u>Choose File</u>
+                  </label>
+                  <input
+                    id="file-input"
+                    type="file"
+                    accept=".jpg, .jpeg, .png, .pdf"
+                    style={{ display: 'none' }}
+                    onChange={handleTaskFileChange}
+                    name="selectTaskfile"
+                    multiple
+                  />
+
+
+                  <Grid
+                    container
+                    spacing={1}
                     sx={{
-                      color: '#0000FF',
-                      cursor: 'pointer',
-                      '&:hover': { color: '#000C66' },
-                      textAlign: 'center',
-                      width: 155,
-                      border: 0.1,
                       mx: 0.5,
-                      borderRadius: 5,
-                      borderColor: '#E4E5E8'
-                    }}
-                  >
-                    <label htmlFor="file-input">
-                      <AttachmentIcon
-                        sx={{
-                          color: '#0000FF',
-                          cursor: 'pointer',
-                          '&:hover': { color: '#000C66' }
-                        }}
-                      />
-                      <u>Choose File</u>
-                    </label>
-                    <input
-                      id="file-input"
-                      type="file"
-                      accept=".jpg, .jpeg, .png, .pdf"
-                      style={{ display: 'none' }}
-                      onChange={handleTaskFileChange}
-                      name="selectTaskfile"
-                      multiple // Add this attribute to allow multiple file selections
-                    />
-                  </Box>
-                  <Box
-                    sx={{
+                      overflow: 'visible',
                       display: 'flex',
-                      flex: 1,
-                      overflowX: 'scroll',
-                      overflow: 'hidden',
-                      mx: 0.5
+                      flexWrap: 'wrap',
+                      alignItems: 'flex-start',
                     }}
                   >
-                    {selectTaskfile &&
-                      selectTaskfile.map((taskFile, index) => (
-                        <Box key={index}>
-                          <Chip sx={{ bgcolor: '#B7CFDC', width: '100%', ml: 0.5 }}>
-                            {taskFile.name}
-                            <CloseIcon
-                              sx={{
-                                pl: 0.3,
-                                pb: 0.3,
-                                height: 20,
-                                width: 20,
-                                cursor: 'pointer',
-                                color: '#4D0011',
-                                '&:hover': { color: '#BA0F30' }
+                    {selectTaskfile.length !== 0 &&
+                      selectTaskfile.map((file, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            border: '1px solid #e0e0e0',
+                            borderRadius: '4px',
+                            p: 0.5,
+                            m: 0.5
+                          }}
+                        >
+                          {file.type.includes('image') ? (
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={file.name}
+                              style={{
+                                width: '40px',
+                                height: '40px',
+                                objectFit: 'cover',
+                                borderRadius: '4px',
+                                marginRight: '8px',
+                                cursor: 'pointer'
                               }}
-                              onClick={() => handleRemoveTaskFile(index)}
+                              onClick={() => ViewImage(file)}
                             />
-                          </Chip>
+                          ) : file.type === 'application/pdf' ? (
+                            <PictureAsPdfIcon
+                              sx={{
+                                width: '40px',
+                                height: '40px',
+                                color: '#e53935',
+                                marginRight: '8px',
+                                cursor: 'pointer'
+                              }}
+                              onClick={() => ViewImage(file)}
+                            />
+                          ) : (
+                            <InsertDriveFileIcon
+                              sx={{
+                                width: '40px',
+                                height: '40px',
+                                color: '#9e9e9e',
+                                marginRight: '8px',
+                                cursor: 'pointer'
+                              }}
+                              onClick={() => ViewImage(file)}
+                            />
+                          )}
+                          <Box sx={{ fontSize: 14, cursor: 'pointer', flexGrow: 1 }}>{file.name}</Box>
+                          <ClearSharpIcon
+                            sx={{
+                              pl: 0.3,
+                              pb: 0.3,
+                              height: 20,
+                              width: 20,
+                              cursor: 'pointer',
+                              color: '#4D0011',
+                              mx: 0.5,
+                              '&:hover': { color: '#BA0F30' }
+                            }}
+                            onClick={() => handleRemoveTaskFile(index)}
+                          />
                         </Box>
                       ))}
-                  </Box>
+                  </Grid>
+
+
                 </Box>
-                <Box sx={{ m: 2, border: 1, borderColor: '#710019', borderRadius: 3 }}>
-                  <Typography sx={{ pl: 1.5, pt: 0.5, fontSize: 20, fontFamily: 'Georgia', color: '#000C66' }}>
-                    Task Progress
-                  </Typography>
-                  <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
-                </Box>
-                <Box sx={{ display: 'flex' }}>
-                  <Box sx={{ flex: 1 }}>
-                    {main_task_slno !== null ? (
-                      <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
+
+
+                <Box sx={{ pl: 2, pt: 2, display: 'flex', flex: 1, gap: 1 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, px: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      {main_task_slno !== null || completeFlag.length === 0 ? (
                         <CusCheckBox
                           color="primary"
                           size="lg"
@@ -765,36 +868,21 @@ const EmpTaskStatus = ({
                           value={completed}
                           checked={completed}
                           onCheked={ChangeCompleted}
-                        ></CusCheckBox>
-                      </Box>
-                    ) : (
-                      <Box>
-                        {completeFlag.length !== 0 ? (
-                          <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
-                            <CusCheckBox
-                              color="primary"
-                              size="lg"
-                              name="completed"
-                              value={completed}
-                              checked={completed}
-                              disabled={true}
-                            ></CusCheckBox>
-                          </Box>
-                        ) : (
-                          <Box sx={{ mt: 0.5, display: 'flex', justifyContent: 'flex-end' }}>
-                            <CusCheckBox
-                              color="primary"
-                              size="lg"
-                              name="completed"
-                              value={completed}
-                              checked={completed}
-                              onCheked={ChangeCompleted}
-                            ></CusCheckBox>
-                          </Box>
-                        )}
-                      </Box>
-                    )}
-                    <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                        />
+                      ) : (
+                        <CusCheckBox
+                          color="primary"
+                          size="lg"
+                          name="completed"
+                          value={completed}
+                          checked={completed}
+                          disabled
+                        />
+                      )}
+                      <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task Completed</Box>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <CusCheckBox
                         color="primary"
                         size="lg"
@@ -802,9 +890,11 @@ const EmpTaskStatus = ({
                         value={onProgress}
                         checked={onProgress}
                         onCheked={ChangeOnProgress}
-                      ></CusCheckBox>
+                      />
+                      <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Progress</Box>
                     </Box>
-                    <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <CusCheckBox
                         color="primary"
                         size="lg"
@@ -812,9 +902,11 @@ const EmpTaskStatus = ({
                         value={onHold}
                         checked={onHold}
                         onCheked={ChangeOnHold}
-                      ></CusCheckBox>
+                      />
+                      <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Hold</Box>
                     </Box>
-                    <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <CusCheckBox
                         color="primary"
                         size="lg"
@@ -822,144 +914,121 @@ const EmpTaskStatus = ({
                         value={onPending}
                         checked={onPending}
                         onCheked={ChangeOnPending}
-                      ></CusCheckBox>
+                      />
+                      <Box sx={{ color: taskColor.darkPurple, fontFamily: 'Georgia' }}>Task On Pending</Box>
                     </Box>
                   </Box>
-                  <Box sx={{ flex: 5 }}>
-                    <Box sx={{ pl: 0.8, pt: 0.5, color: '#000C66', fontFamily: 'Georgia' }}>Task Completed</Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Progress</Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Hold</Box>
-                    <Box sx={{ pl: 0.8, pt: 1, color: '#000C66', fontFamily: 'Georgia' }}>Task On Pending</Box>
+
+
+                  <Box sx={{ flex: 1, px: 2 }}>
+                    {onHold && (
+                      <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                        <Typography sx={{ fontWeight: 600, pb: 1 }}>On Hold Remarks</Typography>
+                        <Textarea
+                          type="text"
+                          size="sm"
+                          placeholder="Type here..."
+                          variant="outlined"
+                          minRows={4}
+                          maxRows={5}
+                          name="onHoldRemaks"
+                          value={onHoldRemaks}
+                          onChange={TaskMasterUpdate}
+                        />
+                      </Box>
+                    )}
+
+                    {completed && (
+                      <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                        <Typography sx={{ fontWeight: 600 }}>Completed Remarks</Typography>
+                        <Textarea
+                          type="text"
+                          size="sm"
+                          placeholder="Type here..."
+                          variant="outlined"
+                          minRows={4}
+                          maxRows={5}
+                          name="completedRemarks"
+                          value={completedRemarks}
+                          onChange={TaskMasterUpdate}
+                        />
+                      </Box>
+                    )}
+
+                    {onPending && (
+                      <Box sx={{ border: 1, borderColor: '#D9E4EC', borderRadius: 2, p: 1 }}>
+                        <Typography sx={{ fontWeight: 600 }}>Pending Remarks</Typography>
+                        <Textarea
+                          type="text"
+                          size="sm"
+                          placeholder="Type here..."
+                          variant="outlined"
+                          minRows={4}
+                          maxRows={5}
+                          name="pendingRemarks"
+                          value={pendingRemarks}
+                          onChange={TaskMasterUpdate}
+                        />
+                      </Box>
+                    )}
                   </Box>
-                  <Box sx={{ flex: 10 }}>
-                    {onHold === true ? (
-                      <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                        <Typography sx={{ pl: 1, fontSize: 20 }}>On Hold Remarks</Typography>
-                        <Box sx={{ m: 1 }}>
-                          <Textarea
-                            type="text"
-                            size="sm"
-                            placeholder="type here..."
-                            variant="outlined"
-                            minRows={4}
-                            maxRows={5}
-                            name="onHoldRemaks"
-                            value={onHoldRemaks}
-                            onChange={TaskMasterUpdate}
-                          ></Textarea>
-                        </Box>
-                      </Box>
-                    ) : null}
-                    {completed === true ? (
-                      <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                        <Typography sx={{ pl: 1, fontSize: 20 }}>Completed Remarks</Typography>
-                        <Box sx={{ m: 1 }}>
-                          <Textarea
-                            type="text"
-                            size="sm"
-                            placeholder="type here..."
-                            variant="outlined"
-                            minRows={4}
-                            maxRows={5}
-                            name="completedRemarks"
-                            value={completedRemarks}
-                            onChange={TaskMasterUpdate}
-                          ></Textarea>
-                        </Box>
-                      </Box>
-                    ) : null}
-                    {onPending === true ? (
-                      <Box sx={{ border: 1, borderRadius: 5, borderColor: '#D9E4EC' }}>
-                        <Typography sx={{ pl: 1, fontSize: 20 }}>Pending Remarks</Typography>
-                        <Box sx={{ m: 1 }}>
-                          <Textarea
-                            type="text"
-                            size="sm"
-                            placeholder="type here..."
-                            variant="outlined"
-                            minRows={4}
-                            maxRows={5}
-                            name="pendingRemarks"
-                            value={pendingRemarks}
-                            onChange={TaskMasterUpdate}
-                          ></Textarea>
-                        </Box>
-                      </Box>
-                    ) : null}
-                  </Box>
-                  <Box sx={{ flex: 14 }}></Box>
                 </Box>
+
                 {onProgress === true ? (
-                  <Box sx={{ mx: 2, mt: 2, border: 1, borderColor: '#D9E4EC', borderRadius: 4 }}>
-                    <Typography sx={{ pl: 1, fontSize: 20 }}>Task Progress</Typography>
-                    <Box sx={{ display: 'flex' }}>
-                      <Box sx={{ flex: 4, pb: 1 }}>
-                        <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                          Progress Date
-                        </Typography>
-                        <Box sx={{ pl: 1 }}>
-                          <TextFieldCustom
-                            slotProps={{
-                              input: {
-                                min: create_date,
-                                max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                              }
-                            }}
-                            type="datetime-local"
-                            size="sm"
-                            name="ProgressDate"
-                            value={ProgressDate}
-                            onchange={ProgresssUpdate}
-                          ></TextFieldCustom>
-                        </Box>
-                      </Box>
-                      <Box sx={{ flex: 15 }}>
-                        <Typography sx={{ pl: 1.5, mt: 1, color: '#000C66', fontFamily: 'Georgia' }}>
-                          Progress description
-                        </Typography>
-                        <Box sx={{ mx: 1 }}>
-                          <Textarea
-                            type="text"
-                            size="sm"
-                            placeholder="type here..."
-                            variant="outlined"
-                            minRows={1}
-                            maxRows={2}
-                            name="progressDetails"
-                            value={progressDetails}
-                            onChange={e => ProgresssUpdate(e)}
-                          ></Textarea>
-                        </Box>
-                        <Box sx={{ height: 3 }}></Box>
-                      </Box>
-                      <Box sx={{ pr: 1, pt: 4 }}>
-                        {value === 0 ? (
-                          <Box>
-                            <CssVarsProvider>
-                              <Tooltip title="add  progress">
-                                <AddCircleOutlineIcon
-                                  sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                  onClick={InsertProgress}
-                                />
-                              </Tooltip>
-                            </CssVarsProvider>
-                          </Box>
-                        ) : value === 1 ? (
-                          <Box>
-                            <CssVarsProvider>
-                              <Tooltip title="edit  progress">
-                                <CheckCircleOutlineIcon
-                                  sx={{ fontSize: 30, cursor: 'pointer', color: '#003B73' }}
-                                  onClick={UpdateProgress}
-                                />
-                              </Tooltip>
-                            </CssVarsProvider>
-                          </Box>
-                        ) : null}
+                  <Box sx={{ mx: 2, mt: 2, border: 1, borderColor: taskColor.darkPurple, borderStyle: 'dashed', borderRadius: 4 }}>
+                    <Typography sx={{ p: 1, fontSize: 20, color: 'black' }}>Add Main Task Progress</Typography>
+
+                    <Box sx={{ p: 1, width: 250 }}>
+                      <Typography sx={{ color: 'black', fontFamily: 'Georgia', pl: 1 }}>
+                        Progress Date
+                      </Typography>
+                      <Box sx={{}}>
+                        <TextFieldCustom
+                          slotProps={{
+                            input: {
+                              min: create_date,
+                              max: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                            }
+                          }}
+                          type="datetime-local"
+                          size="sm"
+                          name="ProgressDate"
+                          value={ProgressDate}
+                          onchange={ProgresssUpdate}
+                        ></TextFieldCustom>
                       </Box>
                     </Box>
+                    <Box sx={{ px: 1, }}>
+                      <Typography sx={{ color: 'black', fontFamily: 'Georgia', pl: 1 }}>
+                        Progress description
+                      </Typography>
+                      <Box sx={{}}>
+                        <Textarea
+                          type="text"
+                          size="sm"
+                          placeholder="type here..."
+                          variant="outlined"
+                          minRows={3}
+                          maxRows={5}
+                          name="progressDetails"
+                          value={progressDetails}
+                          onChange={e => ProgresssUpdate(e)}
+                        ></Textarea>
+                      </Box>
+                    </Box>
+                    <Box sx={{ px: 1, pt: .5, pb: 1 }}>
+                      {value === 0 ? (
+                        <Button sx={{ width: 100, color: 'white' }}
+                          size='sm' variant='solid' color='neutral' onClick={InsertProgress} startDecorator={< AddIcon />}>Add</Button>
+                      ) : value === 1 ? (
+                        <Button sx={{ width: 100, color: 'white' }}
+                          size='sm' variant='solid' color='neutral' onClick={UpdateProgress} startDecorator={< CreateOutlinedIcon />}>Update</Button>
+                      ) : null}
+                    </Box>
+
                   </Box>
                 ) : null}
+                <EmpProgressTable progresstabledata={progresstabledata} rowSelect={rowSelect} />
                 {main_task_slno === null ? (
                   <Box
                     sx={{
@@ -972,50 +1041,39 @@ const EmpTaskStatus = ({
                   >
                     {completed === true ? (
                       <Box>
-                        <Tooltip title="unable to add a subtask to a completed task" placement="top-start">
-                          <Box
+                        <Tooltip title="Unable to add a subtask to a completed task" placement="top-start">
+                          <Button
+                            endDecorator={<AddIcon />}
+                            variant='outlined'
+                            color='neutral'
                             sx={{
-                              mt: 1,
-                              cursor: 'grab',
-                              width: 150,
-                              height: 40,
-                              ml: 1,
-                              border: 1,
-                              borderColor: '#D9E4EC',
-                              borderRadius: 5,
-                              pl: 1,
-                              pt: 0.8
+                              m: 1,
+                              '&:hover': {
+                                opacity: 10
+                              }
                             }}
                           >
-                            Add Subtask&nbsp;
-                            <AddIcon />
-                          </Box>
+                            Add Subtask
+                          </Button>
+
                         </Tooltip>
                       </Box>
                     ) : (
-                      <Box
-                        sx={{
-                          mt: 1,
-                          cursor: 'pointer',
-                          width: 150,
-                          height: 40,
-                          ml: 1,
-                          border: 1,
-                          borderColor: '#D9E4EC',
-                          borderRadius: 5,
-                          pl: 1,
-                          pt: 1,
-                          color: '#774A62'
-                        }}
+                      <Button
+                        endDecorator={<AddIcon />}
                         onClick={openAddSubtask}
+                        variant='outlined'
+                        sx={{
+                          m: 1,
+                          '&:hover': {
+                            opacity: 10
+                          }
+                        }}
                       >
-                        Add Subtask&nbsp;&nbsp;&nbsp;
-                        {flag === 1 ? (
-                          <RemoveIcon sx={{ fontSize: 25, color: '#004F76' }} />
-                        ) : flag === 0 || flag === 2 ? (
-                          <AddIcon sx={{ fontSize: 25, color: '#004F76' }} />
-                        ) : null}
-                      </Box>
+                        Add Subtask
+                      </Button>
+
+
                     )}
                     <Box sx={{ mt: 1, pl: 1 }}>
                       {flag === 1 ? (
@@ -1026,8 +1084,6 @@ const EmpTaskStatus = ({
                             tm_project_slno={tm_project_slno}
                             setTableRendering={setTableRendering}
                             tableRendering={tableRendering}
-                            tableCount={tableCount}
-                            setTableCount={setTableCount}
                             setflag={setflag}
                             setprojectz={setprojectz}
                             projectz={projectz}
@@ -1041,8 +1097,6 @@ const EmpTaskStatus = ({
                             setsubTaskData={setsubTaskData}
                             setTableRendering={setTableRendering}
                             tableRendering={tableRendering}
-                            tableCount={tableCount}
-                            setTableCount={setTableCount}
                             setprojectz={setprojectz}
                             projectz={projectz}
                             main_task_slno={main_task_slno}
@@ -1055,7 +1109,6 @@ const EmpTaskStatus = ({
                       <SubtaskTableEmp
                         completeFlag={completeFlag}
                         setCompleteFlag={setCompleteFlag}
-                        tableCount={tableCount}
                         arry={arry}
                         setArry={setArry}
                         tm_task_slno={tm_task_slno}
@@ -1063,31 +1116,28 @@ const EmpTaskStatus = ({
                         selectForEditsSubTask={selectForEditsSubTask}
                         tableRendering={tableRendering}
                         setTableRendering={setTableRendering}
-                        subTask={subTask}
-                        setSubTask={setSubTask}
                         viewSubTask={viewSubTask}
                         setViewSubTask={setViewSubTask}
                       />
                     </Box>
                   </Box>
                 ) : null}
-                <Box sx={{ height: 10 }}></Box>
               </Box>
             </Box>
-            <DialogActions>
-              <Box sx={{ textAlign: 'right', pb: 2, pr: 2 }}>
-                <Button variant="plain" onClick={UpdateStatus} sx={{ color: '#004F76', fontSize: 16 }}>
-                  Update
-                </Button>
-                <Button variant="plain" sx={{ color: '#004F76', fontSize: 16 }} onClick={handleEditClose}>
-                  Cancel
-                </Button>
-              </Box>
-            </DialogActions>
+
+            <Box sx={{ textAlign: 'right', pb: 2, pr: 2, gap: 1 }}>
+              <Button variant='plain' onClick={UpdateStatus} sx={{ fontSize: 16 }}>
+                Update
+              </Button>
+              <Button style={{ ml: 1 }} variant="plain" sx={{ fontSize: 16 }} onClick={handleEditClose}>
+                Cancel
+              </Button>
+            </Box>
+
           </ModalDialog>
         </Modal>
       </CssVarsProvider>
-    </Box>
+    </Box >
   )
 }
 

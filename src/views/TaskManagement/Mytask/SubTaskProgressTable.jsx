@@ -1,36 +1,35 @@
 import { Box, CssVarsProvider, Table } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React from 'react'
-import moment from 'moment'
 import EditIcon from '@mui/icons-material/Edit'
+import FormattedDate from 'src/views/Components/FormattedDate'
 const SubTaskProgressTable = ({ tabledataProgress, rowSelectSubProgress }) => {
   return (
-    <Paper variant="outlined" sx={{ width: '99%', m: 1, overflow: 'auto', maxHeight: 300 }}>
+    <Box sx={{ p: 1 }}>
       {tabledataProgress.length !== 0 ? (
         <CssVarsProvider>
-          <Table padding={'none'} stickyHeader style={{ color: '#3E004A' }} hoverRow>
+          <Table size='sm' borderAxis='both' stickyHeader >
             <thead>
               <tr>
-                <th style={{ width: 20 }}>#</th>
-                <th style={{ width: 20 }}>Action</th>
-                <th style={{ width: 50 }}>Date</th>
-                <th style={{ width: 50 }}>Assignee</th>
-                <th style={{ width: 100 }}>Progress</th>
+                <th style={{ width: 30, textAlign: 'center' }}>#</th>
+                <th style={{ width: 60, textAlign: 'center' }}>Action</th>
+                <th style={{ width: 150 }}>Date</th>
+                <th style={{ width: 230 }}>Assignee</th>
+                <th style={{ width: 'auto' }}>Progress</th>
               </tr>
             </thead>
             <tbody>
               {tabledataProgress?.map((val, index) => {
                 return (
                   <tr key={index}>
-                    <td> {index + 1}</td>
-                    <td>
+                    <td style={{ width: 30, textAlign: 'center' }}> {index + 1}</td>
+                    <td style={{ width: 60, textAlign: 'center' }}>
                       <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelectSubProgress(val)} />
                     </td>
-                    <td> {moment(val.tm_progres_date).format('DD-MM-YYYY hh:mm') || 'not given'}</td>
+                    <td>
+                      <FormattedDate date={val.tm_progres_date} />
+                    </td>
                     <td> {val.em_name || 'not given'}</td>
                     <td> {val.tm_task_progress || 'not given'}</td>
-
-                    {/* <td> {val.tm_project_description || 'not given'}</td> */}
                   </tr>
                 )
               })}
@@ -38,12 +37,12 @@ const SubTaskProgressTable = ({ tabledataProgress, rowSelectSubProgress }) => {
           </Table>
         </CssVarsProvider>
       ) : (
-        <Box sx={{ textAlign: 'center', my: 5, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
+        <Box sx={{ textAlign: 'center', m: 2, fontWeight: 700, fontSize: 30, color: '#C7C8CB', border: 1, borderColor: 'lightgrey' }}>
           No Progress Under Task
         </Box>
       )}
-    </Paper>
-    // </Box>
+
+    </Box>
   )
 }
 

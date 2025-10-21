@@ -1,14 +1,14 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Box, Chip, CssVarsProvider, Table } from '@mui/joy'
 import { Paper, Typography } from '@mui/material'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import moment from 'moment'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
 import EditGoalCreation from '../ModalComponent/EditGoalCreation'
 import { useNavigate } from 'react-router-dom'
-const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableCount }) => {
+const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, }) => {
+
   const [editGoalModalOpen, setEditGoalModalOpen] = useState(false)
   const [editGoalFlag, setEditGoalFlag] = useState(0)
   const [masterData, setMasterData] = useState([])
@@ -49,8 +49,7 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                 goalData={masterData}
                 setgoalData={setMasterData}
                 setEditGoalFlag={setEditGoalFlag}
-                tableCount={tableCount}
-                setTableCount={setTableCount}
+
               />
             ) : null}
             <CssVarsProvider>
@@ -71,11 +70,11 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                     return (
                       <tr
                         key={index}
-                        // sx={{
-                        //   '&:last-child td, &:last-child th': { border: 0 },
-                        //   maxHeight: 60,
-                        //   minHeight: 5,
-                        // }}
+                      // sx={{
+                      //   '&:last-child td, &:last-child th': { border: 0 },
+                      //   maxHeight: 60,
+                      //   minHeight: 5,
+                      // }}
                       >
                         <td> {index + 1}</td>
                         <td>
@@ -95,8 +94,8 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                                 val.tm_goal_status === 0
                                   ? '#311E26'
                                   : val.tm_goal_status === 1
-                                  ? '#94C973'
-                                  : 'transparent',
+                                    ? '#94C973'
+                                    : 'transparent',
                               minHeight: 5,
                               fontWeight: 700
                             }}
@@ -104,8 +103,8 @@ const TmGoalsView = ({ goalsTable, goalsHead, setflagGoal, tableCount, setTableC
                             {val.tm_goal_status === 0
                               ? 'Incompleted'
                               : val.tm_goal_status === 1
-                              ? 'Completed'
-                              : 'not given'}
+                                ? 'Completed'
+                                : 'not given'}
                           </Chip>
                         </td>
 

@@ -16,7 +16,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined'
 import ComFileView from 'src/views/ComManagement/CmFileView/ComFileView'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import EmployeeSelectJoyAutoComp from 'src/views/CommonSelectCode/EmployeeSelectJoyAutoComp'
 import imageCompression from 'browser-image-compression'
 import ServiceFileAttach from './ServiceFileAttach'
@@ -42,6 +41,7 @@ import DocumentsList from './DocumentsList'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useQuery } from '@tanstack/react-query'
 import EmailIcon from '@mui/icons-material/Email'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, setCount }) => {
   const dispatch = useDispatch()
@@ -139,34 +139,29 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     suppl_serviced_remarks
   } = servicee
 
+
+
+
   useEffect(() => {
-    if (!am_service_details_slno) return
+    if (!am_service_details_slno) return;
+    let isMounted = true;
     const fetchComplaintFiles = async () => {
       try {
-        const result = await axioslogin.get(
-          `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`
-        )
-        const { success } = result.data
-        if (success === 1) {
-          const fileNames = result.data.data
-          const fileUrls = fileNames.map(
-            fileName => `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`
-          )
-          if (fileUrls.length > 0) {
-            setUploadedFiles(fileUrls)
-          } else {
-            setUploadedFiles([])
-          }
-        } else {
-          setUploadedFiles([])
+        const images = await getFilesFromZip('AmServiceFileUpload/uploadFile/getAssetServiceFile', am_service_details_slno);
+        if (isMounted) {
+          setUploadedFiles(images);
         }
       } catch (error) {
-        warningNotify('Error in fetching files:', error)
+        errorNotify('Error fetching  documents:', error);
       }
-    }
+    };
+    fetchComplaintFiles();
+    return () => {
+      isMounted = false;
+    };
+  }, [am_service_details_slno]);
 
-    fetchComplaintFiles()
-  }, [am_service_details_slno])
+
 
   const [insertId, setinsertId] = useState(am_service_details_slno)
   const [deptServiceDetails, setdeptServiceDetails] = useState({
@@ -1081,86 +1076,37 @@ const ServiceDetailsModal = ({ open, setOpen, setFlag, serviceDetails, count, se
     getServiceDetailsAll()
   }, [searchData, count])
 
-  const fileView = async val => {
-    const { complaint_slno } = val
+
+  const fileView = async (val) => {
+    const { complaint_slno } = val;
+    setViewStates(prev => ({
+      ...prev,
+      image: 1,
+      imageViewOpen: true
+    }));
+    setSelectedImages(val);
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getComplaintFile', complaint_slno);
+    setImageUrls(images);
+  };
+
+  const fileViewAssetService = async (val) => {
+    const { am_service_details_slno } = val;
+    setServicefileDetails(val);
     setFlags(prevState => ({
       ...prevState,
-      image: 1
-    }))
-    setfileDetails(val)
-    try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setViewStates(prevState => ({
-            ...prevState,
-            image: 1,
-            imageViewOpen: true
-          }))
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-          setViewStates(prevState => ({
-            ...prevState,
-            image: 0,
-            imageViewOpen: false
-          }))
-        }
-      } else {
-        setViewStates(prevState => ({
-          ...prevState,
-          image: 0,
-          imageViewOpen: false
-        }))
-        warningNotify('No Image Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+      imageServiceFlag: 1
+    }));
+    setViewStates(prevState => ({
+      ...prevState,
+      serviceimageViewOpen: true
+    }));
+    setSelectedImages(val);
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getAssetServiceFile', am_service_details_slno);
+    setImageServiceUrls(images);
+  };
 
-  const fileViewAssetService = async val => {
-    const { am_service_details_slno } = val
-    setServicefileDetails(val)
-    try {
-      const result = await axioslogin.get(
-        `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`
-      )
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`
-        })
-        setImageServiceUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-          setFlags(prevState => ({
-            ...prevState,
-            imageServiceFlag: 1
-          }))
-          setViewStates(prevState => ({
-            ...prevState,
-            serviceimageViewOpen: true
-          }))
-        } else {
-          warningNotify('No Files attached')
-        }
-      } else {
-        warningNotify('No Files Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+
+
 
   const AddTostock = useCallback(
     e => {

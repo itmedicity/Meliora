@@ -20,14 +20,13 @@ import MarkAsHoldModal from './MarkAsHoldModal'
 import CountDownCm from '../../CountDownCM/CountDownCm'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import ComFileView from '../../CmFileView/ComFileView'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { warningNotify } from 'src/views/Common/CommonCode'
 import ViewAssetDetails from '../../ComplaintRegister/TicketLists/ViewAssetDetails'
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices'
 import TextComponent from 'src/views/Components/TextComponent'
 import { format } from 'date-fns'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const MyAssignedList = ({ assistReq, count, setCount }) => {
   const [allPendingCompl, setAllPendingCompl] = useState([])
@@ -70,24 +69,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setValuee(value)
   }, [])
 
-  // useEffect(() => {
-  //     let isMounted = true
-  //     const getAllPendingComplaints = async (id) => {
-  //         const result = await axioslogin.get(`/complaintassign/user/${id}`);
-  //         const { success, data } = result.data;
-  //         if (isMounted) {
-  //             if (success === 1) {
-  //                 setAllPendingCompl(data);
-  //             } else {
-  //                 setAllPendingCompl([]);
-  //             }
-  //         }
-  //     }
-  //     getAllPendingComplaints(id)
-  //     return () => {
-  //         isMounted = false
-  //     };
-  // }, [id, count]);
+
   useEffect(() => {
     let isMounted = true
     setLoading(true) // Start loading
@@ -159,36 +141,19 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setHoldData(val)
   }, [])
 
-  const fileView = async val => {
-    const { complaint_slno } = val
-    setState(prevState => ({
-      ...prevState,
+  const fileView = async (val) => {
+    const { complaint_slno } = val;
+    setState(prev => ({
+      ...prev,
       image: 1,
       imageViewOpen: true
-    }))
-    setfileDetails(val)
-    try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
-      } else {
-        warningNotify('No Image Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+    }));
+    setfileDetails(val);
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getComplaintFile', complaint_slno);
+    setImageUrls(images);
+  };
+
+
 
   const AssetView = useCallback(
     value => {
@@ -373,7 +338,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                   }}
                 >
                   <Typography sx={{ fontSize: 15, textAlign: 'center', fontWeight: 700 }}>
-                    {' '}
                     Ticket No. {val.complaint_slno}
                   </Typography>
                   <Box sx={{ flex: 1, display: 'flex', my: 1, justifyContent: 'center' }}>
@@ -441,11 +405,9 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                     <Typography sx={{ fontSize: 13, flex: 1 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name || ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name || ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name || ''})`
+                        ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name || ''})`
                         : val.cm_complaint_location || 'Not Updated'}
                     </Typography>
                   </Box>
@@ -892,11 +854,9 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                            ? ` (${val.rm_roomtype_name || ''}${
-                                val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                              }${val.rm_insidebuildblock_name || ''}${
-                                val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                              }${val.rm_floor_name || ''})`
+                            ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                            }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                            }${val.rm_floor_name || ''})`
                             : val.cm_complaint_location || 'Not Updated'}
                         </Typography>
                       </Box>

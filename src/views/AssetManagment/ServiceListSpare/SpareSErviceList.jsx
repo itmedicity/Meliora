@@ -78,7 +78,6 @@ const SpareSErviceList = () => {
         flex: 1,
         border: 2,
         borderColor: '#F0F3F5'
-        // height: '90vh',
       }}
     >
       <Box
@@ -126,7 +125,6 @@ const SpareSErviceList = () => {
                   return (
                     <tr key={index} style={{ background: val.hold_color }}>
                       <td style={{ textAlign: 'center' }}>{index + 1}</td>
-
                       <td style={{ textAlign: 'center' }}>
                         <BuildCircleIcon
                           sx={{ color: '#4C5270', cursor: 'pointer' }}
@@ -139,7 +137,6 @@ const SpareSErviceList = () => {
                           ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
                           : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                       </td>
-
                       <td style={{ textAlign: 'center' }}>{val.am_manufacture_no}</td>
                       <td style={{ textAlign: 'center' }}>{val.category_name}</td>
                       <td style={{ textAlign: 'center' }}>{val.item_name}</td>

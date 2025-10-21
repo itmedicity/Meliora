@@ -491,8 +491,6 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
       {addGoalFlag === 1 ? (
         <GoalCreation
           open={addGoalModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setAddGoalFlag={setAddGoalFlag}
           setaddGoalModalOpen={setaddGoalModalOpen}
         />
@@ -500,8 +498,6 @@ const CreateTaskInAllDept = ({ open, setAddModalFlag, setaddModalOpen, tableCoun
       {addProjectFlag === 1 ? (
         <ProjectCreation
           open={addProjectModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setAddProjectFlag={setAddProjectFlag}
           setaddProjectlModalOpen={setaddProjectlModalOpen}
           dueDateGoal={dueDateGoal}

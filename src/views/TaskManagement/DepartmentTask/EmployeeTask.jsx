@@ -1,77 +1,78 @@
-import { Box } from '@mui/joy'
+import { Box, Table, Typography } from '@mui/joy'
 import React, { memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import PersonIcon from '@mui/icons-material/Person'
+import PersonIcon from '@mui/icons-material/Person';
 
 const EmployeeTask = () => {
+
   const [allEmpTask, setallEmpTask] = useState([])
-  const empsecid = useSelector(state => {
-    return state.LoginUserData.empsecid
-  })
+  const empDept = useSelector((state) => state.LoginUserData.empdept);
 
   useEffect(() => {
     const getAllEmployeeTask = async () => {
-      const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empsecid}`)
-      const { success, data } = result.data
+      const result = await axioslogin.get(`/TmTableView/viewAllEmployeeTask/${empDept}`);
+      const { success, data } = result.data;
       if (success === 2) {
         setallEmpTask(data)
       }
     }
-    getAllEmployeeTask(empsecid)
-  }, [empsecid])
+    getAllEmployeeTask(empDept)
+  }, [empDept])
 
   return (
-    <Box sx={{ flex: 1 }}>
-      <Box
+    <Box sx={{ flexGrow: 1, px: 1, pt: .5, height: '70vh', overflow: 'auto', mb: 1 }}>
+      <Table
+        borderAxis="bothBetween"
+        hoverRow
+        stickyHeader
+        variant="outlined"
         sx={{
-          height: 45,
-          mt: 0.5,
-          mx: 1.5,
-          display: 'flex',
-          borderBottom: 1,
-          borderTop: 1,
-          borderColor: 'lightgray',
-          pt: 1.5,
-          bgcolor: 'white'
+          bgcolor: 'white',
+          height: '60vh',
+          overflow: 'auto',
         }}
       >
-        <Box sx={{ flex: 0.5, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
-        <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Employee Id</Box>
-        <Box sx={{ flex: 5, fontWeight: 600, color: '#444444', fontSize: 12 }}>Employee Name</Box>
-        <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Complted Task</Box>
-        <Box sx={{ flex: 1, fontWeight: 600, color: '#444444', fontSize: 12 }}>Total Task</Box>
-      </Box>
-      <Box sx={{ height: '60vh', overflow: 'auto' }}>
-        {allEmpTask?.map((val, index) => {
-          return (
-            <Box
-              key={index}
-              sx={{
-                flex: 1,
-                display: 'flex',
-                mt: 0.3,
-                borderBottom: 2,
-                mx: 1.5,
-                borderColor: 'lightgrey',
-                minHeight: 30,
-                maxHeight: 80,
-                background: 'white',
-                pt: 0.5
-              }}
-            >
-              <Box sx={{ flex: 0.5, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
-              <Box sx={{ flex: 1, fontWeight: 600, color: 'grey', fontSize: 12 }}>{val.emslno}</Box>
-              <Box sx={{ flex: 5, fontWeight: 600, color: 'grey', fontSize: 12, cursor: 'pointer' }}>
-                &nbsp;
-                <PersonIcon sx={{ color: '#6A4973' }} /> {val.empname}
-              </Box>
-              <Box sx={{ flex: 1, color: 'green', pl: 4 }}>[{val.TC || '0'}]</Box>
-              <Box sx={{ flex: 1, fontWeight: 600, color: '#3B0404', fontSize: 12 }}>[{val.TT || '0'}]</Box>
-            </Box>
-          )
-        })}
-      </Box>
+        <thead>
+          <tr>
+            <th style={{ width: '5%', textAlign: 'center' }}>#</th>
+            <th style={{ width: '55%' }}>Employee Name</th>
+            <th style={{ width: '20%', textAlign: 'center' }}>Completed Task</th>
+            <th style={{ width: '20%', textAlign: 'center' }}>Total Task</th>
+          </tr>
+        </thead>
+        <tbody>
+          {allEmpTask?.map((val, index) => (
+            <tr key={index}>
+              <td style={{ textAlign: 'center', color: 'grey', fontWeight: 600 }}>
+                {index + 1}
+              </td>
+
+              <td
+                style={{
+                  color: 'grey',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  cursor: 'pointer',
+                }}
+              >
+                <PersonIcon sx={{ color: '#6A4973', fontSize: 18 }} />
+                <Typography level="body-sm">{val.empname}</Typography>
+              </td>
+
+              <td style={{ color: 'green', textAlign: 'center', fontWeight: 600 }}>
+                [{val.TC || '0'}]
+              </td>
+
+              <td style={{ color: '#3B0404', textAlign: 'center', fontWeight: 600 }}>
+                [{val.TT || '0'}]
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </Box>
   )
 }

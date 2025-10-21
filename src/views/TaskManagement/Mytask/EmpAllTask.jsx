@@ -1,145 +1,68 @@
-import { Box, Chip, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import EditIcon from '@mui/icons-material/Edit'
-import _ from 'underscore'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import EmpTaskStatus from './EmpTaskStatus'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
-import SearchIcon from '@mui/icons-material/Search'
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded'
-import TmProjectListSearch from 'src/views/CommonSelectCode/TmProjectListSearch'
+import { Box, Button, Chip, CircularProgress, Input, Tooltip, Typography } from '@mui/joy'
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { axioslogin } from 'src/views/Axios/Axios'
 import { getProjectList } from 'src/redux/actions/TmProjectsList.action'
-import { useDispatch } from 'react-redux'
-import CountDowncomponent from '../CountDown/CountDowncomponent'
-import SwapVertIcon from '@mui/icons-material/SwapVert'
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined'
-import { format } from 'date-fns'
-import { Virtuoso } from 'react-virtuoso'
-import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
+import { taskColor } from 'src/color/Color'
+import TextComponent from 'src/views/Components/TextComponent'
+import FormattedDate from 'src/views/Components/FormattedDate'
+import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion'
+import EditIcon from '@mui/icons-material/Edit';
+import PolylineIcon from '@mui/icons-material/Polyline';
+import TaskAssigneesName from 'src/views/Components/TaskAssingeesName'
+import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
+import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import SearchIcon from '@mui/icons-material/Search';
+import { useQuery } from '@tanstack/react-query'
+import { getEmpAllTasks } from 'src/api/TaskApi'
+import JSZip from 'jszip'
 
-const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projectcount, setprojectcount }) => {
-  const dispatch = useDispatch()
-  const [tabledata, setTabledata] = useState([])
+const EmpAllTask = ({ projectcount, setprojectcount }) => {
+
+  const dispatch = useDispatch();
+  const id = useSelector((state) => state.LoginUserData.empid)
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [editModalFlag, setEditModalFlag] = useState(0)
   const [masterData, setMasterData] = useState([])
   const [getarry, setgetarry] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  const [selectedImages, setSelectedImages] = useState([]);
   const [imageViewModalOpen, setimageViewModalOpen] = useState(false)
   const [image, setimage] = useState(0)
-  const [imageUrls, setImageUrls] = useState([])
-  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
-  const [alphbased, setAlphbased] = useState(0)
-  const [alphbasedData, setAlphbasedData] = useState([])
-  const [projectBasdData, setProjectBasdData] = useState([])
-  const [searchFlag, setsearchFlag] = useState(0)
-  const [taxkFlag, setTaxkFlag] = useState(0)
-  const [projxFlag, setprojxFlag] = useState(0)
-  const [enterText, setEnterText] = useState('')
-  const [statusDataFlag, setstatusDataFlag] = useState(0)
-  const [borderB, setborderB] = useState(0)
-  const [borderT, setborderT] = useState(0)
-  const [sectiondataFlag, setsectiondataFlag] = useState(0)
-  const [projectz, setprojectz] = useState(0)
+  const [imageUrls, setImageUrls] = useState([]);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [subtaskMap, setSubtaskMap] = useState({});
+  const [loadingMap, setLoadingMap] = useState({});
+  const [filterText, setFilterText] = useState("");
+  const [allTaskData, setAllTaskData] = useState([])
+
 
   useEffect(() => {
     dispatch(getProjectList())
-  }, [dispatch])
+  }, [dispatch,])
+
+
+
+
+
+  const { data: AllTaskList, isSuccess: TaskSuccess, isError, isLoading } = useQuery({
+    queryKey: ['getEmpAllTasksList', id],
+    queryFn: () => getEmpAllTasks(id),
+    enabled: !!id,
+  });
 
   useEffect(() => {
-    const getMasterTable = async () => {
-      const result = await axioslogin.get(`/TmTableView/employeeAllTask/${id}`)
-      const { success, data } = result.data
-      if (data.length !== 0) {
-        if (success === 2) {
-          setTabledata(data)
-        } else {
-          setTabledata([])
-        }
-      } else {
-        setTabledata([])
-      }
-    }
-    getMasterTable(id)
-  }, [id, tableCount])
-
-  const SearchInTableProject = useCallback(() => {
-    if (projectz !== 0) {
-      let newtabledataaProject = tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
-      setsearchFlag(1)
-      setProjectBasdData(newtabledataaProject)
+    if (AllTaskList?.length > 0) {
+      setAllTaskData(AllTaskList);
     } else {
-      infoNotify('please select a project to search')
+      setAllTaskData([]);
     }
-  }, [projectz, tabledata])
+  }, [AllTaskList, TaskSuccess]);
 
-  useEffect(() => {
-    if (projxFlag === 1) {
-      let newtabledataaProject = tabledata && tabledata.filter(val => val.tm_project_slno === projectz)
-      setProjectBasdData(newtabledataaProject)
-    }
-  }, [taskcount, tabledata, alphbased, enterText, projectz, projxFlag])
 
-  const updateEnterText = useCallback(e => {
-    setEnterText(e.target.value)
-  }, [])
-
-  const SearchInTableByTask = useCallback(() => {
-    if (enterText.length < 3) {
-      infoNotify('Please enter a minimum of 3 characters to search task name')
-    } else {
-      const searchText = enterText.toLowerCase()
-      const newtabledataa =
-        tabledata &&
-        tabledata.filter(item => {
-          const taskName = item.tm_task_name.toLowerCase()
-          return taskName.includes(searchText)
-        })
-      setAlphbased(1)
-      setAlphbasedData(newtabledataa)
-    }
-  }, [enterText, tabledata])
-
-  useEffect(() => {
-    if (alphbased === 1) {
-      const searchText = enterText.trim().toLowerCase()
-      const newTableDataa =
-        tabledata && tabledata.filter(val => val.tm_task_name.trim().toLowerCase().includes(searchText))
-      setAlphbasedData(newTableDataa)
-    }
-  }, [taskcount, tabledata, alphbased, enterText])
-
-  const projxWise = useCallback(() => {
-    setprojxFlag(1)
-    setTaxkFlag(0)
-    setborderB(1)
-    setborderT(0)
-  }, [])
-
-  const taskWise = useCallback(() => {
-    setTaxkFlag(1)
-    setprojxFlag(0)
-    setborderT(1)
-    setborderB(0)
-  }, [])
-
-  const closeSearchWise = useCallback(() => {
-    setprojxFlag(0)
-    setprojectz(0)
-    setTaxkFlag(0)
-    setsearchFlag(0)
-    setEnterText('')
-    setAlphbased(0)
-    setstatusDataFlag(0)
-    setsectiondataFlag(0)
-    setborderB(0)
-    setborderT(0)
-  }, [])
-
-  const rowSelectModal = useCallback(value => {
+  const rowSelectModal = useCallback((value) => {
     setEditModalFlag(1)
     setEditModalOpen(true)
     setimageViewModalOpen(false)
@@ -155,6 +78,8 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
 
+
+
   const fileView = async val => {
     const { tm_task_slno } = val
     setgetarry(val)
@@ -162,1095 +87,302 @@ const EmpAllTask = ({ tableCount, setTableCount, taskcount, settaskcount, projec
     setEditModalFlag(0)
     setimage(0) // Initialize imageViewModalFlag to 0 initially
     setimageViewModalOpen(false) // Close the modal if it was open
-    try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
+    const getImage = async tm_task_slno => {
+      try {
+        const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageUrls(images)
           setimage(1)
           setimageViewModalOpen(true)
           setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
         }
-      } else {
-        warningNotify('No Image Attached')
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
       }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
     }
+    getImage(tm_task_slno)
   }
-  const isPastDue = tm_task_due_date => {
-    const today = new Date()
-    const due = new Date(tm_task_due_date)
-    return due < today
-  }
+
+  const filteredData = allTaskData.filter((row) =>
+    Object.values(row)
+      .join(" ")
+      .toLowerCase()
+      .includes(filterText.toLowerCase())
+  );
+
+
+
+  const ListSubtask = useCallback(async (val) => {
+    if (!val?.tm_task_slno) return;
+    const taskId = val.tm_task_slno;
+    if (selectedTaskId === taskId) {
+      setSelectedTaskId(null);
+      return;
+    }
+
+    setSelectedTaskId(taskId); // open this task
+    setLoadingMap(prev => ({ ...prev, [taskId]: true }));
+
+    try {
+      const result = await axioslogin.post("/taskManagement/subtaskUnderdepSec", { main_task_slno: taskId });
+      const { success, data } = result.data;
+
+      setSubtaskMap(prev => ({
+        ...prev,
+        [taskId]: success === 2 ? data : []
+      }));
+    } catch (err) {
+      setSubtaskMap(prev => ({ ...prev, [taskId]: [] }));
+    } finally {
+      setLoadingMap(prev => ({ ...prev, [taskId]: false }));
+    }
+  }, [selectedTaskId]);
 
   return (
-    <Box>
-      {tabledata.length !== 0 ? (
-        <Box>
-          {editModalFlag === 1 ? (
-            <EmpTaskStatus
-              open={editModalOpen}
-              setEditModalOpen={setEditModalOpen}
-              masterData={masterData}
-              setEditModalFlag={setEditModalFlag}
-              searchFlag={searchFlag}
-              taskcount={taskcount}
-              settaskcount={settaskcount}
-              tableCount={tableCount}
-              setTableCount={setTableCount}
-              projectcount={projectcount}
-              setprojectcount={setprojectcount}
-            />
-          ) : image === 1 ? (
-            <ViewTaskImage
-              imageUrls={imageUrls}
-              open={imageViewModalOpen}
-              handleClose={handleClose}
-              selectedImages={selectedImages}
-              getarry={getarry}
-            />
-          ) : null}
-          <Box sx={{ maxHeight: 80, flex: 1, display: 'flex' }}>
-            <Box sx={{ flex: 2 }}></Box>
-            <Box sx={{ flex: 1 }}>
-              <Box sx={{ flex: 1, display: 'flex', ml: 2 }}>
-                <Box sx={{ flex: 0.5, display: 'flex', cursor: 'pointer' }} onClick={projxWise}>
-                  {borderB === 1 ? <SwapVertIcon sx={{ p: 0.3, color: 'blue' }} /> : <SwapVertIcon sx={{ p: 0.3 }} />}
-                  <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' } }}>
-                    {borderB === 1 ? (
-                      <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Project</u>
-                    ) : (
-                      <>Project</>
-                    )}
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', cursor: 'pointer' }} onClick={taskWise}>
-                  {borderT === 1 ? (
-                    <FilterAltOutlinedIcon sx={{ p: 0.3, color: 'blue' }} />
-                  ) : (
-                    <FilterAltOutlinedIcon sx={{ p: 0.3 }} />
-                  )}
 
-                  <Typography sx={{ fontSize: 12, '&:hover': { color: 'blue' }, pt: 0.1 }}>
-                    {borderT === 1 ? <u style={{ textDecorationColor: 'blue', color: 'blue' }}>Task</u> : <>Task</>}
-                  </Typography>
+    <Box >
+      {editModalFlag === 1 ?
+        <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
+          setEditModalFlag={setEditModalFlag} projectcount={projectcount} setprojectcount={setprojectcount}
+        /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
+          selectedImages={selectedImages} getarry={getarry} /> : null}
+
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 1 }}>
+        <Input
+          label="Search"
+          variant="outlined"
+          placeholder="Type here..."
+          autoComplete="off"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          startDecorator={
+            <Button variant="soft" color="neutral">
+              <SearchIcon /> Search
+            </Button>
+          }
+          sx={{ width: 300 }}
+        />
+      </Box>
+      <Box sx={{ px: .5, height: '60vh', overflow: 'auto', }}>
+        {isLoading ? (
+          <CircularProgress thickness={4} />
+        ) : isError ? (
+          <Typography sx={{ fontSize: 14, color: "red", textAlign: "center", mt: 2 }}>
+            Failed to load tasks
+          </Typography>
+        ) : filteredData.length === 0 ? (
+          <Typography sx={{ fontSize: 14, color: "grey", textAlign: "center", mt: 2 }}>
+            No tasks found
+          </Typography>
+        ) : (
+          filteredData?.map((val, index) => (
+            <Box
+              key={index}
+              sx={{
+                border: 1,
+                borderColor: taskColor.purple,
+                borderRadius: 5,
+                mb: .5,
+                backgroundColor: 'background.body',
+                transition: '0.2s',
+                '&:hover': { boxShadow: 'md' }
+              }}
+            >
+
+              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, pt: 1 }}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <TextComponent
+                    sx={{ fontSize: 16, fontWeight: 700, color: taskColor.darkPurple }}
+                    text={val.main_task_slno ? `Subtask #${val.tm_task_slno}` : `Task #${val.tm_task_slno}`}
+                  />
+
+                  <Tooltip title="Task Created Date" placement="top-end">
+                    <Box sx={{ cursor: 'pointer', width: 200, fontSize: 12, }}>
+                      <FormattedDate date={val.create_date} />
+                    </Box>
+                  </Tooltip>
+
+                </Box>
+
+                <Chip
+                  size="sm"
+                  variant="soft"
+                  color={
+                    val.tm_task_status === 0 ? 'neutral'
+                      : val.tm_task_status === 1 ? 'success'
+                        : val.tm_task_status === 2 ? 'warning'
+                          : val.tm_task_status === 3 ? 'neutral'
+                            : val.tm_task_status === 4 ? 'info'
+                              : 'neutral'
+                  }
+                  sx={{ fontWeight: 700 }}
+                >
+                  {val.tm_task_status === 0 ? 'Not Started'
+                    : val.tm_task_status === 1 ? 'Completed'
+                      : val.tm_task_status === 2 ? 'On Progress'
+                        : val.tm_task_status === 3 ? 'On Hold'
+                          : val.tm_task_status === 4 ? 'Pending'
+                            : 'Not Given'}
+                </Chip>
+
+                <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', ml: 2 }}>
+                  <TaskCountDownComponent DueDates={val.tm_task_due_date} />
+                  <Tooltip title="Task Duedate" placement="top-end">
+                    <Box sx={{ cursor: 'pointer', width: 200, fontSize: 12, display: 'flex', justifyContent: 'flex-end' }}>
+                      <FormattedDate date={val.tm_task_due_date} />
+                    </Box>
+                  </Tooltip>
                 </Box>
               </Box>
-              <Box sx={{ flex: 1, mr: 11, ml: 5 }}>
-                {projxFlag === 1 ? (
-                  <Box sx={{ flex: 1, display: 'flex', mt: 1, mb: 2 }}>
-                    <Box sx={{ flex: 1 }}>
-                      <TmProjectListSearch projectz={projectz} setprojectz={setprojectz} />
-                    </Box>
-                    <Box>
-                      <CssVarsProvider>
-                        <Tooltip title="search">
-                          <Box
-                            sx={{
-                              pl: 0.5,
-                              bgcolor: '#E7F2F8',
-                              cursor: 'pointer',
-                              borderRight: 1,
-                              borderTop: 1,
-                              borderBottom: 1,
-                              borderColor: '#B2C4CB',
-                              height: '100%'
-                            }}
-                            onClick={SearchInTableProject}
-                          >
-                            <SearchIcon />
-                          </Box>
-                        </Tooltip>
-                      </CssVarsProvider>
-                    </Box>
-                    <Box>
-                      <CssVarsProvider>
-                        <Tooltip title="exit">
-                          <Box
-                            sx={{
-                              pl: 0.5,
-                              bgcolor: '#E7F2F8',
-                              cursor: 'pointer',
-                              borderRight: 1,
-                              borderTop: 1,
-                              borderBottom: 1,
-                              borderColor: '#B2C4CB',
-                              height: '100%'
-                            }}
-                            onClick={closeSearchWise}
-                          >
-                            <HighlightOffRoundedIcon />
-                          </Box>
-                        </Tooltip>
-                      </CssVarsProvider>
-                    </Box>
-                  </Box>
-                ) : null}
-                {taxkFlag === 1 ? (
-                  <Box sx={{ flex: 1, display: 'flex', mt: 1, mb: 2 }}>
-                    <Box sx={{ flex: 1 }}>
-                      <Input
-                        size="xs"
-                        name="enterText"
-                        value={enterText}
-                        placeholder="type task name to search..."
-                        sx={{
-                          height: 29,
-                          borderRadius: 0,
-                          pl: 1
-                        }}
-                        onChange={updateEnterText}
-                      />
-                    </Box>
-                    <Box>
-                      <CssVarsProvider>
-                        <Tooltip title="search">
-                          <Box
-                            sx={{
-                              pl: 0.5,
-                              bgcolor: '#E7F2F8',
-                              cursor: 'pointer',
-                              borderRight: 1,
-                              borderTop: 1,
-                              borderBottom: 1,
-                              borderColor: '#B2C4CB',
-                              height: '100%'
-                            }}
-                            onClick={SearchInTableByTask}
-                          >
-                            <SearchIcon />
-                          </Box>
-                        </Tooltip>
-                      </CssVarsProvider>
-                    </Box>
-                    <Box>
-                      <CssVarsProvider>
-                        <Tooltip title="exit">
-                          <Box
-                            sx={{
-                              pl: 0.5,
-                              bgcolor: '#E7F2F8',
-                              cursor: 'pointer',
-                              borderRight: 1,
-                              borderTop: 1,
-                              borderBottom: 1,
-                              borderColor: '#B2C4CB',
-                              height: '100%'
-                            }}
-                            onClick={closeSearchWise}
-                          >
-                            <HighlightOffRoundedIcon />
-                          </Box>
-                        </Tooltip>
-                      </CssVarsProvider>
-                    </Box>
-                  </Box>
-                ) : null}
+
+              <Box sx={{ px: 2, pt: 1, fontSize: 15, fontWeight: 600, color: 'black' }}>
+                {val.tm_task_name}
               </Box>
-            </Box>
-          </Box>
-          <Box sx={{ width: '100%', overflow: 'auto' }}>
-            <Box sx={{ width: 2200 }}>
-              <Box
-                sx={{
-                  height: 45,
-                  mt: 0.5,
-                  mx: 1.5,
-                  display: 'flex',
-                  borderBottom: 1,
-                  borderTop: 1,
-                  borderColor: 'lightgray',
-                  pt: 1.5,
-                  bgcolor: 'white'
-                }}
-              >
-                <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: '#444444', fontSize: 12 }}>#</Box>
-                <Box
-                  sx={{
-                    width: 70,
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    color: '#444444',
-                    fontSize: 12
-                  }}
-                >
-                  Action
-                </Box>
-                <Box
-                  sx={{
-                    width: 60,
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    color: '#444444',
-                    fontSize: 12
-                  }}
-                >
-                  Files
-                </Box>
-                <Box
-                  sx={{
-                    width: 140,
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    color: '#444444',
-                    fontSize: 12
-                  }}
-                >
-                  Status
-                </Box>
-                <Box
-                  sx={{
-                    width: 250,
-                    fontWeight: 600,
-                    color: '#444444',
-                    fontSize: 12,
-                    textAlign: 'center'
-                  }}
-                >
-                  CountDown
-                </Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Task Name</Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Project</Box>
-                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>Created Date</Box>
-                <Box sx={{ width: 250, fontWeight: 600, color: '#444444', fontSize: 12 }}>Due Date</Box>
-                <Box sx={{ width: 700, fontWeight: 600, color: '#444444', fontSize: 12 }}>Description</Box>
+              <Box sx={{ px: 2, pb: 1, fontSize: 14 }}>
+                <ReadmoreDescribtion description={val.tm_task_description} />
               </Box>
-              {alphbased === 0 && searchFlag === 0 && statusDataFlag === 0 && sectiondataFlag === 0 ? (
-                <Virtuoso
-                  style={{ height: '52vh' }}
-                  totalCount={tabledata?.length}
-                  itemContent={index => {
-                    const val = tabledata[index]
-                    return (
-                      <Box
-                        key={val.tm_task_slno}
-                        sx={{
-                          flex: 1,
-                          display: 'flex',
-                          mt: 0.3,
-                          borderBottom: 2,
-                          mx: 1.5,
-                          borderColor: 'lightgrey',
-                          minHeight: 30,
-                          maxHeight: 80,
-                          background:
-                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
-                          pt: 0.5
-                        }}
-                      >
-                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12
-                          }}
-                        >
-                          <EditIcon
-                            sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }}
-                            size={6}
-                            onClick={() => rowSelectModal(val)}
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          &nbsp;
-                          {val.tm_task_file === 1 ? (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: '#41729F',
-                                '&:hover': { color: '#274472' }
-                              }}
-                              onClick={() => fileView(val)}
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: taskColor.lightpurple, m: .1, px: .3, pt: .3 }}>
+                <Box sx={{ display: 'flex', gap: .2 }}>
+                  <Button size="sm" variant="outlined" color='neutral' style={{ backgroundColor: '#F8F8F8' }} onClick={() => rowSelectModal(val)}>
+                    <EditIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                  </Button>
+                  <Button size="sm" variant="outlined" color='neutral' style={{ backgroundColor: '#F8F8F8' }} onClick={() => fileView(val)}>
+                    {val.tm_task_file === 1
+                      ? <FilePresentRoundedIcon sx={{ color: taskColor.darkPurple }} />
+                      : <FilePresentIcon sx={{ color: 'grey' }} />}
+                  </Button>
+                  {!val.main_task_slno && (
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      color="neutral"
+                      style={{ backgroundColor: '#F8F8F8' }}
+                      onClick={() => ListSubtask(val)}
+                    >
+                      <PolylineIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                    </Button>
+                  )}
+                </Box>
+              </Box>
+
+              {selectedTaskId === val.tm_task_slno && (
+                <Box sx={{ m: 1, }}>
+                  {loadingMap[val.tm_task_slno] ? (
+                    <CircularProgress size='sm' sx={{ color: taskColor.darkPurple }} />
+                  ) : subtaskMap[val.tm_task_slno]?.length > 0 ? (
+                    subtaskMap[val.tm_task_slno].map((sub, i) => (
+                      <Box key={i} sx={{
+                        border: 1, borderColor: taskColor.purple, borderRadius: 4, mb: 0.5,
+                        transition: '0.2s', '&:hover': { boxShadow: 'sm' }, bgcolor: taskColor.lightpurple
+                      }}>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', p: 1, }}>
+                          <Box sx={{ flexGrow: 1 }}>
+                            <TextComponent
+                              sx={{ fontSize: 16, fontWeight: 700, color: taskColor.darkPurple }}
+                              text={`Subtask #${sub.tm_task_slno}`}
                             />
-                          ) : (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: 'grey'
-                              }}
-                            />
-                          )}
-                        </Box>
-                        <Box sx={{ width: 170, textAlign: 'center', fontWeight: 600 }}>
+                            <Tooltip title="Subtask Created Date" placement="top-end">
+                              <Box sx={{ cursor: 'pointer', width: 200, fontSize: 12, }}>
+                                <FormattedDate date={val.create_date} />
+                              </Box>
+                            </Tooltip>
+                          </Box>
+
                           <Chip
-                            sx={{
-                              fontSize: 12,
-                              color:
-                                val.tm_task_status === null
-                                  ? '#311E26'
-                                  : val.tm_task_status === 0
-                                  ? '#311E26'
-                                  : val.tm_task_status === 1
-                                  ? '#94C973'
-                                  : val.tm_task_status === 2
-                                  ? '#D37506'
-                                  : val.tm_task_status === 3
-                                  ? '#56382D'
-                                  : val.tm_task_status === 4
-                                  ? '#5885AF'
-                                  : 'transparent',
-                              minHeight: 5,
-                              fontWeight: 700
-                            }}
+                            size="sm"
+                            variant="soft"
+                            color={
+                              val.tm_task_status === 0 ? 'neutral'
+                                : val.tm_task_status === 1 ? 'success'
+                                  : val.tm_task_status === 2 ? 'warning'
+                                    : val.tm_task_status === 3 ? 'neutral'
+                                      : val.tm_task_status === 4 ? 'info'
+                                        : 'neutral'
+                            }
+                            sx={{ fontWeight: 700 }}
                           >
-                            {val.tm_task_status === 0
-                              ? 'Not Started'
-                              : val.tm_task_status === 1
-                              ? 'Completed'
-                              : val.tm_task_status === 2
-                              ? 'On Progress'
-                              : val.tm_task_status === 3
-                              ? 'On Hold'
-                              : val.tm_task_status === 4
-                              ? 'Pending'
-                              : 'not given'}
+                            {val.tm_task_status === 0 ? 'Not Started'
+                              : val.tm_task_status === 1 ? 'Completed'
+                                : val.tm_task_status === 2 ? 'On Progress'
+                                  : val.tm_task_status === 3 ? 'On Hold'
+                                    : val.tm_task_status === 4 ? 'Pending'
+                                      : 'Not Given'}
                           </Chip>
+                          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', ml: 2 }}>
+                            <TaskCountDownComponent DueDates={sub.tm_task_due_date} />
+                            <Tooltip title="Task Duedate" placement="top-end">
+                              <Box sx={{ cursor: 'pointer', width: 200, fontSize: 12, display: 'flex', justifyContent: 'flex-end' }}>
+                                <FormattedDate date={val.tm_task_due_date} />
+                              </Box>
+                            </Tooltip>
+                          </Box>
                         </Box>
-                        <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                          {val.tm_task_status !== 1 ? (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 1
-                              }}
-                            >
-                              <CountDowncomponent DueDates={val.tm_task_due_date} />
-                            </Box>
-                          ) : (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 5,
-                                color: 'darkgreen'
-                              }}
-                            >
-                              Completed
-                            </Box>
-                          )}
+                        <Box sx={{ px: 1, fontSize: 15, fontWeight: 600, color: 'black' }}>
+                          {sub.tm_task_name}
                         </Box>
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
+                        <Box sx={{ px: 2, pb: 1, fontSize: 14 }}>
+                          <ReadmoreDescribtion description={val.tm_task_description} />
+                        </Box>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: taskColor.lightpurple, m: .1, px: .3, pt: .3 }}>
+                          <Box sx={{ display: 'flex', gap: .2, pb: .5 }}>
+                            <Button size="sm" variant="outlined" color='neutral' style={{ backgroundColor: '#F8F8F8' }} onClick={() => rowSelectModal(sub)}>
+                              <EditIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                            </Button>
+                            <Button size="sm" variant="outlined" color='neutral' style={{ backgroundColor: '#F8F8F8' }} onClick={() => fileView(sub)}>
+                              {sub.tm_task_file === 1
+                                ? <FilePresentRoundedIcon sx={{ color: taskColor.darkPurple }} />
+                                : <FilePresentIcon sx={{ color: 'grey' }} />}
+                            </Button>
+
                           </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 650,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        )}
+                          <TaskAssigneesName empNames={sub.em_name} />
+                        </Box>
                       </Box>
-                    )
-                  }}
-                />
-              ) : alphbased === 0 && projxFlag === 1 && statusDataFlag === 0 ? (
-                <Virtuoso
-                  style={{ height: '50vh' }}
-                  totalCount={projectBasdData?.length}
-                  itemContent={index => {
-                    const val = projectBasdData[index]
-                    return (
-                      <Box
-                        key={val.tm_task_slno}
-                        sx={{
-                          flex: 1,
-                          display: 'flex',
-                          mt: 0.3,
-                          borderBottom: 2,
-                          mx: 1.5,
-                          borderColor: 'lightgrey',
-                          minHeight: 30,
-                          maxHeight: 80,
-                          background:
-                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
-                          pt: 0.5
-                        }}
-                      >
-                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12
-                          }}
-                        >
-                          <EditIcon
-                            sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }}
-                            size={6}
-                            onClick={() => rowSelectModal(val)}
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          &nbsp;
-                          {val.tm_task_file === 1 ? (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: '#41729F',
-                                '&:hover': { color: '#274472' }
-                              }}
-                              onClick={() => fileView(val)}
-                            />
-                          ) : (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: 'grey'
-                              }}
-                            />
-                          )}
-                        </Box>
-                        <Box sx={{ width: 180, textAlign: 'center', fontWeight: 600 }}>
-                          <Chip
-                            sx={{
-                              fontSize: 12,
-                              color:
-                                val.tm_task_status === null
-                                  ? '#311E26'
-                                  : val.tm_task_status === 0
-                                  ? '#311E26'
-                                  : val.tm_task_status === 1
-                                  ? '#94C973'
-                                  : val.tm_task_status === 2
-                                  ? '#D37506'
-                                  : val.tm_task_status === 3
-                                  ? '#56382D'
-                                  : val.tm_task_status === 4
-                                  ? '#5885AF'
-                                  : 'transparent',
-                              minHeight: 5,
-                              fontWeight: 700
-                            }}
-                          >
-                            {val.tm_task_status === 0
-                              ? 'Not Started'
-                              : val.tm_task_status === 1
-                              ? 'Completed'
-                              : val.tm_task_status === 2
-                              ? 'On Progress'
-                              : val.tm_task_status === 3
-                              ? 'On Hold'
-                              : val.tm_task_status === 4
-                              ? 'Pending'
-                              : 'not given'}
-                          </Chip>
-                        </Box>
-                        <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                          {val.tm_task_status !== 1 ? (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 1
-                              }}
-                            >
-                              <CountDowncomponent DueDates={val.tm_task_due_date} />
-                            </Box>
-                          ) : (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 5,
-                                color: 'darkgreen'
-                              }}
-                            >
-                              Completed
-                            </Box>
-                          )}
-                        </Box>
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 650,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        )}
-                      </Box>
-                    )
-                  }}
-                />
-              ) : alphbased === 1 && projxFlag === 0 && statusDataFlag === 0 ? (
-                <Virtuoso
-                  style={{ height: '50vh' }}
-                  totalCount={alphbasedData?.length}
-                  itemContent={index => {
-                    const val = alphbasedData[index]
-                    return (
-                      <Box
-                        key={val.tm_task_slno}
-                        sx={{
-                          flex: 1,
-                          display: 'flex',
-                          mt: 0.3,
-                          borderBottom: 2,
-                          mx: 1.5,
-                          borderColor: 'lightgrey',
-                          minHeight: 30,
-                          maxHeight: 80,
-                          background:
-                            val.main_task_slno !== null ? '#EAE7FA' : val.main_task_slno === 0 ? 'white' : 'white',
-                          pt: 0.5
-                        }}
-                      >
-                        <Box sx={{ width: 40, pl: 1.7, fontWeight: 600, color: 'grey', fontSize: 12 }}>{index + 1}</Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12
-                          }}
-                        >
-                          <EditIcon
-                            sx={{ cursor: 'pointer', '&:hover': { color: '#003060' } }}
-                            size={6}
-                            onClick={() => rowSelectModal(val)}
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            color: 'grey',
-                            fontSize: 12,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          &nbsp;
-                          {val.tm_task_file === 1 ? (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: '#41729F',
-                                '&:hover': { color: '#274472' }
-                              }}
-                              onClick={() => fileView(val)}
-                            />
-                          ) : (
-                            <FilePresentRoundedIcon
-                              sx={{
-                                color: 'grey'
-                              }}
-                            />
-                          )}
-                        </Box>
-                        <Box sx={{ width: 180, textAlign: 'center', fontWeight: 600 }}>
-                          <Chip
-                            sx={{
-                              fontSize: 12,
-                              color:
-                                val.tm_task_status === null
-                                  ? '#311E26'
-                                  : val.tm_task_status === 0
-                                  ? '#311E26'
-                                  : val.tm_task_status === 1
-                                  ? '#94C973'
-                                  : val.tm_task_status === 2
-                                  ? '#D37506'
-                                  : val.tm_task_status === 3
-                                  ? '#56382D'
-                                  : val.tm_task_status === 4
-                                  ? '#5885AF'
-                                  : 'transparent',
-                              minHeight: 5,
-                              fontWeight: 700
-                            }}
-                          >
-                            {val.tm_task_status === 0
-                              ? 'Not Started'
-                              : val.tm_task_status === 1
-                              ? 'Completed'
-                              : val.tm_task_status === 2
-                              ? 'On Progress'
-                              : val.tm_task_status === 3
-                              ? 'On Hold'
-                              : val.tm_task_status === 4
-                              ? 'Pending'
-                              : 'not given'}
-                          </Chip>
-                        </Box>
-                        <Box sx={{ width: 160, fontWeight: 600, color: 'grey', fontSize: 12 }}>
-                          {val.tm_task_status !== 1 ? (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 1
-                              }}
-                            >
-                              <CountDowncomponent DueDates={val.tm_task_due_date} />
-                            </Box>
-                          ) : (
-                            <Box
-                              sx={{
-                                bgcolor: '#EAEAEA',
-                                borderRadius: 15,
-                                mb: 0.5,
-                                width: 150,
-                                pl: 5,
-                                color: 'darkgreen'
-                              }}
-                            >
-                              Completed
-                            </Box>
-                          )}
-                        </Box>
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 650,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_project_name || 'not given'}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.create_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 250,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {format(new Date(val.tm_task_due_date), 'MMM dd, yyyy HH:mm:ss')}
-                          </Box>
-                        )}
-                        {val.tm_task_status === 1 ? (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        ) : (
-                          <Box
-                            sx={{
-                              width: 700,
-                              fontWeight: 600,
-                              color: isPastDue(val.tm_task_due_date) ? '#B32800' : 'grey',
-                              fontSize: 12,
-                              textTransform: 'capitalize',
-                              pl: 1
-                            }}
-                          >
-                            {val.tm_task_description || 'not given'}
-                          </Box>
-                        )}
-                      </Box>
-                    )
-                  }}
-                />
-              ) : (
-                <Box></Box>
+                    ))
+                  ) : (
+                    <Typography sx={{ fontSize: 15, color: 'black', fontWeight: 600, py: 2 }}>No Subtasks</Typography>
+                  )}
+                </Box>
               )}
-              <Box sx={{ height: 5 }}></Box>
             </Box>
-          </Box>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            textAlign: 'center',
-            pt: 20,
-            height: 500,
-            fontWeight: 700,
-            fontSize: 30,
-            color: '#C7C8CB'
-          }}
-        >
-          No Task Asssigned!
-        </Box>
-      )}
+          )))}
+      </Box>
     </Box>
+
   )
 }
 

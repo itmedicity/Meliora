@@ -6,10 +6,9 @@ import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect'
 import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import CusIconButton from 'src/views/Components/CusIconButton'
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import DownloadIcon from '@mui/icons-material/Download'
 import CusAgGridForReport from 'src/views/Components/CusAgGridForReport'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -19,20 +18,24 @@ import { useNavigate } from 'react-router-dom'
 const EmployeeeWiseTask = () => {
   const [departments, setDepartments] = useState(0)
   const [deptsecs, setDeptSecs] = useState(0)
-  const [TableData, setTableData] = useState([])
+  const [TableData, setTableData] = useState([]);
   const [employee, setEmployee] = useState(0)
   const [exports, setexport] = useState(0)
-  const dispatch = useDispatch()
-  const history = useNavigate()
+  const dispatch = useDispatch();
+
+  const history = useNavigate();
   useEffect(() => {
     dispatch(getDepartment())
-  }, [dispatch])
+  }, [dispatch,])
 
   const searchData = useMemo(() => {
     return {
-      tm_assigne_emp: employee
+      tm_assigne_emp: employee,
+
     }
   }, [employee])
+
+
 
   const EmpTaskSearch = useCallback(() => {
     const getDeptTable = async () => {
@@ -58,36 +61,31 @@ const EmployeeeWiseTask = () => {
             tm_task_status: val.tm_task_status,
             tm_project_name: val.tm_project_name,
             tm_project_slno: val.tm_project_slno,
-            TaskStatus:
-              val.tm_task_status === 1
-                ? 'Completed'
-                : val.tm_task_status === 1
-                ? 'Completed'
-                : val.tm_task_status === 2
-                ? 'On Progress'
-                : val.tm_task_status === 3
-                ? 'On Hold'
-                : val.tm_task_status === 4
-                ? 'Pending'
-                : val.tm_task_status === 0
-                ? 'Incompleted'
-                : 'Incompleted'
+            TaskStatus: val.tm_task_status === 1 ? 'Completed' :
+              val.tm_task_status === 1 ? 'Completed' :
+                val.tm_task_status === 2 ? 'On Progress' :
+                  val.tm_task_status === 3 ? 'On Hold' :
+                    val.tm_task_status === 4 ? 'Pending' :
+                      val.tm_task_status === 0 ? 'Incompleted' : 'Incompleted',
           }
           return obj
         })
         setTableData(arry)
       } else {
+
         setTableData([])
       }
     }
     getDeptTable(searchData)
-  }, [searchData])
+  }, [searchData,])
+
 
   const onExportClick = () => {
     if (TableData.length === 0) {
-      warningNotify('No Data For Download, Please select employee')
+      warningNotify("No Data For Download, Please select employee")
       setexport(0)
-    } else {
+    }
+    else {
       setexport(1)
     }
   }
@@ -96,102 +94,74 @@ const EmployeeeWiseTask = () => {
     if (exports === 1) {
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 1 })
       setexport(0)
-    } else {
+    }
+    else {
       dispatch({ type: ActionTyps.FETCH_CHANGE_STATE, aggridstate: 0 })
     }
   }, [exports, dispatch])
 
   const [columnDefs] = useState([
-    { headerName: 'SlNo', field: 'slno', autoHeight: true, wrapText: true, minWidth: 90 },
-    {
-      headerName: 'Department',
-      field: 'dept_name',
-      autoHeight: true,
-      wrapText: true,
-      minWidth: 300,
-      filter: 'true'
-    },
-    { headerName: 'Section', field: 'sec_name', autoHeight: true, wrapText: true, minWidth: 300 },
-    {
-      headerName: 'Task',
-      field: 'tm_task_name',
-      autoHeight: true,
-      wrapText: true,
-      minWidth: 200,
-      filter: 'true'
-    },
-    {
-      headerName: 'Assignee',
-      field: 'em_name',
-      autoHeight: true,
-      wrapText: true,
-      minWidth: 200,
-      filter: 'true'
-    },
-    {
-      headerName: 'Due Date',
-      field: 'tm_task_due_date',
-      autoHeight: true,
-      wrapText: true,
-      minWidth: 200,
-      filter: 'true'
-    },
-    {
-      headerName: 'Description',
-      field: 'tm_task_description',
-      autoHeight: true,
-      wrapText: true,
-      minWidth: 300,
-      filter: 'true'
-    }
+    { headerName: "SlNo", field: "slno", autoHeight: true, wrapText: true, minWidth: 90 },
+    { headerName: "Department", field: "dept_name", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+    { headerName: "Section", field: "sec_name", autoHeight: true, wrapText: true, minWidth: 300 },
+    { headerName: "Task", field: "tm_task_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "Assignee", field: "em_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "Due Date", field: "tm_task_due_date", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
+    { headerName: "Description", field: "tm_task_description", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
+
   ])
   const backToSetting = useCallback(() => {
-    history(`/Home/Reports`)
+    history.push(`/Home/Reports`)
   }, [history])
   return (
-    <CardMasterClose title="EMPLOYEE'S TASK REPORT" close={backToSetting}>
+    <CardMasterClose
+      title='EMPLOYEE&apos;S TASK REPORT'
+      close={backToSetting}
+    >
       <Box sx={{ display: 'flex', mt: 1 }}>
         <Box sx={{ flex: 1 }}>
           <Typography sx={{ pl: 1, fontWeight: 300 }}>Department</Typography>
-          <TmDepartmentSelect department={departments} setDepartment={setDepartments} />
+          <TmDepartmentSelect
+            department={departments}
+            setDepartment={setDepartments} />
         </Box>
         <Box sx={{ flex: 1, ml: 1 }}>
-          <Typography sx={{ pl: 1, fontWeight: 300 }}>Section</Typography>
-          <TmDeptSectionSelect deptsec={deptsecs} setDeptSec={setDeptSecs} />
+          <Typography sx={{ pl: 1, fontWeight: 300, }}>Section</Typography>
+          <TmDeptSectionSelect
+            deptsec={deptsecs}
+            setDeptSec={setDeptSecs} />
         </Box>
         <Box sx={{ flex: 1, ml: 1 }}>
-          <Typography sx={{ pl: 1, fontWeight: 300 }}>Employee</Typography>
-          {/* <TmDeptSectionSelect
-                        deptsec={deptsecs}
-                        setDeptSec={setDeptSecs}
-                    /> */}
-          <TMemployeeSelect employee={employee} setEmployee={setEmployee} />
+          <Typography sx={{ pl: 1, fontWeight: 300, }}>Employee</Typography>
+          <TMemployeeSelect
+            employee={employee}
+            setEmployee={setEmployee} />
         </Box>
-        <Box sx={{ flex: 1, ml: 1, pt: 2.8 }}>
-          <CusIconButton size="sm" variant="outlined" clickable="true" onClick={EmpTaskSearch}>
-            <SearchOutlinedIcon fontSize="small" />
+        <Box sx={{ flex: 1, ml: 1, pt: 2.8, }}>
+
+          <CusIconButton size="sm" variant="outlined" clickable="true" onClick={EmpTaskSearch} >
+            <SearchOutlinedIcon fontSize='small' />
           </CusIconButton>
+
+
+
+
         </Box>
       </Box>
-      <Box
-        sx={{
-          mt: 1.5,
-          flex: 1,
-          bgcolor: '#f0f3f5',
-          height: 35,
-          display: 'flex',
-          justifyContent: 'flex-end'
-        }}
-      >
-        <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
+      <Box sx={{ mt: 1.5, flex: 1, bgcolor: '#f0f3f5', height: 35, display: 'flex', justifyContent: 'flex-end', }}>
+        <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick} >
           <DownloadIcon />
         </CusIconButton>
       </Box>
-      <Box sx={{ mx: 0.1 }}>
-        <CusAgGridForReport columnDefs={columnDefs} tableData={TableData} />
+      <Box sx={{ mx: .1 }}>
+        <CusAgGridForReport
+          columnDefs={columnDefs}
+          tableData={TableData}
+        />
       </Box>
-    </CardMasterClose>
+    </CardMasterClose >
   )
 }
+
 
 export default memo(EmployeeeWiseTask)

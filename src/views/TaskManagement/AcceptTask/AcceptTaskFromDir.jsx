@@ -10,13 +10,14 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
 import { format } from 'date-fns'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { succesNotify } from 'src/views/Common/CommonCode'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 import QueryModal from './QueryModal'
 import HelpSharpIcon from '@mui/icons-material/HelpSharp'
 import ReplyModal from './ReplyModal'
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
+
 
 const AcceptTaskFromDir = () => {
   const [taskList, setTaskList] = useState([])
@@ -89,36 +90,18 @@ const AcceptTaskFromDir = () => {
     setImageUrls([])
   }, [setimageViewModalOpen, setImageUrls, setimage])
 
-  const fileView = async val => {
+
+
+
+  const fileView = async (val) => {
     const { tm_task_slno } = val
     setgetarry(val)
-    setimage(0) // Initialize imageViewModalFlag to 0 initially
-    setimageViewModalOpen(false) // Close the modal if it was open
-    try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
-          setimage(1)
-          setimageViewModalOpen(true)
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
-      } else {
-        warningNotify('No Image Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+    setimage(1)
+    setimageViewModalOpen(true)
+    setSelectedImages(val)
+    const images = await getFilesFromZip('/TmFileUpload/uploadFile/getTaskFile', tm_task_slno);
+    setImageUrls(images);
+  };
 
   return (
     <Paper sx={{ pb: 0.3, bgcolor: '#DFE3ED', width: '100%' }}>
