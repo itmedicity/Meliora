@@ -256,13 +256,17 @@ const ServiceDetailsCondemnation = ({ AssetDetails }) => {
                       <Box sx={{ flex: 4, fontWeight: 600, color: 'Black', fontSize: 13, pt: .5 }}>
                         <Box
                           onClick={() => fileView(val)}
-                          sx={{ bgcolor: '#41729F', color: 'white', width: 85, pl: 1, borderRadius: 10, cursor: 'pointer' }}
+                          sx={{ bgcolor: '#41729F', color: 'white', width: 85, pl: 1, borderRadius: 10, cursor: 'pointer', display: 'flex' }}
                         >
                           <FilePresentRoundedIcon sx={{
                             color: 'white',
                             cursor: 'pointer',
-                            height: 20, width: 18, pb: .1
-                          }} />file view
+                            height: 20, width: 18,
+                          }} />
+                          <Box>
+                            file view
+                          </Box>
+
                         </Box>
                       </Box>
                     </Box>

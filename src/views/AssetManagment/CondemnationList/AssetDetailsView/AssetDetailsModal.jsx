@@ -1,6 +1,5 @@
-import { Box, Modal, ModalDialog, Chip, } from '@mui/joy'
+import { Box, Modal, ModalDialog, Chip, IconButton, Typography, } from '@mui/joy'
 import React, { memo, useCallback } from 'react'
-import CusIconButton from 'src/views/Components/CusIconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import TextComponent from 'src/views/Components/TextComponent'
 import DetailsTab from './DetailsTab'
@@ -37,21 +36,36 @@ const AssetDetailsModal = ({ AssetOpenModal, AssetDetails, setAssetOpenModal, se
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
       <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', height: '95vh' }}>
         <Box sx={{ flex: 1, }}>
-          <Box sx={{
-            display: 'flex',
-            borderBottom: 1, borderColor: 'lightgrey'
-          }}>
-            <Box sx={{ color: 'grey', pt: 1, pl: 1.5, flex: 1 }}>Item Details</Box>
-            <Box sx={{ p: .2 }}>
-              <CusIconButton
-                size="sm"
-                variant="outlined"
-                color="primary"
-                onClick={CloseModal}
-              >
-                <CloseIcon fontSize="small" />
-              </CusIconButton>
-            </Box>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              px: 2,
+              py: 1
+            }}
+          >
+            <Typography level="title-md" fontWeight={600}>
+              Item Details
+            </Typography>
+            <IconButton
+              onClick={CloseModal}
+              sx={{
+                color: '#555',
+                backgroundColor: '#ffffff',
+                border: '1px solid #ccc',
+                boxShadow: '0px 2px 6px rgba(0,0,0,0.1)',
+                borderRadius: '50%',
+                '&:hover': {
+                  backgroundColor: '#f0f0f0',
+                  color: '#000'
+                },
+                p: 1
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Box>
           <Box sx={{ flex: 1, border: 1, py: 1, borderColor: '#efefef', mx: 1, mt: .5, bgcolor: '#fbfcfe', display: 'flex', height: 110 }}>
             <Box sx={{ flex: 1, }}>

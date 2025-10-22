@@ -1,10 +1,10 @@
-import { Box, Button, Checkbox, CssVarsProvider, Grid, Input, Modal, ModalDialog, Table, Tooltip } from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Grid, IconButton, Input, Modal, ModalDialog, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { getCondemAddedDetails, getItemUnderForm } from 'src/api/AssetApis'
 import TextComponent from 'src/views/Components/TextComponent'
 import AddDetailOnItem from './AddDetailOnItem'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CancelIcon from '@mui/icons-material/Cancel'
+import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileViewSingle from 'src/views/Components/FileViewSingle'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -218,7 +218,7 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
         <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', }}>
           <Box sx={{ border: .1, borderColor: '#E8E6E5', m: 1, height: '100%' }}>
-            <Box sx={{ flex: 1, display: 'flex', ml: 1, }}>
+            {/* <Box sx={{ flex: 1, display: 'flex', ml: 1, }}>
               <Box sx={{ flex: 1 }}>
                 <TextComponent
                   text={"Condemnation Request Form"}
@@ -232,6 +232,47 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
               <Box sx={{ pr: 1, pt: 1, }}>
                 <CancelIcon sx={{ width: 30, height: 30, color: taskColor.darkPurple, cursor: 'pointer' }} onClick={CloseModal} />
               </Box>
+            </Box> */}
+
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 2,
+                py: 1,
+                borderBottom: 1,
+                borderColor: 'lightgrey'
+              }}
+            >
+              <Box sx={{ flex: 1 }}>
+                <TextComponent
+                  text={"Condemnation Request Form"}
+                  sx={{ fontWeight: 600, color: taskColor.darkPurple, pt: 1, fontSize: 21 }}
+                />
+                <TextComponent
+                  text={req_dpt_name}
+                  sx={{ fontWeight: 500, color: taskColor.darkPurple, fontSize: 13 }}
+                />
+              </Box>
+              <IconButton
+                onClick={CloseModal}
+                sx={{
+                  backgroundColor: taskColor.lightpurple,
+                  border: '1px solid #ccc',
+                  boxShadow: '0px 2px 6px rgba(0,0,0,0.1)',
+                  color: 'white', cursor: 'pointer',
+                  borderRadius: '50%',
+                  '&:hover': {
+                    backgroundColor: taskColor.darkPurple,
+
+                  },
+                  p: 1
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
             </Box>
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', mx: 1, mt: 2 }}>
               <Box >
