@@ -14,12 +14,11 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
   const fetchCondemFiles = useCallback(async () => {
     if (!fileData) {
       setFilePaths({})
+      setFlatFiles([])
       return
     }
-
     try {
       setLoading(true)
-
       const normalizedData = Array.isArray(fileData) ? fileData : [fileData]
       const result = await fetchFilesFromZipWithFolder(
         '/AssetFileUpload/uploadFile/getCondemnation',
@@ -30,9 +29,11 @@ const FileViews = ({ fileModalOpen, fileData, setfileOpenFlag, setfileModalOpen 
         setFilePaths,
         ['id', 'detailId']
       )
-
+      if (result) {
+        setFilePaths(result)
+      }
     } catch (error) {
-      errorNotify("Error", error)
+      errorNotify('Error fetching files', error)
     } finally {
       setLoading(false)
     }
