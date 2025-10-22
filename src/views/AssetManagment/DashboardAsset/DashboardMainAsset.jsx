@@ -14,7 +14,6 @@ import {
   getSpareCount,
   getSpareValue
 } from 'src/api/CommonApi'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import DashBoadTile from './DashBoadTile'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import FitbitIcon from '@mui/icons-material/Fitbit'
@@ -141,6 +140,9 @@ const DashboardMainAsset = () => {
       self.findIndex(item => item.category_slno === value.category_slno && item.category_name === value.category_name)
   )
   AllCategory.sort((a, b) => a.category_name.localeCompare(b.category_name))
+
+
+
 
   const { data: amcCmcItemUnderCustodian } = useQuery({
     queryKey: ['getAmcCmcActiveUnderCustodian', postData],
@@ -770,13 +772,15 @@ const DashboardMainAsset = () => {
                 <Box sx={{ pb: 1, px: 0.5 }}>
                   <Grid container spacing={0.5} sx={{ flex: 1 }}>
                     {AllCategory?.map(val => {
-                      const imageUrl = val.file_name
-                        ? `${PUBLIC_NAS_FOLDER}/AssetName/Category/${val.category_slno}/${val.file_name}`
-                        : null
+                      // const imageUrl = val.file_name
+                      //   ? `${PUBLIC_NAS_FOLDER}/AssetName/Category/${val.category_slno}/${val.file_name}`
+
+
+                      //   : null
                       return (
                         <Grid xs={12} sm={12} md={6} lg={4} xl={3} key={val.category_slno}>
                           <DashBoadTile
-                            imageUrl={imageUrl}
+                            // imageUrl={imageUrl}
                             Name={val.category_name}
                             totalCount={
                               val.asset_item_service_0_count !== undefined ||

@@ -4,6 +4,7 @@ import { axioslogin } from 'src/views/Axios/Axios';
 /**
  * Fetch ZIP files from backend and unzip them in-browser.
  * Stores extracted file blobs and preview URLs in React state.
+ * Returns the final file map for optional logging or extra handling.
  */
 export const fetchFilesFromZipWithFolder = async (
   apiEndpoint,
@@ -11,10 +12,12 @@ export const fetchFilesFromZipWithFolder = async (
   setFilesState,
   idKeys = ['id', 'detailId']
 ) => {
+
+
   try {
-    if (!Array.isArray(dataArray) || dataArray.length === 0) {
+    if (!Array.isArray(dataArray) || dataArray.length === 0) {   
       setFilesState({});
-      return;
+      return {};
     }
 
     const requests = dataArray.map(async (row) => {
@@ -22,26 +25,27 @@ export const fetchFilesFromZipWithFolder = async (
         acc[key] = row[key] || null;
         return acc;
       }, {});
-
       try {
         const response = await axioslogin.post(apiEndpoint, postData, {
           responseType: 'blob',
         });
 
+    
+
         const contentType = response.headers['content-type'] || '';
 
-        // No ZIP returned
-        if (contentType.includes('application/json')) {
+        // No ZIP returned (backend might have sent a JSON error/info)
+        if (contentType.includes('application/json')) {        
           return { [postData.detailId]: [] };
         }
 
-        // Load and extract ZIP
+        // 🗜️ Load and extract ZIP
         const zip = await JSZip.loadAsync(response.data);
-
         const fileEntries = Object.entries(zip.files).filter(([filename]) =>
           /\.(jpe?g|png|gif|bmp|webp|pdf)$/i.test(filename)
         );
 
+        // 🔍 Extract all supported files
         const filePromises = fileEntries.map(async ([filename, fileObj]) => {
           const originalBlob = await fileObj.async('blob');
 
@@ -56,12 +60,14 @@ export const fetchFilesFromZipWithFolder = async (
           const blobWithType = new Blob([originalBlob], { type: mimeType });
           const url = URL.createObjectURL(blobWithType);
 
-          return { imageName: filename, url, blob: blobWithType };
+          return { imageName: filename, url, blob: blobWithType, type: mimeType };
         });
 
         const files = await Promise.all(filePromises);
+
         return { [postData.detailId]: files };
-      } catch (error) {    
+      } catch (error) {
+  
         return { [postData.detailId]: [] };
       }
     });
@@ -71,7 +77,10 @@ export const fetchFilesFromZipWithFolder = async (
 
 
     setFilesState(filesMap);
-  } catch (err) {  
+    return filesMap; // ✅ return for component use
+  } catch (err) {
+
     setFilesState({});
+    return {};
   }
 };
