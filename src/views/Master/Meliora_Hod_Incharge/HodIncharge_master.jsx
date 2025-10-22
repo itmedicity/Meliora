@@ -7,7 +7,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import MelEmpNameDeptSecSelect from 'src/views/CommonSelectCode/MelEmpNameDeptSecSelect'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import AuthorizationMastTableMeliora from './AuthorizationMastTableMeliora'
 import { useQueryClient } from '@tanstack/react-query'
 

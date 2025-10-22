@@ -1194,7 +1194,7 @@ const ReqRegistration = () => {
       location,
       request_dept_slno,
       category,
-      image_status,
+      // image_status,
       needed,
       request_deptsec_slno,
       remarks,

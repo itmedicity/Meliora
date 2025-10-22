@@ -1,10 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import Modal from '@mui/joy/Modal'
 import Sheet from '@mui/joy/Sheet'
 import { CssVarsProvider, Typography } from '@mui/joy'
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button'
-import PdfViewerHic from './PdfViewerHic'
 
 
 const ReqImageDisModalHic = ({ open, handleClose, previewFile }) => {

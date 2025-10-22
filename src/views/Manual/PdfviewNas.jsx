@@ -6,7 +6,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import { Typography } from '@mui/joy'
 import ReqImageDisModalHic from './ReqImageDisModalHic'
 
-const PdfviewNas = ({ pdfDis, uploadedImages, setImageShowFlag, imageshowFlag }) => {
+const PdfviewNas = ({ uploadedImages, setImageShowFlag, imageshowFlag }) => {
   const [previewFile, setPreviewFile] = useState({ url: '', type: '' })
   // const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)

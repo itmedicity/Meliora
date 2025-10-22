@@ -2,7 +2,7 @@ import { Avatar, Box, CssVarsProvider, Dropdown, Menu, MenuButton, MenuItem, Too
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { Divider, Grid, Paper } from '@mui/material'
+import { Divider, Grid } from '@mui/material'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import FeedbackIcon from '@mui/icons-material/Feedback'

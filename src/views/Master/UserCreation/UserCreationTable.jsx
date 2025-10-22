@@ -22,8 +22,8 @@ const UserCreationTable = ({ rowSelect }) => {
 
   const {
     data: tabledata,
-    isLoading: isCompLoading,
-    error: compError
+    // isLoading: isCompLoading,
+    // error: compError
   } = useQuery({
     queryKey: ['getallEmpdetails'],
     queryFn: () => getallEmployeDetails(),

@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { getSubFloorData } from 'src/api/Roomapi'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { warningNotify } from 'src/views/Common/CommonCode'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
 
-const NewSubRoomTable = ({ count, rowSelect }) => {
-  const [tabledata, setTabledata] = useState([])
+const NewSubRoomTable = ({ rowSelect }) => {
 
   const [column] = useState([
     {

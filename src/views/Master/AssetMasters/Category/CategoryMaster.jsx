@@ -73,7 +73,7 @@ const CategoryMaster = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { category_slno, category_name, category_status, am_category_pm_days, file_name } = data[0]
+    const { category_slno, category_name, category_status, am_category_pm_days } = data[0]
     const frmdata = {
       category_slno: category_slno,
       category_name: category_name,

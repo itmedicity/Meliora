@@ -27,7 +27,7 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [assetflag, setAssetflag] = useState(0)
   const [assetOpen, setAssetOpen] = useState(false)
 
@@ -153,7 +153,7 @@ const ForVerify = ({ count, setCount, loading, verficationPending, forVerify }) 
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={setimage}
           setimageViewOpen={setimageViewOpen}

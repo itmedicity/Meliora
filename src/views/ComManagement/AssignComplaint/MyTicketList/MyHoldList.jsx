@@ -36,7 +36,7 @@ const MyHoldList = () => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [loading, setLoading] = useState(true)
 
   const [openStates, setOpenStates] = useState({
@@ -260,7 +260,7 @@ const MyHoldList = () => {
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={openStates.imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={setimage}
           setimageViewOpen={value => setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))} // Use setOpenStates to modify imageViewOpen

@@ -66,8 +66,8 @@ const CrfDataCollectionTable = () => {
 
   const {
     data: depkmc,
-    isLoading: iskmcDepLoading,
-    error: kmcdepError
+    // isLoading: iskmcDepLoading,
+    // error: kmcdepError
   } = useQuery({
     queryKey: ['dataDepkmc', empdeptsec],
     queryFn: () => getDatakmcDep(empdeptsec),
@@ -76,8 +76,8 @@ const CrfDataCollectionTable = () => {
 
   const {
     data: dataCollectionkmc,
-    isLoading: iskmcDCLoading,
-    error: kmcdcError
+    // isLoading: iskmcDCLoading,
+    // error: kmcdcError
   } = useQuery({
     queryKey: ['dataCollectionkmc', empdeptsec, depkmc?.kmc_dept], // safer caching
     queryFn: async () => {

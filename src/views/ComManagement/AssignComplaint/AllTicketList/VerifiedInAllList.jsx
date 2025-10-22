@@ -33,7 +33,7 @@ const VerifiedInAllList = () => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [imageViewOpen, setimageViewOpen] = useState(false)
 
   const empdept = useSelector(state => {
@@ -298,7 +298,7 @@ const VerifiedInAllList = () => {
           <ComFileView
             imageUrls={imageUrls}
             imageViewOpen={imageViewOpen}
-            selectedImages={selectedImages}
+            // selectedImages={selectedImages}
             fileDetails={fileDetails}
             setimage={setimage}
             setimageViewOpen={setimageViewOpen}

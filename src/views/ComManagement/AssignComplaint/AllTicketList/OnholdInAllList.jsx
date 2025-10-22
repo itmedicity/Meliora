@@ -29,7 +29,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
   const [emptransferData, setEmpTransferData] = useState([])
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
 
   const [flags, setFlags] = useState({
     queryflag: 0,
@@ -165,7 +165,7 @@ const OnholdInAllList = ({ onholdCompl, count, setCount, menurights }) => {
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={dialogs.imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={image => setFlags(prev => ({ ...prev, image }))}
           setimageViewOpen={open => setDialogs(prev => ({ ...prev, imageViewOpen: open }))}

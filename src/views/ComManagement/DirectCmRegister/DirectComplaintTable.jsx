@@ -1,12 +1,10 @@
 import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
-import { axioslogin } from 'src/views/Axios/Axios'
 import DirectPendingList from './DirectTicketList/DirectPendingList'
 import SectionwiseHoldList from './DirectTicketList/SectionwiseHoldList'
 import SectionWiseVerify from './DirectTicketList/SectionWiseVerify'
-import { errorNotify } from 'src/views/Common/CommonCode'
 import { getDirectPendingCompalints } from 'src/api/CommonApi'
 import { useQuery } from '@tanstack/react-query'
 

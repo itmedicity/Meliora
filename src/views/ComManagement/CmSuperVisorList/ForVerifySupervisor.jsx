@@ -24,7 +24,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [imageViewOpen, setimageViewOpen] = useState(false)
 
   const RaiseQuery = useCallback(value => {
@@ -115,7 +115,7 @@ const ForVerifySupervisor = ({ forVerifyList, count, setCount }) => {
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={setimage}
           setimageViewOpen={setimageViewOpen}

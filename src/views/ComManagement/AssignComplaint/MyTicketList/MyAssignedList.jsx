@@ -37,7 +37,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
   const [holdData, setHoldData] = useState([])
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [loading, setLoading] = useState(true)
 
   const [state, setState] = useState({
@@ -191,7 +191,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={state.imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={setState}
           setimageViewOpen={setState}

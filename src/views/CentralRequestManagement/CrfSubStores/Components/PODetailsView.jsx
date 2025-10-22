@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import { format } from 'date-fns'
 import React, { Fragment, memo } from 'react'

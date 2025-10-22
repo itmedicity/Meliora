@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'

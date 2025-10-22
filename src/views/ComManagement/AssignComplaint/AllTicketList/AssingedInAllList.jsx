@@ -26,7 +26,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
   const [emptransferData, setEmpTransferData] = useState([])
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
 
   const [flags, setFlags] = useState({
     count: 0,
@@ -186,7 +186,7 @@ const AssingedInAllList = ({ pendingCompl, setassignFlag, assignFlag, menurights
         <ComFileView
           imageUrls={imageUrls}
           imageViewOpen={openStates.imageViewOpen}
-          selectedImages={selectedImages}
+          // selectedImages={selectedImages}
           fileDetails={fileDetails}
           setimage={value => setFlags(prevFlags => ({ ...prevFlags, image: value }))}
           setimageViewOpen={value => setOpenStates(prevState => ({ ...prevState, imageViewOpen: value }))}

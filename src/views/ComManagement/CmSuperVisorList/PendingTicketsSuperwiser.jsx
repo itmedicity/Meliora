@@ -37,7 +37,7 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [imageViewOpen, setimageViewOpen] = useState(false)
   const [assetflag, setAssetflag] = useState(0)
   const [assetOpen, setAssetOpen] = useState(false)
@@ -229,7 +229,7 @@ const PendingTicketsSuperwiser = ({ allPendingCompl, count, setCount }) => {
             <ComFileView
               imageUrls={imageUrls}
               imageViewOpen={imageViewOpen}
-              selectedImages={selectedImages}
+              // selectedImages={selectedImages}
               fileDetails={fileDetails}
               setimage={setimage}
               setimageViewOpen={setimageViewOpen}

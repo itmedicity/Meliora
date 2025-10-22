@@ -86,8 +86,8 @@ const CrfMDApprovalMain = () => {
 
   const {
     data: mdKmc,
-    isLoading: ismdKmcLoading,
-    error: kmcError
+    // isLoading: ismdKmcLoading,
+    // error: kmcError
   } = useQuery({
     queryKey: ['getAllKmcPending', JSON.stringify(postData)],
     queryFn: () => getCRFPendingForAllKMC(postData),

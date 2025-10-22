@@ -35,7 +35,7 @@ export const CrfPdfWithDetails = (val, reqDetails, dataa) => {
   const eddate = ed_approve_date !== null ? format(new Date(ed_approve_date), 'dd-MM-yyyy hh:mm:ss') : 'Not Updated'
 
   var doc = {
-    background: function (currentPage, pageSize) {
+    background: function () {
       return [
         {
           canvas: [

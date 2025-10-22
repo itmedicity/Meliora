@@ -14,7 +14,6 @@ import React, { Fragment, memo } from 'react'
 import NursingStationsFeedback from './Components/NursingStationsFeedback'
 import nursimage from '../../assets/images/nursingstation.png'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
-import { Paper } from '@mui/material'
 
 const Feedback = () => {
   return (

@@ -87,8 +87,8 @@ const CrfEDApprovalMain = () => {
 
   const {
     data: edKmc,
-    isLoading: isedKmcLoading,
-    error: kmcError
+    // isLoading: isedKmcLoading,
+    // error: kmcError
   } = useQuery({
     queryKey: ['getAllKmcPending', JSON.stringify(kmchData)],
     queryFn: () => getCRFPendingForAllKMC(kmchData),

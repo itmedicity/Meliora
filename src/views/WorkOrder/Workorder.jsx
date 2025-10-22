@@ -1,5 +1,5 @@
 import { Box, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
-import React, { Fragment, memo, useCallback, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import WorkOrderRegistration from './WorkOrderRegistration'
 
 const Workorder = () => {

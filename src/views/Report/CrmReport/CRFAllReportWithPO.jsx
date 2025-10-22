@@ -178,30 +178,30 @@ const CRFAllReportWithPO = () => {
   if (exportState > 0 && TableData.length > 0) {
     apiRef.current.api.exportDataAsCsv()
   }
-  const rowHeight = 25
-  const headerHeight = 30
-  const defaultColDef = {
-    sortable: true,
-    filter: 'agTextColumnFilter'
-  }
+  // const rowHeight = 25
+  // const headerHeight = 30
+  // const defaultColDef = {
+  //   sortable: true,
+  //   filter: 'agTextColumnFilter'
+  // }
 
-  const rowStyle = {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(',')
-  }
-  const onGridReady = params => {
-    params.columnApi.autoSizeAllColumns()
-  }
+  // const rowStyle = {
+  //   fontFamily: [
+  //     '-apple-system',
+  //     'BlinkMacSystemFont',
+  //     '"Segoe UI"',
+  //     'Roboto',
+  //     '"Helvetica Neue"',
+  //     'Arial',
+  //     'sans-serif',
+  //     '"Apple Color Emoji"',
+  //     '"Segoe UI Emoji"',
+  //     '"Segoe UI Symbol"'
+  //   ].join(',')
+  // }
+  // const onGridReady = params => {
+  //   params.columnApi.autoSizeAllColumns()
+  // }
 
   const onExportClick = () => {
     if (TableData.length === 0) {

@@ -6,7 +6,7 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import ContractMasTable from './ContractMasTable'
 import { useQueryClient } from '@tanstack/react-query'
 

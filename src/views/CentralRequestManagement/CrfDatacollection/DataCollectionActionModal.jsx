@@ -1,6 +1,5 @@
 import {
   Box,
-  CssVarsProvider,
   IconButton,
   Modal,
   ModalClose,

@@ -1,5 +1,4 @@
 import { Button, CssVarsProvider, Typography, Box, Grid, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 import { infoNotify } from 'src/views/Common/CommonCode'

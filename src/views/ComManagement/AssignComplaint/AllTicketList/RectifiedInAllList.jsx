@@ -32,7 +32,7 @@ const RectifiedInAllList = ({ count, setCount }) => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [imageViewOpen, setimageViewOpen] = useState(false)
   const [selectedRadio, setSelectedRadio] = useState(1)
   const [fromDate, setFromDate] = useState(format(new Date(), 'yyyy-MM-dd'))
@@ -300,7 +300,7 @@ const RectifiedInAllList = ({ count, setCount }) => {
           <ComFileView
             imageUrls={imageUrls}
             imageViewOpen={imageViewOpen}
-            selectedImages={selectedImages}
+            // selectedImages={selectedImages}
             fileDetails={fileDetails}
             setimage={setimage}
             setimageViewOpen={setimageViewOpen}

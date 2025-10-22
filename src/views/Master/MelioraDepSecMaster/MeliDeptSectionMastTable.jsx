@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { memo, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { getDepartmentSectionMaster } from 'src/api/CommonApi'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'

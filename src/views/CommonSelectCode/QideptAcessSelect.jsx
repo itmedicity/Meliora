@@ -1,7 +1,7 @@
 import { FormControl, } from '@mui/material'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { axioslogin } from '../Axios/Axios'
-import { Box, Chip, Option, Select } from '@mui/joy'
+import { Option, Select } from '@mui/joy'
 
 const QideptAcessSelect = ({ qidept, setQidept }) => {
   const [departmentList, setdepartmentList] = useState([])
