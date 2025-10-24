@@ -8,7 +8,7 @@ import TextComponent from 'src/views/Components/TextComponent';
 import FormattedDate from 'src/views/Components/FormattedDate';
 import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion';
 import EditIcon from '@mui/icons-material/Edit';
-import PolylineIcon from '@mui/icons-material/Polyline';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import TaskAssigneesName from 'src/views/Components/TaskAssingeesName';
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -18,6 +18,7 @@ import FilterSelector from 'src/views/Ams/AmsDashboard/FilterSelector';
 import { endOfMonth, endOfYear, format, startOfMonth, startOfYear } from 'date-fns';
 import EmpTaskStatus from './EmpTaskStatus';
 import JSZip from 'jszip'
+import { errorNotify } from 'src/views/Common/CommonCode';
 
 const EmpCompletedTaskList = ({
   projectcount,
@@ -186,7 +187,7 @@ const EmpCompletedTaskList = ({
           setSelectedImages(val)
         }
       } catch (error) {
-        console.error('Error fetching or processing images:', error);
+        errorNotify('Error fetching or processing images:', error);
       }
     }
     getImage(tm_task_slno)
@@ -401,7 +402,7 @@ const EmpCompletedTaskList = ({
                         style={{ backgroundColor: '#F8F8F8' }}
                         onClick={() => ListSubtask(val)}
                       >
-                        <PolylineIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                        <LanRoundedIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
                       </Button>
                     )}
                   </Box>

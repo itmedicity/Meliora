@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Chip, CssVarsProvider, Grid, Input, Modal, ModalDialog, Table, Textarea } from '@mui/joy'
+import { Box, Button, Checkbox, Chip, CssVarsProvider, Grid, Input, Modal, ModalDialog, Sheet, Table, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -20,6 +20,7 @@ import AssetDetailsModal from '../../CondemnationList/AssetDetailsView/AssetDeta
 import AddDetailOnItem from '../../CondemnationList/AddDetailOnItem';
 import FormattedDate from 'src/views/Components/FormattedDate';
 import { fetchFilesFromZipWithFolder } from 'src/api/FileViewWithFolderFn';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EditCondemnAtLevel = ({ modalApproveOpen, setmodalApproveOpen, setmodalApproveFlag, empId, formDetails, setformDetails, queryClient, level_no }) => {
 
@@ -324,7 +325,7 @@ const EditCondemnAtLevel = ({ modalApproveOpen, setmodalApproveOpen, setmodalApp
                             <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600, pl: 1 }}>
                                 Item List
                             </Box>
-                            <Table
+                            {/* <Table
                                 borderAxis="both"
                                 size="sm"
                                 sx={{
@@ -436,7 +437,188 @@ const EditCondemnAtLevel = ({ modalApproveOpen, setmodalApproveOpen, setmodalApp
                                         );
                                     })}
                                 </tbody>
-                            </Table>
+                            </Table> */}
+
+                            <Box sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Sheet
+                                    variant="outlined"
+                                    sx={(theme) => ({
+                                        '--TableCell-height': '40px',
+                                        '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
+                                        '--Table-firstColumnWidth': '60px',
+                                        '--Table-lastColumnWidth': '120px',
+                                        overflow: 'auto',
+                                        background: `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
+                                                linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
+                                                radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)),
+                                                radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)) 0 100%`,
+                                        backgroundSize:
+                                            '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundAttachment: 'local, local, scroll, scroll',
+                                        backgroundPosition:
+                                            'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
+                                        backgroundColor: 'background.surface',
+                                    })}
+                                >
+
+                                    <Table
+                                        borderAxis="both"
+                                        size="sm"
+
+                                        sx={{
+                                            minWidth: 1800,
+                                            '& thead th': {
+                                                color: '#444',
+                                                fontWeight: 600,
+                                                fontSize: 14,
+
+                                            },
+
+                                            // First sticky column (#)
+                                            '& tr > *:nth-of-type(1)': {
+                                                position: 'sticky',
+                                                left: 0,
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '2px 0 var(--TableCell-borderColor)',
+                                            },
+
+                                            // Second sticky column (Keep in Dept Store)
+                                            '& tr > *:nth-of-type(2)': {
+                                                position: 'sticky',
+                                                left: 40, // first column width = 40px
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '2px 0 var(--TableCell-borderColor)',
+                                            },
+
+                                            // Right sticky columns
+                                            '& tr > *:nth-last-of-type(3)': {
+                                                position: 'sticky',
+                                                right: 100, // width of last two columns = 50 + 50
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                            '& tr > *:nth-last-of-type(2)': {
+                                                position: 'sticky',
+                                                right: 50, // last column width = 50px
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                            '& tr > *:nth-last-of-type(1)': {
+                                                position: 'sticky',
+                                                right: 0,
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                        }}
+
+                                    >
+
+                                        <thead>
+                                            <tr>
+                                                <th style={{ width: 40, textAlign: 'center' }}>#</th>
+                                                <th style={{ width: 135, textAlign: 'center' }}>Keep in Dept Store</th>
+                                                <th style={{ width: 120 }}>Asset/Spare No.</th>
+                                                <th style={{ width: 'auto' }}>Category</th>
+                                                <th style={{ width: 'auto' }}>Item Name</th>
+                                                <th style={{ width: 'auto' }}>Department Section</th>
+                                                <th style={{ width: 'auto' }}>Location</th>
+                                                <th style={{ width: 'auto' }}>Serial No.</th>
+                                                <th style={{ width: 160 }}>Item Purchase Value</th>
+                                                <th style={{ width: 100 }}>Ticket No.</th>
+                                                <th style={{ width: 'auto' }}>Condem Reason</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Details</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Add</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {itemUnderForm?.map((val, index) => {
+                                                const billamount =
+                                                    val.asset_bill_amount ??
+                                                    val.spare_bill_amount ??
+                                                    ''
+                                                return (
+                                                    <tr key={index}>
+                                                        <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <Checkbox
+                                                                checked={(val.keep_inscarp_status === 1)}
+                                                                readOnly
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            {val.spare_asset_no
+                                                                ? `${val.spare_asset_no}/${val.spare_asset_no_only?.toString().padStart(6, '0')}`
+                                                                : `${val.item_asset_no}/${val.item_asset_no_only?.toString().padStart(6, '0')}`}
+                                                        </td>
+                                                        <td>{val.cat_asset_name || val.cat_spare_name || ''}</td>
+                                                        <td>{val.item_asset_name || val.item_spare_name || ''}</td>
+                                                        <td>{val.sec1_name || val.sec2_name || ''}</td>
+                                                        <td>
+                                                            {val.ticket1_location ||
+                                                                val.ticket1_block ||
+                                                                val.ticket1_floor ||
+                                                                val.ticket1_roomname ||
+                                                                val.ticket1_roomtype ? (
+                                                                <span>
+                                                                    {[val.ticket1_location, val.ticket1_block, val.ticket1_floor, val.ticket1_roomname, val.ticket1_roomtype]
+                                                                        .filter(Boolean)
+                                                                        .join(' - ')}
+                                                                </span>
+                                                            ) : (
+                                                                <span>Not Updated</span>
+                                                            )}
+                                                        </td>
+                                                        <td>{val.asset_am_manufacture_no || val.spare_am_manufacture_no || ''}</td>
+                                                        <td>
+                                                            {new Intl.NumberFormat('en-IN', {
+                                                                style: 'currency',
+                                                                currency: 'INR',
+                                                            }).format(billamount)}
+                                                        </td>
+                                                        <td>
+                                                            {val.asset_complaint_slno ||
+                                                                val.spare_complaint_slno ||
+                                                                ''}
+                                                        </td>
+                                                        <td>
+                                                            {val.asset_condm_transf_remarks ||
+                                                                val.spare_condm_transf_remarks ||
+                                                                ''}
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <MoreIcon
+                                                                sx={{ cursor: 'pointer', color: '#41729F' }}
+                                                                onClick={() => AssetDetailsView(val)}
+                                                            />
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <AddCircleIcon
+                                                                sx={{ cursor: 'pointer', color: '#A45C40' }}
+                                                                onClick={() => AddDetailsModal(val)}
+                                                            />
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <Tooltip
+                                                                placement="left"
+                                                                title="Clicking on the item will remove it and add it to the condemnation list."
+                                                            >
+                                                                <DeleteIcon sx={{ cursor: 'pointer', color: 'darkred' }} />
+                                                            </Tooltip>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </Sheet>
+                            </Box>
                         </Box>
 
                         {(CondemData?.some(

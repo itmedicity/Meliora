@@ -1,5 +1,5 @@
 
-import { Box, Button, Checkbox, Chip, CssVarsProvider, Grid, Input, Modal, ModalDialog, Table, Textarea } from '@mui/joy'
+import { Box, Button, Checkbox, Chip, CssVarsProvider, Grid, Input, Modal, ModalDialog, Sheet, Table, Textarea, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -22,7 +22,7 @@ import FormattedDate from 'src/views/Components/FormattedDate';
 import { taskColor } from 'src/color/Color';
 import KeepInDeptScrapStoreModal from 'src/views/AssetManagment/CondemnationList/KeepInDeptScrapStoreModal';
 import { fetchFilesFromZipWithFolder } from 'src/api/FileViewWithFolderFn';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EditInchargeCondemDetails = ({ modalApproveOpen, setmodalApproveOpen, setmodalApproveFlag, empId, formDetails, setformDetails, queryClient }) => {
 
@@ -327,273 +327,187 @@ const EditInchargeCondemDetails = ({ modalApproveOpen, setmodalApproveOpen, setm
                             <Box sx={{ flex: 1, color: taskColor.darkPurple, fontWeight: 600, pl: 1 }}>
                                 Item List
                             </Box>
-                            <Table
-                                borderAxis="both"
-                                size="sm"
-                                sx={{
-                                    '& thead th': {
-                                        backgroundColor: taskColor.lightpurple,
-                                        color: '#444',
-                                        fontWeight: 600,
-                                        fontSize: 14,
-                                    },
-                                    '& tbody td': {
-                                        fontSize: 14,
-                                        color: '#444',
-                                        fontWeight: 600,
-                                    },
-                                }}
-                            >
-                                <thead>
-                                    <tr style={{ borderRadius: 0 }}>
-                                        <th style={{ width: 40, textAlign: 'center' }}>#</th>
-                                        <th style={{ width: 135, textAlign: 'center' }}>Keep in Dept Store</th>
-                                        <th style={{ width: 120, textAlign: 'center' }}>Asset/Spare No.</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Category</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Item Name</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Department Section</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Location</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Serial No.</th>
-                                        <th style={{ width: 160, textAlign: 'center' }}>Item Purchase Value</th>
-                                        <th style={{ width: 100, textAlign: 'center' }}>Ticket No.</th>
-                                        <th style={{ width: 'auto', textAlign: 'center' }}>Condem Reason</th>
-                                        <th style={{ width: 60, textAlign: 'center' }}>Details</th>
-                                        <th style={{ width: 50, textAlign: 'center' }}>Add</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {itemUnderForm?.map((val, index) => {
-                                        const billamount = val.asset_bill_amount
-                                            ? val.asset_bill_amount
-                                            : val.spare_bill_amount
-                                                ? val.spare_bill_amount
-                                                : '';
-
-                                        return (
-                                            <tr key={index} style={{
-                                                height: 32,
-                                                borderBottom: '1px solid lightgray'
-                                            }}>
-                                                <td style={{ width: 40, textAlign: 'center' }}>{index + 1}</td>
-                                                <td style={{ width: 150, textAlign: 'center' }}>
-                                                    <Checkbox
-                                                        checked={checkedItems[index] ?? (val.keep_inscarp_status === 1)}
-                                                        onChange={(e) => handleOpen(e, index, val)}
-                                                    />
-                                                </td>
-                                                <td style={{ width: 120, textAlign: 'center' }}>
-                                                    {val.spare_asset_no
-                                                        ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
-                                                        : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
-                                                </td>
-
-                                                <td style={{ width: 'auto', textAlign: 'center' }}>
-
-                                                    {val.cat_asset_name
-                                                        ? val.cat_asset_name
-                                                        : val.cat_spare_name || ''}
-                                                </td>
-                                                <td style={{ width: 'auto', textAlign: 'center' }}>
-                                                    {val.item_asset_name
-                                                        ? val.item_asset_name
-                                                        : val.item_spare_name || ''}
-                                                </td>
-                                                <td style={{ width: 'auto', textAlign: 'center' }}>
-                                                    {val.sec1_name
-                                                        ? val.sec1_name
-                                                        : val.sec2_name || ''}
-                                                </td>
-                                                <td style={{ width: 'auto', textAlign: 'center' }}>
-                                                    {val.ticket1_location || val.ticket1_block || val.ticket1_floor || val.ticket1_roomname || val.ticket1_roomtype ? (
-                                                        <span>
-                                                            {val.ticket1_location && val.ticket1_block && " - "}
-                                                            {val.ticket1_block && <>{val.ticket1_block}</>}
-                                                            {(val.ticket1_block || val.ticket1_location) && val.ticket1_floor && " - "}
-                                                            {val.ticket1_floor && <>{val.ticket1_floor}</>}
-                                                            {(val.ticket1_floor || val.ticket1_block || val.ticket1_location) && val.ticket1_roomname && " - "}
-                                                            {val.ticket1_roomname && <>{val.ticket1_roomname}</>}
-                                                            {(val.ticket1_roomname || val.ticket1_floor || val.ticket1_block || val.ticket1_location) && val.ticket1_roomtype && " - "}
-                                                            {val.ticket1_roomtype && <>{val.ticket1_roomtype}</>}
-                                                            {val.ticket1_location && <>{val.ticket1_location}</>}
-                                                        </span>
-                                                    ) : (
-                                                        <>{"Not Updated"}</>
-                                                    )}
-
-                                                </td>
-
-                                                <td style={{ width: 'auto', textAlign: 'center' }}>{val.asset_am_manufacture_no || val.spare_am_manufacture_no}</td>
-                                                <td style={{ width: 160, textAlign: 'center' }}>
-                                                    {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(billamount)}
-                                                </td>
-                                                <td style={{ width: 100, textAlign: 'center' }}>
-                                                    {val.asset_complaint_slno ?? val.spare_complaint_slno ?? ''}
-                                                </td>
-                                                <td style={{ textAlign: 'center' }}>
-                                                    {val.asset_condm_transf_remarks ?? val.spare_condm_transf_remarks ?? ''}
-                                                </td>
-                                                <td style={{ width: 60, textAlign: 'center' }}>
-                                                    <MoreIcon sx={{ cursor: 'pointer', color: '#41729F' }} onClick={() => AssetDetailsView(val)} />
-                                                </td>
-                                                <td style={{ width: 50, textAlign: 'center' }}>
-                                                    <AddCircleIcon sx={{ cursor: 'pointer', color: '#A45C40' }} onClick={() => AddDetailsModal(val)} />
-                                                </td>
-                                            </tr>
-                                        );
+                            <Box sx={{ width: '100%', overflow: 'hidden' }}>
+                                <Sheet
+                                    variant="outlined"
+                                    sx={(theme) => ({
+                                        '--TableCell-height': '40px',
+                                        '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
+                                        '--Table-firstColumnWidth': '60px',
+                                        '--Table-lastColumnWidth': '120px',
+                                        overflow: 'auto',
+                                        background: `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
+                                        linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
+                                        radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)),
+                                        radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)) 0 100%`,
+                                        backgroundSize:
+                                            '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundAttachment: 'local, local, scroll, scroll',
+                                        backgroundPosition:
+                                            'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
+                                        backgroundColor: 'background.surface',
                                     })}
-                                </tbody>
-                            </Table>
+                                >
 
+                                    <Table
+                                        borderAxis="both"
+                                        size="sm"
 
+                                        sx={{
+                                            minWidth: 1800,
+                                            '& thead th': {
+                                                color: '#444',
+                                                fontWeight: 600,
+                                                fontSize: 14,
 
-                        </Box>
+                                            },
 
+                                            // First sticky column (#)
+                                            '& tr > *:nth-of-type(1)': {
+                                                position: 'sticky',
+                                                left: 0,
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '2px 0 var(--TableCell-borderColor)',
+                                            },
 
-                        {/* {(CondemData?.some(item => item.am_condem_reason !== null || item.keep_inscarp_status === 1) || addedCondemFiles.length > 0) && (
-                            <Box sx={{ flex: 1, mx: 1, mt: 1, pb: 0.5 }}>
-                                <TextComponent
-                                    text={"Item Details and Attachments"}
-                                    sx={{ fontWeight: 500, color: taskColor.darkPurple, pl: 0.8, pt: 0.5, fontSize: 15 }}
-                                />
-                                {CondemData?.filter(val => val.am_condem_reason !== null || (addedCondemFiles[val.am_condem_detail_slno]?.length > 0) || val.keep_inscarp_status === 1)
-                                    .map((val, index) => (
-                                        <Box
-                                            key={index}
-                                            sx={{ flex: 1, mx: 0.5, border: 1, borderColor: 'lightgray', mt: 0.5, p: 0.5 }}
-                                        >
-                                            {val.keep_inscarp_status === 1 ?
+                                            // Second sticky column (Keep in Dept Store)
+                                            '& tr > *:nth-of-type(2)': {
+                                                position: 'sticky',
+                                                left: 40, // first column width = 40px
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '2px 0 var(--TableCell-borderColor)',
+                                            },
 
-                                                <Box sx={{ flex: 1, display: 'flex', bgcolor: taskColor.lightYellow, pl: .5 }}>
-                                                    <DirectionsIcon sx={{ color: 'black', }} />
-                                                    <Box sx={{ fontWeight: 600, pl: .5, color: 'black' }}>
-                                                        Keeped In Department Scrap Store :
-                                                    </Box>
+                                            // Right sticky columns
+                                            '& tr > *:nth-last-of-type(3)': {
+                                                position: 'sticky',
+                                                right: 100, // width of last two columns = 50 + 50
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                            '& tr > *:nth-last-of-type(2)': {
+                                                position: 'sticky',
+                                                right: 50, // last column width = 50px
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                            '& tr > *:nth-last-of-type(1)': {
+                                                position: 'sticky',
+                                                right: 0,
+                                                zIndex: 3,
+                                                bgcolor: 'background.surface',
+                                                boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                                            },
+                                        }}
 
-                                                    <Box sx={{ pl: 1, fontWeight: 600, fontsize: 12, color: 'black' }}>
-                                                        {val.keep_in_srap_store_reason}
-                                                    </Box>
-                                                </Box>
-                                                : null}
-                                            <Box sx={{ flex: 1, display: 'flex' }}>
-                                                <TextComponent
-                                                    text={
-                                                        val.spare_asset_no
-                                                            ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
-                                                            : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
-                                                    }
-                                                    sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                                                />
-                                                <TextComponent
-                                                    text={`(${val.cat_asset_name !== null ? val.cat_asset_name : val.cat_spare_name !== null ? val.cat_spare_name : ''})`}
-                                                    sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                                                />
-                                                <TextComponent
-                                                    text={val.item_asset_name !== null ? val.item_asset_name : val.item_spare_name !== null ? val.item_spare_name : ''}
-                                                    sx={{ fontWeight: 500, color: '#0C2D48', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                                                />
-                                            </Box>
-                                            <Box sx={{ flex: 1, display: 'flex' }}>
-                                                <TextComponent
-                                                    text={"Reason :"}
-                                                    sx={{ fontWeight: 500, color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                                                />
-                                                <TextComponent
-                                                    text={val.am_condem_reason || null}
-                                                    sx={{ color: 'black', pl: 0.8, pt: 0.5, fontSize: 14 }}
-                                                />
-                                            </Box>
-                                            <Box sx={{ flex: 1, mr: 1, my: 0.5, ml: 0.5 }}>
-                                                {imageShowsingleFlag === 1 && (
-                                                    <Box>
-                                                        <FileViewSingle previewFile={uploadedFile} imageShow={imageShowSingle} CloseFile={CloseSingleFile} />
-                                                    </Box>
-                                                )}
-                                                {addedCondemFiles[val.am_condem_detail_slno]?.length > 0 && (
-                                                    <Grid container spacing={0.5}>
-                                                        {addedCondemFiles[val.am_condem_detail_slno].map((url, fileIndex) => {
-                                                            if (!url || typeof url !== "string") return null;
-                                                            const isPdf = url.toLowerCase().endsWith(".pdf");
-                                                            const isImage = /\.(jpeg|jpg|png|gif|bmp|webp)$/i.test(url);
+                                    >
 
-                                                            return (
-                                                                <Box key={fileIndex} sx={{ display: "flex" }}>
-                                                                    {isImage ? (
-                                                                        <Box sx={{ display: "flex", border: 0.5, borderColor: "#E0E1E3", mr: 0.5 }}>
-                                                                            <Box sx={{ p: 0.5 }}>
-                                                                                <img
-                                                                                    src={url}
-                                                                                    alt={`Complaint file ${fileIndex}`}
-                                                                                    style={{
-                                                                                        width: 48,
-                                                                                        height: 48,
-                                                                                        color: "#e53935",
-                                                                                        cursor: "pointer",
-                                                                                    }}
-                                                                                    onClick={() => SingleView({ url })}
-                                                                                />
-                                                                            </Box>
-                                                                            <Box
-                                                                                sx={{
-                                                                                    fontSize: 12,
-                                                                                    color: "#333",
-                                                                                    overflow: "hidden",
-                                                                                    textOverflow: "ellipsis",
-                                                                                    whiteSpace: "nowrap",
-                                                                                    width: 90,
-                                                                                    pt: 2,
-                                                                                }}
-                                                                            >
-                                                                                {url.split("/").pop() || "N/A"}
-                                                                            </Box>
-                                                                        </Box>
-                                                                    ) : isPdf ? (
-                                                                        <Box sx={{ display: "flex", border: 0.5, borderColor: "#E0E1E3", mr: 0.5 }}>
-                                                                            <PictureAsPdfIcon
-                                                                                sx={{
-                                                                                    width: 48,
-                                                                                    height: 48,
-                                                                                    color: "#e53935",
-                                                                                    cursor: "pointer",
-                                                                                    mt: 0.5,
-                                                                                }}
-                                                                                onClick={() => SingleView({ url })}
-                                                                            />
-                                                                            <Box
-                                                                                sx={{
-                                                                                    fontSize: 12,
-                                                                                    color: "#333",
-                                                                                    overflow: "hidden",
-                                                                                    textOverflow: "ellipsis",
-                                                                                    whiteSpace: "nowrap",
-                                                                                    width: 90,
-                                                                                    pt: 2,
-                                                                                }}
-                                                                            >
-                                                                                {url.split("/").pop() || "N/A"}
-                                                                            </Box>
-                                                                        </Box>
-                                                                    ) : (
-                                                                        <InsertDriveFileIcon
-                                                                            sx={{
-                                                                                width: 50,
-                                                                                height: 50,
-                                                                                color: "#e53935",
-                                                                                cursor: "pointer",
-                                                                            }}
-                                                                            onClick={() => SingleView({ url })}
-                                                                        />
-                                                                    )}
-                                                                </Box>
-                                                            );
-                                                        })}
-                                                    </Grid>
-                                                )}
-                                            </Box>
-                                        </Box>
-                                    ))}
+                                        <thead>
+                                            <tr>
+                                                <th style={{ width: 40, textAlign: 'center' }}>#</th>
+                                                <th style={{ width: 135, textAlign: 'center' }}>Keep in Dept Store</th>
+                                                <th style={{ width: 120 }}>Asset/Spare No.</th>
+                                                <th style={{ width: 'auto' }}>Category</th>
+                                                <th style={{ width: 'auto' }}>Item Name</th>
+                                                <th style={{ width: 'auto' }}>Department Section</th>
+                                                <th style={{ width: 'auto' }}>Location</th>
+                                                <th style={{ width: 'auto' }}>Serial No.</th>
+                                                <th style={{ width: 160 }}>Item Purchase Value</th>
+                                                <th style={{ width: 100 }}>Ticket No.</th>
+                                                <th style={{ width: 'auto' }}>Condem Reason</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Details</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Add</th>
+                                                <th style={{ width: 80, textAlign: 'center' }}>Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {itemUnderForm?.map((val, index) => {
+                                                const billamount =
+                                                    val.asset_bill_amount ??
+                                                    val.spare_bill_amount ??
+                                                    ''
+                                                return (
+                                                    <tr key={index}>
+                                                        <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <Checkbox
+                                                                checked={checkedItems[index] ?? (val.keep_inscarp_status === 1)}
+                                                                onChange={(e) => handleOpen(e, index, val)}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            {val.spare_asset_no
+                                                                ? `${val.spare_asset_no}/${val.spare_asset_no_only?.toString().padStart(6, '0')}`
+                                                                : `${val.item_asset_no}/${val.item_asset_no_only?.toString().padStart(6, '0')}`}
+                                                        </td>
+                                                        <td>{val.cat_asset_name || val.cat_spare_name || ''}</td>
+                                                        <td>{val.item_asset_name || val.item_spare_name || ''}</td>
+                                                        <td>{val.sec1_name || val.sec2_name || ''}</td>
+                                                        <td>
+                                                            {val.ticket1_location ||
+                                                                val.ticket1_block ||
+                                                                val.ticket1_floor ||
+                                                                val.ticket1_roomname ||
+                                                                val.ticket1_roomtype ? (
+                                                                <span>
+                                                                    {[val.ticket1_location, val.ticket1_block, val.ticket1_floor, val.ticket1_roomname, val.ticket1_roomtype]
+                                                                        .filter(Boolean)
+                                                                        .join(' - ')}
+                                                                </span>
+                                                            ) : (
+                                                                <>Not Updated</>
+                                                            )}
+                                                        </td>
+                                                        <td>{val.asset_am_manufacture_no || val.spare_am_manufacture_no || ''}</td>
+                                                        <td>
+                                                            {new Intl.NumberFormat('en-IN', {
+                                                                style: 'currency',
+                                                                currency: 'INR',
+                                                            }).format(billamount)}
+                                                        </td>
+                                                        <td>
+                                                            {val.asset_complaint_slno ||
+                                                                val.spare_complaint_slno ||
+                                                                ''}
+                                                        </td>
+                                                        <td>
+                                                            {val.asset_condm_transf_remarks ||
+                                                                val.spare_condm_transf_remarks ||
+                                                                ''}
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <MoreIcon
+                                                                sx={{ cursor: 'pointer', color: '#41729F' }}
+                                                                onClick={() => AssetDetailsView(val)}
+                                                            />
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <AddCircleIcon
+                                                                sx={{ cursor: 'pointer', color: '#A45C40' }}
+                                                                onClick={() => AddDetailsModal(val)}
+                                                            />
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <Tooltip
+                                                                placement="left"
+                                                                title="Clicking on the item will remove it and add it to the condemnation list."
+                                                            >
+                                                                <DeleteIcon sx={{ cursor: 'pointer', color: 'darkred' }} />
+                                                            </Tooltip>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </Sheet>
                             </Box>
-                        )} */}
-
+                        </Box>
                         {(CondemData?.some(
                             item => item.am_condem_reason !== null || item.keep_inscarp_status === 1
                         ) ||

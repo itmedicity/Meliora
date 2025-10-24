@@ -16,14 +16,13 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
   const [imagearray, setImageArry] = useState([])
   const [imageshow, setImageShow] = useState(false)
 
-  const { data: LeaseDetailListData } = useQuery({
+  const { data: LeaseDetailListData = [] } = useQuery({
     queryKey: ['getLeaseDetailListz'],
     enabled: am_item_map_slno !== undefined,
     queryFn: () => getLeaseDetailList(am_item_map_slno),
   });
 
   const LeaseDetailList = useMemo(() => LeaseDetailListData, [LeaseDetailListData])
-
 
   useEffect(() => {
     if (LeaseDetailList) {
@@ -32,8 +31,6 @@ const LeaseDetailsinCondem = ({ AssetDetails }) => {
       setleaseAllDetails([]);
     }
   }, [LeaseDetailList]);
-
-
 
   const ViewLeaseDetailFile = async (val) => {
     const { am_lease_mast_slno } = val;

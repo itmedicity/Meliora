@@ -10,7 +10,7 @@ import TextComponent from 'src/views/Components/TextComponent'
 import FormattedDate from 'src/views/Components/FormattedDate'
 import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion'
 import EditIcon from '@mui/icons-material/Edit';
-import PolylineIcon from '@mui/icons-material/Polyline';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import TaskAssigneesName from 'src/views/Components/TaskAssingeesName'
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from '@tanstack/react-query'
 import { getAllTaskUnderDepartment } from 'src/api/TaskApi'
 import JSZip from 'jszip'
+import { errorNotify } from 'src/views/Common/CommonCode'
 
 
 const AlllTask = () => {
@@ -123,7 +124,7 @@ const AlllTask = () => {
           setSelectedImages(val)
         }
       } catch (error) {
-        console.error('Error fetching or processing images:', error);
+        errorNotify('Error fetching or processing images:', error);
       }
     }
     getImage(tm_task_slno)
@@ -295,7 +296,7 @@ const AlllTask = () => {
                       style={{ backgroundColor: '#F8F8F8' }}
                       onClick={() => ListSubtask(val)}
                     >
-                      <PolylineIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                      <LanRoundedIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
                     </Button>
                   )}
 

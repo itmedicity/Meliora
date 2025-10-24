@@ -40,9 +40,12 @@ const ScrapApprovedFormMain = ({ id, EmployeeScrapLevelForm }) => {
         if (data.success === 2) {
             return data.data;
         } else {
-            return;
+            return []
         }
     };
+
+
+
 
     const getScrapsAwaitingAllApproval = async () => {
 
