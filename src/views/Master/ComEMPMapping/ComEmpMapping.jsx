@@ -11,8 +11,9 @@ import { useSelector } from 'react-redux'
 // import { useN } from 'react-router-dom/cjs/react-router-dom.min'
 import { useNavigate } from 'react-router-dom'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import DeptWiseEmpSelect from 'src/views/CommonSelectCode/DeptWiseEmpSelect'
+// import DeptWiseEmpSelect from 'src/views/CommonSelectCode/DeptWiseEmpSelect'
 import ComEmpMapTable from './ComEmpMapTable'
+import EmpNameDeptSecSelect from 'src/views/CommonSelectCode/EmpNameDeptSecSelect'
 
 const ComEmpMapping = () => {
   const history = useNavigate()
@@ -182,7 +183,9 @@ const ComEmpMapping = () => {
                 <DeptSecUnderDept value={deptsec} setValue={setDeptsec} dept={dept} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <DeptWiseEmpSelect personName={employe} setPersonName={setEmployee} empdeptwise={deptsec} />
+                {/* <DeptWiseEmpSelect personName={employe} setPersonName={setEmployee} empdeptwise={deptsec} /> */}
+                <EmpNameDeptSecSelect value={employe} setValue={setEmployee} deptsec={deptsec} />
+
               </Grid>
               <Grid item lg={2} xl={2}>
                 <CusCheckBox

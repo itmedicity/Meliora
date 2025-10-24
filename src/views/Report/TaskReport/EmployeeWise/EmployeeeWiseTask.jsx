@@ -111,7 +111,7 @@ const EmployeeeWiseTask = () => {
 
   ])
   const backToSetting = useCallback(() => {
-    history.push(`/Home/Reports`)
+    history(`/Home/Reports`)
   }, [history])
   return (
     <CardMasterClose

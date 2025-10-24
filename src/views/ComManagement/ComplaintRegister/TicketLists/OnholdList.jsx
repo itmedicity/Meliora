@@ -87,9 +87,27 @@ const OnholdList = ({ onholdCompl, count, setCount, loading }) => {
         );
         // Convert each to a Blob URL
         const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-          const blob = await fileObj.async('blob');
-          const url = URL.createObjectURL(blob);
-          return { imageName: filename, url };
+          // Get the original blob (no type)
+          const originalBlob = await fileObj.async('blob');
+
+          // Determine MIME type based on filename extension (or any other logic)
+          let mimeType = '';
+          if (filename.endsWith('.pdf')) {
+            mimeType = 'application/pdf';
+          } else if (filename.endsWith('.png')) {
+            mimeType = 'image/png';
+          } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+            mimeType = 'image/jpeg';
+          } else {
+            mimeType = 'application/octet-stream'; // fallback
+          }
+
+          // Recreate blob with correct type
+          const blobWithType = new Blob([originalBlob], { type: mimeType });
+
+          // Create URL from new blob
+          const url = URL.createObjectURL(blobWithType);
+          return { imageName: filename, url, blob: blobWithType };
         });
         const images = await Promise.all(imagePromises);
         setImageUrls(images)
