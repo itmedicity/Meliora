@@ -186,7 +186,7 @@ const DepartmentMast = () => {
                     onChange={(e, newValue) => setType(newValue)}
                     size="small"
                     variant="outlined"
-                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+                    sx={{}}
                   >
                     <Option value={0} disabled>
                       {' '}

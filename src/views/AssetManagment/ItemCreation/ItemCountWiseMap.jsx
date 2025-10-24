@@ -1,7 +1,7 @@
 import React, { useEffect, memo } from 'react'
-import { CssVarsProvider } from '@mui/joy/'
+import { Box, CssVarsProvider } from '@mui/joy/'
 import Table from '@mui/joy/Table'
-import { Paper } from '@mui/material'
+// import { Paper } from '@mui/material'
 import { axioslogin } from 'src/views/Axios/Axios'
 
 const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare, rend, getItemcount, setDisArry, disArry }) => {
@@ -64,7 +64,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare, rend, getItemco
   }, [getPostData, getPostDataSpare, rend, type, getItemcount, setDisArry])
 
   return (
-    <Paper sx={{ height: 300, overflow: 'auto' }}>
+    <Box sx={{ height: 300, overflow: 'auto' }}>
       <CssVarsProvider>
         <Table stickyHeader size="sm" borderAxis="x" sx={{ minHeight: 10 }}>
           <thead>
@@ -83,10 +83,10 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare, rend, getItemco
                 return (
                   <tr
                     key={index}
-                    // sx={{
-                    //     '&:last-child td, &:last-child th': { border: 0 },
-                    //     minHeight: 5
-                    // }}
+                  // sx={{
+                  //     '&:last-child td, &:last-child th': { border: 0 },
+                  //     minHeight: 5
+                  // }}
                   >
                     <td></td>
                     <td> {index + 1}</td>
@@ -100,7 +100,7 @@ const ItemCountWiseMap = ({ getPostData, type, getPostDataSpare, rend, getItemco
           </tbody>
         </Table>
       </CssVarsProvider>
-    </Paper>
+    </Box>
   )
 }
 

@@ -18,7 +18,7 @@ const CondemnationAssetOld = () => {
     })
     const history = useNavigate();
     const backtoSetting = useCallback(() => {
-        history.push('/Home');
+        history('/Home');
     }, [history]);
 
     return (

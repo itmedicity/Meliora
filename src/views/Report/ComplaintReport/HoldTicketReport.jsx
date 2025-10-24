@@ -19,7 +19,7 @@ const HoldTicketReport = () => {
     const [loading, setLoading] = useState(false);
 
     const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
+        history(`/Home/Reports`)
     }, [history])
 
     const postDept = useMemo(() => ({ ticketDept }), [ticketDept]);

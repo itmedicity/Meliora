@@ -13,7 +13,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { ActionTyps } from 'src/redux/constants/action.type'
 import CustomCloseIconCmp from 'src/views/CentralRequestManagement/ComonComponent/Components/CustomCloseIconCmp'
-import CusAgGridForReport from 'src/views/Components/CusAgGridForReport'
+import { AgGridReact } from 'ag-grid-react'
+import 'ag-grid-community/dist/styles/ag-grid.css'
+import 'ag-grid-community/dist/styles/ag-theme-material.css'
 
 const CRFAllReportWithPO = () => {
   const dispatch = useDispatch()
@@ -178,31 +180,30 @@ const CRFAllReportWithPO = () => {
   if (exportState > 0 && TableData.length > 0) {
     apiRef.current.api.exportDataAsCsv()
   }
-  // const rowHeight = 25
-  // const headerHeight = 30
-  // const defaultColDef = {
-  //   sortable: true,
-  //   filter: 'agTextColumnFilter'
-  // }
+  const rowHeight = 25
+  const headerHeight = 30
+  const defaultColDef = {
+    sortable: true,
+    filter: 'agTextColumnFilter'
+  }
 
-  // const rowStyle = {
-  //   fontFamily: [
-  //     '-apple-system',
-  //     'BlinkMacSystemFont',
-  //     '"Segoe UI"',
-  //     'Roboto',
-  //     '"Helvetica Neue"',
-  //     'Arial',
-  //     'sans-serif',
-  //     '"Apple Color Emoji"',
-  //     '"Segoe UI Emoji"',
-  //     '"Segoe UI Symbol"'
-  //   ].join(',')
-  // }
-  // const onGridReady = params => {
-  //   params.columnApi.autoSizeAllColumns()
-  // }
-
+  const rowStyle = {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(',')
+  }
+  const onGridReady = params => {
+    params.columnApi.autoSizeAllColumns()
+  }
   const onExportClick = () => {
     if (TableData.length === 0) {
       warningNotify('Please Click The Search Button')
@@ -345,8 +346,26 @@ const CRFAllReportWithPO = () => {
             }}
           >
 
-            <CusAgGridForReport columnDefs={columnDefForTable} tableData={TableData} />
-
+            <AgGridReact
+              ref={apiRef}
+              columnDefs={columnDefForTable}
+              rowData={TableData}
+              defaultColDef={defaultColDef}
+              rowHeight={rowHeight}
+              headerHeight={headerHeight}
+              rowDragManaged={true}
+              animateRows={true}
+              onGridReady={onGridReady}
+              rowSelection="multiple"
+              rowStyle={rowStyle}
+              suppressColumnVirtualisation={true}
+              suppressRowVirtualisation={true}
+              suppressRowClickSelection={true}
+              groupSelectsChildren={true}
+              rowGroupPanelShow={'always'}
+              pivotPanelShow={'always'}
+              enableRangeSelection={true}
+            ></AgGridReact>
           </Box>
         ) : null}
       </Box>
