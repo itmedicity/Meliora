@@ -281,6 +281,7 @@ const PendingTicketsReport = React.lazy(() => import('./views/Report/ComplaintRe
 const PendingTicketsCountReport = React.lazy(() => import('./views/Report/ComplaintReport/PendingTicketsCountReport'))
 const CondemnationAssetOld = React.lazy(() => import('./views/AssetManagment/AssetCondemnationOld/CondemnationAssetOld'))
 
+
 const routes = [
   { path: '', element: <Home /> },
   { path: 'NotCorect', name: 'NotCorect', element: <NotCorect /> },
@@ -297,7 +298,7 @@ const routes = [
   { path: 'RequestType', name: 'Request Type', element: <RequestType /> },
   { path: 'ComplaintType', name: 'Complaint Type', element: <ComplaintType /> },
   { path: 'HicPolicy', name: 'Hic Policy', element: <HicPolicy /> },
-  { path: 'holdReasonsinTicket', name: 'Hold Reasons in Ticket', element: <HoldReason /> },
+  { path: 'HoldReason', name: 'Hold Reasons in Ticket', element: <HoldReason /> },
   { path: 'ModuleUserRight', name: 'Module User Right', element: <ModuleuserRight /> },
   { path: 'AssignComplaint', name: 'Assign Complaint', element: <AssignComplaint /> },
   { path: 'DepartmentAssets', name: 'Complaint List', element: <DepartmentAssets /> },

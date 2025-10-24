@@ -75,8 +75,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -165,8 +165,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                 }}
               >
                 {file.imageName.endsWith('.png') ||
-                file.imageName.endsWith('.jpg') ||
-                file.imageName.endsWith('.jpeg') ? (
+                  file.imageName.endsWith('.jpg') ||
+                  file.imageName.endsWith('.jpeg') ? (
                   <img
                     src={file.url}
                     alt={file.imageName}

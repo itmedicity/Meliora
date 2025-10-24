@@ -24,6 +24,9 @@ export const getAllAboutAsset = async postData => {
     if (success === 2) {
       return data
     }
+    else{
+       return []
+    }
   })
 }
 
@@ -32,6 +35,9 @@ export const getCustodianDept = async () => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -42,6 +48,9 @@ export const getWarrGarAsset = async am_item_map_slno => {
     if (success === 1) {
       return data
     }
+    else{
+       return []
+    }
   })
 }
 
@@ -50,6 +59,9 @@ export const getWarrGarSpare = async am_spare_item_map_slno => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -60,6 +72,9 @@ export const getDetailsAsset = async am_item_map_slno => {
     if (success === 1) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 export const getDetailsSpare = async am_spare_item_map_slno => {
@@ -67,6 +82,9 @@ export const getDetailsSpare = async am_spare_item_map_slno => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -76,6 +94,9 @@ export const getAmcCmcPmData = async am_item_map_slno => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -97,6 +118,9 @@ export const getPMDetailList = async am_item_map_slno => {
     if (success === 1) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 export const getLeaseDetailList = async am_item_map_slno => {
@@ -104,6 +128,9 @@ export const getLeaseDetailList = async am_item_map_slno => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -114,6 +141,9 @@ export const getPendingDetailentryAsset = async postData => {
     if (success === 2) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 
@@ -123,6 +153,9 @@ export const getPendingDetailentrySpare = async postData => {
     if (success === 2) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 export const getAssetLocationDetailsz = async postAssetNoData => {
@@ -131,30 +164,42 @@ export const getAssetLocationDetailsz = async postAssetNoData => {
     if (success === 1) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 
 export const getSpareUnderCondmnation = async empdept => {
-  return axioslogin.get(`/SpareCondemService/CondemnationList/${empdept}`).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
-      return data
-    }
-  })
+ const res = await axioslogin.get(`/SpareCondemService/CondemnationList/${empdept}`)
+  const { success, data } = res.data
+  if (success === 1) {
+    return data
+  } else {
+    return [] 
+  }
 }
-export const getAssetUnderCondmnation = async empdept => {
-  return axioslogin.get(`/SpareCondemService/getAssetCondemnationList/${empdept}`).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
-      return data
-    }
-  })
+
+export const getAssetUnderCondmnation = async (empdept) => {
+  const res = await axioslogin.get(`/SpareCondemService/getAssetCondemnationList/${empdept}`)
+  const { success, data } = res.data
+  if (success === 1) {
+    return data
+  } else {
+    return [] 
+  }
 }
+
+
+
 export const getArrayOfAssetLocationDetails = async postArrayOfAssetNo => {
   return axioslogin.post('/assetDeptTransfer/getArrayOfAssetLocationDetails', postArrayOfAssetNo).then(res => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -165,6 +210,9 @@ export const getcustodianTransferHistory = async postData => {
     if (success === 1) {
       return data
     }
+        else{
+       return []
+    }
   })
 }
 
@@ -173,6 +221,9 @@ export const getSparesInstock = async postData => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }
@@ -183,6 +234,9 @@ export const getAssetInstock = async postData => {
     if (success === 2) {
       return data
     }
+   else{
+       return []
+    }
   })
 }
 
@@ -191,6 +245,9 @@ export const getDeptSecAssetList = async searchhData => {
     const { success, data } = res.data
     if (success === 1) {
       return data
+    }
+        else{
+       return []
     }
   })
 }

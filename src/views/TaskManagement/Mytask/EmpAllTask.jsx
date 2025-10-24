@@ -10,7 +10,6 @@ import TextComponent from 'src/views/Components/TextComponent'
 import FormattedDate from 'src/views/Components/FormattedDate'
 import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion'
 import EditIcon from '@mui/icons-material/Edit';
-import PolylineIcon from '@mui/icons-material/Polyline';
 import TaskAssigneesName from 'src/views/Components/TaskAssingeesName'
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -19,6 +18,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from '@tanstack/react-query'
 import { getEmpAllTasks } from 'src/api/TaskApi'
 import JSZip from 'jszip'
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
+import { errorNotify } from 'src/views/Common/CommonCode'
+
 
 const EmpAllTask = ({ projectcount, setprojectcount }) => {
 
@@ -44,14 +46,12 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
   }, [dispatch,])
 
 
-
-
-
   const { data: AllTaskList, isSuccess: TaskSuccess, isError, isLoading } = useQuery({
     queryKey: ['getEmpAllTasksList', id],
     queryFn: () => getEmpAllTasks(id),
     enabled: !!id,
   });
+
 
   useEffect(() => {
     if (AllTaskList?.length > 0) {
@@ -70,6 +70,7 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
     setMasterData(value)
   }, [])
 
+
   const handleClose = useCallback(() => {
     setimage(0)
     setEditModalOpen(false)
@@ -77,7 +78,6 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
     setimageViewModalOpen(false)
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
-
 
 
   const fileView = async val => {
@@ -91,7 +91,7 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
       try {
         const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`, {
           responseType: 'blob'
-        });
+        }); ``
 
         const contentType = result.headers['content-type'] || '';
         if (contentType?.includes('application/json')) {
@@ -129,7 +129,7 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
           setSelectedImages(val)
         }
       } catch (error) {
-        console.error('Error fetching or processing images:', error);
+        errorNotify('Error fetching or processing images:', error);
       }
     }
     getImage(tm_task_slno)
@@ -291,7 +291,7 @@ const EmpAllTask = ({ projectcount, setprojectcount }) => {
                       style={{ backgroundColor: '#F8F8F8' }}
                       onClick={() => ListSubtask(val)}
                     >
-                      <PolylineIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                      <LanRoundedIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
                     </Button>
                   )}
                 </Box>

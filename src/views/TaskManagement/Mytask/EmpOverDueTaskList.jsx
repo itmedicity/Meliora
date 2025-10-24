@@ -8,7 +8,7 @@ import TextComponent from 'src/views/Components/TextComponent'
 import FormattedDate from 'src/views/Components/FormattedDate'
 import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion'
 import EditIcon from '@mui/icons-material/Edit';
-import PolylineIcon from '@mui/icons-material/Polyline';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import TaskAssigneesName from 'src/views/Components/TaskAssingeesName'
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -250,7 +250,7 @@ const EmpOverDueTaskList = ({ projectcount, setprojectcount }) => {
                       style={{ backgroundColor: '#F8F8F8' }}
                       onClick={() => ListSubtask(val)}
                     >
-                      <PolylineIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
+                      <LanRoundedIcon fontSize="small" style={{ color: taskColor.darkPurple }} />
                     </Button>
                   )}
                 </Box>

@@ -8,13 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Paper } from '@mui/material';
 import { taskColor } from 'src/color/Color';
 
-
 const ScrapApproveMain = () => {
 
-
     const id = useSelector((state) => state.LoginUserData.empid);
-
-
     const getEmployeeScrapLevelForm = async () => {
         const { data } = await axioslogin.get(`condemMasters/getEmployeeScrapLevel/${id}`);
         if (data.success === 1) {

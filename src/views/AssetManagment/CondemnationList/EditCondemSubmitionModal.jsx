@@ -1,11 +1,10 @@
-import { Box, Button, Checkbox, CssVarsProvider, Grid, IconButton, Input, Modal, ModalDialog, Table, Tooltip } from '@mui/joy'
+import { Box, Button, Checkbox, CssVarsProvider, Grid, IconButton, Input, Modal, ModalDialog, Sheet, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { getCondemAddedDetails, getItemUnderForm } from 'src/api/AssetApis'
 import TextComponent from 'src/views/Components/TextComponent'
 import AddDetailOnItem from './AddDetailOnItem'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close'
-import DeleteIcon from '@mui/icons-material/Delete';
 import FileViewSingle from 'src/views/Components/FileViewSingle'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -17,7 +16,7 @@ import { taskColor } from 'src/color/Color'
 import KeepInDeptScrapStoreModal from './KeepInDeptScrapStoreModal'
 import { fetchFilesFromZipWithFolder } from 'src/api/FileViewWithFolderFn'
 import MoreIcon from '@mui/icons-material/More';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEditFlag, empId, formDetails, setAddmoreItemFlag, queryClient }) => {
 
@@ -218,22 +217,6 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10 }}>
         <ModalDialog variant="outlined" sx={{ width: '95vw', p: 0, overflow: 'auto', }}>
           <Box sx={{ border: .1, borderColor: '#E8E6E5', m: 1, height: '100%' }}>
-            {/* <Box sx={{ flex: 1, display: 'flex', ml: 1, }}>
-              <Box sx={{ flex: 1 }}>
-                <TextComponent
-                  text={"Condemnation Request Form"}
-                  sx={{ fontWeight: 600, color: taskColor.darkPurple, pl: .8, pt: 1, fontSize: 21 }}
-                />
-                <TextComponent
-                  text={req_dpt_name}
-                  sx={{ fontWeight: 500, color: taskColor.darkPurple, pl: .8, fontSize: 13 }}
-                />
-              </Box>
-              <Box sx={{ pr: 1, pt: 1, }}>
-                <CancelIcon sx={{ width: 30, height: 30, color: taskColor.darkPurple, cursor: 'pointer' }} onClick={CloseModal} />
-              </Box>
-            </Box> */}
-
             <Box
               sx={{
                 width: '100%',
@@ -322,149 +305,187 @@ const EditCondemSubmitionModal = ({ modalEditOpen, setmodalEditOpen, setmodalEdi
                   Add More Items +
                 </Box>
               </Box>
-              <Table
-                borderAxis="both"
-                size="sm"
-                style={{
-                  '& thead th': {
-                    backgroundColor: taskColor.lightpurple,
-                    color: '#444',
-                    fontWeight: 600,
-                    fontSize: 14,
-                  }
-                }}
-              >
-                <thead >
-                  <tr style={{ borderRadius: 0 }}>
-                    <th style={{ width: 40, textAlign: 'center' }}>#</th>
-                    <th style={{ width: 135, textAlign: 'center' }}>Keep in Dept Store</th>
-                    <th style={{ width: 120, textAlign: 'center' }}>Asset/Spare No.</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Category</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Item Name</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Department Section</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Location</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Serial No.</th>
-                    <th style={{ width: 160, textAlign: 'center' }}>Item Purchase Value</th>
-                    <th style={{ width: 100, textAlign: 'center' }}>Ticket No.</th>
-                    <th style={{ width: 'auto', textAlign: 'center' }}>Condem Reason</th>
-                    <th style={{ width: 60, textAlign: 'center' }}>Details</th>
-                    <th style={{ width: 50, textAlign: 'center' }}>Add</th>
-                    <th style={{ width: 50, textAlign: 'center' }}>Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {itemUnderForm?.map((val, index) => {
-                    const billamount = val.asset_bill_amount
-                      ? val.asset_bill_amount
-                      : val.spare_bill_amount
-                        ? val.spare_bill_amount
-                        : '';
 
-                    return (
-                      <tr
-                        key={index}
-                      >
-                        <td style={{ width: 40, textAlign: 'center' }}>{index + 1}</td>
-                        <td style={{ width: 150, textAlign: 'center' }}>
-                          <Checkbox
-                            checked={checkedItems[index] ?? (val.keep_inscarp_status === 1)}
-                            onChange={(e) => handleOpen(e, index, val)}
-                          />
-
-                        </td>
-                        <td style={{ width: 120, textAlign: 'center' }}>
-                          {val.spare_asset_no
-                            ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
-                            : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
-                        </td>
-
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-
-                          {val.cat_asset_name
-                            ? val.cat_asset_name
-                            : val.cat_spare_name || ''}
-                        </td>
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-                          {val.item_asset_name
-                            ? val.item_asset_name
-                            : val.item_spare_name || ''}
-                        </td>
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-                          {val.sec1_name
-                            ? val.sec1_name
-                            : val.sec2_name || ''}
-                        </td>
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-                          {val.ticket1_location || val.ticket1_block || val.ticket1_floor || val.ticket1_roomname || val.ticket1_roomtype ? (
-                            <span>
-                              {val.ticket1_location && val.ticket1_block && " - "}
-                              {val.ticket1_block && <>{val.ticket1_block}</>}
-                              {(val.ticket1_block || val.ticket1_location) && val.ticket1_floor && " - "}
-                              {val.ticket1_floor && <>{val.ticket1_floor}</>}
-                              {(val.ticket1_floor || val.ticket1_block || val.ticket1_location) && val.ticket1_roomname && " - "}
-                              {val.ticket1_roomname && <>{val.ticket1_roomname}</>}
-                              {(val.ticket1_roomname || val.ticket1_floor || val.ticket1_block || val.ticket1_location) && val.ticket1_roomtype && " - "}
-                              {val.ticket1_roomtype && <>{val.ticket1_roomtype}</>}
-                              {val.ticket1_location && <>{val.ticket1_location}</>}
-                            </span>
-                          ) : (
-                            <>{"Not Updated"}</>
-                          )}
-
-                        </td>
-
-
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-                          {val.asset_am_manufacture_no || val.spare_am_manufacture_no || ''}
-                        </td>
-                        <td style={{ width: 100, textAlign: 'center' }}>
-                          {new Intl.NumberFormat('en-IN', {
-                            style: 'currency',
-                            currency: 'INR',
-                          }).format(billamount)}
-                        </td>
-                        <td style={{ width: 100, textAlign: 'center' }} >
-                          {val.asset_complaint_slno
-                            ? val.asset_complaint_slno
-                            : val.spare_complaint_slno
-                              ? val.spare_complaint_slno
-                              : ''}
-                        </td>
-                        <td style={{ width: 'auto', textAlign: 'center' }}>
-                          {val.asset_condm_transf_remarks
-                            ? val.asset_condm_transf_remarks
-                            : val.spare_condm_transf_remarks
-                              ? val.spare_condm_transf_remarks
-                              : ''}
-                        </td>
-                        <td style={{ width: 60, textAlign: 'center' }}>
-                          <MoreIcon
-                            sx={{ cursor: 'pointer', color: '#41729F' }}
-                            onClick={() => AssetDetailsView(val)}
-                          />
-                        </td>
-                        <td style={{ width: 50, textAlign: 'center' }}>
-                          <AddCircleIcon
-                            sx={{ cursor: 'pointer', color: '#A45C40' }}
-                            onClick={() => AddDetailsModal(val)}
-                          />
-                        </td>
-                        <td style={{ width: 50, textAlign: 'center' }}>
-                          <Tooltip sx={{ width: 250 }}
-                            placement='left'
-                            title={"Clicking on the  item will result in its removal from the list and it will be added to the condemnation list."}>
-                            <DeleteIcon
-                              sx={{ cursor: 'pointer', color: 'darkred' }}
-                            // onClick={() => RemoveItems(val)}
-                            />
-                          </Tooltip>
-
-                        </td>
-                      </tr>
-                    );
+              <Box sx={{ width: '100%', overflow: 'hidden' }}>
+                <Sheet
+                  variant="outlined"
+                  sx={(theme) => ({
+                    '--TableCell-height': '40px',
+                    '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
+                    '--Table-firstColumnWidth': '60px',
+                    '--Table-lastColumnWidth': '120px',
+                    overflow: 'auto',
+                    background: `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
+                    linear-gradient(to right, rgba(255, 255, 255, 0), ${theme.vars.palette.background.surface} 70%) 0 100%,
+                    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)),
+                    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0)) 0 100%`,
+                    backgroundSize:
+                      '40px calc(100% - var(--TableCell-height)), 40px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height)), 14px calc(100% - var(--TableCell-height))',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundAttachment: 'local, local, scroll, scroll',
+                    backgroundPosition:
+                      'var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height), var(--Table-firstColumnWidth) var(--TableCell-height), calc(100% - var(--Table-lastColumnWidth)) var(--TableCell-height)',
+                    backgroundColor: 'background.surface',
                   })}
-                </tbody>
-              </Table>
+                >
+
+                  <Table
+                    borderAxis="both"
+                    size="sm"
+
+                    sx={{
+                      minWidth: 1800,
+                      '& thead th': {
+                        color: '#444',
+                        fontWeight: 600,
+                        fontSize: 14,
+
+                      },
+
+                      // First sticky column (#)
+                      '& tr > *:nth-of-type(1)': {
+                        position: 'sticky',
+                        left: 0,
+                        zIndex: 3,
+                        bgcolor: 'background.surface',
+                        boxShadow: '2px 0 var(--TableCell-borderColor)',
+                      },
+
+                      // Second sticky column (Keep in Dept Store)
+                      '& tr > *:nth-of-type(2)': {
+                        position: 'sticky',
+                        left: 40, // first column width = 40px
+                        zIndex: 3,
+                        bgcolor: 'background.surface',
+                        boxShadow: '2px 0 var(--TableCell-borderColor)',
+                      },
+
+                      // Right sticky columns
+                      '& tr > *:nth-last-of-type(3)': {
+                        position: 'sticky',
+                        right: 100, // width of last two columns = 50 + 50
+                        zIndex: 3,
+                        bgcolor: 'background.surface',
+                        boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                      },
+                      '& tr > *:nth-last-of-type(2)': {
+                        position: 'sticky',
+                        right: 50, // last column width = 50px
+                        zIndex: 3,
+                        bgcolor: 'background.surface',
+                        boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                      },
+                      '& tr > *:nth-last-of-type(1)': {
+                        position: 'sticky',
+                        right: 0,
+                        zIndex: 3,
+                        bgcolor: 'background.surface',
+                        boxShadow: '-2px 0 var(--TableCell-borderColor)',
+                      },
+                    }}
+
+                  >
+
+                    <thead>
+                      <tr>
+                        <th style={{ width: 40, textAlign: 'center' }}>#</th>
+                        <th style={{ width: 135, textAlign: 'center' }}>Keep in Dept Store</th>
+                        <th style={{ width: 120 }}>Asset/Spare No.</th>
+                        <th style={{ width: 'auto' }}>Category</th>
+                        <th style={{ width: 'auto' }}>Item Name</th>
+                        <th style={{ width: 'auto' }}>Department Section</th>
+                        <th style={{ width: 'auto' }}>Location</th>
+                        <th style={{ width: 'auto' }}>Serial No.</th>
+                        <th style={{ width: 160 }}>Item Purchase Value</th>
+                        <th style={{ width: 100 }}>Ticket No.</th>
+                        <th style={{ width: 'auto' }}>Condem Reason</th>
+                        <th style={{ width: 80, textAlign: 'center' }}>Details</th>
+                        <th style={{ width: 80, textAlign: 'center' }}>Add</th>
+                        <th style={{ width: 80, textAlign: 'center' }}>Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {itemUnderForm?.map((val, index) => {
+                        const billamount =
+                          val.asset_bill_amount ??
+                          val.spare_bill_amount ??
+                          ''
+                        return (
+                          <tr key={index}>
+                            <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                            <td style={{ textAlign: 'center' }}>
+                              <Checkbox
+                                checked={checkedItems[index] ?? (val.keep_inscarp_status === 1)}
+                                onChange={(e) => handleOpen(e, index, val)}
+                              />
+                            </td>
+                            <td>
+                              {val.spare_asset_no
+                                ? `${val.spare_asset_no}/${val.spare_asset_no_only?.toString().padStart(6, '0')}`
+                                : `${val.item_asset_no}/${val.item_asset_no_only?.toString().padStart(6, '0')}`}
+                            </td>
+                            <td>{val.cat_asset_name || val.cat_spare_name || ''}</td>
+                            <td>{val.item_asset_name || val.item_spare_name || ''}</td>
+                            <td>{val.sec1_name || val.sec2_name || ''}</td>
+                            <td>
+                              {val.ticket1_location ||
+                                val.ticket1_block ||
+                                val.ticket1_floor ||
+                                val.ticket1_roomname ||
+                                val.ticket1_roomtype ? (
+                                <span>
+                                  {[val.ticket1_location, val.ticket1_block, val.ticket1_floor, val.ticket1_roomname, val.ticket1_roomtype]
+                                    .filter(Boolean)
+                                    .join(' - ')}
+                                </span>
+                              ) : (
+                                <>Not Updated</>
+                              )}
+                            </td>
+                            <td>{val.asset_am_manufacture_no || val.spare_am_manufacture_no || ''}</td>
+                            <td>
+                              {new Intl.NumberFormat('en-IN', {
+                                style: 'currency',
+                                currency: 'INR',
+                              }).format(billamount)}
+                            </td>
+                            <td>
+                              {val.asset_complaint_slno ||
+                                val.spare_complaint_slno ||
+                                ''}
+                            </td>
+                            <td>
+                              {val.asset_condm_transf_remarks ||
+                                val.spare_condm_transf_remarks ||
+                                ''}
+                            </td>
+                            <td style={{ textAlign: 'center' }}>
+                              <MoreIcon
+                                sx={{ cursor: 'pointer', color: '#41729F' }}
+                                onClick={() => AssetDetailsView(val)}
+                              />
+                            </td>
+                            <td style={{ textAlign: 'center' }}>
+                              <AddCircleIcon
+                                sx={{ cursor: 'pointer', color: '#A45C40' }}
+                                onClick={() => AddDetailsModal(val)}
+                              />
+                            </td>
+                            <td style={{ textAlign: 'center' }}>
+                              <Tooltip
+                                placement="left"
+                                title="Clicking on the item will remove it and add it to the condemnation list."
+                              >
+                                <DeleteIcon sx={{ cursor: 'pointer', color: 'darkred' }} />
+                              </Tooltip>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </Table>
+                </Sheet>
+              </Box>
             </Box>
             {(CondemData?.some(
               item => item.am_condem_reason !== null || item.keep_inscarp_status === 1
