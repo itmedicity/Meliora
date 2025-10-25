@@ -1,7 +1,11 @@
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { format } from 'date-fns'
-import { snow } from 'src/views/Constant/Static'
+// import snow from "src/assets/images/logo.png";
+
+import snow from '../../../assets/images/logo.png'
+
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export const ndrfpdfdownloadwithtable = (
@@ -210,15 +214,15 @@ export const ndrfpdfdownloadwithtable = (
             ]
           ].concat(
             dataPost &&
-              dataPost.map(val => [
-                { text: val.item_slno, fontSize: 8 },
-                { text: val.item_desc, fontSize: 8 },
-                { text: val.item_brand, fontSize: 8 },
-                { text: val.item_unit, fontSize: 8 },
-                { text: val.item_qnty, fontSize: 8 },
-                { text: val.item_specification, fontSize: 8 },
-                { text: val.aprox_cost, fontSize: 8 }
-              ])
+            dataPost.map(val => [
+              { text: val.item_slno, fontSize: 8 },
+              { text: val.item_desc, fontSize: 8 },
+              { text: val.item_brand, fontSize: 8 },
+              { text: val.item_unit, fontSize: 8 },
+              { text: val.item_qnty, fontSize: 8 },
+              { text: val.item_specification, fontSize: 8 },
+              { text: val.aprox_cost, fontSize: 8 }
+            ])
           )
         }
       },
@@ -255,15 +259,15 @@ export const ndrfpdfdownloadwithtable = (
             ]
           ].concat(
             datacollectdata &&
-              datacollectdata.map(val => [
-                { text: val.item_slno, fontSize: 8 },
-                { text: val.item_desc, fontSize: 8 },
-                { text: val.item_brand, fontSize: 8 },
-                { text: val.item_unit, fontSize: 8 },
-                { text: val.item_qnty, fontSize: 8 },
-                { text: val.item_specification, fontSize: 8 },
-                { text: val.aprox_cost, fontSize: 8 }
-              ])
+            datacollectdata.map(val => [
+              { text: val.item_slno, fontSize: 8 },
+              { text: val.item_desc, fontSize: 8 },
+              { text: val.item_brand, fontSize: 8 },
+              { text: val.item_unit, fontSize: 8 },
+              { text: val.item_qnty, fontSize: 8 },
+              { text: val.item_specification, fontSize: 8 },
+              { text: val.aprox_cost, fontSize: 8 }
+            ])
           )
         }
       },

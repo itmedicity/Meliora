@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import { format } from 'date-fns'
-import { snow } from 'src/views/Constant/Static'
+import snow from "src/assets/images/logo.png";
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export const ndrfpdfdownloadwithouttable = (data, inchargesign, hodsign, omsign, smosign, caosign, edsign) => {
