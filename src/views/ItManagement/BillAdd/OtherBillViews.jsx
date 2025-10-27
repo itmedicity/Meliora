@@ -97,7 +97,8 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
               am_item_map_slno: val.am_item_map_slno,
               it_supplier_name: val.it_supplier_name,
               supplier_details: val.supplier_details,
-              file_upload_status: val.file_upload_status
+              file_upload_status: val.file_upload_status,
+              bill_active_status: val.bill_active_status
             }
             return obj
           })

@@ -14,13 +14,11 @@ import { taskColor } from 'src/color/Color';
 
 const CategorizedItemMain = ({ submitModalOpen, setSubmitModalOpen, submitModalFlag, setSubmitModalFlag }) => {
 
-
     const [itemList, setItemList] = useState([])
     const [viewItemFlag, setviewItemFlag] = useState(0)
     const [viewItemOpen, setviewItemOpen] = useState(false)
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([])
-
 
     const handleToggle = (id, val) => {
         setSelectedItems(prevItems => {
@@ -159,12 +157,14 @@ const CategorizedItemMain = ({ submitModalOpen, setSubmitModalOpen, submitModalF
                                 <Box sx={{ flex: 1, fontSize: 25, fontWeight: 600, pl: 1.5, pt: 1.5, color: 'white' }}>
                                     {val.total_count}
                                 </Box>
+
                                 <Box sx={{ flex: 1, height: 25, display: 'flex', pl: .5, cursor: 'pointer' }}>
                                     <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
-                                    <Box sx={{ fontWeight: 600, fontSize: 13, color: 'black', pt: .2 }} onClick={() => ViewCondemnedItems(val)}>
-                                        View Items
+                                    <Box sx={{ fontWeight: 600, fontSize: 13, color: 'black', pt: .3 }} onClick={() => ViewCondemnedItems(val)}>
+                                        <u>View Items</u>
                                     </Box>
                                 </Box>
+
                             </Box>
                         )
                     })}

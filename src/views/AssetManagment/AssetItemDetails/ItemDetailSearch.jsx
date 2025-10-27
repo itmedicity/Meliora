@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getDepartment } from 'src/redux/actions/Department.action'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -13,9 +13,8 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
-import { getCustodianDetails } from 'src/api/AssetApis'
-import { useQuery } from '@tanstack/react-query'
 import RefreshIcon from '@mui/icons-material/Refresh'
+import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
 const ItemListViewTable = React.lazy(() => import('../ItemListView/ItemListViewTable'))
 
 const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
@@ -27,9 +26,14 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
   const [Assetno, setAssetno] = useState('')
   const [flag, setFlag] = useState(0)
   const [displayarry, setDisArry] = useState([])
-  const [custFirstName, setcustFirstName] = useState('')
-  const [custSecName, setcustSecName] = useState('')
   const [spareNo, setspareNo] = useState('')
+  const [custoDian, setCustodian] = useState(0)
+  const [custodianAllDetails, setcustodianAllDetails] = useState({})
+  const {
+    am_custdn_asset_no_first,
+    am_custdn_asset_no_second,
+    am_custodian_slno,
+  } = custodianAllDetails
 
   const updateSerialno = useCallback(e => {
     setSerailno(e.target.value)
@@ -42,29 +46,16 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
     setspareNo(e.target.value)
   }, [])
 
-  const empdept = useSelector(state => {
-    return state.LoginUserData.empdept
-  })
 
-  const { data: itemDetails, isSuccess } = useQuery({
-    queryKey: ['getCustodianItemDetails', empdept],
-    enabled: empdept !== 0,
-    queryFn: () => getCustodianDetails(empdept)
-  })
+  const itemNo = `${am_custdn_asset_no_first}/${am_custdn_asset_no_second}`
+  const ItemSpare = `SP/${am_custdn_asset_no_second}`
 
-  const custodianDetails = useMemo(() => itemDetails, [itemDetails])
-  const itemNo = `${custFirstName}/${custSecName}`
-  const ItemSpare = `SP/${custSecName}`
-  const [custodianSlno, setcustodianSlno] = useState(0)
 
-  useEffect(() => {
-    if (isSuccess && custodianDetails && custodianDetails.length > 0) {
-      const { am_custdn_asset_no_first, am_custdn_asset_no_second, am_custodian_slno } = custodianDetails[0]
-      setcustFirstName(am_custdn_asset_no_first)
-      setcustSecName(am_custdn_asset_no_second)
-      setcustodianSlno(am_custodian_slno)
-    }
-  }, [isSuccess, custodianDetails])
+
+
+
+
+
 
   const postdata = useMemo(() => {
     return {
@@ -74,9 +65,9 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       item_deptsec_slno: deptsec !== undefined ? deptsec : 0,
       item_creation_slno: item !== undefined ? item : 0,
       am_manufacture_no: serialno !== undefined ? serialno : null,
-      custodianSlno: custodianSlno
+      custodianSlno: am_custodian_slno
     }
-  }, [department, deptsec, item, itemNo, Assetno, serialno, custodianSlno])
+  }, [department, deptsec, item, itemNo, Assetno, serialno, am_custodian_slno])
 
   const postdataSpare = useMemo(() => {
     return {
@@ -86,9 +77,9 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       spare_deptsec_slno: deptsec !== undefined ? deptsec : 0,
       spare_creation_slno: item !== undefined ? item : 0,
       am_manufacture_no: serialno !== undefined ? serialno : null,
-      custodianSlno: custodianSlno
+      custodianSlno: am_custodian_slno
     }
-  }, [department, deptsec, item, spareNo, serialno, custodianSlno, ItemSpare])
+  }, [department, deptsec, item, spareNo, serialno, am_custodian_slno, ItemSpare])
 
   useEffect(() => {
     dispatch(getDepartment())
@@ -150,6 +141,14 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
             gap: 1
           }}
         >
+          <Box sx={{ flex: 0.8 }}>
+            <TextComponent text={'Custodian Department.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }} />
+            <AssetCustodianDepartment
+              custoDian={custoDian}
+              setCustodian={setCustodian}
+              setcustodianAllDetails={setcustodianAllDetails}
+            />
+          </Box>
           <Box sx={{ flex: 0.5 }}>
             <TextComponent text={'Serial No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <TextFieldCustom
@@ -169,7 +168,9 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
               <TextFieldCustom
                 startDecorator={
                   <Button variant="plain" color="neutral" sx={{ borderRadius: 0, p: 0, ml: 0.5 }}>
-                    {`${custFirstName}/${custSecName}/`}
+                    {am_custdn_asset_no_first && am_custdn_asset_no_second
+                      ? `${am_custdn_asset_no_first}/${am_custdn_asset_no_second}/`
+                      : ''}
                   </Button>
                 }
                 placeholder={'000000'}
@@ -186,10 +187,17 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
               <TextComponent text={'Spare No.'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
               <TextFieldCustom
                 startDecorator={
-                  <Button variant="plain" color="neutral" sx={{ borderRadius: 0, p: 0, ml: 0.5 }}>
-                    {`SP/${custSecName}/`}
+                  <Button
+                    variant="plain"
+                    color="neutral"
+                    sx={{ borderRadius: 0, p: 0, ml: 0.5 }}
+                  >
+                    {am_custdn_asset_no_second?.toString().trim()
+                      ? `SP/${am_custdn_asset_no_second}/`
+                      : ''}
                   </Button>
                 }
+
                 placeholder={'000000'}
                 type="text"
                 size="sm"

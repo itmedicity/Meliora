@@ -50,7 +50,8 @@ const EditingOtherBillModal = ({
     bill_number,
     am_item_map_slno,
     supplier_details,
-    file_upload_status
+    file_upload_status,
+    bill_active_status
   } = billDataother
 
   const [billViewmodalFlag, setBillViewModalFlag] = useState(0)
@@ -71,6 +72,7 @@ const EditingOtherBillModal = ({
   const [assetNumb, setassetNumb] = useState('')
   const [assetNumbOnly, setassetNumbOnly] = useState('')
   const [assetDeviceName, setassetDeviceName] = useState('')
+  const [billActive, setBillActive] = useState(bill_active_status === 1 ? true : false)
   const [otherBill, setOtherBill] = useState({
     billname: bill_name === '' ? null : bill_name,
     billamount: bill_amount === '' ? null : bill_amount,
@@ -151,7 +153,8 @@ const EditingOtherBillModal = ({
       am_item_map_slno: item_slno === 0 ? am_item_map_slno : item_slno,
       supplier_details: suppliersList === 0 ? null : suppliersList,
       payed_status: payedStatus === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
+      bill_active_status: billActive === false ? 0 : 1
     }
   }, [
     other_bill_slno,
@@ -167,7 +170,8 @@ const EditingOtherBillModal = ({
     payedStatus,
     item_slno,
     suppliersList,
-    id
+    id,
+    billActive
   ])
 
   const searchAssetNo = useCallback(
@@ -336,6 +340,14 @@ const EditingOtherBillModal = ({
       handleClose
     ]
   )
+
+  const BillActiveChange = useCallback(e => {
+    if (e.target.checked === true) {
+      setBillActive(true)
+    } else {
+      setBillActive(false)
+    }
+  }, [])
 
   return (
     <Box>
@@ -829,8 +841,9 @@ const EditingOtherBillModal = ({
                     ))}
                 </Box>
               </Box>
+
               {file_upload_status === 1 ? (
-                <Box sx={{ mt: 1, mx: 1 }}>
+                <Box sx={{ mt: 1, mx: 1, flex: 1 }}>
                   <Box
                     sx={{
                       m: 0.5,
@@ -865,6 +878,21 @@ const EditingOtherBillModal = ({
                   </Box>
                 </Box>
               ) : null}
+              <Box>
+
+                <Box sx={{ p: 2 }}>
+                  <Checkbox
+                    label="Bill Active Status"
+                    color="success"
+                    onChange={e => BillActiveChange(e)}
+                    checked={billActive}
+                  />
+                </Box>
+
+              </Box>
+
+
+
             </Box>
             <Box sx={{ flex: 1, mx: 2, mt: 1.5 }}>
               <CssVarsProvider>
