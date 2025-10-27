@@ -4,7 +4,6 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { taskColor } from 'src/color/Color';
-import { warningNotify } from 'src/views/Common/CommonCode';
 
 const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setviewItemOpen, }) => {
 

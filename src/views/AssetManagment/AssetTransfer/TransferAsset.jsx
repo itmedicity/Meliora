@@ -1,4 +1,4 @@
-import { Box, CircularProgress, IconButton, Input, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
+import { Box, CircularProgress, IconButton, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action'
@@ -36,11 +36,7 @@ const TransferAsset = () => {
   const [custoDian, setCustodian] = useState(0)
   const [custodianAllDetails, setcustodianAllDetails] = useState({})
   const {
-    am_custodian_deptsec_slno,
     am_custodian_dept_slno,
-    am_custdn_asset_no_first,
-    am_custdn_asset_no_second,
-    sec_name
   } = custodianAllDetails
 
 
