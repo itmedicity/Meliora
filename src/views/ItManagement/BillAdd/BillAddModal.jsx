@@ -21,7 +21,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import imageCompression from 'browser-image-compression'
 import CloseIcon from '@mui/icons-material/Close'
-import { Paper } from '@mui/material'
+
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import PinDropIcon from '@mui/icons-material/PinDrop'
@@ -512,7 +512,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
               <Box>
                 {billType === 3 ? (
                   <Box>
-                    <Paper sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
+                    <Box sx={{ mx: 2, borderRadius: 0, bgcolor: '#F0F2F3', boxShadow: '0px 0px 3px' }}>
                       <Box sx={{ flex: 1, mt: 1.5, fontWeight: 600, px: 0.5, color: '#54627B' }}>
                         <ManageSearchIcon
                           sx={{
@@ -608,7 +608,7 @@ const BillAddModal = ({ open, setAddModalFlag, setaddModalOpen, billCount, setbi
                         </Box>
                       ) : null}
                       <Box sx={{ height: 8 }}></Box>
-                    </Paper>
+                    </Box>
                     <Box sx={{ flex: 1, mt: 1.5, ml: 2, fontWeight: 600, color: '#183A53' }}>
                       <LocalShippingIcon
                         sx={{

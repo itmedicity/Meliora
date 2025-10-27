@@ -42,17 +42,7 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
         setFormData({ ...formData, [e.target.name]: value })
     }, [formData])
 
-    // const handleInputChange = useCallback((e) => {
-    //     let value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    //     const { name } = e.target;
-    //     if (name === "contact_no") {
-    //         value = value.replace(/\D/g, ""); // keep only digits
-    //     }
-    //     setFormData((prev) => ({
-    //         ...prev,
-    //         [name]: value,
-    //     }));
-    // }, []);
+
 
 
     const handleGroupInputChange = (groupIdx, field, value) => {

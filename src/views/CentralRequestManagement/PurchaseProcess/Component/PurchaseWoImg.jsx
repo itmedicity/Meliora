@@ -31,6 +31,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
           ) {
             if (file.size > 26214400) {
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
+              setImageArry([])
               return false
             }
             const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
