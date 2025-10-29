@@ -74,7 +74,7 @@ const SubmittedScrapPendingForm = ({ submittedPendingScarps, isLoading }) => {
                             const Reviewed = val.level_state === "A" ? "APPROVED" : val.level_state === "R" ? "REJECTED" : "Pending"
                             return (
                                 <tr key={index}>
-                                    <td style={{ width: 150, textAlign: 'center' }}>{`${val.scrap_condemn_Form_no}/${val.scrap_condemn_Form_slno}`}</td>
+                                    <td style={{ width: 150, textAlign: 'center', fontWeight: 700 }}>{`${val.scrap_condemn_Form_no} #${val.scrap_condemn_Form_slno}`}</td>
                                     <td style={{ width: 180, textAlign: 'center' }}>
                                         {val.level_no < 1 ?
                                             <Chip

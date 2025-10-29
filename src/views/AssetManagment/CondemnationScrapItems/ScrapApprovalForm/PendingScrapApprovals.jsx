@@ -5,7 +5,6 @@ import ApproveRejectScrapForm from './ApproveRejectScrapForm'
 import { useQuery } from '@tanstack/react-query'
 import { taskColor } from 'src/color/Color'
 
-
 const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
 
     const [formFlag, setFormFlag] = useState(0)
@@ -14,10 +13,10 @@ const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
     const [view, setView] = useState(0)
 
     const levelNo = EmployeeScrapLevelForm?.length > 0 && EmployeeScrapLevelForm?.[0]?.level_no;
+
     const levelId = useMemo(() => {
         return levelNo - 1;
     }, [levelNo]);
-
 
     const getEmployeeScrapApprovalLevel = async () => {
         const { data } = await axioslogin.get(`AssetCondemnation/getEmployeeScrapApprovalLevel/${levelId}`);
@@ -30,14 +29,11 @@ const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
         enabled: levelId != null,
     });
 
-
-
     const ApproveRejectScrap = useCallback((val) => {
         setScrapDetails(val)
         setFormFlag(1)
         setFormOpen(true)
     }, [])
-
 
     return (
         <Box sx={{ p: .5 }}>
@@ -84,9 +80,8 @@ const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
                             const Reviewed = val.level_state === "A" ? "APPROVED" : val.level_state === "R" ? "REJECTED" : "Pending"
                             return (
                                 <tr key={index}>
-                                    <td style={{ width: 100, textAlign: 'center', fontWeight: 600 }}>{val.scrap_condemn_Form_no}/{val.scrap_condemn_Form_slno}</td>
+                                    <td style={{ width: 100, textAlign: 'center', fontWeight: 700 }}>{val.scrap_condemn_Form_no} #{val.scrap_condemn_Form_slno}</td>
                                     <td style={{ width: 100, textAlign: 'center' }}>
-
                                         <Chip
                                             sx={{
                                                 border: 1,
@@ -97,20 +92,17 @@ const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
                                                 fontSize: 13,
                                                 px: 2
                                             }}
-                                            onClick={() => ApproveRejectScrap(val)}
-                                        >
+                                            onClick={() => ApproveRejectScrap(val)}>
                                             Review
                                         </Chip>
-
                                     </td>
                                     <td style={{ width: 'auto', textAlign: 'center' }}>
                                         <Chip variant='soft'
-
                                             color={val.level_state === "A" ? 'success' : val.level_state === "R" ? 'danger' : 'primary'}
-
                                             sx={{ px: 2, cursor: 'pointer', fontSize: 12 }}>
                                             {val.level_name ? `${val.level_name} ${Reviewed}` : "Submitted"}
-                                        </Chip></td>
+                                        </Chip>
+                                    </td>
                                     <td style={{ width: 'auto', fontSize: 13 }}>{val.yard_names} </td>
                                     <td style={{ width: 'auto', }}>{val.it_supplier_name}</td>
                                     <td style={{ width: 'auto', }}>{val.recipient_name}</td>
@@ -145,8 +137,7 @@ const PendingScrapApprovals = ({ EmployeeScrapLevelForm, id }) => {
                     Empty List
                 </Box>
             )}
-        </Box >
-
+        </Box>
     )
 }
 

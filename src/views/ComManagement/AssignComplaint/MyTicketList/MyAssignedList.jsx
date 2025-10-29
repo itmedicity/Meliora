@@ -1,12 +1,10 @@
 import { Badge, Box, Chip, CircularProgress, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport'
 import VerifiedSharpIcon from '@mui/icons-material/VerifiedSharp'
 import { useSelector } from 'react-redux'
-import { axioslogin } from 'src/views/Axios/Axios'
 import ErrorIcon from '@mui/icons-material/Error'
 import { keyframes } from '@mui/system'
-import _ from 'underscore'
 import BuildRoundedIcon from '@mui/icons-material/BuildRounded'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled'
@@ -27,9 +25,12 @@ import { format } from 'date-fns'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import { getFilesFromZip } from 'src/api/FileViewsFn'
+import { getAllPendingEmpComplaints } from 'src/api/TicketApi'
+import { useQuery } from '@tanstack/react-query'
+
 
 const MyAssignedList = ({ assistReq, count, setCount }) => {
-  const [allPendingCompl, setAllPendingCompl] = useState([])
+
   const [reqDetails, setReqDetails] = useState([])
   const [assistNeed, setAssistNeed] = useState([])
   const [rectfyDta, setRectfyDta] = useState([])
@@ -37,8 +38,10 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
   const [holdData, setHoldData] = useState([])
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  // const [selectedImages, setSelectedImages] = useState([])
-  const [loading, setLoading] = useState(true)
+
+  const id = useSelector(state => {
+    return state.LoginUserData.empid
+  })
 
   const [state, setState] = useState({
     assistflag: 0,
@@ -57,7 +60,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     assistOpen: true
   })
 
-  const id = useSelector(state => state.LoginUserData.empid, _.isEqual)
+
 
   const RaiseQuery = useCallback(value => {
     setState(prevState => ({
@@ -69,28 +72,16 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     setValuee(value)
   }, [])
 
+  const {
+    data: getAllPendingEmpTickets = [],
+    isLoading,
+  } = useQuery({
+    queryKey: ['getAllPendingEmployeeTickets', id],
+    queryFn: () => getAllPendingEmpComplaints(id),
+    enabled: !!id,
+  })
 
-  useEffect(() => {
-    let isMounted = true
-    setLoading(true) // Start loading
-    const getAllPendingComplaints = async id => {
-      const result = await axioslogin.get(`/complaintassign/user/${id}`)
-      const { success, data } = result.data
-
-      if (isMounted) {
-        if (success === 1) {
-          setAllPendingCompl(data)
-        } else {
-          setAllPendingCompl([])
-        }
-        setLoading(false) // Done loading
-      }
-    }
-    getAllPendingComplaints(id)
-    return () => {
-      isMounted = false
-    }
-  }, [id, count])
+  const PendingList = useMemo(() => getAllPendingEmpTickets, [getAllPendingEmpTickets])
 
   const blinkAnimation = keyframes`
     0% { opacity: 1; }
@@ -98,9 +89,8 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     100% { opacity: 1; }
 `
 
-  const borderblinkAnimation = keyframes`
- 
-      0% { opacity: 1; }
+  const borderblinkAnimation = keyframes` 
+    0% { opacity: 1; }
     50% { opacity: 0; }
     100% { opacity: 1; }
 `
@@ -265,7 +255,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
                 borderRadius: 8,
                 bgcolor: 'white',
                 mb: 0.6
-                // animation: `${borderblinkAnimation} 1s infinite`,
               }}
             >
               <Box
@@ -469,7 +458,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
             </Box>
           )
         })}
-        {loading ? (
+        {isLoading ? (
           <div style={{ display: 'flex', height: '100%' }}>
             <CircularProgress
               color="neutral"
@@ -482,7 +471,7 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
           </div>
         ) : (
           <>
-            {allPendingCompl?.map(val => {
+            {PendingList?.map(val => {
               const getBadgeColor = (pending, accepted, rejected) => {
                 if (pending > 0) return '#0458AB'
                 if (pending === 0 && accepted > 0) return 'green'
