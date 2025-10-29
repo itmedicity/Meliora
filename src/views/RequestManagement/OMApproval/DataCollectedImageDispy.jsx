@@ -18,7 +18,7 @@ const DataCollectedImageDispy = ({ open, handleCloseCollect, dataCollSlno, req_s
   const [disArry, setDissArry] = useState([])
   const [imagearray, setImageArry] = useState([])
   useEffect(() => {
-    const getImage = async postdata => {
+    const getImage = async () => {
       // const result = await axioslogin.post('/CrfImageUpload/crf/getDataCollectionImage', postdata)
       // const { success, data } = result.data
       // if (success === 1) {

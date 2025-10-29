@@ -19,7 +19,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
   // const [pendingLength, setpendingLength] = useState(0)
   // const [forVerify, setforVerify] = useState([])
   // const [verifyLength, setverifyLength] = useState(0)
-  const [loading, setLoading] = useState(false)
+
   const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
@@ -43,7 +43,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
   }, [])
 
 
-  const { isLoading, error, data, isSuccess } = useQuery({
+  const { isLoading: loading, error, data, isSuccess } = useQuery({
     queryKey: ['GetAllPendingComplaints', empsecid],
     queryFn: () => getAllPendingComplaints(empsecid)
   })
@@ -133,7 +133,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
 
   //   getAllPendingComplaints()
   // }, [empsecid, count])
-  if (isLoading) return <p>Loading...</p>
+  if (loading) return <p>Loading...</p>
   if (error) return <p>Error occurred.</p>
   return (
     <Box sx={{ flex: 1 }}>

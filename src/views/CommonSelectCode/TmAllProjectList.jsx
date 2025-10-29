@@ -44,7 +44,7 @@ const TmAllProjectList = ({ projectz, setprojectz, setdueDateProject }) => {
   }
 
   const filterProps = props => {
-    const { ownerState, ...restProps } = props
+    const { ...restProps } = props
     return restProps
   }
 

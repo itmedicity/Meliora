@@ -48,7 +48,7 @@ const DailyCensus = () => {
   }, [dailyDateFrom, dailyDateTo])
 
   const SearchDetails = useCallback(
-    e => {
+    () => {
       const GetCensusDetails = async searchdata => {
         const result = await axioslogin.post('/qidailycensus/viewReport', searchdata)
         return result.data

@@ -44,7 +44,7 @@ const TmAllGoalsList = ({ goalz, setgoalz, setdueDateGoal }) => {
   }
 
   const filterProps = props => {
-    const { ownerState, ...restProps } = props
+    const { ...restProps } = props
     return restProps
   }
 
