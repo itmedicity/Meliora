@@ -4,9 +4,14 @@ import TextComponent from 'src/views/Components/TextComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { taskColor } from 'src/color/Color';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setviewItemOpen, }) => {
 
+
+    const queryClient = useQueryClient()
     const CloseModal = useCallback(() => {
         setviewItemFlag(0);
         setviewItemOpen(false);
@@ -21,45 +26,48 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
 
 
 
-    // const handleDelete = useCallback((item) => {
-    //     const { am_condem_detail_slno, item_slno } = item;
+    const handleDelete = useCallback((item) => {
+        const { am_condem_detail_slno, item_slno } = item;
+        const patchdata = {
+            scrap_category: null,
+            scrap_quality: null,
+            scrap_yard: null,
+            scrap_categorize: 0,
+            am_condem_detail_slno,
+            item_slno,
+        };
+        const InactiveItem = async (patchdata) => {
+            try {
+                const result = await axioslogin.patch('/condemMasters/RemoveItemFromCategorized', patchdata);
+                const { message, success } = result.data;
+                success === 2 ? succesNotify(message) : warningNotify(message);
+                queryClient.invalidateQueries('getcondemdAssetCategoryWise')
+                CloseModal()
+            } catch (error) {
+                warningNotify('Error while removing item from categorized list');
+            }
+        };
+        const InactiveAddedItem = async (patchdata) => {
+            try {
+                const result = await axioslogin.patch('/condemMasters/RemoveItemsAddedFromCategorized', patchdata);
+                const { message, success } = result.data;
+                success === 2 ? succesNotify(message) : warningNotify(message);
+                queryClient.invalidateQueries('getcondemdAssetCategoryWise')
+                CloseModal()
+            } catch (error) {
+                warningNotify('Error while removing added item from categorized list');
+            }
+        };
 
-    //     console.log("item", item);
+        if (am_condem_detail_slno) {
+            InactiveItem(patchdata);
+        } else if (item_slno) {
+            InactiveAddedItem(patchdata);
+        } else {
+            warningNotify('Invalid item selected');
+        }
+    }, [queryClient]);
 
-    //     const patchdata = {
-    //         scarp_categorize: 0,
-    //         am_condem_detail_slno,
-    //         item_slno,
-    //     };
-
-    //     const InactiveItem = async (patchdata) => {
-    //         try {
-    //             const result = await axioslogin.patch('/condemMasters/RemoveItemFromCategorized', patchdata);
-    //             const { message, success } = result.data;
-    //             success === 2 ? succesNotify(message) : warningNotify(message);
-    //         } catch (error) {
-    //             warningNotify('Error while removing item from categorized list');
-    //         }
-    //     };
-
-    //     const InactiveAddedItem = async (patchdata) => {
-    //         try {
-    //             const result = await axioslogin.patch('/condemMasters/RemoveAddedItemFromCategorized', patchdata);
-    //             const { message, success } = result.data;
-    //             success === 2 ? succesNotify(message) : warningNotify(message);
-    //         } catch (error) {
-    //             warningNotify('Error while removing added item from categorized list');
-    //         }
-    //     };
-
-    //     if (am_condem_detail_slno) {
-    //         InactiveItem(patchdata);
-    //     } else if (item_slno) {
-    //         InactiveAddedItem(patchdata);
-    //     } else {
-    //         warningNotify('Invalid item selected');
-    //     }
-    // }, []);
 
 
 
@@ -74,7 +82,7 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
                 <ModalDialog
                     variant="outlined"
                     sx={{
-                        width: '55vw',
+                        width: '60vw',
                         p: 0,
                         overflow: 'auto',
                         borderRadius: 12,
@@ -105,7 +113,6 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
                                 size="sm"
                                 sx={{
                                     borderRadius: 0,
-                                    minWidth: 600,
                                     '& thead th': {
                                         backgroundColor: '#f9fafb',
                                         fontWeight: 600,
@@ -119,12 +126,12 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
                                 <thead>
                                     <tr>
                                         <th style={{ width: 50 }}>#</th>
-                                        <th style={{ minHeight: 50 }}>Item Name</th>
+                                        <th style={{}}>Item Name</th>
                                         <th style={{ width: 100 }}>Count</th>
                                         <th style={{ width: 60 }}>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {Object.entries(groupedItems).length === 0 ? (
                                         <tr>
                                             <td colSpan={4} style={{ textAlign: 'center' }}>
@@ -141,7 +148,7 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
                                                     <td></td>
                                                 </tr>
                                                 {items.map((item, index) => (
-                                                    <tr key={`${item.slno}-${item.type}`}>
+                                                    <tr style={{ minHeight: 50 }} key={`${item.slno}-${item.type}`}>
                                                         <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                                         <td>{item.asset_item_name || item.spare_item_name || item.item_name}</td>
                                                         <td style={{ textAlign: 'center' }}>—</td>
@@ -151,7 +158,7 @@ const ViewItemsCategorized = ({ itemList, viewItemOpen, setviewItemFlag, setview
                                                                     size="sm"
                                                                     color="danger"
                                                                     variant="plain"
-                                                                    // onClick={() => handleDelete(item)}
+                                                                    onClick={() => handleDelete(item)}
                                                                     sx={{
                                                                         '&:hover': {
                                                                             backgroundColor: 'rgba(244, 67, 54, 0.1)',

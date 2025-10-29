@@ -76,7 +76,7 @@ const ScrapAwaitingRemainingApprovals = ({ isLoading, ScrapsAwaitingAllApproval,
                             const Reviewstate = val.level_no === level_no ? 1 : 0
                             return (
                                 <tr key={index}>
-                                    <td style={{ width: 150, textAlign: 'center' }}>{`${val.scrap_condemn_Form_no}/${val.scrap_condemn_Form_slno}`}</td>
+                                    <td style={{ width: 150, textAlign: 'center', fontWeight: 700 }}>{`${val.scrap_condemn_Form_no} #${val.scrap_condemn_Form_slno}`}</td>
                                     <td style={{ width: 180, textAlign: 'center' }}>
 
                                         {Reviewstate === 1 ?
