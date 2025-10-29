@@ -7,6 +7,7 @@ import mdsign from '../../../assets/images/md/signature.jpg'
 
 pdfMake.vfs = pdfFonts.vfs
 
+
 // helper: converts imported image URLs to Base64 for pdfMake
 const toDataURL = (url) => {
   return new Promise((resolve, reject) => {
@@ -263,16 +264,16 @@ export const CrfPdfWithDetails = async (val, reqDetails, dataa) => {
                 table: {
                   headerRows: 1,
                   body: [
-                    [{ text: 'Signature', fontSize: 9 },
-                    { image: 'mdsign', alignment: 'center', fit: [50, 75] }]
+                    [
+                      { image: 'mdsign', alignment: 'center', fit: [50, 75] }]
                   ]
                 },
                 layout: 'noBorders'
               },
               ''
             ],
-            [{ text: 'User', bold: true, fontSize: 10 }, { text: md_user, fontSize: 11 }, '', ''],
-            [{ text: 'Date', bold: true, fontSize: 10 }, { text: mddate, fontSize: 11 }, '', '']
+            [{ text: 'Name', bold: true, fontSize: 10 }, { text: md_user, fontSize: 11 }, '', ''],
+            [{ text: 'Date And Time', bold: true, fontSize: 10 }, { text: mddate, fontSize: 11 }, '', '']
           ]
         }
       },
@@ -285,7 +286,7 @@ export const CrfPdfWithDetails = async (val, reqDetails, dataa) => {
               {
                 colSpan: 4,
                 text: [
-                  { text: 'Executive Director Status: ', bold: true, fontSize: 10 },
+                  { text: 'Executive Director Status: ', bold: true, fontSize: 10, },
                   { text: ed_approve ? ' ' + ed : 'Not Updated', fontSize: 11 }
                 ]
               },
@@ -301,16 +302,16 @@ export const CrfPdfWithDetails = async (val, reqDetails, dataa) => {
                 table: {
                   headerRows: 1,
                   body: [
-                    [{ text: 'Signature', fontSize: 9 },
-                    { image: 'edsign', alignment: 'center', fit: [50, 75] }]
+                    [
+                      { image: 'edsign', alignment: 'center', fit: [100, 175] }]
                   ]
                 },
                 layout: 'noBorders'
               },
               ''
             ],
-            [{ text: 'User', bold: true, fontSize: 10 }, { text: ed_user, fontSize: 11 }, '', ''],
-            [{ text: 'Date', bold: true, fontSize: 10 }, { text: eddate, fontSize: 11 }, '', '']
+            [{ text: 'Name', bold: true, fontSize: 10 }, { text: ed_user, fontSize: 11 }, '', ''],
+            [{ text: 'Date And Time', bold: true, fontSize: 10 }, { text: eddate, fontSize: 11 }, '', '']
           ]
         }
       }

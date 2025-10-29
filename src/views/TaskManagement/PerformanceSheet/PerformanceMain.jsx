@@ -579,8 +579,8 @@ const PerformanceMain = () => {
   }, [employee]);
 
   return (
-    <Paper sx={{ p: .5, }} >
-      <Box sx={{ bgcolor: ' #DFE3ED', height: '95%', p: .5 }}>
+    <Paper sx={{ width: "100%" }} >
+      <Box sx={{ bgcolor: ' #DFE3ED', p: .5 }}>
         <Box sx={{ bgcolor: 'white', height: '100%', flex: 1, pb: 1 }}>
           <Box sx={{ flex: 1, display: 'flex', py: 1, }}>
             <Box sx={{ flex: 1, display: 'flex', pl: 2, pt: 1 }}>
