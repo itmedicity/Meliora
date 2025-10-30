@@ -46,7 +46,8 @@ export const tm_one = [
 export const crm_one = [
   { to: '/Home/userAckldged', name: 'User Acknowledged CRF', slno: 216 },
   { to: '/Home/CrfNoBased', name: 'CRF No Based', slno: 215 },
-  { to: '/Home/CrfTatReport', name: 'CRF Tat Reports', slno: 306 }
+  { to: '/Home/CrfTatReport', name: 'CRF Tat Reports', slno: 306 },
+  { to: '/Home/DeliveryMarking_Report', name: 'Delivery Marking Report', slno: 281 },
 
 ]
 
