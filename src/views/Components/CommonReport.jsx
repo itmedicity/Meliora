@@ -17,13 +17,13 @@ const CommonReport = () => {
         square
         sx={{
           height: { xs: 550, sm: 550, md: 550, lg: 558, xl: 850 },
-          p: 0.5,
+          p: 0.5
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'row'
           }}
         >
           {/* Left Side Section Start */}
@@ -32,7 +32,7 @@ const CommonReport = () => {
             sx={{
               backgroundColor: 'lightBlue',
               width: { md: '20%', lg: '20%', xl: '15%' },
-              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 },
+              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 }
             }}
           >
             {/* Top Left Menu Section Start */}
@@ -45,7 +45,7 @@ const CommonReport = () => {
                 flexDirection: 'row',
                 alignItems: 'flex-start',
                 gap: 0.1,
-                p: 0.3,
+                p: 0.3
               }}
             >
               <CusIconButton variant="outlined" size="sm" color="success">
@@ -85,7 +85,7 @@ const CommonReport = () => {
             sx={{
               backgroundColor: 'lightGrey',
               width: { md: '80%', lg: '80%', xl: '85%' },
-              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 },
+              height: { xs: 540, sm: 540, md: 540, lg: 548, xl: 840 }
             }}
           >
             {/* Rigth Side Menu  */}
@@ -100,7 +100,7 @@ const CommonReport = () => {
                 gap: 0.1,
                 p: 0.3,
                 borderLeft: 2,
-                borderColor: '#d3d3d3',
+                borderColor: '#d3d3d3'
               }}
             >
               <CustomeToolTip title="Close" placement="bottom">
@@ -122,7 +122,7 @@ const CommonReport = () => {
             <Box
               sx={{
                 borderLeft: 2,
-                borderColor: '#d3d3d3',
+                borderColor: '#d3d3d3'
               }}
             >
               {/* Table Component */}

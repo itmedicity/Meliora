@@ -1,15 +1,26 @@
 import { CssBaseline } from '@mui/material'
-import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React, { Suspense } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import BackDrop from './views/Components/BackDrop'
 import Protected from './views/Protected/Protected'
-import {
-  QueryClientProvider,
-  QueryClient
-} from 'react-query'
+// import { QueryClientProvider, QueryClient } from 'react-query'
 
-require('dotenv').config()
+import NotFound from './NotFound/NotFound'
+
+import '@fontsource/roboto' // Defaults to weight 400
+import '@fontsource/roboto/100.css' // Thin
+import '@fontsource/roboto/200.css' // Thin
+import '@fontsource/roboto/300.css' // Thin
+import '@fontsource/roboto/400.css' // Regular
+import '@fontsource/roboto/500.css' // Medium
+import '@fontsource/roboto/600.css' // Bold
+import '@fontsource/roboto/700.css' // Bold
+import '@fontsource/roboto/800.css' // Bold
+import '@fontsource/roboto/900.css' // Bold
+import { ToastContainer } from 'react-toastify'
+import ErrorPage from './NotFound/ErrorPage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
 
@@ -21,19 +32,19 @@ const Login = React.lazy(() => import('./views/pages/login/Login'))
 
 function App() {
   return (
-    <BrowserRouter basename='/'  >
-      <QueryClientProvider client={queryClient} >
-        <CssBaseline />
-        <React.Suspense fallback={<BackDrop />}>
-          <Switch>
-            <Route exact path="/" name="Login Page" render={(props) => <Login {...props} />} />
-            <Route path="/Home">
-              <Protected cmp={DefaultLayout} />
-              {/* <Protected /> */}
+    <BrowserRouter basename="/" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <ToastContainer />
+        <Suspense fallback={<BackDrop />}>
+          <Routes>
+            <Route path="/" element={<Login />} errorElement={<ErrorPage />} />
+            <Route element={<Protected />}>
+              <Route path="/Home/*" element={<DefaultLayout />} errorElement={<ErrorPage />} />
             </Route>
-            <Route path="/NotCorect"></Route>
-          </Switch>
-        </React.Suspense>
+            <Route path="*" element={<NotFound />} errorElement={<ErrorPage />} />
+          </Routes>
+        </Suspense>
       </QueryClientProvider>
     </BrowserRouter>
   )

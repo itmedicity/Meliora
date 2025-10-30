@@ -14,8 +14,8 @@ const CustomAgGridMenuSelection = () => {
       checkboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true,
       headerCheckboxSelection: true,
-      resizable: true,
-    },
+      resizable: true
+    }
     // { headerName: "Mobile", field: 'mobile' },
     // { headerName: "Gender ", field: 'gender' },
   ])
@@ -30,7 +30,7 @@ const CustomAgGridMenuSelection = () => {
     { slno: 22, name: 'Ajith', mobile: 9846009616, gender: 'male' },
     { slno: 22, name: 'Ajith', mobile: 9846009616, gender: 'male' },
     { slno: 22, name: 'Ajith', mobile: 9846009616, gender: 'male' },
-    { slno: 22, name: 'Ajith', mobile: 9846009616, gender: 'male' },
+    { slno: 22, name: 'Ajith', mobile: 9846009616, gender: 'male' }
   ]
 
   const rowHeight = 25
@@ -43,13 +43,13 @@ const CustomAgGridMenuSelection = () => {
   }
 
   let gridApi
-  const onGridReady = (params) => {
+  const onGridReady = params => {
     gridApi = params.api
     gridApi.sizeColumnsToFit()
   }
 
-  const onSelectionChanged = (event) => {
-    console.log(event.api.getSelectedRows())
+  const onSelectionChanged = event => {
+    // console.log(event.api.getSelectedRows())
   }
 
   const rowStyle = {
@@ -63,8 +63,8 @@ const CustomAgGridMenuSelection = () => {
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+      '"Segoe UI Symbol"'
+    ].join(',')
   }
 
   return (
@@ -74,7 +74,7 @@ const CustomAgGridMenuSelection = () => {
           className="ag-theme-material ListItemScrol"
           sx={{
             height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
-            width: '100%',
+            width: '100%'
           }}
         >
           <AgGridReact

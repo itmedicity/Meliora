@@ -26,10 +26,8 @@ export const cm_setting_two = [
 ]
 
 export const cm_setting_three = [
-    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 254 },
-    { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 },
-
-    // { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
+    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
+    { to: '/Home/HoldReason', name: 'Hold Reasons', slno: 254 },
 ]
 
 
@@ -38,15 +36,13 @@ export const crm_setting_one = [
     { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
     { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
     { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
-    { to: '/Home/DataCollectionMaster', name: 'Data Collection Master', slno: 271 },
-
 ]
 
 export const crm_setting_two = [
-    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 272 },
+    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
     { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
     { to: '/Home/CrfCommon', name: 'CRF Common Master', slno: 269 },
-    { to: '/Home/DepartmentMapping', name: 'DepartmentMapping', slno: 107 }
+
 ]
 
 export const crm_setting_three = [
@@ -62,7 +58,9 @@ export const am_setting_one = [
     { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
     { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
     { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 },
-    // { to: '/Home/AssetCondemApprovalLevels', name: 'Condemnation Approval Levels', slno: 270 },
+    { to: '/Home/AssetCondemApprovalLevels', name: 'Condemnation Approval Levels', slno: 312 },
+    { to: '/Home/CondemnQuantityUnit', name: 'Scrap Quantity Unit', slno: 313 },
+    { to: '/Home/ScrapFormLevelApprove', name: 'Scrap Level Approve ', slno: 314 },
 ]
 
 export const am_setting_two = [
@@ -70,6 +68,8 @@ export const am_setting_two = [
     { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
     { to: '/Home/AssetModel', name: 'Model', slno: 138 },
     { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 },
+    { to: '/Home/CondemnationCategoryMaster', name: 'Scrap Category ', slno: 315 },
+    { to: '/Home/CondemnSupplierRate', name: 'Scrap Supplier Rate', slno: 316 },
 ]
 
 export const am_setting_three = [
@@ -77,6 +77,8 @@ export const am_setting_three = [
     { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
     { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 },
     { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
+    { to: '/Home/CondemQualityMaster', name: 'Scrap Quality ', slno: 317 },
+    { to: '/Home/CondemnationScarpYard', name: 'Scarp Yard', slno: 318 },
 ]
 
 //Room Master Menu
@@ -156,19 +158,27 @@ export const userManagement_two = [
 export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
     { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
+    { to: '/Home/MelioraHodInchargeMaster', name: 'Meliora Hod Incharge Authorization', slno: 290 }
 ]
 
 //TaskManagement Menu
 export const taskManagement_one = [
     { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
+
+
 ]
 
+//Ams Menu
 export const ams_one = [
     { to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }
 ]
 
+export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
 
+export const Work_two = [
 
+    { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
+]
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },

@@ -5,15 +5,12 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import DashRoomAssetList from './DashRoomAssetList'
 
-
 const DashBoardRoomAsset = ({ campusName, buildblockname, floorName, roomName, setAssetList, blockName, RoomNo }) => {
-
   const [subroomArry, setSubroomarry] = useState([])
   const [RoomAssetList, setRoomAsset] = useState([])
 
   useEffect(() => {
-
-    const getSubRoom = async (RoomNo) => {
+    const getSubRoom = async RoomNo => {
       const result = await axioslogin.get(`/getDashboardData/getSubRoom/${RoomNo}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -23,7 +20,7 @@ const DashBoardRoomAsset = ({ campusName, buildblockname, floorName, roomName, s
       }
     }
 
-    const getRoomAsset = async (RoomNo) => {
+    const getRoomAsset = async RoomNo => {
       const result = await axioslogin.get(`/getDashboardData/getRoomAsset/${RoomNo}`)
       const { success, data } = result.data
       if (success === 2) {
@@ -50,63 +47,100 @@ const DashBoardRoomAsset = ({ campusName, buildblockname, floorName, roomName, s
     getRoomAsset(RoomNo)
   }, [RoomNo])
 
-
   const CloseRoom = useCallback(() => {
     setAssetList(0)
   }, [setAssetList])
 
-
   return (
     <CardMasterClose
-      title={campusName + '/' + buildblockname?.toLowerCase() + '/' + floorName?.toLowerCase() + '/' + blockName?.toLowerCase() + '/' + roomName?.toLowerCase()}
+      title={
+        campusName +
+        '/' +
+        buildblockname?.toLowerCase() +
+        '/' +
+        floorName?.toLowerCase() +
+        '/' +
+        blockName?.toLowerCase() +
+        '/' +
+        roomName?.toLowerCase()
+      }
       close={CloseRoom}
     >
-      <Box sx={{ width: '100%', margin: 'auto', }}>
+      <Box sx={{ width: '100%', margin: 'auto' }}>
         <Paper sx={{ overflow: 'hidden', p: 0.5 }} variant="outlined">
           <Box
             sx={{
-              backgroundColor: 'ButtonFace', textTransform: 'capitalize', fontFamily: 'cursive',
-              fontSize: 15, textAlign: 'left', pl: 2, border: 0.2,
-              borderColor: 'transparent', borderBottomColor: 'lightgrey',
-            }}>
+              backgroundColor: 'ButtonFace',
+              textTransform: 'capitalize',
+              fontFamily: 'cursive',
+              fontSize: 15,
+              textAlign: 'left',
+              pl: 2,
+              border: 0.2,
+              borderColor: 'transparent',
+              borderBottomColor: 'lightgrey'
+            }}
+          >
             Sub Rooms
           </Box>
-          {
-            subroomArry && subroomArry.map((val) => {
-              return <Box
-                key={val.subroom_slno}
-                sx={{
-                  display: 'flex', margin: 'auto', minHeight: 60, maxHeight: 80,
-                  width: { md: '30%', sm: '25%', xs: '16%', lg: '12%' },
-                  border: 0.5, backgroundColor: '#8486F3', m: 0.4, borderRadius: 2,
-                  borderColor: 'transparent', p: 0.5, alignContent: 'space-between',
-                }}>
+          {subroomArry &&
+            subroomArry.map(val => {
+              return (
                 <Box
+                  key={val.subroom_slno}
                   sx={{
-                    display: 'flex', flex: 2, margin: 'auto', fontSize: 12.5, fontSmooth: 10, fontWeight: 600,
-                    justifyContent: 'center'
-                  }}>
-                  {val.subroom_name?.toUpperCase()}
+                    display: 'flex',
+                    margin: 'auto',
+                    minHeight: 60,
+                    maxHeight: 80,
+                    width: { md: '30%', sm: '25%', xs: '16%', lg: '12%' },
+                    border: 0.5,
+                    backgroundColor: 'var(--royal-purple-200)',
+                    m: 0.4,
+                    borderRadius: 2,
+                    borderColor: 'transparent',
+                    p: 0.5,
+                    alignContent: 'space-between'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flex: 2,
+                      margin: 'auto',
+                      fontSize: 12.5,
+                      fontSmooth: 10,
+                      fontWeight: 600,
+                      justifyContent: 'center'
+                    }}
+                  >
+                    {val.subroom_name?.toUpperCase()}
+                  </Box>
                 </Box>
-
-              </Box>
-
+              )
             })}
         </Paper>
 
         <Paper sx={{ overflow: 'hidden', pt: 1 }} variant="outlined">
           <Box
             sx={{
-              backgroundColor: 'ButtonFace', textTransform: 'capitalize', fontFamily: 'cursive',
-              fontSize: 15, textAlign: 'left', pl: 2, border: 0.2,
-              borderColor: 'transparent', borderBottomColor: 'lightgrey',
-            }}>
+              backgroundColor: 'ButtonFace',
+              textTransform: 'capitalize',
+              fontFamily: 'cursive',
+              fontSize: 15,
+              textAlign: 'left',
+              pl: 2,
+              border: 0.2,
+              borderColor: 'transparent',
+              borderBottomColor: 'lightgrey'
+            }}
+          >
             Asset Details
           </Box>
           <DashRoomAssetList RoomAssetList={RoomAssetList} />
         </Paper>
       </Box>
-    </CardMasterClose >
+    </CardMasterClose>
   )
 }
 export default memo(DashBoardRoomAsset)

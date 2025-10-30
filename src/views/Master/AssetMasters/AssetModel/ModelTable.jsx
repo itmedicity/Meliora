@@ -8,13 +8,13 @@ const ModelTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
   const [column] = useState([
     {
-      headerName: 'Action', minWidth: 10,
-      cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
+      headerName: 'Action',
+      minWidth: 10,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'model_slno', minWidth: 70 },
     { headerName: 'Model', field: 'model_name', minWidth: 70 },
-    { headerName: 'Status', field: 'status', minWidth: 70 },
-
+    { headerName: 'Status', field: 'status', minWidth: 70 }
   ])
   useEffect(() => {
     const setModel = async () => {

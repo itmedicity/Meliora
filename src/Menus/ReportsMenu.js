@@ -1,15 +1,11 @@
 export const diet_one = [
-    { to: '/Home/Report/Diet', name: 'Diet List Diet Wise', slno: 63 },
-    { to: '/Home/Report/Monthly', name: 'Monthly Report', slno: 73 },
+  { to: '/Home/', name: 'Diet List Diet Wise', slno: 63 },
+  { to: '/Home/Report/Monthly', name: 'Monthly Report', slno: 73 }
 ]
-export const diet_two = [
-    { to: '/Home/Report/NurseStation', name: 'Diet List Nursing Station Wise', slno: 64 },
+export const diet_two = [{ to: '/Home/Report/NurseStation', name: 'Diet List Nursing Station Wise', slno: 64 }]
+export const diet_three = [{ to: '/Home/Report/Pateintwise', name: 'Patient Wise Report', slno: 65 }]
 
-]
-export const diet_three = [
-    { to: '/Home/Report/Pateintwise', name: 'Patient Wise Report', slno: 65 },
 
-]
 
 export const cms_one = [
     { to: '/Home/CmsReportDeptWise', name: 'All Complaint Dept Wise', slno: 114 },
@@ -38,35 +34,35 @@ export const cms_three = [
 ]
 
 export const am_one = [
-    { to: '/Home/AssetItemReport', name: 'Asset Item Report', slno: 166 },
-    { to: '/Home/DeptSecBasedItemReport', name: 'Department Section Based Item Report', slno: 220 },
+  { to: '/Home/AssetItemReport', name: 'Asset Item Report', slno: 166 },
+  { to: '/Home/DeptSecBasedItemReport', name: 'Department Section Based Item Report', slno: 220 }
 ]
 
-
 export const tm_one = [
-    { to: '/Home/TMdepartmentReport', name: 'Department wise Report', slno: 183 },
-    { to: '/Home/TMEmployeeReport', name: 'Employee wise Report', slno: 184 },
-
-
+  { to: '/Home/TMdepartmentReport', name: 'Department wise Report', slno: 183 },
+  { to: '/Home/TMEmployeeReport', name: 'Employee wise Report', slno: 184 }
 ]
 
 export const crm_one = [
-    { to: '/Home/userAckldged', name: 'User Acknowledged CRF', slno: 216 },
-    { to: '/Home/CrfNoBased', name: 'CRF No Based', slno: 215 },
-    { to: '/Home/DeliveryMarking_Report', name: 'Delivery Marking Report', slno: 281 },
+  { to: '/Home/userAckldged', name: 'User Acknowledged CRF', slno: 216 },
+  { to: '/Home/CrfNoBased', name: 'CRF No Based', slno: 215 },
+  { to: '/Home/CrfTatReport', name: 'CRF Tat Reports', slno: 306 }
 
 ]
 
 export const crm_two = [
-    { to: '/Home/userNotAckldged', name: 'User Not Acknowledged CRF', slno: 219 },
-    { to: '/Home/purchaseCRFReport', name: 'CRF for Puchase', slno: 221 },
+  { to: '/Home/userNotAckldged', name: 'User Not Acknowledged CRF', slno: 219 },
+  { to: '/Home/purchaseCRFReport', name: 'CRF for Puchase', slno: 221 },
+  { to: '/Home/CrfApprovalPending', name: 'CRF Approval Pending', slno: 307 }
+
 ]
 
 export const crm_three = [
-    { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
-    { to: '/Home/AllCRFReportWithPO', name: 'CRF Report With PO', slno: 227 },
-]
-export const dc_one = [
-    { to: '/Home/DcReport', name: 'Daily Census Report', slno: 276 },
+  { to: '/Home/AllCRFReport', name: 'CRF Report', slno: 222 },
+  { to: '/Home/AllCRFReportWithPO', name: 'CRF Report With PO', slno: 227 },
+  { to: '/Home/PendingPo', name: 'CRF Pending Po', slno: 308 }
+
+
 ]
 
+export const dc_one = [{ to: '/Home/DcReport', name: 'Daily Census Report', slno: 276 }]

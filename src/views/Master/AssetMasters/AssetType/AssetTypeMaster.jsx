@@ -7,36 +7,37 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const AssetTypeMaster = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-     // Get login user emp_id
-     const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  // Get login user emp_id
+  const id = useSelector(state => {
+    return state.LoginUserData.empid
+  })
   const [assetType, setAssetType] = useState({
     asset_type_slno: '',
     asset_type_name: '',
-    asset_type_status: false,
+    asset_type_status: false
   })
   const { asset_type_slno, asset_type_name, asset_type_status } = assetType
 
   const updateAssetType = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setAssetType({ ...assetType, [e.target.name]: value })
     },
-    [assetType],
+    [assetType]
   )
   const reset = () => {
     const frmdata = {
       asset_type_slno: '',
       asset_type_name: '',
-      asset_type_status: false,
+      asset_type_status: false
     }
     setAssetType(frmdata)
     setCount(0)
@@ -48,7 +49,7 @@ const AssetTypeMaster = () => {
       asset_type_status: asset_type_status === true ? 1 : 0,
       create_user: id
     }
-  }, [asset_type_name, asset_type_status,id])
+  }, [asset_type_name, asset_type_status, id])
   const patchdata = useMemo(() => {
     return {
       asset_type_slno: asset_type_slno,
@@ -56,11 +57,11 @@ const AssetTypeMaster = () => {
       asset_type_status: asset_type_status === true ? 1 : 0,
       edit_user: id
     }
-  }, [asset_type_slno, asset_type_name, asset_type_status,id])
+  }, [asset_type_slno, asset_type_name, asset_type_status, id])
   const sumbitAssetType = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertAssetType = async (postdata) => {
+      const InsertAssetType = async postdata => {
         const result = await axioslogin.post('/assettypee/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -72,8 +73,8 @@ const AssetTypeMaster = () => {
         } else {
           infoNotify(message)
         }
-      }    
-      const AssetTypeUpdate = async (patchdata) => {
+      }
+      const AssetTypeUpdate = async patchdata => {
         const result = await axioslogin.patch('/assettypee/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -88,18 +89,17 @@ const AssetTypeMaster = () => {
       }
       if (value === 0) {
         if (asset_type_name !== '') {
-        InsertAssetType(postdata)
+          InsertAssetType(postdata)
+        } else {
+          infoNotify('Please Enter Asset Type')
+        }
       } else {
-        infoNotify("Please Enter Asset Type") 
-      }
-      }
-      else {
         AssetTypeUpdate(patchdata)
       }
     },
-    [postdata,value,patchdata,count,asset_type_name],
+    [postdata, value, patchdata, count, asset_type_name]
   )
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
@@ -107,33 +107,28 @@ const AssetTypeMaster = () => {
     const frmdata = {
       asset_type_slno: asset_type_slno,
       asset_type_name: asset_type_name,
-      asset_type_status: asset_type_status === 1 ? true : false,
+      asset_type_status: asset_type_status === 1 ? true : false
     }
     setAssetType(frmdata)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
       asset_type_slno: '',
       asset_type_name: '',
-      asset_type_status: false,
+      asset_type_status: false
     }
     setAssetType(frmdata)
-    setValue(0)     
+    setValue(0)
   }, [setAssetType])
   return (
-    <CardMaster
-      title="Asset Master"
-      submit={sumbitAssetType}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Asset Master" submit={sumbitAssetType} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>
-            <Box >
+            <Box>
               <TextFieldCustom
                 placeholder="Asset Type"
                 type="text"

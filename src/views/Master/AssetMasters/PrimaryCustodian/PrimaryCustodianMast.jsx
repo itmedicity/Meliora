@@ -10,35 +10,36 @@ import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { useMemo } from 'react'
 import PrimaryTable from './PrimaryTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const PrimaryCustodianMast = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const history = useHistory()
-     // Get login user emp_id
-     const id = useSelector((state) => {
-      return state.LoginUserData.empid
-     })
+  const history = useNavigate()
+  // Get login user emp_id
+  const id = useSelector(state => {
+    return state.LoginUserData.empid
+  })
   const [primary, setPrimary] = useState({
     primary_slno: '',
     primary_name: '',
-    primary_status: false,
+    primary_status: false
   })
   const { primary_slno, primary_name, primary_status } = primary
   const UpdatePrimary = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setPrimary({ ...primary, [e.target.name]: value })
     },
-    [primary],
+    [primary]
   )
   const reset = () => {
     const frmdata = {
       primary_slno: '',
       primary_name: '',
-      primary_status: false,
+      primary_status: false
     }
     setPrimary(frmdata)
     setCount(0)
@@ -50,7 +51,7 @@ const PrimaryCustodianMast = () => {
       primary_status: primary_status === true ? 1 : 0,
       create_user: id
     }
-  }, [primary_name, primary_status,id])
+  }, [primary_name, primary_status, id])
   const patchdata = useMemo(() => {
     return {
       primary_slno: primary_slno,
@@ -58,23 +59,23 @@ const PrimaryCustodianMast = () => {
       primary_status: primary_status === true ? 1 : 0,
       edit_user: id
     }
-  }, [primary_slno, primary_name, primary_status,id])
-  const rowSelect = useCallback((params) => {
+  }, [primary_slno, primary_name, primary_status, id])
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { primary_slno, primary_name, primary_status } = data[0]
     const frmdata = {
       primary_slno: primary_slno,
       primary_name: primary_name,
-      primary_status: primary_status === 1 ? true : false,
+      primary_status: primary_status === 1 ? true : false
     }
     setPrimary(frmdata)
   }, [])
   const submitPrimary = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertPrimary = async (postdata) => {
+      const InsertPrimary = async postdata => {
         const result = await axioslogin.post('/primaryCustodian/insert', postdata)
 
         const { message, success } = result.data
@@ -88,7 +89,7 @@ const PrimaryCustodianMast = () => {
           infoNotify(message)
         }
       }
-      const PrimaryUpdate = async (patchdata) => {
+      const PrimaryUpdate = async patchdata => {
         const result = await axioslogin.patch('/primaryCustodian/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -105,37 +106,29 @@ const PrimaryCustodianMast = () => {
       if (value === 0) {
         if (primary_name !== '') {
           InsertPrimary(postdata)
-          
+        } else {
+          infoNotify('Please Enter Primary Custodian')
         }
-        else {
-          infoNotify("Please Enter Primary Custodian")
-        }
-      }
-        else {
+      } else {
         PrimaryUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count,primary_name],
+    [postdata, value, patchdata, count, primary_name]
   )
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
       primary_slno: '',
       primary_name: '',
-      primary_status: false,
+      primary_status: false
     }
     setPrimary(frmdata)
     setValue(0)
   }, [setPrimary])
   return (
-    <CardMaster
-      title="Primary Custodian"
-      submit={submitPrimary}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Primary Custodian" submit={submitPrimary} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

@@ -1,5 +1,5 @@
-import { Box, CssVarsProvider, Tooltip } from '@mui/joy'
-import { Paper } from '@mui/material';
+import { Box, ThemeProvider, Tooltip } from '@mui/joy'
+import { createTheme, Paper } from '@mui/material';
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent';
 import GridViewIcon from '@mui/icons-material/GridView';
@@ -8,12 +8,12 @@ import {
     getAllAntibioticCount, getRestrictedAntibioticCount, getRestrictedAntibiotics, getTotRestrictedAntibioticCount,
     getTotUnRestrictedAntibioticCount
 } from 'src/api/AntibioticApi';
-import { useQuery } from 'react-query';
 import { BarChart, } from '@mui/x-charts';
 import AntibioticPieChart from './AntibioticPieChart';
 import FilterSelector from './FilterSelector';
 import { endOfMonth, endOfYear, format, startOfMonth, startOfYear } from 'date-fns';
 import AmsDashboardTile from './AmsDashboardTile';
+import { useQuery } from '@tanstack/react-query';
 
 
 const DashboardMain = () => {
@@ -235,10 +235,10 @@ const DashboardMain = () => {
             setTotUnResAntibiotic(0);
         }
     }, [unResSuccess, UnRestrictedAntibioticCount]);
-
+    const theme = createTheme();
     return (
-        <Paper sx={{ borderRadius: 0, height: '91vh' }}>
-            <CssVarsProvider>
+        <Paper sx={{ flexGrow: 1, borderRadius: 0, height: '91vh' }}>
+            <ThemeProvider theme={theme}>
                 <Box sx={{
                     flex: 1, display: 'flex', borderBottom: 1, borderColor: '#D0D0D0',
                     p: 1, gap: .5
@@ -461,7 +461,7 @@ const DashboardMain = () => {
                         ))}
                     </Box>
                 </Box>
-            </CssVarsProvider>
+            </ThemeProvider>
         </Paper>
     )
 }

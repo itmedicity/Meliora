@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  IconButton,
-  Grid,
-} from '@mui/material'
+import { Card, CardContent, CardHeader, IconButton, Grid } from '@mui/material'
 import React, { Fragment } from 'react'
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined'
 import CusCheckBox from './CusCheckBox'
@@ -24,7 +18,7 @@ const CusCard = () => {
         sx={{
           my: 0.8,
           borderRadius: 0,
-          boxShadow: 3,
+          boxShadow: 3
         }}
       >
         <CardHeader
@@ -32,10 +26,10 @@ const CusCard = () => {
           action={
             <IconButton
               aria-label="bookmark Bahamas Islands"
-            // variant="plain"
-            // color="neutral"
-            // size="sm"
-            // sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
+              // variant="plain"
+              // color="neutral"
+              // size="sm"
+              // sx={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}
             >
               <BookmarkAdd />
             </IconButton>
@@ -46,8 +40,8 @@ const CusCard = () => {
               sm: 'lightBlue',
               md: 'lightgrey',
               lg: 'lightYellow',
-              xl: 'lightDark',
-            },
+              xl: 'lightDark'
+            }
           }}
         />
         <CardContent>
@@ -59,51 +53,36 @@ const CusCard = () => {
               <UnCheckedIcon label="CheckBox1" color="success" size="md" variant="outlined" />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-              <FoucuCheckBox
-                label="Focus with Label"
-                color="success"
-                size="md"
-                variant="outlined"
-              />
+              <FoucuCheckBox label="Focus with Label" color="success" size="md" variant="outlined" />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-              <FoucCheckBocSecondary
-                label="Focus Box Only"
-                color="success"
-                size="md"
-                variant="outlined"
-              />
+              <FoucCheckBocSecondary label="Focus Box Only" color="success" size="md" variant="outlined" />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-              <OverRelayCheckBox
-                label="OverRelay Checkbox"
-                color="success"
-                size="lg"
-                variant="outlined"
-              />
+              <OverRelayCheckBox label="OverRelay Checkbox" color="success" size="lg" variant="outlined" />
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-              <TextFieldCustom style={{ mx: 0.500 }} />
+              <TextFieldCustom style={{ mx: 0.5 }} />
             </Grid>
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}  >
-              <TextFieldCustom style={{ mx: 0.500 }} />
+            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+              <TextFieldCustom style={{ mx: 0.5 }} />
               {/* <CustomMaterialTable /> */}
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} md={3} lg={12} xl={12} sx={{ my: 1 }} >
+          <Grid item xs={12} sm={6} md={3} lg={12} xl={12} sx={{ my: 1 }}>
             <TextFieldCustom />
           </Grid>
-          <Grid item xs={12} sm={6} md={3} lg={12} xl={12} sx={{ display: "flex", flexDirection: "row" }} >
+          <Grid item xs={12} sm={6} md={3} lg={12} xl={12} sx={{ display: 'flex', flexDirection: 'row' }}>
             <Grid item lg={3} xl={3}>
-              <CusIconButton size="sm" variant="outlined" >
+              <CusIconButton size="sm" variant="outlined">
                 <GitHubIcon />
               </CusIconButton>
               <CusIconButton size="sm" variant="outlined">
                 <FavoriteBorder />
               </CusIconButton>
             </Grid>
-            <Grid item lg={3} xl={3} >
-              <CusIconButton size="sm" variant="outlined" >
+            <Grid item lg={3} xl={3}>
+              <CusIconButton size="sm" variant="outlined">
                 <GitHubIcon />
               </CusIconButton>
               <CusIconButton size="sm" variant="outlined">

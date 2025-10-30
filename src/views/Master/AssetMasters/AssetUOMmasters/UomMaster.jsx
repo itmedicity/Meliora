@@ -9,29 +9,30 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import UomTable from './UomTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const UomMaster = () => {
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
-  const history = useHistory()
+  const history = useNavigate()
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
   const [uom, setUom] = useState({
     uom_slno: '',
     uom_name: '',
-    uom_status: false,
+    uom_status: false
   })
   const { uom_slno, uom_name, uom_status } = uom
   const UpdateUom = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setUom({ ...uom, [e.target.name]: value })
     },
-    [uom],
+    [uom]
   )
   const postdata = useMemo(() => {
     return {
@@ -46,17 +47,16 @@ const UomMaster = () => {
       uom_name: uom_name,
       uom_status: uom_status === true ? 1 : 0,
       edit_user: id
-
     }
   }, [uom_slno, uom_name, uom_status, id])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
     const { uom_slno, uom_name, uom_status } = data[0]
     const frmdata = {
       uom_slno: uom_slno,
       uom_name: uom_name,
-      uom_status: uom_status === 1 ? true : false,
+      uom_status: uom_status === 1 ? true : false
     }
     setUom(frmdata)
   }, [])
@@ -64,17 +64,17 @@ const UomMaster = () => {
     const frmdata = {
       uom_slno: '',
       uom_name: '',
-      uom_status: false,
+      uom_status: false
     }
     setUom(frmdata)
     setCount(0)
     setValue(0)
   }
   const submitUom = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
 
-      const InsertUom = async (postdata) => {
+      const InsertUom = async postdata => {
         const result = await axioslogin.post('/uom/insert', postdata)
 
         const { message, success } = result.data
@@ -88,7 +88,7 @@ const UomMaster = () => {
           infoNotify(message)
         }
       }
-      const UomUpdate = async (patchdata) => {
+      const UomUpdate = async patchdata => {
         const result = await axioslogin.patch('/uom/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -105,37 +105,30 @@ const UomMaster = () => {
       if (value === 0) {
         if (uom_name !== '') {
           InsertUom(postdata)
+        } else {
+          infoNotify('Please Enter Uinit of Measurement')
         }
-        else {
-          infoNotify("Please Enter Uinit of Measurement")
-        }
-      }
-      else {
+      } else {
         UomUpdate(patchdata)
       }
     },
-    [postdata, value, patchdata, count, uom_name],
+    [postdata, value, patchdata, count, uom_name]
   )
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
   const refreshWindow = useCallback(() => {
     const frmdata = {
       uom_slno: '',
       uom_name: '',
-      uom_status: false,
+      uom_status: false
     }
     setUom(frmdata)
     setValue(0)
   }, [setUom])
   return (
-    <CardMaster
-      title="Unit Of Measurement"
-      submit={submitUom}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Unit Of Measurement" submit={submitUom} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <Box sx={{ width: '30%', p: 1 }}>
           <Box>

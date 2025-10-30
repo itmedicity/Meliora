@@ -15,18 +15,18 @@ const SpareSErviceList = () => {
   const [count, setCount] = useState(0)
   const combinedList = [...serviceList, ...assetServiceListt]
 
-  const empsecid = useSelector((state) => {
+  const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
 
-  const ServiceDetailsView = useCallback((val) => {
+  const ServiceDetailsView = useCallback(val => {
     setFlag(1)
     setOpen(true)
     setserviceDetails(val)
   }, [])
 
   useEffect(() => {
-    const getServiceList = async (empsecid) => {
+    const getServiceList = async empsecid => {
       const result = await axioslogin.get(`/SpareCondemService/ServiceList/${empsecid}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -39,7 +39,7 @@ const SpareSErviceList = () => {
   }, [empsecid, count])
 
   useEffect(() => {
-    const getAssetServiceList = async (empsecid) => {
+    const getAssetServiceList = async empsecid => {
       const result = await axioslogin.get(`/SpareCondemService/AssetServiceList/${empsecid}`)
       const { success, data } = result.data
       if (success === 1) {
@@ -55,21 +55,21 @@ const SpareSErviceList = () => {
     ...new Map(
       [
         ...serviceList
-          .map((item) => ({
+          .map(item => ({
             holdId: item.spare_service_hold,
             reason: item.cm_hold_reason,
-            holdColor: item.hold_color,
+            holdColor: item.hold_color
           }))
-          .filter((item) => item.holdId && item.reason && item.holdColor),
+          .filter(item => item.holdId && item.reason && item.holdColor),
         ...assetServiceListt
-          .map((item) => ({
+          .map(item => ({
             holdId: item.asset_item_service_hold,
             reason: item.cm_hold_reason,
-            holdColor: item.hold_color,
+            holdColor: item.hold_color
           }))
-          .filter((item) => item.holdId && item.reason && item.holdColor),
-      ].map((item) => [item.holdId, item]),
-    ).values(),
+          .filter(item => item.holdId && item.reason && item.holdColor)
+      ].map(item => [item.holdId, item])
+    ).values()
   ]
 
   return (
@@ -77,8 +77,7 @@ const SpareSErviceList = () => {
       sx={{
         flex: 1,
         border: 2,
-        borderColor: '#F0F3F5',
-        // height: '90vh',
+        borderColor: '#F0F3F5'
       }}
     >
       <Box
@@ -89,7 +88,7 @@ const SpareSErviceList = () => {
           color: 'grey',
           fontWeight: 550,
           py: 0.5,
-          pl: 2,
+          pl: 2
         }}
       >
         Service List
@@ -126,26 +125,18 @@ const SpareSErviceList = () => {
                   return (
                     <tr key={index} style={{ background: val.hold_color }}>
                       <td style={{ textAlign: 'center' }}>{index + 1}</td>
-
                       <td style={{ textAlign: 'center' }}>
                         <BuildCircleIcon
                           sx={{ color: '#4C5270', cursor: 'pointer' }}
                           onClick={() => ServiceDetailsView(val)}
                         />
                       </td>
-                      <td style={{ textAlign: 'center' }}>
-                        {val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}
-                      </td>
+                      <td style={{ textAlign: 'center' }}>{val.spare_asset_no !== undefined ? 'Spare' : 'Asset'}</td>
                       <td style={{ textAlign: 'center' }}>
                         {isServiceItem
-                          ? `${val.spare_asset_no}/${val.spare_asset_no_only
-                            .toString()
-                            .padStart(6, '0')}`
-                          : `${val.item_asset_no}/${val.item_asset_no_only
-                            .toString()
-                            .padStart(6, '0')}`}
+                          ? `${val.spare_asset_no}/${val.spare_asset_no_only.toString().padStart(6, '0')}`
+                          : `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`}
                       </td>
-
                       <td style={{ textAlign: 'center' }}>{val.am_manufacture_no}</td>
                       <td style={{ textAlign: 'center' }}>{val.category_name}</td>
                       <td style={{ textAlign: 'center' }}>{val.item_name}</td>
@@ -168,7 +159,7 @@ const SpareSErviceList = () => {
             fontWeight: 800,
             fontSize: 25,
             color: 'lightgrey',
-            height: '100%',
+            height: '100%'
           }}
         >
           <Typography>Empty Service List</Typography>
@@ -180,7 +171,7 @@ const SpareSErviceList = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         {uniqueHoldReasons.map(({ holdId, reason, holdColor }) => (

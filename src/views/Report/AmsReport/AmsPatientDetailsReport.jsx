@@ -1,8 +1,6 @@
-import { Box, CssVarsProvider, Input, Typography } from '@mui/joy'
+import { Box, Input, Typography } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { warningNotify } from 'src/views/Common/CommonCode'
@@ -13,14 +11,20 @@ import { ActionTyps } from 'src/redux/constants/action.type'
 import { format } from 'date-fns'
 import { axioslogin } from 'src/views/Axios/Axios'
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useNavigate } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close';
 
 const AmsPatientDetailsReport = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
     const dispatch = useDispatch();
-    const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
+
+
+
+    const backtoSetting = useCallback(() => {
+        history('/Home/Reports')
     }, [history])
+
 
     const [exports, setexport] = useState(0)
     const [fromDate, setFromDate] = useState("");
@@ -150,88 +154,106 @@ const AmsPatientDetailsReport = () => {
     ])
 
     return (
-        <CardCloseOnly
-            title='Department Section Based Item Report'
-            close={backToSetting}
-        >
-            <CssVarsProvider>
-                <Box>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        m: 0
-                    }} >
-                        <Box sx={{ display: 'flex', justifyContent: 'center', flex: 1, mt: 2, gap: .5 }}>
-                            <Box sx={{ width: 180 }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }}>Bill Date From</Typography>
-                                <Input
-                                    variant="outlined"
-                                    type='date'
-                                    size='sm'
-                                    value={fromDate || ""}
-                                    name='fromDate'
-                                    onChange={handleFromDateChange}
-                                />
-                            </Box>
-                            <Box sx={{ width: 180 }} >
-                                <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }} >Bill Date To</Typography>
-                                <Input
-                                    variant="outlined"
-                                    type='date'
-                                    size='sm'
-                                    value={toDate || ""}
-                                    name='toDate'
-                                    disabled={!fromDate}
-                                    slotProps={{
-                                        input: {
-                                            min: fromDate,
-                                            max: format(new Date(), "yyyy-MM-dd")
-                                        },
-                                    }}
-                                    onChange={handleToDateChange}
-                                />
-                            </Box>
-                            <Box sx={{ pt: 2.4 }} >
-                                <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
-                                    <SearchOutlinedIcon fontSize='small' sx={{ color: '#145DA0' }} />
-                                </CusIconButton>
-                            </Box>
-                            <Box sx={{ pt: 2.4 }} >
-                                <CusIconButton size="sm" variant="outlined" clickable="true" onClick={Clear} >
-                                    <RefreshIcon fontSize='small' sx={{ color: '#145DA0' }} />
-                                </CusIconButton>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Paper square sx={{ width: { md: '100%', lg: '100%', xl: '100%' }, p: 1 }}>
-                        <Paper
-                            square
-                            sx={{
-                                backgroundColor: '#f0f3f5',
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                flexDirection: 'row-reverse',
-                                gap: 0.1,
-                                p: 0.3,
-                                borderLeft: 2,
-                                borderColor: '#d3d3d3',
-                            }}
-                        >
-                            <Box>
-                                <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
-                                    <DownloadIcon />
-                                </CusIconButton>
-                            </Box>
-                        </Paper>
-                        <AmsReportTable
-                            columnDefs={columnDefs}
-                            tableData={PatientReportData}
-                        />
-                    </Paper>
-
+        <Box sx={{ flexGrow: 1, }} >
+            <Box sx={{ height: 30, bgcolor: '#eff3f6', display: 'flex' }}>
+                <Box sx={{ flex: 1, p: .5 }}>
+                    Antibiotic Prescription Patient Report
                 </Box>
-            </CssVarsProvider>
-        </CardCloseOnly>
+                <CusIconButton
+                    size="sm"
+                    variant="outlined"
+                    color="primary"
+                    clickable="true"
+                    onClick={backtoSetting}
+                >
+                    <CloseIcon fontSize="small" />
+                </CusIconButton>
+            </Box>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                m: 0
+            }} >
+                <Box sx={{ display: 'flex', justifyContent: 'center', flex: 1, mt: 2, gap: .5 }}>
+                    <Box sx={{ width: 180 }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }}>Bill Date From</Typography>
+                        <Input
+                            variant="outlined"
+                            type='date'
+                            size='sm'
+                            value={fromDate || ""}
+                            name='fromDate'
+                            onChange={handleFromDateChange}
+                        />
+                    </Box>
+                    <Box sx={{ width: 180 }} >
+                        <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550, pl: .5 }} >Bill Date To</Typography>
+                        <Input
+                            variant="outlined"
+                            type='date'
+                            size='sm'
+                            value={toDate || ""}
+                            name='toDate'
+                            disabled={!fromDate}
+                            slotProps={{
+                                input: {
+                                    min: fromDate,
+                                    max: format(new Date(), "yyyy-MM-dd")
+                                },
+                            }}
+                            onChange={handleToDateChange}
+                        />
+                    </Box>
+                    <Box sx={{ pt: 2.4 }} >
+                        <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
+                            <SearchOutlinedIcon fontSize='small' sx={{ color: '#145DA0' }} />
+                        </CusIconButton>
+                    </Box>
+                    <Box sx={{ pt: 2.4 }} >
+                        <CusIconButton size="sm" variant="outlined" clickable="true" onClick={Clear} >
+                            <RefreshIcon fontSize='small' sx={{ color: '#145DA0' }} />
+                        </CusIconButton>
+                    </Box>
+                </Box>
+            </Box>
+            <Paper square sx={{ width: { md: '100%', lg: '100%', xl: '100%' }, p: 1 }}>
+                <Paper
+                    square
+                    sx={{
+                        backgroundColor: '#f0f3f5',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        flexDirection: 'row-reverse',
+                        gap: 0.1,
+                        p: 0.3,
+                        borderLeft: 2,
+                        borderColor: '#d3d3d3',
+                    }}
+                >
+                    <Box>
+                        <CusIconButton variant="outlined" size="sm" color="success" onClick={onExportClick}>
+                            <DownloadIcon />
+                        </CusIconButton>
+                    </Box>
+                </Paper>
+                <AmsReportTable
+                    columnDefs={columnDefs}
+                    tableData={PatientReportData}
+                />
+            </Paper>
+            <Box sx={{ height: 30, bgcolor: '#eff3f6', display: 'flex', justifyContent: 'flex-end' }}>
+                <CusIconButton
+                    size="sm"
+                    variant="outlined"
+                    color="primary"
+                    clickable="true"
+                    onClick={backtoSetting}
+                >
+                    <CloseIcon fontSize="small" />
+                </CusIconButton>
+            </Box>
+        </Box>
+
     )
 }
 

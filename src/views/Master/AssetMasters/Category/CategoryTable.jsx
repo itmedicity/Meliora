@@ -9,13 +9,14 @@ const CategoryTable = ({ count, rowSelect }) => {
 
   const [column] = useState([
     {
-      headerName: 'Action', width: '40px',
-      cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
+      headerName: 'Action',
+      width: '40px',
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'category_slno', width: '30px' },
-    { headerName: 'Category', field: 'category_name', },
+    { headerName: 'Category', field: 'category_name' },
     { headerName: 'PM days', field: 'am_category_pm_days', width: '50px' },
-    { headerName: 'Status', field: 'status', width: '50px' },
+    { headerName: 'Status', field: 'status', width: '50px' }
   ])
   useEffect(() => {
     const getCategory = async () => {

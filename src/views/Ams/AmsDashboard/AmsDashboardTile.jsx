@@ -6,7 +6,8 @@ import DateRangeTwoToneIcon from '@mui/icons-material/DateRangeTwoTone';
 import EventNoteTwoToneIcon from '@mui/icons-material/EventNoteTwoTone';
 import { getTotAntibioticMonth, getTotAntibioticToday, getTotAntibioticWeek, getTotAntibioticYear } from 'src/api/AntibioticApi';
 import { endOfDay, endOfMonth, endOfWeek, endOfYear, format, startOfDay, startOfMonth, startOfWeek, startOfYear } from 'date-fns';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
+
 
 const AmsDashboardTile = () => {
 

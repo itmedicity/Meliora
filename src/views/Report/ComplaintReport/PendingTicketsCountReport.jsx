@@ -1,6 +1,6 @@
 
 import React, { useCallback, useState, memo, useMemo } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CusIconButton from '../../Components/CusIconButton';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -13,13 +13,13 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 const PendingTicketsCountReport = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
     const [ticketOption, setTicketOption] = useState(0)
     const [ticketList, setTicketList] = useState([])
     const [loading, setLoading] = useState(false);
 
     const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
+        history(`/Home/Reports`)
     }, [history])
 
     const postDept = useMemo(() => ({ ticketOption }), [ticketOption]);
@@ -77,6 +77,7 @@ const PendingTicketsCountReport = () => {
             title='Pending Tickets Count Dept Wise'
             close={backToSetting}
         >
+
             <CssVarsProvider>
                 <Box
                     sx={{

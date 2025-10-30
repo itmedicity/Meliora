@@ -5,11 +5,10 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import { format } from 'date-fns'
 
 const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }) => {
-
   const DetailViewClose = useCallback(() => {
     setDetailOpen(0)
     setDetailArray([])
-  }, [setDetailOpen,setDetailArray])
+  }, [setDetailOpen, setDetailArray])
 
   return (
     <Box>
@@ -39,9 +38,7 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
               const assetNo =
                 val.item_asset_no_only != null
                   ? `${val.item_asset_no}/${val.item_asset_no_only.toString().padStart(6, '0')}`
-                  : `${val.spare_asset_no}/${
-                      val.spare_asset_no_only?.toString().padStart(6, '0') ?? ''
-                    }`
+                  : `${val.spare_asset_no}/${val.spare_asset_no_only?.toString().padStart(6, '0') ?? ''}`
 
               return (
                 <tr key={index}>
@@ -49,18 +46,12 @@ const AmcCmcWarGaurDetailsView = ({ setDetailOpen, detailArray, setDetailArray }
 
                   <td style={{ textAlign: 'center' }}>{val.service_agreement}</td>
                   <td style={{ textAlign: 'center' }}>{assetNo}</td>
-                  <td style={{ textAlign: 'center' }}>
-                    {val.asset_serial_no ?? val.spare_serial_no}
-                  </td>
+                  <td style={{ textAlign: 'center' }}>{val.asset_serial_no ?? val.spare_serial_no}</td>
                   <td style={{ textAlign: 'center' }}>{val.item_name ?? val.item_spare}</td>
-                  <td style={{ textAlign: 'center' }}>
-                    {val.purchased_asset_supp || val.purchased_spare_supp}
-                  </td>
+                  <td style={{ textAlign: 'center' }}>{val.purchased_asset_supp || val.purchased_spare_supp}</td>
                   <td style={{ textAlign: 'center' }}>{val.service_agree_supp || val.address}</td>
                   <td style={{ textAlign: 'center' }}>
-                    {val.from_date
-                      ? format(new Date(val.from_date), 'dd MMM yyyy')
-                      : 'Invalid Date'}
+                    {val.from_date ? format(new Date(val.from_date), 'dd MMM yyyy') : 'Invalid Date'}
                   </td>
                   <td style={{ textAlign: 'center' }}>
                     {val.to_date ? format(new Date(val.to_date), 'dd MMM yyyy') : 'Invalid Date'}

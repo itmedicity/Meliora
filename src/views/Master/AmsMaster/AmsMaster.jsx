@@ -8,11 +8,12 @@ import AntibioticFromEllider from './AntibioticFromEllider'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { useSelector } from 'react-redux'
-import { useQueryClient } from 'react-query'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import SaveIcon from '@mui/icons-material/Save';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CloseIcon from '@mui/icons-material/Close';
+import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { Paper } from '@mui/material'
 
 
 const AmsMaster = () => {
@@ -21,7 +22,7 @@ const AmsMaster = () => {
     return state.LoginUserData.empid
   })
   const queryClient = useQueryClient()
-  const history = useHistory()
+  const history = useNavigate();
   const [antibioticSearch, setAntibioticSearch] = useState('')
   const [antibioticOpen, setantibioticOpen] = useState(0)
   const [antibioticList, setAntibioticList] = useState([])
@@ -293,12 +294,13 @@ const AmsMaster = () => {
     }
   }, [insertData, updateData, editFlag, RefreshAntibiotic, queryClient]);
 
+
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   return (
-    <Box>
+    <Paper sx={{ width: '92vw' }}>
       <Box sx={{ bgcolor: '#eff3f6', flex: 1, height: 32, display: 'flex' }}>
         <Box sx={{ flex: 1, p: .5 }}>
           Antibiotic Master
@@ -314,12 +316,7 @@ const AmsMaster = () => {
         </CusIconButton>
       </Box>
       <Box sx={{ flex: 1, p: 1 }}>
-
-
-
         <CssVarsProvider>
-
-
           <Box sx={{ display: 'flex', flex: 1, gap: 0.5 }}>
             <Box sx={{ minWidth: 500 }}>
               <TextFieldCustom
@@ -584,7 +581,7 @@ const AmsMaster = () => {
           <CloseIcon fontSize="small" />
         </CusIconButton>
       </Box>
-    </Box>
+    </Paper>
   )
 }
 

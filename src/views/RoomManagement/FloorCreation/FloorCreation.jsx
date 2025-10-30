@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import React, { useCallback, useState, memo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -10,11 +9,13 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { useMemo } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { Box } from '@mui/joy'
 
 const FloorCreation = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [campus, setCampus] = useState(0)
@@ -30,18 +31,20 @@ const FloorCreation = () => {
     floor_order: '',
     rm_floor_room_starts: '',
     rm_floor_room_ends: '',
-    rm_floor_status: false,
+    rm_floor_status: false
   })
-  const { rm_floor_slno, rm_floor_name, rm_floor_status, floor_order, rm_floor_room_starts,
-    rm_floor_room_ends, } = floor
+  const { rm_floor_slno, rm_floor_name, rm_floor_status, floor_order, rm_floor_room_starts, rm_floor_room_ends } = floor
 
-  const updateFloor = useCallback((e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setFloor({ ...floor, [e.target.name]: value })
-  }, [floor])
+  const updateFloor = useCallback(
+    e => {
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+      setFloor({ ...floor, [e.target.name]: value })
+    },
+    [floor]
+  )
 
   // Get login user emp_id
-  const id = useSelector((state) => {
+  const id = useSelector(state => {
     return state.LoginUserData.empid
   })
 
@@ -59,8 +62,20 @@ const FloorCreation = () => {
       rm_floor_status: rm_floor_status === true ? 1 : 0,
       create_user: id
     }
-  }, [campus, building, buildBlock, rm_floor_name, floor_order, rm_floor_room_starts, rm_floor_room_ends,
-    rm_floor_status, campusshort, buildingShort, buildBlockShort, id])
+  }, [
+    campus,
+    building,
+    buildBlock,
+    rm_floor_name,
+    floor_order,
+    rm_floor_room_starts,
+    rm_floor_room_ends,
+    rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort,
+    id
+  ])
 
   const patchdata = useMemo(() => {
     return {
@@ -77,8 +92,21 @@ const FloorCreation = () => {
       rm_floor_status: rm_floor_status === true ? 1 : 0,
       edit_user: id
     }
-  }, [rm_floor_slno, campus, building, buildBlock, rm_floor_name, floor_order, rm_floor_room_starts,
-    rm_floor_room_ends, rm_floor_status, campusshort, buildingShort, buildBlockShort, id])
+  }, [
+    rm_floor_slno,
+    campus,
+    building,
+    buildBlock,
+    rm_floor_name,
+    floor_order,
+    rm_floor_room_starts,
+    rm_floor_room_ends,
+    rm_floor_status,
+    campusshort,
+    buildingShort,
+    buildBlockShort,
+    id
+  ])
   const reset = async () => {
     const frmdata = {
       rm_floor_slno: '',
@@ -86,7 +114,7 @@ const FloorCreation = () => {
       floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setValue(0)
@@ -101,53 +129,65 @@ const FloorCreation = () => {
       floor_order: '',
       rm_floor_room_starts: '',
       rm_floor_room_ends: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(formreset)
     reset()
   }, [setFloor])
 
-  const sumbitFloor = useCallback((e) => {
-    e.preventDefault()
-    const InsertFloor = async (postdata) => {
-      const result = await axioslogin.post('/floorcreation/insert', postdata)
-      const { message, success } = result.data
-      if (success === 1) {
-        succesNotify(message)
-        setCount(count + 1)
-        reset()
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+  const sumbitFloor = useCallback(
+    e => {
+      e.preventDefault()
+      const InsertFloor = async postdata => {
+        const result = await axioslogin.post('/floorcreation/insert', postdata)
+        const { message, success } = result.data
+        if (success === 1) {
+          succesNotify(message)
+          setCount(count + 1)
+          reset()
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    const UpdateFloor = async (patchdata) => {
-      const result = await axioslogin.patch('/floorcreation/updatee', patchdata)
-      const { message, success } = result.data
-      if (success === 2) {
-        succesNotify(message)
+      const UpdateFloor = async patchdata => {
+        const result = await axioslogin.patch('/floorcreation/updatee', patchdata)
+        const { message, success } = result.data
+        if (success === 2) {
+          succesNotify(message)
 
-        reset()
-        setCount(count + 1)
-      } else if (success === 0) {
-        infoNotify(message)
-      } else {
-        infoNotify(message)
+          reset()
+          setCount(count + 1)
+        } else if (success === 0) {
+          infoNotify(message)
+        } else {
+          infoNotify(message)
+        }
       }
-    }
-    if (value === 0) {
-      InsertFloor(postdata)
-    } else {
-      UpdateFloor(patchdata)
-    }
-  }, [postdata, value, count, patchdata])
-  const rowSelect = useCallback((params) => {
+      if (value === 0) {
+        InsertFloor(postdata)
+      } else {
+        UpdateFloor(patchdata)
+      }
+    },
+    [postdata, value, count, patchdata]
+  )
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
-    const { rm_floor_campus_slno, rm_floor_building_slno, rm_floor_build_block_slno, rm_floor_name,
-      rm_floor_status, rm_floor_slno, floor_order, rm_floor_room_starts, rm_floor_room_ends } = data[0]
+    const {
+      rm_floor_campus_slno,
+      rm_floor_building_slno,
+      rm_floor_build_block_slno,
+      rm_floor_name,
+      rm_floor_status,
+      rm_floor_slno,
+      floor_order,
+      rm_floor_room_starts,
+      rm_floor_room_ends
+    } = data[0]
 
     const frmdata = {
       rm_floor_slno: rm_floor_slno,
@@ -155,7 +195,7 @@ const FloorCreation = () => {
       floor_order: floor_order,
       rm_floor_room_starts: rm_floor_room_starts,
       rm_floor_room_ends: rm_floor_room_ends,
-      rm_floor_status: rm_floor_status === 1 ? true : false,
+      rm_floor_status: rm_floor_status === 1 ? true : false
     }
     setFloor(frmdata)
     setCampus(rm_floor_campus_slno)
@@ -163,35 +203,22 @@ const FloorCreation = () => {
     setbuildBlock(rm_floor_build_block_slno)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   return (
-    <CardMaster
-      title="Floor Creation"
-      submit={sumbitFloor}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
-      <Box sx={{ p: 1 }}>
-        <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+    <CardMaster title="Floor Creation" submit={sumbitFloor} close={backtoSetting} refresh={refreshWindow}>
+      <Box sx={{ p: 1, width: "100%" }}>
+        <Box sx={{ height: '100%', width: '100%', display: 'flex', }}>
           <Box sx={{ width: '30%', p: 1 }}>
             <Box>
               <CampusSelect value={campus} setValue={setCampus} setName={setCampusShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingRoomManagement
-                value={building}
-                setValue={setBuilding}
-                setName={setBuildingShort}
-              />
+              <BuildingRoomManagement value={building} setValue={setBuilding} setName={setBuildingShort} />
             </Box>
             <Box sx={{ pt: 1.5 }}>
-              <BuildingBlockSelect
-                value={buildBlock}
-                setValue={setbuildBlock}
-                setName={setbuildBlockShort}
-              />
+              <BuildingBlockSelect value={buildBlock} setValue={setbuildBlock} setName={setbuildBlockShort} />
             </Box>
             <Box sx={{ pt: 1.2 }}>
               <TextFieldCustom
@@ -208,7 +235,7 @@ const FloorCreation = () => {
                 p: 1.5,
                 height: '100px',
                 width: '650px',
-                display: 'flex',
+                display: 'flex'
               }}
             >
               <Box sx={{ pt: 0.5 }}>

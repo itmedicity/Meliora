@@ -1,28 +1,25 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Box, Button, CssVarsProvider, Table } from '@mui/joy'
-import { useQuery } from 'react-query';
 import { Paper } from '@mui/material';
 import CusIconButton from '../Components/CusIconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AmsAddPatientDetailsModal from './AmsAddPatientDetailsModal';
 import { getAntibioticPatientDetailz } from 'src/api/AntibioticApi';
 import { CircularProgress } from '@mui/material';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { taskColor } from 'src/color/Color';
 
 
 const AmsMain = () => {
 
-  const history = useHistory();
+  const history = useNavigate();
   const [selectedRow, setSelectedRow] = useState(null)
   const [addDetailsFlag, setaddDetailsFlag] = useState(0)
   const [addDetailsOpen, setaddDetailsOpen] = useState(false)
   const [patientDetail, setPatientDetail] = useState([])
 
-  const {
-    data: PatientData = [],
-    isLoading,
-  } = useQuery({
+  const { data: PatientData = [], isLoading, } = useQuery({
     queryKey: ['getAntibioticPatients'],
     queryFn: () => getAntibioticPatientDetailz(),
   });
@@ -38,19 +35,19 @@ const AmsMain = () => {
 
 
   const closePage = useCallback(() => {
-    history.push('/Home');
-  }, [history]);
+    history('/Home')
+  }, [history])
+
 
   return (
-    <Paper sx={{ pb: .5 }}>
-      <Box sx={{ flex: 1, height: 30, bgcolor: '#eff3f6', display: 'flex' }}>
+    <Paper sx={{ pb: .5, flexGrow: 1, }}>
+      <Box sx={{ height: 30, bgcolor: '#eff3f6', display: 'flex' }}>
         <Box sx={{ flex: 1, p: .5 }}>
           Antibiotic Prescription Patient Details
         </Box>
         <CusIconButton size="sm" variant="outlined" color="primary">
           <CloseIcon fontSize='small' onClick={closePage} />
         </CusIconButton>
-
       </Box>
       <CssVarsProvider>
         {addDetailsFlag === 1 ?
@@ -65,6 +62,7 @@ const AmsMain = () => {
           <Box
             sx={{
               m: 1,
+              width: '95vw',
               height: '80vh',
               overflow: 'auto',
               border: 1,
@@ -74,11 +72,11 @@ const AmsMain = () => {
                 width: '12px',
               },
               '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#888',
+                backgroundColor: taskColor.lightMaganta,
                 borderRadius: '6px',
               },
               '&::-webkit-scrollbar-thumb:hover': {
-                backgroundColor: '#555',
+                backgroundColor: taskColor.lightRed,
               },
               '&::-webkit-scrollbar-track': {
                 backgroundColor: '#f1f1f1',
@@ -214,6 +212,11 @@ const AmsMain = () => {
             </Table>
           </Box>)}
       </CssVarsProvider>
+      <Box sx={{ height: 30, bgcolor: '#eff3f6', display: 'flex', justifyContent: 'flex-end' }}>
+        <CusIconButton size="sm" variant="outlined" color="primary">
+          <CloseIcon fontSize='small' onClick={closePage} />
+        </CusIconButton>
+      </Box>
     </Paper >
 
   )

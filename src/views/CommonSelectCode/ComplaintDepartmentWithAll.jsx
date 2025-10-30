@@ -1,8 +1,8 @@
 import { Box, Option, Select, selectClasses } from '@mui/joy'
 import React, { memo, useEffect, useState } from 'react'
-import { useQuery } from 'react-query';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { axioslogin } from '../Axios/Axios';
+import { useQuery } from '@tanstack/react-query';
 
 const ComplaintDepartmentWithAll = ({ ticketDept, setTicketDept }) => {
 

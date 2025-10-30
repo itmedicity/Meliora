@@ -13,22 +13,33 @@ export const cardHeader = '#424242'
 export const titleTypography = '#5d5d5d'
 export const iconColor = '#7ac143'
 export const cardActionBgClr = '#f0f3f5'
-export const editicon = "#0D47A1"
-export const apsideBgclor = "#282b33"
-export const iconReport = "#8bc34a"
-export const TypoHeadColor = "#9e9e9e"
-export const iconManual = "#009688"
+export const editicon = '#0D47A1'
+export const apsideBgclor = '#282b33'
+export const iconReport = '#8bc34a'
+export const TypoHeadColor = '#9e9e9e'
+export const iconManual = '#009688'
 export const taskColor = {
-    mainBg: '#fafbfd',
-    lightBlue: '#b5b3ca',
-    bgIndigo: '#f4e8ff',
-    indigoDark: '#bf83ff',
-    FontindigoDark: '#4b4e74',
-    lightGreen: '#dcfce7',
-    darkGreen: '#3dd856',
-    lightOrange: '#fff4de',
-    darkOrange: '#fe947a',
-    lightMaganta: '#ffe2e6',
-    darkMaganta: '#fb7c98',
-    hoverFontBlue: '#5d60ef'
+  mainBg: '#fafbfd',
+  lightBlue: '#b5b3ca',
+  bgIndigo: '#f4e8ff',
+  indigoDark: '#bf83ff',
+  FontindigoDark: '#4b4e74',
+  lightGreen: '#dcfce7',
+  darkGreen: '#3dd856',
+  lightOrange: '#fff4de',
+  darkOrange: '#fe947a',
+  lightMaganta: '#ffe2e6',
+  darkMaganta: '#fb7c98',
+  hoverFontBlue: '#5d60ef',
+  lightpurple:'#ede6f5ff',
+  darkPurple:'#66527cff',
+  purpleShade:'#b09ec7ff',
+  purple:' #966db2',
+  lightRed: '#f8d7da',
+  lightgrey:'#E4E5E8',
+  lightYellow:'#f4f5c9ff',
+  darkBlue:'#175873',
+  BlueShade:'#f0f4f9',
+  DarkViolet:'#341948'
+
 }

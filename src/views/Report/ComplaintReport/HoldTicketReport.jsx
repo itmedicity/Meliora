@@ -1,5 +1,5 @@
 import React, { useCallback, useState, memo, useMemo } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CusIconButton from '../../Components/CusIconButton';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -13,13 +13,13 @@ import { saveAs } from "file-saver";
 
 const HoldTicketReport = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
     const [ticketDept, setTicketDept] = useState(0)
     const [ticketList, setTicketList] = useState([])
     const [loading, setLoading] = useState(false);
 
     const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
+        history(`/Home/Reports`)
     }, [history])
 
     const postDept = useMemo(() => ({ ticketDept }), [ticketDept]);
@@ -100,7 +100,11 @@ const HoldTicketReport = () => {
                                     <DownloadIcon />
                                 </CusIconButton>
                             </Box>
+
+
+
                         </Box>
+
                         {loading ? (
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                                 <CircularProgress />
@@ -111,7 +115,9 @@ const HoldTicketReport = () => {
                             </Box>
                         ) : (
                             <Box sx={{ width: '90vw', overflow: 'auto', }}>
+
                                 <Box sx={{ height: '74vh', width: 3000, mt: 1, pr: 1 }}>
+
                                     <Table padding={"none"} stickyHeader size='sm' borderAxis='both' >
                                         <thead>
                                             <tr style={{ backgroundColor: '#c1c8e4' }}>
@@ -173,6 +179,7 @@ const HoldTicketReport = () => {
                                             })}
                                         </tbody>
                                     </Table>
+
                                 </Box>
                             </Box>
                         )}

@@ -1,9 +1,7 @@
 import React from 'react'
 
 const SuperisorList = () => {
-    return (
-        <div>SuperisorList</div>
-    )
+  return <div>SuperisorList</div>
 }
 
 export default SuperisorList
@@ -14,7 +12,6 @@ export default SuperisorList
 // import { editicon } from 'src/color/Color';
 // import CardCloseOnly from 'src/views/Components/CardCloseOnly';
 // import { Box, } from '@mui/material'
-// import { useHistory } from 'react-router-dom';
 // import { axioslogin } from 'src/views/Axios/Axios';
 // import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
 // import { useSelector, useDispatch } from 'react-redux';
@@ -45,10 +42,9 @@ export default SuperisorList
 
 // const SuperisorList = () => {
 
-//     const history = useHistory();
 //     //state for modal open
 //     const [open, setOpen] = useState(false)
-//     // state for modal rendering 
+//     // state for modal rendering
 //     const [assignmodel, setAssignModel] = useState(0);
 //     const [complaint, setComplaint] = useState([]);
 //     const [count, setCount] = useState(0)
@@ -228,7 +224,7 @@ export default SuperisorList
 //         { headerName: "Date & Time", field: "assigned_date", autoHeight: true, wrapText: true },
 
 //     ])
-//     //when we click on all compalint this table  will show  
+//     //when we click on all compalint this table  will show
 //     const [alldata] = useState([
 //         { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
 //         {
@@ -280,9 +276,6 @@ export default SuperisorList
 //         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
 //         { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true },
 //         { headerName: "Remark", field: "rectify_pending_hold_remarks", autoHeight: true, filter: true, wrapText: true }
-
-
-
 
 //     ])
 //     //When we click on assist this table  will show
@@ -378,7 +371,7 @@ export default SuperisorList
 
 //     ])
 
-//     //when we click on all compalint this table  will show  
+//     //when we click on all compalint this table  will show
 //     const [AssignedAll] = useState([
 //         { headerName: "SlNo", field: "complaint_slno", minWidth: 30 },
 //         {
@@ -430,7 +423,7 @@ export default SuperisorList
 //         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
 //         { headerName: "Complaint Status", field: "cm_rectify_status1", autoHeight: true, filter: true, wrapText: true }
 //     ])
-//     //when we click on all compalint this table  will show  
+//     //when we click on all compalint this table  will show
 //     const [AssistReqAll] = useState([
 
 //         {
@@ -489,8 +482,7 @@ export default SuperisorList
 //         { headerName: "Assist.Request Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
 //     ])
 
-
-//     //when we click on all compalint this table  will show  
+//     //when we click on all compalint this table  will show
 //     const [VeryPendSuper] = useState([
 //         {
 //             headerName: 'Action', minWidth: 10, cellRenderer: params => <Fragment>
@@ -548,8 +540,6 @@ export default SuperisorList
 //         { headerName: "Assign Date", field: "assigned_date", autoHeight: true, wrapText: true, minWidth: 200 },
 
 //     ])
-
-
 
 //     const dispatch = useDispatch();
 //     //getting id
@@ -819,11 +809,9 @@ export default SuperisorList
 //         setOpen(true)
 //     }, [])
 
-
 //     const empdept = useSelector((state) => {
 //         return state.LoginUserData.empdept
 //     })
-
 
 //     const [messagemodel, setMessageModel] = useState(0)
 
@@ -854,10 +842,8 @@ export default SuperisorList
 //         }
 //     }, [flag, empdept,])
 
-
 //     const [assignall, setAssignAll] = useState(false)
 //     const [assistall, setAssistAll] = useState(false)
-
 
 //     //updateEmpTras list check box updation
 //     const updateAssignedAll = useCallback((e) => {
@@ -993,8 +979,6 @@ export default SuperisorList
 //         }
 //     }, [flag, count, profileData])
 
-
-
 //     const [verifySupermdl, setverifySuperMdl] = useState(0)
 //     const [verfySuperSelectData, setVerifySuperSelectData] = useState([])
 //     const verifySupervisr = useCallback((params) => {
@@ -1008,7 +992,6 @@ export default SuperisorList
 //         setTransmodal(0);
 //         setOpen(true)
 //     }, [])
-
 
 //     //close button function
 //     const backtoSetting = useCallback(() => {
@@ -1287,7 +1270,6 @@ export default SuperisorList
 //                 {
 //                     verifySupermdl === 1 ? <VerifyModelSuper open={open} id={id} setOpen={setOpen} complaint={verfySuperSelectData} empdept={profileData} count={count} setCount={setCount} /> : null
 //                 }
-
 
 //                 <Box sx={{
 //                     width: "100%",

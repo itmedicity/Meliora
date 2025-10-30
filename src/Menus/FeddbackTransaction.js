@@ -1,20 +1,13 @@
-import { CNavItem } from "@coreui/react";
 import React from 'react'
-import { cilCircle } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
-
+import { CiStop1 } from 'react-icons/ci'
 
 const FeedbackTransactions = [
-
-    {
-        men_slno: 224,
-        component: CNavItem,
-        name: 'Feedback',
-        to: '/Home/feedback',
-        icon: <CIcon icon={cilCircle} customClassName="nav-icon" />,
-    },
-
-
+  {
+    men_slno: 224,
+    name: 'Feedback',
+    to: '/Home/feedback',
+    icon: <CiStop1 />
+  }
 ]
 
-export default FeedbackTransactions;
+export default FeedbackTransactions

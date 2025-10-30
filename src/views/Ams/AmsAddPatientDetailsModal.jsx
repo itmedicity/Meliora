@@ -4,13 +4,13 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import TextFieldCustom from '../Components/TextFieldCustom';
 import { axioslogin } from '../Axios/Axios';
 import { errorNotify, infoNotify, succesNotify } from '../Common/CommonCode';
-import { useQuery, useQueryClient } from 'react-query';
 import { getPatientAllAntibioticList, getPatientMicrobiologyResult } from 'src/api/AntibioticApi';
 import PersonIcon from '@mui/icons-material/Person';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SwitchDesign from './SwitchDesign';
 import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDetailsOpen, patientDetail, setPatientDetail }) => {
 
@@ -973,6 +973,5 @@ const AmsAddPatientDetailsModal = ({ setaddDetailsFlag, addDetailsOpen, setaddDe
         </Box >
     )
 }
-
 export default memo(AmsAddPatientDetailsModal)
 

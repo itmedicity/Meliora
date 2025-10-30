@@ -1,5 +1,5 @@
 import React, { useCallback, useState, memo, useMemo } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CusIconButton from '../../Components/CusIconButton';
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -14,17 +14,22 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 const PendingTicketsReport = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
     const [ticketDept, setTicketDept] = useState(0)
     const [ticketOption, setTicketOption] = useState(0)
     const [ticketList, setTicketList] = useState([])
     const [loading, setLoading] = useState(false);
 
+
+
+
     const backToSetting = useCallback(() => {
-        history.push(`/Home/Reports`)
+        history(`/Home/Reports`)
     }, [history])
 
     const postDept = useMemo(() => ({ ticketDept, ticketOption }), [ticketDept, ticketOption]);
+
+
 
     const SearchTickets = useCallback(async () => {
         if (ticketOption === 0 || ticketOption === null) {
@@ -90,6 +95,8 @@ const PendingTicketsReport = () => {
         setTicketList([])
         setTicketDept(0)
     }, [setTicketDept, setTicketList])
+
+
 
     return (
         <CardCloseOnly
@@ -209,6 +216,7 @@ const PendingTicketsReport = () => {
                                                         <td style={{ width: "auto", }}>
                                                             {val.PENDING !== null ? val.PENDING : val.HOLD_REAS !== null ? val.HOLD_REAS : ''}
                                                         </td>
+
                                                     </tr>
                                                 )
                                             })}
@@ -216,11 +224,14 @@ const PendingTicketsReport = () => {
                                     </Table>
                                 </Box>
                             </Box>
+
                         )}
+
                     </Box>
                 </Box>
+
             </CssVarsProvider>
-        </CardCloseOnly>
+        </CardCloseOnly >
     )
 }
 

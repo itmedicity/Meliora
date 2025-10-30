@@ -1,6 +1,5 @@
 import { Box, CssVarsProvider, Divider, Input, Menu, MenuItem, Table, Typography } from '@mui/joy'
 import React, { useCallback } from 'react'
-import { useQuery } from 'react-query';
 import { axioslogin } from 'src/views/Axios/Axios';
 import DownloadIcon from '@mui/icons-material/Download'
 import * as XLSX from 'xlsx';
@@ -8,6 +7,7 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
+import { useQuery } from '@tanstack/react-query';
 
 
 const AntibioticMasterTable = ({ editMast }) => {
@@ -108,7 +108,7 @@ const AntibioticMasterTable = ({ editMast }) => {
         <DownloadIcon onClick={ExportToExcel} sx={{ border: 1, mt: .5, width: 26, height: 26, borderRadius: 5, color: 'darkgreen', mx: 1, cursor: 'pointer' }} />
       </Box>
       {antibioticTableData.length > 0 ? (
-        <Box sx={{ overflowX: 'scroll', height: '48vh' }}>
+        <Box sx={{ overflowX: 'scroll', height: '42vh' }}>
           <Table
             stickyHeader
             borderAxis="both"

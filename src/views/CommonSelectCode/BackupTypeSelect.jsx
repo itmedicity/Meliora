@@ -1,77 +1,76 @@
-import * as React from 'react';
-import Autocomplete from '@mui/joy/Autocomplete';
-import { memo } from 'react';
-import { Fragment } from 'react';
-import { CssVarsProvider } from '@mui/joy';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useQuery } from 'react-query';
-import { getbackupTypeList } from 'src/api/masterApi';
-import { useCallback } from 'react';
+import * as React from 'react'
+import Autocomplete from '@mui/joy/Autocomplete'
+import { memo } from 'react'
+import { Fragment } from 'react'
+import { CssVarsProvider } from '@mui/joy'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getbackupTypeList } from 'src/api/masterApi'
+import { useCallback } from 'react'
 const BackupTypeSelect = ({ backupType, setBackupType }) => {
+  const { data: backupTypeList } = useQuery({
+    queryKey: ['getbackupTypeList'],
+    queryFn: () => getbackupTypeList()
+  })
 
-    const { data: backupTypeList } = useQuery({
-        queryKey: ['getbackupTypeList'],
-        queryFn: () => getbackupTypeList(),
-    });
+  const [backupTypeX, setbackupTypeX] = useState([{ backup_type_id: 0, backup_type_name: '' }])
+  const [value, setValue] = useState(backupTypeX[0])
+  const [inputValue, setInputValue] = useState('')
+  useEffect(() => {
+    if (backupType !== 0) {
+      let newObj = backupTypeList?.find(e => e.backup_type_id === backupType)
+      setValue(newObj)
+    }
+  }, [backupType, backupTypeList])
 
-    const [backupTypeX, setbackupTypeX] = useState([{ backup_type_id: 0, backup_type_name: '' }])
-    const [value, setValue] = useState(backupTypeX[0]);
-    const [inputValue, setInputValue] = useState('');
-    useEffect(() => {
-        if (backupType !== 0) {
-            let newObj = backupTypeList?.find((e) => e.backup_type_id === backupType)
-            setValue(newObj)
-        }
-    }, [backupType, backupTypeList])
+  const Onclick = useCallback(
+    value => {
+      if (value !== null) {
+        setValue(value)
+        setBackupType(value.backup_type_id)
+      } else {
+        setBackupType(0)
+      }
+      return
+    },
+    [setBackupType]
+  )
 
+  useEffect(() => {
+    if (Array.isArray(backupTypeList) && backupTypeList.length > 0) {
+      setbackupTypeX(backupTypeList)
+    }
+  }, [backupTypeList])
 
-    const Onclick = useCallback((value) => {
-        if (value !== null) {
-            setValue(value)
-            setBackupType(value.backup_type_id)
-        }
-        else {
-            setBackupType(0)
-        }
-        return
-    }, [setBackupType])
-
-    useEffect(() => {
-        if (Array.isArray(backupTypeList) && backupTypeList.length > 0) {
-            setbackupTypeX(backupTypeList);
-        }
-    }, [backupTypeList]);
-
-
-    return (
-        <Fragment>
-            <CssVarsProvider>
-                <Autocomplete
-                    sx={{
-                        "--Input-minHeight": "29px"
-                    }}
-                    value={backupType === 0 ? backupTypeX : value}
-                    placeholder="Select Backup Type"
-                    clearOnBlur
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                        Onclick(newValue);
-                    }}
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                    }}
-                    loading={true}
-                    loadingText="Loading..."
-                    freeSolo
-                    isOptionEqualToValue={(option, value) => option.backup_type_name === value.backup_type_name}
-                    getOptionLabel={option => option.backup_type_name || ''}
-                    options={backupTypeX}
-                />
-            </CssVarsProvider>
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <CssVarsProvider>
+        <Autocomplete
+          sx={{
+            '--Input-minHeight': '29px'
+          }}
+          value={backupType === 0 ? backupTypeX : value}
+          placeholder="Select Backup Type"
+          clearOnBlur
+          onChange={(event, newValue) => {
+            setValue(newValue)
+            Onclick(newValue)
+          }}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue)
+          }}
+          loading={true}
+          loadingText="Loading..."
+          freeSolo
+          isOptionEqualToValue={(option, value) => option.backup_type_name === value.backup_type_name}
+          getOptionLabel={option => option.backup_type_name || ''}
+          options={backupTypeX}
+        />
+      </CssVarsProvider>
+    </Fragment>
+  )
 }
 
 // import * as React from 'react';

@@ -14,21 +14,19 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
   const [floormain, setFloor] = useState([])
   const [floorArry, setFloorArry] = useState([])
   useEffect(() => {
-    const getFloorDash = async (buildNo) => {
+    const getFloorDash = async buildNo => {
       const result = await axioslogin.get(`/getDashboardData/getfloorbsedoncampus/${buildNo}`)
       const { success, data } = result.data
       if (success === 2) {
         setFloorArry(data)
-        const a = data.map((val) => {
+        const a = data.map(val => {
           const obj = {
             blockno: val.rm_floor_build_block_slno,
-            blockname: val.rm_buildblock_name,
+            blockname: val.rm_buildblock_name
           }
           return obj
         })
-        const insideBuild = Object.values(
-          a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}),
-        )
+        const insideBuild = Object.values(a.reduce((acc, cur) => Object.assign(acc, { [cur.blockno]: cur }), {}))
         setFloor(insideBuild)
       } else {
         warningNotify('no floor under selected building')
@@ -55,12 +53,12 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
           <Box
             sx={{
               width: '95%',
-              margin: 'auto',
+              margin: 'auto'
             }}
           >
             <Paper sx={{ overflow: 'hidden', px: 1 }} variant="outlined">
               {floormain &&
-                floormain.map((val) => {
+                floormain.map(val => {
                   return (
                     <Paper
                       variant="outlined"
@@ -70,7 +68,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
                         margin: 'auto',
                         textAlign: 'center',
                         my: 1,
-                        overflow: 'hidden',
+                        overflow: 'hidden'
                       }}
                     >
                       <Box
@@ -83,7 +81,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
                           pl: 2,
                           border: 0.2,
                           borderColor: 'transparent',
-                          borderBottomColor: 'lightgrey',
+                          borderBottomColor: 'lightgrey'
                         }}
                       >
                         {val?.blockname?.toLowerCase()}
@@ -94,7 +92,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
                           display: 'flex',
                           flexDirection: 'row',
                           overflow: 'hidden',
-                          flexWrap: 'wrap',
+                          flexWrap: 'wrap'
                         }}
                       >
                         <DashBoardFloorSort
@@ -115,6 +113,7 @@ const DashBoardFloor = ({ buildNo, setFoolrList, campusName }) => {
         </CardMasterClose>
       )}
     </>
+
   )
 }
 

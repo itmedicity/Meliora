@@ -6,63 +6,58 @@ import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
 const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle, loading }) => {
-    const rowHeight = 30
-    const headerHeight = 30
-    const defaultColDef = {
-    }
-    const onGridReady = (params) => {
-        params.api.sizeColumnsToFit()
-    }
+  const rowHeight = 30
+  const headerHeight = 30
+  const defaultColDef = {}
+  const onGridReady = params => {
+    params.api.sizeColumnsToFit()
+  }
 
-    const rowStyle = {
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-    }
+  const rowStyle = {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(',')
+  }
 
-    return (
-        <Fragment>
-            <Paper elevation={0}>
-                <Box
-                    className="ag-theme-alpine ListItemScrol"
-                    sx={{
-                        height: 400,
-                        width: "100%"
-                    }}
-                >
-                    {loading && <div>loading....</div>}
-                    <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={tableData}
-                        defaultColDef={defaultColDef}
-                        rowHeight={rowHeight}
-                        headerHeight={headerHeight}
-                        rowDragManaged={true}
-                        animateRows={true}
-                        onGridReady={onGridReady}
-                        rowSelection="multiple"
-                        onSelectionChanged={onSelectionChanged}
-                        rowStyle={rowStyle}
-                        columnTypes={columnTypes}
-                        getRowStyle={getRowStyle}
-                    ></AgGridReact>
-                </Box>
-            </Paper>
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <Paper elevation={0}>
+        <Box
+          className="ag-theme-alpine ListItemScrol"
+          sx={{
+            height: 400,
+            width: '100%'
+          }}
+        >
+          {loading && <div>loading....</div>}
+          <AgGridReact
+            columnDefs={columnDefs}
+            rowData={tableData}
+            defaultColDef={defaultColDef}
+            rowHeight={rowHeight}
+            headerHeight={headerHeight}
+            rowDragManaged={true}
+            animateRows={true}
+            onGridReady={onGridReady}
+            rowSelection="multiple"
+            onSelectionChanged={onSelectionChanged}
+            rowStyle={rowStyle}
+            columnTypes={columnTypes}
+            getRowStyle={getRowStyle}
+          ></AgGridReact>
+        </Box>
+      </Paper>
+    </Fragment>
+  )
 }
 
 export default memo(CusAgGridMast)
-
-
-
-

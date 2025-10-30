@@ -7,10 +7,11 @@ import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import FloorTable from './FloorTable'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useNavigate } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 const FloorMast = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [floor, setFloor] = useState({
@@ -18,15 +19,15 @@ const FloorMast = () => {
     rm_floor_name: '',
     rm_floor_alias: '',
     rm_floor_no: '',
-    rm_floor_status: false,
+    rm_floor_status: false
   })
   const { rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status } = floor
   const updateFloor = useCallback(
-    (e) => {
+    e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
       setFloor({ ...floor, [e.target.name]: value })
     },
-    [floor],
+    [floor]
   )
   const reset = () => {
     const frmdata = {
@@ -34,7 +35,7 @@ const FloorMast = () => {
       rm_floor_name: '',
       rm_floor_alias: '',
       rm_floor_no: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setCount(0)
@@ -45,7 +46,7 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === true ? 1 : 0,
+      rm_floor_status: rm_floor_status === true ? 1 : 0
     }
   }, [rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status])
 
@@ -55,10 +56,10 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === true ? 1 : 0,
+      rm_floor_status: rm_floor_status === true ? 1 : 0
     }
   }, [rm_floor_slno, rm_floor_name, rm_floor_alias, rm_floor_no, rm_floor_status])
-  const rowSelect = useCallback((params) => {
+  const rowSelect = useCallback(params => {
     setValue(1)
 
     const data = params.api.getSelectedRows()
@@ -68,12 +69,12 @@ const FloorMast = () => {
       rm_floor_name: rm_floor_name,
       rm_floor_alias: rm_floor_alias,
       rm_floor_no: rm_floor_no,
-      rm_floor_status: rm_floor_status === 1 ? true : false,
+      rm_floor_status: rm_floor_status === 1 ? true : false
     }
     setFloor(frmdata)
   }, [])
   const backtoSetting = useCallback(() => {
-    history.push('/Home/Settings')
+    history('/Home/Settings')
   }, [history])
 
   const refreshWindow = useCallback(() => {
@@ -82,15 +83,15 @@ const FloorMast = () => {
       rm_floor_name: '',
       rm_floor_alias: '',
       rm_floor_no: '',
-      rm_floor_status: false,
+      rm_floor_status: false
     }
     setFloor(frmdata)
     setValue(0)
   }, [setFloor])
   const sumbitFloor = useCallback(
-    (e) => {
+    e => {
       e.preventDefault()
-      const InsertFloor = async (postdata) => {
+      const InsertFloor = async postdata => {
         const result = await axioslogin.post('/floormaster/insert', postdata)
         const { message, success } = result.data
         if (success === 1) {
@@ -103,7 +104,7 @@ const FloorMast = () => {
           infoNotify(message)
         }
       }
-      const UpdateFloor = async (patchdata) => {
+      const UpdateFloor = async patchdata => {
         const result = await axioslogin.patch('/floormaster/update', patchdata)
         const { message, success } = result.data
         if (success === 2) {
@@ -122,15 +123,10 @@ const FloorMast = () => {
         UpdateFloor(patchdata)
       }
     },
-    [postdata, value, patchdata, count],
+    [postdata, value, patchdata, count]
   )
   return (
-    <CardMaster
-      title="Floor Master"
-      submit={sumbitFloor}
-      close={backtoSetting}
-      refresh={refreshWindow}
-    >
+    <CardMaster title="Floor Master" submit={sumbitFloor} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
         <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
           <Box sx={{ width: '30%', p: 1 }}>

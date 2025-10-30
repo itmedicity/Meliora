@@ -4,7 +4,7 @@ import CardThree from 'src/views/Components/CardThree'
 const Test = () => {
   return (
     <div>
-        <CardThree/>
+      <CardThree />
     </div>
   )
 }

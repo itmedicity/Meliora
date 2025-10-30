@@ -1,166 +1,195 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Typography } from '@mui/material';
-import { Box, Button, CssVarsProvider, Modal, ModalDialog } from '@mui/joy';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Box, Modal, ModalDialog, Typography, IconButton, Button } from '@mui/joy'
+import { ChevronLeft, ChevronRight } from '@mui/icons-material'
+import CloseIcon from '@mui/icons-material/Close'
+import FormattedDate from 'src/views/Components/FormattedDate'
 
-const ComFileView = ({ imageUrls, imageViewOpen, fileDetails, setimageViewOpen, setimage }) => {
+const ComFileView = ({ imageUrls = [], imageViewOpen, fileDetails, setimageViewOpen, setimage }) => {
+  const {
+    complaint_slno,
+    complaint_desc,
+    compalint_date,
+    rm_roomtype_name,
+    rm_room_name,
+    rm_insidebuildblock_name,
+    rm_floor_name,
+    location,
+    complaint_type_name
+  } = fileDetails || {}
 
-    const { complaint_slno, complaint_desc, compalint_date, rm_roomtype_name, rm_room_name, rm_insidebuildblock_name,
-        rm_floor_name, location, complaint_type_name, } = fileDetails
+  const [files, setFiles] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-    const [uplodedFile, setUplodedFile] = useState([]);
-
-    useEffect(() => {
-        if (imageUrls.length > 0) {
-            const files = imageUrls.map((file) => ({
-                url: file,
-                type: file.endsWith(".pdf") ? "pdf" : "image"
-            }));
-            setUplodedFile(files);
-        } else {
-        }
-    }, [imageUrls]);
-
-    const Close = useCallback(() => {
-        setimageViewOpen(false)
-        setimage(0)
-    }, [setimageViewOpen, setimage])
-
-    const buttonStyle = {
-        fontSize: 16,
-        color: '#523A28',
-        cursor: 'pointer',
-        boxShadow: 5,
-        border: 'none',
-        transition: 'transform 0.2s, bgcolor 0.2s',
-        '&:hover': {
-            bgcolor: 'white',
-            color: '#523A28',
-            transform: 'scale(1.1)',
-        },
-        '&:active': {
-            transform: 'scale(0.95)',
-        },
+  /** Prepare file list */
+  useEffect(() => {
+    if (imageUrls.length > 0) {
+      const formatted = imageUrls.map(file => ({
+        ...file,
+        type: file.imageName.toLowerCase().endsWith('.pdf') ? 'application/pdf' : 'image'
+      }))
+      setFiles(formatted)
+      setCurrentIndex(0)
+    } else {
+      setFiles([])
     }
+  }, [imageUrls])
+
+  /** Close modal */
+  const handleClose = useCallback(() => {
+    setimageViewOpen(false)
+    setimage(0)
+  }, [setimageViewOpen, setimage])
+
+  /** Navigation */
+  const handlePrev = () => setCurrentIndex(prev => (prev > 0 ? prev - 1 : files.length - 1))
+  const handleNext = () => setCurrentIndex(prev => (prev < files.length - 1 ? prev + 1 : 0))
+  const currentFile = files[currentIndex]
+
+  return (
+    <Modal open={imageViewOpen} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <ModalDialog
+        sx={{
+          overflow: 'hidden',
+          width: '80vw',
+          height: '90vh',
+          p: 0,
+          borderRadius: 'md',
+          boxShadow: 'lg',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
+        <Box
+          sx={{
+            flexShrink: 0,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#f5f5f5',
+            borderBottom: '1px solid #ddd'
+          }}
+        >
+          {/* Top header with title + close */}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              px: 2,
+              py: 1
+            }}
+          >
+            <Typography level="title-md" fontWeight={600}>
+              File Attachments
+            </Typography>
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                color: '#555',
+                backgroundColor: '#ffffff',
+                border: '1px solid #ccc',
+                boxShadow: '0px 2px 6px rgba(0,0,0,0.1)',
+                borderRadius: '50%',
+                '&:hover': {
+                  backgroundColor: '#f0f0f0',
+                  color: '#000'
+                },
+                p: 1
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
+          {/* Ticket details below title */}
+          <Box sx={{ px: 2, py: 1, borderTop: '1px solid #ddd' }}>
+            <Typography level="body-md" fontWeight={600}>
+              Ticket No: {complaint_slno || 'N/A'}
+            </Typography>
+            <Typography>{complaint_desc}</Typography>
+            <Typography fontSize={13}>
+              Type: {complaint_type_name} | Location: {location || 'N/A'}
+            </Typography>
+            {rm_room_name && (
+              <Typography fontSize={13}>
+                {rm_room_name}
+                {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
+                  ? ` (${rm_roomtype_name || ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                  }${rm_insidebuildblock_name || ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                  }${rm_floor_name || ''})`
+                  : ''}
+              </Typography>
+            )}
+            <Box>
+              <FormattedDate date={compalint_date} />
+            </Box>
 
 
+          </Box>
+        </Box>
 
-    return (
-        <CssVarsProvider>
-            <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-desc"
-                open={imageViewOpen}
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 1, borderRadius: 10, }}>
-                <ModalDialog variant="outlined" sx={{ p: 0, width: '98%', }}>
-                    <Box sx={{ flex: 1, display: 'flex', mt: 1, px: 1, }}>
-                        <Box sx={{ flex: 1, color: 'grey', }}>
-                            File View
-                        </Box>
-                        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                            <CancelIcon sx={{ color: 'darkred', cursor: 'pointer' }}
-                                onClick={Close}
-                            />
-                        </Box>
-                    </Box>
-                    <Box sx={{ flex: 1, display: 'flex', bgcolor: '#ECEDEF', py: .5, px: 1 }}>
-                        <Box sx={{ flex: 1, pl: .5 }}>
-                            <Typography sx={{ pl: .5, fontWeight: 600, color: 'Black', }}>Ticket No.{complaint_slno}</Typography>
-                            <Typography sx={{ pl: .5, fontSize: 14, color: 'Black', }}>
-                                {complaint_desc}
-                            </Typography>
-                            <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', py: .5 }}>
-                                Complaint Type: {complaint_type_name}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ flex: 1, textAlign: 'right', pr: 1.5 }}>
-                            <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                {location}
-                            </Typography>
-                            {rm_room_name !== null ?
-                                <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                    {rm_room_name}
-                                    {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name ?
-                                        ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''}${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${(rm_insidebuildblock_name && rm_floor_name) ? ' - ' : ''}${rm_floor_name ? rm_floor_name : ''})`
-                                        : "Not Updated"}
-                                </Typography> : null}
-                            <Typography sx={{ pl: .5, fontSize: 13, color: 'Black', }}>
-                                {compalint_date}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Box sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 1,
-                        overflow: 'auto',
-                        px: 1,
-                        height: '70vh',
-                    }}>
-                        {uplodedFile.map((file, index) => (
-                            <Box
-                                key={index}
-                                sx={{
-                                    cursor: 'pointer',
-                                    width: '49%',
-                                    height: '100%',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    border: 1,
-                                    p: 1,
-                                    borderColor: 'lightgrey'
-                                }}
-                                onClick={() => setimage(file.url)}
-                            >
-                                <Box sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                    height: '99%'
-                                }}>
-                                    {file.type === 'image' ? (
-                                        <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', }}>
-                                            <img
-                                                src={file.url}
-                                                alt={`Uploaded File ${index}`}
-                                                style={{
-                                                    maxWidth: '100%',
-                                                    maxHeight: '100%',
-                                                    borderRadius: '4px',
-                                                    objectFit: 'contain'
-                                                }}
-                                            />
-                                        </Box>
-                                    ) : (
-                                        <iframe
-                                            src={file.url}
-                                            title={`PDF ${index}`}
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                borderRadius: '4px'
-                                            }}
-                                        />
-                                    )}
-                                </Box>
-                            </Box>
-                        ))}
-                    </Box>
+        {/* ===== File Viewer (flexible, large) ===== */}
+        <Box sx={{ flexGrow: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', m: 1, }}>
+          {files.length > 1 && (
+            <IconButton
+              onClick={handlePrev}
+              sx={{ position: 'absolute', left: 10, zIndex: 10, bgcolor: 'white', '&:hover': { bgcolor: '#f0f0f0' } }}
+            >
+              <ChevronLeft />
+            </IconButton>
+          )}
 
-                    <Box sx={{ textAlign: 'right', pb: 2, mr: 2 }}>
-                        <Button
-                            variant='plain'
-                            sx={buttonStyle}
-                            onClick={Close}
-                        >Cancel</Button>
-                    </Box>
-                </ModalDialog>
-            </Modal>
-        </CssVarsProvider >
+          {currentFile ? (
+            currentFile.type === 'application/pdf' ? (
+              <embed
+                src={currentFile.url}
+                type="application/pdf"
+                width="100%"
+                height="100%"
+                style={{ borderRadius: 8 }}
+              />
+            ) : (
+              <img
+                src={currentFile.url}
+                alt={currentFile.imageName}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 8 }}
+              />
+            )
+          ) : (
+            <Typography>No files found</Typography>
+          )}
 
-    )
+          {files.length > 1 && (
+            <IconButton
+              onClick={handleNext}
+              sx={{ position: 'absolute', right: 10, zIndex: 10, bgcolor: 'white', '&:hover': { bgcolor: '#f0f0f0' } }}
+            >
+              <ChevronRight />
+            </IconButton>
+          )}
+        </Box>
+
+        {/* ===== Footer ===== */}
+        <Box sx={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderTop: '1px solid #ccc' }}>
+          <Typography>
+            Attachments ({files.length > 0 ? currentIndex + 1 : 0}/{files.length})
+          </Typography>
+          <Button variant="outlined" color="neutral" onClick={handleClose}>
+            Close
+          </Button>
+        </Box>
+      </ModalDialog>
+    </Modal>
+  )
 }
 
 export default memo(ComFileView)
+
+
+
+
+
+
+
+

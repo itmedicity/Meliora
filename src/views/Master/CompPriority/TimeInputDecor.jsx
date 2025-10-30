@@ -1,53 +1,48 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
-import { Box, Input, Typography } from '@mui/joy';
+import React, { useState, useEffect, useRef, memo } from 'react'
+import { Box, Input, Typography } from '@mui/joy'
 
 const TimeInputDecor = ({ onChange, label, value = 0, maxLimit = Infinity }) => {
-  const [week, setWeek] = useState(0);
-  const [day, setDay] = useState(0);
-  const [hour, setHour] = useState(0);
-  const [minute, setMinute] = useState(0);
-  const initialized = useRef(false);
+  const [week, setWeek] = useState(0)
+  const [day, setDay] = useState(0)
+  const [hour, setHour] = useState(0)
+  const [minute, setMinute] = useState(0)
+  const initialized = useRef(false)
 
-  const handleInput = (setter) => (e) => {
-    const val = parseInt(e.target.value, 10) || 0;
-    setter(val);
-  };
+  const handleInput = setter => e => {
+    const val = parseInt(e.target.value, 10) || 0
+    setter(val)
+  }
 
-  const totalMinutes = week * 10080 + day * 1440 + hour * 60 + minute;
-  const isOverLimit = totalMinutes >= maxLimit;
+  const totalMinutes = week * 10080 + day * 1440 + hour * 60 + minute
+  const isOverLimit = totalMinutes >= maxLimit
 
   useEffect(() => {
     if (!initialized.current) {
-      initialized.current = true;
-      return;
+      initialized.current = true
+      return
     }
 
     if (!isOverLimit) {
-      onChange?.(totalMinutes);
+      onChange?.(totalMinutes)
     }
-  }, [week, day, hour, minute]);
+  }, [week, day, hour, minute])
 
   useEffect(() => {
-    if (!initialized.current || value === 0) return;
-    const newWeek = Math.floor(value / 10080);
-    const remainingAfterWeek = value % 10080;
-    const newDay = Math.floor(remainingAfterWeek / 1440);
-    const remainingAfterDay = remainingAfterWeek % 1440;
-    const newHour = Math.floor(remainingAfterDay / 60);
-    const newMinute = remainingAfterDay % 60;
+    if (!initialized.current || value === 0) return
+    const newWeek = Math.floor(value / 10080)
+    const remainingAfterWeek = value % 10080
+    const newDay = Math.floor(remainingAfterWeek / 1440)
+    const remainingAfterDay = remainingAfterWeek % 1440
+    const newHour = Math.floor(remainingAfterDay / 60)
+    const newMinute = remainingAfterDay % 60
 
-    if (
-      newWeek !== week ||
-      newDay !== day ||
-      newHour !== hour ||
-      newMinute !== minute
-    ) {
-      setWeek(newWeek);
-      setDay(newDay);
-      setHour(newHour);
-      setMinute(newMinute);
+    if (newWeek !== week || newDay !== day || newHour !== hour || newMinute !== minute) {
+      setWeek(newWeek)
+      setDay(newDay)
+      setHour(newHour)
+      setMinute(newMinute)
     }
-  }, [value]);
+  }, [value])
 
   return (
     <Box sx={{ border: '1px solid #ccc', borderRadius: 'md', p: 1 }}>
@@ -106,11 +101,10 @@ const TimeInputDecor = ({ onChange, label, value = 0, maxLimit = Infinity }) => 
         </Typography>
       )}
     </Box>
-  );
-};
+  )
+}
 
 export default memo(TimeInputDecor)
-
 
 // import React, { useState, useEffect, useRef } from 'react';
 // import { Box, Input, Typography } from '@mui/joy';
@@ -137,7 +131,7 @@ export default memo(TimeInputDecor)
 //     const totalMinutes = week * 10080 + day * 1440 + hour * 60 + minute;
 //     onChange?.(totalMinutes);
 //   }, [week, day, hour, minute]);
-  
+
 //   useEffect(() => {
 //     if (!initialized.current || value === 0) return;
 //     const newWeek = Math.floor(value / 10080);
@@ -212,7 +206,3 @@ export default memo(TimeInputDecor)
 // };
 
 // export default TimeInputDecor;
-
-
-
-

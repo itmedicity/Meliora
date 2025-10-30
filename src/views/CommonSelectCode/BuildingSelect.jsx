@@ -1,8 +1,6 @@
+import { Box, Option, Select } from '@mui/joy'
 import FormControl from '@mui/material/FormControl'
-import Box from '@mui/material/Box'
 import React, { useEffect, memo } from 'react'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBuilding } from 'src/redux/actions/Building.action'
 const BuildingSelect = ({ value, setValue }) => {
@@ -11,7 +9,7 @@ const BuildingSelect = ({ value, setValue }) => {
    * buildingList- initial state of reducer function
    *buildingdata is used to list select box items by using map
    */
-  const buildingdata = useSelector((state) => {
+  const buildingdata = useSelector(state => {
     return state.getBuilding.buildingList || 0
   })
 
@@ -23,25 +21,23 @@ const BuildingSelect = ({ value, setValue }) => {
     <Box>
       <FormControl fullWidth size="small">
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           // disabled={disabled}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e, newValue) => setValue(newValue)}
           size="small"
-          fullWidth
           variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          sx={{}}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Building
-          </MenuItem>
+          </Option>
           {buildingdata &&
             buildingdata.map((val, index) => {
               return (
-                <MenuItem key={index} value={val.build_code}>
+                <Option key={index} value={val.build_code}>
                   {val.build_name}
-                </MenuItem>
+                </Option>
               )
             })}
         </Select>

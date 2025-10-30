@@ -1,11 +1,10 @@
 import React, { memo, useCallback, useEffect, useState, useMemo } from 'react'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { Box, Typography, } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import AmCategorySelWOName from 'src/views/CommonSelectCode/AmCategorySelWOName'
 import AmGroupSelWOName from 'src/views/CommonSelectCode/AmGroupSelWOName'
 import AmModelSelWOName from 'src/views/CommonSelectCode/AmModelSelWOName'
-import CusIconButton from '../../Components/CusIconButton';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import CusIconButton from '../../Components/CusIconButton'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import { getCategory } from 'src/redux/actions/AmCategoryList.action'
 import { getGroup } from 'src/redux/actions/AmGroupList.action'
 import { getAmModel } from 'src/redux/actions/AmModelList.action'
@@ -23,10 +22,11 @@ import AmManufacWOName from 'src/views/CommonSelectCode/AmManufacWOName'
 import AmModelNumberSelect from 'src/views/CommonSelectCode/AmModelNumberSelect'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
+import { useNavigate } from 'react-router-dom'
 
 const ItemCreationMast = () => {
-  const history = useHistory()
-  const dispatch = useDispatch();
+  const history = useNavigate()
+  const dispatch = useDispatch()
   const [category, setCategory] = useState(0)
   const [subcategory, setSubcategory] = useState(0)
   const [group, setGroup] = useState(0)
@@ -41,10 +41,10 @@ const ItemCreationMast = () => {
   const [assetOrSpare, setAssetOrSpare] = useState(1)
   const [assetName, setAssetName] = useState('')
 
-  const updateAssetName = useCallback((e) => {
+  const updateAssetName = useCallback(e => {
     setAssetName(e.target.value.toLocaleUpperCase())
   }, [])
-  const updateAsset = useCallback((e) => {
+  const updateAsset = useCallback(e => {
     if (e.target.checked === true) {
       setasset(true)
       setSpare(false)
@@ -57,7 +57,7 @@ const ItemCreationMast = () => {
       setFlag(0)
     }
   }, [])
-  const updateSpare = useCallback((e) => {
+  const updateSpare = useCallback(e => {
     if (e.target.checked === true) {
       setSpare(true)
       setasset(false)
@@ -93,26 +93,32 @@ const ItemCreationMast = () => {
   }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber, assetOrSpare])
 
   const search = useCallback(() => {
-    const getItemdata = async (postdata) => {
+    const getItemdata = async postdata => {
       const result = await axioslogin.post('/itemNameCreation/getItem', postdata)
       const { data, success } = result.data
       if (success === 1) {
         setItemList(data)
         setFlag(1)
-      }
-      else {
+      } else {
         setFlag(0)
-        warningNotify("No Items Under Selected Condition")
+        warningNotify('No Items Under Selected Condition')
         setItemList([])
       }
     }
 
-    if (category !== 0 || subcategory !== 0 || group !== 0 || subgroup !== 0 || model !== 0 ||
-      submodel !== 0 || manufacture !== 0 || modelNumber !== '') {
+    if (
+      category !== 0 ||
+      subcategory !== 0 ||
+      group !== 0 ||
+      subgroup !== 0 ||
+      model !== 0 ||
+      submodel !== 0 ||
+      manufacture !== 0 ||
+      modelNumber !== ''
+    ) {
       getItemdata(postdata)
-
     } else {
-      warningNotify("Please Select Any Options")
+      warningNotify('Please Select Any Options')
     }
   }, [postdata, category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
 
@@ -185,14 +191,15 @@ const ItemCreationMast = () => {
     setDataAdd(0)
   }, [category, subcategory, group, subgroup, model, submodel, manufacture, modelNumber])
 
-  const rowSelect = useCallback((val) => {
-    reset()
-    setSelectData([])
-    setSelectData(val);
-    setDataAdd(dataAdd + 1)
-
-  }, [dataAdd, setDataAdd, reset])
-
+  const rowSelect = useCallback(
+    val => {
+      reset()
+      setSelectData([])
+      setSelectData(val)
+      setDataAdd(dataAdd + 1)
+    },
+    [dataAdd, setDataAdd, reset]
+  )
 
   const postByItem = useMemo(() => {
     return {
@@ -201,48 +208,46 @@ const ItemCreationMast = () => {
     }
   }, [assetName, assetOrSpare])
   const nameSearch = useCallback(() => {
-    const getItemdata = async (postByItem) => {
+    const getItemdata = async postByItem => {
       const result = await axioslogin.post('/itemNameCreation/getItemByName', postByItem)
       const { data, success } = result.data
       if (success === 1) {
         setItemList(data)
         setFlag(1)
-      }
-      else {
-        warningNotify("No Asset under given condition")
+      } else {
+        warningNotify('No Asset under given condition')
         setFlag(0)
       }
     }
 
     getItemdata(postByItem)
-
   }, [postByItem])
 
   const backtoSetting = useCallback(() => {
-    history.push('/Home')
+    history('/Home')
     resetAll()
   }, [history, resetAll])
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexGrow: 1,
-      width: '100%',
-      height: window.innerHeight - 85,
-      bgcolor: 'green'
-    }}>
-      <CardMasterClose
-        title="Asset Opening"
-        close={backtoSetting}
-      >
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          m: -1,
-        }} >
+    <Box
+      sx={{
+        display: 'flex',
+        flexGrow: 1,
+        width: '100%',
+        height: window.innerHeight - 85,
+        bgcolor: 'green'
+      }}
+    >
+      <CardMasterClose title="Asset Opening" close={backtoSetting}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            m: -1
+          }}
+        >
           <Box sx={{ width: '40%', display: 'flex', pt: 2.5, margin: 'auto ', pl: 13 }}>
-
-            <Box sx={{ pl: 0.8, width: "20%" }}>
+            <Box sx={{ pl: 0.8, width: '20%' }}>
               <CusCheckBox
                 label="Asset"
                 color="primary"
@@ -253,7 +258,7 @@ const ItemCreationMast = () => {
                 onCheked={updateAsset}
               ></CusCheckBox>
             </Box>
-            <Box sx={{ pl: 2, }}>
+            <Box sx={{ pl: 2 }}>
               <CusCheckBox
                 label="Spare"
                 color="primary"
@@ -266,102 +271,83 @@ const ItemCreationMast = () => {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', }} >
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Category</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Category</Typography>
               <Box>
-                <AmCategorySelWOName
-                  category={category}
-                  setCategory={setCategory}
-                />
+                <AmCategorySelWOName category={category} setCategory={setCategory} />
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Category</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Category</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmSubCategryWOName
-                  subcategory={subcategory}
-                  setSubcategory={setSubcategory}
-                />
+                <AmSubCategryWOName subcategory={subcategory} setSubcategory={setSubcategory} />
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Group</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Group</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmGroupSelWOName
-                  group={group}
-                  setGroup={setGroup}
-                />
+                <AmGroupSelWOName group={group} setGroup={setGroup} />
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Group</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Group</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmSubGroupWOName
-                  subgroup={subgroup}
-                  setSubGroup={setSubGroup}
-                />
+                <AmSubGroupWOName subgroup={subgroup} setSubGroup={setSubGroup} />
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Model</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmModelSelWOName
-                  model={model}
-                  setModel={setModel}
-                />
+                <AmModelSelWOName model={model} setModel={setModel} />
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Sub Model</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Sub Model</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmSubModelWOName
-                  submodel={submodel}
-                  setSubmodel={setSubmodel}
-                />
+                <AmSubModelWOName submodel={submodel} setSubmodel={setSubmodel} />
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Manufacture</Typography>
+            <Box sx={{ display: 'flex', width: '25%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Manufacture</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmManufacWOName
-                  manufacture={manufacture}
-                  setManufacture={setManufacture}
-                />
+                <AmManufacWOName manufacture={manufacture} setManufacture={setManufacture} />
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', width: '22%', p: 0.5, flexDirection: 'column' }} >
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Model No</Typography>
+            <Box sx={{ display: 'flex', width: '22%', p: 0.5, flexDirection: 'column' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Model No</Typography>
               <Box sx={{ width: '100%' }}>
-                <AmModelNumberSelect
-                  modelNumber={modelNumber}
-                  setModelNumber={setModelNumber}
-                />
+                <AmModelNumberSelect modelNumber={modelNumber} setModelNumber={setModelNumber} />
               </Box>
             </Box>
 
-            <Box sx={{ width: '3%', pl: 1, pt: 3, }}>
-              <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search} >
-                <SearchOutlinedIcon fontSize='small' />
+            <Box sx={{ width: '3%', pl: 1, pt: 3 }}>
+              <CusIconButton size="sm" variant="outlined" clickable="true" onClick={search}>
+                <SearchOutlinedIcon fontSize="small" />
               </CusIconButton>
             </Box>
           </Box>
-          <Box sx={{ width: '100%', display: "flex", justifyContent: "center" }}>
-            OR
-          </Box>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>OR</Box>
 
-          <Box sx={{
-            display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
-            borderBottom: 1, borderWidth: 0.1, borderColor: 'black', pb: 1
-          }} >
-            <Box sx={{ pl: 0.8, width: "10%", cursor: "pointer" }}>
-              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }} >Asset Name</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              borderBottom: 1,
+              borderWidth: 0.1,
+              borderColor: 'black',
+              pb: 1
+            }}
+          >
+            <Box sx={{ pl: 0.8, width: '10%', cursor: 'pointer' }}>
+              <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 550 }}>Asset Name</Typography>
             </Box>
-            <Box sx={{ pl: 0.8, width: "70%", cursor: "pointer" }}>
+            <Box sx={{ pl: 0.8, width: '70%', cursor: 'pointer' }}>
               <TextFieldCustom
                 type="text"
                 size="sm"
@@ -370,9 +356,9 @@ const ItemCreationMast = () => {
                 onchange={updateAssetName}
               ></TextFieldCustom>
             </Box>
-            <Box sx={{ width: '3%', pl: 1, }}>
-              <CusIconButton size="sm" variant="outlined" clickable="true" onClick={nameSearch} >
-                <SearchOutlinedIcon fontSize='small' />
+            <Box sx={{ width: '3%', pl: 1 }}>
+              <CusIconButton size="sm" variant="outlined" clickable="true" onClick={nameSearch}>
+                <SearchOutlinedIcon fontSize="small" />
               </CusIconButton>
             </Box>
           </Box>
@@ -381,29 +367,42 @@ const ItemCreationMast = () => {
           {flag === 1 ? <ItemCreateMapping itemList={itemList} rowSelect={rowSelect} /> : null}
 
           {/* 4th row */}
-          {
-            dataAdd !== 0 ?
-              <ItemAddingComp selectData={selectData}
-                department={department} setDepartment={setDepartment}
-                deptsec={deptsec} setDeptSec={setDeptSec}
-                deptName={deptName} setDeptName={setDeptName}
-                deptSecName={deptSecName} setDeptSecName={setDeptSecName}
-                custodiandept={custodiandept} setCustodianDept={setCustodianDept}
-                custdeptName={custdeptName} setcustdeptname={setcustdeptname}
-                rackno={rackno} setrackNo={setrackNo}
-                rackname={rackname} setrackName={setrackName}
-                roomNo={roomNo} setRoomNo={setRoomNo}
-                roonName={roonName} setRoomName={setRoomName}
-                count={count} setCount={setCount}
-                custodiandeptSec={custodiandeptSec} setCustodianDeptSec={setCustodianDeptSec}
-                subRoomNo={subRoomNo} setSubRoomNo={setSubRoomNo}
-                subRoomName={subRoomName} setSubRoomName={setSubRoomName}
-              />
-              : null
-          }
-        </Box >
-      </CardMasterClose >
-    </Box >
+          {dataAdd !== 0 ? (
+            <ItemAddingComp
+              selectData={selectData}
+              department={department}
+              setDepartment={setDepartment}
+              deptsec={deptsec}
+              setDeptSec={setDeptSec}
+              deptName={deptName}
+              setDeptName={setDeptName}
+              deptSecName={deptSecName}
+              setDeptSecName={setDeptSecName}
+              custodiandept={custodiandept}
+              setCustodianDept={setCustodianDept}
+              custdeptName={custdeptName}
+              setcustdeptname={setcustdeptname}
+              rackno={rackno}
+              setrackNo={setrackNo}
+              rackname={rackname}
+              setrackName={setrackName}
+              roomNo={roomNo}
+              setRoomNo={setRoomNo}
+              roonName={roonName}
+              setRoomName={setRoomName}
+              count={count}
+              setCount={setCount}
+              custodiandeptSec={custodiandeptSec}
+              setCustodianDeptSec={setCustodianDeptSec}
+              subRoomNo={subRoomNo}
+              setSubRoomNo={setSubRoomNo}
+              subRoomName={subRoomName}
+              setSubRoomName={setSubRoomName}
+            />
+          ) : null}
+        </Box>
+      </CardMasterClose>
+    </Box>
   )
 }
 

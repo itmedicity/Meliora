@@ -6,19 +6,23 @@ import TextComponent from 'src/views/Components/TextComponent';
 import { startOfMonth, endOfMonth, startOfYear, endOfYear, format } from 'date-fns';
 
 const FilterSelector = ({ onDateRangeChange }) => {
-  const options = ['Today', 'Month', 'Year'];
+  const options = ['Today', 'Month', 'Year', 'All'];
   const monthList = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
+
   const getLastTenYears = () => {
     const currentYear = new Date().getFullYear();
     return Array.from({ length: 10 }, (_, i) => (currentYear - i).toString());
   };
 
+  // ? Default states so month/year always have valid values
   const [selected, setSelected] = useState('Month');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+  const [month, setMonth] = useState(monthList[new Date().getMonth()]);
+  const [year, setYear] = useState(new Date().getFullYear().toString());
+
+
   const yearList = useMemo(() => getLastTenYears(), []);
 
   useEffect(() => {
@@ -30,11 +34,10 @@ const FilterSelector = ({ onDateRangeChange }) => {
       endDate = format(today, 'yyyy-MM-dd 23:59:59');
     }
 
-    if (selected === 'Month' && month) {
+    if (selected === 'Month' && month && year) {
       const monthIndex = monthList.indexOf(month);
-      const yearToUse = year || today.getFullYear();
-      const start = startOfMonth(new Date(yearToUse, monthIndex));
-      const end = endOfMonth(new Date(yearToUse, monthIndex));
+      const start = startOfMonth(new Date(year, monthIndex));
+      const end = endOfMonth(new Date(year, monthIndex));
       startDate = format(start, 'yyyy-MM-dd 00:00:00');
       endDate = format(end, 'yyyy-MM-dd 23:59:59');
     }
@@ -46,31 +49,23 @@ const FilterSelector = ({ onDateRangeChange }) => {
       endDate = format(end, 'yyyy-MM-dd 23:59:59');
     }
 
+    if (selected === 'All') {
+      startDate = '1970-01-01 00:00:00';
+      endDate = format(today, 'yyyy-MM-dd 23:59:59');
+    }
+
     if (startDate && endDate && typeof onDateRangeChange === 'function') {
       onDateRangeChange(startDate, endDate);
     }
   }, [selected, month, year, onDateRangeChange, monthList]);
 
-  useEffect(() => {
-    const today = new Date();
-    if (selected === 'Month') {
-      setMonth(monthList[today.getMonth()]);
-      setYear(today.getFullYear().toString());
-    } else if (selected === 'Year') {
-      setYear(today.getFullYear().toString());
-    }
-  }, [selected, monthList]);
-
   return (
     <Box display="flex" gap={0.5}>
+      {/* Main Filter */}
       <Box width={110}>
         <Select
           value={selected}
-          onChange={(e, newValue) => {
-            setSelected(newValue);
-            setMonth('');
-            setYear('');
-          }}
+          onChange={(e, newValue) => setSelected(newValue)}
           variant="plain"
           indicator={<KeyboardArrowDownIcon sx={{ color: '#196eb6' }} />}
           renderValue={() => (
@@ -91,6 +86,7 @@ const FilterSelector = ({ onDateRangeChange }) => {
         </Select>
       </Box>
 
+      {/* Month + Year selection */}
       {selected === 'Month' && (
         <>
           <Box width={120}>
@@ -123,6 +119,7 @@ const FilterSelector = ({ onDateRangeChange }) => {
         </>
       )}
 
+      {/* Year-only selection */}
       {selected === 'Year' && (
         <Box width={100}>
           <Select
@@ -143,3 +140,5 @@ const FilterSelector = ({ onDateRangeChange }) => {
 };
 
 export default memo(FilterSelector);
+
+

@@ -10,14 +10,14 @@ const SubGroupTable = ({ count, rowSelect }) => {
 
   const [column] = useState([
     {
-      headerName: 'Action', minWidth: 20,
-      cellRenderer: (params) => <EditButton onClick={() => rowSelect(params)} />,
+      headerName: 'Action',
+      minWidth: 20,
+      cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     },
     { headerName: 'SlNo', field: 'subgroup_slno', minWidth: 50 },
     { headerName: 'Sub Group', field: 'sub_group_name', minWidth: 50 },
     { headerName: 'Group', field: 'group_name', minWidth: 50 },
-    { headerName: 'Status', field: 'status', minWidth: 50 },
-
+    { headerName: 'Status', field: 'status', minWidth: 50 }
   ])
   useEffect(() => {
     const getGroup = async () => {
