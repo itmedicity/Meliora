@@ -3,16 +3,17 @@ import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from
 import SupplierSelect from '../../CentralRequestManagement/DeliveryMarking/Components/SupplierSelect'
 import { format, isValid } from 'date-fns';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { errorNotify, infoNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { Virtuoso } from 'react-virtuoso';
 import moment from 'moment';
 import ReceiptLongSharpIcon from '@mui/icons-material/ReceiptLongSharp';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import { getDeliveryMarking } from 'src/api/CommonApiCRF';
-import { useQuery } from 'react-query';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
+// import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
 import ReqImageDisModal from 'src/views/CentralRequestManagement/ComonComponent/ImageUploadCmp/ReqImageDisModal';
+import JSZip from 'jszip'
+import { useQuery } from '@tanstack/react-query';
 
 const formatDateForInput = (date) => {
     return date.toISOString().split('T')[0];
@@ -164,36 +165,90 @@ const DeliveryMarking_Report = () => {
         setReqCheck(false)
     }, [])
     //show image
-    const viewimage = useCallback(async (val) => {
-        const getImage = async (delivery_mark_slno) => {
-            const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                const fileNames = data;
-                const fileUrls = fileNames.map((fileName) => {
-                    return `${PUBLIC_NAS_FOLDER}/CRF/DeliveryMarking/${delivery_mark_slno}/${fileName}`;
+    // const viewimage = useCallback(async (val) => {
+    //     const getImage = async (delivery_mark_slno) => {
+    //         const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`)
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             const fileNames = data;
+    //             const fileUrls = fileNames.map((fileName) => {
+    //                 // return `${PUBLIC_NAS_FOLDER}/CRF/DeliveryMarking/${delivery_mark_slno}/${fileName}`;
+    //             });
+    //             const savedFiles = fileUrls.map((val) => {
+    //                 const parts = val.split('/');
+    //                 const fileNamePart = parts[parts.length - 1];
+    //                 const obj = {
+    //                     imageName: fileNamePart,
+    //                     url: val
+    //                 }
+    //                 return obj
+    //             })
+    //             setImageArry(savedFiles)
+
+
+    //         } else {
+    //             setImageArry([])
+    //             warningNotify("No Image to Show")
+    //         }
+    //     }
+    //     getImage(val?.delivery_mark_slno)
+
+
+    // }, [])
+
+    const viewimage = useCallback(async val => {
+        const getImage = async delivery_mark_slno => {
+
+            try {
+                const result = await axioslogin.get(`/newCRFRegisterImages/crfDMimageGet/${delivery_mark_slno}`, {
+                    responseType: 'blob'
                 });
-                const savedFiles = fileUrls.map((val) => {
-                    const parts = val.split('/');
-                    const fileNamePart = parts[parts.length - 1];
-                    const obj = {
-                        imageName: fileNamePart,
-                        url: val
-                    }
-                    return obj
-                })
-                setImageArry(savedFiles)
 
+                const contentType = result.headers['content-type'] || '';
+                if (contentType?.includes('application/json')) {
+                    return;
+                } else {
+                    const zip = await JSZip.loadAsync(result.data);
+                    // Extract image files (e.g., .jpg, .png)
+                    const imageEntries = Object.entries(zip.files).filter(
+                        ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+                    );
+                    const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+                        // Get the original blob (no type)
+                        const originalBlob = await fileObj.async('blob');
+                        // Determine MIME type based on filename extension (or any other logic)
+                        let mimeType = '';
+                        if (filename.endsWith('.pdf')) {
+                            mimeType = 'application/pdf';
+                        } else if (filename.endsWith('.png')) {
+                            mimeType = 'image/png';
+                        } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+                            mimeType = 'image/jpeg';
+                        } else {
+                            mimeType = 'application/octet-stream'; // fallback
+                        }
+                        // Recreate blob with correct type
+                        const blobWithType = new Blob([originalBlob], { type: mimeType });
+                        // Create URL from new blob
+                        const url = URL.createObjectURL(blobWithType);
+                        return { imageName: filename, url, blob: blobWithType };
+                    });
+                    const images = await Promise.all(imagePromises);
+                    setImageArry(images)
 
-            } else {
+                }
+            } catch (error) {
+                errorNotify('Error fetching or processing images:', error);
                 setImageArry([])
-                warningNotify("No Image to Show")
+                warningNotify('No Image to Show')
             }
         }
         getImage(val?.delivery_mark_slno)
-
-
     }, [])
+
+
+
+
 
     const ViewImage = useCallback((file) => {
         const fileType = file.imageName
@@ -249,7 +304,7 @@ const DeliveryMarking_Report = () => {
         <Fragment>
             {imageshowFlag === 1 ? <ReqImageDisModal open={imageshow} handleClose={handleClose}
                 previewFile={previewFile} /> : null}
-            <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', }}>
+            <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>
                 <Box sx={{
                     width: '100%', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', pb: 1,
                     border: '1px solid #B4F5F0', borderTop: 'none'

@@ -109,12 +109,13 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
 
             if (resRate.data?.success === 2) {
                 // Build a rateMap keyed by category-quality to store both price and unit
-                resRate.data.data.forEach(({ category_slno, quality_slno, price, condem_quantity_name, quantity_unit_slno }) => {
+                resRate.data.data.forEach(({ category_slno, quality_slno, price, condem_quantity_name, quantity_unit_slno, unit }) => {
                     const key = `${category_slno}-${quality_slno}`;
                     rateMap[key] = {
                         price: Number(price),
                         unit: condem_quantity_name ?? '',
-                        unitQuantitySlNo: quantity_unit_slno ?? ''
+                        unitQuantitySlNo: quantity_unit_slno ?? '',
+                        unitPer: unit
                     };
                 });
             }
@@ -128,17 +129,15 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
 
             const key = `${scrap_category}-${scrap_quality}`;
             const rateInfo = rateMap[key] || { price: 0, unit: '' };
-
             const allItems = [...data1, ...data2].map(item => ({
                 ...item,
                 price: rateInfo.price,
                 condem_quantity_name: rateInfo.unit,
                 quantity_unit_slno: rateInfo.unitQuantitySlNo,
                 scrap_category,
-                scrap_quality
-
+                scrap_quality,
+                unitPer: rateInfo.unitPer
             }));
-
             return allItems;
         });
 
@@ -157,14 +156,14 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
 
         // Step 5: Format final groups
         const formattedGroups = Object.entries(grouped).map(([fullLabel, items]) => ({
-
             fullLabel,
             items,
             rate: items[0]?.price || 0,
             unitquantity: items[0]?.condem_quantity_name || '',
             unitQuantitySlno: items[0]?.quantity_unit_slno || '',
             unitPerCategoryQuality: '',
-            RatePerCategoryQuality: null
+            RatePerCategoryQuality: null,
+            unitPer: items[0]?.unitPer || '',
         }));
         return formattedGroups;
     };
@@ -209,9 +208,6 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
         groupedItems
     ]);
 
-
-
-
     const submitForm = useCallback(async (e) => {
         e.preventDefault();
         try {
@@ -229,19 +225,14 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
         }
     }, [SubmitData, ClosesubmitModal, queryClient])
 
-
-
     const { data: formattedGroups = [], } = useQuery({
         queryKey: ['getCategorizedItems', selectedCategories, supplier],
         queryFn: () => fetchCategorizedItems(selectedCategories, supplier),
     });
 
-
-
     useEffect(() => {
         setGroupedItems(formattedGroups);
     }, [formattedGroups]);
-
 
     const handleDeleteItem = (groupIndex, itemIndex) => {
         setGroupedItems(prev => {
@@ -350,12 +341,6 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
                                         text={"Contact No."}
                                         sx={{ fontWeight: 600, pl: .8, fontSize: 13 }}
                                     />
-                                    {/* <Input
-                                        type='number'
-                                        name="contact_no"
-                                        value={contact_no}
-                                        onChange={handleInputChange}
-                                    /> */}
                                     <ContactNumberInput
                                         value={contact_no}
                                         onChange={handleInputChange}
@@ -377,7 +362,6 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
                             </Box>
                         </Box>
                         <Box sx={{
-                            // border: .1, borderColor: taskColor.lightgrey,
                             mx: 1.5, my: 1
                         }}>
                             <Box sx={{ display: 'flex', p: .5 }}>
@@ -388,7 +372,8 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
                                 />
                             </Box>
                             {groupedItems?.map((group, groupIdx) => (
-                                <Box key={groupIdx} sx={{ m: 0.8, border: 1, borderColor: taskColor.purple, p: 1 }}>
+
+                                < Box key={groupIdx} sx={{ m: 0.8, border: 1, borderColor: taskColor.purple, p: 1 }}>
                                     <Box sx={{
                                         flex: 1,
                                         p: 0.5,
@@ -406,7 +391,7 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
                                             size="sm"
                                             type="text"
                                             startDecorator={"Unit Rate :"}
-                                            endDecorator={`Rs/${group.unitquantity}`}
+                                            endDecorator={`Rs/${group.unitPer} ${group.unitquantity}`}
                                             name={`rate-${groupIdx}`}
                                             value={group.rate ? Number(group.rate).toFixed(2) : "0.00"}
                                             color="warning"
@@ -442,7 +427,8 @@ const SubmitScrapCategorized = ({ submitModalOpen, setSubmitModalFlag, setSubmit
                                                         <td>{item.asset_item_name || item.spare_item_name || item.item_name}</td>
                                                         <td>{item.yard_name}</td>
                                                         <td style={{ textAlign: 'center' }}>
-                                                            <DeleteOutlineIcon sx={{ cursor: 'pointer' }} color='warning+' onClick={() => handleDeleteItem(groupIdx, itemIdx)} />
+                                                            <DeleteOutlineIcon sx={{ cursor: 'pointer' }} color='warning'
+                                                                onClick={() => handleDeleteItem(groupIdx, itemIdx)} />
                                                         </td>
                                                     </tr>
                                                 ))
