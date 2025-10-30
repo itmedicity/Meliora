@@ -81,12 +81,7 @@ const ApproveButtonHOD = ({
           const imageEntries = Object.entries(zip.files).filter(
             ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
           );
-          // Convert each to a Blob URL
-          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
-          //   const blob = await fileObj.async('blob');
-          //   const url = URL.createObjectURL(blob);
-          //   return { imageName: filename, url };
-          // });
+
           const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
             // Get the original blob (no type)
             const originalBlob = await fileObj.async('blob');
