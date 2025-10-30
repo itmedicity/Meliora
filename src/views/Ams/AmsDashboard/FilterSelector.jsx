@@ -17,7 +17,7 @@ const FilterSelector = ({ onDateRangeChange }) => {
     return Array.from({ length: 10 }, (_, i) => (currentYear - i).toString());
   };
 
-  // ✅ Default states so month/year always have valid values
+  // ? Default states so month/year always have valid values
   const [selected, setSelected] = useState('Month');
   const [month, setMonth] = useState(monthList[new Date().getMonth()]);
   const [year, setYear] = useState(new Date().getFullYear().toString());

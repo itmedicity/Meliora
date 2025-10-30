@@ -57,6 +57,7 @@ const CRFsubStoreView = ({ setList, editRowData }) => {
       } else {
         setSelectedValues([])
         setList([])
+        setCrsList(crsList)
       }
     },
     [setList]
