@@ -632,6 +632,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                   if (succes === 1) {
                                     succesNotify('Complaint Updated Successfully')
                                     queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                    queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                     setCount(count + 1)
                                     reset()
                                     Close()
@@ -645,6 +646,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                             } else {
                               succesNotify('Complaint Updated Successfully')
                               queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                              queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
                               reset()
                               Close()
@@ -665,6 +667,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 if (succes === 1) {
                                   succesNotify('Complaint Updated Successfully')
                                   queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                  queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
                                   reset()
                                   Close()
@@ -678,6 +681,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                           } else {
                             succesNotify('Complaint Updated Successfully')
                             queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                            queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
                             reset()
                             Close()
@@ -699,6 +703,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 if (succes === 1) {
                                   succesNotify('Complaint Updated Successfully')
                                   queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                  queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
                                   reset()
                                   Close()
@@ -712,6 +717,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                           } else {
                             succesNotify('Complaint Updated Successfully')
                             queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                            queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
                             reset()
                             Close()
@@ -728,6 +734,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                             if (succes === 1) {
                               succesNotify('Complaint Updated Successfully')
                               queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                              queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
                               reset()
                               Close()
@@ -741,6 +748,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                       } else {
                         succesNotify('Complaint Updated Successfully')
                         queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                        queryClient.invalidateQueries('getAllHoldEmployeeComp')
                         setCount(count + 1)
                         reset()
                         Close()

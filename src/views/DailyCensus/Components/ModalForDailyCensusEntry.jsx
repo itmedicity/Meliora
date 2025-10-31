@@ -1,5 +1,4 @@
 import { Box, Button, CssVarsProvider, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import CloseIcon from '@mui/icons-material/Close'
@@ -180,7 +179,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
               borderRadius: 'md'
             }}
           >
-            <Paper variant="outlined" square sx={{ display: 'flex', height: 45 }}>
+            <Box square sx={{ display: 'flex', height: 45 }}>
               <Box
                 sx={{
                   display: 'flex',
@@ -236,7 +235,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                   </Tooltip>
                 </CusIconButton>
               </Box>
-            </Paper>
+            </Box>
             <Box sx={{ overflow: 'auto', bgcolor: '#f5f5f5' }}>
               <Box sx={{ display: 'flex', px: 3 }}>
                 <Box sx={{ flex: 1, pl: 1 }}>
@@ -329,8 +328,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                 <Box sx={{ flex: 0.5 }}></Box>
               </Box>
             </Box>
-            <Paper
-              variant="outlined"
+            <Box
               square
               sx={{ display: 'flex', justifyContent: 'flex-end', bgcolor: '#bfbdbd', height: 45 }}
             >
@@ -382,7 +380,7 @@ const ModalForDailyCensusEntry = ({ open, handleClose, dailyDate, nsName, nsNo, 
                   </Button>
                 </CssVarsProvider>
               </Box>
-            </Paper>
+            </Box>
           </ModalDialog>
         </Modal>
       </CssVarsProvider>

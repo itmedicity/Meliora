@@ -294,3 +294,14 @@ export const getDeptTotalPendingtickets = async empdept => {
     }
   })
 }
+
+
+
+export const getAllHoldEmpComplaints = async searchData => {
+  return axioslogin.post(`/Rectifycomplit/getEmplHoldList`, searchData).then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
+}

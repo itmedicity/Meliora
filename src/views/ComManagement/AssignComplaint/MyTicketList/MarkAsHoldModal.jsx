@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import CmHoldReasonList from '../../CmComponent/CmHoldReasonList'
+import { useQueryClient } from '@tanstack/react-query'
 
 const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, setCount }) => {
   const {
@@ -30,6 +31,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
     return state.LoginUserData.empid
   })
 
+  const queryClient = useQueryClient()
   const updatePendhold = useCallback(e => {
     setPendhold(e.target.value)
   }, [])
@@ -68,6 +70,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
         if (success === 1) {
           succesNotify(message)
           setCount(count + 1)
+          queryClient.invalidateQueries('getAllPendingEmployeeTickets');
           Close()
         } else if (success === 0) {
           infoNotify(message)
@@ -83,7 +86,7 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
         infoNotify(' Please Mark your Hold Reason/Remarks')
       }
     },
-    [patchData, Close, count, setCount, pendholdreason, hold]
+    [patchData, Close, count, setCount, pendholdreason, hold, queryClient]
   )
 
   const buttonStyle = {
@@ -138,11 +141,9 @@ const MarkAsHoldModal = ({ holdOpen, setHoldOpen, setHoldflag, holdData, count, 
                 <Typography sx={{ pl: 0.5, fontSize: 13, color: 'Black' }}>
                   {rm_room_name}
                   {rm_roomtype_name || rm_insidebuildblock_name || rm_floor_name
-                    ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${
-                        rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
-                      }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${
-                        rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
-                      }${rm_floor_name ? rm_floor_name : ''})`
+                    ? ` (${rm_roomtype_name ? rm_roomtype_name : ''}${rm_roomtype_name && rm_insidebuildblock_name ? ' - ' : ''
+                    }${rm_insidebuildblock_name ? rm_insidebuildblock_name : ''}${rm_insidebuildblock_name && rm_floor_name ? ' - ' : ''
+                    }${rm_floor_name ? rm_floor_name : ''})`
                     : 'Not Updated'}
                 </Typography>
               ) : null}

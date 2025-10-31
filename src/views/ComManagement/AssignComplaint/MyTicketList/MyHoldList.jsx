@@ -1,5 +1,5 @@
 import { Badge, Box, Chip, CircularProgress, CssVarsProvider, Tooltip, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport'
 import VerifiedSharpIcon from '@mui/icons-material/VerifiedSharp'
 import { useSelector } from 'react-redux'
@@ -25,9 +25,11 @@ import TextComponent from 'src/views/Components/TextComponent'
 import { format } from 'date-fns'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import JSZip from 'jszip'
+import { getAllHoldEmpComplaints } from 'src/api/TicketApi'
+import { useQuery } from '@tanstack/react-query'
 
 const MyHoldList = () => {
-  const [allPendingCompl, setAllPendingCompl] = useState([])
+  // const [allPendingCompl, setAllPendingCompl] = useState([])
   const [count, setCount] = useState(0)
   const [assistNeed, setAssistNeed] = useState([])
   const [rectfyDta, setRectfyDta] = useState([])
@@ -37,7 +39,7 @@ const MyHoldList = () => {
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
   // const [selectedImages, setSelectedImages] = useState([])
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
 
   const [openStates, setOpenStates] = useState({
     assistOpen: true,
@@ -63,38 +65,51 @@ const MyHoldList = () => {
     }
   }, [id])
 
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
+  // useEffect(() => {
+  //   const controller = new AbortController()
+  //   const signal = controller.signal
 
-    const getAllPendingHoldCompalints = async () => {
-      // Start loading
-      setLoading(true)
-      try {
-        const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, {
-          signal
-        })
-        const { success, data } = result.data
+  //   const getAllPendingHoldCompalints = async () => {
+  //     // Start loading
+  //     setLoading(true)
+  //     try {
+  //       const result = await axioslogin.post('/Rectifycomplit/getEmplHoldList', searchData, {
+  //         signal
+  //       })
+  //       const { success, data } = result.data
 
-        if (success === 2) {
-          setAllPendingCompl(data)
-        } else {
-          setAllPendingCompl([])
-        }
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          setAllPendingCompl([])
-        }
-      } finally {
-        // Stop loading
-        setLoading(false)
-      }
-    }
-    getAllPendingHoldCompalints()
-    return () => {
-      controller.abort()
-    }
-  }, [searchData, count])
+  //       if (success === 2) {
+  //         setAllPendingCompl(data)
+  //         // queryClient.invalidateQueries('getAllPendingEmployeeTickets');
+  //       } else {
+  //         setAllPendingCompl([])
+  //       }
+  //     } catch (error) {
+  //       if (error.name !== 'AbortError') {
+  //         setAllPendingCompl([])
+  //       }
+  //     } finally {
+  //       // Stop loading
+  //       setLoading(false)
+  //     }
+  //   }
+  //   getAllPendingHoldCompalints()
+  //   return () => {
+  //     controller.abort()
+  //   }
+  // }, [searchData, count])
+
+  const {
+    data: allPendingCompl = [],
+    isLoading: loading,
+  } = useQuery({
+    queryKey: ['getAllHoldEmployeeComp', searchData],
+    queryFn: () => getAllHoldEmpComplaints(searchData),
+    enabled: !!id,
+  })
+
+
+
 
   const blinkAnimation = keyframes`
     0% { opacity: 1; }
