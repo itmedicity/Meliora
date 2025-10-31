@@ -22,6 +22,7 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import TextComponent from 'src/views/Components/TextComponent'
 import JSZip from 'jszip'
 
+
 const PendingTickets = ({ allPendingCompl, count, setCount }) => {
   const [transmodal, setTransmodal] = useState(0)
   const [open, setOpen] = useState(false)
@@ -160,6 +161,8 @@ const PendingTickets = ({ allPendingCompl, count, setCount }) => {
     },
     [setAssetflag, setAssetOpen]
   )
+
+
 
   const blinkAnimation = keyframes`
     0% { opacity: 1; }
