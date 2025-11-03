@@ -11,15 +11,13 @@ import CardHeader from './CardHeader';
 import { IoPersonCircleSharp, IoArrowBackCircleOutline } from "react-icons/io5";
 
 const ManualPatientForm = ({
-    formData,
+    formData = {},
     setFormData,
     goBack,
-    setPatientDetail
+    setPatientDetail,
+    patientDetail
 }) => {
 
-
-    console.log(formData,"formData");
-    
     const [errors, setErrors] = useState({});
 
     const handleChange = (field) => (e) => {
@@ -39,18 +37,18 @@ const ManualPatientForm = ({
     };
 
     const fields = [
-        { label: 'Name', icon: <PersonIcon fontSize="small" />, field: 'fb_ptc_name', type: 'input' },
-        { label: 'Age', icon: <WcIcon fontSize="small" />, field: 'fb_ptn_yearage', type: 'input' },
+        { label: 'Name', icon: <PersonIcon fontSize="small" />, field: 'PTC_PTNAME', type: 'input' },
+        { label: 'Age', icon: <WcIcon fontSize="small" />, field: 'PTN_YEARAGE', type: 'input' },
         {
-            label: 'Gender', icon: <FaTransgender fontSize={18} />, field: 'fb_ptc_sex', type: 'select', options: [
+            label: 'Gender', icon: <FaTransgender fontSize={18} />, field: 'PTC_SEX', type: 'select', options: [
                 { value: 'M', label: 'Male' },
                 { value: 'F', label: 'Female' },
                 { value: 'Other', label: 'Other' }
             ]
         },
-        { label: 'IP Number', icon: <BadgeIcon fontSize="small" />, field: 'fb_pt_no', type: 'input' },
-        { label: 'Mobile', icon: <PhoneIcon fontSize="small" />, field: 'fb_ptc_mobile', type: 'input' },
-        { label: 'Address', icon: <FaAddressBook fontSize={18} />, field: 'fb_ptc_loadd1', type: 'input' },
+        { label: 'PT Number', icon: <BadgeIcon fontSize="small" />, field: 'PT_NO', type: 'input' },
+        { label: 'Mobile', icon: <PhoneIcon fontSize="small" />, field: 'PTC_MOBILE', type: 'input' },
+        { label: 'Address', icon: <FaAddressBook fontSize={18} />, field: `PTC_LOADD1`, type: 'input' },
     ];
 
 
@@ -59,12 +57,12 @@ const ManualPatientForm = ({
         // Object to  Track if any Error occured
         const newErrors = {};
 
-        if (!formData.fb_ptc_name?.trim()) newErrors.fb_ptc_name = "Name is required";
-        if (!formData.fb_ptc_sex) newErrors.fb_ptc_sex = "Gender is required";
-        if (!formData.fb_ptn_yearage || isNaN(formData.fb_ptn_yearage)) newErrors.fb_ptn_yearage = "Valid age required";
-        if (!formData.fb_pt_no?.trim()) newErrors.fb_pt_no = "IP Number required";
-        if (!formData.fb_ptc_mobile?.match(/^\d{10}$/)) newErrors.fb_ptc_mobile = "Valid 10-digit mobile number"; // The the match check if the Enter number is vlaid and has 10 digit
-        if (!formData.fb_ptc_loadd1?.trim()) newErrors.fb_ptc_loadd1 = "Address is required";
+        if (!formData.PTC_PTNAME?.trim()) newErrors.PTC_PTNAME = "Name is required";
+        if (!formData.PTC_SEX) newErrors.PTC_SEX = "Gender is required";
+        if (!formData.PTN_YEARAGE || isNaN(formData?.PTN_YEARAGE)) newErrors.PTN_YEARAGE = "Valid age required";
+        if (!formData.PT_NO?.trim()) newErrors.PT_NO = "IP Number required";
+        if (!formData.PTC_MOBILE?.match(/^\d{10}$/)) newErrors.PTC_MOBILE = "Valid 10-digit mobile number"; // The the match check if the Enter number is vlaid and has 10 digit
+        if (!formData.PTC_LOADD1?.trim()) newErrors.PTC_LOADD1 = "Address is required";
 
         // Throw if any Error Occure
         if (Object.keys(newErrors).length > 0) {
@@ -73,8 +71,7 @@ const ManualPatientForm = ({
         }
         // Proceed with submission 
         setPatientDetail([formData])
-        goBack(false) // check this part later 
-
+        goBack(true) // check this part later 
     }, [formData, setPatientDetail]);
 
     return (
@@ -82,11 +79,15 @@ const ManualPatientForm = ({
             {/* Header */}
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <CardHeader icon={IoPersonCircleSharp} text="Add Patient Details" size={28} />
-                <Tooltip title="Go Back">
-                    <span>
-                        <IoArrowBackCircleOutline size={23} style={{ cursor: 'pointer' }} onClick={() => goBack(false)} />
-                    </span>
-                </Tooltip>
+                {
+                    patientDetail?.length > 0 &&
+                    <Tooltip title="Go Back">
+                        <span>
+                            <IoArrowBackCircleOutline size={23} style={{ cursor: 'pointer' }} onClick={() => goBack(true)} />
+                        </span>
+                    </Tooltip>
+                }
+
             </Box>
             {/* Other Fields */}
             {fields?.map(({ label, icon, field, type, options }) => (
@@ -105,9 +106,9 @@ const ManualPatientForm = ({
                                     '--Input-focusedHighlight': 'transparent',
                                     boxShadow: 'none',
                                 }}
-                                error={!!errors[field]}
+                                error={errors[field] ? true : undefined}
                             >
-                                {options.map((opt) => (
+                                {options?.map((opt) => (
                                     <Option key={opt.value} value={opt.value}>
                                         {opt.label}
                                     </Option>
@@ -118,7 +119,7 @@ const ManualPatientForm = ({
                                 placeholder={`Enter ${label}`}
                                 value={formData[field] || ''}
                                 onChange={handleChange(field)}
-                                error={!!errors[field]}
+                                error={errors[field] ? true : undefined}
                                 sx={{
                                     flex: 1,
                                     fontSize: 14,

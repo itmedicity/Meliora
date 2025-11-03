@@ -1,6 +1,6 @@
 // import React from 'react'
 // import Axios from 'axios'
-// import { API_URL, ELLIDER_API_URL, API_URL_KMC } from '../Constant/Static'
+import { API_URL, ELLIDER_API_URL, API_URL_KMC } from '../Constant/Static'
 // import { toast } from 'react-toastify'
 
 // // CONNECTION TO THE MELIORA MYSQL DATABASE
@@ -138,8 +138,9 @@ export async function initAxiosInstances() {
   const config = await loadApiConfig()
   const { crf_api, static_api, elider_api } = config[0]
 
+
   axioslogin = Axios.create({
-    baseURL: static_api,
+    baseURL: API_URL,
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
@@ -149,7 +150,7 @@ export async function initAxiosInstances() {
   })
 
   axiosellider = Axios.create({
-    baseURL: elider_api,
+    baseURL: ELLIDER_API_URL,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

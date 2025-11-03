@@ -16,8 +16,6 @@ const Protected = props => {
   const [validLogin, setValidLogin] = useState(false)
   const [loading, setLoading] = useState(true)
   
-  console.log(props);
-  
   const validteToken = async () => {
     try {
 

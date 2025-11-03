@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
 const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
@@ -279,9 +280,19 @@ const MelioraDepSecMaster = React.lazy(() => import('./views/Master/MelioraDepSe
 // const IncidentRegistration = React.lazy(() => import('./views/IncidentManagement/NewIncidentRegistration'));
 const IncidentDashboard = React.lazy(() => import('./views/IncidentManagement/IncidentDashboard'));
 const IncidentRegistrationFinal = React.lazy(() => import('./views/IncidentManagement/IncidentRegistrationFinal'));
-const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
-
-
+const InchargeApproval = React.lazy(() => import('./views/IncidentManagement/InchargeApproval/InchargeApproval'));
+const HodApprovals = React.lazy(() => import('./views/IncidentManagement/HodApproval/HodApprovals'));
+const IncidentUserRights = React.lazy(() => import('./views/Master/IncidentManagement/IncidentUserRight'));
+const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
+const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
+const IncidentLevelMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentLevelMaster/IncidentlevelMaster'));
+const Qualitydep = React.lazy(() => import('./views/IncidentManagement/QualityDepartment/Qualitydep'));
+const IncidentApproval = React.lazy(() => import('./views/IncidentManagement/IncidentApproval/IncidentApproval'));
+const DepartmentDataCollection = React.lazy(() => import('./views/IncidentManagement/DatacollectionIncident/DepartmentDataCollection'));
+const IncidentDataCollectionMapMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentDataCollectionMapMaster/IncidentDataCollectionMapMaster'));
+const CommonSettingMaster = React.lazy(() => import('./views/Master/IncidentManagement/CommonSetting/CommonSetting'));
+const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentManagement/CommonSettingMapMaster/CommonSettingMapMaster'));
+const DepartmentActionList = React.lazy(() => import('./views/IncidentManagement/IncidentActions/DepartmentActionList'));
 
 // const routes = [
 //   { path: '/', exact: true, name: 'Home' },
@@ -492,6 +503,7 @@ const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/In
 //   { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
 //   { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
 //   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
+
 //   { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding },
 //   { path: '/Home/QiIncharge', exact: true, name: 'Level I Approval', component: QiInchargeApr },
 //   { path: '/Home/QIEquipment', exact: true, name: 'Quality Equipment Mast', component: QiEquipment },
@@ -935,11 +947,23 @@ const routes = [
   { path: 'DcReport', name: 'DcReport', element: <DcReport /> },
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
-  { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
+  { path: 'InchargeApproval', name: 'Incident Approvals', element: <InchargeApproval /> },
+  { path: 'HodApprovals', name: 'Hod Approvals', element: <HodApprovals /> },
   { path: 'DepartmentSection', name: 'Department Mast', element: <DepartmentSectionMast /> },
   { path: 'StaticUrl', name: 'StaticUrl', element: <StaticUrl /> },
   { path: 'MelioraDepMaster', name: 'MelioraDepMaster', element: <MelioraDepMaster /> },
   { path: 'MelioraDepSecMaster', name: 'MelioraDepSecMaster', element: <MelioraDepSecMaster /> },
+  { path: 'IncidentRights', name: 'Incident User Rights', element: <IncidentUserRights /> },
+  { path: 'IncidentCategory', name: 'Incident Category Master', element: <IncidentCategoryMaster /> },
+  { path: 'IncidentSubCategory', name: 'Incident SubCategory Master', element: <IncidentSubCategoryMaster /> },
+  { path: 'Incidentlevelmaster', name: 'Incident Level Master', element: < IncidentLevelMaster /> },
+  { path: 'qualitydep', name: 'Quality Department', element: < Qualitydep /> },
+  { path: 'IncidentApproval', name: 'Incident Approvals', element: < IncidentApproval /> },
+  { path: 'Departmentdatacollection', name: 'Incident Data Collection', element: < DepartmentDataCollection /> },
+  { path: 'Departmentdatacollectionmaster', name: 'Incident Data Collection', element: < IncidentDataCollectionMapMaster /> },
+  { path: 'commonsetting', name: 'Incident Common Setting', element: < CommonSettingMaster /> },
+  { path: 'commonsettingmapmaster', name: 'Incident Common Setting Map Master', element: < CommonSettingMapMaster /> },
+  { path: 'Incidentaction', name: 'Incident Department Action', element: < DepartmentActionList /> },
 
 ]
 

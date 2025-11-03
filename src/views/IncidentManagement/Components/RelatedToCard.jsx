@@ -3,11 +3,27 @@ import React, { memo } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IncidentTextComponent from './IncidentTextComponent';
 
-const RelatedToCard = ({ label, symbol, selected, onSelect, size, width, multiple }) => {
-    const handleClick = () => {
-        onSelect(symbol); // Call parent’s function — it knows how to handle single/multiple
-    };
+const RelatedToCard = ({
+    label,
+    symbol,
+    selected,
+    onSelect,
+    size,
+    width,
+    multiple,
+    clearfunction,
+    setGetDetail
+}) => {
 
+    const handleClick = () => {
+        // check this part later this is for clearing the stated only 
+        if (!multiple) {
+            clearfunction()
+            setGetDetail(false)
+        }
+        onSelect(symbol); // Call parent’s function — it knows how to handle single/multiple
+
+    };
     return (
         <Sheet
             onClick={handleClick}
@@ -55,8 +71,8 @@ const RelatedToCard = ({ label, symbol, selected, onSelect, size, width, multipl
                 <IncidentTextComponent
                     text={label}
                     color={'#403d3dff'}
-                    size={size || 12}
-                    weight={400}
+                    size={size || 14}
+                    weight={600}
                 />
             </Box>
 

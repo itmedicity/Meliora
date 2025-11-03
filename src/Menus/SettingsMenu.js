@@ -161,6 +161,26 @@ export const taskManagement_one = [{ to: '/Home/TMOverdueCountMaster', name: 'Ta
 
 export const ams_one = [{ to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }]
 
+export const Incident_one = [
+  { to: '/Home/IncidentRights', name: 'Incident User Rights', slno: 287 },
+  { to: '/Home/IncidentCategory', name: 'Incident Category Master', slno: 288 },
+  { to: '/Home/IncidentSubCategory', name: 'Incident SubCategory Master', slno: 289 },
+  { to: '/Home/commonsettingmapmaster', name: 'Incident Common Setting Map Master', slno: 312 },
+];
+
+export const Incident_two = [
+  { to: '/Home/IncidentSubCategory', name: 'Incident Initiator Master', slno: 291 },
+  { to: '/Home/IncidentSubCategory', name: 'Incident StaffType Master', slno: 292 },
+  { to: '/Home/IncidentSubCategory', name: 'Nature Of Incident Master', slno: 293 }
+];
+
+export const Incident_three = [
+  { to: '/Home/Incidentlevelmaster', name: 'Incident Level Master', slno: 304 },
+  { to: '/Home/Departmentdatacollectionmaster', name: 'Incident Data Collection Map Master', slno: 304 },
+  { to: '/Home/commonsetting', name: 'Incident Common Setting', slno: 311 },
+
+];
+
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },
