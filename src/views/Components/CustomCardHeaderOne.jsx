@@ -1,9 +1,10 @@
 import { CardHeader } from '@mui/material'
-import { Box } from '@mui/system'
+// import { Box } from '@mui/system'
 import React, { Fragment } from 'react'
 import CusIconButton from './CusIconButton'
 import CustomeToolTip from './CustomeToolTip'
 import CloseIcon from '@mui/icons-material/Close'
+import { Box } from '@mui/joy'
 
 const CustomCardHeaderOne = ({ cardStyle, title, onClickClose }) => {
   // -- Card Header Style
