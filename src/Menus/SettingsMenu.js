@@ -1,105 +1,103 @@
 //Common Master Menu
 export const co_setting_one = [
-  { to: '/Home/Department', name: 'Department', slno: 1 },
-  { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
-  { to: '/Home/StaticUrl', name: 'StaticUrl', slno: 274 },
+    { to: '/Home/Department', name: 'Department', slno: 1 },
+    { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
 ]
 
 export const co_setting_two = [
-  { to: '/Home/DepartmentSection', name: 'Department Section', slno: 2 },
-  { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 },
-  { to: '/Home/MelioraDepMaster', name: 'Meliora Department Master', slno: 285 },
-
+    { to: '/Home/DepartmentSection', name: 'Department Section', slno: 2 },
+    { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 },
 ]
 
 export const co_setting_three = [
-  { to: '/Home/RequestType', name: 'Request Type', slno: 12 },
-  { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 },
-  { to: '/Home/MelioraDepSecMaster', name: 'Meliora Department Section Master', slno: 286 },
-
+    { to: '/Home/RequestType', name: 'Request Type', slno: 12 },
+    { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 }
 ]
 
 //Compliant Master Menu
 export const cm_setting_one = [
-  { to: '/Home/ComplaintDepartment', name: 'Complaint Department', slno: 3 },
-  // { to: '/Home/ComplaintEmpMap', name: 'Complaint-EMP Mapping', slno: 109 }
-  { to: '/Home/CompPriority', name: 'Complaint Priority', slno: 111 }
-
+    { to: '/Home/ComplaintDepartment', name: 'Complaint Department', slno: 3 },
+    { to: '/Home/ComplaintEmpMap', name: 'Complaint-EMP Mapping', slno: 109 },
 ]
 
 export const cm_setting_two = [
-  { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 },
-  { to: '/Home/holdReasonsinTicket', name: 'Hold Reason', slno: 14 }
-
+    { to: '/Home/ComplaintType', name: 'Complaint Type', slno: 13 },
+    { to: '/Home/CompPriority', name: 'Complaint Priority', slno: 111 },
 ]
 
 export const cm_setting_three = [
-  { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 254 },
-
-  // { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
+    { to: '/Home/HicPolicy', name: 'Hic Policy', slno: 14 },
+    { to: '/Home/HoldReason', name: 'Hold Reasons', slno: 254 },
 ]
+
 
 //Request Management Master Menu
 export const crm_setting_one = [
-  { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
-  { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
-  { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
-  { to: '/Home/DataCollectionMaster', name: 'Data Collection Master', slno: 271 }
+    { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
+    { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
+    { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
 ]
 
 export const crm_setting_two = [
-  { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 272 },
-  { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
-  { to: '/Home/CrfCommon', name: 'CRF Common Master', slno: 269 },
-  { to: '/Home/DepartmentMapping', name: 'DepartmentMapping', slno: 107 }
+    { to: '/Home/OMTableMast', name: 'OM Table Mast', slno: 107 },
+    { to: '/Home/ApprovalMapping', name: 'CRF Approval Mapping Master', slno: 252 },
+    { to: '/Home/CrfCommon', name: 'CRF Common Master', slno: 269 },
+
 ]
 
 export const crm_setting_three = [
-  { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
-  { to: '/Home/ViewCategoryMaster', name: 'MenuView Category Master', slno: 257 },
-  { to: '/Home/DashBoardMaster', name: 'DashBoard Master', slno: 270 }
+    { to: '/Home/OMEmpMapping', name: 'OM-Emp Mapping', slno: 108 },
+    { to: '/Home/ViewCategoryMaster', name: 'MenuView Category Master', slno: 257 },
+    { to: '/Home/DashBoardMaster', name: 'DashBoard Master', slno: 270 },
+
 ]
 
 //Asset Master Menu
 export const am_setting_one = [
-  { to: '/Home/AssetType', name: 'Asset Type', slno: 23 },
-  { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
-  { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
-  { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 }
-  // { to: '/Home/AssetCondemApprovalLevels', name: 'Condemnation Approval Levels', slno: 270 },
+    { to: '/Home/AssetType', name: 'Asset Type', slno: 23 },
+    { to: '/Home/SubCategory', name: 'Sub Category', slno: 26 },
+    { to: '/Home/Manufacture', name: 'Manufacture', slno: 29 },
+    { to: '/Home/UnitOfMeasurement', name: 'Unit Of Measurement', slno: 137 },
+    { to: '/Home/AssetCondemApprovalLevels', name: 'Condemnation Approval Levels', slno: 312 },
+    { to: '/Home/CondemnQuantityUnit', name: 'Scrap Quantity Unit', slno: 313 },
+    { to: '/Home/ScrapFormLevelApprove', name: 'Scrap Level Approve ', slno: 314 },
 ]
 
 export const am_setting_two = [
-  { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
-  { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
-  { to: '/Home/AssetModel', name: 'Model', slno: 138 },
-  { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 }
+    { to: '/Home/ItemType', name: 'Item Type', slno: 24 },
+    { to: '/Home/AssetGroup', name: 'Group ', slno: 27 },
+    { to: '/Home/AssetModel', name: 'Model', slno: 138 },
+    { to: '/Home/AssetRackMast', name: 'Asset Rack Master', slno: 161 },
+    { to: '/Home/CondemnationCategoryMaster', name: 'Scrap Category ', slno: 315 },
+    { to: '/Home/CondemnSupplierRate', name: 'Scrap Supplier Rate', slno: 316 },
 ]
 
 export const am_setting_three = [
-  { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
-  { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
-  { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 },
-  { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 }
+    { to: '/Home/ItemCategory', name: 'Category ', slno: 25 },
+    { to: '/Home/SubGroup', name: 'Sub Group', slno: 28 },
+    { to: '/Home/AssetSubModel', name: 'SubModel ', slno: 139 },
+    { to: '/Home/CusodianDepartment', name: 'Custodian Department', slno: 154 },
+    { to: '/Home/CondemQualityMaster', name: 'Scrap Quality ', slno: 317 },
+    { to: '/Home/CondemnationScarpYard', name: 'Scarp Yard', slno: 318 },
 ]
 
 //Room Master Menu
 export const rm_setting_one = [
-  // { to: '/Home/Building', name: 'Building', slno: 30 },
-  { to: '/Home/Campus', name: 'Campus', slno: 116 },
-  { to: '/Home/InsideBuilding', name: 'Inside Building Block', slno: 119 }
+    // { to: '/Home/Building', name: 'Building', slno: 30 },
+    { to: '/Home/Campus', name: 'Campus', slno: 116 },
+    { to: '/Home/InsideBuilding', name: 'Inside Building Block', slno: 119 },
 ]
 
 export const rm_setting_two = [
-  // { to: '/Home/Floor', name: 'Floor', slno: 31 },
-  { to: '/Home/BuildingMast', name: 'Building', slno: 117 },
-  { to: '/Home/RoomCategoryMaster', name: 'Nomenclature Category ', slno: 122 }
-  // { to: '/Home/FloorMast', name: 'Floor Master', slno: 120 }
+    // { to: '/Home/Floor', name: 'Floor', slno: 31 },
+    { to: '/Home/BuildingMast', name: 'Building', slno: 117 },
+    { to: '/Home/RoomCategoryMaster', name: 'Nomenclature Category ', slno: 122 }
+    // { to: '/Home/FloorMast', name: 'Floor Master', slno: 120 }
 ]
 export const rm_setting_three = [
-  // { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
-  { to: '/Home/BuildingBlockMaster', name: 'Building Block', slno: 118 },
-  { to: '/Home/RoomTypeMaster', name: 'Nomenclature Type ', slno: 121 }
+    // { to: '/Home/RoomType', name: 'Room Type', slno: 32 },
+    { to: '/Home/BuildingBlockMaster', name: 'Building Block', slno: 118 },
+    { to: '/Home/RoomTypeMaster', name: 'Nomenclature Type ', slno: 121 }
 ]
 
 // //Task Master Menu
@@ -109,78 +107,78 @@ export const rm_setting_three = [
 
 //IT Menu
 export const it_setting_one = [
-  { to: '/Home/SimType', name: 'Sim Type ', slno: 151 },
-  { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
-  { to: '/Home/BillType', name: 'Bill Type', slno: 206 },
-  { to: '/Home/ItBackupTypeMast', name: 'Backup Type', slno: 255 }
+    { to: '/Home/SimType', name: 'Sim Type ', slno: 151 },
+    { to: '/Home/ScheduleTime', name: 'Backup Schedule Time', slno: 153 },
+    { to: '/Home/BillType', name: 'Bill Type', slno: 206 },
+    { to: '/Home/ItBackupTypeMast', name: 'Backup Type', slno: 255 },
 ]
 
 export const it_setting_two = [
-  { to: '/Home/SimOperator', name: 'Sim Operator', slno: 256 },
-  { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
-  { to: '/Home/BillSupplierDetailsMast', name: 'Bill Supplier Details', slno: 208 }
+    { to: '/Home/SimOperator', name: 'Sim Operator', slno: 256 },
+    { to: '/Home/ScheduleType', name: 'Backup Schedule Type', slno: 152 },
+    { to: '/Home/BillSupplierDetailsMast', name: 'Bill Supplier Details', slno: 208 },
 ]
 export const it_setting_three = [
-  { to: '/Home/CredentialType', name: 'Credential Type', slno: 160 },
-  { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
-  { to: '/Home/BillCategory', name: 'Bill Category', slno: 205 }
+    { to: '/Home/CredentialType', name: 'Credential Type', slno: 160 },
+    { to: '/Home/BackupMast', name: 'Backup Details', slno: 156 },
+    { to: '/Home/BillCategory', name: 'Bill Category', slno: 205 },
+
 ]
+
 
 //Quality Indicators
 export const qi_setting_one = [
-  { to: '/Home/QIDeptMast', name: 'Quality Department Mast', slno: 181 },
-  { to: '/Home/QiListType', name: 'QI List Type Mast', slno: 211 }
+    { to: '/Home/QIDeptMast', name: 'Quality Department Mast', slno: 181 },
+    { to: '/Home/QiListType', name: 'QI List Type Mast', slno: 211 }
 ]
 
 export const qi_setting_two = [
-  { to: '/Home/QIEquipment', name: 'Quality Equipment Mast', slno: 214 },
-  { to: '/Home/QIdeptAccess', name: 'QI Department Access Mast', slno: 229 }
+    { to: '/Home/QIEquipment', name: 'Quality Equipment Mast', slno: 214 },
+    { to: '/Home/QIdeptAccess', name: 'QI Department Access Mast', slno: 229 },
 ]
 
+
 //Daily Census
-export const dc_setting_one = [{ to: '/Home/CensusDept', name: 'Census Nursing Station Mast', slno: 179 }]
+export const dc_setting_one = [
+    { to: '/Home/CensusDept', name: 'Census Nursing Station Mast', slno: 179 },
+]
+
 
 //User Management Menu
 export const userManagement_one = [
-  { to: '/Home/Group', name: 'Group Master', slno: 7 },
-  { to: '/Home/ModuleGroupMast', name: 'Module Group Master', slno: 8 },
-  { to: '/Home/DataTransferHRM', name: 'Data Import From HRM', slno: 167 }
+    { to: '/Home/Group', name: 'Group Master', slno: 7 },
+    { to: '/Home/ModuleGroupMast', name: 'Module Group Master', slno: 8 },
+    { to: '/Home/DataTransferHRM', name: 'Data Import From HRM', slno: 167 },
 ]
 export const userManagement_two = [
-  { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
-  { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
-  { to: '/Home/Authorization', name: 'Incharge Hod Authorization', slno: 204 }
+    { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
+    { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
+    { to: '/Home/Authorization', name: 'Incharge Hod Authorization', slno: 204 },
 ]
 export const userManagement_three = [
-  { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
-  { to: '/Home/UserCreation', name: 'User Creation', slno: 44 }
+    { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
+    { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
+    { to: '/Home/MelioraHodInchargeMaster', name: 'Meliora Hod Incharge Authorization', slno: 290 }
 ]
 
 //TaskManagement Menu
-export const taskManagement_one = [{ to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 }]
+export const taskManagement_one = [
+    { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
 
-export const ams_one = [{ to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }]
 
-export const Incident_one = [
-  { to: '/Home/IncidentRights', name: 'Incident User Rights', slno: 287 },
-  { to: '/Home/IncidentCategory', name: 'Incident Category Master', slno: 288 },
-  { to: '/Home/IncidentSubCategory', name: 'Incident SubCategory Master', slno: 289 },
-  { to: '/Home/commonsettingmapmaster', name: 'Incident Common Setting Map Master', slno: 312 },
-];
+]
 
-export const Incident_two = [
-  { to: '/Home/IncidentSubCategory', name: 'Incident Initiator Master', slno: 291 },
-  { to: '/Home/IncidentSubCategory', name: 'Incident StaffType Master', slno: 292 },
-  { to: '/Home/IncidentSubCategory', name: 'Nature Of Incident Master', slno: 293 }
-];
+//Ams Menu
+export const ams_one = [
+    { to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }
+]
 
-export const Incident_three = [
-  { to: '/Home/Incidentlevelmaster', name: 'Incident Level Master', slno: 304 },
-  { to: '/Home/Departmentdatacollectionmaster', name: 'Incident Data Collection Map Master', slno: 304 },
-  { to: '/Home/commonsetting', name: 'Incident Common Setting', slno: 311 },
+export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
 
-];
+export const Work_two = [
 
+    { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
+]
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },
@@ -214,3 +212,7 @@ export const Incident_three = [
 //     { to: '/Home/Hallmaster', name: 'Hall Master', slno: 102 },
 
 // ]
+
+
+
+

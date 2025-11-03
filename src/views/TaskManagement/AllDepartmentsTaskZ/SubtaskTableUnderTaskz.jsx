@@ -1,14 +1,13 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Box, Table, CssVarsProvider, Divider, Chip } from '@mui/joy'
-import { Paper } from '@mui/material'
 import { useEffect } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import moment from 'moment'
 import EditIcon from '@mui/icons-material/Edit'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRendering }) => {
   const [subTask, setSubTask] = useState([])
@@ -69,36 +68,26 @@ const SubtaskTableUnderTaskz = ({ tm_task_slno, selectForEditsSubTask, tableRend
     setImageUrls([])
   }, [setimageViewModalOpen, setImageUrls, setimage])
 
-  const fileView = async val => {
-    const { tm_task_slno } = val
-    setgetarry(val)
-    setimage(0) // Initialize imageViewModalFlag to 0 initially
-    setimageViewModalOpen(false) // Close the modal if it was open
+  const fileView = async (val) => {
+    const { tm_task_slno } = val;
+    setgetarry(val);
+    setimage(1);
+    setimageViewModalOpen(true);
+    setSelectedImages(val);
     try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
-          setimage(1)
-          setimageViewModalOpen(true)
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Task Image attached')
-        }
+      const images = await getFilesFromZip('/TmFileUpload/uploadFile/getTaskFile', tm_task_slno);
+      if (images && images.length > 0) {
+        setImageUrls(images);
       } else {
-        warningNotify('No Task image attached')
+        setImageUrls([]);
+        warningNotify('No images attached for this task.');
       }
     } catch (error) {
-      warningNotify('Error in fetching files:', error)
+      errorNotify('Error fetching task images:', error);
+      setImageUrls([]);
     }
-  }
+  };
+
 
   return (
     <Box sx={{}}>

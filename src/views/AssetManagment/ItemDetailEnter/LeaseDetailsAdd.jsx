@@ -3,11 +3,10 @@ import { format } from 'date-fns'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import { getLeaseDetailList } from 'src/api/AssetApis'
 import { useQuery } from '@tanstack/react-query'
@@ -21,6 +20,7 @@ import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import FileView from '../AssetFileView/FileView'
 import LinkSharpIcon from '@mui/icons-material/LinkSharp'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
   const { am_item_map_slno } = detailArry
@@ -105,50 +105,36 @@ const LeaseDetailsAdd = ({ grndetailarry, detailArry }) => {
     setLeaseFlg(1)
   }, [])
 
-  const ViewLeaseImage = useCallback(() => {
-    const getImage = async leaseSlno => {
-      const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${leaseSlno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${leaseSlno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-      }
-    }
-    getImage(leaseSlno)
-  }, [leaseSlno])
 
-  const ViewLeaseDetailFile = useCallback(val => {
-    const { am_lease_mast_slno } = val
-    const getImage = async am_lease_mast_slno => {
-      const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${am_lease_mast_slno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
+
+  const ViewLeaseImage = async () => {
+    setImageShowFlag(1)
+    setImageShow(true)
+    const images = await getFilesFromZip('/AssetFileUpload/LeaseMasterImageView', leaseSlno);
+    setImageArry(images);
+  };
+
+
+  const ViewLeaseDetailFile = useCallback(async (val) => {
+    const { am_lease_mast_slno } = val;
+    setImageShowFlag(1);
+    setImageShow(true);
+    try {
+      const images = await getFilesFromZip('/AssetFileUpload/LeaseMasterImageView', am_lease_mast_slno);
+      if (images && images.length > 0) {
+        setImageArry(images);
       } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
+        setImageArry([]);
+        warningNotify('No images attached for this lease.');
       }
+    } catch (error) {
+      errorNotify('Error fetching documents:', error);
+      setImageArry([]);
     }
-    getImage(am_lease_mast_slno)
-  }, [])
+  }, []);
+
+
+
 
   const handleClose = useCallback(() => {
     setImageShowFlag(0)

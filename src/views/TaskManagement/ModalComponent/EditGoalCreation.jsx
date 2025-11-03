@@ -8,13 +8,12 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import Inputcomponent from '../TaskComponents/Inputcomponent'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
+import { taskColor } from 'src/color/Color'
 
 const EditGoalCreation = ({
   open,
   setEditGoalFlag,
   setEditGoalModalOpen,
-  tableCount,
-  setTableCount,
   goalData,
   setgoalData
 }) => {
@@ -107,7 +106,6 @@ const EditGoalCreation = ({
           const { message, success } = result.data
           if (success === 2) {
             succesNotify(message)
-            setTableCount(tableCount + 1)
             CloseGoal()
           } else if (success === 0) {
             infoNotify(message)
@@ -120,190 +118,212 @@ const EditGoalCreation = ({
         infoNotify('Please Enter Goal Name')
       }
     },
-    [patchGoal, tm_goalName, tableCount, CloseGoal, setTableCount]
+    [patchGoal, tm_goalName, CloseGoal,]
   )
   return (
     <Box>
       <CssVarsProvider>
         <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
           open={open}
+          aria-labelledby="create-goal-title"
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            pl: 1,
-            borderRadius: 10
+            p: 2,
           }}
         >
-          <ModalDialog variant="outlined" sx={{ width: '43vw', p: 0 }}>
-            <Box sx={{ flex: 1 }}>
-              <Box sx={{ flex: 1, display: 'flex', bgcolor: 'white', height: 30 }}>
+          <ModalDialog
+            variant="outlined"
+            sx={{
+              width: { xs: '90vw', sm: '70vw', md: '40vw' },
+              borderRadius: 'lg',
+              p: 0,
+              bgcolor: 'background.body',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 2,
+                py: 1.5,
+                borderBottom: '1px solid',
+                borderColor: 'neutral.outlinedBorder',
+                bgcolor: 'white',
+              }}
+            >
+              <Box sx={{ display: 'flex' }}>
+                <RadarIcon sx={{ height: 40, width: 40, color: taskColor.darkPurple }} />
                 <Typography
-                  sx={{
-                    color: 'lightgray',
-                    fontSize: 12,
-                    pl: 1,
-                    flex: 1,
-                    pt: 1.5,
-                    fontWeight: 900
-                  }}
+                  level="title-sm"
+                  sx={{ fontWeight: 700, color: taskColor.darkPurple, pt: 1.5 }}
                 >
                   Update Goal
                 </Typography>
-                <HighlightOffIcon
-                  sx={{
-                    height: 40,
-                    width: 40,
-                    cursor: 'pointer',
-                    color: '#52688F',
-                    p: 1,
-                    '&:hover': { color: '#BA0F30' }
-                  }}
-                  onClick={CloseGoal}
+              </Box>
+
+              <HighlightOffIcon
+                onClick={CloseGoal}
+                sx={{
+                  cursor: 'pointer',
+                  color: taskColor.darkPurple,
+                }}
+              />
+            </Box>
+
+            {/* Content */}
+            <Box
+              sx={{
+                p: 4,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                maxHeight: '75vh',
+              }}
+            >
+              {/* Goal Name */}
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 1 }}
+                >
+                  Goal<span style={{ color: '#74112F' }}> *</span>
+                </Typography>
+                <Inputcomponent
+                  placeholder="New Goal"
+                  type="text"
+                  name="tm_goalName"
+                  value={tm_goalName}
+                  onchange={GoalsMastUpdate}
                 />
               </Box>
-              <Box sx={{ flex: 1, bgcolor: 'var(--royal-purple-300)', height: 50, mt: 1 }}></Box>
+
+              {/* Date Section */}
               <Box
-                style={{
-                  marginLeft: 50,
-                  marginTop: '-0.99em',
-                  paddingLeft: 2,
-                  zIndex: 2,
-                  backgroundColor: 'white',
-                  borderRadius: 35,
-                  position: 'absolute',
-                  fontSize: '0.75em'
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  mb: 3,
+                  flexWrap: { xs: 'wrap', sm: 'nowrap' }, // ✅ responsive layout
                 }}
               >
-                <RadarIcon sx={{ height: 70, width: 70 }} />
-              </Box>
-              <Typography sx={{ fontWeight: 800, color: 'grey', fontSize: 15, pt: 7, pl: 5.8 }}>Update Goal</Typography>
-              <Box sx={{ maxHeight: '65vh', overflow: 'auto' }}>
-                <Box sx={{ flex: 1, mx: 3, mt: 4 }}>
+                <Box sx={{ flex: 1, minWidth: 0 }}> {/* ✅ prevents overflow */}
+                  <Typography
+                    level="body-sm"
+                    sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
+                  >
+                    From Date<span style={{ color: '#74112F' }}> *</span>
+                  </Typography>
                   <Inputcomponent
                     placeholder="New Goal"
-                    type="text"
-                    name="tm_goalName"
-                    value={tm_goalName}
+                    type="datetime-local"
+                    name="tm_goalFromdate"
+                    value={tm_goalFromdate}
                     onchange={GoalsMastUpdate}
                   />
                 </Box>
-                <Box sx={{ flex: 1, mx: 3, mt: 3.5, display: 'flex' }}>
-                  <Box sx={{ flex: 1, mr: 1.5 }}>
-                    <Typography
-                      sx={{
-                        pl: 1.5,
-                        color: '#003B73',
-                        fontWeight: 600,
-                        textUnderline: 1,
-                        fontSize: 12
-                      }}
-                    >
-                      From Date*
-                    </Typography>
-                    <Inputcomponent
-                      placeholder="New Goal"
-                      type="datetime-local"
-                      name="tm_goalFromdate"
-                      value={tm_goalFromdate}
-                      onchange={GoalsMastUpdate}
-                    />
-                  </Box>
-                  <Box sx={{ flex: 1, ml: 1.5 }}>
-                    <Typography
-                      sx={{
-                        pl: 1.5,
-                        color: '#003B73',
-                        fontWeight: 600,
-                        textUnderline: 1,
-                        fontSize: 12
-                      }}
-                    >
-                      Due Date*
-                    </Typography>
-                    <Inputcomponent
-                      placeholder="New Goal"
-                      type="datetime-local"
-                      name="tm_goalDuedate"
-                      value={tm_goalDuedate}
-                      slotProps={{
-                        input: {
-                          min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                        }
-                      }}
-                      onchange={GoalsMastUpdate}
-                    />
-                  </Box>
-                </Box>
-                <Box sx={{ mt: 5, mx: 3 }}>
-                  <Textarea
-                    minRows={1}
-                    maxRows={5}
-                    placeholder="Describtion"
-                    variant="plain"
-                    sx={{
-                      borderBottom: '2px solid',
-                      borderColor: 'neutral.outlinedBorder',
-                      borderRadius: 0,
-                      '&:hover': {
-                        borderColor: 'neutral.outlinedHoverBorder'
-                      },
-                      '&::before': {
-                        border: '1px solid var(--Textarea-focusedHighlight)',
-                        transform: 'scaleX(0)',
-                        left: 0,
-                        right: 0,
-                        bottom: '-2px',
-                        top: 'unset',
-                        transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                        borderRadius: 0
-                      },
-                      '&:focus-within::before': {
-                        transform: 'scaleX(1)'
+
+                <Box sx={{ flex: 1, minWidth: 0 }}> {/* ✅ prevents overflow */}
+                  <Typography
+                    level="body-sm"
+                    sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
+                  >
+                    Due Date<span style={{ color: '#74112F' }}> *</span>
+                  </Typography>
+                  <Inputcomponent
+                    placeholder="New Goal"
+                    type="datetime-local"
+                    name="tm_goalDuedate"
+                    value={tm_goalDuedate}
+                    slotProps={{
+                      input: {
+                        min: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
                       }
                     }}
-                    name="tm_goalDescription"
-                    value={tm_goalDescription}
-                    onChange={e => GoalsMastUpdate(e)}
+                    onchange={GoalsMastUpdate}
                   />
                 </Box>
-                <Box sx={{ flex: 1, pl: 7, pt: 3, display: 'flex' }}>
-                  {filteredProjects.length === 0 ? (
-                    <>
-                      <CusCheckBox
-                        color="success"
-                        size="lg"
-                        name="tm_goalStatus"
-                        value={tm_goalStatus}
-                        checked={tm_goalStatus}
-                        onCheked={GoalsMastUpdate}
-                      />
-                    </>
-                  ) : (
-                    <CssVarsProvider>
-                      <Tooltip
-                        title="Can't Mark this Goal as Completed, Projects Under this Goal are yet to Complete"
-                        placement="bottom-start"
-                        color="warning"
-                      >
-                        <Checkbox disabled size="lg" />
-                      </Tooltip>
-                    </CssVarsProvider>
-                  )}
+              </Box>
 
-                  <Typography sx={{ pl: 0.5, fontWeight: 500 }}>Goal Completed</Typography>
-                </Box>
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', pt: 5, pb: 2, mr: 3 }}>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={UpdateGoals}>
-                    Update
-                  </Button>
-                  <Button variant="plain" sx={{ fontSize: 15 }} onClick={CloseGoal}>
-                    {' '}
-                    Cancel
-                  </Button>
-                </Box>
+              {/* Description */}
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  level="body-sm"
+                  sx={{ color: taskColor.darkPurple, fontWeight: 600, pl: 0.5 }}
+                >
+                  Description
+                </Typography>
+                <Textarea
+                  minRows={1}
+                  maxRows={5}
+                  placeholder="Describtion"
+                  variant="plain"
+                  sx={{
+                    borderBottom: '2px solid',
+                    borderColor: 'neutral.outlinedBorder',
+                    borderRadius: 0,
+                    '&:hover': {
+                      borderColor: 'neutral.outlinedHoverBorder'
+                    },
+                    '&::before': {
+                      border: '1px solid var(--Textarea-focusedHighlight)',
+                      transform: 'scaleX(0)',
+                      left: 0,
+                      right: 0,
+                      bottom: '-2px',
+                      top: 'unset',
+                      transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
+                      borderRadius: 0
+                    },
+                    '&:focus-within::before': {
+                      transform: 'scaleX(1)'
+                    }
+                  }}
+                  name="tm_goalDescription"
+                  value={tm_goalDescription}
+                  onChange={e => GoalsMastUpdate(e)}
+                />
+              </Box>
+
+              <Box sx={{ flexGrow: 1, pt: 1, display: 'flex' }}>
+                {filteredProjects.length === 0 ? (
+                  <>
+                    <CusCheckBox
+                      color="success"
+                      size="lg"
+                      name="tm_goalStatus"
+                      value={tm_goalStatus}
+                      checked={tm_goalStatus}
+                      onCheked={GoalsMastUpdate}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                  </>
+                ) : (
+                  <CssVarsProvider>
+                    <Tooltip
+                      title="Can't Mark this Goal as Completed, Projects Under this Goal are yet to Complete"
+                      placement="bottom-start"
+                      variant='solid'
+                      sx={{ width: 250, bgcolor: taskColor.darkPurple, color: 'white' }}
+                    >
+                      <Checkbox disabled size="lg" sx={{ cursor: 'pointer' }} />
+                    </Tooltip>
+                  </CssVarsProvider>
+                )}
+
+                <Typography sx={{ pl: 0.5, fontWeight: 500 }}>Goal Completed</Typography>
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button variant="plain" color="neutral" onClick={UpdateGoals}>
+                  Create
+                </Button>
+                <Button variant="plain" color="neutral" onClick={CloseGoal}>
+                  Cancel
+                </Button>
               </Box>
             </Box>
           </ModalDialog>

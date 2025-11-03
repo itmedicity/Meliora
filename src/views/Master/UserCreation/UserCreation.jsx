@@ -20,6 +20,9 @@ import CardMaster from 'src/views/Components/CardMaster'
 import ModuleGroupSelect from 'src/views/CommonSelectCode/ModuleGroupSelect'
 import UserGroupSelect from 'src/views/CommonSelectCode/UserGroupSelect'
 import { Option, Select } from '@mui/joy'
+// import MelioraDepartmentSelect from 'src/views/CommonSelectCode/MelioraDepartmentSelect'
+// import MelioraDepSec from 'src/views/CommonSelectCode/MelioraDepSec'
+import { useQueryClient } from '@tanstack/react-query'
 // import SelectComTypeUser from 'src/views/CommonSelectCode/SelectComTypeUser'
 const UserCreation = () => {
   //*** Initializing */
@@ -43,6 +46,10 @@ const UserCreation = () => {
   const [mastdetl, setDetlSlno] = useState(0)
   const [supervis, setSupervise] = useState(false)
   // const [comTpeMap, setComTypeMap] = useState([])
+  const [department, setDepartment] = useState(0)
+  const [meldeptsec, setmelDeptsec] = useState(0)
+  const queryClient = useQueryClient()
+
   const [userdata, setUserdata] = useState({
     em_name: '',
     em_mobile: '',
@@ -97,6 +104,7 @@ const UserCreation = () => {
     setValue(1)
     setemId(0)
     const data = params.api.getSelectedRows()
+
     const {
       em_id,
       em_no,
@@ -116,7 +124,9 @@ const UserCreation = () => {
       user_group_slno,
       mod_grp_user_slno,
       empdtl_slno,
-      supervisor
+      supervisor,
+      meliora_depId,
+      meliora_depSec
     } = data[0]
     const frmdata = {
       em_name: em_name,
@@ -140,6 +150,8 @@ const UserCreation = () => {
     setdob(format(new Date(em_dob), 'yyyy-MM-dd'))
     setdoj(format(new Date(em_doj), 'yyyy-MM-dd'))
     setSupervise(supervisor === 1 ? true : false)
+    setDepartment(meliora_depId),
+      setmelDeptsec(meliora_depSec)
     // const comptypemap = comp_type_map !== [] ? JSON.parse(comp_type_map) : []
     // setComTypeMap(comptypemap)
   }, [])
@@ -173,7 +185,9 @@ const UserCreation = () => {
       emp_status: em_status === true ? 1 : 0,
       create_user: id,
       emp_slno: em_id,
-      supervisor: supervis === true ? 1 : 0
+      supervisor: supervis === true ? 1 : 0,
+      department: department,
+      meldeptsec: meldeptsec
       // comp_type_map: comTpeMap !== [] ? comTpeMap : null
     }
   }, [
@@ -195,7 +209,9 @@ const UserCreation = () => {
     dept,
     deptsec,
     designation,
-    em_status
+    em_status,
+    meldeptsec,
+    department
   ])
 
   //Update data
@@ -229,7 +245,9 @@ const UserCreation = () => {
       deptsec_slno: deptsec,
       mod_grp_user_slno: mod_grp_user_slno,
       edit_user: id,
-      supervisor: supervis === true ? 1 : 0
+      supervisor: supervis === true ? 1 : 0,
+      meldeptsec: meldeptsec,
+      department: department,
       // comp_type_map: comTpeMap !== [] ? comTpeMap : null
     }
   }, [
@@ -252,7 +270,9 @@ const UserCreation = () => {
     dept,
     deptsec,
     designation,
-    em_status
+    em_status,
+    meldeptsec,
+    department
   ])
 
   const reset = () => {
@@ -280,6 +300,8 @@ const UserCreation = () => {
     setUsergroup(0)
     setDetlSlno(0)
     setSupervise(false)
+    setDepartment(0),
+      setmelDeptsec(0)
     // setComTypeMap([])
   }
 
@@ -293,7 +315,8 @@ const UserCreation = () => {
         const { message, success } = result.data
         if (success === 1) {
           succesNotify(message)
-          setCount(count + 1)
+          // setCount(count + 1)
+          queryClient.invalidateQueries('getallEmpdetails')
           reset()
         } else if (success === 0) {
           infoNotify(message)
@@ -306,7 +329,8 @@ const UserCreation = () => {
         const { message, success } = result.data
         if (success === 2) {
           succesNotify(message)
-          setCount(count + 1)
+          // setCount(count + 1)
+          queryClient.invalidateQueries('getallEmpdetails')
           reset()
         } else if (success === 0) {
           infoNotify(message)
@@ -401,22 +425,21 @@ const UserCreation = () => {
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="Gender" placement="top-start">
-              <Box sx={{ width: '15%', pr: 1, pt: 1 }}>
+              <Box sx={{ width: '15%', pr: 1, }}>
                 <FormControl fullWidth size="small">
                   <Select
                     id="demo-simple-select"
-                    name="gender"
                     value={gender}
                     onChange={(e, newValue) => setGender(newValue)}
-                    size="small"
+                    size="sm"
                     variant="outlined"
-                    sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+                    sx={{ m: 0, }}
                   >
-                    <Option value="0" disabled>
+                    <Option value={0} disabled>
                       Select Gender
                     </Option>
-                    <Option value="1">Male</Option>
-                    <Option value="2">Female</Option>
+                    <Option value={1}>Male</Option>
+                    <Option value={2}>Female</Option>
                   </Select>
                 </FormControl>
               </Box>
@@ -444,7 +467,7 @@ const UserCreation = () => {
             }}
           >
             <CustomeToolTip title="Mobile No" placement="top-start">
-              <Box sx={{ width: '25%', pr: 1 }}>
+              <Box sx={{ width: '25%', pr: 1, mt: 1 }}>
                 <TextFieldCustom
                   placeholder="Mobile No"
                   type="text"
@@ -456,7 +479,7 @@ const UserCreation = () => {
               </Box>
             </CustomeToolTip>
             <CustomeToolTip title="Email Id" placement="top-start">
-              <Box sx={{ width: '30%', pr: 1 }}>
+              <Box sx={{ width: '30%', pr: 1, mt: 1 }}>
                 <TextFieldCustom
                   placeholder="Email Id"
                   type="text"
@@ -509,7 +532,7 @@ const UserCreation = () => {
                 <UserGroupSelect value={usergroup} setValue={setUsergroup} />
               </Box>
             </CustomeToolTip>
-            <Box sx={{ width: '10%', pr: 1, pt: 1 }}>
+            <Box sx={{ width: '10%', pr: 1, mt: 2 }}>
               <CusCheckBox
                 label="Status"
                 color="primary"
@@ -520,7 +543,13 @@ const UserCreation = () => {
                 onCheked={updateUserCreation}
               />
             </Box>
-            <Box sx={{ width: '25%', pr: 1, pt: 1 }}>
+            {/* <Box sx={{ width: '15%', pr: 1, pt: 1 }}>
+              <MelioraDepartmentSelect value={department} setValue={setDepartment} />
+            </Box>
+            <Box sx={{ width: '15%', pr: 1, pt: 1 }}>
+              <MelioraDepSec value={meldeptsec} setValue={setmelDeptsec} dept={department} />
+            </Box> */}
+            <Box sx={{ width: '25%', pr: 1, mt: 2 }}>
               <CusCheckBox
                 label="Supervisor/Incharge/HOD/Technical Head"
                 color="primary"

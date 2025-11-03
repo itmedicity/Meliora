@@ -1,7 +1,6 @@
 import { Box, Modal, ModalDialog, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback } from 'react'
 import HighlightOffSharpIcon from '@mui/icons-material/HighlightOffSharp'
-import { Paper } from '@mui/material'
 
 const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFlag, filezUrls }) => {
   const handleCloseBill = useCallback(() => {
@@ -39,12 +38,44 @@ const BillFile = ({ billViewmodalOpen, setBillViewModalOpen, setBillViewModalFla
               </Tooltip>
             </Box>
             <Box sx={{ gap: 2 }}>
-              {filezUrls.map((Url, index) => (
-                <Paper key={index} sx={{ bgcolor: '#EBEBE8', cursor: 'pointer', height: 800, width: 1000, mb: 0.5 }}>
-                  <embed id="pdf-embed" src={Url} type="application/pdf" height={800} width={'100%'} />
-                </Paper>
+              {filezUrls.map((item, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    bgcolor: '#EBEBE8',
+                    cursor: 'pointer',
+                    height: 800,
+                    width: 1000,
+                    mb: 0.5,
+                  }}
+                >
+                  {item.blob.type.startsWith('image') ? (
+                    <img
+                      src={item.url}
+                      alt={`Preview-${index}`}
+                      style={{
+                        width: '100%',
+                        height: '80%',
+                        objectFit: 'contain',
+                      }}
+                    />
+                  ) : item.blob.type === 'application/pdf' ? (
+                    <embed
+                      id={`pdf-embed-${index}`}
+                      src={`${item.url}#toolbar=0&navpanes=0&view=FitH`}
+                      type="application/pdf"
+                      height={850}
+                      width="100%"
+                    />
+                  ) : (
+                    <Typography variant="h6" color="text.secondary">
+                      Unsupported file type.
+                    </Typography>
+                  )}
+                </Box>
               ))}
             </Box>
+
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
               <Box
                 sx={{

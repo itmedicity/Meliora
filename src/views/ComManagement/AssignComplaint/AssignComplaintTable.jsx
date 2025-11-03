@@ -21,7 +21,9 @@ import AllTicketsSuperwiser from '../CmSuperVisorList/AllTicketsSuperwiser'
 import MyAllTickets from './MyTicketList/MyAllTickets'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
 import { useQuery } from '@tanstack/react-query'
-import { errorNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { socket } from 'src/ws/socket'
+
 
 const AssignComplaintTable = () => {
   const [index, setIndex] = useState(0)
@@ -33,6 +35,7 @@ const AssignComplaintTable = () => {
   const [forverifyLength, setforverifyLength] = useState(0)
   const [onholdCompl, setOnholdCompl] = useState([])
   const [holdLength, setholdLength] = useState(0)
+  const [socketcount, setSocketCount] = useState(0)
 
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -119,6 +122,7 @@ const AssignComplaintTable = () => {
         if (success === 1) {
           setAllPendingCompl(data)
           setpendinglength(data.length)
+          setSocketCount(0)
         } else {
           setAllPendingCompl([])
           setpendinglength(0)
@@ -130,7 +134,7 @@ const AssignComplaintTable = () => {
       }
     }
     getAllPendingCompalints(empdept)
-  }, [empdept, count])
+  }, [empdept, count, socketcount])
 
   const menuList = useMemo(() => {
     if (loading) return []
@@ -185,7 +189,22 @@ const AssignComplaintTable = () => {
   useEffect(() => {
     let array = menuList.filter(value => employeeMenuRight.find(val => value.slno === val.menu_slno))
     setMenurights(array)
-  }, [menuList, employeeMenuRight])
+  }, [menuList, employeeMenuRight]);
+
+
+
+
+  // websocket
+  useEffect(() => {
+    socket.on("new_complaint_submitted", (data) => {
+      setSocketCount(1)
+      succesNotify(`New complaint received: ${data.complaint_slno}`);
+    });
+    // ? Clean up listeners on unmount
+    return () => {
+      socket.off("new_complaint_submitted");
+    };
+  }, []);
 
   return (
     <Paper sx={{ flexGrow: 1 }}>

@@ -36,7 +36,8 @@ const ModuleGroupMast = () => {
     incident: false,
     notification: false,
     amsModule: false,
-    mod_grp_slno: 0
+    mod_grp_slno: 0,
+    workorder: false
   })
   /*** Destructuring */
   const {
@@ -62,7 +63,8 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule
+    amsModule,
+    workorder
   } = moduleGroup
 
   /***Get values from the component */
@@ -100,7 +102,8 @@ const ModuleGroupMast = () => {
         module_dailycensus: dailycensus === true ? 19 : 0,
         module_incident: incident === true ? 20 : 0,
         module_notification: notification === true ? 24 : 0,
-        module_ams: amsModule === true ? 25 : 0
+        module_ams: amsModule === true ? 25 : 0,
+        module_workorder: workorder === true ? 26 : 0,
       }
     }
   }, [
@@ -125,7 +128,8 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule
+    amsModule,
+    workorder
   ])
 
   /*** data for  update to module_group_mast table */
@@ -154,7 +158,9 @@ const ModuleGroupMast = () => {
         module_dailycensus: dailycensus === true ? 19 : 0,
         module_incident: incident === true ? 20 : 0,
         module_notification: notification === true ? 24 : 0,
-        module_ams: amsModule === true ? 25 : 0
+        module_ams: amsModule === true ? 25 : 0,
+        module_workorder: workorder === true ? 26 : 0,
+
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -181,7 +187,9 @@ const ModuleGroupMast = () => {
     dailycensus,
     incident,
     notification,
-    amsModule
+    amsModule,
+    workorder
+
   ])
 
   // data setting for edit
@@ -213,7 +221,9 @@ const ModuleGroupMast = () => {
       dailycensus: module_status.module_dailycensus === 0 ? false : true,
       incident: module_status.module_incident === 0 ? false : true,
       notification: module_status.module_notification === 0 ? false : true,
-      amsModule: module_status.module_ams === 0 ? false : true
+      amsModule: module_status.module_ams === 0 ? false : true,
+      module_workorder: module_status.workorder === true ? 26 : 0,
+
     }
     setModuleGroup(formdata)
   }, [])
@@ -243,7 +253,9 @@ const ModuleGroupMast = () => {
         dailycensus: false,
         incident: false,
         notification: false,
-        amsModule: false
+        amsModule: false,
+        workorder: false,
+
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -314,7 +326,9 @@ const ModuleGroupMast = () => {
       dailycensus: false,
       incident: false,
       notification: false,
-      amsModule: false
+      amsModule: false,
+      workorder: false,
+
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -586,6 +600,18 @@ const ModuleGroupMast = () => {
                     variant="outlined"
                     value={amsModule}
                     checked={amsModule}
+                    onCheked={updateModuleGroup}
+                  />
+                </Grid>
+                <Grid item xl={12} lg={12}>
+                  <CusCheckBox
+                    label="Work Order"
+                    color="primary"
+                    size="md"
+                    name="workorder"
+                    variant="outlined"
+                    value={workorder}
+                    checked={workorder}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>

@@ -1,4 +1,4 @@
-import { Box, Checkbox, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
+import { Box, Checkbox, Modal, ModalClose, ModalDialog, Textarea, Tooltip, Typography } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Paper } from '@mui/material'
 import CusCheckBox from 'src/views/Components/CusCheckBox'

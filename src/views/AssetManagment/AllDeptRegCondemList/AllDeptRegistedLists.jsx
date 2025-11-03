@@ -1,8 +1,8 @@
 import { Box, CircularProgress, CssVarsProvider, IconButton, Table } from '@mui/joy'
 import React, { memo, useMemo } from 'react'
-import { format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { getAllDeptCondemList } from 'src/api/AssetApis'
+import FormattedDate from 'src/views/Components/FormattedDate'
 
 const AllDeptRegistedLists = ({ viewForm }) => {
   const SatusFrom = 8
@@ -168,7 +168,7 @@ const AllDeptRegistedLists = ({ viewForm }) => {
                         {val.condem_form_prefix}/{val.condem_form_no}
                       </td>
                       <td style={{ textAlign: 'center' }}>
-                        {val.reg_date ? format(new Date(val.reg_date), 'dd-MMM-yyyy') : 'N/A'}
+                        <FormattedDate date={val.reg_date} />
                       </td>
                       <td style={{ textAlign: 'center' }}>{val.count_of_asset || '-'}</td>
                       <td style={{ textAlign: 'center' }}>{val.count_of_spare || '-'}</td>

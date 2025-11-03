@@ -1,6 +1,7 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { Fragment, memo, useCallback, useState } from 'react'
 import ModalForDailyCensusEntry from './ModalForDailyCensusEntry'
+import { Box } from '@mui/joy'
 
 const ListNursingStations = ({ dailyDate, censusData, count, setCount }) => {
   const [modalFlag, setModalFlag] = useState(0)

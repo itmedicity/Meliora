@@ -3,7 +3,6 @@ import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { Box, Button, Input } from '@mui/joy'
 import { useSelector, useDispatch } from 'react-redux'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import imageCompression from 'browser-image-compression'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import BillAddMastTable from './BillAddMastTable'
@@ -23,6 +22,7 @@ import FileViewSingle from 'src/views/Components/FileViewSingle'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const BillAddMaster = ({ setBillFlg }) => {
   const [selectFile, setSelectFile] = useState([])
@@ -241,27 +241,15 @@ const BillAddMaster = ({ setBillFlg }) => {
     setBillFlg()
   }, [setBillFlg])
 
-  const ViewAmcCmcImage = useCallback(() => {
-    const getImage = async am_bill_mastslno => {
-      const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/BillMaster/${am_bill_mastslno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-      }
-    }
-    getImage(am_bill_mastslno)
-  }, [am_bill_mastslno])
+
+  const ViewAmcCmcImage = async () => {
+    setImageShowFlag(1)
+    setImageShow(true)
+    const images = await getFilesFromZip('/AssetFileUpload/BillMasterImageView', am_bill_mastslno);
+    setImageArry(images);
+  };
+
+
   const handleClose = useCallback(() => {
     setImageShowFlag(0)
     setImageShow(false)
@@ -340,8 +328,8 @@ const BillAddMaster = ({ setBillFlg }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })

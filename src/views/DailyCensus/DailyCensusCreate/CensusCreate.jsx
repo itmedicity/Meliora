@@ -1,5 +1,4 @@
 import { Box, Button, CssVarsProvider, Input, Tooltip, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { axiosellider, axioslogin } from 'src/views/Axios/Axios'
 import RecentActorsIcon from '@mui/icons-material/RecentActors'
@@ -229,7 +228,7 @@ const CensusCreate = () => {
   return (
     <Fragment>
       {loading && <CustomCircularProgress />}
-      <Paper variant="outlined" square sx={{ width: "100%" }}>
+      <Box square sx={{ width: "100%" }}>
         <Box sx={{ display: 'flex', flex: 1, height: 42 }}>
           <Box sx={{ pl: 0.7, pt: 0.2 }}>
             <RecentActorsIcon sx={{ color: '#424242', height: 40, width: 40 }} />
@@ -251,9 +250,9 @@ const CensusCreate = () => {
           </Box>
         </Box>
         <Box>
-          <Paper variant="outlined" square sx={{ display: 'flex', pr: 1, py: 1 }}>
+          <Box square sx={{ display: 'flex', pr: 1, py: 1 }}>
             <Box sx={{ flex: 1 }}></Box>
-            <Paper variant="outlined" sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
+            <Box sx={{ display: 'flex', flex: 1.5, p: 1.5, bgcolor: '#dadce0' }}>
               <Box sx={{ flex: 1 }}>
                 <CssVarsProvider>
                   <Input
@@ -322,9 +321,9 @@ const CensusCreate = () => {
                   </CssVarsProvider>
                 </Box>
               ) : null}
-            </Paper>
+            </Box>
             <Box sx={{ flex: 1 }}></Box>
-          </Paper>
+          </Box>
         </Box>
         <Box sx={{ display: 'flex', overflow: 'auto' }}>
           {tabFlag === 1 ? (
@@ -333,7 +332,7 @@ const CensusCreate = () => {
             <Box sx={{ height: 700 }}></Box>
           )}
         </Box>
-      </Paper>
+      </Box>
     </Fragment>
   )
 }

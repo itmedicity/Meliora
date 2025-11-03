@@ -14,6 +14,8 @@ import { FaMoneyBills } from "react-icons/fa6";
 import { GiMedicines } from "react-icons/gi";
 import { GrDocumentPdf } from "react-icons/gr";
 import { MdAppRegistration } from "react-icons/md";
+import { FaBedPulse } from "react-icons/fa6";
+
 const SideMenu = () => {
   const navigation = useNavigate()
   const [filteredDashboardRoutes, setFilteredDashboardRoutes] = useState([]);
@@ -81,7 +83,11 @@ const SideMenu = () => {
       name: 'Documents',
       icon: <GrDocumentPdf size={35} color="var(--royal-purple-300)" />
     },
-
+    {
+      path: '/Home/IcuDashboard',
+      name: 'Icu Beds',
+      icon: <FaBedPulse size={35} color="var(--royal-purple-300)" />
+    },
   ]
 
 

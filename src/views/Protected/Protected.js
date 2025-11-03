@@ -8,7 +8,7 @@ import { Backdrop } from '@mui/material'
 import { Box } from '@mui/system'
 import MLogoIcon from 'src/assets/MLogoIcon'
 
-const Protected = props => {
+const Protected = () => {
   const dispatch = useDispatch()
   const { FETCH_LOGIN } = ActionTyps
 
@@ -136,7 +136,7 @@ const Protected = props => {
         </Box>
       </Backdrop>
     )
-  return validLogin ? <Outlet /> : <Navigate to="/" />
+  return validLogin ? <Outlet validUser={validUser} /> : <Navigate to="/" />
 }
 
 export default Protected

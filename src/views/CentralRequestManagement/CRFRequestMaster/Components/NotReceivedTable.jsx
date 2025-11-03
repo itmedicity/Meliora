@@ -8,9 +8,9 @@ import GppGoodTwoToneIcon from '@mui/icons-material/GppGoodTwoTone'
 import UserAckModal from './UserAckModal'
 import BeenhereTwoToneIcon from '@mui/icons-material/BeenhereTwoTone'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { GetItemDetailsOfCRFCmp } from '../../ComonComponent/GetItemDetailsOfCRFCmp'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
+import JSZip from 'jszip'
 
 const NotReceivedTable = ({ disData, rowSelect, company }) => {
   const [modalData, setModalData] = useState([])
@@ -30,23 +30,70 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
     setModalData(val)
     const { req_slno } = val
     const getImage = async req_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-        })
-        const savedFiles = fileUrls.map(val => {
-          const parts = val.split('/')
-          const fileNamePart = parts[parts.length - 1]
-          const obj = {
-            imageName: fileNamePart,
-            url: val
-          }
-          return obj
-        })
-        setImageArry(savedFiles)
+      // const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
+      // const { success, data } = result.data
+      // if (success === 1) {
+      //   const fileNames = data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
+      //   })
+      //   const savedFiles = fileUrls.map(val => {
+      //     const parts = val.split('/')
+      //     const fileNamePart = parts[parts.length - 1]
+      //     const obj = {
+      //       imageName: fileNamePart,
+      //       url: val
+      //     }
+      //     return obj
+      //   })
+      //   setImageArry(savedFiles)
+      // }
+      setImageArry([]);
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // })
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images);
+        }
+      } catch (error) {
+        setImageArry([]);
+        console.error('Error fetching or processing images:', error);
       }
     }
     getImage(req_slno)
@@ -144,21 +191,21 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                       height: 4,
                       background:
                         val?.sub_store_recieve === 1 ||
-                        val?.internally_arranged_status === 1 ||
-                        val?.work_order_status === 1
+                          val?.internally_arranged_status === 1 ||
+                          val?.work_order_status === 1
                           ? '#B1D8B7'
                           : val?.store_recieve === 0 || val?.store_recieve === 1
-                          ? '#BFD7ED'
-                          : 'transparent'
+                            ? '#BFD7ED'
+                            : 'transparent'
                     }}
                     size="small"
                   >
                     <td>
                       {/* (val.hod_approve !== null || val.incharge_approve !== null) */}
                       {val?.req_status === 'C' ||
-                      val?.incharge_approve === 1 ||
-                      val?.dms_approve === 1 ||
-                      val?.ms_approve === 1 ? (
+                        val?.incharge_approve === 1 ||
+                        val?.dms_approve === 1 ||
+                        val?.ms_approve === 1 ? (
                         <EditOutlinedIcon
                           sx={{
                             fontSize: 'lg',
@@ -192,8 +239,8 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                     </td>
                     <td>
                       {val.sub_store_recieve === 1 ||
-                      val?.internally_arranged_status === 1 ||
-                      val?.work_order_status === 1 ? (
+                        val?.internally_arranged_status === 1 ||
+                        val?.work_order_status === 1 ? (
                         <CustomToolTipForCRF title="Acknowledgement " placement="right">
                           <GppGoodTwoToneIcon
                             sx={{
@@ -274,10 +321,10 @@ const NotReceivedTable = ({ disData, rowSelect, company }) => {
                           {val?.now_who_status === 1
                             ? 'Approved'
                             : val?.now_who_status === 2
-                            ? 'Rejected'
-                            : val?.now_who_status === 3
-                            ? 'On-Hold'
-                            : ''}
+                              ? 'Rejected'
+                              : val?.now_who_status === 3
+                                ? 'On-Hold'
+                                : ''}
                           &nbsp;&nbsp;{val?.req_status === 'I' ? '(Internally arranged)' : ''}
                           &nbsp;
                           {val?.work_order_status === 1 && val?.now_who === 'Purchase Acknowledged'

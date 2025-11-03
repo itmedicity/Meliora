@@ -31,6 +31,7 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
           ) {
             if (file.size > 26214400) {
               warningNotify(`The file "${file.name}" exceeds the 25MB size limit`)
+              setImageArry([])
               return false
             }
             const isDuplicate = prevFiles.some(prevFile => prevFile.name === file.name && prevFile.size === file.size)
@@ -75,8 +76,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
         ? 'pdf'
         : 'image'
       : file.type.includes('application/pdf')
-      ? 'pdf'
-      : 'image'
+        ? 'pdf'
+        : 'image'
 
     const fileUrl = file.url || URL.createObjectURL(file)
     setPreviewFile({ url: fileUrl, type: fileType })
@@ -165,8 +166,8 @@ const PurchaseWoImg = ({ selectFile, setSelectFile }) => {
                 }}
               >
                 {file.imageName.endsWith('.png') ||
-                file.imageName.endsWith('.jpg') ||
-                file.imageName.endsWith('.jpeg') ? (
+                  file.imageName.endsWith('.jpg') ||
+                  file.imageName.endsWith('.jpeg') ? (
                   <img
                     src={file.url}
                     alt={file.imageName}

@@ -1,8 +1,8 @@
 import { Box, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
 import React, { Fragment, memo, useCallback, useState } from 'react'
+import JSZip from 'jszip';
 
 import { axioslogin } from 'src/views/Axios/Axios'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import CrfRegistration from './Registration/CrfRegistration'
 import CrfReqstTableView from './ViewCRFDetails/CrfReqstTableView'
 
@@ -12,6 +12,7 @@ const CrfRequestMaster = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [detailDataDis, setDetailDataDis] = useState([])
   const [imagearray, setImageArry] = useState([])
+
   const rowSelect = useCallback(val => {
     setEditRowData(val)
     const { req_slno } = val
@@ -41,25 +42,88 @@ const CrfRequestMaster = () => {
     }
     InsertFun(req_slno)
 
+    //   const getImage = async req_slno => {
+    //     const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+    //       responseType: 'blob'
+    //     });
+
+    //     const cdHeader = result.headers['content-disposition'];
+    //     let fileName = 'image.jpg'; // fallback
+    //     console.log(cdHeader);
+
+    //     if (cdHeader) {
+    //       const filenameRegex = /filename\*?=(?:UTF-8''|")?([^;"']+)(?:[";]|$)/i;
+    //       const matches = filenameRegex.exec(cdHeader);
+    //       if (matches && matches[1]) {
+    //         fileName = matches[1];
+    //       }
+    //     }
+
+    //     const url = URL.createObjectURL(result.data);
+    //     console.log(url, "url");
+    //     setImageArry([{ imageName: fileName, url }]);
+
+    //   }
+    //   getImage(req_slno)
+    //   setEdit(1)
+    //   setActiveTab(0)
+    // }, [])
     const getImage = async req_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/${fileName}`
-        })
-        const savedFiles = fileUrls.map(val => {
-          const parts = val.split('/')
-          const fileNamePart = parts[parts.length - 1]
-          const obj = {
-            imageName: fileNamePart,
-            url: val
-          }
-          return obj
-        })
-        setImageArry(savedFiles)
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfRegimageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   console.log(blob);
+
+          //   return { imageName: filename, url, blob };
+          // });
+          // const images = await Promise.all(imagePromises);
+          // setImageArry(images);
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+
+          const images = await Promise.all(imagePromises);
+          setImageArry(images);
+        }
+      } catch (error) {
+        setImageArry([]);
+        console.error('Error fetching or processing images:', error);
       }
+
     }
     getImage(req_slno)
     setEdit(1)

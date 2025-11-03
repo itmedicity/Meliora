@@ -26,9 +26,8 @@ const BranchSelectHr = ({ value, setValue }) => {
           id="demo-simple-select"
           value={value}
           onChange={(e, newValue) => setValue(newValue)}
-          size="small"
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          size="sm" variant="outlined"
+          sx={{ m: 0, }}
         >
           <Option value={0} disabled>
             Select Branch

@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs, tabClasses } from '@mui/joy'
+import { Box, Tab, TabList, TabPanel, Tabs, tabClasses } from '@mui/joy'
 import React, { memo, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import MonthlyPaidBills from '../PaidBills/MonthlyPaidBills'

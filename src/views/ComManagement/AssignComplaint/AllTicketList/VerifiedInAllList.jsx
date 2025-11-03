@@ -11,7 +11,6 @@ import QueryModalview from '../Queries/QueryModalview'
 import RectifyDetailsModal from '../../ComplaintRegister/TicketLists/RectifyDetailsModal'
 import MoreIcon from '@mui/icons-material/More'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ComFileView from '../../CmFileView/ComFileView'
 import TextComponent from 'src/views/Components/TextComponent'
@@ -19,6 +18,7 @@ import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'
 import { FormControlLabel } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
+import JSZip from 'jszip'
 
 const VerifiedInAllList = () => {
   const [verifiedList, setRectifiedList] = useState([])
@@ -33,7 +33,7 @@ const VerifiedInAllList = () => {
   const [image, setimage] = useState(0)
   const [fileDetails, setfileDetails] = useState([])
   const [imageUrls, setImageUrls] = useState([])
-  const [selectedImages, setSelectedImages] = useState([])
+  // const [selectedImages, setSelectedImages] = useState([])
   const [imageViewOpen, setimageViewOpen] = useState(false)
 
   const empdept = useSelector(state => {
@@ -129,26 +129,72 @@ const VerifiedInAllList = () => {
     setimage(1)
     setimageViewOpen(true)
     setfileDetails(val)
+    // try {
+    //   const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
+    //   const { success } = result.data
+    //   if (success === 1) {
+    //     const data = result.data
+    //     const fileNames = data.data
+    //     const fileUrls = fileNames.map(fileName => {
+    //       return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+    //     })
+    //     setImageUrls(fileUrls)
+    //     if (fileUrls.length > 0) {
+    //       setSelectedImages(val)
+    //     } else {
+    //       warningNotify('No Image attached')
+    //     }
+    //   } else {
+    //     warningNotify('No Image Attached')
+    //   }
+    // } catch (error) {
+    //   warningNotify('Error in fetching files:', error)
+    // }
     try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
+      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`, {
+        responseType: 'blob'
+      });
+
+      const contentType = result.headers['content-type'] || '';
+      if (contentType?.includes('application/json')) {
+        return;
       } else {
-        warningNotify('No Image Attached')
+        const zip = await JSZip.loadAsync(result.data);
+        // Extract image files (e.g., .jpg, .png)
+        const imageEntries = Object.entries(zip.files).filter(
+          ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+        );
+        // Convert each to a Blob URL
+        const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          // Get the original blob (no type)
+          const originalBlob = await fileObj.async('blob');
+
+          // Determine MIME type based on filename extension (or any other logic)
+          let mimeType = '';
+          if (filename.endsWith('.pdf')) {
+            mimeType = 'application/pdf';
+          } else if (filename.endsWith('.png')) {
+            mimeType = 'image/png';
+          } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+            mimeType = 'image/jpeg';
+          } else {
+            mimeType = 'application/octet-stream'; // fallback
+          }
+
+          // Recreate blob with correct type
+          const blobWithType = new Blob([originalBlob], { type: mimeType });
+
+          // Create URL from new blob
+          const url = URL.createObjectURL(blobWithType);
+          return { imageName: filename, url, blob: blobWithType };
+        });
+        const images = await Promise.all(imagePromises);
+        setImageUrls(images)
       }
     } catch (error) {
-      warningNotify('Error in fetching files:', error)
+      console.error('Error fetching or processing images:', error);
+      // setUploadedImages([])
+      warningNotify('No Image Attached')
     }
   }
 
@@ -270,7 +316,7 @@ const VerifiedInAllList = () => {
           <ComFileView
             imageUrls={imageUrls}
             imageViewOpen={imageViewOpen}
-            selectedImages={selectedImages}
+            // selectedImages={selectedImages}
             fileDetails={fileDetails}
             setimage={setimage}
             setimageViewOpen={setimageViewOpen}
@@ -470,11 +516,9 @@ const VerifiedInAllList = () => {
                         <Typography sx={{ fontSize: 13, flex: 1 }}>
                           {val.rm_room_name}
                           {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                            ? ` (${val.rm_roomtype_name || ''}${
-                                val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                              }${val.rm_insidebuildblock_name || ''}${
-                                val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                              }${val.rm_floor_name || ''})`
+                            ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                            }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                            }${val.rm_floor_name || ''})`
                             : val.cm_complaint_location || 'Not Updated'}
                         </Typography>
                       </Box>

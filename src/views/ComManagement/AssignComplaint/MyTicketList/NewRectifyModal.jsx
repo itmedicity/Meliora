@@ -31,6 +31,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ComplaintAttachFiles from './ComplaintAttachFiles'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import CmHoldReasonList from '../../CmComponent/CmHoldReasonList'
+import { useQueryClient } from '@tanstack/react-query';
 
 const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, count, setCount }) => {
   const {
@@ -52,6 +53,7 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
   } = rectfyDta
 
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const [search, setSearch] = useState(0)
   const [select, setSelect] = useState(1)
   const [assetArray, setAssetArray] = useState([])
@@ -125,15 +127,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
     }
   }, [])
 
-  // const updateOnHold = useCallback((e) => {
-  //     if (e.target.checked === true) {
-  //         setPending(true)
-  //         setRectify(false)
-  //         setPendhold('')
-  //     } else {
-  //         setPending(false)
-  //     }
-  // }, [])
 
   const UpdateAssetNo = useCallback(e => {
     setcm_am_asset_no(e.target.value.toLocaleUpperCase())
@@ -637,8 +630,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 .then(response => {
                                   const { succes, message } = response
                                   if (succes === 1) {
-                                    succesNotify('Complaint Updated Successfully')
+                                    queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                    queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                     setCount(count + 1)
+                                    succesNotify('Complaint Updated Successfully')
                                     reset()
                                     Close()
                                   } else {
@@ -649,8 +644,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                   infoNotify('An error occurred while updating the complaint.')
                                 })
                             } else {
-                              succesNotify('Complaint Updated Successfully')
+                              queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                              queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
+                              succesNotify('Complaint Updated Successfully')
                               reset()
                               Close()
                             }
@@ -668,8 +665,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                               .then(response => {
                                 const { succes, message } = response
                                 if (succes === 1) {
-                                  succesNotify('Complaint Updated Successfully')
+                                  queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                  queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
+                                  succesNotify('Complaint Updated Successfully')
                                   reset()
                                   Close()
                                 } else {
@@ -680,8 +679,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
-                            succesNotify('Complaint Updated Successfully')
+                            queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                            queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
+                            succesNotify('Complaint Updated Successfully')
                             reset()
                             Close()
                           }
@@ -700,8 +701,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                               .then(response => {
                                 const { succes, message } = response
                                 if (succes === 1) {
-                                  succesNotify('Complaint Updated Successfully')
+                                  queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                                  queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
+                                  succesNotify('Complaint Updated Successfully')
                                   reset()
                                   Close()
                                 } else {
@@ -712,8 +715,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
-                            succesNotify('Complaint Updated Successfully')
+                            queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                            queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
+                            succesNotify('Complaint Updated Successfully')
                             reset()
                             Close()
                           }
@@ -727,8 +732,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                           .then(response => {
                             const { succes, message } = response
                             if (succes === 1) {
-                              succesNotify('Complaint Updated Successfully')
+                              queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                              queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
+                              succesNotify('Complaint Updated Successfully')
                               reset()
                               Close()
                             } else {
@@ -739,8 +746,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                             infoNotify('An error occurred while updating the complaint.')
                           })
                       } else {
-                        succesNotify('Complaint Updated Successfully')
+                        queryClient.invalidateQueries('getAllPendingEmployeeTickets')
+                        queryClient.invalidateQueries('getAllHoldEmployeeComp')
                         setCount(count + 1)
+                        succesNotify('Complaint Updated Successfully')
                         reset()
                         Close()
                       }
@@ -1439,15 +1448,6 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                   checked={rectified}
                   onCheked={updateRectified}
                 />
-                {/* <CusCheckBox
-                                    label="On Hold"
-                                    color="neutral"
-                                    size="md"
-                                    name="pending"
-                                    value={pending}
-                                    checked={pending}
-                                    onCheked={updateOnHold}
-                                /> */}
               </Box>
               {pending === true ? (
                 <Box sx={{ mr: 2, my: 1 }}>

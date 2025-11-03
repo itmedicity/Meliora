@@ -1,13 +1,11 @@
 import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import PendingList from './TicketLists/PendingList'
 import { useSelector } from 'react-redux'
-import { axioslogin } from 'src/views/Axios/Axios'
 import OnholdList from './TicketLists/OnholdList'
 import ForVerify from './TicketLists/ForVerify'
-import { errorNotify } from 'src/views/Common/CommonCode'
 import { getAllPendingComplaints } from 'src/api/CommonApi'
 import { useQuery } from '@tanstack/react-query'
 
@@ -21,7 +19,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
   // const [pendingLength, setpendingLength] = useState(0)
   // const [forVerify, setforVerify] = useState([])
   // const [verifyLength, setverifyLength] = useState(0)
-  const [loading, setLoading] = useState(false)
+
   const empsecid = useSelector(state => {
     return state.LoginUserData.empsecid
   })
@@ -45,7 +43,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
   }, [])
 
 
-  const { isLoading, error, data, isSuccess } = useQuery({
+  const { isLoading: loading, error, data, isSuccess } = useQuery({
     queryKey: ['GetAllPendingComplaints', empsecid],
     queryFn: () => getAllPendingComplaints(empsecid)
   })
@@ -135,7 +133,7 @@ const ComplaintRegTable = ({ count, setCount, rowSelect, verficationPending }) =
 
   //   getAllPendingComplaints()
   // }, [empsecid, count])
-  if (isLoading) return <p>Loading...</p>
+  if (loading) return <p>Loading...</p>
   if (error) return <p>Error occurred.</p>
   return (
     <Box sx={{ flex: 1 }}>

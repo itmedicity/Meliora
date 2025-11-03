@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback, memo, lazy } from 'react'
-// import DashBoardFloor from './DashBoardFloor'
+import DashBoardFloor from './DashBoardFloor'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import tmc from '../../../../src/assets/images/tmc.jpg'
 import tmch from '../../../../src/assets/images/tmch.jpg'

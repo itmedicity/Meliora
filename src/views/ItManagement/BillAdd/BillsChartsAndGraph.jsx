@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart'
-import { createTheme, Paper } from '@mui/material'
+import { createTheme } from '@mui/material'
 import { Box, CssBaseline, Dropdown, Input, ListDivider, Menu, MenuButton, MenuItem, ThemeProvider, Typography } from '@mui/joy'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import { BarChart, PieChart } from '@mui/x-charts'

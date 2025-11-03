@@ -1,29 +1,31 @@
-import { Box } from '@mui/joy'
+import { Box, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useSelector } from 'react-redux'
 import { Virtuoso } from 'react-virtuoso'
 import { getPendingDetailentryAsset, getPendingDetailentrySpare } from 'src/api/AssetApis'
 import DescriptionIcon from '@mui/icons-material/Description'
 import DeleteOutlineSharpIcon from '@mui/icons-material/DeleteOutlineSharp'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
 
 const PendingEntries = ({ enterDetails }) => {
   const [assetPendingDetails, setassetPendingDetails] = useState([])
   const [sparePendingDetails, setsparePendingDetails] = useState([])
   const [count, setCount] = useState(0)
-  const combinedList = [...sparePendingDetails, ...assetPendingDetails]
+  const [custoDian, setCustodian] = useState(0)
+  const [custodianAllDetails, setcustodianAllDetails] = useState({})
+  const {
+    am_custodian_dept_slno,
+  } = custodianAllDetails
 
-  const empdept = useSelector(state => {
-    return state.LoginUserData.empdept
-  })
+  const combinedList = [...sparePendingDetails, ...assetPendingDetails]
 
   const postData = useMemo(() => {
     return {
-      am_custodian_dept_slno: empdept
+      am_custodian_dept_slno: am_custodian_dept_slno
     }
-  }, [empdept])
+  }, [am_custodian_dept_slno])
 
   const { data: dataAssetVal } = useQuery({
     queryKey: ['getPendingDetailentryAsset', postData, count],
@@ -89,7 +91,20 @@ const PendingEntries = ({ enterDetails }) => {
   )
 
   return (
-    <Box sx={{ m: 1, border: 1, borderColor: 'lightgrey', p: 1, height: '78vh' }}>
+    <Box sx={{ m: 1, border: 1, borderColor: 'lightgrey', height: '78vh' }}>
+      <Box sx={{ flex: 1, borderBottom: 1, borderColor: 'lightgrey', }}>
+
+        <Box sx={{ width: 350, p: 1, }}>
+          <Typography sx={{ fontSize: 13, fontFamily: 'sans-serif', fontWeight: 650, pl: .5 }}>Custodian Department</Typography>
+          <AssetCustodianDepartment
+            custoDian={custoDian}
+            setCustodian={setCustodian}
+            setcustodianAllDetails={setcustodianAllDetails}
+          />
+        </Box>
+      </Box>
+
+
       {combinedList.length !== 0 ? (
         <Box sx={{ overflow: 'auto', p: 1, width: '100%' }}>
           <Box sx={{ minWidth: 1200 }}>

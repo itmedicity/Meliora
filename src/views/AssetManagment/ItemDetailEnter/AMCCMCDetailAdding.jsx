@@ -12,7 +12,6 @@ import { getAmcCmcMaster } from 'src/redux/actions/AmAmcCmcSlect.action'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import SupplierSelectMaster from './SupplierSelectMaster'
 import AMCCMCAddingModal from './AMCCMCAddingModal'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import AmcCmcAdding from './AmcCmcAdding'
 import TextComponent from 'src/views/Components/TextComponent'
 import { Box } from '@mui/joy'
@@ -24,6 +23,7 @@ import { Virtuoso } from 'react-virtuoso'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import FileView from '../AssetFileView/FileView'
 import LinkSharpIcon from '@mui/icons-material/LinkSharp'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const AMCCMCDetailAdding = ({ detailArry }) => {
   const { am_item_map_slno } = detailArry
@@ -286,50 +286,20 @@ const AMCCMCDetailAdding = ({ detailArry }) => {
     [itemAmcCmcslno, postdata, patchData, count, setCount]
   )
 
-  const ViewAmcCmcImage = useCallback(() => {
-    const getImage = async amcCmcSlno => {
-      const result = await axioslogin.get(`/AssetFileUpload/AmcCmcImageView/${amcCmcSlno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/AMCCMC/${amcCmcSlno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-      }
-    }
-    getImage(amcCmcSlno)
-  }, [amcCmcSlno])
+  const ViewAmcCmcImage = async () => {
+    setImageShowFlag(1)
+    setImageShow(true)
+    const images = await getFilesFromZip('/AssetFileUpload/AmcCmcImageView', amcCmcSlno);
+    setImageArry(images);
+  };
 
-  const ViewAmcCmcAttachments = useCallback(val => {
+  const ViewAmcCmcAttachments = async (val) => {
     const { amccmc_slno } = val
-    const getImage = async amccmc_slno => {
-      const result = await axioslogin.get(`/AssetFileUpload/AmcCmcImageView/${amccmc_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Asset/AMCCMC/${amccmc_slno}/${fileName}`
-        })
-        setImageArry(fileUrls)
-        setImageShowFlag(1)
-        setImageShow(true)
-      } else {
-        warningNotify('Error Occured to display image')
-        setImageShowFlag(0)
-        setImageShow(false)
-        setImageArry([])
-      }
-    }
-    getImage(amccmc_slno)
-  }, [])
+    setImageShowFlag(1)
+    setImageShow(true)
+    const images = await getFilesFromZip('/AssetFileUpload/AmcCmcImageView', amccmc_slno);
+    setImageArry(images);
+  };
 
   const handleClose = useCallback(() => {
     setImageShowFlag(0)

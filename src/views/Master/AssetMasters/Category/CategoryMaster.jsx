@@ -8,17 +8,19 @@ import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCo
 // import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import imageCompression from 'browser-image-compression'
 import { useSelector } from 'react-redux'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import AttachmentIcon from '@mui/icons-material/Attachment'
 import { useNavigate } from 'react-router-dom'
 import { Box, Input } from '@mui/joy'
+import JSZip from 'jszip'
 
 const CategoryMaster = () => {
   const history = useNavigate()
   const [value, setValue] = useState(0)
   const [count, setCount] = useState(0)
   const [selectFile, setSelectFile] = useState(null)
-  const [categoryImg, setCategoryImg] = useState('')
+  // const [categoryImg, setCategoryImg] = useState('')
+  const [ImageArry, setImageArry] = useState([])
+
   // Get login user emp_id
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -71,7 +73,7 @@ const CategoryMaster = () => {
   const rowSelect = useCallback(params => {
     setValue(1)
     const data = params.api.getSelectedRows()
-    const { category_slno, category_name, category_status, am_category_pm_days, file_name } = data[0]
+    const { category_slno, category_name, category_status, am_category_pm_days } = data[0]
     const frmdata = {
       category_slno: category_slno,
       category_name: category_name,
@@ -79,7 +81,61 @@ const CategoryMaster = () => {
       am_category_pm_days: am_category_pm_days === null ? '' : am_category_pm_days
     }
     setCategory(frmdata)
-    setCategoryImg(file_name)
+    // setCategoryImg(file_name)
+
+    const getImage = async category_slno => {
+      setImageArry([])
+      try {
+        const result = await axioslogin.get(`/amcategory/getfile/${category_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          // Convert each to a Blob URL
+          // const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+          //   const blob = await fileObj.async('blob');
+          //   const url = URL.createObjectURL(blob);
+          //   return { imageName: filename, url };
+          // });
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setImageArry(images[0])
+          // setImageShowFlag(1)
+          // setImageShow(true)
+        }
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
+        setImageArry([])
+      }
+    }
+    getImage(category_slno)
   }, [])
 
   const [flag, setflag] = useState(0)
@@ -202,9 +258,6 @@ const CategoryMaster = () => {
     setValue(0)
     setSelectFile(null)
   }, [setCategory, setSelectFile])
-
-  const imageUrl = `${PUBLIC_NAS_FOLDER}/AssetName/Category/${category_slno}/${categoryImg}`
-
   return (
     <CardMaster title="Category Master" submit={submitCategory} close={backtoSetting} refresh={refreshWindow}>
       <Box sx={{ p: 1 }}>
@@ -255,7 +308,7 @@ const CategoryMaster = () => {
                       borderColor: 'lightgrey'
                     }}
                   >
-                    <img src={imageUrl} alt={categoryImg} style={{ height: '100%', width: '100%' }} />
+                    <img src={ImageArry?.url} alt={ImageArry?.imageName} style={{ height: '100%', width: '100%' }} />
                   </Box>
                 ) : null}
               </>

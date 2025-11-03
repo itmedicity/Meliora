@@ -1,4 +1,4 @@
-import { Box, CircularProgress, IconButton, Input, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
+import { Box, CircularProgress, IconButton, Radio, RadioGroup, Sheet, Table, Tooltip } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRoomBasedOnDeptSec } from 'src/redux/actions/AmRoomDeptSecBased.action'
@@ -22,6 +22,7 @@ import { FormControlLabel } from '@mui/material'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
 
 const TransferAsset = () => {
   const dispatch = useDispatch()
@@ -32,13 +33,13 @@ const TransferAsset = () => {
   const [roomNo, setRoomNo] = useState(0)
   const [subRoomNo, setSubRoomNo] = useState(0)
   const [selectedAssets, setSelectedAssets] = useState([])
+  const [custoDian, setCustodian] = useState(0)
+  const [custodianAllDetails, setcustodianAllDetails] = useState({})
+  const {
+    am_custodian_dept_slno,
+  } = custodianAllDetails
 
-  const empdeptname = useSelector(state => {
-    return state.LoginUserData.empdeptname
-  })
-  const empDept = useSelector(state => {
-    return state.LoginUserData.empdept
-  })
+
 
   const empid = useSelector(state => {
     return state.LoginUserData.empid
@@ -185,10 +186,10 @@ const TransferAsset = () => {
     () => ({
       fromDate: fromDate ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss') : null,
       toDate: toDate ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss') : null,
-      custodianDept: empDept === 0 ? null : empDept === null ? null : empDept,
+      custodianDept: am_custodian_dept_slno === 0 ? null : am_custodian_dept_slno === null ? null : am_custodian_dept_slno,
       transfrd_type: 1
     }),
-    [fromDate, toDate, empDept]
+    [fromDate, toDate, am_custodian_dept_slno]
   )
 
   const { data: custTransferHistory, isLoading } = useQuery({
@@ -242,13 +243,15 @@ const TransferAsset = () => {
               text={'Custodian Department'}
               sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
             ></TextComponent>
-            <Input
-              sx={{
-                '--Input-minHeight': '29px'
-              }}
-              readOnly
-              value={empdeptname}
+            <AssetCustodianDepartment
+              custoDian={custoDian}
+              setCustodian={setCustodian}
+              setcustodianAllDetails={setcustodianAllDetails}
             />
+
+
+
+
           </Box>
           <Box sx={{ flex: 2, ml: 1 }}>
             <TextComponent text={'Select Asset'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>

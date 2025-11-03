@@ -8,7 +8,6 @@ import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined'
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ComFileView from '../CmFileView/ComFileView'
 import ServiceFileAttach from 'src/views/AssetManagment/ServiceListSpare/ServiceFileAttach'
 import ServiceDocumentModal from 'src/views/AssetManagment/ServiceListSpare/ServiceDocumentModal'
@@ -16,6 +15,7 @@ import serviceFold from '../../../../src/assets/images/assetservice/serviceFold.
 import ServiceAssetUpgrade from 'src/views/AssetManagment/ServiceListSpare/ServiceAssetUpgrade'
 import TimelapseIcon from '@mui/icons-material/Timelapse'
 import ServicePmTab from 'src/views/AssetManagment/ServiceListSpare/ServicePmTab'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
 
 const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSparedetails, complaint_slno }) => {
   const {
@@ -244,69 +244,35 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
     getServiceDetailsAll()
   }, [searchData, count])
 
-  const fileView = async val => {
-    const { complaint_slno } = val
-    setImageStates(prevState => ({
-      ...prevState,
+
+  const fileView = async (val) => {
+    const { complaint_slno } = val;
+    setImageStates(prev => ({
+      ...prev,
       image: 1,
       imageViewOpen: true
-    }))
-    setfileDetails(val)
-    try {
-      const result = await axioslogin.get(`/complaintFileUpload/uploadFile/getComplaintFile/${complaint_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
-      } else {
-        warningNotify('No Image Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+    }));
+    setfileDetails(val);
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getComplaintFile', complaint_slno);
+    setImageUrls(images);
+  };
 
-  const fileViewAssetService = async val => {
-    const { am_service_details_slno } = val
-    setServicefileDetails(val)
-    try {
-      const result = await axioslogin.get(
-        `/AmServiceFileUpload/uploadFile/getAssetServiceFile/${am_service_details_slno}`
-      )
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/AssetService/${am_service_details_slno}/${fileName}`
-        })
-        setImageServiceUrls(fileUrls)
-        if (fileUrls.length > 0) {
-          setSelectedImages(val)
-          setImageStates(prevState => ({
-            ...prevState,
-            imageServiceFlag: 1,
-            serviceImageViewOpen: true
-          }))
-        } else {
-          warningNotify('No Files attached')
-        }
-      } else {
-        warningNotify('No Files Attached')
-      }
-    } catch (error) {
-      warningNotify('Error in fetching files:', error)
-    }
-  }
+
+  const fileViewAssetService = async (val) => {
+    const { am_service_details_slno } = val;
+    setImageStates(prev => ({
+      ...prev,
+      imageServiceFlag: 1,
+      serviceimageViewOpen: true
+    }));
+    setServicefileDetails(val);
+    setSelectedImages(val)
+    const images = await getFilesFromZip('/complaintFileUpload/uploadFile/getAssetServiceFile', am_service_details_slno);
+    setImageServiceUrls(images);
+  };
+
+
+
 
   useEffect(() => {
     if (alldetailsService.length !== 0) {
@@ -371,82 +337,71 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
     }
   }, [amcCmcDocuments])
 
+
+
+
   useEffect(() => {
-    const getamcCmcDocuments = async () => {
+    const { amccmc_slno } = documentStates;
+    if (!amccmc_slno) return;
+    let isMounted = true;
+    const getAmcCmcDocuments = async () => {
       try {
-        const { amccmc_slno } = documentStates
-        if (amccmc_slno) {
-          const result = await axioslogin.get(`/AssetFileUpload/AmcCmcImageView/${amccmc_slno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/AMCCMC/${amccmc_slno}/${fileName}`
-            })
-            setamcCmcDocuments(fileUrls)
-          } else {
-            setamcCmcDocuments([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/AmcCmcImageView', amccmc_slno);
+        if (isMounted) {
+          setamcCmcDocuments(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setamcCmcDocuments([])
+        errorNotify('Error fetching AMC/CMC documents:', error);
       }
-    }
-
-    getamcCmcDocuments()
-  }, [documentStates.amccmc_slno, documentStates])
+    };
+    getAmcCmcDocuments();
+    return () => {
+      isMounted = false;
+    };
+  }, [documentStates.amccmc_slno]);
 
   useEffect(() => {
+    const { am_lease_mast_slno } = documentStates;
+    if (!am_lease_mast_slno) return;
+    let isMounted = true;
     const getleaseDocuments = async () => {
       try {
-        const { am_lease_mast_slno } = documentStates
-        if (am_lease_mast_slno) {
-          const result = await axioslogin.get(`/AssetFileUpload/LeaseMasterImageView/${am_lease_mast_slno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/LeaseMaster/${am_lease_mast_slno}/${fileName}`
-            })
-            setleaseDocuments(fileUrls)
-          } else {
-            setleaseDocuments([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/LeaseMasterImageView', am_lease_mast_slno);
+        if (isMounted) {
+          setleaseDocuments(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setleaseDocuments([])
+        errorNotify('Error fetching AMC/CMC documents:', error);
       }
-    }
-    getleaseDocuments()
-  }, [documentStates.am_lease_mast_slno, documentStates])
+    };
+    getleaseDocuments();
+    return () => {
+      isMounted = false;
+    };
+  }, [documentStates.am_lease_mast_slno]);
 
   useEffect(() => {
+    const { am_bill_mastslno } = documentStates;
+    if (!am_bill_mastslno) return;
+    let isMounted = true;
     const getDocumentViewBill = async () => {
       try {
-        const { am_bill_mastslno } = documentStates
-        if (am_bill_mastslno) {
-          const result = await axioslogin.get(`/AssetFileUpload/BillMasterImageView/${am_bill_mastslno}`)
-          const { success, data } = result.data
-          if (success === 1 && data && Array.isArray(data)) {
-            const fileNames = data
-            const fileUrls = fileNames.map(fileName => {
-              return `${PUBLIC_NAS_FOLDER}/Asset/BillMaster/${am_bill_mastslno}/${fileName}`
-            })
-            setBilldetailsView(fileUrls)
-          } else {
-            setBilldetailsView([])
-          }
+        const images = await getFilesFromZip('/AssetFileUpload/BillMasterImageView', am_bill_mastslno);
+        if (isMounted) {
+          setBilldetailsView(images);
         }
       } catch (error) {
-        warningNotify(error)
-        setBilldetailsView([])
+        errorNotify('Error fetching  documents:', error);
       }
-    }
+    };
+    getDocumentViewBill();
+    return () => {
+      isMounted = false;
+    };
+  }, [documentStates.am_bill_mastslno]);
 
-    getDocumentViewBill()
-  }, [documentStates.am_bill_mastslno, documentStates])
+
+
 
   return (
     <Box>
@@ -788,16 +743,13 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
                                       >
                                         : {val.rm_room_name}
                                         {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                                              val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                                            }
-                                                                ${
-                                                                  val.rm_insidebuildblock_name
-                                                                    ? val.rm_insidebuildblock_name
-                                                                    : ''
-                                                                }${
-                                              val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                                            }
+                                          ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                                          }
+                                                                ${val.rm_insidebuildblock_name
+                                            ? val.rm_insidebuildblock_name
+                                            : ''
+                                          }${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                                          }
                                                                 ${val.rm_floor_name ? val.rm_floor_name : ''})`
                                           : 'Not Updated'}
                                       </Typography>
@@ -1225,8 +1177,8 @@ const AssetSpareModal = ({ openSpare, setOpenSpare, setassetSpareFlag, assetSpar
                                 {item.warrenty_status === 1
                                   ? 'Warrenty'
                                   : item.guarenty_status === 1
-                                  ? 'Guarentee'
-                                  : 'Not Updated'}
+                                    ? 'Guarentee'
+                                    : 'Not Updated'}
                               </Chip>
                               <Box sx={{ display: 'flex', flex: 1 }}>
                                 <Typography sx={{ width: 110 }}>From Date</Typography>

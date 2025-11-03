@@ -5,9 +5,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
 import EditTaskInDir from './EditTaskInDir'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { warningNotify } from 'src/views/Common/CommonCode'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
+import { getFilesFromZip } from 'src/api/FileViewsFn'
+import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
 
 const AllTaskUnderProjectzz = ({ value }) => {
   const { tm_project_slno } = value
@@ -67,38 +67,29 @@ const AllTaskUnderProjectzz = ({ value }) => {
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
 
-  const fileView = async val => {
-    const { tm_task_slno } = val
-    setgetarry(val)
-    setEditModalOpen(false)
-    setEditModalFlag(0)
-    setimage(0) // Initialize imageViewModalFlag to 0 initially
-    setimageViewModalOpen(false) // Close the modal if it was open
+
+
+
+  const fileView = async (val) => {
+    const { tm_task_slno } = val;
+    setgetarry(val);
+    setimage(1);
+    setimageViewModalOpen(true);
+    setSelectedImages(val);
     try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
-          setimage(1)
-          setimageViewModalOpen(true)
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
+      const images = await getFilesFromZip('/TmFileUpload/uploadFile/getTaskFile', tm_task_slno);
+      if (images && images.length > 0) {
+        setImageUrls(images);
       } else {
-        warningNotify('No Image Attached')
+        setImageUrls([]);
+        warningNotify('No images attached for this task.');
       }
     } catch (error) {
-      warningNotify('Error in fetching files:', error)
+      errorNotify('Error fetching task images:', error);
+      setImageUrls([]);
     }
-  }
+  };
+
 
   return (
     <Box>

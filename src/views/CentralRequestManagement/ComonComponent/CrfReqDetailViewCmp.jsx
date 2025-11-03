@@ -1,6 +1,5 @@
 import React, { Fragment, memo, Suspense, useCallback, useState } from 'react'
 import { Box, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
 import { format } from 'date-fns'
 // import { ToastContainer } from 'react-toastify'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
@@ -8,6 +7,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import ReqImageDisModal from './ImageUploadCmp/ReqImageDisModal'
 import CustomLoadComp from './Components/CustomLoadComp'
 const CrfReqDetailViewCmp = ({ ApprovalData, imagearray }) => {
+
   const { req_slno, req_date, actual_requirement, needed, expected_date, image_status, company_name } = ApprovalData
   const [imageshowFlag, setImageShowFlag] = useState(0)
   const [imageshow, setImageShow] = useState(false)

@@ -1,5 +1,4 @@
 import { Box, Button, CssVarsProvider, Dropdown, Grid, Menu, MenuButton, MenuItem, Tooltip, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import PatientDetailsView from './PatientDetailsView'

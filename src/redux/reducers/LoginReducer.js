@@ -12,3 +12,7 @@ export const LoginUserData = (state = LoginInitialState, { type, payload }) => {
       return state
   }
 }
+
+
+export const getEmpID = (state)=> state.LoginUserData.empid || 0
+

@@ -2,7 +2,6 @@ import React, { Fragment, memo, useCallback, useState } from 'react'
 import { Box, Typography } from '@mui/joy'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Virtuoso } from 'react-virtuoso'
-import { Paper } from '@mui/material'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 
 const CrfReqDetailCmpnt = ({ poDetails }) => {

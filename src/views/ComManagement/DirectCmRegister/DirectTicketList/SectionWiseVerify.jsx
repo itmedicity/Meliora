@@ -11,7 +11,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import UserEndVerificationModal from '../UserEndVerificationModal'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ComFileView from '../../CmFileView/ComFileView'
 import { format } from 'date-fns'
 
@@ -46,7 +45,7 @@ const SectionWiseVerify = ({ count, setCount, loading, verficationPending, forVe
         const data = result.data
         const fileNames = data.data
         const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+          return `/ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         // Open the modal only if there are files
@@ -271,11 +270,9 @@ const SectionWiseVerify = ({ count, setCount, loading, verficationPending, forVe
                     <Box sx={{ width: 300, fontSize: 13 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13, pl: 0.5 }}>{val.cm_complaint_location || 'Not Updated'}</Box>

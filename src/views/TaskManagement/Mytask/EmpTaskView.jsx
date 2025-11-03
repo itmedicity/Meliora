@@ -1,11 +1,8 @@
 import React, { memo, useCallback, useState } from 'react'
 import { Box, Chip, CssVarsProvider } from '@mui/joy'
 import { Paper, Typography } from '@mui/material'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import EmpStatusUpdationinDash from './EmpStatusUpdationinDash'
 import CountDowncomponent from '../CountDown/CountDowncomponent'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
-import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import ViewTaskImage from '../TaskFileView/ViewTaskImage'
 import EditIcon from '@mui/icons-material/Edit'
@@ -47,40 +44,29 @@ const EmpTaskView = ({ tableCount, setTableCount, setflag, tableDataEmployee, em
     setimageViewModalOpen(false)
     setImageUrls([])
   }, [setimageViewModalOpen, setEditModalOpen, setImageUrls, setimage])
-  const fileView = async val => {
-    const { tm_task_slno } = val
-    setgetarry(val)
-    setEditModalOpen(false)
-    setEditModalFlag(0)
-    setimage(0) // Initialize imageViewModalFlag to 0 initially
-    setimageViewModalOpen(false) // Close the modal if it was open
+
+  const fileView = async (val) => {
+    const { tm_task_slno } = val;
+    setgetarry(val);
+    setimage(1);
+    setimageViewModalOpen(true);
+    setSelectedImages(val);
+
     try {
-      const result = await axioslogin.get(`/TmFileUpload/uploadFile/getTaskFile/${tm_task_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
+      const images = await getFilesFromZip('/TmFileUpload/uploadFile/getTaskFile', tm_task_slno);
 
-        const fileNames = data.data
-
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/TaskManagement/${tm_task_slno}/${fileName}`
-        })
-        setImageUrls(fileUrls)
-        // Open the modal only if there are files
-        if (fileUrls.length > 0) {
-          setimage(1)
-          setimageViewModalOpen(true)
-          setSelectedImages(val)
-        } else {
-          warningNotify('No Image attached')
-        }
+      if (images && images.length > 0) {
+        setImageUrls(images);
       } else {
-        warningNotify('No Image Attached')
+        setImageUrls([]);
+        warningNotify('No images attached for this task.');
       }
     } catch (error) {
-      warningNotify('Error in fetching files:', error)
+      errorNotify('Error fetching task images:', error);
+      setImageUrls([]);
     }
-  }
+  };
+
 
   return (
     <Paper sx={{ height: '90vh', width: '100%' }}>

@@ -100,8 +100,6 @@ const StaticUrl = () => {
         /***    * insert function for use call back     */
 
         const InsertFun = async (postdata) => {
-            console.log("insert");
-
             const result = await axioslogin.post('/common/StaticUrl', postdata);
             const { message, success } = result.data;
             if (success === 1) {

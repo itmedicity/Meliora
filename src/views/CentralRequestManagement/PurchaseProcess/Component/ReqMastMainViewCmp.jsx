@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Typography } from '@mui/joy'
+import { Box, Typography } from '@mui/joy'
 import { format, isValid } from 'date-fns'
 import React, { Fragment } from 'react'
 import { memo } from 'react'

@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import CancelSharpIcon from '@mui/icons-material/CancelSharp'
 import { Box, CssVarsProvider, Modal, ModalDialog, Typography } from '@mui/joy'
+import PdfViewer from 'src/views/Components/PdfViewer '
 
 const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
   return (
@@ -57,15 +58,16 @@ const FileViewSingle = ({ imageShow, previewFile, CloseFile }) => {
                     />
                   </Box>
                 ) : previewFile?.type === 'pdf' ? (
-                  <iframe
-                    src={previewFile.url}
-                    title="PDF Preview"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain'
-                    }}
-                  />
+                  // <iframe
+                  //   src={previewFile.url}
+                  //   title="PDF Preview"
+                  //   style={{
+                  //     width: '100%',
+                  //     height: '100%',
+                  //     objectFit: 'contain'
+                  //   }}
+                  // />
+                  <PdfViewer src={previewFile.url} />
                 ) : (
                   <Typography>No preview available for this file type.</Typography>
                 )}

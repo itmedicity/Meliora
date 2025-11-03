@@ -1,61 +1,64 @@
-import { Box, CssVarsProvider, Table } from '@mui/joy'
+import { Box, CssVarsProvider, Table } from '@mui/joy';
+import { useQuery } from '@tanstack/react-query';
 import React, { memo, useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { axioslogin } from 'src/views/Axios/Axios'
-import TextComponent from 'src/views/Components/TextComponent'
+import { axioslogin } from 'src/views/Axios/Axios';
+import TextComponent from 'src/views/Components/TextComponent';
 
 const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
+
   const { am_item_map_slno, am_spare_item_map_slno } = AssetDetails
 
-  const [tableData, setTableData] = useState([])
+
+  const [tableData, setTableData] = useState([]);
   const { data: AssetWarGar = [] } = useQuery(
     ['getAllWarGarInAssets'],
     async () => {
-      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`)
-      return result.data?.data || []
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNot/${am_item_map_slno}`);
+      return result.data?.data || [];
     },
     { enabled: !!am_item_map_slno }
-  )
+  );
 
   const { data: SpareWarGar = [] } = useQuery(
     ['getAllWarGarInSpares'],
     async () => {
-      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`)
-      return result.data?.data || []
+      const result = await axioslogin.get(`/ItemMapDetails/WarentGarantInsertOrNotSpare/${am_spare_item_map_slno}`);
+      return result.data?.data || [];
     },
     { enabled: !!am_spare_item_map_slno }
-  )
-  useEffect(() => {
-    setTableData(prevData => {
-      const newData = AssetWarGar.length > 0 ? AssetWarGar : SpareWarGar.length > 0 ? SpareWarGar : []
 
-      return JSON.stringify(prevData) !== JSON.stringify(newData) ? newData : prevData
-    })
-  }, [AssetWarGar, SpareWarGar])
+  );
+  useEffect(() => {
+    setTableData((prevData) => {
+      const newData =
+        AssetWarGar.length > 0 ? AssetWarGar :
+          SpareWarGar.length > 0 ? SpareWarGar : [];
+
+      return JSON.stringify(prevData) !== JSON.stringify(newData) ? newData : prevData;
+    });
+  }, [AssetWarGar, SpareWarGar]);
+
 
   return (
-    <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 3, pl: 2 }}>
+    <Box sx={{ mb: 1.5 }}>
       <TextComponent
-        text={'WARRANTY GAURANTEE DETAILS'}
+        text={"WARRANTY GAURANTEE DETAILS"}
         sx={{
           flex: 1,
           fontWeight: 500,
           color: 'black',
-          fontSize: 15
+          fontSize: 15,
         }}
       />
 
-      <Box sx={{ flex: 1, pr: 1, pt: 0.5 }}>
+      <Box sx={{ flex: 1, pr: 1, pt: .5 }} >
         <CssVarsProvider>
-          <Table
-            stickyHeader
-            size="sm"
-            variant="outlined"
+          <Table stickyHeader size="sm" variant="outlined"
             sx={{
               flex: 1,
-              borderRadius: 0
-            }}
-          >
+              borderRadius: 0,
+
+            }}>
             <thead>
               <tr>
                 <th style={{ width: 40, textAlign: 'center' }}>#</th>
@@ -72,7 +75,7 @@ const WarrentyGaurenteeDetails = ({ AssetDetails }) => {
             <tbody>
               {tableData?.length > 0 ? (
                 tableData.map((val, index) => (
-                  <tr key={index}>
+                  <tr key={index} >
                     <td style={{ textAlign: 'center' }}>{index + 1}</td>
                     <td>{val.warrenty_status === 1 ? 'Warranty' : 'Guarantee'}</td>
                     <td>{val.from_date}</td>

@@ -1,25 +1,25 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, } from 'react'
 import Modal from '@mui/joy/Modal'
 import { CssVarsProvider, ModalClose, ModalDialog } from '@mui/joy'
 import { Box } from '@mui/material'
 import Button from '@mui/joy/Button'
 
 const ImageDisplayModal = ({ open, handleClose, images }) => {
-  const [disArry, setDissArry] = useState([])
-  useEffect(() => {
-    if (images.length !== 0) {
-      const disimage = images.map(val => {
-        const parts = val.split('/')
-        const fileNamePart = parts[parts.length - 1]
-        const obj = {
-          imageName: fileNamePart,
-          url: val
-        }
-        return obj
-      })
-      setDissArry(disimage)
-    }
-  }, [images])
+  // const [disArry, setDissArry] = useState([])
+  // useEffect(() => {
+  //   if (images.length !== 0) {
+  //     const disimage = images.map(val => {
+  //       const parts = val.split('/')
+  //       const fileNamePart = parts[parts.length - 1]
+  //       const obj = {
+  //         imageName: fileNamePart,
+  //         url: val
+  //       }
+  //       return obj
+  //     })
+  //     setDissArry(disimage)
+  //   }
+  // }, [images])
   return (
     <CssVarsProvider>
       <Modal
@@ -71,11 +71,18 @@ const ImageDisplayModal = ({ open, handleClose, images }) => {
               overflow: 'auto'
             }}
           >
-            {disArry &&
-              disArry.map((value, index) => (
+            {images &&
+              images.map((value, index) => (
                 <Box key={index} sx={{ display: 'flex', flexDirection: 'column' }}>
                   {value.imageName.endsWith('.pdf') ? (
-                    <embed src={value.url} type="application/pdf" height={820} width="100%" />
+                    <embed
+                      // src={value.url}
+                      src={`${value.url}#toolbar=0&navpanes=0&view=FitH`}
+                      type="application/pdf"
+                      height={820}
+                      width="100%" />
+                    // <PdfViewer src={value.url} />
+
                   ) : (
                     <img alt="" src={value.url} height={820} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   )}

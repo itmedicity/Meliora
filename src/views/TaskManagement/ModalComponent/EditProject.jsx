@@ -27,8 +27,6 @@ const EditProject = ({
   open,
   setEditProjectFlag,
   setEditProjectModalOpen,
-  tableCount,
-  setTableCount,
   projectData,
   setProjectData
 }) => {
@@ -144,7 +142,6 @@ const EditProject = ({
           const { message, success } = result.data
           if (success === 2) {
             succesNotify(message)
-            setTableCount(tableCount + 1)
             reset()
             CloseProject()
           } else if (success === 0) {
@@ -158,7 +155,7 @@ const EditProject = ({
         infoNotify('Please Enter Project Name')
       }
     },
-    [patchProject, tableCount, tm_project_name, reset, CloseProject, setTableCount]
+    [patchProject, tm_project_name, reset, CloseProject]
   )
 
   const CreateGoal = useCallback(() => {
@@ -172,8 +169,6 @@ const EditProject = ({
       {addGoalFlag === 1 ? (
         <GoalCreation
           open={addGoalModalOpen}
-          setTableCount={setTableCount}
-          tableCount={tableCount}
           setAddGoalFlag={setAddGoalFlag}
           setaddGoalModalOpen={setaddGoalModalOpen}
         />

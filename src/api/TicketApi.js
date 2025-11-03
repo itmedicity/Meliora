@@ -10,14 +10,7 @@ export const getAllemployeesUnderDepartment = async postdata => {
     }
   })
 }
-export const getDeptTotalPendingtickets = async empdept => {
-  return axioslogin.get(`/complaintassign/${empdept}`).then(res => {
-    const { success, data } = res.data
-    if (success === 2) {
-      return data
-    }
-  })
-}
+
 export const allTicketTypes = async postdata => {
   return axioslogin.post('/Ticketdashboard/ticketTypeBarchart', postdata).then(res => {
     const { success, data } = res.data
@@ -41,6 +34,8 @@ export const getOpenTickets = async PostDept => {
     const { success, data } = res.data
     if (success === 2) {
       return data
+    } else {
+      return [];
     }
   })
 }
@@ -275,6 +270,35 @@ export const getAllDeptcloseWithIn = async searchMonthlyOpenTimeRange => {
 
 export const getEmployeeuserrightsMenu = async postEmp => {
   return axioslogin.post('/Ticketdashboard/getEmployeeuserrightsMenu', postEmp).then(res => {
+    const { success, data } = res.data
+    if (success === 2) {
+      return data
+    }
+  })
+}
+
+export const getAllPendingEmpComplaints = async id => {
+  return axioslogin.get(`/complaintassign/user/${id}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
+}
+
+export const getDeptTotalPendingtickets = async empdept => {
+  return axioslogin.get(`/complaintassign/${empdept}`).then(res => {
+    const { success, data } = res.data
+    if (success === 1) {
+      return data
+    }
+  })
+}
+
+
+
+export const getAllHoldEmpComplaints = async searchData => {
+  return axioslogin.post(`/Rectifycomplit/getEmplHoldList`, searchData).then(res => {
     const { success, data } = res.data
     if (success === 2) {
       return data

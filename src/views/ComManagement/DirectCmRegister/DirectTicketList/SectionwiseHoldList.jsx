@@ -12,7 +12,6 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import HoldDetails from '../../ComplaintRegister/TicketLists/HoldDetails'
 import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ComFileView from '../../CmFileView/ComFileView'
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices'
 import { format } from 'date-fns'
@@ -56,7 +55,7 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
         const data = result.data
         const fileNames = data.data
         const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+          return `/ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         // Open the modal only if there are files
@@ -325,11 +324,9 @@ const SectionwiseHoldList = ({ count, setCount, onholdCompl, loading }) => {
                     <Box sx={{ width: 300, fontSize: 13 }}>
                       {val.rm_room_name}
                       {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${
-                            val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                          }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${
-                            val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                          }${val.rm_floor_name ? val.rm_floor_name : ''})`
+                        ? ` (${val.rm_roomtype_name ? val.rm_roomtype_name : ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                        }${val.rm_insidebuildblock_name ? val.rm_insidebuildblock_name : ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                        }${val.rm_floor_name ? val.rm_floor_name : ''})`
                         : 'Not Updated'}
                     </Box>
                     <Box sx={{ width: 300, fontSize: 13 }}>{val.cm_complaint_location || 'Not Updated'}</Box>

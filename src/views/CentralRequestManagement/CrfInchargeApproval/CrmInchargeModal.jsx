@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
@@ -130,77 +130,77 @@ const CrmInchargeModal = ({
   return (
     <Fragment>
       {/* <ToastContainer /> */}
-      <CssVarsProvider>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={handleClose}
-          sx={{ display: 'flex', justifyContent: 'center' }}
-        >
-          <ModalDialog variant="outlined">
-            <ModalClose
-              variant="outlined"
-              sx={{
-                m: 1,
-                top: 'calc(-1/4 * var(--IconButton-size))',
-                right: 'calc(-1/4 * var(--IconButton-size))',
-                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                borderRadius: '50%',
-                bgcolor: 'background.body',
-                color: '#bf360c',
-                height: 25,
-                width: 25
-              }}
+      {/* <CssVarsProvider> */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={handleClose}
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <ModalDialog variant="outlined">
+          <ModalClose
+            variant="outlined"
+            sx={{
+              m: 1,
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+              color: '#bf360c',
+              height: 25,
+              width: 25
+            }}
+          />
+          <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
+            <CrfReqDetailViewCmp
+              ApprovalData={ApprovalData}
+              imagearray={imagearray}
+              selectedCompany={selectedCompany}
             />
-            <Box sx={{ minWidth: '80vw', minHeight: '62vh', maxHeight: '85vh', overflowY: 'auto' }}>
-              <CrfReqDetailViewCmp
-                ApprovalData={ApprovalData}
-                imagearray={imagearray}
-                selectedCompany={selectedCompany}
-              />
-              <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
-                {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
-                {approveTableData.length !== 0 ? (
-                  <ItemsApprovalCompnt
-                    req_slno={req_slno}
-                    setMoreItem={setMoreItem}
-                    editEnable={editEnable}
-                    setEditEnable={setEditEnable}
-                    setApproveTableData={setApproveTableData}
-                    apprvLevel={1}
-                    header="Incharge"
-                  />
-                ) : null}
-                <Box sx={{ pl: 0.5 }}>
-                  <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
-                </Box>
-                {addMoreItems === 1 ? (
-                  <AddMoreItemDtails
-                    req_slno={req_slno}
-                    setApproveTableData={setApproveTableData}
-                    setMoreItem={setMoreItem}
-                  />
-                ) : null}
-                <InchargeApprvalCmp
-                  heading={`${company?.incharge_status_name} Approval`}
-                  apprvlDetails={apprvlDetails}
-                  updateOnchangeState={updateOnchangeState}
-                  updateApprovalState={updateApprovalState}
+            <Box sx={{ overflow: 'auto', pt: 0.5, mx: 0.3 }}>
+              {reqItems.length !== 0 ? <ReqItemDisplay reqItems={reqItems} /> : null}
+              {approveTableData.length !== 0 ? (
+                <ItemsApprovalCompnt
+                  req_slno={req_slno}
+                  setMoreItem={setMoreItem}
+                  editEnable={editEnable}
+                  setEditEnable={setEditEnable}
+                  setApproveTableData={setApproveTableData}
+                  apprvLevel={1}
+                  header="Incharge"
                 />
+              ) : null}
+              <Box sx={{ pl: 0.5 }}>
+                <CustomIconButtonCmp handleChange={AddItems}>Add Items</CustomIconButtonCmp>
               </Box>
+              {addMoreItems === 1 ? (
+                <AddMoreItemDtails
+                  req_slno={req_slno}
+                  setApproveTableData={setApproveTableData}
+                  setMoreItem={setMoreItem}
+                />
+              ) : null}
+              <InchargeApprvalCmp
+                heading={`${company?.incharge_status_name} Approval`}
+                apprvlDetails={apprvlDetails}
+                updateOnchangeState={updateOnchangeState}
+                updateApprovalState={updateApprovalState}
+              />
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ py: 0.5, pr: 0.5 }}>
-                <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
-              </Box>
-              <Box sx={{ py: 0.5, pr: 2 }}>
-                <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
-              </Box>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ py: 0.5, pr: 0.5 }}>
+              <ModalButtomCmp handleChange={submit}> Save</ModalButtomCmp>
             </Box>
-          </ModalDialog>
-        </Modal>
-      </CssVarsProvider>
+            <Box sx={{ py: 0.5, pr: 2 }}>
+              <ModalButtomCmp handleChange={closeModal}> Cancel</ModalButtomCmp>
+            </Box>
+          </Box>
+        </ModalDialog>
+      </Modal>
+      {/* </CssVarsProvider> */}
     </Fragment>
   )
 }

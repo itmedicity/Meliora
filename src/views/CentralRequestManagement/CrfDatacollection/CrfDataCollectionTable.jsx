@@ -66,8 +66,8 @@ const CrfDataCollectionTable = () => {
 
   const {
     data: depkmc,
-    isLoading: iskmcDepLoading,
-    error: kmcdepError
+    // isLoading: iskmcDepLoading,
+    // error: kmcdepError
   } = useQuery({
     queryKey: ['dataDepkmc', empdeptsec],
     queryFn: () => getDatakmcDep(empdeptsec),
@@ -76,8 +76,8 @@ const CrfDataCollectionTable = () => {
 
   const {
     data: dataCollectionkmc,
-    isLoading: iskmcDCLoading,
-    error: kmcdcError
+    // isLoading: iskmcDCLoading,
+    // error: kmcdcError
   } = useQuery({
     queryKey: ['dataCollectionkmc', empdeptsec, depkmc?.kmc_dept], // safer caching
     queryFn: async () => {
@@ -270,9 +270,9 @@ const CrfDataCollectionTable = () => {
   })
   const comData = useMemo(() => compData, [compData])
 
-  if (isDCLoading || isCompLoading || iskmcDCLoading || isCompLoad || isdataLoading || iskmcDepLoading)
+  if (isDCLoading || isCompLoading || isCompLoad || isdataLoading)
     return <p>Loading...</p>
-  if (dcError || compError || kmcdcError || comError || dataError || kmcdepError) return <p>Error occurred.</p>
+  if (dcError || compError || comError || dataError) return <p>Error occurred.</p>
   return (
     <Fragment>
       <Box sx={{ height: window.innerHeight - 80, flexWrap: 'wrap', bgcolor: 'white', width: '100%' }}>

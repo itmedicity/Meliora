@@ -423,14 +423,14 @@ const MyPerformance = () => {
                       MonthlyPerformance > 85
                         ? 'success'
                         : MonthlyPerformance > 70
-                        ? 'primary'
-                        : MonthlyPerformance > 60
-                        ? 'neutral'
-                        : MonthlyPerformance > 50
-                        ? 'neutral'
-                        : MonthlyPerformance > 30
-                        ? 'warning'
-                        : 'danger'
+                          ? 'primary'
+                          : MonthlyPerformance > 60
+                            ? 'neutral'
+                            : MonthlyPerformance > 50
+                              ? 'neutral'
+                              : MonthlyPerformance > 30
+                                ? 'warning'
+                                : 'danger'
                     }
                     sx={{
                       '--CircularProgress-size': '160px',
@@ -446,14 +446,14 @@ const MyPerformance = () => {
                           MonthlyPerformance > 85
                             ? '#0A470A'
                             : MonthlyPerformance > 70
-                            ? '#12467B'
-                            : MonthlyPerformance > 60
-                            ? '#492B08'
-                            : MonthlyPerformance > 50
-                            ? '#492B08'
-                            : MonthlyPerformance > 30
-                            ? '#3F4146'
-                            : '#44444C'
+                              ? '#12467B'
+                              : MonthlyPerformance > 60
+                                ? '#492B08'
+                                : MonthlyPerformance > 50
+                                  ? '#492B08'
+                                  : MonthlyPerformance > 30
+                                    ? '#3F4146'
+                                    : '#44444C'
                       }}
                     >
                       {MonthlyPerformance}%

@@ -1,10 +1,9 @@
 import { Box, CssVarsProvider } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit'
 import EditingOtherBillModal from './EditingOtherBillModal'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
+import JSZip from 'jszip'
 const OtherBillViews = ({ billCount, setbillCount }) => {
   const [OtherBillData, setOtherBillData] = useState([])
   const [editOpen, seteditOpen] = useState(false)
@@ -15,17 +14,59 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
   const EditModal = useCallback(value => {
     const { other_bill_slno } = value
     const getbillsFile = async () => {
-      const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`)
-      const { success } = result.data
-      if (success === 1) {
-        const data = result.data
-        const fileNames = data.data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/Bills/OtherBill/${other_bill_slno}/${fileName}`
-        })
-        setFilezUrls(fileUrls)
-      } else {
+      // const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`)
+      // const { success } = result.data
+      // if (success === 1) {
+      //   const data = result.data
+      //   const fileNames = data.data
+      //   const fileUrls = fileNames.map(fileName => {
+      //     return `${PUBLIC_NAS_FOLDER}/Bills/OtherBill/${other_bill_slno}/${fileName}`
+      //   })
+      //   setFilezUrls(fileUrls)
+      // } else {
+      //   setFilezUrls([])
+      // }
+      setFilezUrls([])
+      try {
+        const result = await axioslogin.get(`/ItImageUpload/uploadFile/getOtherBillImages/${other_bill_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          // Extract image files (e.g., .jpg, .png)
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            // Get the original blob (no type)
+            const originalBlob = await fileObj.async('blob');
+            // Determine MIME type based on filename extension (or any other logic)
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream'; // fallback
+            }
+            // Recreate blob with correct type
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            // Create URL from new blob
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setFilezUrls(images)
+        }
+      } catch (error) {
         setFilezUrls([])
+        console.error('Error fetching or processing images:', error);
       }
     }
     getbillsFile(other_bill_slno)
@@ -56,7 +97,8 @@ const OtherBillViews = ({ billCount, setbillCount }) => {
               am_item_map_slno: val.am_item_map_slno,
               it_supplier_name: val.it_supplier_name,
               supplier_details: val.supplier_details,
-              file_upload_status: val.file_upload_status
+              file_upload_status: val.file_upload_status,
+              bill_active_status: val.bill_active_status
             }
             return obj
           })

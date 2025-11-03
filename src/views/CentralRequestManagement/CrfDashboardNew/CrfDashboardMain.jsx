@@ -1,4 +1,4 @@
-import { CssVarsProvider, Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
+import { Tab, tabClasses, TabList, TabPanel, Tabs } from '@mui/joy'
 import { Paper } from '@mui/material'
 import React, { memo, Suspense, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

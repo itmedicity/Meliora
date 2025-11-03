@@ -20,6 +20,8 @@ import FeedbackTransactions from 'src/Menus/FeddbackTransaction'
 import { getDefaultCompany } from 'src/api/CommonApiCRF'
 import NotificationTransaction from 'src/Menus/NotificationTransaction'
 import AmsTransaction from 'src/Menus/AmsTransaction'
+import WorkOrder from 'src/Menus/WorkOrder'
+
 import { CgClose } from 'react-icons/cg'
 
 // --------------------------
@@ -107,6 +109,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [feedbackTransact, setFeedbackTransact] = useState()
   const [NotificationTransact, setNotificationTransact] = useState()
   const [AmsTransact, setAmsTransact] = useState()
+  const [Workorder, setWorkOrder] = useState()
+
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -321,6 +325,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       items: AmsTransact,
       route: '/Home',
       icon: <GiMedicines color="var(--true-blue-800)" />
+    },
+
+    {
+      slno: 26,
+      // component: CNavGroup,
+      name: 'Work Order',
+      items: Workorder,
+      route: '/Home',
+      icon: <GiMedicines />
     }
   ]
 
@@ -372,6 +385,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setAmsTransact(AmsTransact)
 
+        const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
+        setWorkOrder(WorkOrders)
         setCount(1)
       }
     })
@@ -401,7 +416,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
             setMenu(menus)
           }
         } catch (err) {
-          console.log(err)
+          // console.log(err)
         }
       }
     }

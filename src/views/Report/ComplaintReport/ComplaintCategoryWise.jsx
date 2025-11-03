@@ -107,6 +107,7 @@ const ComplaintCategoryWise = () => {
                 createuser: val.createuser,
                 category: val.complaint_type_name !== null ? val.complaint_type_name : 'Not Given',
                 priority: val.cm_priority_desc !== null ? val.cm_priority_desc : 'Not Given',
+                deptLocation: val.room_location !== null ? val.room_location : val.cm_complaint_location !== null ? val.cm_complaint_location : "Not Given",
                 requestdate:
                   val.compalint_date !== null
                     ? format(new Date(val.compalint_date), 'dd-MM-yyyy H:mm:ss')
@@ -140,6 +141,8 @@ const ComplaintCategoryWise = () => {
     [postdata]
   )
 
+
+
   const [columnDefs] = useState([
     { headerName: 'SlNo', field: 'slno', autoHeight: true, wrapText: true, minWidth: 100 },
     {
@@ -151,8 +154,16 @@ const ComplaintCategoryWise = () => {
       filter: 'true'
     },
     {
-      headerName: 'Location',
+      headerName: 'Department Section',
       field: 'location',
+      autoHeight: true,
+      wrapText: true,
+      minWidth: 200,
+      filter: 'true'
+    },
+    {
+      headerName: 'Location',
+      field: 'deptLocation',
       autoHeight: true,
       wrapText: true,
       minWidth: 200,
@@ -244,7 +255,8 @@ const ComplaintCategoryWise = () => {
       wrapText: true,
       minWidth: 100,
       filter: 'true'
-    }
+    },
+
   ])
 
   const onExportClick = () => {

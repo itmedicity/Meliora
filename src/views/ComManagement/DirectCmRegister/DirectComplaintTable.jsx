@@ -1,12 +1,10 @@
 import { Badge, Box, CssVarsProvider, Typography } from '@mui/joy'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
-import { axioslogin } from 'src/views/Axios/Axios'
 import DirectPendingList from './DirectTicketList/DirectPendingList'
 import SectionwiseHoldList from './DirectTicketList/SectionwiseHoldList'
 import SectionWiseVerify from './DirectTicketList/SectionWiseVerify'
-import { errorNotify } from 'src/views/Common/CommonCode'
 import { getDirectPendingCompalints } from 'src/api/CommonApi'
 import { useQuery } from '@tanstack/react-query'
 
@@ -20,7 +18,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect, verficationPending }
   // const [pendingCompl, setpendingCompl] = useState([])
   // const [onholdCompl, setOnholdCompl] = useState([])
   // const [forVerify, setforVerify] = useState([])
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
 
   const PendingCheck = useCallback(() => {
     setholdCheck(0)
@@ -40,7 +38,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect, verficationPending }
     setpending(0)
   }, [])
 
-  const { isLoading, error, data, isSuccess } = useQuery({
+  const { isLoading: loading, error, data, isSuccess } = useQuery({
     queryKey: 'GetDirectPendingComplaints',
     queryFn: () => getDirectPendingCompalints()
   })
@@ -80,7 +78,7 @@ const DirectComplaintTable = ({ count, setCount, rowSelect, verficationPending }
   const holdLength = onholdCompl?.length
   const verifyLength = forVerify?.length
 
-  if (isLoading) return <p>Loading...</p>
+  if (loading) return <p>Loading...</p>
   if (error) return <p>Error occurred.</p>
   // useEffect(() => {
   //   let isMounted = true

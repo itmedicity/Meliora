@@ -120,8 +120,8 @@ const ItemsApprovalCompnt = ({
 
   const {
     data: kmciteData,
-    isLoading: isItemskmcLoading,
-    error: kmcitemsError
+    // isLoading: isItemskmcLoading,
+    // error: kmcitemsError
   } = useQuery({
     queryKey: ['approvedRejholdItemListkmc', req_slno],
     queryFn: () => getApprovedCrfItemskmc(req_slno),
@@ -142,8 +142,8 @@ const ItemsApprovalCompnt = ({
 
   const {
     data: kmcstatData,
-    isLoading: kmcisStatusLoading,
-    error: kmcstatusError
+    // isLoading: kmcisStatusLoading,
+    // error: kmcstatusError
   } = useQuery({
     queryKey: ['itemStatuskmc', req_slno],
     queryFn: () => getApprovedStatuskmc(req_slno),
@@ -318,8 +318,8 @@ const ItemsApprovalCompnt = ({
   })
   const {
     data: kmcmaxSlnoData,
-    isLoading: kmcisSlnoLoading,
-    error: kmcslnoError
+    // isLoading: kmcisSlnoLoading,
+    // error: kmcslnoError
   } = useQuery({
     queryKey: ['getmaxSlnokmc', req_slno],
     queryFn: () => getMaxslNoOfCrfItemkmc(req_slno),
@@ -750,9 +750,9 @@ const ItemsApprovalCompnt = ({
     req_slno
   ])
 
-  if (isItemsLoading || isSlnoLoading || isStatusLoading || kmcisSlnoLoading || kmcisStatusLoading || isItemskmcLoading)
+  if (isItemsLoading || isSlnoLoading || isStatusLoading)
     return <p>Loading...</p>
-  if (itemsError || slnoError || statusError || kmcslnoError || kmcstatusError || kmcitemsError)
+  if (itemsError || slnoError || statusError)
     return <p>Error occurred.</p>
   return (
     <Fragment>

@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog, Table, Typography } from '@mui/joy'
 import { keyframes, Paper } from '@mui/material'
 import React, { memo, useEffect, useState } from 'react'
 import ErrorIcon from '@mui/icons-material/Error'

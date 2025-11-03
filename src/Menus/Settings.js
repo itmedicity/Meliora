@@ -28,9 +28,8 @@ import {
   dc_setting_one,
   taskManagement_one,
   ams_one,
-  Incident_one,
-  Incident_two,
-  Incident_three
+  Work_one,
+  Work_two
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -70,11 +69,11 @@ const Settings = () => {
   // const [qiMast_secThree, setqiMast_secThree] = useState();
   const [dcMast_secOne, setdcMast_secOne] = useState()
   const [taskManagment_secOne, setTaskManagment_secOne] = useState()
-  const [setams_secone, setams_secOne] = useState()
+  // const [setams_secone, setams_secOne] = useState()
+  const [setWork_secone, setWork_secOne] = useState()
+  const [setWork_secTwo, setWork_sectwo] = useState()
+  const [ams_secone, setams_secOne] = useState()
 
-  const [incident_one, setIncidentOne] = useState();
-  const [incident_two, setIncidenttwo] = useState();
-  const [incident_three, setIncidentthree] = useState();
 
   const [count, setCount] = useState(0)
   useEffect(() => {
@@ -179,17 +178,11 @@ const Settings = () => {
       //AMS Master
       const ams_setting_section_one = ams_one.filter(val => menuSlnoArray.includes(val.slno))
       setams_secOne(ams_setting_section_one)
-
-      //Incident master
-      const incident_settings_one = Incident_one?.filter(val => menuSlnoArray.includes(val.slno))
-      setIncidentOne(incident_settings_one)
-
-      const incident_settings_two = Incident_two?.filter(val => menuSlnoArray.includes(val.slno))
-      setIncidenttwo(incident_settings_two)
-
-      const incident_settings_three = Incident_three?.filter(val => menuSlnoArray.includes(val.slno))
-      setIncidentthree(incident_settings_three)
-
+      //Work order
+      const work_setting_section_one = Work_one.filter(val => menuSlnoArray.includes(val.slno))
+      setWork_secOne(work_setting_section_one)
+      const work_setting_section_two = Work_two.filter(val => menuSlnoArray.includes(val.slno))
+      setWork_sectwo(work_setting_section_two)
     })
   }, [count])
 
@@ -317,8 +310,8 @@ const Settings = () => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {setams_secone &&
-              setams_secone.map(val => {
+            {ams_secone &&
+              ams_secone?.map(val => {
                 return (
                   <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
                     {val.name}
@@ -647,7 +640,47 @@ const Settings = () => {
           </Box>
         </Box>
       </CardContent>
-
+      {/* work Order */}
+      <CardHeader
+        title={'Work Order'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {setWork_secone &&
+              setWork_secone.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {setWork_secTwo &&
+              setWork_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
+      </CardContent>
       <CardHeader
         title={'User Settings'}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
@@ -695,56 +728,6 @@ const Settings = () => {
                     textDecoration: 'none', color: 'var( --true-blue-600)',
 
                   }}>
-                    {val.name}
-                  </Link>
-                )
-              })}
-          </Box>
-        </Box>
-      </CardContent>
-
-
-      <CardHeader
-        title={'Incident Management'}
-        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
-        sx={{
-          backgroundColor: cardActionBgClr,
-          paddingY: 0.5
-        }}
-      />
-      <CardContent>
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: "space-around"
-          }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {incident_one &&
-              incident_one.map(val => {
-                return (
-                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
-                    {val.name}
-                  </Link>
-                )
-              })}
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {incident_two &&
-              incident_two.map(val => {
-                return (
-                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
-                    {val.name}
-                  </Link>
-                )
-              })}
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {incident_three &&
-              incident_three.map(val => {
-                return (
-                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
                     {val.name}
                   </Link>
                 )

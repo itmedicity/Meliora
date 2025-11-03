@@ -48,14 +48,13 @@ const DailyCensus = () => {
   }, [dailyDateFrom, dailyDateTo])
 
   const SearchDetails = useCallback(
-    e => {
+    () => {
       const GetCensusDetails = async searchdata => {
         const result = await axioslogin.post('/qidailycensus/viewReport', searchdata)
         return result.data
       }
       GetCensusDetails(searchdata).then(value => {
         const { data, success, message } = value
-        console.log(data)
 
         if (success === 1) {
           setTableData(data)

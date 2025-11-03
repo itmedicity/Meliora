@@ -12,7 +12,6 @@ import MoreIcon from '@mui/icons-material/More'
 import RectifyDetailsModal from './RectifyDetailsModal'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import { warningNotify } from 'src/views/Common/CommonCode'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import ComFileView from '../../CmFileView/ComFileView'
 import TextComponent from 'src/views/Components/TextComponent'
 import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'
@@ -133,7 +132,7 @@ const RectifyListUseEnd = () => {
         const data = result.data
         const fileNames = data.data
         const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/ComplaintManagement/${complaint_slno}/${fileName}`
+          return `ComplaintManagement/${complaint_slno}/${fileName}`
         })
         setImageUrls(fileUrls)
         if (fileUrls.length > 0) {
@@ -481,11 +480,9 @@ const RectifyListUseEnd = () => {
                                                                 : "Not Updated"} */}
                               {val.rm_room_name}
                               {val.rm_roomtype_name || val.rm_insidebuildblock_name || val.rm_floor_name
-                                ? ` (${val.rm_roomtype_name || ''}${
-                                    val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
-                                  }${val.rm_insidebuildblock_name || ''}${
-                                    val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
-                                  }${val.rm_floor_name || ''})`
+                                ? ` (${val.rm_roomtype_name || ''}${val.rm_roomtype_name && val.rm_insidebuildblock_name ? ' - ' : ''
+                                }${val.rm_insidebuildblock_name || ''}${val.rm_insidebuildblock_name && val.rm_floor_name ? ' - ' : ''
+                                }${val.rm_floor_name || ''})`
                                 : val.cm_complaint_location || 'Not Updated'}
                             </Typography>
                           </Box>

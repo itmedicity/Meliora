@@ -1,5 +1,5 @@
 import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog, Textarea, Typography } from '@mui/joy'
 import CrfReqDetailViewCmp from '../ComonComponent/CrfReqDetailViewCmp'
 import ReqItemDisplay from '../ComonComponent/ReqItemDisplay'
 import CommonInchargeReqCmp from '../ComonComponent/ApprovalComp/CommonInchargeReqCmp'
@@ -15,7 +15,6 @@ import ApprovalCompntAll from '../ComonComponent/ApprovalCompntAll'
 import { useSelector } from 'react-redux'
 import _ from 'underscore'
 import imageCompression from 'browser-image-compression'
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static'
 import { format } from 'date-fns'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -27,6 +26,7 @@ import ModalButtomCmp from '../ComonComponent/Components/ModalButtomCmp'
 import CampaignTwoToneIcon from '@mui/icons-material/CampaignTwoTone'
 import DataCollectDepSecSelectTmc from '../ComonComponent/DataCollectionComp/DataCollectDepSecSelectTmc'
 import { useQueryClient } from '@tanstack/react-query'
+import JSZip from 'jszip'
 
 const CrfGMApprovalModal = ({
   open,
@@ -334,25 +334,40 @@ const CrfGMApprovalModal = ({
   useEffect(() => {
     isMounted.current = true
     const getImage = async req_slno => {
-      const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const fileNames = data
-        const fileUrls = fileNames.map(fileName => {
-          return `${PUBLIC_NAS_FOLDER}/CRF/crf_registration/${req_slno}/GMUpload/${fileName}`
-        })
-        const savedFiles = fileUrls.map(val => {
-          const parts = val.split('/')
-          const fileNamePart = parts[parts.length - 1]
-          const obj = {
-            imageName: fileNamePart,
-            url: val
-          }
-          return obj
-        })
-        setUploadedImages(savedFiles)
-      } else {
-        setUploadedImages([])
+      try {
+        const result = await axioslogin.get(`/newCRFRegisterImages/crfGMImageGet/${req_slno}`, {
+          responseType: 'blob'
+        });
+
+        const contentType = result.headers['content-type'] || '';
+        if (contentType?.includes('application/json')) {
+          return;
+        } else {
+          const zip = await JSZip.loadAsync(result.data);
+          const imageEntries = Object.entries(zip.files).filter(
+            ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+          );
+          const imagePromises = imageEntries.map(async ([filename, fileObj]) => {
+            const originalBlob = await fileObj.async('blob');
+            let mimeType = '';
+            if (filename.endsWith('.pdf')) {
+              mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+              mimeType = 'image/png';
+            } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+              mimeType = 'image/jpeg';
+            } else {
+              mimeType = 'application/octet-stream';
+            }
+            const blobWithType = new Blob([originalBlob], { type: mimeType });
+            const url = URL.createObjectURL(blobWithType);
+            return { imageName: filename, url, blob: blobWithType };
+          });
+          const images = await Promise.all(imagePromises);
+          setUploadedImages(images)
+        }
+      } catch (error) {
+        console.error('Error fetching or processing images:', error);
       }
     }
     getImage(req_slno)

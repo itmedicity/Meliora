@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material'
 import React, { useCallback, useEffect, useState, useMemo, Fragment } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getComplaintDept } from 'src/redux/actions/ComplaintDept.action'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
@@ -40,7 +40,7 @@ import Switch from '@mui/joy/Switch'
 
 const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   const dispatch = useDispatch()
-  const history = useNavigate()
+  // const history = useNavigate()
   const [crical, setCritical] = useState(false)
   const [priority, setpriority] = useState(0)
   const [edit, setEdit] = useState(0)
@@ -681,8 +681,6 @@ const ComplaintRegistrMast = ({ verficationPending, count, setCount }) => {
   })
 
   const custodianDetails = useMemo(() => custodianDetailsData, [custodianDetailsData])
-  console.log(custodianDetails, "custodianDetails");
-
   useEffect(() => {
     if (isSuccess && custodianDetails?.length > 0) {
       const { am_custdn_asset_no_first, am_custdn_asset_no_second } = custodianDetails[0]

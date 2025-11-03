@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useState, memo, useEffect, useMemo } from 'react'
 import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { Box, CssVarsProvider, Modal, ModalClose, ModalDialog, Textarea } from '@mui/joy'
+import { Box, Modal, ModalClose, ModalDialog, Textarea } from '@mui/joy'
 import _ from 'underscore'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
