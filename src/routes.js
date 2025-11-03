@@ -281,7 +281,7 @@ const PendingTicketsReport = React.lazy(() => import('./views/Report/ComplaintRe
 const PendingTicketsCountReport = React.lazy(() => import('./views/Report/ComplaintReport/PendingTicketsCountReport'))
 const CondemnationAssetOld = React.lazy(() => import('./views/AssetManagment/AssetCondemnationOld/CondemnationAssetOld'))
 const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
-
+const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
 
 const routes = [
   { path: '', element: <Home /> },
@@ -789,12 +789,17 @@ const routes = [
     name: 'CondemnationAssetOld',
     element: <CondemnationAssetOld />
   },
-    {
+  {
     path: 'DeliveryMarking_Report',
     name: 'DeliveryMarking_Report',
     element: <DeliveryMarking_Report />
   },
-   
+  {
+    path: 'IcuDashboard',
+    name: 'IcuDashboard',
+    element: <IcuDashboard />
+  },
+
 
 ]
 
