@@ -630,10 +630,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 .then(response => {
                                   const { succes, message } = response
                                   if (succes === 1) {
-                                    succesNotify('Complaint Updated Successfully')
                                     queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                                     queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                     setCount(count + 1)
+                                    succesNotify('Complaint Updated Successfully')
                                     reset()
                                     Close()
                                   } else {
@@ -644,10 +644,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                   infoNotify('An error occurred while updating the complaint.')
                                 })
                             } else {
-                              succesNotify('Complaint Updated Successfully')
                               queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                               queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
+                              succesNotify('Complaint Updated Successfully')
                               reset()
                               Close()
                             }
@@ -665,10 +665,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                               .then(response => {
                                 const { succes, message } = response
                                 if (succes === 1) {
-                                  succesNotify('Complaint Updated Successfully')
                                   queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                                   queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
+                                  succesNotify('Complaint Updated Successfully')
                                   reset()
                                   Close()
                                 } else {
@@ -679,10 +679,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
-                            succesNotify('Complaint Updated Successfully')
                             queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                             queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
+                            succesNotify('Complaint Updated Successfully')
                             reset()
                             Close()
                           }
@@ -701,10 +701,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                               .then(response => {
                                 const { succes, message } = response
                                 if (succes === 1) {
-                                  succesNotify('Complaint Updated Successfully')
                                   queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                                   queryClient.invalidateQueries('getAllHoldEmployeeComp')
                                   setCount(count + 1)
+                                  succesNotify('Complaint Updated Successfully')
                                   reset()
                                   Close()
                                 } else {
@@ -715,10 +715,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                                 infoNotify('An error occurred while updating the complaint.')
                               })
                           } else {
-                            succesNotify('Complaint Updated Successfully')
                             queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                             queryClient.invalidateQueries('getAllHoldEmployeeComp')
                             setCount(count + 1)
+                            succesNotify('Complaint Updated Successfully')
                             reset()
                             Close()
                           }
@@ -732,10 +732,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                           .then(response => {
                             const { succes, message } = response
                             if (succes === 1) {
-                              succesNotify('Complaint Updated Successfully')
                               queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                               queryClient.invalidateQueries('getAllHoldEmployeeComp')
                               setCount(count + 1)
+                              succesNotify('Complaint Updated Successfully')
                               reset()
                               Close()
                             } else {
@@ -746,10 +746,10 @@ const NewRectifyModal = ({ rectfyOpen, setrectfyOpen, setrectfyFlag, rectfyDta, 
                             infoNotify('An error occurred while updating the complaint.')
                           })
                       } else {
-                        succesNotify('Complaint Updated Successfully')
                         queryClient.invalidateQueries('getAllPendingEmployeeTickets')
                         queryClient.invalidateQueries('getAllHoldEmployeeComp')
                         setCount(count + 1)
+                        succesNotify('Complaint Updated Successfully')
                         reset()
                         Close()
                       }
