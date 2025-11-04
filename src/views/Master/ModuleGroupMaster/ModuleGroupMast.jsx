@@ -37,7 +37,8 @@ const ModuleGroupMast = () => {
     notification: false,
     amsModule: false,
     mod_grp_slno: 0,
-    workorder: false
+    workorder: false,
+    icubeds: false
   })
   /*** Destructuring */
   const {
@@ -64,7 +65,8 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    icubeds
   } = moduleGroup
 
   /***Get values from the component */
@@ -104,6 +106,7 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
+        module_icubeds: icubeds === true ? 27 : 0
       }
     }
   }, [
@@ -129,7 +132,8 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    icubeds
   ])
 
   /*** data for  update to module_group_mast table */
@@ -160,7 +164,7 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
-
+        module_icubeds: icubeds === true ? 27 : 0,
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -188,8 +192,8 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
-
+    workorder,
+    icubeds
   ])
 
   // data setting for edit
@@ -223,7 +227,7 @@ const ModuleGroupMast = () => {
       notification: module_status.module_notification === 0 ? false : true,
       amsModule: module_status.module_ams === 0 ? false : true,
       module_workorder: module_status.workorder === true ? 26 : 0,
-
+      icubeds: module_status.icubeds === 0 ? false : true
     }
     setModuleGroup(formdata)
   }, [])
@@ -255,7 +259,7 @@ const ModuleGroupMast = () => {
         notification: false,
         amsModule: false,
         workorder: false,
-
+        icubeds: false
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -328,7 +332,7 @@ const ModuleGroupMast = () => {
       notification: false,
       amsModule: false,
       workorder: false,
-
+      icubeds: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -612,6 +616,18 @@ const ModuleGroupMast = () => {
                     variant="outlined"
                     value={workorder}
                     checked={workorder}
+                    onCheked={updateModuleGroup}
+                  />
+                </Grid>
+                <Grid item xl={12} lg={12}>
+                  <CusCheckBox
+                    label="Icu Beds"
+                    color="primary"
+                    size="md"
+                    name="icubeds"
+                    variant="outlined"
+                    value={icubeds}
+                    checked={icubeds}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>

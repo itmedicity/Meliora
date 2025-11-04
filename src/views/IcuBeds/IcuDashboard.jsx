@@ -12,18 +12,21 @@ import IcuSkeleton from "./Component/IcuSkeleton";
 
 const IcuDashboard = () => {
 
+
+
+    
     const {
         data: getallicubeds,
         isLoading: icubedLoading,
     } = useQuery({
         queryKey: ["getallicubed"],
         queryFn: () => getAllIcuBeds(),
-        staleTime: Infinity,
-        refetchInterval: 360000, // 6 minutes in ms
-        refetchIntervalInBackground: false, // keeps refetching even when window not focused
+        staleTime: 900000, // 15 minutes
+        refetchInterval: 900000, // 15 minutes
+        refetchOnWindowFocus: true, // refetch when window regains focus
+        refetchIntervalInBackground: false, // only refetch when focused
     });
 
-    // console.log(getallicubeds, "getallicubeds");
 
     return (
         <Grid container spacing={2} p={2}>

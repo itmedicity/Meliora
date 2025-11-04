@@ -84,6 +84,7 @@ const SideMenu = () => {
       icon: <GrDocumentPdf size={35} color="var(--royal-purple-300)" />
     },
     {
+      men_slno: 319,
       path: '/Home/IcuDashboard',
       name: 'Icu Beds',
       icon: <FaBedPulse size={35} color="var(--royal-purple-300)" />

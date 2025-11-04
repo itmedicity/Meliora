@@ -76,9 +76,11 @@ import { MdRoomPreferences } from 'react-icons/md'
 import { FcAdvertising } from 'react-icons/fc'
 import { GiMedicines } from 'react-icons/gi'
 import { VscSignOut } from 'react-icons/vsc'
-
+import { FaBedPulse } from "react-icons/fa6";
 import TMCHLogo from '../assets/Svg/tmch_logo.svg'
 import { useQuery } from '@tanstack/react-query'
+import IcuTransaction from 'src/Menus/IcuTransaction'
+
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -110,7 +112,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [NotificationTransact, setNotificationTransact] = useState()
   const [AmsTransact, setAmsTransact] = useState()
   const [Workorder, setWorkOrder] = useState()
-
+  const [icuTransact, setIcuTransact] = useState()
 
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
@@ -334,7 +336,14 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       items: Workorder,
       route: '/Home',
       icon: <GiMedicines />
-    }
+    },
+    {
+      slno: 27,
+      name: 'ICU Bed',
+      items: icuTransact,
+      route: '/IcuDashboard',
+      icon: <FaBedPulse color="var(--true-blue-800)" />
+    },
   ]
 
   useEffect(() => {
@@ -388,6 +397,10 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
         setCount(1)
+
+        const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
+        setIcuTransact(IcuTrans)
+
       }
     })
 
