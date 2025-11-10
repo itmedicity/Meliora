@@ -965,7 +965,6 @@ const ItemNameCreation = () => {
         {GroupFlag === 1 ? <GroupModal open={GroupOpen} handleClose={handleClose} /> : null}
         {ModelFlag === 1 ? <ModelModal open={ModelOpen} handleClose={handleClose} /> : null}
         {SubGroupFlag === 1 ? <SubGroupModal open={SubGroupOpen} handleClose={handleClose} /> : null}
-        {/* {SubModelFlag === 1 ? <SubModelModal open={SubModelOpen} handleClose={handleClose} /> : null} */}
 
         <Box
           sx={{

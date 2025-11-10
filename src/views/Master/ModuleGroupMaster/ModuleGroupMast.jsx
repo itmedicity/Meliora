@@ -42,7 +42,9 @@ const ModuleGroupMast = () => {
     mod_grp_slno: 0,
     workorder: false,
     icubeds: false,
-    labresult: false
+    labresult: false,
+    deviceCredentials: false,
+
   })
   /*** Destructuring */
   const {
@@ -71,8 +73,10 @@ const ModuleGroupMast = () => {
     amsModule,
     workorder,
     icubeds,
-    labresult
+    labresult,
+    deviceCredentials,
   } = moduleGroup
+
 
   /***Get values from the component */
   const updateModuleGroup = useCallback(
@@ -113,6 +117,7 @@ const ModuleGroupMast = () => {
         module_workorder: workorder === true ? 26 : 0,
         module_icubeds: icubeds === true ? 27 : 0,
         module_labresult: labresult === true ? 28 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
       }
     }
   }, [
@@ -140,7 +145,8 @@ const ModuleGroupMast = () => {
     amsModule,
     workorder,
     icubeds,
-    labresult
+    labresult,
+    deviceCredentials,
   ])
 
   /*** data for  update to module_group_mast table */
@@ -173,6 +179,7 @@ const ModuleGroupMast = () => {
         module_workorder: workorder === true ? 26 : 0,
         module_icubeds: icubeds === true ? 27 : 0,
         module_labresult: labresult === true ? 28 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -202,7 +209,8 @@ const ModuleGroupMast = () => {
     amsModule,
     workorder,
     icubeds,
-    labresult
+    labresult,
+    deviceCredentials,
   ])
 
   // data setting for edit
@@ -237,7 +245,8 @@ const ModuleGroupMast = () => {
       amsModule: module_status.module_ams === 0 ? false : true,
       module_workorder: module_status.workorder === true ? 26 : 0,
       icubeds: module_status.icubeds === 0 ? false : true,
-      labresult: module_status.labresult === 0 ? false : true
+      labresult: module_status.labresult === 0 ? false : true,
+      deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
     }
     setModuleGroup(formdata)
   }, [])
@@ -270,7 +279,9 @@ const ModuleGroupMast = () => {
         amsModule: false,
         workorder: false,
         icubeds: false,
-        labresult: false
+        labresult: false,
+        deviceCredentials: false,
+
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -344,7 +355,8 @@ const ModuleGroupMast = () => {
       amsModule: false,
       workorder: false,
       icubeds: false,
-      labresult: false
+      labresult: false,
+      deviceCredentials: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -644,16 +656,15 @@ const ModuleGroupMast = () => {
                   />
                 </Grid>
                 <Grid item xl={12} lg={12}>
-
-
+                <Grid item xl={12} lg={12}>
                   <CusCheckBox
-                    label="Lab Results"
+                    label="Device Credentials"
                     color="primary"
                     size="md"
-                    name="labresults"
+                    name="deviceCredentials"
                     variant="outlined"
-                    value={labresult}
-                    checked={labresult}
+                    value={deviceCredentials}
+                    checked={deviceCredentials}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>

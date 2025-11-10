@@ -3,7 +3,7 @@ import { Box } from '@mui/system'
 import { HiHome } from 'react-icons/hi2'
 import { HiTicket } from 'react-icons/hi2'
 import { RiDashboardHorizontalFill } from 'react-icons/ri'
-import { MdDevicesOther } from 'react-icons/md'
+import { MdDevicesOther, MdPattern } from 'react-icons/md'
 import { TbDeviceImacCog } from 'react-icons/tb'
 import { FcEngineering } from 'react-icons/fc'
 import { FcInspection } from 'react-icons/fc'
@@ -95,6 +95,12 @@ const SideMenu = () => {
       // path: '/Home/IcuDashboard',
       name: 'Lab Results',
       icon: <FaSyringe size={35} color="var(--royal-purple-300)" />
+    }
+    ,{
+      men_slno: 322,
+      path: '/Home/AllDeviceCredentialList',
+      name: 'Device Credentials',
+      icon: <MdPattern size={35} color="var(--royal-purple-300)" />
     },
   ]
 

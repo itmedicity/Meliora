@@ -9,12 +9,12 @@ const ITTransactions = [
     icon: <CiStop1 />
   },
 
-  {
-    men_slno: 147,
-    name: 'Password Management',
-    to: '/Home/PasswordManagement',
-    icon: <CiStop1 />
-  },
+  // {
+  //   men_slno: 147,
+  //   name: 'Password Management',
+  //   to: '/Home/PasswordManagement',
+  //   icon: <CiStop1 />
+  // },
 
   {
     men_slno: 149,

@@ -81,9 +81,6 @@ const MyAssignedList = ({ assistReq, count, setCount }) => {
     enabled: !!id,
   })
 
-  console.log(getAllPendingEmpTickets, "getAllPendingEmpTickets");
-
-
   const PendingList = useMemo(() => getAllPendingEmpTickets, [getAllPendingEmpTickets])
 
   const blinkAnimation = keyframes`

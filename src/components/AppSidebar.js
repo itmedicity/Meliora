@@ -48,7 +48,10 @@ import TMCHLogo from '../assets/Svg/tmch_logo.svg'
 import { useQuery } from '@tanstack/react-query'
 import IcuTransaction from 'src/Menus/IcuTransaction'
 // import { FaSyringe } from "react-icons/fa6";
-
+import { MdPattern } from "react-icons/md";
+import TMCHLogo from '../assets/Svg/tmch_logo.svg'
+import { useQuery } from '@tanstack/react-query'
+import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -68,7 +71,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [Workorder, setWorkOrder] = useState()
   const [icuTransact, setIcuTransact] = useState()
   // const [labresultTransact, setLabResultTransact] = useState()
-  const [count, setCount] = useState(0)
+  const [deviceCredentials, setDeviceCredentials] = useState()
+ const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
   const {
@@ -250,7 +254,14 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
     //   route: '/IcuDashboard',
     //   icon: <FaSyringe color="var(--true-blue-800)" />
     // }
-  ]
+        {
+      slno: 29,
+      name: 'Device Credentials',
+      items: deviceCredentials,
+      route: '/Home',
+      icon: <MdPattern />
+    }
+ ]
 
   useEffect(() => {
     /*** get menus based on user rights */
@@ -287,6 +298,11 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setAmsTransact(AmsTransact)
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
+
+        const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
+        setDeviceCredentials(DeviceCredentialTransact)
+        
+
         setCount(1)
         const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setIcuTransact(IcuTrans)
