@@ -37,7 +37,8 @@ const ModuleGroupMast = () => {
     notification: false,
     amsModule: false,
     mod_grp_slno: 0,
-    workorder: false
+    workorder: false,
+    deviceCredentials: false,
   })
   /*** Destructuring */
   const {
@@ -64,8 +65,11 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
+    deviceCredentials,
     workorder
   } = moduleGroup
+
+
 
   /***Get values from the component */
   const updateModuleGroup = useCallback(
@@ -104,6 +108,8 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
+
       }
     }
   }, [
@@ -129,7 +135,8 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    deviceCredentials
   ])
 
   /*** data for  update to module_group_mast table */
@@ -160,6 +167,8 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
+
 
       },
       mod_grp_slno: mod_grp_slno
@@ -188,7 +197,8 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    deviceCredentials
 
   ])
 
@@ -223,6 +233,9 @@ const ModuleGroupMast = () => {
       notification: module_status.module_notification === 0 ? false : true,
       amsModule: module_status.module_ams === 0 ? false : true,
       module_workorder: module_status.workorder === true ? 26 : 0,
+      deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
+
+
 
     }
     setModuleGroup(formdata)
@@ -255,6 +268,7 @@ const ModuleGroupMast = () => {
         notification: false,
         amsModule: false,
         workorder: false,
+        deviceCredentials: false
 
       }
       /***     * insert function for use call back     */
@@ -328,7 +342,7 @@ const ModuleGroupMast = () => {
       notification: false,
       amsModule: false,
       workorder: false,
-
+      deviceCredentials: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -612,6 +626,19 @@ const ModuleGroupMast = () => {
                     variant="outlined"
                     value={workorder}
                     checked={workorder}
+                    onCheked={updateModuleGroup}
+                  />
+                </Grid>
+
+                <Grid item xl={12} lg={12}>
+                  <CusCheckBox
+                    label="Device Credentials"
+                    color="primary"
+                    size="md"
+                    name="deviceCredentials"
+                    variant="outlined"
+                    value={deviceCredentials}
+                    checked={deviceCredentials}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>

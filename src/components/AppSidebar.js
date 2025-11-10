@@ -76,9 +76,10 @@ import { MdRoomPreferences } from 'react-icons/md'
 import { FcAdvertising } from 'react-icons/fc'
 import { GiMedicines } from 'react-icons/gi'
 import { VscSignOut } from 'react-icons/vsc'
-
+import { MdPattern } from "react-icons/md";
 import TMCHLogo from '../assets/Svg/tmch_logo.svg'
 import { useQuery } from '@tanstack/react-query'
+import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -110,6 +111,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [NotificationTransact, setNotificationTransact] = useState()
   const [AmsTransact, setAmsTransact] = useState()
   const [Workorder, setWorkOrder] = useState()
+  const [deviceCredentials, setDeviceCredentials] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -334,7 +336,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       items: Workorder,
       route: '/Home',
       icon: <GiMedicines />
+    },
+        {
+      slno: 29,
+      name: 'Device Credentials',
+      items: deviceCredentials,
+      route: '/Home',
+      icon: <MdPattern />
     }
+   
   ]
 
   useEffect(() => {
@@ -387,6 +397,11 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
+
+        const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
+        setDeviceCredentials(DeviceCredentialTransact)
+        
+
         setCount(1)
       }
     })
