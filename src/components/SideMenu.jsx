@@ -15,6 +15,7 @@ import { GiMedicines } from "react-icons/gi";
 import { GrDocumentPdf } from "react-icons/gr";
 import { MdAppRegistration } from "react-icons/md";
 import { FaBedPulse } from "react-icons/fa6";
+import { FaSyringe } from "react-icons/fa6";
 
 const SideMenu = () => {
   const navigation = useNavigate()
@@ -89,6 +90,12 @@ const SideMenu = () => {
       name: 'Icu Beds',
       icon: <FaBedPulse size={35} color="var(--royal-purple-300)" />
     },
+    {
+      men_slno: 326,
+      // path: '/Home/IcuDashboard',
+      name: 'Lab Results',
+      icon: <FaSyringe size={35} color="var(--royal-purple-300)" />
+    },
   ]
 
 
@@ -126,7 +133,13 @@ const SideMenu = () => {
           sx={{ backgroundColor: 'var(--royal-purple-300)' }}
         >
           <Box
-            onClick={() => navigation(item.path)}
+            onClick={() => {
+              if (item.name === 'Lab Results') {
+                window.open('http://192.168.10.88:7848/', '_blank');
+              } else {
+                navigation(item.path);
+              }
+            }}
             sx={{
               display: 'flex',
               justifyContent: 'center',
@@ -137,8 +150,9 @@ const SideMenu = () => {
             {item.icon}
           </Box>
         </Tooltip>
-      ))}
-    </Box>
+      ))
+      }
+    </Box >
   )
 }
 

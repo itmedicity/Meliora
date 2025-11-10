@@ -7,8 +7,11 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import ModuleGroupTable from './ModuleGroupTable'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+
+
 const ModuleGroupMast = () => {
+
   const history = useNavigate()
   const [count, setCount] = useState(0)
   const [value, setvalue] = useState(0)
@@ -38,7 +41,8 @@ const ModuleGroupMast = () => {
     amsModule: false,
     mod_grp_slno: 0,
     workorder: false,
-    icubeds: false
+    icubeds: false,
+    labresult: false
   })
   /*** Destructuring */
   const {
@@ -66,7 +70,8 @@ const ModuleGroupMast = () => {
     notification,
     amsModule,
     workorder,
-    icubeds
+    icubeds,
+    labresult
   } = moduleGroup
 
   /***Get values from the component */
@@ -106,7 +111,8 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
-        module_icubeds: icubeds === true ? 27 : 0
+        module_icubeds: icubeds === true ? 27 : 0,
+        module_labresult: labresult === true ? 28 : 0,
       }
     }
   }, [
@@ -133,7 +139,8 @@ const ModuleGroupMast = () => {
     notification,
     amsModule,
     workorder,
-    icubeds
+    icubeds,
+    labresult
   ])
 
   /*** data for  update to module_group_mast table */
@@ -165,6 +172,7 @@ const ModuleGroupMast = () => {
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
         module_icubeds: icubeds === true ? 27 : 0,
+        module_labresult: labresult === true ? 28 : 0,
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -193,7 +201,8 @@ const ModuleGroupMast = () => {
     notification,
     amsModule,
     workorder,
-    icubeds
+    icubeds,
+    labresult
   ])
 
   // data setting for edit
@@ -227,7 +236,8 @@ const ModuleGroupMast = () => {
       notification: module_status.module_notification === 0 ? false : true,
       amsModule: module_status.module_ams === 0 ? false : true,
       module_workorder: module_status.workorder === true ? 26 : 0,
-      icubeds: module_status.icubeds === 0 ? false : true
+      icubeds: module_status.icubeds === 0 ? false : true,
+      labresult: module_status.labresult === 0 ? false : true
     }
     setModuleGroup(formdata)
   }, [])
@@ -259,7 +269,8 @@ const ModuleGroupMast = () => {
         notification: false,
         amsModule: false,
         workorder: false,
-        icubeds: false
+        icubeds: false,
+        labresult: false
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -332,7 +343,8 @@ const ModuleGroupMast = () => {
       notification: false,
       amsModule: false,
       workorder: false,
-      icubeds: false
+      icubeds: false,
+      labresult: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -628,6 +640,20 @@ const ModuleGroupMast = () => {
                     variant="outlined"
                     value={icubeds}
                     checked={icubeds}
+                    onCheked={updateModuleGroup}
+                  />
+                </Grid>
+                <Grid item xl={12} lg={12}>
+
+
+                  <CusCheckBox
+                    label="Lab Results"
+                    color="primary"
+                    size="md"
+                    name="labresults"
+                    variant="outlined"
+                    value={labresult}
+                    checked={labresult}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>

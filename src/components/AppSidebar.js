@@ -1,13 +1,8 @@
 import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-// import { AppSidebarNav } from './AppSidebarNav'
-// import SimpleBar from 'simplebar-react'
-// import 'simplebar/dist/simplebar.min.css'
-// import { ActionTyps } from 'src/redux/constants/action.type'
 import { getMenuSlno } from 'src/views/Constant/Constant'
 import CmTransactions from '../Menus/CmTransactions'
 import { axioslogin } from 'src/views/Axios/Axios'
-// import DietTransactions from '../Menus/DietTransactions'
 import RmTransactions from '../Menus/RmTransaction'
 import TaskTransaction from 'src/Menus/TaskTransaction'
 import AmTransactions from 'src/Menus/AmTransaction'
@@ -21,50 +16,22 @@ import { getDefaultCompany } from 'src/api/CommonApiCRF'
 import NotificationTransaction from 'src/Menus/NotificationTransaction'
 import AmsTransaction from 'src/Menus/AmsTransaction'
 import WorkOrder from 'src/Menus/WorkOrder'
-
+// import LabResultTransaction from 'src/Menus/LabResultTransaction'
 import { CgClose } from 'react-icons/cg'
-
 // --------------------------
-
-// import AspectRatio from '@mui/joy/AspectRatio'
 import Box from '@mui/joy/Box'
 import Drawer from '@mui/joy/Drawer'
-// import Button from '@mui/joy/Button'
-// import Card from '@mui/joy/Card'
-// import CardContent from '@mui/joy/CardContent'
-// import Checkbox from '@mui/joy/Checkbox'
-// import DialogTitle from '@mui/joy/DialogTitle'
 import DialogContent from '@mui/joy/DialogContent'
-// import ModalClose from '@mui/joy/ModalClose'
 import Divider from '@mui/joy/Divider'
-// import FormControl from '@mui/joy/FormControl'
-// import FormLabel from '@mui/joy/FormLabel'
-// import FormHelperText from '@mui/joy/FormHelperText'
-// import List from '@mui/joy/List'
-// import ListItem from '@mui/joy/ListItem'
 import Stack from '@mui/joy/Stack'
-// import RadioGroup from '@mui/joy/RadioGroup'
-// import Radio from '@mui/joy/Radio'
 import Sheet from '@mui/joy/Sheet'
-// import Switch from '@mui/joy/Switch'
 import Typography from '@mui/joy/Typography'
-// import TuneIcon from '@mui/icons-material/TuneRounded'
-// import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
-// import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded'
-// import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded'
-// import HotelRoundedIcon from '@mui/icons-material/HotelRounded'
-// import Done from '@mui/icons-material/Done'
-
-// import { IoReturnDownBack } from 'react-icons/io5'
 import { IconButton, Tooltip } from '@mui/joy'
 import MLogoIcon from 'src/assets/MLogoIcon'
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
-// import { HiHome } from 'react-icons/hi2'
 import { HiTicket } from 'react-icons/hi2'
 import { RiDashboardHorizontalFill } from 'react-icons/ri'
-// import { MdDevicesOther } from 'react-icons/md'
 import { TbDeviceImacCog } from 'react-icons/tb'
 import { FcGenealogy } from 'react-icons/fc'
 import { FcComboChart } from 'react-icons/fc'
@@ -80,29 +47,16 @@ import { FaBedPulse } from "react-icons/fa6";
 import TMCHLogo from '../assets/Svg/tmch_logo.svg'
 import { useQuery } from '@tanstack/react-query'
 import IcuTransaction from 'src/Menus/IcuTransaction'
+// import { FaSyringe } from "react-icons/fa6";
 
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
   const [openMenuIndex, setOpenMenuIndex] = useState(null)
-
-  // const [open, setOpen] = useState(true)
-  // const [type, setType] = useState('Guesthouse')
-  // const [amenities, setAmenities] = useState([0, 6])
-
-  // const dispatch = useDispatch()
-  // const unfoldable = useSelector(state => state.changeState.sidebarUnfoldable)
-  // const sidebarShow = useSelector(state => state.changeState.sidebarShow)
-  // const [nurseStation, setNurseStation] = useState()
   const [cmtransact, setCmTransact] = useState()
-  // const [crmtransact, setCrmTransact] = useState()
   const [crmnewtransact, setCrmNewTransact] = useState()
-  // const [diettransact, setDietTransact] = useState()
   const [rmtransact, setRmTransact] = useState()
   const [amtransact, setAmTransact] = useState()
-  // const [weworktransact, setweworktransact] = useState()
-  // const [escalation, setescalation] = useState()
-  // const [hallbooking, setHallBooking] = useState()
   const [tasktransact, setTaskTransact] = useState()
   const [itmanagement, setItManagement] = useState()
   const [qualityTransact, setQualityTransact] = useState()
@@ -113,7 +67,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [AmsTransact, setAmsTransact] = useState()
   const [Workorder, setWorkOrder] = useState()
   const [icuTransact, setIcuTransact] = useState()
-
+  // const [labresultTransact, setLabResultTransact] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -175,23 +129,6 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
   //Side bar menus array
   const navigationMenus = [
-    //Home Menu
-    // {
-    //   slno: 1,
-    //   // component: CNavItem,
-    //   name: 'Home',
-    //   to: '/Home',
-    //   route: '/Home',
-    //   icon: <HiHome color="var(--true-blue-800)" />,
-    //   // icon: <CIcon icon={cilHouse} customClassName="nav-icon" />,
-    // },
-    //Nursing Station Menu
-    // {
-    //   slno: 11,
-    //   component: CNavGroup,
-    //   name: 'Nursing Station',
-    //   items: nurseStation
-    // },
     //Complaint Management System Menu Start from Here
     {
       slno: 2,
@@ -201,14 +138,6 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/ComplaintManagement',
       icon: <HiTicket color="var(--true-blue-800)" />
     },
-    //Request Management System Menu Start from Here
-    // {
-    //   slno: 3,
-    //   component: CNavGroup,
-    //   name: 'Request management',
-    //   items: crmtransact
-    // },
-
     {
       slno: 15,
       // component: CNavGroup,
@@ -217,8 +146,6 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/Home',
       icon: <RiDashboardHorizontalFill color="var(--true-blue-800)" />
     },
-
-    //Room Management System Menu Start from Here
     {
       slno: 5,
       // component: CNavGroup,
@@ -236,33 +163,6 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/Home',
       icon: <TbDeviceImacCog color="var(--true-blue-800)" />
     },
-    // //Diet Management Menus
-    // {
-    //   slno: 7,
-    //   component: CNavGroup,
-    //   name: 'Diet Management',
-    //   items: diettransact
-    // },
-    //We  Work Menu Start from Here
-    // {
-    //   slno: 6,
-    //   component: CNavGroup,
-    //   name: 'We Work',
-    //   items: weworktransact
-    // },
-    // {
-    //   slno: 15,
-    //   component: CNavGroup,
-    //   name: 'Escalation',
-    //   items: escalation
-    // },
-    // {
-    //   slno: 16,
-    //   component: CNavGroup,
-    //   name: 'Hall Booking',
-    //   items: hallbooking
-    // },
-
     {
       slno: 17,
       // component: CNavGroup,
@@ -328,7 +228,6 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/Home',
       icon: <GiMedicines color="var(--true-blue-800)" />
     },
-
     {
       slno: 26,
       // component: CNavGroup,
@@ -344,6 +243,13 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/IcuDashboard',
       icon: <FaBedPulse color="var(--true-blue-800)" />
     },
+    // {
+    //   slno: 28,
+    //   name: 'Lab Results',
+    //   items: labresultTransact,
+    //   route: '/IcuDashboard',
+    //   icon: <FaSyringe color="var(--true-blue-800)" />
+    // }
   ]
 
   useEffect(() => {
@@ -355,27 +261,14 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         const menuSlnoAry = menuRitSlno.map(menu => {
           return menu.menu_slno
         })
-        /*** check menus array and getMenuSlno array and returnuser rights given menus */
-        // const newNurseStation = NurseStation.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setNurseStation(newNurseStation)
         const newCmTransaction = CmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setCmTransact(newCmTransaction)
-        // const newCrmTransaction = CrmTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setCrmTransact(newCrmTransaction)
         const newCrmNewTransaction = CrmNewTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setCrmNewTransact(newCrmNewTransaction)
-        // const newDietTransaction = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setDietTransact(newDietTransaction)
         const newRmTransaction = RmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setRmTransact(newRmTransaction)
         const newAmTransaction = AmTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setAmTransact(newAmTransaction)
-        // const weworkTransact = WeWorkTransact.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setweworktransact(weworkTransact)
-        // const escalationTransact = TimeEscalations.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setescalation(escalationTransact)
-        // const hallBookingTransact = HallBookingTrans.filter(val => menuSlnoAry.includes(val.men_slno));
-        // setHallBooking(hallBookingTransact)
         const TaskManageTransact = TaskTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setTaskTransact(TaskManageTransact)
         const ItManageTransact = ITTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
@@ -390,17 +283,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setFeedbackTransact(FeedbackTransact)
         const NotificationTransact = NotificationTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setNotificationTransact(NotificationTransact)
-
         const AmsTransact = AmsTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setAmsTransact(AmsTransact)
-
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
         setCount(1)
-
         const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setIcuTransact(IcuTrans)
-
+        // const LabResultTrans = LabResultTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
+        // setLabResultTransact(LabResultTrans)
       }
     })
 
@@ -439,9 +330,11 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const empname = useSelector(state => {
     return state.LoginUserData.empname
   })
+
   const section = useSelector(state => {
     return state.LoginUserData.empdeptsec
   })
+
   if (isCompLoading) return <p>Loading...</p>
   if (compError) return <p>Error occurred.</p>
 
@@ -456,59 +349,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   }
 
   return (
-    // <CSidebar
-    //   position="fixed"
-    //   unfoldable={unfoldable}
-    //   visible={sidebarShow}
-    //   onVisibleChange={(visible) => {
-    //     dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarShow: visible })
-    //   }}
-    //   style={{ backgroundColor: apsideBgclor }}
-    // >
-    //   <CSidebarBrand className="d-none d-md-flex" to="/">
-    //     <Box>
-    //       <Box sx={{
-    //         display: 'flex',
-    //         justifyContent: 'space-between',
-    //         textTransform: "capitalize"
-    //       }}>
-    //         <Typography sx={{ fontWeight: 500, color: '#e0f7fa' }} >
-    //           {empname.toLowerCase()}
-    //         </Typography>
-    //       </Box>
-
-    //       <Box sx={{
-    //         display: 'flex',
-    //         justifyContent: 'space-between',
-    //       }} >
-    //         <Typography sx={{ color: '#e0f7fa', fontSize: 11 }} >
-    //           {section}
-    //         </Typography>
-    //       </Box>
-    //     </Box>
-    //   </CSidebarBrand>
-    //   <CSidebarNav>
-    //     <SimpleBar>
-    //       <AppSidebarNav items={menu} />
-    //     </SimpleBar>
-    //   </CSidebarNav>
-    //   <CSidebarToggler
-    //     className="d-none d-lg-flex"
-    //     onClick={() => dispatch({ type: ActionTyps.APP_SIDEBAR_SHOW, sidebarUnfoldable: !unfoldable })}
-    //   />
-    // </CSidebar >
-    // <Box>App Sidebar</Box>
     <>
-      {/* <Box
-        sx={{
-          display: 'flex',
-          backgroundColor: 'red',
-          flexGrow: 1,
-          // width: 800,
-        }}
-      >
-        sdfsdfsdfds
-      </Box> */}
       <Drawer
         size="md"
         variant="plain"
