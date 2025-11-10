@@ -89,7 +89,7 @@ const SideMenu = () => {
       icon: <FaBedPulse size={35} color="var(--royal-purple-300)" />
     },
     {
-      men_slno: 321,
+      men_slno: 322,
       path: '/Home/AllDeviceCredentialList',
       name: 'Device Credentials',
       icon: <MdPattern size={35} color="var(--royal-purple-300)" />

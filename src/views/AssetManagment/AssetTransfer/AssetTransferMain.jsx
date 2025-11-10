@@ -38,17 +38,17 @@ const AssetTransferMain = () => {
 
     return [
       {
-        slno: 322,
+        slno: 323,
         name: 'Ticket List',
         component: <TransferAsset />
       },
       {
-        slno: 323,
+        slno: 324,
         name: 'Ticket List Supervisor',
         component: <InterDeptTransfer />
       },
       {
-        slno: 324,
+        slno: 325,
         name: 'Dept Ticket List Employee View',
         component: <AssetTransferHistory />
       },
@@ -114,7 +114,7 @@ const AssetTransferMain = () => {
             }}
           >
             <Box sx={{ flex: 1, display: 'flex', gap: 1, mb: 1, ml: 1 }}>
-              {menurights.find(menu => menu.slno === 322) ? (
+              {menurights.find(menu => menu.slno === 323) ? (
                 <Tab
                   value={0}
                   disableIndicator
@@ -137,7 +137,7 @@ const AssetTransferMain = () => {
                   Custodian to Department Transfer
                 </Tab>
               ) : null}
-              {menurights.find(menu => menu.slno === 323) ? (
+              {menurights.find(menu => menu.slno === 324) ? (
                 <Tab
                   value={1}
                   disableIndicator
@@ -160,7 +160,7 @@ const AssetTransferMain = () => {
                   InterDepartment Transfer
                 </Tab>
               ) : null}
-              {menurights.find(menu => menu.slno === 324) ? (
+              {menurights.find(menu => menu.slno === 325) ? (
                 <Tab
                   value={2}
                   disableIndicator
@@ -187,18 +187,18 @@ const AssetTransferMain = () => {
           </TabList>
           <TabPanel value={0} sx={{ p: 0, flexGrow: 1, overflowY: 'auto', height: '78vh' }}>
             <Box sx={{ flexGrow: 1 }}>
-              {menurights.find(menu => menu.slno === 322)?.component || null}
+              {menurights.find(menu => menu.slno === 323)?.component || null}
 
             </Box>
           </TabPanel>
           <TabPanel value={1} sx={{ p: 0, flexGrow: 1, overflowY: 'auto', height: '78vh' }}>
             <Box sx={{ flexGrow: 1 }}>
-              {menurights.find(menu => menu.slno === 323)?.component || null}
+              {menurights.find(menu => menu.slno === 324)?.component || null}
             </Box>
           </TabPanel>
           <TabPanel value={2} sx={{ p: 0, flexGrow: 1, overflowY: 'auto', height: '78vh' }}>
             <Box sx={{ flexGrow: 1 }}>
-              {menurights.find(menu => menu.slno === 324)?.component || null}
+              {menurights.find(menu => menu.slno === 325)?.component || null}
             </Box>
           </TabPanel>
         </Tabs>
