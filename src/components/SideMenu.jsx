@@ -96,12 +96,13 @@ const SideMenu = () => {
       name: 'Lab Results',
       icon: <FaSyringe size={35} color="var(--royal-purple-300)" />
     }
-    ,{
+    , {
       men_slno: 322,
       path: '/Home/AllDeviceCredentialList',
       name: 'Device Credentials',
       icon: <MdPattern size={35} color="var(--royal-purple-300)" />
     },
+
   ]
 
 
