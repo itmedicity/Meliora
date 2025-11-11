@@ -49,7 +49,6 @@ import { useQuery } from '@tanstack/react-query'
 import IcuTransaction from 'src/Menus/IcuTransaction'
 // import { FaSyringe } from "react-icons/fa6";
 import { MdPattern } from "react-icons/md";
-import { useQuery } from '@tanstack/react-query'
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
