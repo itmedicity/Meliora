@@ -94,6 +94,7 @@ const SideMenu = () => {
       name: 'Device Credentials',
       icon: <MdPattern size={35} color="var(--royal-purple-300)" />
     },
+
   ]
 
 
