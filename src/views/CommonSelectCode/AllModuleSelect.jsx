@@ -7,8 +7,8 @@ const AllModuleSelect = ({ value, setValue }) => {
 
     const {
         data: ModuleData,
-        isLoading: isCompLoading,
-        error: compError
+        // isLoading: isCompLoading,
+        // error: compError
     } = useQuery({
         queryKey: 'getModuleList',
         queryFn: () => getAllModuleList(),
