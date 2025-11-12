@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { memo } from 'react'
 const PswdDetailMastTable = ({ arry, selectForEdit }) => {
+
   return (
     <Fragment>
       <Paper variant="outlined" sx={{ maxHeight: '100%', maxWidth: '100%', overflow: 'auto' }}>
@@ -18,6 +19,7 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
                 <th style={{ width: 150 }}>User Name</th>
                 <th style={{ width: 150 }}>Password</th>
                 <th style={{ width: 150 }}>Port</th>
+                <th style={{ width: 150 }}>Ip Number</th>
                 <th style={{ width: 150 }}>Remarks</th>
               </tr>
             </thead>
@@ -26,10 +28,6 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
                 return (
                   <tr
                     key={index}
-                    // sx={{
-                    //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                    //     minHeight: 5
-                    // }}
                   >
                     <td>
                       <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => selectForEdit(val)} />
@@ -40,6 +38,7 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
                     <td> {val.user_name || 'not given'}</td>
                     <td> {val.password || 'not given'}</td>
                     <td> {val.port || 'not given'}</td>
+                    <td> {val.ipAddress || 'not given'}</td>
                     <td> {val.remarks || 'not given'}</td>
                   </tr>
                 )

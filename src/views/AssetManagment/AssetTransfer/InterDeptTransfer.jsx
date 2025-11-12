@@ -24,6 +24,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import SwapHorizontalCircleSharpIcon from '@mui/icons-material/SwapHorizontalCircleSharp'
+import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
 
 const InterDeptTransfer = () => {
   const dispatch = useDispatch()
@@ -36,13 +37,14 @@ const InterDeptTransfer = () => {
   const [roomNo, setRoomNo] = useState(0)
   const [subRoomNo, setSubRoomNo] = useState(0)
   const [selectedAssets, setSelectedAssets] = useState([])
+  const [custoDian, setCustodian] = useState(0)
+  const [custodianAllDetails, setcustodianAllDetails] = useState({})
+  const {
+    am_custodian_dept_slno,
+  } = custodianAllDetails
 
-  const empid = useSelector(state => {
+  const empId = useSelector((state) => {
     return state.LoginUserData.empid
-  })
-
-  const empDept = useSelector(state => {
-    return state.LoginUserData.empdept
   })
 
   useEffect(() => {
@@ -89,10 +91,10 @@ const InterDeptTransfer = () => {
       am_trans_from_dept_sec: asset.item_deptsec_slno || null,
       am_trans_from_room: asset.item_room_slno || null,
       am_trans_from_subroom: asset.item_subroom_slno || null,
-      transfer_user: empid,
+      transfer_user: empId,
       am_item_map_slno: asset.am_item_map_slno
     }))
-  }, [dataTrans, transDept, transDeptSec, roomNo, subRoomNo, empid])
+  }, [dataTrans, transDept, transDeptSec, roomNo, subRoomNo, empId])
 
   const [count, setCount] = useState(0)
   const updateDeptTransfer = useCallback(() => {
@@ -194,10 +196,10 @@ const InterDeptTransfer = () => {
     () => ({
       fromDate: fromDate ? format(new Date(new Date(fromDate).setHours(0, 0, 0, 0)), 'yyyy-MM-dd HH:mm:ss') : null,
       toDate: toDate ? format(new Date(new Date(toDate).setHours(23, 59, 59, 999)), 'yyyy-MM-dd HH:mm:ss') : null,
-      custodianDept: empDept === 0 ? null : empDept === null ? null : empDept,
+      custodianDept: am_custodian_dept_slno === 0 ? null : am_custodian_dept_slno === null ? null : am_custodian_dept_slno,
       transfrd_type: 0
     }),
-    [fromDate, toDate, empDept]
+    [fromDate, toDate, am_custodian_dept_slno]
   )
 
   const { data: TransferHistory, isLoading } = useQuery({
@@ -248,6 +250,17 @@ const InterDeptTransfer = () => {
         <Box sx={{ flex: 1, display: 'flex', gap: 0.9 }}>
           <Box sx={{ flex: 1 }}>
             <TextComponent
+              text={'Custodian Department'}
+              sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
+            ></TextComponent>
+            <AssetCustodianDepartment
+              custoDian={custoDian}
+              setCustodian={setCustodian}
+              setcustodianAllDetails={setcustodianAllDetails}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <TextComponent
               text={'Transfer From Department'}
               sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}
             ></TextComponent>
@@ -260,6 +273,9 @@ const InterDeptTransfer = () => {
             ></TextComponent>
             <AmDeptSecSelectJoy selectedDeptSec={selectedDeptSec} setselectedDeptSec={setselectedDeptSec} />
           </Box>
+
+        </Box>
+        <Box sx={{ flex: 1, display: 'flex', gap: 0.9, my: 1 }}>
           <Box sx={{ flex: 1.8 }}>
             <TextComponent text={'Select Asset'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             <AmAssetUnderSelectdDeptAndSec
@@ -268,6 +284,7 @@ const InterDeptTransfer = () => {
               setcustAsset={setcustAsset}
               selectedDept={selectedDept}
               selectedDeptSec={selectedDeptSec}
+              am_custodian_dept_slno={am_custodian_dept_slno}
             />
           </Box>
           <Box sx={{ pt: 2.5, pr: 0.5 }}>
@@ -314,7 +331,8 @@ const InterDeptTransfer = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Box sx={{ flex: 1, display: 'flex', gap: 0.9, mt: 2 }}>
+
+        <Box sx={{ flex: 1, display: 'flex', gap: 0.9, }}>
           <Box sx={{ flex: 1 }}>
             <TextComponent
               text={'Transfer to Department'}

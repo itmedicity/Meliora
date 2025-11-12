@@ -1,30 +1,32 @@
 import React, { useEffect, useState, useCallback, useMemo, memo } from 'react'
-import { Box, CssVarsProvider, Textarea, Tooltip, Typography } from '@mui/joy'
-import { Paper } from '@mui/material'
+import { Box, Button, CssVarsProvider, Input, Textarea, Typography } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPasswordCredential } from 'src/redux/actions/ItPasswordCredential.action'
 import ItPasswordCredentialType from 'src/views/CommonSelectCode/ItPasswordCredentialType'
-import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import SearchIcon from '@mui/icons-material/Search'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import PswdDetailMastTable from './PswdDetailMastTable'
 import PswdSoftWareTable from './PswdSoftWareTable'
-import TableViewSharpIcon from '@mui/icons-material/TableViewSharp'
-import PswdModal from './PswdModal'
 import { useNavigate } from 'react-router-dom'
+import IpMaskInput from './IpMaskInput'
+import PatternIcon from '@mui/icons-material/Pattern';
+import { taskColor } from 'src/color/Color'
+import CusIconButton from 'src/views/Components/CusIconButton'
+import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
+import TextComponent from 'src/views/Components/TextComponent'
+import CardSave from './CardSave'
+import PswdMasterTable from './PswdMasterTable'
 
 const PasswordManagement = () => {
   const dispatch = useDispatch()
   const [credential, setCredential] = useState(0)
   const [credentialName, setCredentialName] = useState('')
   const [softwareCheckBox, setsoftwareCheckBox] = useState(false)
-  const [deviceCheckBox, setdeviceCheckBox] = useState(false)
-  const [flag, setflag] = useState(0)
+  const [deviceCheckBox, setdeviceCheckBox] = useState(true)
+  const [flag, setflag] = useState(1)
   const history = useNavigate()
   const [count, setCount] = useState(0)
   const [swTableCount, setSwTableCount] = useState(0)
@@ -33,11 +35,9 @@ const PasswordManagement = () => {
   const [addflag, setaddflag] = useState(0)
   const [tableEdit, setTableEdit] = useState(0)
   const [pswd_mast_asset_no, setPswd_mast_asset_no] = useState('')
-  const [addModalOpen, setaddModalOpen] = useState(false)
-  const [AddModalFlag, setAddModalFlag] = useState(0)
   const [arry, setArry] = useState([])
   const [addNewInUpdate, setaddNewInUpdate] = useState([])
-  const [searchData, setSearchData] = useState(0)
+
 
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -73,7 +73,8 @@ const PasswordManagement = () => {
     user_name: '',
     password: '',
     port: '',
-    remarks: ''
+    remarks: '',
+    ipAddress: ''
   })
   const [PasswordMast, setPasswordMast] = useState({
     pswd_mast_slno: '',
@@ -95,27 +96,9 @@ const PasswordManagement = () => {
       const { success, data } = result.data
 
       if (success === 2) {
-        const arr = data?.map(val => {
-          const obj = {
-            pswd_mast_slno: val.pswd_mast_slno,
-            pswd_mast_asset_no: val.pswd_mast_asset_no,
-            pswd_mast_categry_name: val.category_name,
-            pswd_mast_group_name: val.group_name,
-            pswd_mast_item_name: val.item_name,
-            pswd_mast_categry_no: val.category_slno,
-            pswd_mast_group_no: val.group_slno,
-            pswd_mast_item_no: val.item_creation_slno,
-            pswd_mast_location: val.sec_id,
-            pswd_mast_location_name: val.sec_name,
-            pswd_mast_description: val.pswd_mast_description,
-            psw_detail_username: val.psw_detail_username,
-            psw_detail_password: val.psw_detail_password
-          }
-          return obj
-        })
 
-        setTabledata(arr)
-        setSearchData(arr)
+        setTabledata(data)
+
       } else {
         warningNotify('error occured')
       }
@@ -123,46 +106,7 @@ const PasswordManagement = () => {
     getMasterTable()
   }, [count, setCount])
 
-  const addModal = useCallback(() => {
-    if (tabledata.length !== 0) {
-      setAddModalFlag(1)
-      setaddModalOpen(true)
-      const resetfrmdata = {
-        description: '',
-        user_name: '',
-        password: '',
-        port: '',
-        remarks: ''
-      }
-      setPasswordManagement(resetfrmdata)
-      setCredential(0)
-      setCredentialName('')
-      const resetMast = {
-        pswd_mast_slno: '',
-        pswd_mast_categry_no: '',
-        pswd_mast_categry_name: '',
-        pswd_mast_group_no: '',
-        pswd_mast_group_name: '',
-        pswd_mast_item_no: '',
-        pswd_mast_item_name: '',
-        pswd_mast_location: '',
-        pswd_mast_location_name: '',
-        pswd_mast_description: ''
-      }
-      setPasswordMast(resetMast)
-      setPswd_mast_asset_no('')
-    } else {
-      warningNotify('No Data')
-    }
-    setaddflag(0)
-  }, [tabledata])
-
-  const handleClose = useCallback(() => {
-    setAddModalFlag(0)
-    setaddModalOpen(false)
-  }, [setAddModalFlag, setaddModalOpen])
-
-  const { pswd_detail_slno, description, user_name, password, port, remarks } = PasswordManagement
+  const { pswd_detail_slno, description, user_name, password, port, remarks, ipAddress } = PasswordManagement
   const pswManagementUpdate = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -215,7 +159,8 @@ const PasswordManagement = () => {
                   user_name: val.psw_detail_username,
                   password: val.psw_detail_password,
                   port: val.psw_detail_port,
-                  remarks: val.psw_detail_remarks
+                  remarks: val.psw_detail_remarks,
+                  ipAddress: val.psw_detail_ip_num
                 }
               })
             setArry(setDetailData)
@@ -227,21 +172,22 @@ const PasswordManagement = () => {
       if (pswd_mast_slno !== 0) {
         getdetailtable(pswd_mast_slno)
       }
-      handleClose(1)
+      // handleClose(1)
     },
-    [setPasswordMast, handleClose]
+    [setPasswordMast]
   )
 
   const selectForEdit = useCallback(
     val => {
-      const { pswd_detail_slno, credential, credentialName, description, user_name, password, port, remarks } = val
+      const { pswd_detail_slno, credential, credentialName, description, user_name, password, port, remarks, ipAddress } = val
       const setDetailData = {
         pswd_detail_slno: pswd_detail_slno,
         description: description,
         user_name: user_name,
         password: password,
         port: port,
-        remarks: remarks
+        remarks: remarks,
+        ipAddress: ipAddress
       }
       setCredential(credential)
       setCredentialName(credentialName)
@@ -335,10 +281,11 @@ const PasswordManagement = () => {
       user_name: user_name,
       password: password,
       port: port,
-      remarks: remarks
+      remarks: remarks,
+      ipAddress: ipAddress
     }
     if (pswd_mast_item_no !== '') {
-      if (user_name !== '' && password !== '' && credentialName !== '') {
+      if ((user_name !== '' && password !== '') || ipAddress !== '') {
         if (tableEdit === 0) {
           const newarry = [...arry, frmdata]
           setArry(newarry)
@@ -347,7 +294,8 @@ const PasswordManagement = () => {
             user_name: '',
             password: '',
             port: '',
-            remarks: ''
+            remarks: '',
+            ipAddress: ''
           }
           setPasswordManagement(resetfrmdata)
           setCredential(0)
@@ -362,7 +310,8 @@ const PasswordManagement = () => {
             user_name: '',
             password: '',
             port: '',
-            remarks: ''
+            remarks: '',
+            ipAddress: ''
           }
           setPasswordManagement(resetfrmdata)
           setCredential(0)
@@ -370,7 +319,7 @@ const PasswordManagement = () => {
         }
         setaddflag(1)
       } else {
-        infoNotify('Please fill the Mandatory Feilds')
+        infoNotify('Please fill the feilds User name  and Password or Ip address')
       }
     } else {
       infoNotify('Please enter asset number')
@@ -379,7 +328,8 @@ const PasswordManagement = () => {
         user_name: '',
         password: '',
         port: '',
-        remarks: ''
+        remarks: '',
+        ipAddress: ''
       }
       setPasswordManagement(resetfrmdata)
       setCredential(0)
@@ -396,7 +346,8 @@ const PasswordManagement = () => {
     user_name,
     password,
     port,
-    remarks
+    remarks,
+    ipAddress
   ])
   const reset = useCallback(() => {
     const resetMast = {
@@ -585,6 +536,7 @@ const PasswordManagement = () => {
                       psw_detail_password: val.password,
                       psw_detail_port: val.port,
                       psw_detail_remarks: val.remarks,
+                      psw_detail_ip_num: val.ipAddress,
                       create_user: id
                     }
                   })
@@ -613,6 +565,7 @@ const PasswordManagement = () => {
                     psw_detail_password: val.password,
                     psw_detail_port: val.port,
                     psw_detail_remarks: val.remarks,
+                    psw_detail_ip_num: val.ipAddress,
                     edit_user: id
                   }
                 })
@@ -633,6 +586,7 @@ const PasswordManagement = () => {
                     psw_detail_password: val.psw_detail_password,
                     psw_detail_port: val.psw_detail_port,
                     psw_detail_remarks: val.psw_detail_remarks,
+                    psw_detail_ip_num: val.psw_detail_ip_num,
                     create_user: id
                   }
                 })
@@ -707,17 +661,36 @@ const PasswordManagement = () => {
     ]
   )
   const backtoDash = useCallback(() => {
-    history('/Home/DashboardBackup')
+    history('/Home/AllDeviceCredentialList')
   }, [history])
+
   const refreshWindow = useCallback(() => {
     reset()
     resetSoftware()
   }, [reset, resetSoftware])
   return (
-    <Box sx={{ width: "100%" }}>
-      <CardMaster close={backtoDash} submit={submitPasswordData} refresh={refreshWindow} title={'Password Management'}>
-        <Box sx={{ display: 'flex', width: '25vw', height: 40, margin: 'auto', mt: 2 }}>
-          <Paper sx={{ flex: 1, textAlign: 'center', mr: 2, pt: 1 }}>
+    <Box sx={{ flexGrow: 1, }}>
+      <Box sx={{
+        height: '100%',
+        borderRadius: 1,
+        boxShadow: 2,
+        flexGrow: 1,
+        border: 1,
+        borderColor: '#C5C5C5',
+      }}
+      >
+        <Box sx={{ display: 'flex', borderBottom: 0.1, borderColor: '#C5C5C5', p: .5 }}>
+          <Box sx={{ flex: 1, display: 'flex', p: .5 }}>
+            <PatternIcon fontSize="medium" sx={{ color: taskColor.darkPurple }} />
+            <Box sx={{ color: taskColor.darkPurple }}>Device Credentials</Box>
+          </Box>
+          <CusIconButton size="sm" variant="outlined" color="primary">
+            <CloseIcon fontSize='small' onClick={backtoDash} />
+          </CusIconButton>
+
+        </Box>
+        <Box sx={{ p: 1 }}>
+          <Box sx={{ flex: 1, display: 'flex', gap: 3, p: 2 }}>
             <CusCheckBox
               label="Device"
               color="primary"
@@ -727,8 +700,6 @@ const PasswordManagement = () => {
               checked={deviceCheckBox}
               onCheked={deviceCheckBoxdetails}
             ></CusCheckBox>
-          </Paper>
-          <Paper sx={{ flex: 1, textAlign: 'center', pt: 1 }}>
             <CusCheckBox
               label="Software"
               color="primary"
@@ -738,390 +709,381 @@ const PasswordManagement = () => {
               checked={softwareCheckBox}
               onCheked={softwareCheckBoxdetails}
             ></CusCheckBox>
-          </Paper>
-        </Box>
-        <Box>
-          {AddModalFlag === 1 ? (
-            <PswdModal
-              open={addModalOpen}
-              handleClose={handleClose}
-              rowSelect={rowSelect}
-              tabledata={tabledata}
-              searchData={searchData}
-              setTabledata={setTabledata}
-              count={count}
-              setCount={setCount}
-            />
-          ) : null}
-        </Box>
-        {flag === 1 ? (
-          <Box sx={{ mt: 3 }}>
-            <Box sx={{ display: 'flex', width: '70vw', margin: 'auto' }}>
-              <Box
-                sx={{
-                  width: '50vw',
-                  display: 'flex',
-                  justifyContent: 'flex-end'
-                }}
-              >
-                <Paper sx={{ height: 75, pt: 0.2, pl: 2, width: '33vw' }}>
-                  <Box sx={{ pl: 0.5, color: '#055C9D' }}>
-                    <Typography>
-                      Asset number
-                      <Typography sx={{ color: '#A30000' }}>*</Typography>
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex' }}>
-                    <Box sx={{ flex: 1 }}>
-                      <TextFieldCustom
-                        type="text"
-                        size="sm"
-                        placeholder="search"
-                        name="pswd_mast_asset_no"
-                        value={pswd_mast_asset_no}
-                        onchange={UpdateAssetNo}
-                      ></TextFieldCustom>
-                    </Box>
-                    <Box sx={{ pl: 1, pt: 0.5 }}>
-                      <Tooltip title="search" placement="top">
-                        <SearchIcon
-                          sx={{ cursor: 'pointer', color: '#055C9D', fontSize: 26 }}
-                          onClick={searchAssetNo}
-                        />
-                      </Tooltip>
-                    </Box>
-                  </Box>
-                </Paper>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', ml: 4 }}>
-                <Box sx={{ width: 80, borderRadius: 4, border: 0.5, borderColor: '#055C9D' }}>
-                  <Box sx={{ textAlign: 'center', pt: 1, color: '#055C9D' }}>
-                    <Typography sx={{ fontSize: 15 }}> view</Typography>
-                  </Box>
-                  <Box sx={{ textAlign: 'center' }}>
-                    <TableViewSharpIcon
-                      sx={{
-                        color: '#145DA0',
-                        cursor: 'pointer',
-                        size: 'lg',
-                        width: 30,
-                        height: 30
-                      }}
-                      onClick={addModal}
+          </Box>
+
+          {flag === 1 ? (
+            <>
+              <Box sx={{ flex: 1, display: 'flex' }}>
+                <Box
+                  sx={{
+                    gap: 1
+                  }}
+                >
+                  <Box sx={{ width: 400, }}>
+                    <Input
+
+                      startDecorator={
+                        "Search Asset Number"
+                      }
+                      endDecorator={
+                        <Button variant="soft" color="neutral" >
+                          < SearchIcon onClick={searchAssetNo} />
+                        </Button>
+                      }
+                      name="pswd_mast_asset_no"
+                      value={pswd_mast_asset_no}
+                      onChange={UpdateAssetNo}
                     />
                   </Box>
-                </Box>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                margin: 'auto',
-                width: '47vw'
-              }}
-            >
-              <Box sx={{ pt: 1, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Category</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="pswd_mast_categry_name"
-                    value={pswd_mast_categry_name}
-                    onchange={pswMastUpdate}
-                    disabled
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Group</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="pswd_mast_group_name"
-                    value={pswd_mast_group_name}
-                    onchange={pswMastUpdate}
-                    disabled
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Device Name</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="pswd_mast_item_name"
-                    value={pswd_mast_item_name}
-                    onchange={pswMastUpdate}
-                    disabled
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Location</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    name="pswd_mast_location_name"
-                    value={pswd_mast_location_name}
-                    onchange={pswMastUpdate}
-                    disabled
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Device Description</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <CssVarsProvider>
+                  <Box sx={{ width: 400, mt: .5 }}>
+                    <Input
+                      startDecorator={
+                        "Category"
+                      }
+                      name="pswd_mast_categry_name"
+                      value={pswd_mast_categry_name}
+                      onchange={pswMastUpdate}
+                      disabled
+                    />
+                  </Box>
+                  <Box sx={{ width: 400, mt: .5 }}>
+                    <Input
+                      startDecorator={
+                        "Group"
+                      }
+                      name="pswd_mast_group_name"
+                      value={pswd_mast_group_name}
+                      onchange={pswMastUpdate}
+                      disabled
+                    />
+                  </Box>
+                  <Box sx={{ width: 400, mt: .5 }}>
+                    <Input
+                      startDecorator={
+                        "Device Name"
+                      }
+                      name="pswd_mast_item_name"
+                      value={pswd_mast_item_name}
+                      onchange={pswMastUpdate}
+                      disabled
+                    />
+                  </Box>
+                  <Box sx={{ width: 400, mt: .5 }}>
+                    <Input
+                      startDecorator={
+                        "Location"
+                      }
+                      name="pswd_mast_location_name"
+                      value={pswd_mast_location_name}
+                      onchange={pswMastUpdate}
+                      disabled
+                    />
+
+                  </Box>
+                  <Box sx={{ width: 400, mt: .5 }}>
                     <Textarea
                       type="text"
                       size="sm"
-                      placeholder="type here..."
                       variant="outlined"
-                      minRows={2}
-                      maxRows={4}
+                      minRows={1}
+                      maxRows={5}
+                      startDecorator={
+                        "Describtion"
+                      }
+
                       name="pswd_mast_description"
                       value={pswd_mast_description}
                       onChange={e => pswMastUpdate(e)}
-                    ></Textarea>
-                  </CssVarsProvider>
-                </Box>
-              </Box>
-            </Box>
 
-            <Box sx={{ display: 'flex', flex: 1, margin: 'auto', pt: 4, overflowX: 'auto' }}>
-              <Box>
-                <Box sx={{ pl: 0.5, color: '#003B73' }}>
-                  <Typography>
-                    Credential type
-                    <Typography sx={{ color: '#A30000' }}>*</Typography>
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 0.5, pr: 0.5 }}>
-                  <ItPasswordCredentialType
-                    credential={credential}
-                    setCredential={setCredential}
-                    setName={setCredentialName}
-                    credentialName={credentialName}
-                  />
-                </Box>
-              </Box>
-              <Box sx={{ flex: 0.5, pr: 0.5 }}>
-                <Box>
-                  <Box sx={{ pl: 0.5, color: '#003B73' }}>
-                    <Typography>Description</Typography>
+                    />
+
                   </Box>
-                  <CssVarsProvider>
-                    <Textarea
-                      type="text"
-                      size="sm"
-                      placeholder="type here..."
-                      variant="outlined"
-                      minRows={1}
-                      maxRows={2}
-                      name="description"
-                      value={description}
-                      onChange={e => pswManagementUpdate(e)}
-                    ></Textarea>
-                  </CssVarsProvider>
+
                 </Box>
+
+
+                <Box sx={{ gap: 1, width: 500, pl: 3 }}>
+
+                  <Box sx={{ flex: 1, display: 'flex', }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5,
+
+                      }}
+                      text={"Credential Type"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <ItPasswordCredentialType
+                        credential={credential}
+                        setCredential={setCredential}
+                        setName={setCredentialName}
+                        credentialName={credentialName}
+                      />
+                    </Box>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"Describtion"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <Textarea
+                        type="text"
+                        size="sm"
+                        placeholder="type here..."
+                        variant="outlined"
+                        minRows={1}
+                        maxRows={5}
+                        name="description"
+                        value={description}
+                        onChange={e => pswManagementUpdate(e)}
+                      ></Textarea>
+                    </Box>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"User Name"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <TextFieldCustom
+                        type="text"
+                        size="sm"
+                        placeholder="user name"
+                        name="user_name"
+                        value={user_name}
+                        onchange={pswManagementUpdate}
+                      ></TextFieldCustom>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"Password"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <TextFieldCustom
+                        type="text"
+                        size="sm"
+                        placeholder="password"
+                        name="password"
+                        value={password}
+                        onchange={pswManagementUpdate}
+                      ></TextFieldCustom>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"Port"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <TextFieldCustom
+                        type="text"
+                        size="sm"
+                        placeholder="port"
+                        name="port"
+                        value={port}
+                        onchange={pswManagementUpdate}
+                      ></TextFieldCustom>
+                    </Box>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"IP Number"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <IpMaskInput
+                        value={PasswordManagement.ipAddress}
+                        onChange={(val) =>
+                          setPasswordManagement({ ...PasswordManagement, ipAddress: val })
+                        }
+                      />
+                    </Box>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <TextComponent
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}
+                      text={"Remarks"}
+                    />
+                    <Box sx={{ flex: 1, }}>
+                      <Textarea
+                        type="text"
+                        size="sm"
+                        placeholder="type here..."
+                        variant="outlined"
+                        minRows={1}
+                        maxRows={5}
+                        name="remarks"
+                        value={remarks}
+                        onChange={e => pswManagementUpdate(e)}
+                      ></Textarea>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ flex: 1, display: 'flex', mt: .5 }}>
+                    <Box
+                      sx={{
+                        width: 150,
+                        pl: .5
+                      }}>
+
+                    </Box>
+                    <Box sx={{ flex: 1, }}>
+                      <Button size="md" variant="outlined" color="primary" onClick={addData}>
+                        Add
+                      </Button>
+                    </Box>
+                  </Box>
+
+
+
+                </Box>
+
               </Box>
-              <Box sx={{ flex: 0.5, pr: 0.5 }}>
-                <Box>
-                  <Box sx={{ pl: 0.5, color: '#003B73' }}>
+              <Box sx={{ mt: 2 }}>
+                {addflag === 1 ? (
+                  <Box>
+
+                    <PswdDetailMastTable selectForEdit={selectForEdit} arry={arry} setArry={setArry} />
+
+                  </Box>
+                ) : null}
+              </Box>
+              <CardSave close={backtoDash} submit={submitPasswordData} refresh={refreshWindow} />
+              <PswdMasterTable
+                rowSelect={rowSelect}
+                tabledata={tabledata}
+                setTabledata={setTabledata}
+                count={count}
+                setCount={setCount}
+
+              />
+            </>
+          ) : flag === 2 ? (
+            <Box>
+              <Box sx={{ margin: 'auto', pt: 4, width: '47vw' }}>
+                <Box sx={{ pt: 1, display: 'flex', margin: 'auto' }}>
+                  <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
                     <Typography>
-                      User name
+                      Web Name
                       <Typography sx={{ color: '#A30000' }}>*</Typography>
                     </Typography>
                   </Box>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="user name"
-                    name="user_name"
-                    value={user_name}
-                    onchange={pswManagementUpdate}
-                  ></TextFieldCustom>
+                  <Box sx={{ flex: 0.5 }}>
+                    <TextFieldCustom
+                      type="text"
+                      size="sm"
+                      placeholder="web name"
+                      name="paswd_soft_webname"
+                      value={paswd_soft_webname}
+                      onchange={updateSoftware}
+                    ></TextFieldCustom>
+                  </Box>
                 </Box>
-              </Box>
-              <Box sx={{ flex: 0.5, pr: 0.5 }}>
-                <Box>
-                  <Box sx={{ pl: 0.5, color: '#003B73' }}>
+                <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
+                  <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
+                    <Typography>URL</Typography>
+                  </Box>
+                  <Box sx={{ flex: 0.5 }}>
+                    <TextFieldCustom
+                      type="text"
+                      size="sm"
+                      placeholder="URLs"
+                      name="paswd_soft_linkname"
+                      value={paswd_soft_linkname}
+                      onchange={updateSoftware}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
+                  <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
+                    <Typography>
+                      User Name
+                      <Typography sx={{ color: '#A30000' }}>*</Typography>
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 0.5 }}>
+                    <TextFieldCustom
+                      type="text"
+                      size="sm"
+                      placeholder=" user name"
+                      name="paswd_soft_username"
+                      value={paswd_soft_username}
+                      onchange={updateSoftware}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
+                  <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
                     <Typography>
                       Password
                       <Typography sx={{ color: '#A30000' }}>*</Typography>
                     </Typography>
                   </Box>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="password"
-                    name="password"
-                    value={password}
-                    onchange={pswManagementUpdate}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ flex: 0.5, pr: 0.5 }}>
-                <Box>
-                  <Box sx={{ pl: 0.5, color: '#003B73' }}>
-                    <Typography>Port</Typography>
-                  </Box>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="port"
-                    name="port"
-                    value={port}
-                    onchange={pswManagementUpdate}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ flex: 0.5 }}>
-                <Box>
-                  <Box sx={{ pl: 0.5, color: '#003B73' }}>
-                    <Typography>Remarks</Typography>
-                  </Box>
-                  <CssVarsProvider>
-                    <Textarea
+                  <Box sx={{ flex: 0.5 }}>
+                    <TextFieldCustom
                       type="text"
                       size="sm"
-                      placeholder="type here..."
-                      variant="outlined"
-                      minRows={1}
-                      maxRows={2}
-                      name="remarks"
-                      value={remarks}
-                      onChange={e => pswManagementUpdate(e)}
-                    ></Textarea>
-                  </CssVarsProvider>
+                      placeholder="password"
+                      name="paswd_soft_password"
+                      value={paswd_soft_password}
+                      onchange={updateSoftware}
+                    ></TextFieldCustom>
+                  </Box>
+                </Box>
+                <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
+                  <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
+                    <Typography>Credential Remarks</Typography>
+                  </Box>
+                  <Box sx={{ flex: 0.5 }}>
+                    <CssVarsProvider>
+                      <Textarea
+                        type="text"
+                        size="sm"
+                        placeholder="type here..."
+                        variant="outlined"
+                        minRows={2}
+                        maxRows={4}
+                        name="paswd_soft_remarks"
+                        value={paswd_soft_remarks}
+                        onChange={e => updateSoftware(e)}
+                      ></Textarea>
+                    </CssVarsProvider>
+                  </Box>
                 </Box>
               </Box>
-              <Box sx={{ pl: 0.5, pt: 3.5 }}>
-                <Tooltip title="add" placement="top">
-                  <AddCircleOutlineIcon onClick={addData} sx={{ cursor: 'pointer', color: '#055C9D', fontSize: 26 }} />
-                </Tooltip>
-              </Box>
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              {addflag === 1 ? (
-                <PswdDetailMastTable selectForEdit={selectForEdit} arry={arry} setArry={setArry} />
-              ) : null}
-            </Box>
-          </Box>
-        ) : flag === 2 ? (
-          <Box>
-            <Box sx={{ margin: 'auto', pt: 4, width: '47vw' }}>
-              <Box sx={{ pt: 1, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>
-                    Web Name
-                    <Typography sx={{ color: '#A30000' }}>*</Typography>
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="web name"
-                    name="paswd_soft_webname"
-                    value={paswd_soft_webname}
-                    onchange={updateSoftware}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>URL</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="URLs"
-                    name="paswd_soft_linkname"
-                    value={paswd_soft_linkname}
-                    onchange={updateSoftware}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>
-                    User Name
-                    <Typography sx={{ color: '#A30000' }}>*</Typography>
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder=" user name"
-                    name="paswd_soft_username"
-                    value={paswd_soft_username}
-                    onchange={updateSoftware}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>
-                    Password
-                    <Typography sx={{ color: '#A30000' }}>*</Typography>
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <TextFieldCustom
-                    type="text"
-                    size="sm"
-                    placeholder="password"
-                    name="paswd_soft_password"
-                    value={paswd_soft_password}
-                    onchange={updateSoftware}
-                  ></TextFieldCustom>
-                </Box>
-              </Box>
-              <Box sx={{ pt: 0.5, display: 'flex', margin: 'auto' }}>
-                <Box sx={{ textAlign: 'right', pr: 1, pt: 0.5, flex: 0.3 }}>
-                  <Typography>Credential Remarks</Typography>
-                </Box>
-                <Box sx={{ flex: 0.5 }}>
-                  <CssVarsProvider>
-                    <Textarea
-                      type="text"
-                      size="sm"
-                      placeholder="type here..."
-                      variant="outlined"
-                      minRows={2}
-                      maxRows={4}
-                      name="paswd_soft_remarks"
-                      value={paswd_soft_remarks}
-                      onChange={e => updateSoftware(e)}
-                    ></Textarea>
-                  </CssVarsProvider>
-                </Box>
+
+
+              <Box sx={{ backgroundColor: 'white', p: 1 }}>
+                <PswdSoftWareTable swTableCount={swTableCount} rowSelectForSw={rowSelectForSw} />
               </Box>
             </Box>
-          </Box>
-        ) : null}
-      </CardMaster>
-      {flag === 2 ? (
-        <Box sx={{ backgroundColor: 'white', p: 1 }}>
-          <PswdSoftWareTable swTableCount={swTableCount} rowSelectForSw={rowSelectForSw} />
+          ) : null}
         </Box>
-      ) : null}
+      </Box>
     </Box>
   )
 }

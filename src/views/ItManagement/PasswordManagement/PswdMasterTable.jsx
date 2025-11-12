@@ -1,133 +1,112 @@
-import React, { Fragment, memo, useCallback, useEffect, useState } from 'react'
-import { CssVarsProvider, Tooltip } from '@mui/joy/'
+import React, { memo, useState } from 'react'
+import { Box, Button, Input, } from '@mui/joy/'
 import Table from '@mui/joy/Table'
 import EditIcon from '@mui/icons-material/Edit'
-import { Box, Paper } from '@mui/material'
-import TmDepartmentSelect from 'src/views/CommonSelectCode/TmDepartmentSelect'
-import ReplayIcon from '@mui/icons-material/Replay'
-import SearchIcon from '@mui/icons-material/Search'
-import TmDeptSectionSelect from 'src/views/CommonSelectCode/TmDeptSectionSelect'
-import { useDispatch } from 'react-redux'
-import { getDepartment } from 'src/redux/actions/Department.action'
-import { infoNotify } from 'src/views/Common/CommonCode'
+import SearchIcon from '@mui/icons-material/Search';
 
-const PswdMasterTable = ({ rowSelect, tabledata, setTabledata, searchData }) => {
-  const [departments, setDepartments] = useState(0)
-  const [deptsecs, setDeptSecs] = useState(0)
 
-  const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(getDepartment())
-  }, [dispatch])
+const PswdMasterTable = ({ rowSelect, tabledata, }) => {
 
-  const searchdept = useCallback(() => {
-    if (deptsecs === 0) {
-      setTabledata(searchData)
-    } else {
-      if (searchData.length !== 0) {
-        const newData = searchData.filter(val => val.pswd_mast_location === deptsecs)
-        setTabledata(newData)
-      } else {
-        infoNotify('No data found')
-      }
-    }
-  }, [searchData, deptsecs, setTabledata])
-  const refresh = useCallback(() => {
-    setTabledata(searchData)
-    setDepartments(0)
-    setDeptSecs(0)
-  }, [searchData, setTabledata])
+  const [filterText, setFilterText] = useState("");
+
+  const filteredData = tabledata.filter((row) =>
+    Object.values(row)
+      .join(" ")
+      .toLowerCase()
+      .includes(filterText.toLowerCase())
+  );
 
   return (
-    <Fragment>
-      <Box sx={{ flex: 1, display: 'flex', mt: 1 }}>
-        <Box sx={{ flex: 4, display: 'flex', justifyContent: 'flex-end' }}>
-          <Box sx={{ flex: 2.5 }}></Box>
-          <Box
+    <Box sx={{ width: '100%', }}>
+      <Box sx={{ p: 1, display: 'flex', justifyContent: 'flex-end' }}>
+        <Input
+          autoComplete="off"
+          label="Search"
+          variant="outlined"
+          placeholder="Type here..."
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          startDecorator={
+            <Button variant="soft" color="neutral">
+              <SearchIcon /> Search
+            </Button>
+          }
+          sx={{ width: 300, mr: .5 }}
+        />
+      </Box>
+
+
+      {filteredData.length !== 0 ? (
+        <Box
+          sx={{
+
+            height: '35vh',       // container height
+            overflowX: 'auto',     // scroll only inside here
+            display: 'block',     // ensures table doesn't escape
+            maxWidth: '100%',
+          }}
+        >
+          <Table
+            padding="none"
+            stickyHeader
+            borderAxis="both"
             sx={{
-              flex: 3,
-              display: 'flex',
-              pt: 1,
-              fontWeight: 500,
-              fontSize: 18,
-              color: '#C7C8CB'
+              tableLayout: "fixed",
+              "& th": { whiteSpace: "nowrap" },
+
             }}
           >
-            <Box sx={{ flex: 1 }}>
-              <TmDepartmentSelect department={departments} setDepartment={setDepartments} />
-            </Box>
-            <Box sx={{ flex: 1, pl: 0.5 }}>
-              <TmDeptSectionSelect deptsec={deptsecs} setDeptSec={setDeptSecs} />
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', flex: 1, pt: 1, pl: 1 }}>
-            <Tooltip title="search" placement="bottom">
-              <Box sx={{ border: 1, borderRadius: 7, color: '#055C9D', cursor: 'pointer' }}>
-                {' '}
-                <SearchIcon sx={{ color: '#055C9D' }} onClick={searchdept} />
-              </Box>
-            </Tooltip>
-            <Tooltip title="refresh" placement="bottom">
-              <Box sx={{ ml: 0.5, border: 1, borderRadius: 7, color: '#055C9D', cursor: 'pointer' }}>
-                {' '}
-                <ReplayIcon sx={{ color: '#055C9D' }} onClick={refresh} />
-              </Box>
-            </Tooltip>
-          </Box>
+            <thead>
+              <tr>
+                <th style={{ width: 50 }}>SlNo</th>
+                <th style={{ width: 50 }}>Action</th>
+                <th style={{ width: 150 }}>Asset No.</th>
+                <th style={{ width: 'auto' }}>Category</th>
+                <th style={{ width: 'auto' }}>Group</th>
+                <th style={{ width: 160 }}>IP Number</th>
+                <th style={{ width: 'auto' }}>Device Name</th>
+                <th style={{ width: 'auto' }}>Port</th>
+                <th style={{ width: 'auto' }}>User Name</th>
+                <th style={{ width: 'auto' }}>Password</th>
+                <th style={{ width: 'auto' }}>Remarks</th>
+                <th style={{ width: 'auto' }}>Describtion</th>
+                <th style={{ width: 'auto' }}>Location</th>
+                <th style={{ width: 500 }}>Device Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData?.map((val, index) => {
+                return (
+                  <tr key={index}>
+                    <td> {index + 1}</td>
+                    <td>
+                      <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelect(val)} />
+                    </td>
+                    <td> {val.pswd_mast_asset_no || 'not given'}</td>
+                    <td> {val.category_name || 'not given'}</td>
+                    <td> {val.group_name || 'not given'}</td>
+                    <td> {val.psw_detail_ip_num || 'not given'}</td>
+                    <td> {val.item_name || 'not given'}</td>
+                    <td> {val.psw_detail_port || 'not given'}</td>
+                    <td> {val.psw_detail_username || 'not given'}</td>
+                    <td> {val.psw_detail_password || 'not given'}</td>
+                    <td> {val.psw_detail_remarks || 'not given'}</td>
+                    <td> {val.pswd_detail_description || 'not given'}</td>
+                    <td> {val.sec_name || 'not given'}</td>
+                    <td> {val.pswd_mast_description || 'not given'}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
         </Box>
-        <Box sx={{ flex: 1 }}></Box>
-      </Box>
-      {tabledata.length !== 0 ? (
-        <Paper variant="outlined" sx={{ maxHeight: '100%', maxWidth: '100%', overflow: 'auto', m: 1 }}>
-          <CssVarsProvider>
-            <Table padding={'none'} stickyHeader hoverRow>
-              <thead>
-                <tr>
-                  <th style={{ width: 60 }}>Action</th>
-                  <th style={{ width: 50 }}>SlNo</th>
-                  <th style={{ width: 100 }}>Asset No.</th>
-                  <th style={{ width: 150 }}>Category</th>
-                  <th style={{ width: 150 }}>Group</th>
-                  <th style={{ width: 500 }}>Device Name</th>
-                  <th style={{ width: 200 }}>Location</th>
-                  <th style={{ width: 250 }}>Device Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tabledata?.map((val, index) => {
-                  return (
-                    <tr
-                      key={index}
-                      // sx={{
-                      //     '&:last-child td, &:last-child th': { border: 0 }, maxHeight: 60,
-                      //     minHeight: 5
-                      // }}
-                    >
-                      <td>
-                        <EditIcon sx={{ cursor: 'pointer' }} size={6} onClick={() => rowSelect(val)} />
-                      </td>
-                      <td> {index + 1}</td>
-                      <td> {val.pswd_mast_asset_no || 'not given'}</td>
-                      <td> {val.pswd_mast_categry_name || 'not given'}</td>
-                      <td> {val.pswd_mast_group_name || 'not given'}</td>
-                      <td> {val.pswd_mast_item_name || 'not given'}</td>
-                      <td> {val.pswd_mast_location_name || 'not given'}</td>
-                      <td> {val.pswd_mast_description || 'not given'}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </Table>
-          </CssVarsProvider>
-        </Paper>
       ) : (
         <Box sx={{ textAlign: 'center', mt: 15, fontWeight: 700, fontSize: 30, color: '#C7C8CB' }}>
           No data under section
         </Box>
       )}
-    </Fragment>
+    </Box>
   )
 }
-
 export default memo(PswdMasterTable)

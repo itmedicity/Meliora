@@ -7,8 +7,11 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import ModuleGroupTable from './ModuleGroupTable'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, succesNotify } from 'src/views/Common/CommonCode';
+
+
 const ModuleGroupMast = () => {
+
   const history = useNavigate()
   const [count, setCount] = useState(0)
   const [value, setvalue] = useState(0)
@@ -37,7 +40,11 @@ const ModuleGroupMast = () => {
     notification: false,
     amsModule: false,
     mod_grp_slno: 0,
-    workorder: false
+    workorder: false,
+    icubeds: false,
+    labresult: false,
+    deviceCredentials: false,
+
   })
   /*** Destructuring */
   const {
@@ -64,8 +71,12 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    icubeds,
+    labresult,
+    deviceCredentials,
   } = moduleGroup
+
 
   /***Get values from the component */
   const updateModuleGroup = useCallback(
@@ -104,6 +115,9 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
+        module_icubeds: icubeds === true ? 27 : 0,
+        module_labresult: labresult === true ? 28 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
       }
     }
   }, [
@@ -129,7 +143,10 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
+    workorder,
+    icubeds,
+    labresult,
+    deviceCredentials,
   ])
 
   /*** data for  update to module_group_mast table */
@@ -160,7 +177,9 @@ const ModuleGroupMast = () => {
         module_notification: notification === true ? 24 : 0,
         module_ams: amsModule === true ? 25 : 0,
         module_workorder: workorder === true ? 26 : 0,
-
+        module_icubeds: icubeds === true ? 27 : 0,
+        module_labresult: labresult === true ? 28 : 0,
+        module_deviceCredentials: deviceCredentials === true ? 29 : 0,
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -188,8 +207,10 @@ const ModuleGroupMast = () => {
     incident,
     notification,
     amsModule,
-    workorder
-
+    workorder,
+    icubeds,
+    labresult,
+    deviceCredentials,
   ])
 
   // data setting for edit
@@ -223,7 +244,9 @@ const ModuleGroupMast = () => {
       notification: module_status.module_notification === 0 ? false : true,
       amsModule: module_status.module_ams === 0 ? false : true,
       module_workorder: module_status.workorder === true ? 26 : 0,
-
+      icubeds: module_status.icubeds === 0 ? false : true,
+      labresult: module_status.labresult === 0 ? false : true,
+      deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
     }
     setModuleGroup(formdata)
   }, [])
@@ -255,6 +278,9 @@ const ModuleGroupMast = () => {
         notification: false,
         amsModule: false,
         workorder: false,
+        icubeds: false,
+        labresult: false,
+        deviceCredentials: false,
 
       }
       /***     * insert function for use call back     */
@@ -328,7 +354,9 @@ const ModuleGroupMast = () => {
       notification: false,
       amsModule: false,
       workorder: false,
-
+      icubeds: false,
+      labresult: false,
+      deviceCredentials: false
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -350,268 +378,292 @@ const ModuleGroupMast = () => {
               />
             </Box>
             <Box sx={{ p: 1 }}>
-              <Grid container spacing={1}>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Complaint Management"
+                  color="primary"
+                  size="md"
+                  name="complaintManagement"
+                  variant="outlined"
+                  value={complaintManagement}
+                  checked={complaintManagement}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Central Request Management"
+                  color="primary"
+                  size="md"
+                  name="requestmanag"
+                  variant="outlined"
+                  value={requestmanag}
+                  checked={requestmanag}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Asset Management"
+                  color="primary"
+                  size="md"
+                  name="assetmanag"
+                  variant="outlined"
+                  value={assetmanag}
+                  checked={assetmanag}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Room Management"
+                  color="primary"
+                  size="md"
+                  name="roommanag"
+                  variant="outlined"
+                  value={roommanag}
+                  checked={roommanag}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="We Work"
+                  color="primary"
+                  size="md"
+                  name="wework"
+                  variant="outlined"
+                  value={wework}
+                  checked={wework}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Diet"
+                  color="primary"
+                  size="md"
+                  name="diet"
+                  variant="outlined"
+                  value={diet}
+                  checked={diet}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Feed Back"
+                  color="primary"
+                  size="md"
+                  name="feedback"
+                  variant="outlined"
+                  value={feedback}
+                  checked={feedback}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Quality Indicator"
+                  color="primary"
+                  size="md"
+                  name="nabh"
+                  variant="outlined"
+                  value={nabh}
+                  checked={nabh}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Settings"
+                  color="primary"
+                  size="md"
+                  name="settings"
+                  variant="outlined"
+                  value={settings}
+                  checked={settings}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="SFANFA"
+                  color="primary"
+                  size="md"
+                  name="sfanfa"
+                  variant="outlined"
+                  value={sfanfa}
+                  checked={sfanfa}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Nursing Station"
+                  color="primary"
+                  size="md"
+                  name="nurseStation"
+                  variant="outlined"
+                  value={nurseStation}
+                  checked={nurseStation}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Reports"
+                  color="primary"
+                  size="md"
+                  name="reports"
+                  variant="outlined"
+                  value={reports}
+                  checked={reports}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Dash Board"
+                  color="primary"
+                  size="md"
+                  name="dashboard"
+                  variant="outlined"
+                  value={dashboard}
+                  checked={dashboard}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Escalation"
+                  color="primary"
+                  size="md"
+                  name="escalation"
+                  variant="outlined"
+                  value={escalation}
+                  checked={escalation}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Hall Booking"
+                  color="primary"
+                  size="md"
+                  name="hallbooking"
+                  variant="outlined"
+                  value={hallbooking}
+                  checked={hallbooking}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Task Management"
+                  color="primary"
+                  size="md"
+                  name="task"
+                  variant="outlined"
+                  value={task}
+                  checked={task}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="IT Management"
+                  color="primary"
+                  size="md"
+                  name="itmanagement"
+                  variant="outlined"
+                  value={itmanagement}
+                  checked={itmanagement}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Daily Census"
+                  color="primary"
+                  size="md"
+                  name="dailycensus"
+                  variant="outlined"
+                  value={dailycensus}
+                  checked={dailycensus}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Incident Module"
+                  color="primary"
+                  size="md"
+                  name="incident"
+                  variant="outlined"
+                  value={incident}
+                  checked={incident}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Notification Module"
+                  color="primary"
+                  size="md"
+                  name="notification"
+                  variant="outlined"
+                  value={notification}
+                  checked={notification}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Ams Module"
+                  color="primary"
+                  size="md"
+                  name="amsModule"
+                  variant="outlined"
+                  value={amsModule}
+                  checked={amsModule}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Work Order"
+                  color="primary"
+                  size="md"
+                  name="workorder"
+                  variant="outlined"
+                  value={workorder}
+                  checked={workorder}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Icu Beds"
+                  color="primary"
+                  size="md"
+                  name="icubeds"
+                  variant="outlined"
+                  value={icubeds}
+                  checked={icubeds}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
                 <Grid item xl={12} lg={12}>
                   <CusCheckBox
-                    label="Complaint Management"
+                    label="Device Credentials"
                     color="primary"
                     size="md"
-                    name="complaintManagement"
+                    name="deviceCredentials"
                     variant="outlined"
-                    value={complaintManagement}
-                    checked={complaintManagement}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Central Request Management"
-                    color="primary"
-                    size="md"
-                    name="requestmanag"
-                    variant="outlined"
-                    value={requestmanag}
-                    checked={requestmanag}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Asset Management"
-                    color="primary"
-                    size="md"
-                    name="assetmanag"
-                    variant="outlined"
-                    value={assetmanag}
-                    checked={assetmanag}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Room Management"
-                    color="primary"
-                    size="md"
-                    name="roommanag"
-                    variant="outlined"
-                    value={roommanag}
-                    checked={roommanag}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="We Work"
-                    color="primary"
-                    size="md"
-                    name="wework"
-                    variant="outlined"
-                    value={wework}
-                    checked={wework}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Diet"
-                    color="primary"
-                    size="md"
-                    name="diet"
-                    variant="outlined"
-                    value={diet}
-                    checked={diet}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Feed Back"
-                    color="primary"
-                    size="md"
-                    name="feedback"
-                    variant="outlined"
-                    value={feedback}
-                    checked={feedback}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Quality Indicator"
-                    color="primary"
-                    size="md"
-                    name="nabh"
-                    variant="outlined"
-                    value={nabh}
-                    checked={nabh}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Settings"
-                    color="primary"
-                    size="md"
-                    name="settings"
-                    variant="outlined"
-                    value={settings}
-                    checked={settings}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="SFANFA"
-                    color="primary"
-                    size="md"
-                    name="sfanfa"
-                    variant="outlined"
-                    value={sfanfa}
-                    checked={sfanfa}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Nursing Station"
-                    color="primary"
-                    size="md"
-                    name="nurseStation"
-                    variant="outlined"
-                    value={nurseStation}
-                    checked={nurseStation}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Reports"
-                    color="primary"
-                    size="md"
-                    name="reports"
-                    variant="outlined"
-                    value={reports}
-                    checked={reports}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Dash Board"
-                    color="primary"
-                    size="md"
-                    name="dashboard"
-                    variant="outlined"
-                    value={dashboard}
-                    checked={dashboard}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Escalation"
-                    color="primary"
-                    size="md"
-                    name="escalation"
-                    variant="outlined"
-                    value={escalation}
-                    checked={escalation}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Hall Booking"
-                    color="primary"
-                    size="md"
-                    name="hallbooking"
-                    variant="outlined"
-                    value={hallbooking}
-                    checked={hallbooking}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Task Management"
-                    color="primary"
-                    size="md"
-                    name="task"
-                    variant="outlined"
-                    value={task}
-                    checked={task}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="IT Management"
-                    color="primary"
-                    size="md"
-                    name="itmanagement"
-                    variant="outlined"
-                    value={itmanagement}
-                    checked={itmanagement}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Daily Census"
-                    color="primary"
-                    size="md"
-                    name="dailycensus"
-                    variant="outlined"
-                    value={dailycensus}
-                    checked={dailycensus}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Incident Module"
-                    color="primary"
-                    size="md"
-                    name="incident"
-                    variant="outlined"
-                    value={incident}
-                    checked={incident}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Notification Module"
-                    color="primary"
-                    size="md"
-                    name="notification"
-                    variant="outlined"
-                    value={notification}
-                    checked={notification}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Ams Module"
-                    color="primary"
-                    size="md"
-                    name="amsModule"
-                    variant="outlined"
-                    value={amsModule}
-                    checked={amsModule}
-                    onCheked={updateModuleGroup}
-                  />
-                </Grid>
-                <Grid item xl={12} lg={12}>
-                  <CusCheckBox
-                    label="Work Order"
-                    color="primary"
-                    size="md"
-                    name="workorder"
-                    variant="outlined"
-                    value={workorder}
-                    checked={workorder}
+                    value={deviceCredentials}
+                    checked={deviceCredentials}
                     onCheked={updateModuleGroup}
                   />
                 </Grid>
