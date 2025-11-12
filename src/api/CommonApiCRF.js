@@ -363,3 +363,19 @@ export const getDptSecHodbyDepkmc = async id => {
     }
   })
 }
+
+export const getAllModuleList = async () => {
+  try {
+    const res = await axioslogin.get('/modulemaster');
+    const { success, data } = res.data;
+    if (success === 1 && data.length > 0) {
+      return data;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching module list:', error);
+    return [];
+  }
+};
+

@@ -16,7 +16,7 @@ const CardMaster = ({ children, title, close, submit, refresh, contentStyle }) =
         <Card sx={{ borderRadius: 0, boxShadow: 1, width: "100%" }}>
           <CustomCardHeaderOne title={title} onClickClose={close} cardStyle={{}} />
           <CardContent sx={contentStyle}>{children}</CardContent>
-          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }} disableSpacing={false}>
+          <CardActions sx={{ backgroundColor: cardActionBgClr, py: 0.3, pt: 0.5 }}>
             {/* Save button */}
             <CustomeToolTip title="Save" placement="left">
               <Box>

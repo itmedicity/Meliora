@@ -2,6 +2,7 @@
 export const co_setting_one = [
     { to: '/Home/Department', name: 'Department', slno: 1 },
     { to: '/Home/NursingStation', name: 'Nursing Station', slno: 34 },
+    { to: '/Home/LevelMaster', name: 'LevelMaster', slno: 320 },
 ]
 
 export const co_setting_two = [
