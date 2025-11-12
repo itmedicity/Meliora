@@ -125,7 +125,7 @@ const CrfRegistration = ({
   })
   const authDeptSec = useMemo(() => authDept, [authDept])
   useEffect(() => {
-    if (authDeptSec && authDeptSec.length > 1) {
+    if (authDeptSec && authDeptSec.length > 0) {
       setAuthorizDeptSec(authDeptSec)
     } else {
       setDeptSec(empdeptsec)
@@ -134,7 +134,7 @@ const CrfRegistration = ({
 
   const {
     data: authLevel,
-    isLoading: isAuthLoading,
+    // isLoading: isAuthLoading,
     error: authError
   } = useQuery({
     queryKey: ['getAuthorization', deptSec],
@@ -560,7 +560,6 @@ const CrfRegistration = ({
             items,
             company_slno: company?.company_slno
           }
-
           const patchData = {
             ...postData,
             edit_user: loginId,
@@ -755,7 +754,7 @@ const CrfRegistration = ({
     }))
   }, [])
 
-  if (isAuthLoading || isAuthDeptSecLoading || isCompLoading) return <p>Loading...</p>
+  if (isAuthDeptSecLoading || isCompLoading) return <p>Loading...</p>
   if (authError || authDeptSecError || compError) return <p>Error occurred.</p>
 
   return (
@@ -780,7 +779,7 @@ const CrfRegistration = ({
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <Box sx={{ flex: 1, pl: 0.5 }}>
             <CustomPaperTitle heading="Department Section" />
-            {authorizeDeptSec && authorizeDeptSec.length !== 0 && authorizeDeptSec.length !== 1 ? (
+            {authorizeDeptSec && authorizeDeptSec.length !== 0 ? (
               <Box sx={{ pt: 0.2, pl: 0.5 }}>
                 <CssVarsProvider>
                   <Select

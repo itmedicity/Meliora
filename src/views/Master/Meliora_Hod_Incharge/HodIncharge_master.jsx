@@ -20,22 +20,39 @@ const HodIncharge_master = () => {
     const [empid, setEmpid] = useState(0)
     const [empdeptsec, setEmpDeptSec] = useState(0)
     const queryClient = useQueryClient()
+    const [supervisor, setsupervisor] = useState(false)
 
-    const updateIncharge = e => {
+    const updateIncharge = (e) => {
         if (e.target.checked === true) {
             setIncharge(true)
             sethod(false)
             setPost(1)
+            setsupervisor(false)
         } else {
             sethod(false)
             setIncharge(false)
+            setsupervisor(false)
             setPost(0)
         }
     }
-    const updateHod = e => {
+    const updateHod = (e) => {
         if (e.target.checked === true) {
             sethod(true)
             setIncharge(false)
+            setsupervisor(false)
+            setPost(2)
+        } else {
+            setIncharge(false)
+            setsupervisor(false)
+            sethod(false)
+            setPost(0)
+        }
+    }
+    const updateSupervisor = (e) => {
+        if (e.target.checked === true) {
+            setsupervisor(true)
+            setIncharge(false)
+            sethod(false)
             setPost(2)
         } else {
             setIncharge(false)
@@ -43,7 +60,6 @@ const HodIncharge_master = () => {
             setPost(0)
         }
     }
-
     const reset = useCallback(() => {
         setDeptSec(0)
         setEmpid(0)
@@ -158,6 +174,18 @@ const HodIncharge_master = () => {
                             value={hod}
                             onCheked={updateHod}
                             checked={hod}
+                        />
+                    </Box>
+                    <Box sx={{ pl: 2, width: '8%', mt: 1 }}>
+                        <CusCheckBox
+                            variant="outlined"
+                            color="danger"
+                            size="md"
+                            name="estimate"
+                            label="Supervisor"
+                            value={supervisor}
+                            onCheked={updateSupervisor}
+                            checked={supervisor}
                         />
                     </Box>
                     <Box sx={{ pl: 2, width: '25%' }}>
