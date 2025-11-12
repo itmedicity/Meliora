@@ -1,6 +1,7 @@
 import React from 'react'
 
 
+
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
 const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
@@ -281,6 +282,8 @@ const PendingTicketsReport = React.lazy(() => import('./views/Report/ComplaintRe
 const PendingTicketsCountReport = React.lazy(() => import('./views/Report/ComplaintReport/PendingTicketsCountReport'))
 const CondemnationAssetOld = React.lazy(() => import('./views/AssetManagment/AssetCondemnationOld/CondemnationAssetOld'))
 const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
+const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
+const AllDeviceCredentialList = React.lazy(() => import ('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
 
 
 const routes = [
@@ -794,7 +797,16 @@ const routes = [
     name: 'DeliveryMarking_Report',
     element: <DeliveryMarking_Report />
   },
-   
+  {
+    path: 'IcuDashboard',
+    name: 'IcuDashboard',
+    element: <IcuDashboard />
+  },
+    {
+    path: 'AllDeviceCredentialList',
+    name: 'AllDeviceCredentialList',
+    element: <AllDeviceCredentialList />
+  },
 
 ]
 

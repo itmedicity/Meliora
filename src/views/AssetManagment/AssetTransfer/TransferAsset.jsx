@@ -6,7 +6,6 @@ import { getDepartment } from 'src/redux/actions/Department.action'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import TextComponent from 'src/views/Components/TextComponent'
-import AssetListUnderCustodian from 'src/views/CommonSelectCode/AssetListUnderCustodian'
 import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWOName'
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName'
 import AmRoomSelWONameUDepSec from 'src/views/CommonSelectCode/AmRoomSelWONameUDepSec'
@@ -23,6 +22,8 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
+import AmTransferAssetUnderCustodian from 'src/views/CommonSelectCode/AmTransferAssetUnderCustodian'
+
 
 const TransferAsset = () => {
   const dispatch = useDispatch()
@@ -255,7 +256,8 @@ const TransferAsset = () => {
           </Box>
           <Box sx={{ flex: 2, ml: 1 }}>
             <TextComponent text={'Select Asset'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
-            <AssetListUnderCustodian setassetData={setassetData} custAsset={custAsset} setcustAsset={setcustAsset} />
+            <AmTransferAssetUnderCustodian
+              setassetData={setassetData} custAsset={custAsset} setcustAsset={setcustAsset} am_custodian_dept_slno={am_custodian_dept_slno} />
           </Box>
           <Box sx={{ pt: 2.5, pr: 1, pl: 0.5 }}>
             <Tooltip title="Add" placement="top">
