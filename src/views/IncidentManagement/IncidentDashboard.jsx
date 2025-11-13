@@ -1,4 +1,4 @@
-import { Avatar, Box, Input, Tooltip } from '@mui/joy';
+import { Avatar, Box, Input } from '@mui/joy';
 import { Typography } from '@mui/material';
 import React, { memo, useCallback, useState } from 'react';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
@@ -19,6 +19,7 @@ import DashBoardAgeGrid from './Components/DashBoardAgeGrid';
 import ToggleButtonGroup from '@mui/joy/ToggleButtonGroup';
 import Button from '@mui/joy/Button';
 import { useNavigate } from 'react-router-dom';
+import AnimatedActionButton from './Components/AnimatedActionButton';
 
 
 const IncidentDashboard = () => {
@@ -62,40 +63,11 @@ const IncidentDashboard = () => {
                 alignItems: 'center',
             }}>
                 <IncidentTextComponent text={"Incident Mangement"} color={'#151414ff'} size={28} weight={400} />
-                <Tooltip title="Register Incident">
-                    <Box
-                        onClick={hanldeNavigateRegisterPage}
-                        sx={{
-                            p: 2,
-                            bgcolor: 'var(--royal-purple-300)',
-                            borderRadius: '50%',
-                            boxShadow:
-                                '0 2px 4px 0 rgba(185, 177, 177, 0.2), 0 6px 20px 0 rgba(180, 177, 177, 0.19)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 1,
-                            cursor: 'pointer',
-                            animation: `boundingBounce 1.2s ease-in-out infinite`,
-                            '&:hover': {
-                                animation: 'none',
-                                '& .animated-icon': {
-                                    animation: 'none',
-                                },
-                            },
-                        }}
-                    >
-                        <AddCircleOutlineIcon
-                            className="animated-icon"
-                            sx={{
-                                color: 'white',
-                                fontSize: 26,
-                                // animation: `rotatePause 3s ease-in-out infinite`,
-                            }}
-                        />
-                    </Box>
-                </Tooltip>
-
+                <AnimatedActionButton
+                    title="Register Incident"
+                    onClick={hanldeNavigateRegisterPage}
+                    icon={AddCircleOutlineIcon}
+                />
             </Box>
 
 

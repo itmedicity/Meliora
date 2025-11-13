@@ -35,16 +35,18 @@ const SelectNatureOfIncident = ({ handleMultiSelect, selectedCategories }) => {
             }}>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1 }}>
                 {selectNatureofIncident?.map(({ label, symbol }) => (
-                    <RelatedToCard
-                        width={'auto'}
-                        size={12}
-                        key={symbol}
-                        label={label}
-                        symbol={label}
-                        selected={selectedCategories?.includes(label)}
-                        multiple={true}
-                        onSelect={handleMultiSelect}
-                    />
+                    <Box key={label}>
+                        <RelatedToCard
+                            width={'auto'}
+                            size={12}
+                            key={symbol}
+                            label={label}
+                            symbol={label}
+                            selected={selectedCategories?.includes(label)}
+                            multiple={true}
+                            onSelect={handleMultiSelect}
+                        />
+                    </Box>
                 ))}
             </Box>
         </Box>

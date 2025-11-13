@@ -2,12 +2,13 @@ import { Box, Tooltip } from '@mui/joy'
 import React, { memo, useCallback } from 'react'
 import { IoArrowUndoCircleOutline } from "react-icons/io5"
 
-const UndoComponent = ({ setValue, CurrentStep }) => {
+const UndoComponent = ({ setValue, setState, condition, reset, resetAllDetails }) => {
 
     // Function to Undo the step Functionality
     const HandleUndo = useCallback(() => {
+        if (condition) { setState(false) }
+        if (reset) { resetAllDetails() }
         setValue(false)
-        CurrentStep((prev) => prev - 1)
     }, []);
 
     return (

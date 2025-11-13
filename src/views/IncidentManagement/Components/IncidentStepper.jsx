@@ -11,19 +11,10 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import ImageIcon from '@mui/icons-material/Image';
 
 import IncidentTextComponent from './IncidentTextComponent';
 
-// Step labels
-const steps = [
-    'Incident Related To',
-    'Adding Details',
-    'Nature of Incident Added',
-    'Adding Description',
-    'Registration Completed',
-];
-
-// ?? Wave aura animation using keyframes
 const waveAura = keyframes`
   0% {
     box-shadow: 0 0 0 0 rgba(103, 58, 183, 0.4);
@@ -36,7 +27,6 @@ const waveAura = keyframes`
   }
 `;
 
-// ?? Solid colored connector
 const ColoredConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
         top: 22,
@@ -55,42 +45,59 @@ const ColoredConnector = styled(StepConnector)(({ theme }) => ({
     },
 }));
 
-// ?? Step icons
-const stepIcons = {
-    1: <AssignmentIcon />,
-    2: <PersonAddAlt1Icon />,
-    3: <AddTaskIcon />,
-    4: <DescriptionIcon />,
-    5: <CheckCircleIcon />,
-};
+function IncidentStepper({ currentstep, Images = [], IncidentEditing }) {
+    const hasImages = Images.length > 0;
 
-// ?? Custom step icon with wave aura only on current step
-function CustomStepIcon(props) {
-    const { active, completed, className, icon } = props;
+    const steps = hasImages
+        ? [
+            'Incident Related To',
+            'Adding Details',
+            'Nature of Incident Added',
+            'Adding Description',
+            'Upload Files',
+            IncidentEditing ? 'Updation Completed' : 'Registration Completed',
+        ]
+        : [
+            'Incident Related To',
+            'Adding Details',
+            'Nature of Incident Added',
+            'Adding Description',
+            IncidentEditing ? 'Updation Completed' : 'Registration Completed',
+        ];
 
-    return (
-        <Box
-            className={className}
-            sx={{
-                backgroundColor: active || completed ? '#982ed1ff' : '#ccc',
-                zIndex: 1,
-                color: '#fff',
-                width: 40,
-                height: 40,
-                display: 'flex',
-                borderRadius: '50%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                animation: active ?  `${waveAura} 1.8s infinite ease-in-out` : 'none',
-            }}
-        >
-            {stepIcons[icon]}
-        </Box>
-    );
-}
+    const stepIcons = {
+        1: <AssignmentIcon />,
+        2: <PersonAddAlt1Icon />,
+        3: <AddTaskIcon />,
+        4: <DescriptionIcon />,
+        5: hasImages ? <ImageIcon /> : <CheckCircleIcon />,
+        6: <CheckCircleIcon />
+    };
 
-// ?? Main Component
-function IncidentStepper({ currentstep }) {
+    const CustomStepIcon = (props) => {
+        const { active, completed, className, icon } = props;
+
+        return (
+            <Box
+                className={className}
+                sx={{
+                    backgroundColor: active || completed ? '#982ed1ff' : '#ccc',
+                    zIndex: 1,
+                    color: '#fff',
+                    width: 40,
+                    height: 40,
+                    display: 'flex',
+                    borderRadius: '50%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    animation: active ? `${waveAura} 1.8s infinite ease-in-out` : 'none',
+                }}
+            >
+                {stepIcons[icon]}
+            </Box>
+        );
+    };
+
     return (
         <Box sx={{ width: '100%' }}>
             <Stepper

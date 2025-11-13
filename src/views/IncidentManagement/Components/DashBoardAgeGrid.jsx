@@ -10,10 +10,6 @@ import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
 const DashBoardAgeGrid = ({ type, keyword }) => {
 
-
-    console.log(keyword, "keyword");
-
-
     const columnDefs = useMemo(
         () => [
             {
@@ -257,8 +253,6 @@ const DashBoardAgeGrid = ({ type, keyword }) => {
     }, [type, keyword, rowData]);
 
 
-
-
     return (
         <div
             className="ag-theme-alpine"
@@ -275,8 +269,6 @@ const DashBoardAgeGrid = ({ type, keyword }) => {
                 domLayout="autoHeight"
                 pagination={true}
                 paginationPageSize={10}
-
-
             />
         </div>
     );

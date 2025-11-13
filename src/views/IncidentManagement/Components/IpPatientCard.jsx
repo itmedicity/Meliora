@@ -4,17 +4,16 @@ import {
     CardContent,
     Grid,
     Box,
-    Divider,
-    Chip,
+    // Divider,
+    // Chip,
     Typography
 } from '@mui/joy';
 
-import IncidentTextComponent from './IncidentTextComponent'; // Ensure path is correct
+import IncidentTextComponent from './IncidentTextComponent';
 
 const IpPatientCard = ({ data }) => {
     if (!data) return null;
-
-    const formatDate = (str) => str?.split(' ')[0] || 'N/A';
+    // const formatDate = (str) => str?.split(' ')[0] || 'N/A';
 
     const renderLine = (label, value) => (
         <Typography
@@ -55,32 +54,41 @@ const IpPatientCard = ({ data }) => {
                     }}
                 >
                     {/* Section 1: Personal Info */}
-                    <Grid xs={12} md={3} sx={{ flex: 1 }}>
+                    <Grid xs={12} md={12} sx={{ flex: 1 }}>
                         <IncidentTextComponent
                             text="Personal Info"
-                            size={{ xs: 16, lg: 14 }}
+                            size={{ xs: 16, lg: 18 }}
                             weight={700}
                             color="#1a1a1a"
                         />
                         <Box mt={1}>
-                            {renderLine('Patient No', data.fb_pt_no)}
-                            {renderLine('Name', data.fb_ptc_name)}
-                            {renderLine('Gender', data.fb_ptc_sex)}
-                            {renderLine('DOB', formatDate(data.fb_ptd_dob_new || data.fb_ptd_dob))}
-                            {renderLine('Age', `${data.fb_ptn_yearage}Y / ${data.fb_ptn_monthage}M / ${data.fb_ptn_dayage}D`)}
+                            {renderLine('Patient No', data?.PT_NO)}
+                            {renderLine('Name', data?.PTC_PTNAME)}
+                            {renderLine('Gender', data?.PTC_SEX === "F" ? "Female" : 'Male')}
+                            {renderLine('Age', `${data?.PTN_YEARAGE} Y `)}
+                            {renderLine('Mobile', data?.PTC_MOBILE)}
+                            {!data?.address
+                                ? renderLine(
+                                    'Address',
+                                    [data?.PTC_LOADD1, data?.PTC_LOADD2]
+                                        .filter(Boolean)
+                                        .join(', ')
+                                )
+                                : renderLine('Address', data?.address || "--")
+                            }
                         </Box>
                     </Grid>
 
-                    <Divider
+                    {/* <Divider
                         orientation="vertical"
                         sx={{
                             display: { xs: 'none', md: 'block' },
                             mx: 1,
                         }}
-                    />
+                    /> */}
 
                     {/* Section 2: Admission Info */}
-                    <Grid xs={12} md={3}>
+                    {/* <Grid xs={12} md={3}>
                         <IncidentTextComponent
                             text="Admission Info"
                             size={{ xs: 16, lg: 14 }}
@@ -88,8 +96,8 @@ const IpPatientCard = ({ data }) => {
                             color="#1a1a1a"
                         />
                         <Box mt={1}>
-                            {renderLine('IP No', data.fb_ip_no)}
-                            {renderLine('IP Date', formatDate(data.fb_ipd_date_new || data.fb_ipd_date))}
+                            {renderLine('IP No', data?.fb_ip_no)}
+                            {renderLine('IP Date', formatDate(data?.fb_ipd_date_new || data?.fb_ipd_date))}
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <IncidentTextComponent
                                     text="Status:"
@@ -99,27 +107,31 @@ const IpPatientCard = ({ data }) => {
                                 />
                                 <Chip
                                     variant="soft"
-                                    color={data.fb_ipc_curstatus === 'ADM' ? 'primary' : 'neutral'}
-                                    size="sm"
-                                >
-                                    {data.fb_ipc_curstatus}
+                                    color={
+                                        data?.fb_ipc_curstatus === 'ADM' ?
+                                            'primary' : data?.fb_ipc_curstatus === 'PCO' ?
+                                                'danger' : data?.fb_ipc_curstatus === 'DBC' ?
+                                                    'warning' : 'neutral'
+                                    }
+                                    size="sm">
+                                    {data?.fb_ipc_curstatus}
                                 </Chip>
                             </Box>
-                            {renderLine('Department', data.fb_dep_desc)}
-                            {renderLine('Discharge Date', formatDate(data.fb_ipd_disc_new || data.fb_ipd_disc))}
+                            {renderLine('Department', data?.fb_dep_desc)}
+                            {renderLine('Discharge Date', formatDate(data?.fb_ipd_disc_new || data?.fb_ipd_disc))}
                         </Box>
-                    </Grid>
+                    </Grid> */}
 
-                    <Divider
+                    {/* <Divider
                         orientation="vertical"
                         sx={{
                             display: { xs: 'none', md: 'block' },
                             mx: 1,
                         }}
-                    />
+                    /> */}
 
                     {/* Section 3: Contact & Doctor */}
-                    <Grid xs={12} md={5} sx={{ width: '100%' }}>
+                    {/* <Grid xs={12} md={5} sx={{ width: '100%' }}>
                         <IncidentTextComponent
                             text="Contact & Doctor"
                             size={{ xs: 16, lg: 14 }}
@@ -127,17 +139,25 @@ const IpPatientCard = ({ data }) => {
                             color="#1a1a1a"
                         />
                         <Box mt={1}>
-                            {renderLine('Mobile', data.fb_ptc_mobile)}
-                            {renderLine('Nursing Station', 'Ward J Side')}
-                            {renderLine('Doctor', data.fb_doc_name)}
+                            {renderLine('Nursing Station', data?.fb_ns_name)}
+                            {renderLine('Doctor', data?.fb_doc_name)} 
+                            {renderLine('Mobile', data?.PTC_MOBILE)}
                             {renderLine(
                                 'Address',
-                                [data.fb_ptc_loadd1, data.fb_ptc_loadd2, data.fb_ptc_loadd3, data.fb_ptc_loadd4]
+                                [data?.PTC_LOADD1, data?.PTC_LOADD2]
                                     .filter(Boolean)
                                     .join(', ')
                             )}
+                             {renderLine(
+                                'Address',
+                                [data?.PTC_LOADD1, data?.PTC_LOADD2, data?.fb_ptc_loadd3, data?.fb_ptc_loadd4]
+                                    .filter(Boolean)
+                                    .join(', ')
+                            )} 
                         </Box>
-                    </Grid>
+                    </Grid> */}
+
+
                 </Grid>
             </CardContent>
         </Card>

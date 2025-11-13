@@ -292,8 +292,6 @@ const IncidentDashboard = React.lazy(() => import('./views/IncidentManagement/In
 const IncidentRegistrationFinal = React.lazy(() => import('./views/IncidentManagement/IncidentRegistrationFinal'));
 const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
 
-
-
 // const routes = [
 //   { path: '/', exact: true, name: 'Home' },
 //   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
@@ -1051,7 +1049,7 @@ const routes = [
     name: 'CondemnationAssetOld',
     element: <CondemnationAssetOld />
   },
-  {
+    {
     path: 'DeliveryMarking_Report',
     name: 'DeliveryMarking_Report',
     element: <DeliveryMarking_Report />
@@ -1076,6 +1074,7 @@ const routes = [
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
   { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
+
 ]
 
 export default routes
