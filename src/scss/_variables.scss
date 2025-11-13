@@ -36,6 +36,11 @@
   --dark-gray: #181b1d;
   --light-gray: #383c3e;
 
+
+  --bg-card: #383c3e;
+  --border-primary: #383c3e;
+
+
   --roboto-font: 'Roboto', sans-serif;
 
   --login-container-width: 250px;
@@ -43,6 +48,92 @@
 
   --drawer-width: 250px;
 }
+
+/* buton hovering property*/
+.Button_hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.Button_hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* age grid table styling */
+.custom-age-grid .ag-root-wrapper {
+  background-color: rgba(var(--bg-card));
+  border-color: rgba(var(--border-primary));
+}
+
+.custom-header-style {
+  background-color: var(--royal-purple-100);
+  font-weight: 600;
+  font-family: var(--roboto-font);
+}
+
+
+@keyframes wiggleRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(15deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes rotatePause {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  80% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+
+  /* Pause */
+}
+
+@keyframes boundingBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-8px);
+  }
+
+  60% {
+    transform: translateY(4px);
+  }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
 // Extra small screens
 @media (min-width: 0px) and (max-width: 599px) {
   :root {
@@ -51,6 +142,7 @@
     --drawer-width: '100%';
   }
 }
+
 // Small screens
 @media (min-width: 600px) and (max-width: 899px) {
   :root {
@@ -59,6 +151,7 @@
     --drawer-width: 380px;
   }
 }
+
 // Medium screens
 @media (min-width: 900px) and (max-width: 1199px) {
   :root {
@@ -67,6 +160,7 @@
     --drawer-width: 380px;
   }
 }
+
 // Large screens
 @media (min-width: 1200px) and (max-width: 1535px) {
   :root {
@@ -75,6 +169,7 @@
     --drawer-width: 410px;
   }
 }
+
 // Extra large screens
 @media (min-width: 1536px) {
   :root {
