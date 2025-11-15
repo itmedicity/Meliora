@@ -2,9 +2,8 @@ import React, { Fragment, memo, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { Box } from '@mui/system'
-import { Paper } from '@mui/material'
 import { useSelector } from 'react-redux'
+import { Box } from '@mui/joy'
 
 const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
   const apiRef = useRef()
@@ -47,36 +46,36 @@ const CustomAGReportDispaly = ({ columnDefForTable, tableDataForTable }) => {
 
   return (
     <Fragment>
-      <Paper elevation={0}>
-        <Box
-          className="ag-theme-material ListItemScrol"
-          sx={{
-            height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
-            width: '100%'
-          }}
-        >
-          <AgGridReact
-            ref={apiRef}
-            columnDefs={columnDefForTable}
-            rowData={tableDataForTable}
-            defaultColDef={defaultColDef}
-            rowHeight={rowHeight}
-            headerHeight={headerHeight}
-            rowDragManaged={true}
-            onGridReady={onGridReady}
-            animateRows={true}
-            rowSelection="multiple"
-            rowStyle={rowStyle}
-            suppressColumnVirtualisation={true}
-            suppressRowVirtualisation={true}
-            suppressRowClickSelection={true}
-            groupSelectsChildren={true}
-            rowGroupPanelShow={'always'}
-            pivotPanelShow={'always'}
-            enableRangeSelection={true}
-          ></AgGridReact>
-        </Box>
-      </Paper>
+      {/* <Paper elevation={0}> */}
+      <Box
+        className="ag-theme-material ListItemScrol"
+        sx={{
+          height: { xs: 540, sm: 540, md: 540, lg: 514, xl: 802 },
+          width: '100%'
+        }}
+      >
+        <AgGridReact
+          ref={apiRef}
+          columnDefs={columnDefForTable}
+          rowData={tableDataForTable}
+          defaultColDef={defaultColDef}
+          rowHeight={rowHeight}
+          headerHeight={headerHeight}
+          rowDragManaged={true}
+          onGridReady={onGridReady}
+          animateRows={true}
+          rowSelection="multiple"
+          rowStyle={rowStyle}
+          suppressColumnVirtualisation={true}
+          suppressRowVirtualisation={true}
+          suppressRowClickSelection={true}
+          groupSelectsChildren={true}
+          rowGroupPanelShow={'always'}
+          pivotPanelShow={'always'}
+          enableRangeSelection={true}
+        ></AgGridReact>
+      </Box>
+      {/* </Paper> */}
     </Fragment>
   )
 }
