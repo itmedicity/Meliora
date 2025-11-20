@@ -392,3 +392,24 @@ export const getscrapItemRateDetails= async postScrapFormNo => {
     }
   })
 }
+
+
+export const getAssetItemUnderCustoidian = async empdept => {
+ const res = await axioslogin.get(`/amSelectComponent/AssetItemUnderCustoidian/${empdept}`)
+  const { success, data } = res.data
+  if (success === 1) {
+    return data
+  } else {
+    return [] 
+  }
+}
+
+export const getSpareItemUnderCustoidian = async (empdept) => {
+  const res = await axioslogin.get(`/amSelectComponent/SpareItemUnderCustoidian/${empdept}`)
+  const { success, data } = res.data
+  if (success === 1) {
+    return data
+  } else {
+    return [] 
+  }
+}
