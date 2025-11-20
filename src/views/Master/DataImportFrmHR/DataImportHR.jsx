@@ -176,7 +176,8 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                // backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getEmployeeMaster()}
@@ -202,7 +203,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getEmployeeLogin()}
@@ -228,7 +229,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getDepartment()}
@@ -254,7 +255,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getDepartmentSection()}
@@ -301,7 +302,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getEmpMasterUpdation()}
@@ -327,7 +328,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getEmpLoginUpdation()}
@@ -353,7 +354,7 @@ const DataImportHR = () => {
                 mt: 1,
                 mb: 1,
                 ml: 2,
-                backgroundColor: '#4793AF',
+                backgroundColor: "var(--royal-purple-300)",
                 borderRadius: 2.5
               }}
               onClick={() => getDesignation()}
