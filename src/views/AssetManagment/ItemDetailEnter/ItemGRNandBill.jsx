@@ -1,4 +1,4 @@
-import { Box } from '@mui/joy'
+import { Box, Table } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
@@ -10,10 +10,14 @@ import CusIconButton from 'src/views/Components/CusIconButton'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify } from 'src/views/Common/CommonCode'
 import BillDetailsAdding from './BillDetailsAdding'
+import { getallSpareUnderAsset } from 'src/api/AssetApis'
+import { useQuery } from '@tanstack/react-query'
 
-const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount }) => {
-  const { am_item_map_slno, am_spare_item_map_slno } = detailArry
+const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount, }) => {
+  const { am_spare_item_map_slno, am_item_map_slno } = detailArry
   const { am_grn_no, am_grn_date } = grndetailarry
+  const [AllSparesUnderAsset, setAllSparesUnderAsset] = useState([])
+
 
   const id = useSelector(state => {
     return state.LoginUserData.empid
@@ -104,6 +108,30 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
   const refreshBilldetail = useCallback(() => {
     reset()
   }, [])
+
+
+  const { data: allSpareUnderAssetData = [] } = useQuery({
+    queryKey: ['getSparess', count],
+    queryFn: () => getallSpareUnderAsset(am_item_map_slno)
+  })
+
+  const allSpareUnderAsset = useMemo(() => allSpareUnderAssetData, [allSpareUnderAssetData])
+
+  useEffect(() => {
+    setAllSparesUnderAsset(allSpareUnderAsset)
+  }, [allSpareUnderAsset])
+
+
+
+
+
+
+  const formatAmount = (num) =>
+    Number(num).toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
 
   return (
     <Box>
@@ -210,6 +238,76 @@ const ItemGRNandBill = ({ detailArry, grndetailarry, assetSpare, count, setCount
           />
         </Box>
       </Box>
+      {assetSpare === 1 && AllSparesUnderAsset.length > 0 ? (
+        <Box sx={{ border: 1, borderColor: '#E0E1E3', py: 1, mt: 0.5 }}>
+          <TextComponent
+            text={'SPARE BILL DETAILS'}
+            sx={{
+              flex: 1,
+              fontWeight: 500,
+              color: 'black',
+              fontSize: 15,
+              ml: 2
+            }}
+          />
+          <Box
+            sx={{
+              width: '99%',
+              p: 1
+            }}
+          >
+            <Table borderAxis="both" size="sm">
+              <thead>
+                <tr>
+                  <th style={{ width: 150, textAlign: 'center' }}>Spare No</th>
+                  <th style={{ width: 'auto' }}>Spare Name</th>
+                  <th style={{ width: 150, textAlign: 'center' }}>Spare Value</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {AllSparesUnderAsset?.map((item, index) => {
+                  const billAmt = Array.isArray(item.am_bill_amount)
+                    ? item.am_bill_amount.reduce((a, b) => a + b, 0)
+                    : Number(item.am_bill_amount) || 0;
+                  return (
+                    <tr key={index}>
+                      <td style={{ width: 150, textAlign: "center" }}>
+                        {item.spare_asset_no}/
+                        {(item.spare_asset_no_only ?? 0).toString().padStart(6, "0")}
+                      </td>
+                      <td style={{ width: "auto" }}>{item.item_name}</td>
+                      <td style={{ width: 150, textAlign: "center" }}>
+                        {billAmt}
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr style={{ background: '#f0f0f0', fontWeight: 'bold' }}>
+                  <td colSpan={2} style={{ textAlign: 'left', paddingLeft: 10 }}>
+                    Total Amount :
+                  </td>
+                  <td style={{ textAlign: 'center' }}>
+                    {formatAmount(
+                      AllSparesUnderAsset.reduce((sum, item) => {
+                        const val = Array.isArray(item.am_bill_amount)
+                          ? item.am_bill_amount.reduce((a, b) => a + b, 0)
+                          : Number(item.am_bill_amount) || 0;
+                        return sum + val;
+                      }, 0)
+                    )}
+                  </td>
+
+
+                </tr>
+
+              </tbody>
+            </Table>
+
+
+
+          </Box>
+        </Box>) : null}
     </Box>
   )
 }

@@ -11,9 +11,12 @@ export const getSpecification = async am_item_map_slno => {
 
 export const getallSpareUnderAsset = async am_item_map_slno => {
   return axioslogin.get(`/complaintreg/SpareDetailsUndercomplaint/${am_item_map_slno}`).then(res => {
-    const { success, data } = res.data
-    if (success === 1) {
+    const { success, data } = res.data  
+        if (success === 1) {
       return data
+    }
+    else{
+      return[]
     }
   })
 }
@@ -394,8 +397,8 @@ export const getscrapItemRateDetails= async postScrapFormNo => {
 }
 
 
-export const getAssetItemUnderCustoidian = async empdept => {
- const res = await axioslogin.get(`/amSelectComponent/AssetItemUnderCustoidian/${empdept}`)
+export const getAssetItemUnderCustoidian = async custoDian => {
+ const res = await axioslogin.get(`/amSelectComponent/AssetItemUnderCustoidian/${custoDian}`)
   const { success, data } = res.data
   if (success === 1) {
     return data
@@ -404,8 +407,8 @@ export const getAssetItemUnderCustoidian = async empdept => {
   }
 }
 
-export const getSpareItemUnderCustoidian = async (empdept) => {
-  const res = await axioslogin.get(`/amSelectComponent/SpareItemUnderCustoidian/${empdept}`)
+export const getSpareItemUnderCustoidian = async (custoDian) => {
+  const res = await axioslogin.get(`/amSelectComponent/SpareItemUnderCustoidian/${custoDian}`)
   const { success, data } = res.data
   if (success === 1) {
     return data

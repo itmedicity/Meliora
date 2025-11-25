@@ -1,16 +1,16 @@
 import React, { useEffect, memo, useState } from 'react'
 import Autocomplete from '@mui/joy/Autocomplete'
 import { useQuery } from '@tanstack/react-query';
-import { getAssetItemUnderCustoidian } from 'src/api/AssetApis';
+import { getSpareItemUnderCustoidian } from 'src/api/AssetApis';
 
-const AmItemNameUnderCustodian = ({ item, setItem, custoDian }) => {
+const AmSpareItemNameUnderCustodian = ({ item, setItem, custoDian }) => {
 
     const [value, setValue] = useState(null);
     const [inputValue, setInputValue] = useState('');
 
-    const { data: AssetItemData = [], isLoading } = useQuery({
-        queryKey: ['getAssetItemUnderCustodian', custoDian],
-        queryFn: () => getAssetItemUnderCustoidian(custoDian),
+    const { data: spareItemData = [], isLoading } = useQuery({
+        queryKey: ['getSpareItemUnderCustoidian', custoDian],
+        queryFn: () => getSpareItemUnderCustoidian(custoDian),
         enabled: !!custoDian,
     });
 
@@ -21,7 +21,7 @@ const AmItemNameUnderCustodian = ({ item, setItem, custoDian }) => {
     }, [item]);
 
     useEffect(() => {
-        setItem(value?.item_creation_slno ?? null);
+        setItem(value?.spare_creation_slno ?? null);
     }, [value, setItem]);
 
     return (
@@ -46,9 +46,9 @@ const AmItemNameUnderCustodian = ({ item, setItem, custoDian }) => {
             getOptionLabel={option =>
                 typeof option === 'string' ? option : option?.item_name || ''
             }
-            options={AssetItemData}
+            options={spareItemData}
         />
     );
 }
 
-export default memo(AmItemNameUnderCustodian);
+export default memo(AmSpareItemNameUnderCustodian);

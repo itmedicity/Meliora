@@ -1,4 +1,4 @@
-import { Box, Button, Chip, CircularProgress, Input, Tooltip, Typography } from '@mui/joy';
+import { Box, Button, Chip, CircularProgress, Tooltip, Typography } from '@mui/joy';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
@@ -13,12 +13,12 @@ import TaskAssigneesName from 'src/views/Components/TaskAssingeesName';
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
-import SearchIcon from '@mui/icons-material/Search';
 import FilterSelector from 'src/views/Ams/AmsDashboard/FilterSelector';
 import { endOfMonth, endOfYear, format, startOfMonth, startOfYear } from 'date-fns';
 import EmpTaskStatus from './EmpTaskStatus';
 import JSZip from 'jszip'
 import { errorNotify } from 'src/views/Common/CommonCode';
+import FloatingSearch from 'src/views/Components/FloatingSearch';
 
 const EmpCompletedTaskList = ({
   projectcount,
@@ -227,8 +227,11 @@ const EmpCompletedTaskList = ({
 
 
   return (
-    <Box sx={{ overflow: 'auto' }}>
-
+    <Box sx={{ overflow: 'auto', position: "relative" }}>
+      <FloatingSearch
+        value={filterText}
+        setValue={setFilterText}
+      />
       {editModalFlag === 1 ? (
         <EmpTaskStatus
           open={editModalOpen}
@@ -248,19 +251,8 @@ const EmpCompletedTaskList = ({
         />
       ) : null}
 
-      <Box sx={{ display: 'flex', m: 1, justifyContent: 'space-between' }}>
+      <Box sx={{ m: 1, }}>
         <FilterSelector onDateRangeChange={handleResAndUnresAntibioticChange} />
-        <Input
-          placeholder="Type here..."
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          startDecorator={
-            <Button variant="soft" color="neutral">
-              <SearchIcon /> Search
-            </Button>
-          }
-          sx={{ width: 300 }}
-        />
       </Box>
 
       <Box sx={{ mx: .5, height: '62vh', overflow: 'auto' }}>

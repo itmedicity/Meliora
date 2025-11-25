@@ -721,10 +721,7 @@ const PasswordManagement = () => {
                 >
                   <Box sx={{ width: 400, }}>
                     <Input
-
-                      startDecorator={
-                        "Search Asset Number"
-                      }
+                      placeholder='Search Asset No. eg:- TMC/IT/000001'
                       endDecorator={
                         <Button variant="soft" color="neutral" >
                           < SearchIcon onClick={searchAssetNo} />

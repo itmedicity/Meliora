@@ -1,4 +1,4 @@
-import { Box, Button, Chip, CircularProgress, Input, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, Chip, CircularProgress, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -13,11 +13,11 @@ import TaskAssigneesName from 'src/views/Components/TaskAssingeesName'
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
-import SearchIcon from '@mui/icons-material/Search';
 import { useQuery } from '@tanstack/react-query';
 import EmpTaskStatus from './EmpTaskStatus'
 import { getFilesFromZip } from 'src/api/FileViewsFn'
 import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
+import FloatingSearch from 'src/views/Components/FloatingSearch'
 
 const EmpOverDueTaskList = ({ projectcount, setprojectcount }) => {
 
@@ -127,7 +127,7 @@ const EmpOverDueTaskList = ({ projectcount, setprojectcount }) => {
   }, [selectedTaskId]);
 
   return (
-    <Box sx={{ width: '100%', overflow: 'auto' }}>
+    <Box sx={{ width: '100%', overflow: 'auto', position: "relative" }}>
 
       {editModalFlag === 1 ?
         <EmpTaskStatus open={editModalOpen} setEditModalOpen={setEditModalOpen} masterData={masterData}
@@ -137,23 +137,11 @@ const EmpOverDueTaskList = ({ projectcount, setprojectcount }) => {
         /> : image === 1 ? <ViewTaskImage imageUrls={imageUrls} open={imageViewModalOpen} handleClose={handleClose}
           selectedImages={selectedImages} getarry={getarry} /> : null}
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 1 }}>
-        <Input
-          label="Search"
-          variant="outlined"
-          placeholder="Type here..."
-          autoComplete="off"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          startDecorator={
-            <Button variant="soft" color="neutral">
-              <SearchIcon /> Search
-            </Button>
-          }
-          sx={{ width: 300 }}
-        />
-      </Box>
-      <Box sx={{ px: 1, height: '67vh', overflow: 'auto', }}>
+      <FloatingSearch
+        value={filterText}
+        setValue={setFilterText}
+      />
+      <Box sx={{ p: .5, height: '67vh', overflow: 'auto', }}>
         {isLoading ? (
           <CircularProgress thickness={4} />
         ) : isError ? (
