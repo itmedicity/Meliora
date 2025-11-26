@@ -21,6 +21,7 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import { addMonths, isAfter, isBefore, parseISO } from 'date-fns'
 import AmcCmcWarGaurDetailsView from './AmcCmcWarGaurDetailsView'
 import EngineeringIcon from '@mui/icons-material/Engineering'
+import { taskColor } from 'src/color/Color'
 
 const DashboardMainAsset = () => {
   const [categoryDetails, setcategoryDetails] = useState([])
@@ -29,7 +30,7 @@ const DashboardMainAsset = () => {
   const [spareTotVal, setspareTotVal] = useState(0)
   const [totAssetcount, settotAssetcount] = useState(0)
   const [spareCount, setspareCount] = useState(0)
-  // const TotalAssetValue = assetTotVal + spareTotVal
+  const TotalAssetValue = assetTotVal + spareTotVal
 
   const empdeptname = useSelector(state => {
     return state.LoginUserData.empdeptname
@@ -300,9 +301,48 @@ const DashboardMainAsset = () => {
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ fontSize: 14, fontWeight: 600, color: '#636b74', pl: 0.8, pt: 0.5 }}>
-                    Total Asset Value
+                    Total Asset & Spare Value
                   </Box>
                   <Box sx={{ fontSize: 20, fontWeight: 600, color: 'darkgreen', pt: 0.1 }}>
+                    {new Intl.NumberFormat('en-IN', {
+                      style: 'currency',
+                      currency: 'INR',
+                      currencyDisplay: 'code'
+                    })
+                      .format(TotalAssetValue)
+                      .replace('INR', '')}
+                  </Box>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  border: 1,
+                  borderColor: '#d0d6e5',
+                  flex: 1,
+                  bgcolor: 'white',
+                  borderRadius: 5
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 60,
+                    m: 0.5,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: 1,
+                    borderColor: '#d0d6e5',
+                    bgcolor: '#f5fcf5'
+                  }}
+                >
+                  <CurrencyRupeeIcon sx={{ width: 35, height: 35, color: taskColor.darkPurple }} />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Box sx={{ fontSize: 14, fontWeight: 600, color: taskColor.darkPurple, pl: 0.8, pt: 0.5 }}>
+                    Total Asset Value
+                  </Box>
+                  <Box sx={{ fontSize: 20, fontWeight: 600, color: taskColor.darkPurple, pt: 0.1 }}>
                     {new Intl.NumberFormat('en-IN', {
                       style: 'currency',
                       currency: 'INR',
@@ -352,6 +392,7 @@ const DashboardMainAsset = () => {
                   </Box>
                 </Box>
               </Box>
+
               <Box
                 sx={{
                   display: 'flex',
