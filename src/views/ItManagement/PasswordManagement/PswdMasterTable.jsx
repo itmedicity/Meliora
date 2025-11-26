@@ -77,6 +77,13 @@ const PswdMasterTable = ({ rowSelect, tabledata, }) => {
             </thead>
             <tbody>
               {filteredData?.map((val, index) => {
+                const formatIp = (ip) => {
+                  if (!ip) return 'not given';
+                  return ip
+                    .split('.')
+                    .map(oct => String(Number(oct)))
+                    .join('.');
+                };
                 return (
                   <tr key={index}>
                     <td> {index + 1}</td>
@@ -86,7 +93,7 @@ const PswdMasterTable = ({ rowSelect, tabledata, }) => {
                     <td> {val.pswd_mast_asset_no || 'not given'}</td>
                     <td> {val.category_name || 'not given'}</td>
                     <td> {val.group_name || 'not given'}</td>
-                    <td> {val.psw_detail_ip_num || 'not given'}</td>
+                    <td> {formatIp(val.psw_detail_ip_num)}</td>
                     <td> {val.item_name || 'not given'}</td>
                     <td> {val.psw_detail_port || 'not given'}</td>
                     <td> {val.psw_detail_username || 'not given'}</td>

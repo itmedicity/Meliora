@@ -340,6 +340,7 @@ const ItemDetailEnterMain = ({
                       assetSpare={assetSpare}
                       count={count}
                       setCount={setCount}
+                      am_item_map_slno={am_item_map_slno}
                     />
                   </Box>
                 </TabPanel>
