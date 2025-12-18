@@ -284,7 +284,9 @@ const CondemnationAssetOld = React.lazy(() => import('./views/AssetManagment/Ass
 const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
 const LevelMaster = React.lazy(() => import('./views/Master/ApprovalLevelMaster/LevelMaster'))
 const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
-const AllDeviceCredentialList = React.lazy(() => import ('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
+const AllDeviceCredentialList = React.lazy(() => import('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
+const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
+const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
 
 
 const routes = [
@@ -809,10 +811,20 @@ const routes = [
     name: 'IcuDashboard',
     element: <IcuDashboard />
   },
-    {
+  {
     path: 'AllDeviceCredentialList',
     name: 'AllDeviceCredentialList',
     element: <AllDeviceCredentialList />
+  },
+  {
+    path: 'StoreReport',
+    name: 'StoreReport',
+    element: <StoreReport />
+  },
+  {
+    path: 'StoreReportMaster',
+    name: 'StoreReportMaster',
+    element: <StoreReportMaster />
   },
 
 

@@ -16,6 +16,7 @@ import { GrDocumentPdf } from "react-icons/gr";
 import { MdAppRegistration } from "react-icons/md";
 import { FaBedPulse } from "react-icons/fa6";
 import { FaSyringe } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa";
 
 const SideMenu = () => {
   const navigation = useNavigate()
@@ -102,7 +103,12 @@ const SideMenu = () => {
       name: 'Device Credentials',
       icon: <MdPattern size={35} color="var(--royal-purple-300)" />
     },
-
+    {
+      men_slno: 329,
+      path: '/Home/StoreReport',
+      name: 'Store Report',
+      icon: <FaStore size={35} color="var(--royal-purple-300)" />
+    },
   ]
 
 
