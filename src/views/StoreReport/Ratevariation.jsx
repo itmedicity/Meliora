@@ -73,6 +73,7 @@ const Ratevariation = ({ setActiveComponent }) => {
         return showExtraCols ? [...mainColumns, ...extraColumns] : mainColumns;
     }, [showExtraCols]);
 
+
     const backToSetting = useCallback(() => {
         setActiveComponent(0)
     }, [setActiveComponent])
