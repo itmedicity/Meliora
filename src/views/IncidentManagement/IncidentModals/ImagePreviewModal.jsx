@@ -28,8 +28,8 @@ const ImagePreviewModal = ({ open, handleClose, imageSrc }) => {
                     p: 2,
                     borderRadius: 2,
                     outline: 'none',
-                    width: '40vw',
-                    height: '50vh',
+                    width: '80vw',
+                    height: '80vh',
                 }}
             >
                 <IconButton

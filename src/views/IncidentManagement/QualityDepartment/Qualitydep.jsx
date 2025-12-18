@@ -1,3 +1,4 @@
+//@ not using Qualitydep
 import React, { memo, useMemo } from 'react';
 import Inciwrapper from '../../Components/Inciwrapper';
 import { Box } from '@mui/joy';
@@ -8,10 +9,6 @@ import TabComponent from '../Components/TabComponent';
 import { groupIncidents } from '../CommonComponent/CommonFun';
 
 const Qualitydep = () => {
-
-    // const { empdept, empsecid } = useSelector(state => {
-    //     return state.LoginUserData
-    // });
 
     const {
         data: QADincident,

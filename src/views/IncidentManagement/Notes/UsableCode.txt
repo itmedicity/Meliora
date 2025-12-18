@@ -1,0 +1,272 @@
+@IncidentApproval
+    const { rejectedList, PendingList, ApprovedList } = useMemo(() => {
+
+        if (!CurrentlevelDetail) return { pendingList: [], rejectedList: [], approvedList: [] };
+
+
+        // const level = CurrentlevelDetail?.level_name?.toUpperCase();
+        // let sourceData = IncidentLevelApproval ?? [];
+
+        // // Pick data source based on level
+        // if (['INCHARGE', 'HOD'].includes(level)) {
+        //     if (!InchargeHodApprovalIncidents) return { pendingList: [], rejectedList: [], approvedList: [] };
+        //     sourceData = InchargeHodApprovalIncidents;
+        // } else {
+        //     if (!IncidentLevelApproval) return { pendingList: [], rejectedList: [], approvedList: [] };
+        //     sourceData = IncidentLevelApproval;
+        // }
+        // Group and sort
+        const grouped = groupIncidents(IncidentLevelApproval)?.sort(
+            (a, b) => b?.inc_register_slno - a?.inc_register_slno
+        );
+
+        // ---------- For Incharge / HOD ----------
+        // if (level === 'INCHARGE') {
+        //     return {
+        //         rejectedList: grouped.filter(i => i?.inc_incharge_ack === 0 && i?.inc_incharge_reivew_state === 'R'),
+        //         PendingList: grouped.filter(
+        //             i =>
+        //                 i?.inc_incharge_ack === 0 &&
+        //                 i?.inc_hod_ack === 0 &&
+        //                 (!i?.inc_incharge_reivew_state || i?.inc_incharge_reivew_state !== 'R')
+        //         ),
+        //         ApprovedList: grouped.filter(i => i?.inc_incharge_ack === 1 && i?.inc_incharge_reivew_state === 'A'),
+        //     };
+        // }
+
+        // if (level === 'HOD') {
+        //     return {
+        //         rejectedList: grouped.filter(i => i?.inc_hod_ack === 0 && i?.inc_hod_reivew_state === 'R'),
+        //         PendingList: grouped.filter(i => i?.inc_hod_ack === 0 && i?.inc_hod_reivew_state !== 'R'),
+        //         ApprovedList: grouped.filter(i => i?.inc_hod_ack === 1 && i?.inc_hod_reivew_state === 'A'),
+        //     };
+        // }
+
+        // ---------- For other levels ---------- use this for later for high level for that add field in data base to track which are the higlevels
+        // const acknowledged = grouped.filter(item => {
+        //     const details = item?.data_collection_details
+        //         ? JSON.parse(item?.data_collection_details)
+        //         : [];
+        //     return details.length > 0 && details.every(d => d?.inc_dep_status === 1);
+        // });
+
+        return {
+            rejectedList: grouped.filter(
+                i =>
+                    i?.inc_current_level === CurrentlevelDetail?.level_no &&
+                    i?.inc_current_level_review_state === 'R'
+            ),
+            PendingList: grouped.filter(
+                i => i?.inc_current_level < CurrentlevelDetail?.level_no
+            ),
+            ApprovedList: grouped.filter(
+                i =>
+                    i?.inc_current_level >= CurrentlevelDetail?.level_no &&
+                    i?.inc_current_level_review_state === 'A'
+            ),
+        };
+    }, [IncidentLevelApproval, CurrentlevelDetail]);
+
+
+
+    // const { data: InchargeHodApprovalIncidents, isLoading: InciHodApprovalLoading, refetch: FetchAllInchargeHodIncident } = useInchargeHodApprovalIncidents(empdept, empsecid);
+    // const isInchargeHod = useMemo(() => ['INCHARGE', 'HOD'].includes(CurrentlevelDetail?.level_name?.toUpperCase()), [CurrentlevelDetail]);
+
+
+
+    // // grouping data and returning them based on the tab list
+    // const { rejectedList, PendingList, ApprovedList } = useMemo(() => {
+    //     if (!IncidentLevelApproval || !CurrentlevelDetail) return { rejectedList: [], PendingList: [], ApprovedList: [] };
+
+    //     // Group and sort incidents
+    //     const grouped = groupIncidents(IncidentLevelApproval)?.sort(
+    //         (a, b) => b?.inc_register_slno - a?.inc_register_slno
+    //     );
+
+    //     //  Filter out incidents where NOT all RCA departments acknowledged
+    //     const onlyAcknowledged = grouped.filter(item => {
+    //         const parsedDetails = item?.data_collection_details
+    //             ? JSON.parse(item?.data_collection_details)
+    //             : [];
+
+    //         // Check if ALL departments acknowledged (inc_dep_status === 1)
+    //         const allAcknowledged = parsedDetails.length > 0 && parsedDetails.every(d => d?.inc_dep_status === 1);
+    //         return allAcknowledged;
+    //     });
+    //     return {
+    //         rejectedList: onlyAcknowledged.filter(
+    //             item =>
+    //                 item?.inc_current_level === CurrentlevelDetail?.level_no &&
+    //                 item?.inc_current_level_review_state === 'R'
+    //         ),
+    //         PendingList: onlyAcknowledged.filter(
+    //             item =>
+    //                 item?.inc_current_level < CurrentlevelDetail?.level_no
+    //         ),
+    //         ApprovedList: onlyAcknowledged.filter(
+    //             item =>
+    //                 item?.inc_current_level >= CurrentlevelDetail?.level_no &&
+    //                 item?.inc_current_level_review_state === 'A'
+    //         ),
+    //     };
+    // }, [IncidentLevelApproval, CurrentlevelDetail]);
+
+
+
+@IncidentReviewTable
+
+import React, { memo, useMemo } from "react";
+import { Table, Sheet } from "@mui/joy";
+
+import ActionChips from "./ActionChips";
+
+const IncidentReviewTable = ({
+    data,
+    currentLevel,
+    setCorrectiveEdit,
+    setPreventiveEdit,
+    setEvalutaionEdit,
+    setReview,
+    setEditItem,
+    title,
+    setRootCause,
+    setEdit,
+    involvedDepartment,
+    LevelActionReveiw,
+    ActiveActions
+}) => {
+
+
+
+    console.log({
+        LevelActionReveiw,
+        ActiveActions
+    });
+
+
+    const {
+        inc_rca,
+        inc_corrective_action,
+        inc_preventive_action,
+        inc_evaluation_status,
+        // inc_rca_hod_approve,
+        // inc_rca_qad_approve,
+    } = data;
+
+    // const rcaStatus = getStatus(inc_rca, inc_rca_hod_approve, inc_rca_qad_approve, true);
+    // const correctiveStatus = getStatus(inc_corrective_action);
+    // const preventiveStatus = getStatus(inc_preventive_action);
+    // const evaluationstatus = getStatus(inc_evaluation_status);
+
+
+    const isAcknowledged = useMemo(() => {
+        // If array is empty, return true
+        if (!involvedDepartment || involvedDepartment?.length === 0) return true;
+
+        // If any department has status = 1, return true
+        return involvedDepartment?.some(item => item?.inc_dep_status === 1);
+    }, [involvedDepartment]);
+
+    console.log(isAcknowledged, "isAcknowledged");
+
+
+
+    return (
+        <Sheet variant="outlined" sx={{ borderRadius: "sm", p: 2 }}>
+            <Table
+                variant="plain"
+                borderAxis="xBetween"
+                size="md"
+                sx={{
+                    "& th": { fontWeight: "bold", textAlign: "left" },
+                    "& td": { verticalAlign: "top" },
+                    tableLayout: "fixed",
+                    width: "100%",
+                }}>
+                <colgroup>
+                    <col style={{ width: "15%" }} />
+                    <col style={{ width: "65%" }} />
+                    <col style={{ width: "20%" }} />
+                    {/* <col style={{ width: "15%" }} /> */}
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Level</th>
+                        <th>Description</th>
+                        {/* <th>Action</th> */}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>RCA</b></td>
+                        <td>{inc_rca || "—"}</td>
+                        {/* <td><StatusChip status={rcaStatus} /></td> */}
+                        {/* <td><ActionChips category="RCA" currentLevel={currentLevel} setReview={setRootCause} data={data} setEdit={setEdit} setEditItem={setEditItem} title={title} preventEdit={isAcknowledged} /></td> */}
+                    </tr>
+                    <tr>
+                        <td><b>{`Corrective Action (${data?.incharge_name || '-'})`}</b></td>
+                        <td>{inc_corrective_action || "—"}</td>
+                        {/* <td><StatusChip status={correctiveStatus} /></td> */}
+                        {/* <td><ActionChips category="Corrective" currentLevel={currentLevel} data={data} setEdit={setCorrectiveEdit} setEditItem={setEditItem} setReview={setReview} title={title} preventEdit={isAcknowledged} /></td> */}
+                    </tr>
+                    <tr>
+                        <td><b>{`Preventive Action (${data?.hod_name || '-'})`}</b></td>
+                        <td>{inc_preventive_action || "—"}</td>
+                        {/* <td><StatusChip status={preventiveStatus} /></td> */}
+                        {/* <td><ActionChips category="Preventive" currentLevel={currentLevel} data={data} setEdit={setPreventiveEdit} setReview={setReview} setEditItem={setEditItem} title={title} preventEdit={isAcknowledged} /></td> */}
+                    </tr>
+                    <tr>
+                        <td><b>{`Evaluation Action (${data?.qad_name || '-'})`}</b></td>
+                        <td>{inc_evaluation_status || "—"}</td>
+                        {/* <td><StatusChip status={evaluationstatus} /></td> */}
+                        {/* <td><ActionChips category="Evaluation" currentLevel={currentLevel} data={data} setEdit={setEvalutaionEdit} setReview={setReview} setEditItem={setEditItem} title={title} preventEdit={isAcknowledged} /></td> */}
+                    </tr>
+                </tbody>
+            </Table>
+        </Sheet>
+    );
+};
+
+export default memo(IncidentReviewTable);
+
+
+
+
+
+
+
+// approval preview code 
+
+
+    // Filter & map levels
+    let approvalLevels = incidentlevels
+        ?.filter(item => item?.level_status === 1)
+        ?.sort((a, b) => a.level_no - b.level_no)
+        ?.filter(lvl => {
+            const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
+            // Keep when approval exists
+            if (found) return true;
+
+            // If higher level is approved, hide lower levels without approval
+            if (lvl.level_no < highestApprovedLevel) return false;
+
+            return true;
+        })
+        ?.map((lvl) => {
+            const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
+
+            const canEdit =
+                lvl.level_no === highestApprovedLevel &&   // same as highest approved level
+                lvl.level_no !== finalLevelNo;
+
+            return {
+                label: lvl.level_name,
+                name: found?.em_name || "--",
+                review: found?.level_review || "",
+                date: found?.level_review_date || null,
+                state: found?.level_review_state || null,
+                canEdit: canEdit,
+                level_slno: found?.level_review_slno
+            };
+        });

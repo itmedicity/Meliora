@@ -16,11 +16,7 @@ import { axioslogin } from '../Axios/Axios';
 import { getFamilyDetails, handleImageClick, handleImageUpload, normalizeIncidentData } from './CommonComponent/CommonFun';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import { useQuery } from '@tanstack/react-query';
-import { getDefaultDataCollectionDeparment, getEmployeeType } from '../Master/IncidentManagement/CommonCode/IncidentCommonCode';
-// import AnimatedActionButton from './Components/AnimatedActionButton';
-// import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 // Lazy loaded components
 const IncidentTextComponent = lazy(() => import('./Components/IncidentTextComponent'));
@@ -55,34 +51,12 @@ const IncidentRegistrationFinal = () => {
     const Files = location.state?.files || [];
     const IncidentEditing = location.state?.isEdit;
 
-
     // Department and Department Section of Loggin User
     const { empdept, empsecid } = useSelector(state => {
         return state.LoginUserData
     });
 
-    // fetch current employee type (Clinical and Non Clinical)
-    const { data: empDeptType } = useQuery({
-        queryKey: ['emptype', empdept],
-        queryFn: () => getEmployeeType(empdept),
-        enabled: !!empdept,
-        select: (data) => data?.[0]?.dept_type, // just pick what you need
-    });
-
-    const { data: getemployeedepartmenttype } = useQuery({
-        queryKey: ['empdeptype', empDeptType],
-        queryFn: () => getDefaultDataCollectionDeparment(empDeptType),
-        enabled: !!empDeptType,
-    });
-
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(incidentData);
-
-
-    // const FinalDepartmentDataCollection = getemployeedepartmenttype && [
-    //     ...getemployeedepartmenttype,
-    //     { dept_id: empdept }
-    // ];
-
 
     const [relatedto, setRelatedTo] = useState(false);
     const [ispatientdetail, setIsPatientDetail] = useState(false);
@@ -93,11 +67,14 @@ const IncidentRegistrationFinal = () => {
     const [searchkeyword, setSearchKeyword] = useState("");
     const [isincidentnature, setIsIncidentNature] = useState(false);
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [isfileuploadexist, setIsFileUploadExist] = useState(false)
+    const [isfileuploadexist, setIsFileUploadExist] = useState(false);
     const [isloadingdetail, setIsLoadingDetail] = useState(false);
     const [formData, setFormData] = useState({});
     const [getDetail, setGetDetail] = useState(false);
-    const [formsubmitting, setFormSubmitting] = useState(false)
+    const [formsubmitting, setFormSubmitting] = useState(false);
+    const [regcorrectiveaction, setRegCorrectiveAction] = useState('');
+    const [iscorrectiveadded, setIsCorrectiveAdded] = useState(false);
+
 
     // visitor data
     const [visitordata, setVisitorData] = useState([]);
@@ -135,16 +112,17 @@ const IncidentRegistrationFinal = () => {
     const isCompletedSecondStep = ispatientdetail && currentstep >= 2;
     const isCompletedThirdStep = isincidentnature && currentstep >= 3;
     const isCompletedFourthStep = isdescadded && incidentdescription && currentstep >= 4;
-    const isFileuploadCompleted = isfileuploadexist && currentstep >= 5 && uploadedFiles?.length > 0;
+    const isCompletedRegCorrectiveAction = iscorrectiveadded && regcorrectiveaction.trim() !== '' && currentstep >= 5;
+    const isFileuploadCompleted = isfileuploadexist && currentstep >= 6 && uploadedFiles?.length > 0;
 
 
     useEffect(() => {
         if (!incidentData) return; //  do nothing if undefined
 
         if (incidentData?.file_status === 0) {
-            setCurrentStep(4)
-        } else {
             setCurrentStep(5)
+        } else {
+            setCurrentStep(6)
             setUploadedFiles(Files)
         }
         if (incidentData?.inc_initiator_slno === 1) {
@@ -157,18 +135,19 @@ const IncidentRegistrationFinal = () => {
             setHpDetail(propertyDetail)
         }
         setIncidentDescription(incidentData?.inc_describtion);
+        setRegCorrectiveAction(incidentData?.inc_reg_corrective);
         setIsIncidentNature(true)
         setSelectedCategories(incidentData?.nature_of_inc);
         setSelectedSymbol(InitiatorName);
         setRelatedTo(true)
         setIsDescAdded(true)
         setIsPatientDetail(true)
+        setIsCorrectiveAdded(true)
     }, [incidentData, Files])
 
     const isImage = (file) => {
         return file?.type?.startsWith("image/") || file?.blob?.type?.startsWith("image/");
     };
-
 
     const handleMultiSelect = (symbol) => {
         setSelectedCategories((prev) =>
@@ -204,15 +183,24 @@ const IncidentRegistrationFinal = () => {
     }, [selectedCategories]);
 
     // Creating Incident Descriptions
-    const AddIncidentDescription = useCallback(() => {
+    const AddIncidentDescription = () => {
         if (incidentdescription?.length === 0) return warningNotify("Please enter the Description");
         if (incidentdescription?.length < 5) return infoNotify("Atlease 6 charcter Needed");
         setIsDescAdded(true);
-        if (!isdescadded && incidentdescription?.length > 0) {
+        if (isdescadded && incidentdescription?.length > 0) {
             setCurrentStep((prev) => prev + 1)
         }
-    }, [isdescadded, incidentdescription]);
+    };
 
+    // Creating Incident CorrectiveActions
+    const AddIncidentCorrectiveAction = () => {
+        setIsCorrectiveAdded(true)
+        if (regcorrectiveaction?.length === 0) return warningNotify("Please enter the Corrective action");
+        if (regcorrectiveaction?.length < 5) return infoNotify("Atlease 6 charcter Needed");
+        if (iscorrectiveadded && regcorrectiveaction?.length > 0) {
+            setCurrentStep((prev) => prev + 1)
+        }
+    };
 
     // File Attachments
     const AttachFile = useCallback(() => {
@@ -280,6 +268,7 @@ const IncidentRegistrationFinal = () => {
         setIncidentDescription("")
         setSelectedCategories([]) // nature of incident
         setRelatedTo(false)
+        setRegCorrectiveAction("")
     }
 
     // Hanlde Searching Detail
@@ -353,10 +342,8 @@ const IncidentRegistrationFinal = () => {
     const InitiatorDtl = incidentInitiator === "Patient" ? ptdetail : incidentInitiator === "Staff" ? staffdetail : incidentInitiator === "Visitors" ? visitordata : hpdetail;
 
 
-
-
     // Hanlde Registartions
-    const HanldeIncidentRegistration = useCallback(async () => {
+    const HanldeIncidentRegistration = async () => {
         setFormSubmitting(true)
         try {
             // Step 1: Register incident (no files yet)
@@ -373,12 +360,13 @@ const IncidentRegistrationFinal = () => {
                 sec_slno: empsecid,
                 inc_incharge_approval: 0,
                 inc_hod_approval: 0,
-                departments: getemployeedepartmenttype,
-                status: 1,
-                remark: "Default Registration Remarks",
-                createUser: employeeNumber(),
-                requested_department: empsecid,
-                inc_data_collection_req: 1
+                inc_reg_corrective: regcorrectiveaction,
+                // departments: getemployeedepartmenttype,
+                // status: 1,
+                // remark: "Default Registration Remarks",
+                // createUser: employeeNumber(),
+                // requested_department: empsecid,
+                inc_data_collection_req: 0
             };
 
             const registerResult = await axioslogin.post('/incidentMaster/incregistration', incidentPostdata);
@@ -420,7 +408,7 @@ const IncidentRegistrationFinal = () => {
         } finally {
             setFormSubmitting(false)
         }
-    }, [InitiatorSlno, incidentInitiator, staffSlno, selectedCategories, incidentdescription, uploadedFiles, handleImageUpload, resetAllDetails, empdept, empsecid, getemployeedepartmenttype]);
+    };
 
 
     // Hanlde Updation
@@ -431,6 +419,7 @@ const IncidentRegistrationFinal = () => {
             const incidentPostdata = {
                 nature_of_inc: selectedCategories,
                 inc_describtion: incidentdescription,
+                inc_reg_corrective: regcorrectiveaction,
                 file_status: uploadedFiles.length > 0 ? 1 : 0,
                 inc_status: 1,
                 edit_user: employeeNumber(),
@@ -485,7 +474,7 @@ const IncidentRegistrationFinal = () => {
         } finally {
             setFormSubmitting(false)
         }
-    }, [selectedCategories, incidentdescription, uploadedFiles, handleImageUpload, resetAllDetails])
+    }, [selectedCategories, incidentdescription, uploadedFiles, handleImageUpload, resetAllDetails, regcorrectiveaction])
 
     return (
         <Box sx={{
@@ -527,33 +516,39 @@ const IncidentRegistrationFinal = () => {
 
                     </Box>
                     {
-                        (relatedto && isCompletedFirstStep) ? <StepCompletedCard
-                            step={1}
-                            text={"Registerd Incident Initiator"}
-                            subtext={"Selecting the Individual Who created the Incident"}
-                        /> : (
-                            <>
-                                <IncidentTextComponent text={"1.Incident Related to"} color={'#403d3dff'} size={18} weight={600} />
-                                {
-                                    !relatedto && !isCompletedFirstStep &&
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1 }}>
-                                        {relatedOptions?.map(({ label, symbol }) => (
-                                            <Suspense key={symbol} fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
-                                                <RelatedToCard
-                                                    clearfunction={resetAllDetails}
-                                                    label={label}
-                                                    symbol={symbol}
-                                                    selected={selectedSymbol === symbol}
-                                                    onSelect={HanldeIncidentInitiatorSelect}
-                                                    multiple={false}
-                                                    setGetDetail={setGetDetail}
-                                                />
-                                            </Suspense>
-                                        ))}
-                                    </Box>
-                                }
-                            </>
-                        )
+                        (relatedto && isCompletedFirstStep) ?
+                            <StepCompletedCard
+                                step={1}
+                                text={"Registerd Incident Initiator"}
+                                subtext={"Selecting the Individual Who created the Incident"}
+                            /> : (
+                                <>
+                                    <IncidentTextComponent
+                                        text={"1.Incident Related to"}
+                                        color={'#403d3dff'}
+                                        size={18}
+                                        weight={600}
+                                    />
+                                    {
+                                        !relatedto && !isCompletedFirstStep &&
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1 }}>
+                                            {relatedOptions?.map(({ label, symbol }) => (
+                                                <Suspense key={symbol} fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
+                                                    <RelatedToCard
+                                                        clearfunction={resetAllDetails}
+                                                        label={label}
+                                                        symbol={symbol}
+                                                        selected={selectedSymbol === symbol}
+                                                        onSelect={HanldeIncidentInitiatorSelect}
+                                                        multiple={false}
+                                                        setGetDetail={setGetDetail}
+                                                    />
+                                                </Suspense>
+                                            ))}
+                                        </Box>
+                                    }
+                                </>
+                            )
                     }
                     {/* search the detail of Target (patient ,visitor or staff) */}
                     {
@@ -677,6 +672,7 @@ const IncidentRegistrationFinal = () => {
                                     text={"Added Description About the Incident "}
                                     subtext={"Describe the incident thoroughly, including relevant facts, timeline, and circumstances."} /> :
                                     (
+
                                         <>
                                             <IncidentTextComponent text={"4.Add Incident Description"} color={'#403d3dff'} size={18} weight={600} />
                                             <textarea
@@ -700,8 +696,54 @@ const IncidentRegistrationFinal = () => {
                         </Box>
                     }
 
+
+                    {/* Add Registerd Corrective Action */}
+                    {
+                        currentstep >= 4 &&
+                        <Box sx={{ mt: 1, position: 'relative' }}>
+                            {
+                                isCompletedRegCorrectiveAction ?
+                                    <StepCompletedCard
+                                        step={4}
+                                        text={"Added Registered User Corrective Actions "}
+                                        subtext={"Provide a clear explanation of the corrective actions taken by the registered user."}
+                                    /> :
+                                    (
+                                        <>
+
+                                            <IncidentTextComponent
+                                                text={"5.Add Corrective Action"}
+                                                color={'#403d3dff'}
+                                                size={18}
+                                                weight={600}
+                                            />
+                                            <textarea
+                                                placeholder="Enter text here"
+                                                value={regcorrectiveaction}
+                                                onChange={(e) => setRegCorrectiveAction(e.target.value)}
+                                                rows={4}
+                                                style={textAreaStyle}
+                                                onFocus={(e) => {
+                                                    e.target.style.outline = 'none';
+                                                    e.target.style.boxShadow = 'none';
+                                                    e.target.style.border = '1.5px solid #d8dde2ff';
+                                                }}
+                                                onBlur={(e) => {
+                                                    e.target.style.border = '1.5px solid #d8dde2ff';
+                                                }}
+                                            />
+                                            <AddButton
+                                                onClick={AddIncidentCorrectiveAction}
+                                                label="Add"
+                                            // disable={!incidentData && currentstep > 3}
+                                            />
+                                        </>
+                                    )}
+                        </Box>
+                    }
+
                     {/* Upload Files */}
-                    {currentstep >= 4 && (
+                    {currentstep >= 5 && (
                         <Box sx={{ width: '100%', position: 'relative' }}>
                             {
                                 isFileuploadCompleted ? <StepCompletedCard
@@ -732,7 +774,14 @@ const IncidentRegistrationFinal = () => {
 
 
                 {/*1. The stepper component track the Progess of the Form Submission */}
-                <IncidentStepper currentstep={currentstep} Images={uploadedFiles} IncidentEditing={IncidentEditing} />
+                {
+                    !IncidentEditing ?
+                        <IncidentStepper
+                            currentstep={currentstep}
+                            Images={uploadedFiles}
+                            IncidentEditing={IncidentEditing}
+                        /> : <IncidentTextComponent text={"UPDATE INCIDENT DETAILS"} color={'#403d3dff'} size={18} weight={600} />
+                }
                 {/* ends stepper */}
 
                 {/*2.Describe who made the Incident */}
@@ -741,7 +790,7 @@ const IncidentRegistrationFinal = () => {
                     gap: 1,
                     p: 1,
                     borderRadius: 5,
-                    mt: 5,
+                    mt:IncidentEditing? 2: 5,
                     border: '1.5px solid #d8dde2ff',
                     position: 'relative',
                     animation: 'fadeIn 0.5s ease-in'
@@ -787,7 +836,8 @@ const IncidentRegistrationFinal = () => {
                         animation: 'fadeIn 0.5s ease-in'
                     }}>
                         {
-                            IncidentEditing && currentstep === 2 && <UndoComponent condition={true} setState={getSetState()} setValue={setIsPatientDetail} />
+                            IncidentEditing && currentstep === 2 &&
+                            <UndoComponent condition={true} setState={getSetState()} setValue={setIsPatientDetail} />
                         }
                         <CardHeader icon={TbListDetails} text={
                             symbolToLabel[selectedSymbol] === "Patient" ? "In-Patient Overview" : symbolToLabel[selectedSymbol] === "Staff" ? "Staff Overview" : symbolToLabel[selectedSymbol] === "Visitors" ? 'Visitor Overview' : 'Property Overview'
@@ -838,7 +888,17 @@ const IncidentRegistrationFinal = () => {
                         border: '1.5px solid #d8dde2ff',
                         position: 'relative'
                     }}>
-                        {IncidentEditing && <UndoComponent condition={false} setValue={setIsIncidentNature} />}
+                        {
+                            IncidentEditing &&
+                            <UndoComponent
+                                // isAdded={isincidentnature}
+                                // stepNo={3}
+                                // currentstep={currentstep}
+                                // setCurrentStep={setCurrentStep}
+                                condition={false}
+                                setValue={setIsIncidentNature}
+                            />
+                        }
 
                         <CardHeader icon={MdOutlineReportProblem} text="The Nature of the Incident" />
                         {
@@ -883,7 +943,7 @@ const IncidentRegistrationFinal = () => {
                 }
                 {/*4.ends Here */}
 
-                {/*4. Incident Description Detail */}
+                {/*5. Incident Description Detail */}
                 {
                     currentstep >= 4 &&
                     <Box sx={{
@@ -891,15 +951,42 @@ const IncidentRegistrationFinal = () => {
                         position: 'relative', animation: 'fadeIn 0.5s ease-in'
                     }}>
                         {IncidentEditing && <UndoComponent condition={false} setValue={setIsDescAdded} />}
-                        <IncidentDescriptionCard description={incidentdescription} />
+                        <IncidentDescriptionCard
+                            isEditing={isdescadded}
+                            description={incidentdescription}
+                            text={"Incident Description"}
+                        />
                     </Box>
                 }
-                {/*4.ends Here */}
+                {/*5.ends Here */}
+
+
+                {/*5. Incident Corrective Detail */}
+                {
+                    currentstep >= 5 &&
+                    <Box sx={{
+                        width: '100%', border: '1.5px solid #d8dde2ff', borderRadius: 5, gap: 1, mt: 1,
+                        position: 'relative', animation: 'fadeIn 0.5s ease-in'
+                    }}>
+                        {IncidentEditing &&
+                            <UndoComponent
+                                condition={false}
+                                setValue={setIsCorrectiveAdded}
+                            />}
+                        <IncidentDescriptionCard
+                            isEditing={iscorrectiveadded}
+                            description={regcorrectiveaction}
+                            text={"Incident Corrective Action"} />
+                    </Box>
+                }
+                {/*5.ends Here */}
+
 
                 {/* Image upload comes Here */}
                 <>
                     {
-                        currentstep >= 5 && uploadedFiles?.length > 0 && <Box sx={{
+                        currentstep >= 6 && uploadedFiles?.length > 0 &&
+                        <Box sx={{
                             width: '100%',
                             gap: 1,
                             p: 1,
@@ -910,17 +997,22 @@ const IncidentRegistrationFinal = () => {
                         }}>
                             <CardHeader icon={MonochromePhotosTwoToneIcon} text="Image Related to Incident" />
                             {
+                                //rohith
                                 IncidentEditing && uploadedFiles?.length > 0 ?
                                     <>
                                         {
                                             IncidentEditing &&
-                                            <UndoComponent condition={false} reset={true} resetAllDetails={() => setUploadedFiles([])} setValue={setIsFileUploadExist} />
+                                            <UndoComponent
+                                                condition={false}
+                                                reset={true}
+                                                resetAllDetails={() => setUploadedFiles([])}
+                                                setValue={setIsFileUploadExist} />
                                         }
+
                                         <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                             <AttachedFilesCard
                                                 incidentFiles={uploadedFiles}
                                                 registerSlno={incidentData?.inc_register_slno}
-                                                publicNasFolder={PUBLIC_NAS_FOLDER}
                                                 onFileClick={handleImagePreview}
                                                 setFiles={setUploadedFiles}
                                                 setCurrentStep={setCurrentStep}
@@ -930,7 +1022,7 @@ const IncidentRegistrationFinal = () => {
                                         </Suspense>
                                     </>
                                     : (
-                                        uploadedFiles?.length > 0 && (currentstep === 5 || currentstep > 5) &&
+                                        uploadedFiles?.length > 0 && (currentstep === 6 || currentstep > 6) &&
                                         <>
                                             {
                                                 currentstep === 5 &&
@@ -980,7 +1072,7 @@ const IncidentRegistrationFinal = () => {
                                                                 </Tooltip>
                                                             </Box>
                                                             {isImage(file) ? (
-                                                                <CardCover sx={{ bgcolor: 'blue' }}>
+                                                                <CardCover >
                                                                     <img
                                                                         // src={file?.url}
                                                                         src={file?.url ? file?.url : URL.createObjectURL(file)}
@@ -1023,7 +1115,7 @@ const IncidentRegistrationFinal = () => {
 
                 {/* 5. The Register Button to Handle the Final Registration */}
                 {
-                    currentstep >= 4 &&
+                    currentstep >= 5 &&
                     <Box sx={{ mt: 1 }}>
                         <AddButton
                             onClick={IncidentEditing ? HandleIncidentUpdation : HanldeIncidentRegistration}

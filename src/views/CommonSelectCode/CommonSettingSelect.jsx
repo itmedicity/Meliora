@@ -39,8 +39,7 @@ const CommonSettingSelect = ({ value, setValue }) => {
                     {getallCommonsettings?.map((val, i) => (
                         <Option
                             key={i}
-                            value={val?.inc_cs_slno}
-                        >
+                            value={val?.inc_cs_slno}>
                             {val?.inc_setting_key}
                         </Option>
                     ))}

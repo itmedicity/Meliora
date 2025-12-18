@@ -2,8 +2,7 @@ import React, { memo, useState } from 'react';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
 import { Box } from '@mui/joy';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
-import { getAllCommonDataCollectionDeparment } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import { GrSend } from 'react-icons/gr';
 import SectionHeader from '../Components/SectionHeader';
@@ -13,8 +12,9 @@ import { employeeNumber } from 'src/views/Constant/Constant';
 import { useSelector } from 'react-redux';
 import { axioslogin } from 'src/views/Axios/Axios';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { useCommonDataCollectionDepartments } from '../CommonComponent/useQuery';
 
-const IncidentAction = ({ item, DeparmentAction }) => {
+const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
     const { empdept } = useSelector(state => state.LoginUserData);
 
     const queryClient = useQueryClient();
@@ -27,11 +27,9 @@ const IncidentAction = ({ item, DeparmentAction }) => {
         (item) => item?.inc_action_collect_dep
     ) || [];
 
+
     // fetch grouped data
-    const { data: datacollectioncommondepartments } = useQuery({
-        queryKey: ['alldatacollectioncs'],
-        queryFn: async () => await getAllCommonDataCollectionDeparment(),
-    });
+    const { data: datacollectioncommondepartments } = useCommonDataCollectionDepartments();
 
     // group by category
     const groupedDataCollectionDeparments =
@@ -93,6 +91,7 @@ const IncidentAction = ({ item, DeparmentAction }) => {
             inc_dep_action_remark: remarks[group?.inc_cs_slno] || '',
             inc_dep_action_detail_status: 1,
             inc_action_collect_dep: group?.dep_details?.map((dep) => dep.inc_dep_id) || [],
+            level_no: levelNo
         }));
 
         try {

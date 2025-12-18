@@ -55,6 +55,7 @@
 
 
 import { axioslogin } from "src/views/Axios/Axios";
+import { infoNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
 
 // Get all incident categories
 export const getAllIncidentCategory = async () => {
@@ -137,6 +138,20 @@ export const getAllCommonDataCollectionDeparment = async () => {
     }
 };
 
+
+export const getAllIncidentActionMastDetail = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getallactiodetail');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching all incidents:", error?.message || error);
+        return [];
+    }
+};
 
 
 export const getAllIncidentDataCollection = async (depid) => {
@@ -295,7 +310,7 @@ export const getDefaultDataCollectionDeparment = async (depid) => {
 };
 
 
-//  HOD/Incharge approval incidents
+// Not using  this api 
 export const hodinchargeApprovalIncident = async (dep, sec) => {
     if (!dep || !sec) {
         console.log("hodinchargeApprovalIncident called with missing dep/sec");
@@ -318,6 +333,8 @@ export const hodinchargeApprovalIncident = async (dep, sec) => {
     }
 };
 
+
+// not using this api 
 export const Incidentqualitydep = async () => {
     try {
         const res = await axioslogin.get('/incidentMaster/qadincidents');
@@ -333,10 +350,90 @@ export const Incidentqualitydep = async () => {
 };
 
 
-//  HOD/Incharge approval incidents
+//  approval incidents
 export const incidentLevelApprovalFetch = async () => {
     try {
         const res = await axioslogin.get('/incidentMaster/fetchlevelapproval');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Level approval incidents:", error?.message || error);
+        return [];
+    }
+};
+
+// Common Approval level Detail getting
+export const IncidentCommonLevelApprovalDetails = async (approvalList) => {
+    if (!approvalList) {
+        warningNotify("Department Id or Section Id Missing");
+        return [];
+    }
+
+    try {
+        const res = await axioslogin.post('/incidentMaster/common/leveldetail', {
+            approval_list: approvalList
+        });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching approval incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const IncidentCommonLevelApprovalDetailMaster = async (dep, sec) => {
+
+    if (!dep || !sec) {
+        warningNotify("Department Id or Section Id Missing");
+        return [];
+    }
+
+    try {
+        const res = await axioslogin.post('/incidentMaster/leveldetailmaster', {
+            dep_slno: dep,
+            sec_slno: sec
+        });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching approval incidents:", error?.message || error);
+        return [];
+    }
+};
+
+export const IncidentEmployeeApprovalDepartments = async (emp_id) => {
+    if (!emp_id) {
+        warningNotify("Employee Id  Missing");
+        return [];
+    }
+    try {
+        const res = await axioslogin.post('/incidentMaster/approvaldeps', {
+            emp_id: emp_id
+        });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching approval Deparments:", error?.message || error);
+        return [];
+    }
+};
+
+export const getAllIncidentLevelMapItemDetail = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getinclevelitemmap');
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {
             return data;
@@ -347,6 +444,7 @@ export const incidentLevelApprovalFetch = async () => {
         return [];
     }
 };
+
 
 export const incidentDataCollectionMapFetch = async () => {
     try {
@@ -406,19 +504,69 @@ export const getAllDepartmentType = async () => {
     }
 };
 
-export const currentLevelNotApprovedIncident = async (levelno) => {
+// export const currentLevelNotApprovedIncident = async (levelno, priority, dep, sec) => {
+//     try {
+//         const res = await axioslogin.post('/incidentMaster/fetchcurrentlevelapprvl', {
+//             current_level: levelno,
+//             minus_level: Number(levelno) - 1,
+//             level_priority: priority,
+//             dep_slno: dep,
+//             sec_slno: sec
+//         });
+//         const { success, data } = res.data || {};
+//         if (success === 2 && Array.isArray(data) && data.length > 0) {
+//             return data;
+//         }
+//         return [];
+//     } catch (error) {
+//         console.error("Error fetching Level approval incidents:", error?.message || error);
+//         return [];
+//     }
+// };
+
+export const currentLevelNotApprovedIncident = async (approvalList) => {
     try {
-        const res = await axioslogin.post('/incidentMaster/fetchcurrentlevelapprvl', {
-            current_level: levelno,
-            minus_level: Number(levelno) - 1
-        });
+        const res = await axioslogin.post(
+            "/incidentMaster/fetchcurrentlevelapprvl",
+            { ApprovalDepartments: approvalList }
+        );
+
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data)) return data;
+
+        return [];
+    } catch (error) {
+        console.error("Error fetching level approval incidents:", error);
+        return [];
+    }
+};
+
+
+export const DashBoardIncidentDetails = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/dashboarddata');
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {
             return data;
         }
         return [];
     } catch (error) {
-        console.error("Error fetching Level approval incidents:", error?.message || error);
+        console.error("Error Fetching DashBoard Incidents", error?.message || error);
+        return [];
+    }
+};
+
+// Fething Current Company Detail
+export const getCurrentCompanyDetail = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getcompany');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching DashBoard Incidents", error?.message || error);
         return [];
     }
 };
@@ -455,8 +603,6 @@ export const getDepartmentSectionEmployees = async (id) => {
 
 
 
-
-
 export const getAllCommonSetting = async () => {
     try {
         const res = await axioslogin.get('/incidentMaster/getactivesettings');
@@ -471,3 +617,21 @@ export const getAllCommonSetting = async () => {
     }
 };
 
+
+// common api handler  for all masters
+export const handleApi = async (method, url, data, successCode, refetch, reset) => {
+    try {
+        const result = await axioslogin[method](url, data);
+        const { message, success } = result.data;
+        if (success === successCode) {
+            succesNotify(message);
+            refetch();
+            reset();
+        } else {
+            infoNotify(message);
+        }
+    } catch (error) {
+        infoNotify("Error while processing request");
+        console.error(error);
+    }
+};

@@ -54,6 +54,7 @@ function IncidentStepper({ currentstep, Images = [], IncidentEditing }) {
             'Adding Details',
             'Nature of Incident Added',
             'Adding Description',
+            'Adding Corrective Action',
             'Upload Files',
             IncidentEditing ? 'Updation Completed' : 'Registration Completed',
         ]
@@ -62,6 +63,7 @@ function IncidentStepper({ currentstep, Images = [], IncidentEditing }) {
             'Adding Details',
             'Nature of Incident Added',
             'Adding Description',
+            'Adding Corrective Action',
             IncidentEditing ? 'Updation Completed' : 'Registration Completed',
         ];
 
@@ -70,8 +72,9 @@ function IncidentStepper({ currentstep, Images = [], IncidentEditing }) {
         2: <PersonAddAlt1Icon />,
         3: <AddTaskIcon />,
         4: <DescriptionIcon />,
-        5: hasImages ? <ImageIcon /> : <CheckCircleIcon />,
-        6: <CheckCircleIcon />
+        5: <DescriptionIcon />,
+        6: hasImages ? <ImageIcon /> : <CheckCircleIcon />,
+        7: <CheckCircleIcon />
     };
 
     const CustomStepIcon = (props) => {

@@ -1,7 +1,7 @@
 import { Box } from '@mui/joy'
 import React, { memo } from 'react'
 import IncidentTextComponent from '../Components/IncidentTextComponent'
-// import IncidentTextComponent from './IncidentTextComponent'
+
 
 const ApprovalButton = ({
     icon: Icon,

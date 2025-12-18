@@ -1,7 +1,32 @@
 import { Box, Tooltip } from '@mui/joy';
-import React, { memo, useCallback, useState, lazy, Suspense, useEffect } from 'react';
-import { IoIosSave } from "react-icons/io";
-import { MdOutlineFreeCancellation } from "react-icons/md";
+import React, { memo, useCallback, useState, lazy, Suspense, useEffect, useMemo } from 'react';
+import { FaRegEye } from 'react-icons/fa';
+import { PiEyeClosedDuotone } from "react-icons/pi";
+
+import {
+    formatDateTime,
+    handleImageClick,
+    normalizeIncidentData
+} from '../CommonComponent/CommonFun';
+
+import {
+    useDepartmentActions,
+    useIncidentActionsMaster,
+    useInvolvedDepartments
+} from '../CommonComponent/useQuery';
+
+import {
+    checkActionRequestExist,
+    checkDataCollection,
+    checkFishboneForLevel,
+    checkSacMatrix,
+    checkUpperLevelApprovedForDDC,
+    getFinalLevelActions,
+    getInitiatorName,
+    safeParse
+} from '../CommonComponent/Incidnethelper';
+import IncidentFlag from '../Components/IncidentFlag';
+
 
 const CustomeIncidentLoading = lazy(() => import('../Components/CustomeIncidentLoading'));
 const IncidentTextComponent = lazy(() => import('../Components/IncidentTextComponent'));
@@ -12,32 +37,25 @@ const DisplayHospitalProperty = lazy(() => import('../Components/DisplayHospital
 const AttachedFilesCard = lazy(() => import('../Components/AttachedFilesCard'));
 const InchargeApprovalDetail = lazy(() => import('../ApprovalComponent/InchargeApprovalDetail'));
 const ApprovalPreview = lazy(() => import('../ApprovalComponent/ApprovalPreview'));
+const ImagePreviewModal = lazy(() => import('./ImagePreviewModal'));
+const IncidentCategorySelect = lazy(() => import('../QualityDepartment/IncidentCategorySelect'));
+const SACMatrixForm = lazy(() => import('../QualityDepartment/SACMatrixForm'));
+const ReviewInput = lazy(() => import('../Components/ReviewInput'));
+const IncidentReviewTable = lazy(() => import('../ApprovalComponent/IncidentReviewTable'));
+const RegisterdUserCard = lazy(() => import('../Components/RegisterdUserCard'));
+const IncidentDataCollection = lazy(() => import('../DatacollectionIncident/IncidentDataCollection'));
+const IncidentDataCollectionPreview = lazy(() => import('../DatacollectionIncident/IncidentDataCollectionPreview'));
+const SectionHeader = lazy(() => import('../Components/SectionHeader'));
+const IncidentAction = lazy(() => import('../IncidentActions/IncidentAction'));
+const DepartmentActionDetail = lazy(() => import('../IncidentActions/DepartmentActionDetail'));
+const FishboneQuestionContainer = lazy(() => import('../FishBoneAnalysis/FishboneQuestionContainer'));
+const IncidentActionSubmit = lazy(() => import('../IncidentActions/IncidentActionSubmit'));
+const DataRequestDetail = lazy(() => import('../DatacollectionIncident/DataRequestDetail'));
+const FishboneQuestionPreview = lazy(() => import('../FishBoneAnalysis/FishboneQuestionPreview'));
+const SACMatrixResult = lazy(() => import('../QualityDepartment/SACMatrixResult'));
+const NatureofIncidentInfoTag = lazy(() => import('../Components/NatureofIncidentInfoTag'));
 
-import { handleImageClick, normalizeIncidentData } from '../CommonComponent/CommonFun';
-import ImagePreviewModal from './ImagePreviewModal';
-import IncidentCategorySelect from '../QualityDepartment/IncidentCategorySelect';
-import SACMatrixForm from '../QualityDepartment/SACMatrixForm';
-import ReviewInput from '../Components/ReviewInput';
-import IncidentReviewTable from '../ApprovalComponent/IncidentReviewTable';
-import ApprovalButton from '../ButtonComponent/ApprovalButton';
-import { axioslogin } from 'src/views/Axios/Axios';
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import RegisterdUserCard from '../Components/RegisterdUserCard';
-import IncidentDataCollection from '../DatacollectionIncident/IncidentDataCollection';
-import SectionHeader from '../Components/SectionHeader';
-import IncidentDataCollectionPreview from '../DatacollectionIncident/IncidentDataCollectionPreview';
-import { useSelector } from 'react-redux';
-import DataRequestDetail from '../DatacollectionIncident/DataRequestDetail';
-import FishboneQuestionPreview from '../FishBoneAnalysis/FishboneQuestionPreview';
-import { fetchAllInvolvedDep, getAllDeparmentActions, getFishBoneAnalysisData, incidentLevelApprovalFetch } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
-import SACMatrixResult from '../QualityDepartment/SACMatrixResult';
-import { FaRegEye } from 'react-icons/fa';
-import { PiEyeClosedDuotone } from "react-icons/pi";
-import IncidentAction from '../IncidentActions/IncidentAction';
-import DepartmentActionDetail from '../IncidentActions/DepartmentActionDetail';
-import FishboneQuestionContainer from '../FishBoneAnalysis/FishboneQuestionContainer';
-import IncidentActionSubmit from '../IncidentActions/IncidentActionSubmit';
+
 
 const IncidentViewModal = ({
     loading,
@@ -46,52 +64,35 @@ const IncidentViewModal = ({
     fetchAgain,
     setOpenModal,
     level,
-    publicNasFolder,
     levelNo,
-    highlevelapprovals
+    highlevelapprovals,
+    levelitems,
+    levelactionreview,
+    FinalIncidentLevels,
+    CompanyName
 }) => {
 
-    const queryClient = useQueryClient();
-
-    const { empdept, empsecid } = useSelector(state => {
-        return state.LoginUserData
-    });
-
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(items);
-
-    const [inchargereview, setInchargeReview] = useState("");
     const [approvalprocessing, setApprovalProcessing] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [openModal, setOpenViewModalModal] = useState(false);
-    const [hodreview, setHodReview] = useState("");
-    const [qadreview, setQadReview] = useState("");
-    const [evaluationstatus, setEvaluationStatus] = useState("");
     const [edit, setEdit] = useState(false);
-    const [correctiveaction, setCorrectiveAction] = useState("");
-    const [preventiveaction, setPreventiveAction] = useState("");
-    const [rootcauseanalysis, setRootCauseAnalysis] = useState("");
-    const [correctiveedit, setCorrectiveEdit] = useState(false);
-    const [preventiveedit, setPreventiveEdit] = useState(false);
-    const [evalutionedit, setEvalutaionEdit] = useState(false);
-    const [rootcauseedit, setRootCauseEdit] = useState(false)
-    const [edititem, setEditItem] = useState("");
-    const [selectedDeps, setSelectedDeps] = useState([]);
-    const [incdep, setIncDep] = useState([])
+    const [editItem, setEditItem] = useState(null);
+    const [incdep, setIncDep] = useState([]);
     const [ismultipledep, setIsMultipleDep] = useState(false);
+    const [selectedDeps, setSelectedDeps] = useState([]);
     const [datacollectionreamark, setDataCollectionRemark] = useState("");
     const [sasdetial, setSaxDetail] = useState({});
-    const [incidentcategory, setIncidentCategory] = useState("");
-    const [incidentsubcategory, setIncidentSubCategory] = useState(null)
-
+    const [incidentcategory, setIncidentCategory] = useState(null);
+    const [incidentsubcategory, setIncidentSubCategory] = useState(null);
+    const [actionReviews, setActionReviews] = useState({});
     // corrective Actions
-    const [hodcorrectiveaction, setHodCorrectiveAction] = useState("");
-    // high level approval
-    // const [dmscomment, setDMSComment] = useState("");
-    // const [mscomment, setMSComment] = useState("");
-    // const [mdcomment, setMDComment] = useState("");
-
     const [highLevelComments, setHighLevelComments] = useState({});
     const [expanded, setExpanded] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [savedetail, setSaveDetail] = useState(false)
+
+    const [expandaction, setExpandAction] = useState(true)
 
 
     const [formValues, setFormValues] = useState({
@@ -103,59 +104,62 @@ const IncidentViewModal = ({
         MEASUREMENT: ''
     });
 
-    const [open, setOpen] = useState(false);
-    const [savedetail, setSaveDetail] = useState(false)
-
     // open modadl
     const onImageClick = useCallback((file) => {
-        handleImageClick(file, setSelectedImage, setOpenViewModalModal); // common export for image viewing
-    }, [publicNasFolder]);
+        handleImageClick(file, setSelectedImage, setOpenViewModalModal)
+    }, []); // common export for image viewing
 
 
-    // fetch fishbone analysis details
-    const { data: fishboneanalysisdata } = useQuery({
-        queryKey: ['fbadetail', empsecid, items?.inc_register_slno],
-        queryFn: () => getFishBoneAnalysisData(empsecid, items?.inc_register_slno),
-        enabled: !!empsecid && !!items?.inc_register_slno
-    });
-
-    //fetch all department action details
-    const { data: departmentreqactions, isLoading: loadingDepartmentaction } = useQuery({
-        queryKey: ['getalldepactions', items?.inc_register_slno],
-        queryFn: () => getAllDeparmentActions(items?.inc_register_slno),
-        enabled: !!items?.inc_register_slno
-    });
-
-    //fetching involved department from inc data collection 
+    const {
+        data: departmentreqactions,
+        isLoading: loadingDepartmentaction
+    } = useDepartmentActions(items?.inc_register_slno);
 
     const {
         data: involvedDepartment,
-        isLoading: loadinginvolveddepartment,
-    } = useQuery({
-        queryKey: ['allinvdep', items?.inc_register_slno],
-        queryFn: () => fetchAllInvolvedDep(items?.inc_register_slno),
-        enabled: !!items?.inc_register_slno,
-    });
+        isLoading: loadinginvolveddepartment
+    } = useInvolvedDepartments(items?.inc_register_slno);
+
+    const { data: incidentaction } = useIncidentActionsMaster();
+
+    // Memoizing the Array Before Passing to Avoid Re rendering
+    //1.Action
+    const stableDepActions = useMemo(
+        () => departmentreqactions || [],
+        [departmentreqactions]
+    );
+
+    const stableHighLevelApprovals = useMemo(
+        () => highlevelapprovals || [],
+        [highlevelapprovals]
+    );
+
+    const InitiatorName = getInitiatorName(items?.inc_initiator_slno);
+    const isFishBoneForthisLevel = checkFishboneForLevel(levelitems);
+    const isDataCollectionRequest = checkDataCollection(levelitems);
+    const isActionRequestExist = checkActionRequestExist(levelitems);
+    const IsSacMatrixExist = checkSacMatrix(levelitems);
+    const FinalLevelAction = getFinalLevelActions(levelitems, level, levelactionreview);
+    const CheckIsUpperLevelApprovedForDDC = checkUpperLevelApprovedForDDC(stableHighLevelApprovals, levelNo);
 
 
-    const { data: incidentlevels } = useQuery({
-        queryKey: ["getalllevels"],
-        queryFn: () => incidentLevelApprovalFetch(),
-        staleTime: Infinity,
-        refetchOnWindowFocus: false,
-    });
+    const ActiveActions = useMemo(() => {
+        return Array.isArray(incidentaction) ? incidentaction
+            ?.filter(item => Number(item?.inc_action_item_stauts) === 1)
+            : []
+    }, [incidentaction]);
 
 
     // Initialize dynamic review states once incidentlevels are fetched
     useEffect(() => {
-        if (Array.isArray(incidentlevels) && incidentlevels?.length > 0) {
-            const initialComments = incidentlevels?.reduce((acc, lvl) => {
+        if (Array.isArray(FinalIncidentLevels) && FinalIncidentLevels?.length > 0) {
+            const initialComments = FinalIncidentLevels?.reduce((acc, lvl) => {
                 acc[lvl?.level_name] = "";
                 return acc;
             }, {});
             setHighLevelComments(initialComments);
         }
-    }, [incidentlevels]);
+    }, [FinalIncidentLevels]);
 
     // Dynamic setter
     const setHighLevelReview = (levelName, value) => {
@@ -165,145 +169,57 @@ const IncidentViewModal = ({
         }));
     };
 
-
-    // Department action detail counts
-    const acknowledgedActionCount = departmentreqactions?.filter(
-        item => item?.inc_dep_action_status === 1
-    )?.length || 0;
-
-    const notAcknowledgedActionCount = departmentreqactions?.filter(
-        item => item?.inc_dep_action_status !== 1
-    )?.length || 0;
-
-    // RCA department counts
-    const acknowledgedRcaCount = involvedDepartment?.filter(
-        item => item?.inc_dep_status === 1
-    )?.length || 0;
-
-    const notAcknowledgedRcaCount = involvedDepartment?.filter(
-        item => item?.inc_dep_status !== 1
-    )?.length || 0;
-
-
-    const isRcaAllDepartmentComplete = acknowledgedRcaCount === notAcknowledgedRcaCount;
-    const isActionCompleted = acknowledgedActionCount === notAcknowledgedActionCount;
-
-    console.log(`${isRcaAllDepartmentComplete}:isRcaAllDepartmentComplete =>${isActionCompleted}:isActionCompleted`);
-
-
-    const InitiatorName = items?.inc_initiator_slno === 1
-        ? "Patient"
-        : items?.inc_initiator_slno === 2
-            ? "Staff"
-            : items?.inc_initiator_slno === 3
-                ? "Visitors"
-                : "Hospital Property";
-
-
-    // for selecting review dynamically
-    // const reviewProps =
-    //     (level === 'INCHARGE' && (edit || items?.inc_incharge_ack === 0) && items?.inc_hod_ack === 0 && items?.inc_incharge_reivew_state !== 'R')
-    //         ? { review: inchargereview, setReview: setInchargeReview, action: correctiveaction }
-    //         : (level === 'HOD' && (edit || items?.inc_hod_ack === 0))
-    //             ? { review: hodreview, setReview: setHodReview, action: preventiveaction }
-    //             : (level === 'QUALITY' && (edit || items?.inc_qad_ack === 0))
-    //                 ? { review: qadreview, setReview: setQadReview, action: evaluationstatus } :
-    //                 (level === 'DMS' && (edit || items?.inc_current_level === 0)) ?
-    //                     { review: dmscomment, setReview: setDMSComment, action: '' } :
-    //                     (level === 'MEDICAL SUPERINTENDENT' && (edit || items?.inc_current_level === 1)) ?
-    //                         { review: mscomment, setReview: setMSComment, action: '' } :
-    //                         (level === 'MANAGING DIRECTOR' && (edit || items?.inc_current_level === 2)) ?
-    //                             { review: mdcomment, setReview: setMDComment, action: '' } :
-    //                             null;
-
     // for selecting review dynamically
     const reviewProps = (() => {
-        if (level === 'INCHARGE' && (edit || items?.inc_incharge_ack === 0) && items?.inc_hod_ack === 0 && items?.inc_incharge_reivew_state !== 'R') {
-            return { review: inchargereview, setReview: setInchargeReview, action: correctiveaction };
-        }
-        if (level === 'HOD' && (edit || items?.inc_hod_ack === 0) && items?.inc_hod_ack === 0 && items?.inc_hod_reivew_state !== 'R') {
-            return { review: hodreview, setReview: setHodReview, action: preventiveaction };
-        }
-        if (level === 'QUALITY' && (edit || items?.inc_qad_ack === 0)) {
-            return { review: qadreview, setReview: setQadReview, action: evaluationstatus };
-        }
-        //  dynamic part for any high-level approver (like DMS, MS, MD)
-        const currentLevelObj = incidentlevels?.find(lvl => lvl.level_name === level);
-        if (currentLevelObj && (edit || items?.inc_current_level === currentLevelObj?.level_no - 1)) {
-            return {
-                review: highLevelComments[level],
-                setReview: (val) => setHighLevelReview(level, val),
-                action: false
-            };
-        }
+        const currentLevelObj = FinalIncidentLevels?.find(
+            lvl => lvl.level_name === level
+        );
+        if (!currentLevelObj) return null;
+        // 1. Find actions for this level (may be 0)
+        const levelActions = levelitems?.filter(
+            item => item.level_name === level
+        ) || [];
 
-        return null;
+        // If edit = true → load item.review instead of highLevelComments[level]
+        const reviewValue = edit && editItem
+            ? editItem.review
+            : highLevelComments[level];
+
+        return {
+
+            review: reviewValue,
+            setReview: (val) => {
+                // Update the main level review
+                setHighLevelReview(level, val);
+                // Update editItem only if editing
+                if (edit) {
+                    setEditItem(prev => ({
+                        ...prev,
+                        review: val
+                    }));
+                }
+            },
+            // 2. Actions array can be empty 
+            actions: levelActions.length > 0
+                ? levelActions.map(a => a.inc_action_name)
+                : []
+        };
     })();
 
 
-    // for selection the actions of relevant levels
-    const reviewConfig = {
-        INCHARGE: {
-            title: 'Corrective Action',
-            review: correctiveaction,
-            setReview: setCorrectiveAction,
-            disabled: !(correctiveedit || items?.inc_corrective_action),
-            state: setCorrectiveEdit,
-            view: !(items?.inc_incharge_reivew_state === 'R')
-        },
-        HOD: {
-            title: 'Preventive Action',
-            review: preventiveaction,
-            setReview: setPreventiveAction,
-            disabled: !(preventiveedit || items?.inc_preventive_action),
-            state: setPreventiveEdit,
-            view: !(items?.inc_hod_reivew_state === 'R')
-            // || !(items?.inc_current_level >= 0 && items?.inc_current_level_review_state === 'A')
-        },
-        QUALITY: {
-            title: 'Evaluation Status',
-            review: evaluationstatus,
-            setReview: setEvaluationStatus,
-            disabled: !(evalutionedit || items?.inc_evaluation_status),
-            state: setEvalutaionEdit
-        },
+    // Used for handle the Review for each levels
+    const handleActionReviewChange = (slno, value) => {
+        setActionReviews(prev => ({
+            ...prev,
+            [slno]: value
+        }));
     };
 
-    const reviewEdit = {
-        Corrective: {
-            title: 'Corrective Action',
-            review: correctiveaction,
-            setReview: setCorrectiveAction,
-            disabled: !(correctiveedit || items?.inc_corrective_action),
-            state: setCorrectiveEdit
-        },
-        Preventive: {
-            title: 'Preventive Action',
-            review: preventiveaction,
-            setReview: setPreventiveAction,
-            disabled: !(preventiveedit || items?.inc_preventive_action),
-            state: setPreventiveEdit
-        },
-        Evaluation: {
-            title: 'Evaluation Status',
-            review: evaluationstatus,
-            setReview: setEvaluationStatus,
-            disabled: !(evalutionedit || items?.inc_evaluation_status),
-            state: setEvalutaionEdit
-        },
-    };
-
-    const currentReview = reviewConfig[level];
-    const currentEditItem = reviewEdit[edititem];
-
-    const isEditExits = evalutionedit || preventiveedit || correctiveedit;
-
+    // Handle Approval Edits
     const handleapprovalEdit = useCallback((item) => {
-        setInchargeReview(item?.inc_incharge_review);
-        setHodReview(item?.inc_hod_review)
+        setEditItem(item)// store the review text to edit
         setEdit(true);
     }, []);
-
 
     // check box functionallity for Data collection
     const updateMultipleSelect = useCallback((event) => {
@@ -315,587 +231,482 @@ const IncidentViewModal = ({
         }
     }, [incdep]);
 
+    //Department Data Collection Requested
+    const parsedDetails = safeParse(items?.data_collection_details);
+    const IsCurrentLevelDataCollectionRequesetedAccepted =
+        parsedDetails
+            ?.filter(item =>
+                Number(item?.level_no) === Number(levelNo) &&
+                item.inc_dep_status === 0 &&
+                item.inc_dep_status !== null &&
+                item.section !== null)
+            ?.every(item => Number(item.inc_dep_status) === 1)
 
-    // hanlde rca editing for all level // this will be optionla based on the new requirement
-    const handleEdits = useCallback(async () => {
-        const hodPayload = correctiveedit ? {
-            inc_corrective_action: correctiveaction,
-            inc_register_slno: items?.inc_register_slno
-        } : preventiveedit ? {
-            inc_preventive_action: preventiveaction,
-            inc_register_slno: items?.inc_register_slno
-        } : {
-            inc_rca: rootcauseanalysis,
-            inc_register_slno: items?.inc_register_slno
-        };
-
-        const qadPayload = preventiveaction ? {
-            inc_preventive_action: preventiveaction,
-            inc_register_slno: items?.inc_register_slno
-        } : evalutionedit ? {
-            inc_evaluation_status: evaluationstatus,
-            inc_register_slno: items?.inc_register_slno
-        } : {
-            inc_rca: rootcauseanalysis,
-            inc_register_slno: items?.inc_register_slno
-        };
-
-        const inchargepayload = correctiveedit ? {
-            inc_corrective_action: correctiveaction,
-            inc_register_slno: items?.inc_register_slno
-        } : {
-            inc_rca: rootcauseanalysis,
-            inc_register_slno: items?.inc_register_slno
-        };
-
-
-        const setStates = correctiveedit ? setCorrectiveEdit : preventiveedit ? setPreventiveEdit : setEvalutaionEdit;
-
-        const config = {
-            HOD: {
-                url: correctiveedit ?
-                    "/incidentMaster/hodcorrectiveupdate"
-                    : preventiveedit ?
-                        "/incidentMaster/hodpreventiveupdate" :
-                        "/incidentMaster/rcaupdation",
-                payload: hodPayload,
-                qkey: 'allIncidents',
-                setState: setStates
-            },
-            QUALITY: {
-                url: preventiveaction ?
-                    "/incidentMaster/hodpreventiveupdate"
-                    : evalutionedit ?
-                        "/incidentMaster/qadevaluationupdate" :
-                        "/incidentMaster/rcaupdation",
-                payload: qadPayload,
-                qkey: 'qadincident',
-                setState: setStates
-            },
-            INCHARGE: {
-                url: correctiveedit ?
-                    "/incidentMaster/hodcorrectiveupdate" : "/incidentMaster/rcaupdation",
-                payload: inchargepayload,
-                qkey: 'allIncidents',
-                setState: setStates
-            }
-        }[level];
-
-
-        if (!config) {
-            warningNotify("Invalid approval level");
-            return;
-        }
-
-        try {
-            const { data } = await axioslogin.patch(config.url, config.payload);
-            const { success, message } = data ?? {};
-            if (success === 2) {
-                succesNotify(message);
-                queryClient.invalidateQueries(config.qkey);
-            } else {
-                warningNotify(message);
-            }
-        } catch (error) {
-            warningNotify(error?.message ?? "Something went wrong");
-        } finally {
-            setEvalutaionEdit(false)
-            setCorrectiveEdit(false)
-            setPreventiveEdit(false)
-            setRootCauseEdit(false)
-        }
-    }, [level, preventiveaction, items, correctiveaction, correctiveedit, currentEditItem, evaluationstatus, rootcauseanalysis])
-
-
-    console.log(items?.inc_incharge_reivew_state, level, "items?.inc_incharge_reivew_state");
 
 
     return (
-        <Box
-            sx={{
-                width: '60vw',
-                minHeight: '60vh',
-                maxHeight: '95vh',
-                position: 'relative',
-                p: 2,
-                bgcolor: '#ffffffff',
-                borderRadius: '12px',
-                overflowY: 'auto',
-                /* Hide scrollbar */
-                scrollbarWidth: 'none',
-                '&::-webkit-scrollbar': {
-                    display: 'none',
-                },
-            }}>
 
-            {/* Wrap all lazy components inside Suspense */}
-            <Suspense fallback={<CustomeIncidentLoading text={"Loading Components"} />}>
-                {loading && <CustomeIncidentLoading text={"Fetching Files and Details"} />}
+        <>
+            <IncidentFlag
+                code={`${CompanyName}${items?.inc_register_slno}`}
+                date={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")}
+            />
 
-                {/* HEADER */}
-                <Box sx={{ mb: 2, overflow: "hidden" }}>
-                    <RegisterdUserCard
-                        employeeName={items?.em_name}
-                        departmentName={items?.dept_name}
-                        sectionName={items?.sec_name}
-                        designation={items?.desg_name}
-                        createDate={items?.create_date}
-                        items={items}
-                    />
-                </Box>
 
-                {/* Incident Details */}
-                <Box sx={{
-                    width: '100%',
-                    bgcolor: ' var(--rose-pink-300)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    py: 0.5, px: 1
+
+            <Box
+                sx={{
+                    width: '60vw',
+                    minHeight: '60vh',
+                    maxHeight: '95vh',
+                    position: 'relative',
+                    p: 2,
+                    bgcolor: '#ffffffff',
+                    borderRadius: '12px',
+                    overflowY: 'auto',
+                    /* Hide scrollbar */
+                    scrollbarWidth: 'none',
+                    '&::-webkit-scrollbar': {
+                        display: 'none',
+                    },
                 }}>
-                    <IncidentTextComponent
-                        text={"INCIDENT DETAILS"}
-                        size={14}
-                        weight={600}
-                        color={"white"}
-                    />
 
-                    <Tooltip title={expanded ? 'Hide' : 'View'} variant="plain" size='sm'>
-                        <span onClick={() => setExpanded((prev) => !prev)} style={{ cursor: 'pointer' }}>
-                            {expanded ? (
-                                <FaRegEye size={18} color="black" />
-                            ) : (
-                                <PiEyeClosedDuotone size={18} color="black" />
-                            )}
-                        </span>
-                    </Tooltip>
-                </Box>
+                {/* Wrap all lazy components inside Suspense */}
+                <Suspense fallback={<CustomeIncidentLoading text={"Loading Components"} />}>
+                    {loading && <CustomeIncidentLoading text={"Fetching Files and Details"} />}
+
+                    {/* HEADER */}
+                    <Box sx={{ mb: 2, overflow: "hidden" }}>
+                        <RegisterdUserCard
+                            employeeName={items?.em_name}
+                            departmentName={items?.dept_name}
+                            sectionName={items?.sec_name}
+                            designation={items?.desg_name}
+                            createDate={items?.create_date}
+                            items={items}
+                        />
+                    </Box>
+
+                    {/* Incident Details */}
+                    <Box sx={{
+                        width: '100%',
+                        bgcolor: ' var(--rose-pink-300)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        py: 0.5, px: 1
+                    }}>
+                        <IncidentTextComponent
+                            text={"INCIDENT DETAILS"}
+                            size={14}
+                            weight={600}
+                            color={"white"}
+                        />
+
+                        <Tooltip title={expanded ? 'Hide' : 'View'} variant="plain" size='sm'>
+                            <span onClick={() => setExpanded((prev) => !prev)} style={{ cursor: 'pointer' }}>
+                                {expanded ? (
+                                    <FaRegEye size={18} color="black" />
+                                ) : (
+                                    <PiEyeClosedDuotone size={18} color="black" />
+                                )}
+                            </span>
+                        </Tooltip>
+                    </Box>
 
 
-                <Box
-                    sx={{
-                        p: 2,
-                        border: '4px solid var(--rose-pink-400)',
-                        borderLeft: 'none',
-                        borderRight: 'none',
-                        borderTop: 'none',
-                        borderBottomWidth: '4px',
-                        borderRadius: '20px / 15px',
-                        overflow: 'hidden',
-                        maxHeight: expanded ? '1000px' : 0, // big enough to fit content
-                        transition: 'max-height 0.4s ease, opacity 0.4s ease',
-                        // opacity: expanded ? 1 : 0,
-                    }}
-                >
-                    {
-                        expanded &&
-                        <>
-
-                            {/* INITIATOR */}
-                            < Box >
-                                <SectionHeader text="INITIATOR" />
-                                <IncidentTextComponent text={InitiatorName?.toUpperCase()} size={16} weight={600} />
-                            </Box>
-
-                            {/* DETAILS */}
-                            <SectionHeader text="DETAILS" />
-
-                            {items?.inc_initiator_slno === 1 ? (
-                                <IpPatientCard data={patientDetail} />
-                            ) : items?.inc_initiator_slno === 2 ? (
-                                <DisplayStaffDetail data={staffDetails} />
-                            ) : items?.inc_initiator_slno === 3 ? (
-                                <DisplayVisitorDetail visitorDetail={visitorDetail} />
-                            ) : (
-                                <DisplayHospitalProperty propertyDetail={propertyDetail} size={12} />
-                            )}
-
-                            {/* DESCRIPTION */}
-                            <Box sx={{ mt: 1 }}>
-                                <SectionHeader text="DESCRIPTION" />
-                                <IncidentTextComponent text={items?.inc_describtion || "No description provided"} size={14} weight={400} />
-                            </Box>
-
-                            {/* NATURE */}
-                            <Box sx={{ mt: 1 }}>
-                                <SectionHeader text="NATURE OF INCIDENT" />
-
-                                <Box sx={{ display: 'flex', gap: 2, mt: 1, flexWrap: 'wrap' }}>
-                                    {(items?.nature_of_inc || [])?.map((nature, idx) => (
-                                        <Box key={idx} sx={{
-                                            px: 1.4, py: 0.3, background: '#ede5f9', border: '1px solid #c6b6e9',
-                                            borderRadius: '20px', fontSize: 11, fontWeight: 600, color: '#5d3a9c'
-                                        }}>
-                                            {nature}
-                                        </Box>
-                                    ))}
+                    <Box
+                        sx={{
+                            p: 2,
+                            border: '4px solid var(--rose-pink-400)',
+                            borderLeft: 'none',
+                            borderRight: 'none',
+                            borderTop: 'none',
+                            borderBottomWidth: '4px',
+                            borderRadius: '20px / 15px',
+                            overflow: 'hidden',
+                            maxHeight: expanded ? '1000px' : 0, // big enough to fit content
+                            transition: 'max-height 0.4s ease, opacity 0.4s ease',
+                            // opacity: expanded ? 1 : 0,
+                        }}>
+                        {
+                            // expanded &&
+                            <>
+                                {/* INITIATOR */}
+                                < Box >
+                                    <SectionHeader text="INITIATOR" />
+                                    <IncidentTextComponent text={InitiatorName?.toUpperCase()} size={16} weight={600} />
                                 </Box>
-                            </Box>
 
-                            {/* FILES */}
-                            {IncidentFiles?.length > 0 && (
-                                <AttachedFilesCard
-                                    onFileClick={onImageClick}
-                                    incidentFiles={IncidentFiles}
-                                    isShowDelete={false}
+                                {/* DETAILS */}
+                                <SectionHeader text="DETAILS" />
+
+                                {items?.inc_initiator_slno === 1 ? (
+                                    <IpPatientCard data={patientDetail} />
+                                ) : items?.inc_initiator_slno === 2 ? (
+                                    <DisplayStaffDetail data={staffDetails} />
+                                ) : items?.inc_initiator_slno === 3 ? (
+                                    <DisplayVisitorDetail visitorDetail={visitorDetail} />
+                                ) : (
+                                    <DisplayHospitalProperty propertyDetail={propertyDetail} size={12} />
+                                )}
+
+                                {/* DESCRIPTION */}
+                                <Box sx={{ mt: 1 }}>
+                                    <SectionHeader text="DESCRIPTION" />
+                                    <IncidentTextComponent
+                                        text={items?.inc_describtion || "No description provided"}
+                                        size={14}
+                                        weight={400}
+                                    />
+                                </Box>
+
+                                {/* CORRECTIVE ACTION */}
+                                <Box sx={{ mt: 1 }}>
+                                    <SectionHeader text="CORRECTIVE ACTION" />
+                                    <IncidentTextComponent
+                                        text={items?.inc_reg_corrective || "No Corrective provided"}
+                                        size={14}
+                                        weight={400}
+                                    />
+                                </Box>
+
+                                {/* NATURE */}
+                                <Box sx={{ mt: 1 }}>
+                                    <SectionHeader text="NATURE OF INCIDENT" />
+                                    <Box sx={{ display: 'flex', gap: 2, mt: 1, flexWrap: 'wrap' }}>
+                                        {(items?.nature_of_inc || [])?.map((nature, idx) => (
+                                            <NatureofIncidentInfoTag key={idx} label={nature} />
+                                        ))}
+                                    </Box>
+                                </Box>
+
+                                {/* FILES */}
+                                {IncidentFiles?.length > 0 && (
+                                    <AttachedFilesCard
+                                        onFileClick={onImageClick}
+                                        incidentFiles={IncidentFiles}
+                                        isShowDelete={false}
+                                    />
+                                )}
+                            </>
+                        }
+                    </Box>
+
+
+                    {/* Action Detail */}
+                    {
+                        // changed to dynaimic based on the action master
+                        <>
+                            <Box sx={{
+                                width: '100%',
+                                bgcolor: 'var(--royal-purple-400)',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                py: 0.5,
+                                px: 1,
+                                mt: 2
+                            }}>
+                                <IncidentTextComponent text={`ACTIONS`}
+                                    size={14} weight={600} color={"white"} />
+
+
+                                <Tooltip title={expandaction ? 'Hide' : 'View'} variant="plain" size='sm'>
+                                    <span onClick={() => setExpandAction((prev) => !prev)} style={{ cursor: 'pointer' }}>
+                                        {expandaction ? (
+                                            <FaRegEye size={18} color="black" />
+                                        ) : (
+                                            <PiEyeClosedDuotone size={18} color="black" />
+                                        )}
+                                    </span>
+                                </Tooltip>
+                            </Box>
+                            <Box
+                                sx={{
+                                    p: 2,
+                                    // border: '4px solid var(--rose-pink-400)',
+                                    borderLeft: 'none',
+                                    borderRight: 'none',
+                                    borderTop: 'none',
+                                    borderBottomWidth: '4px',
+                                    borderRadius: '20px / 15px',
+                                    overflow: 'hidden',
+                                    maxHeight: expandaction ? '1000px' : 0, // big enough to fit content
+                                    transition: 'max-height 0.4s ease, opacity 0.4s ease',
+                                    // opacity: expanded ? 1 : 0,
+                                }}>
+
+                                <IncidentReviewTable
+                                    ActiveActions={ActiveActions}
+                                    involvedDepartment={involvedDepartment}
+                                    LevelActionReveiw={levelactionreview}
                                 />
-                            )}
+                            </Box>
                         </>
                     }
-                </Box>
 
+                    {/* INCIDENT DATA COLLECTION */}
 
-                {/* Action Detail */}
-                {
-                    (currentReview?.view === true || currentReview?.view === undefined) &&
-                    // (currentEditItem || currentReview || level === "DMS") &&
-                    <>
-                        <Box sx={{
-                            width: '100%',
-                            bgcolor: 'var(--royal-purple-400)',
-                            display: 'flex',
-                            justifyContent: 'start',
-                            alignItems: 'center',
-                            py: 0.5,
-                            px: 1,
-                            mt: 2
-                        }}>
-                            <IncidentTextComponent text={`ACTIONS`} size={14} weight={600} color={"white"} />
-                        </Box>
-
-                        <IncidentReviewTable
-                            data={items}
-                            currentLevel={level}
-                            setCorrectiveEdit={setCorrectiveEdit}
-                            setPreventiveEdit={setPreventiveEdit}
-                            setEvalutaionEdit={setEvalutaionEdit}
-                            setRootCause={setRootCauseAnalysis}
-                            setEdit={setRootCauseEdit}
-                            setReview={isEditExits ? currentEditItem?.setReview : currentReview?.setReview}
-                            setEditItem={setEditItem}
-                            title={currentEditItem && currentEditItem?.title}
-                            involvedDepartment={involvedDepartment}
-                        />
-                    </>
-                }
-
-                {/* INCIDENT DATA COLLECTION */}
-
-                {
-                    (currentReview?.view === true || currentReview?.view === undefined) &&
-                    items?.dep_slno === empdept && level !== 'DDC' &&
-                    ((level === 'INCHARGE' && items?.inc_incharge_reivew_state !== 'A') || (level === 'HOD' && items?.inc_hod_reivew_state !== 'A')) &&
-                    < Box >
-                        <IncidentDataCollection
+                    {
+                        level === 'DDC' &&
+                        <DataRequestDetail
+                            setOpenModal={setOpenModal}
                             items={items}
-                            ismultipledep={ismultipledep}
-                            updateMultipleSelect={updateMultipleSelect}
-                            setIncDep={setIncDep}
-                            datacollectionreamark={datacollectionreamark}
-                            setDataCollectionRemark={setDataCollectionRemark}
-                            department={incdep}
-                            setIsMultipleDep={setIsMultipleDep}
-                            selectedDeps={selectedDeps}
-                            setSelectedDeps={setSelectedDeps}
-                        />
-                    </Box>
-                }
-
-                {
-                    (currentReview?.view === true || currentReview?.view === undefined) &&
-                    items && items?.inc_data_collection_req === 1 &&
-                    <Box>
-                        <IncidentDataCollectionPreview
-                            involvedDepartment={involvedDepartment}
-                            loading={loadinginvolveddepartment}
-                        />
-                    </Box>
-                }
-
-                {/* INCIDENT ACTION REQUIRED DETAIL */}
-                {level === 'DAC' && <Box> <IncidentActionSubmit items={items} /></Box>}
-                {
-                    level === 'DMS' && items?.inc_current_level <= levelNo &&
-                    <Box>
-                        <IncidentAction
-                            item={items}
-                            DeparmentAction={departmentreqactions}
-                        />
-                    </Box>
-                }
-
-                {
-                    departmentreqactions &&
-                    departmentreqactions?.length !== 0 &&
-                    <DepartmentActionDetail
-                        isLoading={loadingDepartmentaction}
-                        departmentAction={departmentreqactions} />
-                }
-
-
-                {
-                    level === 'DDC' &&
-                    <DataRequestDetail
-                        setOpenModal={setOpenModal}
-                        items={items}
-                        setFormValues={setFormValues}
-                        formValues={formValues}
-                        open={open}
-                        setOpen={setOpen}
-                        setSaveDetail={setSaveDetail}
-                        savedetail={savedetail}
-                    />
-                }
-                <>
-                    {level === 'DDC' &&
-                        fishboneanalysisdata &&
-                        fishboneanalysisdata?.length !== 0 &&
-                        <FishboneQuestionPreview
-                            data={fishboneanalysisdata}
+                            setFormValues={setFormValues}
+                            formValues={formValues}
+                            open={open}
+                            setOpen={setOpen}
+                            setSaveDetail={setSaveDetail}
+                            savedetail={savedetail}
                         />
                     }
-                </>
 
-
-                <Box>
                     {
-                        isEditExits && currentEditItem && !currentEditItem?.disabled && (
-                            <ReviewInput
-                                title={currentEditItem?.title}
-                                review={currentEditItem?.review}
-                                setReview={currentEditItem?.setReview}
-                            // level={level}
-                            // disabled={currentEditItem?.disabled}
+                        (
+                            !CheckIsUpperLevelApprovedForDDC &&
+                            level !== 'DDC' && isDataCollectionRequest) &&
+                        (items?.inc_current_level < levelNo &&
+                            (items?.inc_current_level_review_state === 'A' ||
+                                items?.inc_current_level_review_state === null))
+                        &&
+                        <Box>
+                            <IncidentDataCollection
+                                items={items}
+                                ismultipledep={ismultipledep}
+                                updateMultipleSelect={updateMultipleSelect}
+                                setIncDep={setIncDep}
+                                datacollectionreamark={datacollectionreamark}
+                                setDataCollectionRemark={setDataCollectionRemark}
+                                department={incdep}
+                                setIsMultipleDep={setIsMultipleDep}
+                                selectedDeps={selectedDeps}
+                                setSelectedDeps={setSelectedDeps}
+                                levelNo={levelNo}
                             />
-                        )}
-                </Box>
-
-                <Box>
-                    {
-                        rootcauseedit && (
-                            <ReviewInput
-                                title={'Root Cause Analysis'}
-                                review={rootcauseanalysis}
-                                setReview={setRootCauseAnalysis}
-                            // level={level}
-                            // disabled={currentReview?.disabled}
-                            />
-                        )}
-                </Box>
-
-                {
-                    (rootcauseedit || (isEditExits && currentEditItem && !currentEditItem.disabled)) &&
-                    <Box sx={{
-                        display: 'flex', gap: 1
-                    }}>
-                        <ApprovalButton
-                            size={12}
-                            iconSize={17}
-                            text={"Update changes"}
-                            icon={IoIosSave}
-                            onClick={handleEdits}
-                        />
-
-                        <ApprovalButton
-                            size={12}
-                            iconSize={17}
-                            text={"Cancel"}
-                            icon={MdOutlineFreeCancellation}
-                            onClick={rootcauseedit ? () => setRootCauseEdit(false) : () => currentEditItem.state(false)}
-                        />
-                    </Box>
-                }
-
-                {/* Review Section */}
-                {
-                    !(items?.inc_incharge_reivew_state === null
-                        && items?.inc_hod_reivew_state === null) &&
-                    <>
-                        <Box sx={{
-                            width: '100%',
-                            bgcolor: 'var(--royal-purple-400)',
-                            py: 0.5,
-                            px: 1,
-                            mt: 2
-                        }}>
-                            <IncidentTextComponent text={"REVIEW DETAIL"} size={14} weight={600} color={"white"} />
                         </Box>
+                    }
+                    {
+                        level !== 'DDC' &&
+                        items
+                        && items?.inc_data_collection_req === 1
+                        && involvedDepartment?.length > 0 &&
+                        <Box>
+                            <IncidentDataCollectionPreview
+                                involvedDepartment={involvedDepartment}
+                                loading={loadinginvolveddepartment}
+                            />
+                        </Box>
+                    }
+
+                    {/* INCIDENT ACTION REQUIRED DETAIL */}
+                    {
+                        level === 'DAC' &&
+                        <IncidentActionSubmit items={items}
+                            setOpenModal={setOpenModal}
+                        />
+                    }
+
+                    {
+                        isActionRequestExist && items?.inc_current_level <= levelNo &&
+                        <Box>
+                            <IncidentAction
+                                levelNo={levelNo}
+                                item={items}
+                                DeparmentAction={stableDepActions}
+                            />
+                        </Box>
+                    }
+
+                    {
+                        !(level === 'REGISTERD USER') &&
+                        stableDepActions?.length > 0 &&
+                        <DepartmentActionDetail
+                            isLoading={loadingDepartmentaction}
+                            departmentAction={stableDepActions}
+                        />
+                    }
+
+                    {/* Review Section */}
+                    {
+                        stableHighLevelApprovals?.length > 0 &&
                         <ApprovalPreview
+                            incidentlevels={FinalIncidentLevels}
+                            levelNo={levelNo}
                             items={items}
                             onEdit={handleapprovalEdit}
                             levels={level}
                             isEdit={edit}
-                            highlevelapprovals={highlevelapprovals}
+                            highlevelapprovals={stableHighLevelApprovals}
                         />
-                    </>
-                }
+                    }
 
-                {/* Approval Preview */}
-                {
-                    reviewProps && currentReview &&
-                    // currentReview?.disabled &&
-                    <>
-
-                        <Box sx={{
-                            width: '100%',
-                            bgcolor: 'var(--royal-purple-400)',
-                            display: 'flex',
-                            justifyContent: 'start',
-                            alignItems: 'center',
-                            py: 0.5, px: 1,
-                            mt: 2
-                        }}>
-                            <IncidentTextComponent
-                                text={`${level} LEVEL REVIEW`}
-                                size={14}
-                                weight={600}
-                                color={"white"} />
-                        </Box>
-                        {
-                            ((level === 'INCHARGE' && items?.inc_incharge_reivew_state !== "R") ||
-                                (level === 'HOD' && items?.inc_hod_reivew_state !== 'R'))
-                            &&
-                            <>
-                                < FishboneQuestionContainer
-                                    setFormValues={setFormValues}
-                                    formValues={formValues}
-                                    open={open}
-                                    setOpen={setOpen}
-                                    setSaveDetail={setSaveDetail}
-                                />
-
-                                <FishboneQuestionPreview
-                                    data={formValues}
-                                    action={true}
-                                    setOpen={setOpen}
-                                    setSaveDetail={setSaveDetail}
-                                />
-                            </>
-                        }
-                    </>
-                }
-
-                {
-                    level === "QUALITY" && items?.inc_qad_ack !== 1 &&
-                    <Box sx={{ position: 'relative', mt: 2 }}>
-                        <IncidentCategorySelect
-                            selectedCategory={incidentcategory}
-                            setSelectedCategory={setIncidentCategory}
-                            selectedSubCategory={incidentsubcategory}
-                            setSelectedSubCategory={setIncidentSubCategory}
-                        />
-                        <SACMatrixForm setSelectedItems={setSaxDetail} />
-                    </Box>
-                }
-                {
-                    items?.inc_sacmatrix_detail &&
-                    <>
-                        {/* SAC Matrix Visualization */}
-                        <Box sx={{
-                            width: '100%',
-                            bgcolor: 'var(--royal-purple-400)',
-                            display: 'flex',
-                            justifyContent: 'start',
-                            alignItems: 'center',
-                            py: 0.5, px: 1,
-                            mt: 2
-                        }}>
-                            <IncidentTextComponent
-                                text={`SAC MATRIX VISUALIZATION`}
-                                size={14}
-                                weight={600}
-                                color={"white"} />
-                        </Box>
-                        <SACMatrixResult
-                            sacData={items?.inc_sacmatrix_detail}
-                        />
-                    </>
-                }
-
-                <Box>
+                    {/* Approval Preview */}
                     {
-                        currentReview && currentReview?.disabled && (
-                            <ReviewInput
-                                title={currentReview.title}
-                                review={currentReview.review}
-                                setReview={currentReview.setReview}
-                            // level={level}
-                            // disabled={currentReview?.disabled}
+                        IsCurrentLevelDataCollectionRequesetedAccepted &&
+                        !(['REGISTERED USER', 'DDC', 'DAC'].includes(level)) &&
+                        (items?.inc_current_level < levelNo &&
+                            (items?.inc_current_level_review_state === 'A' ||
+                                items?.inc_current_level_review_state === null))
+                        &&
+                        <>
+                            <Box sx={{
+                                width: '100%',
+                                bgcolor: 'var(--royal-purple-400)',
+                                display: 'flex',
+                                justifyContent: 'start',
+                                alignItems: 'center',
+                                py: 0.5, px: 1,
+                                mt: 2
+                            }}>
+                                <IncidentTextComponent
+                                    text={`${level} REVIEW`}
+                                    size={14}
+                                    weight={600}
+                                    color={"white"} />
+                            </Box>
+                            {
+                                isFishBoneForthisLevel &&
+                                (
+                                    <>
+                                        < FishboneQuestionContainer
+                                            setFormValues={setFormValues}
+                                            formValues={formValues}
+                                            open={open}
+                                            setOpen={setOpen}
+                                            setSaveDetail={setSaveDetail}
+                                        />
+
+                                        <FishboneQuestionPreview
+                                            data={formValues}
+                                            action={true}
+                                            setOpen={setOpen}
+                                            setSaveDetail={setSaveDetail}
+                                        />
+                                    </>
+                                )}
+
+
+
+                            {
+                                IsSacMatrixExist &&
+                                !(items?.inc_sacmatrix_detail) &&
+                                <Box sx={{ position: 'relative', mt: 2 }}>
+                                    <IncidentCategorySelect
+                                        selectedCategory={incidentcategory}
+                                        setSelectedCategory={setIncidentCategory}
+                                        selectedSubCategory={incidentsubcategory}
+                                        setSelectedSubCategory={setIncidentSubCategory}
+                                    />
+                                    <SACMatrixForm
+                                        setSelectedItems={setSaxDetail}
+                                    />
+                                </Box>
+                            }
+
+                            {/* New */}
+                            {
+                                (items?.inc_current_level < levelNo &&
+                                    (items?.inc_current_level_review_state === 'A' ||
+                                        items?.inc_current_level_review_state === null)) &&
+                                IsCurrentLevelDataCollectionRequesetedAccepted &&
+                                FinalLevelAction?.map(action => (
+                                    <ReviewInput
+                                        key={action?.inc_level_item_slno}
+                                        title={action?.inc_action_name}
+                                        review={actionReviews[action?.inc_action_slno] || ""}
+                                        setReview={(val) => handleActionReviewChange(action?.inc_action_slno, val)}
+                                    />
+                                ))}
+
+                        </>
+                    }
+
+
+
+
+                    {
+                        items?.inc_sacmatrix_detail &&
+                        <>
+                            {/* SAC Matrix Visualization */}
+                            <Box sx={{
+                                width: '100%',
+                                bgcolor: 'var(--royal-purple-400)',
+                                display: 'flex',
+                                justifyContent: 'start',
+                                alignItems: 'center',
+                                py: 0.5, px: 1,
+                                mt: 2
+                            }}>
+                                <IncidentTextComponent
+                                    text={`SAC MATRIX VISUALIZATION`}
+                                    size={14}
+                                    weight={600}
+                                    color={"white"} />
+                            </Box>
+                            <SACMatrixResult
+                                sacData={items?.inc_sacmatrix_detail}
                             />
-                        )}
-                </Box>
-
-
-                <Box>
-                    {
-                        (level === 'INCHARGE' || level === 'HOD')
-                        && !items?.inc_rca && (items?.inc_incharge_ack === 0 && items?.inc_incharge_reivew_state !== 'A')
-                        && (
-                            <>
-                                <ReviewInput
-                                    title={'Root Cause Analysis'}
-                                    review={rootcauseanalysis}
-                                    setReview={setRootCauseAnalysis}
-                                // level={level}
-                                // disabled={currentReview?.disabled}
-                                />
-
-                            </>
-                        )
+                        </>
                     }
-                </Box>
-                <Box>
-                    {
-                        level === 'HOD' &&
-                        items?.inc_incharge_ack === 0 &&
-                        items?.inc_hod_reivew_state !== 'R'
-                        && (
-                            <>
-                                <ReviewInput
-                                    title={'Corrective Action'}
-                                    review={hodcorrectiveaction}
-                                    setReview={setHodCorrectiveAction}
+
+
+                    <Box sx={{ position: 'relative' }}>
+                        {
+                            approvalprocessing &&
+                            <CustomeIncidentLoading
+                                text={`Submitting ${level} Review`}
+                            />
+                        }
+
+                        {
+                            IsCurrentLevelDataCollectionRequesetedAccepted && (
+                                edit || (
+                                    (items?.inc_current_level < levelNo &&
+                                        (items?.inc_current_level_review_state === 'A' ||
+                                            items?.inc_current_level_review_state === null)) &&
+                                    reviewProps
+                                )
+                            )
+                            &&
+
+                            (
+                                <InchargeApprovalDetail
+                                    incidentlevels={FinalIncidentLevels}
+                                    fetchAgain={fetchAgain}
+                                    setOpenModal={setOpenModal}
+                                    {...reviewProps}
+                                    item={items}
+                                    setEdit={setEdit}
+                                    isEdit={edit}
                                     level={level}
+                                    setApprovalLoading={setApprovalProcessing}
+                                    processing={approvalprocessing}
+                                    sasdetial={sasdetial}
+                                    incidentcategory={incidentcategory}
+                                    incidentsubcat={incidentsubcategory}
+                                    formValues={formValues}
+                                    //new
+                                    actionReviews={actionReviews}
+                                    isFishBoneForthisLevel={isFishBoneForthisLevel}
+                                    currentLevelActions={FinalLevelAction}
+                                    IsSacMatrixExist={IsSacMatrixExist}
+                                    levelNo={levelNo}
+                                    reviewEdit={editItem}
                                 />
+                            )}
+                    </Box>
 
-                            </>
-                        )
-                    }
-                </Box>
+                    {/* Modal component For image Preview*/}
+                    <ImagePreviewModal
+                        open={openModal}
+                        handleClose={() => setOpenViewModalModal(false)}
+                        imageSrc={selectedImage}
+                    />
+                </Suspense >
+            </Box >
+        </>
 
-                <Box sx={{ position: 'relative' }}>
-                    {approvalprocessing && <CustomeIncidentLoading text={`Submitting ${level} Review`} />}
-                    {reviewProps && (
-                        <InchargeApprovalDetail
-                            incidentlevels={incidentlevels}
-                            fetchAgain={fetchAgain}
-                            setOpenModal={setOpenModal}
-                            {...reviewProps}
-                            item={items}
-                            setEdit={setEdit}
-                            isEdit={edit}
-                            level={level}
-                            title={currentReview?.title}
-                            setApprovalLoading={setApprovalProcessing}
-                            rca={rootcauseanalysis}
-                            sasdetial={sasdetial}
-                            incidentcategory={incidentcategory}
-                            incidentsubcat={incidentsubcategory}
-                            levelNo={levelNo}
-                            formValues={formValues}
-                            hodcorrectiveaction={hodcorrectiveaction}
-                        />
-                    )}
-                </Box>
-
-                {/* Modal component For image Preview*/}
-                <ImagePreviewModal
-                    open={openModal}
-                    handleClose={() => setOpenViewModalModal(false)}
-                    imageSrc={selectedImage}
-                />
-            </Suspense >
-        </Box >
     );
 };
 

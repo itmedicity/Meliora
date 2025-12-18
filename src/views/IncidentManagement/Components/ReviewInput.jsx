@@ -5,7 +5,7 @@ import IncidentTextComponent from './IncidentTextComponent'; // Assuming you hav
 import { textAreaStyle } from '../CommonComponent/CommonCode';
 
 
-const ReviewInput = ({ title, review, setReview}) => {
+const ReviewInput = ({ title, review, setReview }) => {
 
 
 

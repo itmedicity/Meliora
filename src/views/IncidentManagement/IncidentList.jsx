@@ -1,55 +1,65 @@
 import React, { memo, useMemo, Suspense } from 'react';
 import { Box } from '@mui/joy';
 import { useSelector } from 'react-redux';
-import { fetchAllIncidents } from '../Master/IncidentManagement/CommonCode/IncidentCommonCode';
-import { useQuery } from '@tanstack/react-query';
 import CustomeIncidentLoading from './Components/CustomeIncidentLoading';
 import { groupIncidents } from './CommonComponent/CommonFun';
+import { useAllIncidentDetails, useApprovalDepartmentFetching } from './CommonComponent/useQuery';
 
 // Lazy load heavy components
 const TabComponent = React.lazy(() => import('./Components/TabComponent'));
 
 const IncidentList = () => {
-
   // Get login user empid
   const id = useSelector(state => state.LoginUserData.empid);
+
+  const { data: ApprovalDepartments } = useApprovalDepartmentFetching(id);
 
   const {
     data: AllIncidentDetail,
     isLoading: AllincidentLoading,
     refetch: FetchalluserRegisteredIncident
-  } = useQuery({
-    queryKey: id ? ['allIncidents', id] : [], // only run when id exists
-    queryFn: () => fetchAllIncidents(id),
-    enabled: !!id,
-  });
+  } = useAllIncidentDetails(id);
 
-  // Group & sort incidents
-  const groupedData = useMemo(() => {
-    if (!AllIncidentDetail) return [];
-    const grouped = groupIncidents(AllIncidentDetail);
-    return grouped.sort((a, b) => b?.inc_register_slno - a?.inc_register_slno);
+
+  // grouping data and returning them based on the tabllist
+  const { rejectData, PendingList, ApprovedList, ProcessingList } = useMemo(() => {
+    const grouped = groupIncidents(AllIncidentDetail)?.sort(
+      (a, b) => b?.inc_register_slno - a?.inc_register_slno
+    );
+
+    return {
+      rejectData: grouped.filter(
+        (item) => item?.inc_current_level != 0 && item?.inc_current_level_review_state === 'R'),
+
+      PendingList: grouped?.filter((item) => item?.inc_current_level === 0 && item?.inc_current_level_review_state === null),
+
+      ApprovedList: grouped?.filter(
+        (item) => item?.inc_all_approved === 1
+      ),
+      ProcessingList: grouped?.filter(
+        (item) => item?.inc_current_level != 0 && item?.inc_current_level_review_state === 'A'
+      ),
+
+    };
   }, [AllIncidentDetail]);
 
-  // Tab data config
+
   const TabDetails = useMemo(() => ([
-    { id: 0, name: "Open Incident", data: groupedData },
-    { id: 1, name: "Close Incident", data: groupedData },
-    { id: 2, name: "Root Cause Analysis", data: groupedData }
-  ]), [groupedData]);
+    { id: 0, name: "Open ", data: PendingList, },
+    { id: 1, name: "Rejected", data: rejectData },
+    { id: 2, name: "Close ", data: ApprovedList },
+    { id: 3, name: "Processing ", data: ProcessingList },
+  ]), [PendingList, rejectData, ApprovedList, ProcessingList]);
 
-
-  
 
   return (
     <Box sx={{ width: '100%' }}>
-      {AllincidentLoading && (
-        <CustomeIncidentLoading text={"Loading Registered Incidents"} />
-      )}
       <Suspense fallback={<CustomeIncidentLoading text="Loading Tabs..." />}>
         <TabComponent
-          level={"registerduser"}
+          loadinglist={AllincidentLoading}
+          level={"REGISTERED USER"}
           TabDetails={TabDetails}
+          TotalLevelDepartments={ApprovalDepartments}
           fetchAgain={FetchalluserRegisteredIncident} />
       </Suspense>
     </Box>

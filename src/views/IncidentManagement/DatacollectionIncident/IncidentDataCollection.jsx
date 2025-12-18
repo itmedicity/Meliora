@@ -8,16 +8,12 @@ import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import { GrSend } from "react-icons/gr";
 import { employeeNumber } from 'src/views/Constant/Constant';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
-import {
-    fetchAllInvolvedDep,
-    // getAllCommonDataCollectionDeparment
-} from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
+
 import IncMultipleDepartment from 'src/views/CommonSelectCode/IncMultipleDepartment';
-
-
+// import { useInvolvedDepartments } from '../CommonComponent/useQuery';
 
 
 const IncidentDataCollection = ({
@@ -30,6 +26,7 @@ const IncidentDataCollection = ({
     department,
     setIsMultipleDep,
     selectedDeps,
+    levelNo
     // setSelectedDeps
 }) => {
 
@@ -39,105 +36,72 @@ const IncidentDataCollection = ({
         return state.LoginUserData
     });
 
-    const {
-        data: involvedDepartment
-    } = useQuery({
-        queryKey: ['allinvdep', items?.inc_register_slno],
-        queryFn: async () => await fetchAllInvolvedDep(items?.inc_register_slno),
-        enabled: !!items?.inc_register_slno,
-    });
+    // const { data: involvedDepartment } = useInvolvedDepartments(items?.inc_register_slno);
 
-
-    // const {
-    //     data: datacollectioncommondepartments
-    // } = useQuery({
-    //     queryKey: ['alldatacollectioncs'],
-    //     queryFn: async () => await getAllCommonDataCollectionDeparment(),
-    // });
-
-
-    // grouping the Common Department Detail for Data collecton form Differnt Department : eg("Financial Loss ---> Account")
-    // const groupedDataCollectionDeparments = datacollectioncommondepartments && Object.values(
-    //     datacollectioncommondepartments.reduce((acc, item) => {
-    //         return {
-    //             ...acc,
-    //             [item.inc_cs_slno]: {
-    //                 inc_cs_slno: item.inc_cs_slno,
-    //                 setting_name: item.inc_setting_key,
-    //                 setting_label: item.inc_setting_label,
-    //                 dep_details: [...(acc[item.inc_cs_slno]?.dep_details || []), item]
-    //             }
-    //         };
-    //     }, {})
-    // );
-
-
-
-    // handle checkbox multiple 
-    // const handleCheck = (group, checked) => {
-    //     const depObjects = group?.dep_details?.map(d => ({
-    //         inc_dep_id: d?.inc_dep_id,
-    //         dept_name: d?.dept_name
-    //     }));
-
-    //     if (checked) {
-    //         setSelectedDeps(prev => [
-    //             ...prev,
-    //             ...depObjects.filter(obj => !prev.some(item => item?.inc_dep_id === obj?.inc_dep_id))
-    //         ]);
-    //     } else {
-    //         setSelectedDeps(prev =>
-    //             prev.filter(item => !depObjects?.some(obj => obj?.inc_dep_id === item?.inc_dep_id))
-    //         );
-    //     }
-    // };
-
-    // Sending Request for data collection from different Departments
-    
-    
     const hanldeDataCollection = useCallback(async () => {
 
         //if department doesnt have then return
-        if (!department?.length && !selectedDeps?.length) return warningNotify("Please Select department!");
+        // if (!department?.length && !selectedDeps?.length) return warningNotify("Please Select department!");
 
-        const existingIds = involvedDepartment?.map(item => item?.inc_req_collect_dep);
-        const finalIds = selectedDeps?.map(item => item?.inc_dep_id);
-        const departmentId = department?.map(item => item?.dept_id);
-        const CombinedIds = [...new Set([...departmentId, ...finalIds])];
-
-        // Split departments into new and existing
-        const newDepartments = CombinedIds?.filter(depId => !existingIds.includes(depId)) || [];
-        const existingDepartments = CombinedIds?.filter(depId => existingIds.includes(depId)) || [];
-        // Map existing departments to their sec_name for display
-        const existingSecNames = involvedDepartment
-            ?.filter(item => existingDepartments?.includes(item?.inc_req_collect_dep))
-            ?.map(item => item?.dept_name);
-
-        if (existingSecNames.length > 0) {
-            // Notify user which sections already exist
-            warningNotify(`Data collection already exists for ${existingSecNames.join(", ")}`);
+        // 1. Validate department selection
+        if (!department?.length && !selectedDeps?.length) {
+            return warningNotify("Please Select Department!");
         }
 
-        if (!newDepartments?.length) return;
-        if (datacollectionreamark?.length === 0) return warningNotify("Please enter the Remarks");
+        // 2. Validate remarks
+        if (!datacollectionreamark?.length) {
+            return warningNotify("Please enter the Remarks");
+        }
 
+        // const existingIds = involvedDepartment?.map(item => item?.inc_req_collect_dep);
+        // const finalIds = selectedDeps?.map(item => item?.inc_dep_id);
+        // const departmentId = department?.map(item => item?.dept_id);
+        // const CombinedIds = [...new Set([...departmentId, ...finalIds])];
+
+        // // Split departments into new and existing
+        // const newDepartments = CombinedIds?.filter(depId => !existingIds.includes(depId)) || [];
+        // const existingDepartments = CombinedIds?.filter(depId => existingIds.includes(depId)) || [];
+        // // Map existing departments to their sec_name for display
+        // const existingSecNames = involvedDepartment
+        //     ?.filter(item => existingDepartments?.includes(item?.inc_req_collect_dep))
+        //     ?.map(item => item?.dept_name);
+
+        // if (existingSecNames.length > 0) {
+        //     // Notify user which sections already exist
+        //     warningNotify(`Data collection already exists for ${existingSecNames.join(", ")}`);
+        // }
+
+        // if (!newDepartments?.length) return;
+
+
+        // 3. Get department IDs from both lists
+        const selectedIds = [
+            ...(department?.map(d => d?.dept_id) || []),
+            ...(selectedDeps?.map(d => d?.inc_dep_id) || []),
+        ];
+
+        // 4. Remove duplicates
+        const uniqueDeptIds = [...new Set(selectedIds)];
+
+        //payload for data collection
         const payload = {
             slno: items?.inc_register_slno,
-            departments: newDepartments,
+            departments: uniqueDeptIds,
             status: 1,
             remark: datacollectionreamark,
             createUser: employeeNumber(),
-            requested_department: empsecid
+            requested_department: empsecid,
+            level_no: levelNo
         }
 
-
+    
         try {
             const { data } = await axioslogin.post("/incidentMaster/reqdatacollection", payload);
             const { success, message } = data ?? {};
             if (success === 2) {
                 succesNotify(message);
-                queryClient.invalidateQueries({ queryKey: ['allIncidents'] });
-                queryClient.invalidateQueries({ queryKey: ['allinvdep'] });
+                queryClient.invalidateQueries('allIncidents');
+                queryClient.invalidateQueries('allinvdep');
             } else {
                 warningNotify(message);
             }

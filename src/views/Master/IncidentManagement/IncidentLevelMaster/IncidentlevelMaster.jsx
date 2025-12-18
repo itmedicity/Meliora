@@ -1,249 +1,8 @@
-// import { Box } from '@mui/joy';
-// import { useQuery } from '@tanstack/react-query';
-// import { Grid } from '@mui/material';
-// import { axioslogin } from 'src/views/Axios/Axios';
-// import EmployeeSelectJoyAutoComp from 'src/views/CommonSelectCode/EmployeeSelectJoyAutoComp';
-// import AmDeptSecLocationSelect from 'src/views/CommonSelectCode/AmDeptSecLocationSelect';
-// import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-// import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
-// import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getDeptsection } from 'src/redux/actions/DeptSection.action';
-// import CardMaster from 'src/views/Components/CardMaster';
-// import CusCheckBox from 'src/views/Components/CusCheckBox';
-// import TextFieldCustom from 'src/views/Components/TextFieldCustom';
-// import IncidentLevelMasterTable from './IncidentLevelMasterTable';
-// import { incidentLevelApprovalFetch } from '../CommonCode/IncidentCommonCode';
-// import { useNavigate } from 'react-router-dom';
-
-
-// const IncidentlevelMaster = () => {
-
-//     const dispatch = useDispatch();
-//     const navigate = useNavigate()
-//     const [deptSec, setDeptSec] = useState(0)
-//     const [employee, setEmployee] = useState(0)
-//     const [value, setValue] = useState(0)
-//     const id = useSelector((state) => { return state.LoginUserData.empid });
-
-//     const {
-//         data: incidentlevels,
-//         refetch: FetchAllIncidentLevel
-//     } = useQuery({
-//         queryKey: ['getalllevels'],
-//         queryFn: () => incidentLevelApprovalFetch(),
-//         staleTime: Infinity
-//     });
-
-//     const [formData, setFormData] = useState({
-//         level_slno: '',
-//         levelNo: '',
-//         levelName: '',
-//         status: true,
-//     });
-
-//     const { level_slno, levelNo, levelName, status } = formData;
-
-//     useEffect(() => {
-//         dispatch(getDeptsection())
-//     }, [dispatch])
-
-
-//     useEffect(() => {
-//         if (deptSec !== 0) {
-//             dispatch(getDepartSecemployee(deptSec))
-//             setEmployee(0)
-//         } else {
-//             setEmployee(0)
-//         }
-//     }, [deptSec, dispatch])
-
-
-//     const updateField = useCallback(
-//         (e) => {
-//             let value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-//             if (e.target.type === 'text') {
-//                 value = value.toUpperCase();
-//             }
-//             setFormData({ ...formData, [e.target.name]: value });
-//         },
-//         [formData],
-//     );
-
-
-//     const RowSelect = useCallback((val) => {
-//         const { level_no, level_name, emp_id, level_status, sec_id, level_slno } = val
-//         setValue(1)
-//         const frmdata = {
-//             levelNo: level_no,
-//             levelName: level_name,
-//             status: level_status === 1 ? true : false,
-//             level_slno: level_slno,
-//         }
-//         setFormData(frmdata)
-//         setEmployee(emp_id)
-//         setDeptSec(sec_id)
-//     }, [])
-
-
-//     const backtoSetting = useCallback(() => {
-//         navigate('/Home/Settings')
-//     }, [navigate])
-
-//     const reset = useCallback(() => {
-//         const frmdata = {
-//             levelNo: '',
-//             levelName: '',
-//             status: true,
-//         }
-//         setFormData(frmdata)
-//         setValue(0)
-//         setDeptSec(0)
-//         setEmployee(0)
-//     }, [])
-
-//     // POSTDATA
-//     const postdata = useMemo(() => ({
-//         level_no: levelNo,
-//         level_name: levelName,
-//         sec_id: deptSec,
-//         emp_id: employee,
-//         level_status: status === true ? 1 : 0,
-//         create_user: id
-//     }), [levelNo, levelName, employee, status, id, deptSec]);
-
-//     // PATCH DATA
-//     const patchdata = useMemo(() => ({
-//         level_no: levelNo,
-//         level_name: levelName,
-//         sec_id: deptSec,
-//         emp_id: employee,
-//         level_status: status === true ? 1 : 0,
-//         level_slno: level_slno,
-//         edit_user: id
-//     }), [levelNo, levelName, employee, status, level_slno, id, deptSec]);
-
-
-//     // incident registration and updation handling
-//     const IncidentLevelApproval = useCallback(
-//         async (e) => {
-//             e.preventDefault();
-//             try {
-//                 // validations
-//                 if (!levelNo) return warningNotify("Please enter the Level Number");
-//                 if (levelName === "") return warningNotify("Please enter the Level Name");
-//                 if (employee === 0) return warningNotify("Please Select the Employee");
-
-//                 // API call function common for insert/update
-//                 const handleApi = async (method, url, data, successCode) => {
-//                     try {
-//                         const result = await axioslogin[method](url, data);
-//                         const { message, success } = result.data;
-
-//                         if (success === successCode) {
-//                             succesNotify(message);
-//                             FetchAllIncidentLevel();
-//                             reset()
-//                             // setValue(0);
-//                         } else {
-//                             infoNotify(message);
-//                         }
-//                     } catch (error) {
-//                         infoNotify("Error while processing request");
-//                         console.error(error);
-//                     }
-//                 };
-
-//                 // choose insert or update
-//                 if (value === 0) {
-//                     await handleApi("post", "/incidentMaster/insertlevelapproval", postdata, 2);
-//                 } else {
-//                     await handleApi("patch", "/incidentMaster/updatelevelapproval", patchdata, 2);
-//                 }
-//             } catch (error) {
-//                 infoNotify("Something went wrong, please try again");
-//                 console.error("IncidentLevelApproval error:", error);
-//             }
-//         },
-//         [value, postdata, patchdata, levelNo, levelName, employee]
-//     );
-
-
-
-//     return (
-
-//         <CardMaster
-//             title="Incident Level Approval"
-//             submit={IncidentLevelApproval}
-//             close={backtoSetting}
-//             refresh={reset}>
-//             <Box sx={{ p: 1 }}>
-//                 <Grid container spacing={1}>
-//                     <Grid item xl={4} lg={4}>
-//                         <Grid container spacing={1}>
-//                             <Grid item xl={12} lg={12}>
-//                                 <TextFieldCustom
-//                                     // style={{ width: 150 }}
-//                                     startDecorator={"Level No. "}
-//                                     type='number'
-//                                     size="sm"
-//                                     value={levelNo}
-//                                     name='levelNo'
-//                                     onchange={updateField}
-//                                 />
-//                             </Grid>
-//                             <Grid item xl={12} lg={12}>
-//                                 <TextFieldCustom
-//                                     // style={{ width: 250 }}
-//                                     placeholder="Level Name"
-//                                     type="text"
-//                                     name="levelName"
-//                                     size="sm"
-//                                     value={levelName}
-//                                     onchange={updateField}
-//                                 />
-//                             </Grid>
-//                             <Grid item xl={12} lg={12}>
-//                                 <AmDeptSecLocationSelect location={deptSec} setLocation={setDeptSec} />
-//                             </Grid>
-//                             <Grid item xl={12} lg={12}>
-//                                 <EmployeeSelectJoyAutoComp employee={employee} setEmployee={setEmployee} />
-//                             </Grid>
-//                             <Grid item lg={12} xl={12}>
-//                                 <CusCheckBox
-//                                     label="Level Status"
-//                                     color="primary"
-//                                     size="md"
-//                                     name="status"
-//                                     value={status}
-//                                     checked={status}
-//                                     onCheked={updateField}
-//                                 />
-//                             </Grid>
-//                         </Grid>
-//                     </Grid>
-//                     <Grid item lg={8} xl={8}>
-//                         <IncidentLevelMasterTable tableData={incidentlevels} rowSelect={RowSelect} />
-//                     </Grid>
-//                 </Grid>
-//             </Box>
-
-//         </CardMaster>
-
-//     )
-// }
-
-// export default memo(IncidentlevelMaster)
-
-
-
 import { Box } from '@mui/joy';
-import { useQuery } from '@tanstack/react-query';
 import { Grid } from '@mui/material';
-import { axioslogin } from 'src/views/Axios/Axios';
 import EmployeeSelectJoyAutoComp from 'src/views/CommonSelectCode/EmployeeSelectJoyAutoComp';
 import AmDeptSecLocationSelect from 'src/views/CommonSelectCode/AmDeptSecLocationSelect';
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { infoNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { getDepartSecemployee } from 'src/redux/actions/EmpNameDeptSect.action';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -252,8 +11,9 @@ import CardMaster from 'src/views/Components/CardMaster';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import TextFieldCustom from 'src/views/Components/TextFieldCustom';
 import IncidentLevelMasterTable from './IncidentLevelMasterTable';
-import { incidentLevelApprovalFetch } from '../CommonCode/IncidentCommonCode';
+import { handleApi } from '../CommonCode/IncidentCommonCode';
 import { useNavigate } from 'react-router-dom';
+import { useIncidentLevels } from 'src/views/IncidentManagement/CommonComponent/useQuery';
 
 const IncidentlevelMaster = () => {
 
@@ -268,12 +28,7 @@ const IncidentlevelMaster = () => {
     const id = useSelector((state) => state.LoginUserData.empid);
 
     // fetch incident levels
-    const { data: incidentlevels, refetch: FetchAllIncidentLevel } = useQuery({
-        queryKey: ['getalllevels'],
-        queryFn: () => incidentLevelApprovalFetch(),
-        staleTime: Infinity
-    });
-
+    const { data: incidentlevels, refetch: FetchAllIncidentLevel } = useIncidentLevels();
     // form data
     const [formData, setFormData] = useState({
         level_slno: '',
@@ -370,34 +125,14 @@ const IncidentlevelMaster = () => {
     const IncidentLevelApproval = useCallback(
         async (e) => {
             e.preventDefault();
-
             try {
                 if (!levelNo) return warningNotify("Please enter the Level Number");
                 if (levelName === "") return warningNotify("Please enter the Level Name");
                 if (employee === 0) return warningNotify("Please select the Employee");
-
-                const handleApi = async (method, url, data, successCode) => {
-                    try {
-                        const result = await axioslogin[method](url, data);
-                        const { message, success } = result.data;
-
-                        if (success === successCode) {
-                            succesNotify(message);
-                            FetchAllIncidentLevel();
-                            reset();
-                        } else {
-                            infoNotify(message);
-                        }
-                    } catch (error) {
-                        infoNotify("Error while processing request");
-                        console.error(error);
-                    }
-                };
-
                 if (value === 0) {
-                    await handleApi("post", "/incidentMaster/insertlevelapproval", postdata, 2);
+                    handleApi("post", "/incidentMaster/insertlevelapproval", postdata, 2, FetchAllIncidentLevel, reset);
                 } else {
-                    await handleApi("patch", "/incidentMaster/updatelevelapproval", patchdata, 2);
+                    handleApi("patch", "/incidentMaster/updatelevelapproval", patchdata, 2, FetchAllIncidentLevel, reset);
                 }
             } catch (error) {
                 infoNotify("Something went wrong, please try again");
@@ -439,11 +174,11 @@ const IncidentlevelMaster = () => {
                                 />
                             </Grid>
                             <Grid item xl={12} lg={12}>
-                                {/* ✅ Department/Section selector */}
+                                {/*  Department/Section selector */}
                                 <AmDeptSecLocationSelect location={deptSec} setLocation={setDeptSec} />
                             </Grid>
                             <Grid item xl={12} lg={12}>
-                                {/* ✅ Employee selector (auto-refresh on dept change) */}
+                                {/*  Employee selector (auto-refresh on dept change) */}
                                 <EmployeeSelectJoyAutoComp employee={employee} setEmployee={setEmployee} />
                             </Grid>
                             <Grid item lg={12} xl={12}>

@@ -1,18 +1,50 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { Box, Typography, IconButton, Card, CardCover } from '@mui/joy';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IncidentTextComponent from './IncidentTextComponent';
+import { warningNotify } from 'src/views/Common/CommonCode';
+import { allowedFileType } from '../CommonComponent/CommonCode';
+
 
 const IncidentFileUpload = ({ files = [], setFiles }) => {
+
     const inputRef = useRef();
 
+
+    // handling incident File change
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
-        const newFiles = selectedFiles.filter(file => !files?.some(f => f?.name === file?.name));
-        setFiles(prev => [...prev, ...newFiles]);
-        inputRef.current.value = ''; // Clear the input
+
+        const validFiles = selectedFiles.filter(file =>
+            allowedFileType.includes(file.type)
+        );
+
+        const invalidFiles = selectedFiles.filter(file =>
+            !allowedFileType.includes(file.type)
+        );
+
+        if (invalidFiles.length > 0) {
+            warningNotify("Only PNG, JPG, JPEG and PDF files are allowed");
+        }
+
+        const uniqueValidFiles = validFiles.filter(
+            file => !files.some(f => f.name === file.name)
+        );
+
+        if (uniqueValidFiles.length > 0) {
+            setFiles(prev => [...prev, ...uniqueValidFiles]);
+        }
+
+        inputRef.current.value = "";
     };
+
+    // const handleFileChange = (e) => {
+    //     const selectedFiles = Array.from(e.target.files);
+    //     const newFiles = selectedFiles.filter(file => !files?.some(f => f?.name === file?.name));
+    //     setFiles(prev => [...prev, ...newFiles]);
+    //     inputRef.current.value = ''; // Clear the input
+    // };
 
     // Function to remove the selected images
     const handleFileRemove = (index) => {
@@ -25,7 +57,7 @@ const IncidentFileUpload = ({ files = [], setFiles }) => {
 
     return (
         <Box sx={{ mt: 2 }}>
-            <IncidentTextComponent text={"5. Upload Files"} color={'#403d3dff'} size={18} weight={600} />
+            <IncidentTextComponent text={"6. Upload Files"} color={'#403d3dff'} size={18} weight={600} />
             <Box
                 onClick={() => inputRef.current?.click()}
                 sx={{
@@ -113,4 +145,4 @@ const IncidentFileUpload = ({ files = [], setFiles }) => {
     );
 };
 
-export default IncidentFileUpload;
+export default memo(IncidentFileUpload);

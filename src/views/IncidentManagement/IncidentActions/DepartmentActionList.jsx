@@ -1,12 +1,10 @@
 import React, { memo, useMemo } from 'react';
 import Inciwrapper from '../../Components/Inciwrapper';
 import { Box } from '@mui/joy';
-import { getAllIncidentDeparmentAction } from '../../Master/IncidentManagement/CommonCode/IncidentCommonCode';
 import { useSelector } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
-import CustomeIncidentLoading from '../Components/CustomeIncidentLoading';
 import TabComponent from '../Components/TabComponent';
 import { groupIncidents } from '../CommonComponent/CommonFun';
+import { useIncidentDepartmentActions } from '../CommonComponent/useQuery';
 
 const DepartmentActionList = () => {
 
@@ -14,15 +12,12 @@ const DepartmentActionList = () => {
         return state.LoginUserData
     });
 
+
     const {
         data: IncidentDepartmentAction,
         isLoading: LoadingIncidentDepartmentAction,
         refetch: FetchAllIncidentDepartmentActions
-    } = useQuery({
-        queryKey: ['incidentaction', empdept],
-        queryFn: async () => await getAllIncidentDeparmentAction(empdept),
-        enabled: !!empdept
-    });
+    } = useIncidentDepartmentActions(empdept);
 
 
     // grouping data and returning them based on the tabllist
@@ -40,22 +35,18 @@ const DepartmentActionList = () => {
         };
     }, [IncidentDepartmentAction]);
 
-    const TabDetails = [
+    const TabDetails = useMemo(() => ([
         { id: 0, name: "Pending", data: PendingList, },
         { id: 1, name: "All List", data: groupedData },
         { id: 2, name: "Approved", data: ApprovedList, }
-    ];
+    ]), [PendingList, groupedData, ApprovedList]);
+
 
     return (
         <Box sx={{ width: '100vw' }}>
-            <Inciwrapper title="Department Action Detail">
-                {
-                    LoadingIncidentDepartmentAction &&
-                    <CustomeIncidentLoading
-                        text={"Loading Registerd Incidents"}
-                    />
-                }
+            <Inciwrapper title="DEPARTMENT ACTION DETAIL">
                 <TabComponent
+                    loadinglist={LoadingIncidentDepartmentAction}
                     level={"DAC"}
                     TabDetails={TabDetails}
                     fetchAgain={FetchAllIncidentDepartmentActions}

@@ -1,12 +1,12 @@
 import React, { memo, useMemo } from 'react';
-import Inciwrapper from '../../Components/Inciwrapper';
 import { Box } from '@mui/joy';
-import { getAllIncidentDataCollection } from '../../Master/IncidentManagement/CommonCode/IncidentCommonCode';
+import Inciwrapper from '../../Components/Inciwrapper';
 import { useSelector } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
-import CustomeIncidentLoading from '../Components/CustomeIncidentLoading';
-import TabComponent from '../Components/TabComponent';
 import { groupIncidents } from '../CommonComponent/CommonFun';
+import { useIncidentDepartmentDataCollection } from '../CommonComponent/useQuery';
+
+import TabComponent from '../Components/TabComponent';
+import { safeParse } from '../CommonComponent/Incidnethelper';
 
 const DepartmentDataCollection = () => {
 
@@ -18,12 +18,7 @@ const DepartmentDataCollection = () => {
         data: IncidentDepartmentdataCollection,
         isLoading: LoadingDepartmentDataCollection,
         refetch: FetchAllIncidentDepartmentDataCollection
-    } = useQuery({
-        queryKey: ['incidentDataCollect', empdept],
-        queryFn: async () => await getAllIncidentDataCollection(empdept),
-        enabled: !!empdept
-    });
-
+    } = useIncidentDepartmentDataCollection(empdept);
 
 
     // grouping data and returning them based on the tabllist
@@ -32,31 +27,49 @@ const DepartmentDataCollection = () => {
             (a, b) => b?.inc_register_slno - a?.inc_register_slno
         );
 
+        const result = grouped?.reduce(
+            (acc, item) => {
+                const details = safeParse(item?.data_collection_details) || [];
+
+                const validDetails = details.filter(
+                    d => d?.inc_dep_status !== null && d?.inc_dep_rca !== null
+                );
+
+                const hasPending = validDetails?.some(d => d.inc_dep_status === 0);
+                const allApproved =
+                    validDetails.length > 0 &&
+                    validDetails.every(d => d.inc_dep_status === 1);
+
+                if (hasPending) acc.pending.push(item);
+                else if (allApproved) acc.approved.push(item);
+
+                return acc;
+            },
+            { pending: [], approved: [] }
+        );
+
+
         return {
             groupedData: grouped,
-            PendingList: grouped?.filter((item) => item?.inc_dep_status === 0 && item?.inc_dep_rca === null),
-            ApprovedList: grouped?.filter(
-                (item) => item?.inc_dep_status === 1
-            ),
+            PendingList: result.pending,
+            ApprovedList: result.approved,
         };
     }, [IncidentDepartmentdataCollection]);
 
-    const TabDetails = [
+
+    // Tab List 
+    const TabDetails = useMemo(() => ([
         { id: 0, name: "Pending", data: PendingList, },
         { id: 1, name: "All List", data: groupedData },
         { id: 2, name: "Approved", data: ApprovedList, }
-    ];
+    ]), [PendingList, groupedData, ApprovedList]);
+
 
     return (
         <Box sx={{ width: '100vw' }}>
-            <Inciwrapper title="Department Data Collection">
-                {
-                    LoadingDepartmentDataCollection &&
-                    <CustomeIncidentLoading
-                        text={"Loading Registerd Incidents"}
-                    />
-                }
+            <Inciwrapper title="DEPARTMENT DATA COLLECTION">
                 <TabComponent
+                    loadinglist={LoadingDepartmentDataCollection}
                     level={"DDC"}
                     TabDetails={TabDetails}
                     fetchAgain={FetchAllIncidentDepartmentDataCollection}

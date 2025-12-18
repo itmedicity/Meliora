@@ -1,31 +1,48 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Chip } from "@mui/joy";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import AlarmOnIcon from '@mui/icons-material/AlarmOn';
+import { getStatusInfo } from "../CommonComponent/CommonCode";
 
 
+const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, DashboardIncidents }) => {
 
-const DashBoardAgeGrid = ({ type, keyword }) => {
+    const CompanyNumber = CurrrentComapny?.length > 0 ? CurrrentComapny[0]?.company_slno : null;
+
+    //  CHOOSING THE CURRENT COMPANY DETAILS
+    const CompanyName = useMemo(() => {
+        if (CompanyNumber == null) return ''; // or loading text
+        return Number(CompanyNumber) === 1
+            ? 'INCI/TMCH/'
+            : 'INCI/KMCH/';
+    }, [CompanyNumber]);
+
 
     const columnDefs = useMemo(
         () => [
             {
-                headerName: "Incident ID",
-                field: "id",
-                // pinned: "left",
+                headerName: "ID",
+                field: "inc_register_slno",
                 flex: 1,
+                cellRenderer: (params) => {
+                    return (
+                        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
+                            {`${CompanyName}${params.value}`}
+                        </div>
+                    );
+                }
             },
             {
-                headerName: "Incident Title",
-                field: "name",
+                headerName: "Incident Against",
+                field: "inc_initiator_name",
                 flex: 1,
+                valueFormatter: params => (params.value ? String(params.value).toUpperCase() : "")
             },
             {
                 headerName: "Department",
-                field: "department",
+                field: "sec_name",
                 flex: 1,
             },
             {
@@ -34,192 +51,54 @@ const DashBoardAgeGrid = ({ type, keyword }) => {
                 // flex: 1,
                 width: 200,
                 cellRenderer: (params) => {
-                    const statusColors = {
-                        Open: "danger",
-                        "In Progress": "warning",
-                        Closed: "success",
+                    const item = {
+                        inc_current_level: params.data?.inc_current_level,
+                        inc_current_level_review_state: params.data?.inc_current_level_review_state
                     };
+                    const { text } = getStatusInfo(item, incidentlevels);
+
+                    const statusColors = params.data?.inc_current_level_review_state === 'A' ? 'success' :
+                        params.data?.inc_current_level_review_state === 'R' ? 'danger' : 'neutral';
 
                     return (
                         <Chip
                             variant="soft"
-                            color={statusColors[params.value] || "neutral"}
+                            color={statusColors || "neutral"}
                             size="sm"
+                            sx={{ fontSize: 13, fontWeight: 600 }}
                         >
-                            {params.value}
+                            {text}
                         </Chip>
                     );
                 },
             },
             {
-                headerName: "ETA",
-                field: "eta",
+                headerName: "Descritpion",
+                field: "inc_describtion",
                 flex: 1,
-                cellRenderer: (params) => (
-                    <div style={{ display: 'flex', gap: 4, alignItems: 'center', cursor: 'pointer' }}>
-                        <AlarmOnIcon style={{ color: '#9da0a2ff', fontSize: 15 }} />
-                        {params.value}
-                    </div>
-                ),
+
             },
             {
-                headerName: "Last Updates",
-                field: "lastUpdate",
+                headerName: "Corrective ",
+                field: "inc_reg_corrective",
                 flex: 1,
 
             },
             {
                 headerName: "Attachments",
-                field: "attachments",
+                field: "file_status",
                 flex: 1,
                 cellRenderer: (params) => (
                     <div style={{ display: 'flex', gap: 4, alignItems: 'center', cursor: 'pointer' }}>
                         <AttachFileIcon style={{ color: '#3a84b8ff', transform: 'rotate(30deg)', fontSize: 15 }} />
-                        {params.value} Files
+                        {params.value === 1 ? "Files" : "No Attachments"}
                     </div>
                 ),
             }
         ],
-        []
+        [incidentlevels, CompanyName]
     );
 
-    const rowData = [
-        {
-            id: 1542134,
-            name: "Email Server Down",
-            status: "Open",
-            department: "Information Technology",
-            eta: "3h",
-            attachments: 1,
-            lastUpdate: "12 Jul 2024",
-        },
-        {
-            id: 1542135,
-            name: "VPN Connectivity Issue",
-            status: "In Progress",
-            department: "Network",
-            eta: "2h",
-            attachments: 2,
-            lastUpdate: "11 Jul 2024",
-        },
-        {
-            id: 1542136,
-            name: "Software License Renewal",
-            status: "Closed",
-            department: "Procurement",
-            eta: "-",
-            attachments: 1,
-            lastUpdate: "10 Jul 2024",
-        },
-        {
-            id: 1542137,
-            name: "Printer Not Responding",
-            status: "Open",
-            department: "Admin",
-            eta: "1h",
-            attachments: 0,
-            lastUpdate: "12 Jul 2024",
-        },
-        {
-            id: 1542138,
-            name: "Unauthorized Access Alert",
-            status: "In Progress",
-            department: "Security",
-            eta: "5h",
-            attachments: 3,
-            lastUpdate: "11 Jul 2024",
-        },
-        {
-            id: 1542139,
-            name: "Slow Internet in Floor 3",
-            status: "Closed",
-            department: "Network",
-            eta: "-",
-            attachments: 2,
-            lastUpdate: "09 Jul 2024",
-        },
-        {
-            id: 1542140,
-            name: "Laptop Battery Issue",
-            status: "Open",
-            department: "Support",
-            eta: "4h",
-            attachments: 1,
-            lastUpdate: "12 Jul 2024",
-        },
-        {
-            id: 1542141,
-            name: "Data Backup Failed",
-            status: "In Progress",
-            department: "DevOps",
-            eta: "3h",
-            attachments: 2,
-            lastUpdate: "10 Jul 2024",
-        },
-        {
-            id: 1542142,
-            name: "Meeting Room Display Broken",
-            status: "Closed",
-            department: "Facilities",
-            eta: "-",
-            attachments: 1,
-            lastUpdate: "09 Jul 2024",
-        },
-        {
-            id: 1542143,
-            name: "Outlook Not Syncing",
-            status: "Open",
-            department: "Information Technology",
-            eta: "2h",
-            attachments: 0,
-            lastUpdate: "12 Jul 2024",
-        },
-        {
-            id: 1542144,
-            name: "Firewall Policy Update",
-            status: "In Progress",
-            department: "Security",
-            eta: "6h",
-            attachments: 1,
-            lastUpdate: "11 Jul 2024",
-        },
-        {
-            id: 1542145,
-            name: "App Deployment Error",
-            status: "Closed",
-            department: "DevOps",
-            eta: "-",
-            attachments: 0,
-            lastUpdate: "08 Jul 2024",
-        },
-        {
-            id: 1542146,
-            name: "Employee Onboarding Setup",
-            status: "Open",
-            department: "HR",
-            eta: "8h",
-            attachments: 2,
-            lastUpdate: "12 Jul 2024",
-        },
-        {
-            id: 1542147,
-            name: "Power Fluctuation in Lab",
-            status: "In Progress",
-            department: "Facilities",
-            eta: "1h",
-            attachments: 1,
-            lastUpdate: "11 Jul 2024",
-        },
-        {
-            id: 1542148,
-            name: "Antivirus Expiry Warning",
-            status: "Closed",
-            department: "Security",
-            eta: "-",
-            attachments: 2,
-            lastUpdate: "09 Jul 2024",
-        },
-    ];
 
     const defaultColDef = useMemo(() => ({
         flex: 1,
@@ -228,29 +107,30 @@ const DashBoardAgeGrid = ({ type, keyword }) => {
     }), []);
 
     const filteredData = useMemo(() => {
-        let result = [...rowData];
+        if (!DashboardIncidents) return [];
 
+        let result = [...DashboardIncidents];
         // Filter by type
-        if (type !== "Incident") {
-            if (type === "Open") result = result?.filter(d => d.status === "Open");
-            else if (type === "Closed") result = result?.filter(d => d.status === "Closed");
-            else if (type === "RCA") result = result?.filter(d => d.status === "In Progress");
-            else result = result.filter(d => d?.status === type);
+        if (type !== "All") {
+            if (type === "New") result = result?.filter(d => d.inc_current_level === 0 && d.inc_current_level_review_state === null);
+            else if (type === "Open") result = result?.filter(d => d.inc_current_level != 0 && d.inc_current_level_review_state != null);
+            else if (type === "Closed") result = result?.filter(d => d.inc_all_approved === 1);
+            else result;
         }
 
         // Filter by keyword
         if (keyword?.trim()) {
             const search = keyword.toLowerCase();
             result = result.filter(item =>
-                item.name.toLowerCase().includes(search) ||
-                item.department.toLowerCase().includes(search) ||
-                item.status.toLowerCase().includes(search) ||
-                String(item.id).includes(search)
+                // item.name.toLowerCase().includes(search) ||
+                item.sec_name.toLowerCase().includes(search) ||
+                // item.status.toLowerCase().includes(search) ||
+                String(item.inc_register_slno).includes(search)
             );
         }
 
         return result;
-    }, [type, keyword, rowData]);
+    }, [type, keyword, DashboardIncidents]);
 
 
     return (
@@ -274,4 +154,4 @@ const DashBoardAgeGrid = ({ type, keyword }) => {
     );
 };
 
-export default DashBoardAgeGrid;
+export default memo(DashBoardAgeGrid);

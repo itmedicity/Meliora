@@ -1,10 +1,9 @@
 import { axiosellider, axioslogin } from "src/views/Axios/Axios";
 import { warningNotify } from "src/views/Common/CommonCode";
 import imageCompression from 'browser-image-compression';
-import { useState, useCallback } from "react";
-import { format } from "date-fns";
+import { useState, useCallback, useMemo } from "react";
 import JSZip from "jszip";
-
+import { isWithinInterval, startOfYesterday, endOfYesterday, format } from "date-fns";
 // GET DETAIL BASED ON MRD NUMBER
 export const getFamilyDetails = async (mrdnumber) => {
     try {
@@ -23,6 +22,7 @@ export const getFamilyDetails = async (mrdnumber) => {
             return null;
         }
     } catch (error) {
+        if (handleRateLimitError(error)) return [];
         warningNotify("Something went wrong while fetching details. Please try again.");
         return null;
     }
@@ -39,26 +39,6 @@ export const handleImageUpload = async (imageFile) => {
     return compressedFile;
 };
 
-
-//  Fetch incident files
-// export const useIncidentFiles = () => {
-//     const [loadingFiles, setLoadingFiles] = useState(false);
-//     const fetchIncidentFiles = useCallback(async (id) => {
-//         try {
-//             setLoadingFiles(true);
-//             const results = await axioslogin.get(`/incidentMaster/getincidentfile/${id}`);
-//             const { data, success } = results?.data ?? {};
-//             return success === 1 ? data : [];
-//         } catch (error) {
-//             warningNotify("Error in Fetching Files");
-//             return [];
-//         } finally {
-//             setLoadingFiles(false);
-//         }
-//     }, []);
-
-//     return { fetchIncidentFiles, loadingFiles };
-// };
 
 
 
@@ -177,14 +157,11 @@ export const groupIncidents = (rows = []) => {
 };
 
 
-
-
 // handle Image View 
 export const handleImageClick = (file, setSelectedImage, setOpenModal) => {
     setSelectedImage(file);
     setOpenModal(true);
 };
-
 
 // common code for setting data format of our own 
 export const formatDateTime = (date, dateFormat = "dd/MM/yyyy hh:mm:ss a") => {
@@ -197,70 +174,13 @@ export const formatDateTime = (date, dateFormat = "dd/MM/yyyy hh:mm:ss a") => {
 };
 
 
-
-// export const useIncidentFiles = () => {
-//     const [loadingFiles, setLoadingImages] = useState(false);
-
-//     const fetchIncidentFiles = useCallback(async (id) => {
-//         try {
-//             setLoadingImages(true);
-//             const result = await axioslogin.get(`/incidentMaster/getincidentfile/${id}`, {
-//                 responseType: 'blob'
-//             });
-
-//             const contentType = result.headers['content-type'] || '';
-//             if (contentType.includes('application/json')) {
-//                 warningNotify("No image data found.");
-//                 return [];
-//             }
-
-//             const zip = await JSZip.loadAsync(result.data);
-
-//             const imageEntries = Object.entries(zip.files).filter(
-//                 ([filename]) => /\.(jpe?g|png|gif|pdf)$/i.test(filename)
-//             );
-
-//             const imagePromises = imageEntries?.map(async ([filename, fileObj]) => {
-//                 const originalBlob = await fileObj.async('blob');
-
-//                 let mimeType = '';
-//                 if (filename.endsWith('.pdf')) {
-//                     mimeType = 'application/pdf';
-//                 } else if (filename.endsWith('.png')) {
-//                     mimeType = 'image/png';
-//                 } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
-//                     mimeType = 'image/jpeg';
-//                 } else {
-//                     mimeType = 'application/octet-stream';
-//                 }
-
-//                 const blobWithType = new Blob([originalBlob], { type: mimeType });
-//                 const url = URL.createObjectURL(blobWithType);
-//                 return { imageName: filename, url, blob: blobWithType };
-//             });
-
-//             const images = await Promise.all(imagePromises);
-//             return images;
-
-//         } catch (error) {
-//             console.error('Error fetching or processing images:', error);
-//             warningNotify("Error in fetching images//....");
-//             return [];
-//         } finally {
-//             setLoadingImages(false);
-//         }
-//     }, []);
-
-//     return { fetchIncidentFiles, loadingFiles };
-// };
-
-
+// fetching Incident Files 
 export const useIncidentFiles = () => {
     const [loadingFiles, setLoadingFiles] = useState(false);
 
     const fetchIncidentFiles = useCallback(async (url) => {
         if (!url) {
-            console.warn("❗ No URL provided to fetchIncidentFiles");
+            warningNotify(" No URL provided to fetchIncidentFiles");
             return [];
         }
 
@@ -297,6 +217,8 @@ export const useIncidentFiles = () => {
             return await Promise.all(filePromises);
 
         } catch (error) {
+            if (handleRateLimitError(error)) return [];
+
             console.error('Error fetching or processing files:', error);
             warningNotify("Error fetching files");
             return [];
@@ -309,7 +231,7 @@ export const useIncidentFiles = () => {
 };
 
 
-//  Fixed version
+//  Fixed version for fetching approval previews
 export const useHighLevelApprovals = () => {
     const [loadingapprovals, setLoadingApprovals] = useState(false);
 
@@ -323,6 +245,7 @@ export const useHighLevelApprovals = () => {
             if (success !== 2) return warningNotify(message)
             return data;
         } catch (error) {
+            if (handleRateLimitError(error)) return [];
             console.error('Error fetching or processing images:', error);
             warningNotify("Error in fetching Approvals");
             return [];
@@ -335,29 +258,45 @@ export const useHighLevelApprovals = () => {
 };
 
 
-// export const getAllDepartmentRequestedAction = () => {
-//     const [loadingactions, setLoadingActions] = useState(false);
+// fetch all action detail for the registerd incident 
+export const useLevelActionDetails = () => {
+    const [loadingactionsreviewdetail, setLoadingActionReviewDetail] = useState(false);
 
-//     const FetchAllHigLevelApprovals = useCallback(async (id) => {
-//         try {
-//             setLoadingActions(true);
-//             const response = await axioslogin.post(`/incidentMaster/getalldepartmentaction`, {
-//                 inc_register_slno: id
-//             });
-//             const { success, message, data } = response.data;
-//             if (success !== 2) return warningNotify(message)
-//             return data;
-//         } catch (error) {
-//             console.error('Error fetching or processing images:', error);
-//             warningNotify("Error in fetching Approvals");
-//             return [];
-//         } finally {
-//             setLoadingActions(false);
-//         }
-//     }, []);
+    const FetchAllActionReviewDetails = useCallback(async (id) => {
+        try {
+            setLoadingActionReviewDetail(true);
+            const response = await axioslogin.post(`/incidentMaster/getallincactionreview`, {
+                inc_register_slno: id
+            });
+            const { success, message, data } = response.data;
+            if (success !== 2) return warningNotify(message)
+            return data;
+        } catch (error) {
+            if (handleRateLimitError(error)) return [];
+            console.error('Error fetching or processing images:', error);
+            warningNotify("Error in fetching Approvals");
+            return [];
+        } finally {
+            setLoadingActionReviewDetail(false);
+        }
+    }, []);
 
-//     return { FetchAllHigLevelApprovals, loadingactions };
-// };
+    return { FetchAllActionReviewDetails, loadingactionsreviewdetail };
+};
+
+
+
+export const handleRateLimitError = (error) => {
+    if (error?.response?.status === 429) {
+        const message =
+            error.response?.data?.message ||
+            "Too many requests. Please wait and try again.";
+        warningNotify(message);
+        return true; //  tells caller: “Rate limit error handled”
+    }
+    return false; // not a rate-limit error
+};
+
 
 
 
@@ -403,3 +342,212 @@ export const processFishboneData = (data) => {
 }
 
 
+export const useFileUpload = (allowedTypes = []) => {
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [previewUrls, setPreviewUrls] = useState([]);
+
+    const validateFile = (file) => {
+        if (allowedTypes.length === 0) return true;
+        return allowedTypes.includes(file.type);
+    };
+
+    /** Select + validate + preview */
+    const handleFileSelect = (e) => {
+        const selectedFiles = Array.from(e.target.files);
+
+        const validFiles = selectedFiles.filter(validateFile);
+        const invalidFiles = selectedFiles.filter(f => !validateFile(f));
+
+        if (invalidFiles.length > 0) {
+            warningNotify("Only PNG, JPG, JPEG and PDF files are allowed");
+        }
+
+        // Prevent duplicates
+        const uniqueFiles = validFiles.filter(
+            file => !uploadedFiles.some(f => f.name === file.name)
+        );
+
+        if (uniqueFiles.length === 0) return;
+
+        setUploadedFiles(prev => [...prev, ...uniqueFiles]);
+
+        const newPreviews = uniqueFiles.map(file => ({
+            name: file.name,
+            url: URL.createObjectURL(file),
+            type: file.type
+        }));
+
+        setPreviewUrls(prev => [...prev, ...newPreviews]);
+    };
+
+    /** Remove file + preview */
+    const handleRemoveFile = (name) => {
+        setUploadedFiles(prev => prev.filter(file => file.name !== name));
+        setPreviewUrls(prev => prev.filter(img => img.name !== name));
+    };
+
+    return {
+        uploadedFiles,
+        previewUrls,
+        handleFileSelect,
+        handleRemoveFile,
+        setUploadedFiles,
+        setPreviewUrls
+    };
+};
+
+
+export const TransformCommonIncidentLevels = (apiData) => {
+    if (!apiData || apiData.length === 0) return [];
+
+    const jsonLevels = JSON.parse(apiData[0].levels);
+    const jsonSections = JSON.parse(apiData[0].sections);
+    // Group levels by section
+    const grouped = jsonSections.map(section => {
+        const levelsInSection = jsonLevels
+            .filter(level => level?.section_slno === section?.section_id)
+            .sort((a, b) => a?.level_priority - b?.level_priority); // ensure order
+
+        return {
+            section_id: section?.section_id,
+            mandatory: section?.mandatory,
+            levels: levelsInSection
+        };
+    });
+    return grouped;
+};
+
+
+
+
+// export const TransforIncidentLevels = (apiData) => {
+//     if (!apiData || apiData.length === 0) return [];
+//     const jsonLevels = JSON.parse(apiData[0].levels);
+//     return jsonLevels;
+// };
+
+
+export const TransforIncidentLevels = (apiData) => {
+    if (!apiData || apiData.length === 0) return [];
+
+    return apiData.map(item => {
+        const levels = item.levels ? JSON.parse(item.levels) : [];
+
+        const transformedLevels = levels.map(level => ({
+            ...level,
+            currLevel: Number(level.level_no),       // current level number
+            LevelSlno: Number(level.detail_slno),   // detail_slno
+            LevelName: level.level_name,            // level name
+            dep_id: item.dep_id,                     // department
+            sec_id: item.sec_id                      // section
+        }));
+
+        return {
+            dep_id: item.dep_id,
+            sec_id: item.sec_id,
+            levels: transformedLevels
+        };
+    });
+};
+
+
+
+export const useIncidentStats = (incidents = []) => {
+
+    return useMemo(() => {
+        if (!incidents || incidents.length === 0) {
+            return {
+                totalCount: 0,
+                newCount: 0,
+                processingCount: 0,
+                closedCount: 0,
+                yesterdayTotal: 0,
+                yesterdayNew: 0,
+                yesterdayProcessing: 0,
+                yesterdayClosed: 0,
+            };
+        }
+
+        const start = startOfYesterday();
+        const end = endOfYesterday();
+
+        const parseDate = (d) => new Date(d);
+
+        const isYesterday = (item) => item?.create_date &&
+            isWithinInterval(parseDate(item?.create_date), { start, end });
+
+        const totalCount = incidents.length;
+
+        const newFilter = (d) => d.inc_current_level === 0 && d.inc_current_level_review_state === null;
+        const processingFilter = (d) => d.inc_current_level !== 0 && d.inc_current_level_review_state !== null && d.inc_all_approved === 0;
+        const closedFilter = (d) => d.inc_all_approved === 1;
+
+        const newCount = incidents.filter(newFilter).length;
+        const processingCount = incidents.filter(processingFilter).length;
+        const closedCount = incidents.filter(closedFilter).length;
+
+        // Yesterday Counts
+        const yesterdayIncidents = incidents.filter(isYesterday);
+
+        const yesterdayTotal = yesterdayIncidents.length;
+        const yesterdayNew = yesterdayIncidents.filter(newFilter).length;
+        const yesterdayProcessing = yesterdayIncidents.filter(processingFilter).length;
+        const yesterdayClosed = yesterdayIncidents.filter(closedFilter).length;
+
+        return {
+            totalCount,
+            newCount,
+            processingCount,
+            closedCount,
+            yesterdayTotal,
+            yesterdayNew,
+            yesterdayProcessing,
+            yesterdayClosed,
+        };
+
+    }, [incidents]);
+};
+
+
+
+
+
+// @IncidentListCard.js
+export const useIncidentCardHandlers = ({
+    fetchIncidentFiles,
+    FetchAllHigLevelApprovals,
+    FetchAllActionReviewDetails
+}) => {
+
+    const GetAllLevelItems = useCallback(async (levelSlno) => {
+        try {
+            const { data } = await axioslogin.post("/incidentMaster/getlevelitems", { level_slno: levelSlno });
+            if (data?.success !== 2) return warningNotify(data?.message);
+            return data?.data;
+        } catch (err) {
+            warningNotify(err?.message ?? "Something went wrong");
+        }
+    }, []);
+
+    const fetchAllData = useCallback(async (id, status, levelSlno) => {
+        const filesReq = status === 1
+            ? fetchIncidentFiles(`/incidentMaster/getincidentfile/${id}`)
+            : Promise.resolve([]);
+
+        const [
+            files,
+            approvalDetail,
+            levelActionDetail,
+            levelItems,
+        ] = await Promise.all([
+            filesReq,
+            FetchAllHigLevelApprovals(id),
+            FetchAllActionReviewDetails(id),
+            GetAllLevelItems(levelSlno),
+        ]);
+
+        return { files, approvalDetail, levelActionDetail, levelItems };
+    }, []);
+
+    return { fetchAllData };
+};

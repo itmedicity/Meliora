@@ -1,138 +1,11 @@
-// import React from "react";
-// import { Box, Sheet, Typography } from "@mui/joy";
-// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-// import { TiArrowForwardOutline } from "react-icons/ti";
-// import IncidentTextComponent from "../Components/IncidentTextComponent";
-// import { useQuery } from "@tanstack/react-query";
-// import { getAllIncidentCategory, getAllIncidentSubCategory } from "src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode";
-
-// const IncidentCategorySelect = ({
-//   selected, setSelected
-// }) => {
-
-//   const {
-//     data: categories
-//   } = useQuery({
-//     queryKey: 'getincidentcategory',
-//     queryFn: () => getAllIncidentCategory(),
-//     staleTime: Infinity
-//   })
-
-
-
-//   const {
-//     data: incidentsubcategory,
-//     // refetch: FetchallSubCategoryData
-//     // isLoading: isLoadingIncident,
-//     // error: categoryerr
-//   } = useQuery({
-//     queryKey: 'getincidentsubcategory',
-//     queryFn: () => getAllIncidentSubCategory(),
-//     enabled: true
-//   })
-
-
-//   console.log(incidentsubcategory, "incidentsubcategory");
-//   console.log(categories, "categories");
-
-
-//   const handleSelect = (symbol) => {
-//     setSelected(symbol);
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         bgcolor: "#fafafa",
-//         p: 2,
-//         borderRadius: "md",
-//         boxShadow: "sm",
-//         display: "flex",
-//         flexDirection: "column",
-//         gap: 1.5,
-//         mx: "auto",
-//         width: '100%'
-//       }}
-//     >
-
-//       <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.4 }}>
-//         <TiArrowForwardOutline style={{ color: ' var(--rose-pink-400)', fontSize: 18 }} />
-//         <IncidentTextComponent text={`Select Incident Category`} size={14} weight={600} color={"black"} />
-//       </Box>
-
-//       <Box
-//         sx={{
-//           display: "flex",
-//           flexDirection: "row",
-//           flexWrap: "wrap", // Optional: allow wrap on smaller screens
-//           gap: 1,
-//         }}
-//       >
-//         {categories?.map((cat, idx) => {
-//           const isSelected = selected === cat?.inc_category_slno;
-
-//           return (
-//             <Sheet
-//               key={idx}
-//               onClick={() => handleSelect(cat?.inc_category_slno)}
-//               variant="outlined"
-//               sx={{
-//                 flex: 1,
-//                 cursor: "pointer",
-//                 px: 1.5,
-//                 py: 0.75,
-//                 borderRadius: "sm",
-//                 borderWidth: "2px",
-//                 borderColor: isSelected
-//                   ? "var(--royal-purple-300)"
-//                   : "neutral.outlinedBorder",
-//                 backgroundColor: isSelected
-//                   ? "var(--royal-purple-100)"
-//                   : "background.body",
-//                 minWidth: "130px",
-//                 display: "flex",
-//                 alignItems: "center",
-//                 justifyContent: "space-between",
-//                 transition: "0.2s ease",
-//                 "&:hover": {
-//                   boxShadow: "sm",
-//                   borderColor: "primary.outlinedHoverBorder",
-//                 },
-//               }}
-//             >
-//               <Typography level="body-sm" sx={{ fontWeight: 500, fontSize: 13 }}>
-//                 {cat.inc_category_name}
-//               </Typography>
-
-//               {isSelected && (
-//                 <CheckCircleIcon
-//                   fontSize="small"
-//                   sx={{
-//                     color: "var(--royal-purple-300)",
-//                   }}
-//                 />
-//               )}
-//             </Sheet>
-//           );
-//         })}
-//       </Box>
-//     </Box>
-//   );
-// };
-
-// export default IncidentCategorySelect;
-
-
 import React, { useMemo } from "react";
 import { Box, Sheet, Typography } from "@mui/joy";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { TiArrowForwardOutline } from "react-icons/ti";
 import IncidentTextComponent from "../Components/IncidentTextComponent";
-import { useQuery } from "@tanstack/react-query";
-import {
-  getAllIncidentCategory,
-  getAllIncidentSubCategory,
-} from "src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode";
+import { memo } from "react";
+import { useIncidentCategory, useIncidentSubCategory } from "../CommonComponent/useQuery";
+import SubCategoryItem from "./SubCategoryItem";
 
 const IncidentCategorySelect = ({
   selectedCategory,
@@ -142,17 +15,8 @@ const IncidentCategorySelect = ({
 }) => {
 
 
-  const { data: categories } = useQuery({
-    queryKey: ["getincidentcategory"],
-    queryFn: () => getAllIncidentCategory(),
-    staleTime: Infinity,
-  });
-
-  const { data: incidentsubcategory } = useQuery({
-    queryKey: ["getincidentsubcategory"],
-    queryFn: () => getAllIncidentSubCategory(),
-    staleTime: Infinity,
-  });
+  const { data: categories } = useIncidentCategory();
+  const { data: incidentsubcategory } = useIncidentSubCategory();
 
   //  Filter subcategories based on selected category & active status
   const filteredSubcategories = useMemo(() => {
@@ -223,7 +87,7 @@ const IncidentCategorySelect = ({
                   : "background.body",
                 minWidth: "130px",
                 display: "flex",
-                flex:1,
+                flex: 1,
                 alignItems: "center",
                 justifyContent: "space-between",
                 transition: "0.2s ease",
@@ -272,59 +136,17 @@ const IncidentCategorySelect = ({
                 gap: 1,
               }}
             >
-              {filteredSubcategories?.map((sub) => {
-                const isSubSelected =
-                  selectedSubCategory === sub?.inc_sub_cat_slno;
-                return (
-                  <Sheet
-                    key={sub?.inc_sub_cat_slno}
-                    onClick={() =>
-                      setSelectedSubCategory(sub?.inc_sub_cat_slno)
-                    }
-                    variant="outlined"
-                    sx={{
-                      cursor: "pointer",
-                      px: 1.5,
-                      py: 0.75,
-                      borderRadius: "sm",
-                      borderWidth: "2px",
-                      borderColor: isSubSelected
-                        ? "var(--royal-purple-300)"
-                        : "neutral.outlinedBorder",
-                      backgroundColor: isSubSelected
-                        ? "var(--royal-purple-100)"
-                        : "background.body",
-                      minWidth: "180px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      transition: "0.2s ease",
-                      "&:hover": {
-                        boxShadow: "sm",
-                        borderColor: "primary.outlinedHoverBorder",
-                      },
-                    }}
-                  >
-                    <Typography
-                      level="body-sm"
-                      sx={{
-                        fontWeight: 500,
-                        fontSize: 13,
-                        textAlign: "left",
-                      }}
-                    >
-                      {sub?.inc_sub_category_name}
-                    </Typography>
-
-                    {isSubSelected && (
-                      <CheckCircleIcon
-                        fontSize="small"
-                        sx={{ color: "var(--royal-purple-300)" }}
-                      />
-                    )}
-                  </Sheet>
-                );
-              })}
+              {
+                filteredSubcategories?.map((sub) => {
+                  return (
+                    <SubCategoryItem
+                      key={sub?.inc_sub_cat_slno}
+                      sub={sub}
+                      isSelected={selectedSubCategory === sub?.inc_sub_cat_slno}
+                      onSelect={setSelectedSubCategory}
+                    />
+                  );
+                })}
             </Box>
           ) : (
             <Typography
@@ -340,5 +162,5 @@ const IncidentCategorySelect = ({
   );
 };
 
-export default IncidentCategorySelect;
+export default memo(IncidentCategorySelect);
 

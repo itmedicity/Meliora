@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
@@ -11,8 +11,36 @@ import {
 import { innerHeight } from 'src/views/Constant/Constant';
 import IncidentListCard from './IncidentListCard';
 import { getStatusInfo } from '../CommonComponent/CommonCode';
+import { useCurrentCompanyData, useIncidentCommonApprovalLevels } from '../CommonComponent/useQuery';
+import { TransforIncidentLevels } from '../CommonComponent/CommonFun';
+import IncidentListCardSkeleton from '../SkeletonComponent/IncidentListCardSkeleton';
 
-const TabComponent = ({ TabDetails, edit, fetchAgain, level, levelNo }) => {
+const TabComponent = ({ TabDetails, edit, fetchAgain, TotalLevelDepartments, level, loadinglist }) => {
+
+    // current level of incident
+    const {
+        data: CommonIncidentLevels,
+        isLoading: IncidentLevelLoading
+    } = useIncidentCommonApprovalLevels(TotalLevelDepartments);
+
+    // Transforming incomming data into Managable foramt (json to array)
+    const incidentlevels = useMemo(() => {
+        return TransforIncidentLevels(CommonIncidentLevels);
+    }, [CommonIncidentLevels]);
+
+
+    const { data: CurrrentComapny, isLoading: LoadingCompanyData } = useCurrentCompanyData();
+
+
+    const CompanyNumber = CurrrentComapny?.length > 0 ? CurrrentComapny[0]?.company_slno : null;
+
+    //  CHOOSING THE CURRENT COMPANY DETAILS
+    const CompanyName = useMemo(() => {
+        if (CompanyNumber == null) return ''; // or loading text
+        return Number(CompanyNumber) === 1
+            ? 'INCI/TMCH/'
+            : 'INCI/KMCH/';
+    }, [CompanyNumber]);
 
     return (
         <Box
@@ -100,22 +128,51 @@ const TabComponent = ({ TabDetails, edit, fetchAgain, level, levelNo }) => {
 
                     {TabDetails?.map((tab) => (
                         <TabPanel key={tab?.id} value={tab?.id}>
-                            {tab?.data?.map((item, idx) => {
-                                const { text, icons } = getStatusInfo(item);
-                                return (
-                                    <IncidentListCard
-                                        items={item}
-                                        key={idx}
-                                        isedit={edit}
-                                        level={level}
-                                        status={text}
-                                        icons={icons}
-                                        fetchAgain={fetchAgain}
-                                        levelNo={levelNo}
-                                    />
-                                )
-                            }
+                            {/* New Content Here */}
+
+                            {(LoadingCompanyData || loadinglist) && (
+                                Array.from({ length: 4 }).map((_, i) => (
+                                    <IncidentListCardSkeleton key={`skeleton-${i}`} />
+                                ))
                             )}
+
+                            {!(LoadingCompanyData || loadinglist) &&
+                                tab?.data?.map((item, idx) => {
+
+                                    const levelsForIncident =
+                                        incidentlevels?.find(
+                                            lvl => lvl.dep_id === item.dep_slno && lvl.sec_id === item.sec_slno
+                                        )?.levels || [];
+
+                                    const CurrentlevelDetail =
+                                        TotalLevelDepartments?.find(
+                                            lvl => lvl.dep_id === item.dep_slno && lvl.sec_id === item.sec_slno
+                                        ) || {};
+
+                                    const levelName = level || CurrentlevelDetail?.level_name;
+                                    const levelNo = CurrentlevelDetail?.level_no;
+                                    const levelSlno = CurrentlevelDetail?.detail_slno;
+
+                                    const { text, icons } = getStatusInfo(item, levelsForIncident);
+
+                                    return (
+                                        <IncidentListCard
+                                            key={`incident-list-${idx}`}
+                                            CompanyName={CompanyName}
+                                            items={item}
+                                            isedit={edit}
+                                            level={levelName}
+                                            status={text}
+                                            icons={icons}
+                                            fetchAgain={fetchAgain}
+                                            levelNo={levelNo}
+                                            levelSlno={levelSlno}
+                                            loadinglevel={IncidentLevelLoading}
+                                            FinalIncidentLevels={levelsForIncident}
+                                        />
+                                    );
+                                })}
+
                         </TabPanel>
                     ))}
                 </Box>

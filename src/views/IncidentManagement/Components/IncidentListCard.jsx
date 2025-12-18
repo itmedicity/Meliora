@@ -4,24 +4,33 @@ import { CgFileDocument } from "react-icons/cg";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import IncidentTextComponent from './IncidentTextComponent';
-import { formatDateTime, useHighLevelApprovals, useIncidentFiles } from '../CommonComponent/CommonFun';
+import {
+    formatDateTime,
+    handleRateLimitError,
+    useHighLevelApprovals,
+    useIncidentCardHandlers,
+    useIncidentFiles,
+    useLevelActionDetails
+} from '../CommonComponent/CommonFun';
 import CustomeIncidentLoading from './CustomeIncidentLoading';
-import FileAttachment from './FileAttachment';
-import FilepreviewModal from '../IncidentModals/FilepreviewModal';
-import { PUBLIC_NAS_FOLDER } from 'src/views/Constant/Static';
-import FiveWhyAnalysisIcon from './FiveWhyAnalysisIcon';
-import FiveWhyModal from '../IncidentModals/FiveWhyModal';
-import FishBoneModal from '../IncidentModals/FishBoneModal';
 import { warningNotify } from 'src/views/Common/CommonCode';
 import { axioslogin } from 'src/views/Axios/Axios';
-import FishBoneAnalysisIcon from './FishBoneAnalysisIcon';
-// import { fetchAllInvolvedDep } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
-// import { useQuery } from '@tanstack/react-query';
+import AddButtonSkeleton from '../SkeletonComponent/AddButtonSkeleton';
+import IncidentStatusSkeleton from '../SkeletonComponent/IncidentStatusSkeleton';
+import { safeParse } from '../CommonComponent/Incidnethelper';
+// import { useCurrentCompanyData } from '../CommonComponent/useQuery';
 
 // Lazy-loaded components
 const AddButton = lazy(() => import('../ButtonComponent/AddButton'));
 const IncidentStatus = lazy(() => import('./IncidentStatus'));
 const IncidentViewModal = lazy(() => import('../IncidentModals/IncidentViewModal'));
+const IncidentTagChip = lazy(() => import('./IncidentTagChip'));
+const DataCollectionChip = lazy(() => import('./DataCollectionChip'));
+const FileAttachment = lazy(() => import('./FileAttachment'));
+const FishBoneAnalysisIcon = lazy(() => import('./FishBoneAnalysisIcon'));
+const FishBoneModal = lazy(() => import('../IncidentModals/FishBoneModal'));
+const FiveWhyModal = lazy(() => import('../IncidentModals/FiveWhyModal'));
+const FilepreviewModal = lazy(() => import('../IncidentModals/FilepreviewModal'));
 
 const IncidentListCard = ({
     items,
@@ -29,7 +38,12 @@ const IncidentListCard = ({
     level,
     status,
     icons,
-    levelNo
+    levelNo,
+    levelSlno,
+    loadinglevel,
+    FinalIncidentLevels,
+    CompanyName,
+    key
 }) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -40,6 +54,8 @@ const IncidentListCard = ({
     const [fbaloading, setFbaLoading] = useState(false);
     const [fbadetail, setFbaDetail] = useState([]);
     const [approvaldetails, setApprovalDetails] = useState([]);
+    const [levelitems, setLevelItems] = useState([]);
+    const [levelactionreview, setLevelActionReview] = useState([]);
 
     const tags = useMemo(() => items?.nature_of_inc || [], [items?.nature_of_inc]);
 
@@ -47,29 +63,46 @@ const IncidentListCard = ({
 
     const { FetchAllHigLevelApprovals, loadingapprovals } = useHighLevelApprovals();
 
+    const { FetchAllActionReviewDetails, loadingactionsreviewdetail } = useLevelActionDetails();
+
     const handleClose = useCallback(() => setOpen(false), []);
 
-    const HandleViewOption = useCallback(async (id, status) => {
-        if (status === 1) {
-            const files = await fetchIncidentFiles(`/incidentMaster/getincidentfile/${items?.inc_register_slno}`);
-            setUploadedFiles(files);
-        }
-        const approvalDetail = await FetchAllHigLevelApprovals(id)
-        setApprovalDetails(approvalDetail)
+
+
+
+    // Using Common Helper to fetch All Detail in one Click 
+    const { fetchAllData } = useIncidentCardHandlers({
+        fetchIncidentFiles,
+        FetchAllHigLevelApprovals,
+        FetchAllActionReviewDetails
+    });
+
+    //  **REPLACED YOUR OLD HandleViewOption WITH OPTIMIZED ONE**
+    const HandleViewOption = useCallback(async (id, fileStatus) => {
+        const { files, approvalDetail, levelActionDetail, levelItems } =
+            await fetchAllData(id, fileStatus, levelSlno);
+
+        setUploadedFiles(files || []);
+        setApprovalDetails(approvalDetail || []);
+        setLevelActionReview(levelActionDetail || []);
+        setLevelItems(levelItems || []);
+
         setOpen(true);
-    }, [fetchIncidentFiles]);
+    }, [fetchAllData, levelSlno]);
 
     const HandleEditOption = useCallback(async (items) => {
         let files = [];
         if (items?.file_status === 1) {
-            files = await fetchIncidentFiles(items?.inc_register_slno);
+            files = await fetchIncidentFiles(`/incidentMaster/getincidentfile/${items?.inc_register_slno}`)
         }
         navigate("/Home/IncidentReg", { state: { incidentData: items, files, isEdit: true } });
     }, [fetchIncidentFiles, navigate]);
 
+
+    // show the incident files when clicking on the outside 
     const handleImageView = useCallback(async (id, status) => {
         if (status === 1) {
-            const files = await fetchIncidentFiles(`/incidentMaster/getincidentfile/${items?.inc_register_slno}`);
+            const files = await fetchIncidentFiles(`/incidentMaster/getincidentfile/${id}`);
             setUploadedFiles(files);
         }
         setIpenImages(true)
@@ -77,10 +110,7 @@ const IncidentListCard = ({
 
     const handleImageClose = useCallback(() => { setIpenImages(false) }, []);
 
-
-    const parsedDetails = items?.data_collection_details
-        ? JSON.parse(items?.data_collection_details)
-        : [];
+    const parsedDetails = safeParse(items?.data_collection_details);
 
     const hasSameSection = parsedDetails?.some(
         (row) => row.section === items?.sec_name
@@ -89,12 +119,6 @@ const IncidentListCard = ({
     const dataCollection = hasSameSection
         ? parsedDetails
         : [...parsedDetails, { section: items?.sec_name, inc_dep_status: 1 }];
-
-
-
-
-
-
 
     //Modal opening and Analysis detail
     const handleFishboneModal = async () => {
@@ -107,6 +131,7 @@ const IncidentListCard = ({
             if (deptRes?.success !== 2) return warningNotify(deptRes?.message);
             setFbaDetail(deptRes ? deptRes?.data : [])
         } catch (error) {
+            if (handleRateLimitError(error)) return [];
             warningNotify(error?.message ?? "Something went wrong");
         } finally {
             setFbaLoading(false)
@@ -114,29 +139,30 @@ const IncidentListCard = ({
     }
 
     return (
-        <>
-            <Box sx={{
-                width: '100%', mb: 2,
-                p: 1,
-                flexDirection: 'column',
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                border: "4px solid var(--rose-pink-400)",
-                borderLeftWidth: "4px",   // keep left
-                borderRightWidth: "none",  // keep right
-                borderTop: "none",        // remove top
-                borderBottom: "none",     // remove bottom
-                borderRadius: "20px / 15px",
-                boxShadow: 'md'
+        <Box key={key}>
+            <Box
 
-            }}>
+                sx={{
+                    width: '100%', mb: 2,
+                    p: 1,
+                    flexDirection: 'column',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    border: "4px solid var(--rose-pink-400)",
+                    borderLeftWidth: "4px",   // keep left
+                    borderRightWidth: "none",  // keep right
+                    borderTop: "none",        // remove top
+                    borderBottom: "none",     // remove bottom
+                    borderRadius: "20px / 15px",
+                    boxShadow: 'md'
+
+                }}>
                 {/* Top Card */}
                 <Box sx={{
                     width: '100%',
                     minHeight: 120,
                     borderBottom: '1px solid #D0BFFF',
-                    // borderBottom: 'none',
                     borderRadius: 5,
                     borderBottomLeftRadius: 0,
                     borderBottomRightRadius: 0,
@@ -146,23 +172,20 @@ const IncidentListCard = ({
                     px: 2,
                     py: 1,
                     cursor: 'pointer',
-
-
-
                 }}>
                     {/* Left Section */}
                     <Box sx={{ width: '15%', display: 'flex', flexDirection: 'column', gap: 0.2 }}>
-                        <IncidentTextComponent text={`INCI/TMCH/${items?.inc_register_slno}`} color="var(--royal-purple-400)" size={18} weight={900} />
+                        <IncidentTextComponent text={`${CompanyName}${items?.inc_register_slno}`} color="var(--royal-purple-400)" size={18} weight={900} />
                         <IncidentTextComponent text={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")} color="#403d3dff" size={13} weight={400} />
                         <IncidentTextComponent text={items?.em_name} color="#1a1a1a" size={14} weight={700} />
-                        <IncidentTextComponent text={items?.dept_name} color="#5A5A5A" size={12} weight={500} />
+                        <IncidentTextComponent text={items?.sec_name} color="#5A5A5A" size={12} weight={500} />
                         <IncidentTextComponent text={items?.desg_name} color="#5A5A5A" size={10} weight={400} />
                     </Box>
 
                     <Divider orientation="vertical" />
 
                     {/* Middle Section */}
-                    <Box sx={{ width: '35%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+                    <Box sx={{ width: '25%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
                         <IncidentTextComponent
                             text={items?.inc_initiator_name?.toUpperCase()}
                             color="#2b1a4f"
@@ -170,31 +193,15 @@ const IncidentListCard = ({
                             weight={800}
                         />
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, rowGap: 1, mt: 0.5 }}>
-                            {tags.map((tag) => (
-                                <Box key={tag} sx={{
-                                    px: 1.4,
-                                    py: 0.3,
-                                    background: '#ede5f9',
-                                    border: '1px solid #c6b6e9',
-                                    borderRadius: '20px',
-                                    fontSize: 11,
-                                    fontWeight: 600,
-                                    color: '#5d3a9c',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: 0.5,
-                                    boxShadow: 'inset 0 0 4px rgba(0, 0, 0, 0.05)',
-                                    transition: 'background 0.3s',
-                                    '&:hover': { background: '#e2d6f3' },
-                                }}>
-                                    {tag}
-                                </Box>
+                            {tags?.map((tag) => (
+                                <IncidentTagChip key={tag} tag={tag} />
                             ))}
                         </Box>
                     </Box>
 
                     <Divider orientation="vertical" />
 
-                    <Box sx={{ width: '35%', display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Box sx={{ width: '25%', display: 'flex', flexDirection: 'column', gap: 1 }}>
                         <IncidentTextComponent
                             text={'Involving Departments'}
                             color="#2b1a4f"
@@ -209,61 +216,19 @@ const IncidentListCard = ({
                                 mt: 0.5,
                             }}
                         >
-                            {dataCollection && dataCollection?.map((dep, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        px: 1.5,
-                                        py: 0.6,
-                                        background: 'linear-gradient(135deg, #f5f0ff, #ece3fa)',
-                                        border: '1px solid #c6b6e9',
-                                        borderRadius: '12px',
-                                        fontSize: 12,
-                                        fontWeight: 600,
-                                        color: '#3b2a6a',
-                                        letterSpacing: 0.3,
-                                        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
-                                        transition: 'all 0.2s ease-in-out',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 0.6,
-                                        '&:hover': {
-                                            background: 'linear-gradient(135deg, #ece3fa, #e0d4f7)',
-                                            transform: 'translateY(-2px)',
-                                        },
-                                    }}
-                                >
-                                    {/* Small bullet/indicator */}
-                                    {
-                                        dep?.inc_dep_status === 1 ? (
-                                            <Box
-                                                component="span"
-                                                sx={{
-                                                    color: '#1f690dd1',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    fontSize: 14,
-                                                    fontWeight: 700,
-                                                }}
-                                            >
-                                                ✓
-                                            </Box>
-                                        ) : (
-                                            <Box
-                                                sx={{
-                                                    width: 8,
-                                                    height: 8,
-                                                    borderRadius: '50%',
-                                                    background: '#5d3a9c',
-                                                }}
-                                            />
-                                        )
-                                    }
-
-                                    {dep?.section}
-                                </Box>
-                            ))}
+                            {dataCollection && dataCollection
+                                ?.filter(item => item.inc_dep_status !== null && item.section !== null)
+                                ?.filter(
+                                    (item, index, self) =>
+                                        index === self.findIndex(d => d.section === item.section)
+                                )
+                                ?.map((dep, index) => (
+                                    <DataCollectionChip
+                                        key={index}
+                                        status={dep?.inc_dep_status}
+                                        label={dep?.section}
+                                    />
+                                ))}
                         </Box>
                     </Box>
 
@@ -271,21 +236,39 @@ const IncidentListCard = ({
                     <Divider orientation="vertical" />
 
                     {/* Right Section */}
-                    <Box sx={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                        <IncidentTextComponent text="Incident Description" color="#74359c" size={14} weight={700} />
-                        <IncidentTextComponent
-                            text={items?.inc_describtion}
-                            color="#403d3dff"
-                            size={14}
-                            weight={400}
-                            sx={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 4,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                            }}
-                        />
+                    <Box sx={{ width: '55%', overflow: 'hidden', textOverflow: 'ellipsis', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                        <Box>
+                            <IncidentTextComponent text="Incident Description" color="#74359c" size={14} weight={700} />
+                            <IncidentTextComponent
+                                text={items?.inc_describtion}
+                                color="#403d3dff"
+                                size={12}
+                                weight={400}
+                                sx={{
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 4,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            />
+                        </Box>
+                        <Box>
+                            <IncidentTextComponent text=" Corrective Action" color="#74359c" size={14} weight={700} />
+                            <IncidentTextComponent
+                                text={items?.inc_reg_corrective || ''}
+                                color="#403d3dff"
+                                size={12}
+                                weight={400}
+                                sx={{
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 4,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            />
+                        </Box>
                     </Box>
                 </Box>
 
@@ -295,22 +278,20 @@ const IncidentListCard = ({
                     height: 50,
                     borderBottomLeftRadius: 5,
                     borderBottomRightRadius: 5,
-                    // border: '1px solid #D0BFFF',
                     px: 1,
                     display: 'flex',
                     justifyContent: 'space-between',
-                    // bgcolor: '#eeeafaff'
                 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Suspense fallback={<span>Loading...</span>}>
+                        <Suspense fallback={<AddButtonSkeleton />}>
                             <AddButton
                                 onClick={() => HandleViewOption(items?.inc_register_slno, items?.file_status)}
                                 label="View"
                                 icon={CgFileDocument}
                             />
                             {
-                                !(items?.inc_incharge_ack === 1 || items?.inc_hod_ack === 1)
-                                && level === 'registerduser' &&
+                                Number(items?.inc_current_level) === 0
+                                && level === 'REGISTERED USER' &&
                                 <AddButton
                                     onClick={() => HandleEditOption(items)}
                                     label="Edit"
@@ -321,8 +302,12 @@ const IncidentListCard = ({
                     </Box>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Suspense fallback={<span>Loading...</span>}>
-                            <IncidentStatus text={status} icon={icons} />
+                        <Suspense fallback={<IncidentStatusSkeleton />}>
+                            {
+                                loadinglevel ?
+                                    <IncidentStatusSkeleton /> :
+                                    <IncidentStatus text={status} icon={icons} />
+                            }
                         </Suspense>
                         {
                             items?.file_status === 1 &&
@@ -332,18 +317,15 @@ const IncidentListCard = ({
                             />
                         }
 
-
-                        {/* {
-                            level === 'HOD' && */}
                         <>
-                            <FiveWhyAnalysisIcon onClick={handleFishboneModal} />
                             <FishBoneAnalysisIcon onClick={handleFishboneModal} />
-
                         </>
-                        {/* } */}
+
                     </Box>
                 </Box>
             </Box>
+
+
 
             {/* Lazy Modal */}
             <Modal open={open} onClose={handleClose}>
@@ -352,18 +334,22 @@ const IncidentListCard = ({
                     <Suspense fallback={<CustomeIncidentLoading text={"Loading Data..."} />}>
                         <IncidentViewModal
                             items={items}
-                            loading={loadingFiles || loadingapprovals}
+                            loading={loadingFiles || loadingapprovals || loadingactionsreviewdetail}
                             IncidentFiles={uploadedfiles}
                             fetchAgain={fetchAgain}
                             setOpenModal={setOpen}
                             level={level}
-                            publicNasFolder={PUBLIC_NAS_FOLDER}
                             levelNo={levelNo}
                             highlevelapprovals={approvaldetails}
+                            levelitems={levelitems}
+                            levelactionreview={levelactionreview}
+                            FinalIncidentLevels={FinalIncidentLevels}
+                            CompanyName={CompanyName}
                         />
                     </Suspense>
                 </ModalDialog>
             </Modal>
+
             {
                 uploadedfiles?.length > 0 &&
                 <Modal open={openimages} onClose={handleImageClose}>
@@ -372,15 +358,11 @@ const IncidentListCard = ({
                         <Suspense fallback={<CustomeIncidentLoading text={"Loading Data..."} />}>
                             <FilepreviewModal
                                 IncidentFiles={uploadedfiles}
-                                registerSlno={items?.inc_register_slno}
-                                publicNasFolder={PUBLIC_NAS_FOLDER}
                             />
                         </Suspense>
                     </ModalDialog>
                 </Modal>
-
             }
-
 
             <FishBoneModal
                 open={fishbonemodal}
@@ -396,8 +378,7 @@ const IncidentListCard = ({
                 items={items}
             />
 
-
-        </>
+        </Box>
     );
 };
 

@@ -1,6 +1,6 @@
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
+// import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+// import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+// import PendingActionsIcon from '@mui/icons-material/PendingActions';
 
 export const staffDetail = {
     name: "Dr. Arjun Menon",
@@ -123,7 +123,6 @@ export const textAreaStyleFivewhy = {
 };
 
 
-
 export const inputStyles = {
     border: '1.5px solid #d8dde2ff',
     borderRadius: '6px',
@@ -165,138 +164,61 @@ export const dummyData = {
 };
 
 
+export const getStatusInfo = (val, level) => {
 
-//export const pairedCauses = [
-//     {
-//         top: {
-//             category: "MATERIAL",
-//             causes: [
-//                 "Wrong reporting time of patient as per appointment",
-//                 "Barcode error (IT Dept)",
-//                 "Equipment delay (Operations)",
-//                 "Wrong reporting time of patient as per appointment",
-//                 "Barcode error (IT Dept)"
-//             ],
-//         },
-//         bottom: {
-//             category: "MILIEU",
-//             causes: ["Peak hours", "Overcrowding", "Limited waiting area"],
-//         },
-//     },
-//     {
-//         top: {
-//             category: "MACHINE",
-//             causes: ["Printer malfunction", "System delay (IT)"],
-//         },
-//         bottom: {
-//             category: "METHOD",
-//             causes: ["Priority given for VIP", "Handling for vulnerable patients"],
-//         },
-//     },
-//     {
-//         top: {
-//             category: "MAN",
-//             causes: ["Staff shortage", "Improper scheduling", "Untrained staff"],
-//         },
-//         bottom: {
-//             category: "MEASUREMENT",
-//             causes: ["No monitoring", "Inaccurate logs", "Manual record delays"],
-//         },
-//     },
-// ];
+    const hasDirectLevel =
+        val?.level_slno !== null && val?.level_slno !== undefined &&
+        val?.level_review_state !== null && val?.level_review_state !== undefined &&
+        val?.level_name !== null && val?.level_name !== undefined;
 
+    /*
+      IF 3 DIRECT FIELDS EXIST — USE THEM
+    */
+    if (hasDirectLevel) {
 
-// export const getStatusInfo = (val) => {
-//     console.log(val, "val");
+        const levelName = val.level_name.trim();
+        const reviewState = (val.level_review_state || "").trim();
 
-//     switch (true) {
-//         case val.inc_incharge_ack === 1 && val.inc_incharge_reivew_state === 'A'
-//             && val.inc_hod_ack === 0 && val.inc_current_level === 0:
-//             return { text: 'INCHARGE APPROVED', icons: ThumbUpIcon };
-
-//         case val.inc_incharge_ack === 1 && val.inc_incharge_reivew_state === 'R' &&
-//             val.inc_hod_ack === 0 && val.inc_current_level === 0:
-//             return { text: 'INCHARGE REJECTED', icons: ThumbDownAltIcon };
-
-//         case val.inc_hod_ack === 1 && val.inc_hod_reivew_state === 'A' && val.inc_current_level === 0:
-//             return { text: 'HOD APPROVED', icons: ThumbUpIcon };
-
-//         case val.inc_hod_ack === 1 && val.inc_hod_reivew_state === 'R' && val.inc_current_level === 0:
-//             return { text: 'HOD REJECTED', icons: ThumbDownAltIcon };
-
-//         case val.inc_qad_ack === 1 && val.inc_qad_review_state === 'A' && val.inc_current_level === 0:
-//             return { text: 'QAD APPROVED', icons: ThumbUpIcon };
-
-//         case val.inc_qad_ack === 1 && val.inc_qad_review_state === 'R' && val.inc_current_level === 0:
-//             return { text: 'QAD REJECTED', icons: ThumbDownAltIcon };
-
-//         case val.inc_current_level > 0 && val.inc_current_level_review_state === 'A':
-//             return { text: `${val.current_lvl || ''} APPROVED` };
-
-//         case val.inc_current_level > 0 && val.inc_current_level_review_state === 'R':
-//             return { text: `${val.current_lvl || ''} REJECTED` };
-
-//         case val.inc_incharge_ack === 0 || (val.inc_hod_ack === 0 && val.inc_current_level === 0):
-//             return { text: 'PENDING APPROVAL', icons: PendingActionsIcon };
-
-//         default:
-//             return { text: 'INCIDENT REGISTERED', icons: PendingActionsIcon };
-//     }
-// };
-
-
-export const getStatusInfo = (val) => {
-
-    // 1. QAD Check (highest priority)
-    if (val.inc_qad_ack === 1) {
-        if (val.inc_qad_review_state === "A" && val.inc_current_level === 0) {
-            return { text: "QAD APPROVED", icons: ThumbUpIcon };
+        if (reviewState === "A") {
+            return { text: `${levelName} APPROVED` };
         }
-        if (val.inc_qad_review_state === "R" && val.inc_current_level === 0) {
-            return { text: "QAD REJECTED", icons: ThumbDownAltIcon };
+
+        if (reviewState === "R") {
+            return { text: `${levelName} REJECTED` };
         }
+
+        return { text: `${levelName} PENDING` };
     }
 
-    //  2. HOD Check
-    if (val.inc_hod_ack === 1) {
-        if (val.inc_hod_reivew_state === "A" && val.inc_current_level === 0) {
-            return { text: "HOD APPROVED", icons: ThumbUpIcon };
-        }
-        if (val.inc_hod_reivew_state === "R" && val.inc_current_level === 0) {
-            return { text: "HOD REJECTED", icons: ThumbDownAltIcon };
-        }
+
+    /*
+      FALLBACK → USE OLD LOGIC
+    */
+    if (!Array.isArray(level) || !val) {
+        return { text: "INCIDENT REGISTERED" };
     }
 
-    //  3. Incharge Check
-    if (val.inc_incharge_ack === 1) {
-        if (val.inc_incharge_reivew_state === "A" && val.inc_current_level === 0) {
-            return { text: "INCHARGE APPROVED", icons: ThumbUpIcon };
-        }
-        if (val.inc_incharge_reivew_state === "R" && val.inc_current_level === 0) {
-            return { text: "INCHARGE REJECTED", icons: ThumbDownAltIcon };
-        }
+    const currentLevel = level.find(
+        item => Number(item.level_no) === Number(val.inc_current_level)
+    );
+
+    if (!currentLevel) {
+        return { text: "INCIDENT REGISTERED" };
     }
 
-    //  4. Current Level (for escalated levels > 0)
-    if (val.inc_current_level > 0) {
-        if (val.inc_current_level_review_state === "A") {
-            return { text: `${val.current_lvl || "LEVEL"} APPROVED` };
-        }
-        if (val.inc_current_level_review_state === "R") {
-            return { text: `${val.current_lvl || "LEVEL"} REJECTED` };
-        }
+    const reviewState = (val.inc_current_level_review_state || "").trim();
+
+    if (reviewState === "A") {
+        return { text: `${currentLevel.level_name} APPROVED` };
     }
 
-    //  5. Pending States
-    if (
-        val.inc_incharge_ack === 0 ||
-        (val.inc_hod_ack === 0 && val.inc_current_level === 0)
-    ) {
-        return { text: "PENDING APPROVAL", icons: PendingActionsIcon };
+    if (reviewState === "R") {
+        return { text: `${currentLevel.level_name} REJECTED` };
     }
 
-    //  6. Default
-    return { text: "INCIDENT REGISTERED", icons: PendingActionsIcon };
+    return { text: `${currentLevel.level_name} PENDING` };
 };
 
 
+
+export const allowedFileType = ["image/png", "image/jpg", "image/jpeg", "application/pdf"];

@@ -12,6 +12,9 @@ const AttachedFilesCard = ({
 }) => {
 
 
+  
+    
+
     const handleFileRemove = (index) => {
         const updatedFiles = [...incidentFiles];
         updatedFiles.splice(index, 1);

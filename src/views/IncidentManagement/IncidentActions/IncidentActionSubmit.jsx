@@ -2,7 +2,7 @@ import { Box, Tooltip, IconButton } from '@mui/joy';
 import React, { memo, useState } from 'react';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
 import { IoCalendarOutline } from 'react-icons/io5';
-import { formatDateTime, handleImageUpload } from '../CommonComponent/CommonFun';
+import { formatDateTime, handleImageUpload, useFileUpload } from '../CommonComponent/CommonFun';
 import { PiHouseLineDuotone } from "react-icons/pi";
 import { FaPersonCircleCheck } from "react-icons/fa6";
 import SectionHeader from '../Components/SectionHeader';
@@ -11,51 +11,25 @@ import { GrSend } from "react-icons/gr";
 import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { employeeNumber } from 'src/views/Constant/Constant';
 import { useSelector } from 'react-redux';
-import { getDepActions } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
 import { IoAttachOutline, IoCloseCircle } from "react-icons/io5";
+import { allowedFileType } from '../CommonComponent/CommonCode';
+import { useDepartmentReqActions } from '../CommonComponent/useQuery';
 
 
-
-const IncidentActionSubmit = ({ items }) => {
+const IncidentActionSubmit = ({ items, setOpenModal }) => {
     const queryClient = useQueryClient();
     const [action, setAction] = useState("");
-    const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [previewUrls, setPreviewUrls] = useState([]);
 
     const { empdept } = useSelector(state => state.LoginUserData);
 
-    // fetch all department action details
-    const { data: departmentreqactions } = useQuery({
-        queryKey: ['getdepactions', items?.inc_register_slno, empdept],
-        queryFn: () => getDepActions(items?.inc_register_slno, empdept),
-        enabled: !!items?.inc_register_slno && !!empdept
-    });
+    const { data: departmentreqactions } = useDepartmentReqActions(items?.inc_register_slno, empdept);
 
     const firstAction = departmentreqactions && departmentreqactions[0];
 
-
-    /**  Handle file select + preview */
-    const handleFileSelect = (e) => {
-        const files = Array.from(e.target.files);
-        setUploadedFiles(prev => [...prev, ...files]);
-
-        const newPreviews = files.map(file => ({
-            name: file.name,
-            url: URL.createObjectURL(file),
-            type: file.type
-        }));
-
-        setPreviewUrls(prev => [...prev, ...newPreviews]);
-    };
-
-    /** Remove a selected file */
-    const handleRemoveFile = (name) => {
-        setUploadedFiles(prev => prev.filter(f => f.name !== name));
-        setPreviewUrls(prev => prev.filter(f => f.name !== name));
-    };
+    const { uploadedFiles, previewUrls, handleFileSelect, handleRemoveFile } = useFileUpload(allowedFileType);
 
     /**  Submit Department Action + File Upload */
     const handleDepartmentActionDetail = async () => {
@@ -128,8 +102,7 @@ const IncidentActionSubmit = ({ items }) => {
             warningNotify(error?.message ?? "Something went wrong");
         } finally {
             setAction("");
-            setUploadedFiles([]);
-            setPreviewUrls([]);
+            setOpenModal(false)
         }
     };
 
@@ -217,18 +190,19 @@ const IncidentActionSubmit = ({ items }) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: 1,
-                                        bgcolor: '#fafafa'
-                                    }}
-                                >
+                                        bgcolor: '#fafafa',
+                                        cursor: 'pointer',
+                                        position: 'relative'
+                                    }}>
                                     {file.type.startsWith('image') ? (
                                         <img src={file.url} alt={file.name} width={50} height={50} style={{ borderRadius: 4 }} />
                                     ) : (
                                         <IncidentTextComponent text={file.name} size={12} color="#333" />
                                     )}
                                     <IoCloseCircle
-                                        size={18}
+                                        size={25}
                                         color="red"
-                                        style={{ cursor: 'pointer' }}
+                                        style={{ cursor: 'pointer', position: 'absolute', right: -10, top: -10 }}
                                         onClick={() => handleRemoveFile(file.name)}
                                     />
                                 </Box>
