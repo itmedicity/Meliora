@@ -624,6 +624,7 @@ const ManualList = () => {
   const Sound = () => fetchImages('/newCRFRegisterImages/SoundAlike', 10);
   const Hospital = () => fetchImages('/newCRFRegisterImages/crfNabhImageGet', 11);
   const Standard = () => fetchImages('/newCRFRegisterImages/crfNabhGuidImageGet', 12);
+  const Mfhi = () => fetchImages('/newCRFRegisterImages/mfhi', 13);
 
   // SoundAlike
   //  Psychotropic
@@ -657,6 +658,8 @@ const ManualList = () => {
             { label: 'Psychotropic Drugs', action: Psychotropic },
             { label: 'Hospital Manual', action: Hospital },
             { label: 'Standard Treatment Guideline', action: Standard },
+            { label: 'MFHI', action: Mfhi },
+
           ].map((item, index) => (
             <Box key={index} sx={{ mb: 1 }}>
               <Button
