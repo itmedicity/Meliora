@@ -9,6 +9,7 @@ import RateVariationUpdation from "./RateVariationUpdation";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getStoreUserRights } from "./CommonApiFun";
+import PendingApprovalQuatation from "./PendingApprovalQuatation";
 
 const ReportMain = () => {
     const [activeComponent, setActiveComponent] = useState(null);
@@ -32,6 +33,8 @@ const ReportMain = () => {
         { id: 2, label: "GRN Report", component: <GrnReport /> },
         { id: 3, label: "Rate Variation Report", component: <RateVariationUpdation /> },
         { id: 4, label: "Rate Variation Updation", component: <RatevariationReport /> },
+        { id: 5, label: "Pending Approval Quatation", component: <PendingApprovalQuatation /> },
+
     ];
 
     const allowedReportItems = reportItems.filter(item =>
@@ -52,44 +55,46 @@ const ReportMain = () => {
                 activeComponent === 2 ? <GrnReport setActiveComponent={setActiveComponent} /> :
                     activeComponent === 3 ? <RateVariationUpdation setActiveComponent={setActiveComponent} /> :
                         activeComponent === 4 ? <RatevariationReport setActiveComponent={setActiveComponent} /> :
-                            <Box sx={{ width: "100%" }}>
-                                <CardCloseOnly title="Store Reports" close={backToSetting}>
-                                    <Box
-                                        sx={{
-                                            display: "grid",
-                                            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-                                            gap: 2,
-                                            p: 2,
-                                        }}
-                                    >
-                                        {allowedReportItems.map((item) => (
-                                            <Box
-                                                key={item.id}
-                                                onClick={() => setActiveComponent(item.id)}
-                                                sx={{
-                                                    p: 3,
-                                                    border: 1,
-                                                    borderColor: "#BB8ED0",
-                                                    borderRadius: 2,
-                                                    bgcolor: "neutral.softBg",
-                                                    boxShadow: "sm",
-                                                    cursor: "pointer",
-                                                    textAlign: "center",
-                                                    fontWeight: "lg",
-                                                    transition: "all 0.2s",
-                                                    "&:hover": {
-                                                        bgcolor: "primary.softBg",
-                                                        boxShadow: "lg",
-                                                        transform: "scale(1.03)"
-                                                    }
-                                                }}
-                                            >
-                                                {item.label}
-                                            </Box>
-                                        ))}
-                                    </Box>
-                                </CardCloseOnly>
-                            </Box>
+                            activeComponent === 5 ? <PendingApprovalQuatation setActiveComponent={setActiveComponent} /> :
+
+                                <Box sx={{ width: "100%" }}>
+                                    <CardCloseOnly title="Store Reports" close={backToSetting}>
+                                        <Box
+                                            sx={{
+                                                display: "grid",
+                                                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                                                gap: 2,
+                                                p: 2,
+                                            }}
+                                        >
+                                            {allowedReportItems.map((item) => (
+                                                <Box
+                                                    key={item.id}
+                                                    onClick={() => setActiveComponent(item.id)}
+                                                    sx={{
+                                                        p: 1.5,
+                                                        border: 1,
+                                                        borderColor: "#BB8ED0",
+                                                        borderRadius: 2,
+                                                        bgcolor: "neutral.softBg",
+                                                        boxShadow: "sm",
+                                                        cursor: "pointer",
+                                                        textAlign: "center",
+                                                        fontWeight: "lg",
+                                                        transition: "all 0.2s",
+                                                        "&:hover": {
+                                                            bgcolor: "primary.softBg",
+                                                            boxShadow: "lg",
+                                                            transform: "scale(1.03)"
+                                                        }
+                                                    }}
+                                                >
+                                                    {item.label}
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                    </CardCloseOnly>
+                                </Box>
             }
         </>
     );
