@@ -2,8 +2,6 @@ import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
 import { Box, Button, IconButton, Input, Option, Select, Typography } from '@mui/joy'
-import CusIconButton from '../Components/CusIconButton'
-import CustomeToolTip from '../Components/CustomeToolTip'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -15,7 +13,6 @@ import { axioslogin } from '../Axios/Axios'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
 import RateVariationResolved from './RateVariationResolved'
 import CommentModalAction from './CommentModalAction'
-import SquareIcon from '@mui/icons-material/Square';
 
 const Ratevariation = ({ setActiveComponent }) => {
 
@@ -189,9 +186,9 @@ const Ratevariation = ({ setActiveComponent }) => {
                     <Paper sx={{
                         width: '100%'
                     }}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 1, p: 1 }}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 0, p: 1, flexWrap: "wrap" }}>
 
-                            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                            <Box sx={{ display: "flex", gap: 1, alignItems: "center", flex: 1 }}>
                                 <Select value={selected} onChange={(e, newValue) => setSelected(newValue)} size="sm">
                                     <Option value="0">Select to Search</Option>
                                     <Option value="1">GRN Number</Option>
@@ -205,43 +202,90 @@ const Ratevariation = ({ setActiveComponent }) => {
                                     disabled={selected === "0"}
                                 />
 
-                                <CustomeToolTip title="Download Excel">
-                                    <CusIconButton variant="soft" color="success" onClick={onExportClick}>
-                                        <DownloadIcon />
-                                        Download
-                                    </CusIconButton>
-                                </CustomeToolTip>
-                                <Box>
-                                    <Box sx={{ display: "flex", mt: 0.1 }}>
-                                        <SquareIcon sx={{ color: "#D1E9F6" }} />
-                                        <Typography>Direct Purchase</Typography>
-                                    </Box>
+                                <Button
+                                    onClick={onExportClick}
+                                    size="sm"
+                                    sx={{
+                                        width: { xs: 100, sm: 120 },
+                                        border: '1px solid',
+                                        borderColor: 'green',
+                                        backgroundColor: '#E8F5E9',
+                                        p: 0.5,
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        gap: 0.5,
 
+                                        '&:hover': {
+                                            backgroundColor: '#E8F5E9', // same as normal
+                                            borderColor: 'green',
+                                        },
+                                    }}
+                                >
+                                    <DownloadIcon sx={{ color: 'green' }} />
+                                    <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
+                                        Download
+                                    </Typography>
+                                </Button>
+
+                            </Box>
+
+                            <Box sx={{ display: "flex", flex: 1, justifyContent: "space-between" }}>
+                                <Box sx={{ display: "flex", mt: 1 }}>
+                                    <Box sx={{ width: 30, height: 20, bgcolor: "#D1E9F6", border: "1px solid #062535ff", mr: 1, }} />
+                                    <Typography sx={{ fontSize: 13 }}>Direct Purchase</Typography>
+                                    {/* <Box sx={{ display: "flex", mt: 0.5 }}>
+                                        <SquareIcon sx={{ color: "#D1E9F6", border: 1, borderColor: "green" }} />
+                                        <Typography>Direct Purchase</Typography>
+                                    </Box> */}
+                                </Box>
+                                <Box>
+
+                                    <Button
+                                        onClick={ViewResolvedList}
+                                        size="sm"
+                                        sx={{
+                                            width: { xs: 350, sm: 120 },
+                                            border: '1px solid',
+                                            // borderColor: 'green',
+                                            backgroundColor: "#926FB1",
+                                            p: 0.5,
+                                            borderRadius: 1,
+                                            display: 'flex',
+                                            gap: 0.5,
+
+                                            '&:hover': {
+                                                backgroundColor: '#926FB1', // same as normal
+                                                borderColor: '#926FB1',
+                                            },
+                                        }}
+                                    >
+                                        <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'white' }}>
+                                            Go to Resolved
+                                        </Typography>
+                                    </Button>
                                 </Box>
                             </Box>
 
-
-                            <Box>
-                                <Button sx={{ backgroundColor: "#926FB1", p: 0.5, color: "white" }} onClick={ViewResolvedList}>
-                                    Go to Resolved List
-                                </Button>
-                            </Box>
                         </Box>
 
                         <Box sx={{ overflowX: "auto", width: "100%", }}>
-                            <Box sx={{ minWidth: showExtraCols ? '2500px' : '1200px' }}>
+                            <Box sx={{ minWidth: showExtraCols ? '2500px' : '1500px' }}>
                                 <Box
                                     display="flex"
                                     sx={{ borderBottom: "1px solid grey", background: "#F0F0F0" }}
                                 >
-                                    <Typography sx={{ width: 280, fontWeight: 700, textAlign: "center", }}>
+                                    <Typography sx={{ width: 600, fontWeight: 700, textAlign: "center", }}>
                                     </Typography>
                                     <Typography sx={{
-                                        width: 590, fontWeight: 550, textAlign: "center", backgroundColor: "#E8F5E9" //"#F0F3FF" 
+                                        // width: 1800,
+                                        width: 1800, fontWeight: 550, textAlign: "center", backgroundColor: "#E8F5E9" //"#F0F3FF" 
                                     }}>
                                         GRN DETAILS
                                     </Typography>
-                                    <Typography sx={{ width: 530, fontWeight: 490, textAlign: "center", backgroundColor: "#E3F2FD" }}>
+                                    <Typography sx={{
+                                        // width: 1300,
+                                        width: 1300, fontWeight: 490, textAlign: "center", backgroundColor: "#E3F2FD"
+                                    }}>
                                         PURCHASE ORDER
                                     </Typography>
                                     {

@@ -1,47 +1,47 @@
-import React, { memo, useCallback, useMemo, useState } from 'react'
+
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
-import { Box, IconButton, Input, Option, Select, Typography } from '@mui/joy'
+import { Box, Button, Input, Option, Select, Typography } from '@mui/joy'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds'
 import CusIconButton from '../Components/CusIconButton'
-import CustomeToolTip from '../Components/CustomeToolTip'
+// import CustomeToolTip from '../Components/CustomeToolTip'
 import { axiosellider, axioslogin } from '../Axios/Axios'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import { IoSearchSharp } from "react-icons/io5";
 import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
-import { MdOutlineFileUpload } from "react-icons/md";
-import { succesNotify, warningNotify } from '../Common/CommonCode'
 import { useSelector } from 'react-redux'
-import { format } from 'date-fns'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getVarationData } from './CommonApiFun'
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import { format } from 'date-fns'
+import { succesNotify, warningNotify } from '../Common/CommonCode'
 
 const columns = [
-    { key: "sl_no", label: "Sl_No", width: 100, align: "center" },
-    { key: "GRN NO", label: "GRN_No", width: 100, align: "center" },
-    { key: "SUC_NAME", label: "Suc_Name", width: 300, align: "left" },
-    { key: "GRN DATE", label: "GRN_Date", width: 150, align: "center" },
-    { key: "ITEM NAME", label: "Item_Name", width: 450, align: "left" },
-    { key: "GRN RATE", label: "GRN_Rate", width: 100, align: "right" },
-    { key: "GRN SELLING RATE", label: "GRN_Selling_Rate", width: 135, align: "right" },
-    { key: "GRN DIS %", label: "GRN_Dis%", width: 110, align: "center" },
-    { key: "RATE", label: "Rate", width: 90, align: "right" },
-    { key: "DIS %", label: "Disc %", width: 100, align: "center" },
-    { key: "PO MARGIN %", label: "PO_Margin%", width: 135, align: "center" },
-    { key: "RATE VARIATION", label: "Rate_Variation", width: 100, align: "center" },
-    { key: "QUO MARGIN %", label: "Quo_Margin%", width: 120, align: "center" },
-    { key: "PURCHASE MARGIN %", label: "Purchase_Margin%", width: 135, align: "center" },
-    { key: "MARGIN_DIFF", label: "Margin_Diff", width: 120, align: "center" },
-    { key: "GRN VARIATION QTY", label: "GRN_Variation_Qty", width: 135, align: "center" },
-    { key: "GRN VARIATION FREE", label: "GRN_Variation_Free", width: 130, align: "center" },
-    { key: "DATE_DIFF", label: "Date_Diff", width: 120, align: "center" },
-    { key: "DISCOUNT VARIATION", label: "Disc_Variation", width: 120, align: "center" },
-    { key: "DATA PUSH", label: "Data_Push", width: 80, align: "center" },
-    { key: "COMMENTS", label: "Comments", width: 80, align: "center" },
-
-
+    { key: "sl_no", label: "Sl_No", width: 200, align: "center" },
+    { key: "DATA PUSH", label: "Data_Push", width: 200, align: "center" },
+    { key: "GRN NO", label: "GRN_No", width: 200, align: "center" },
+    { key: "SUC_NAME", label: "Suc_Name", width: 500, align: "left" },
+    { key: "GRN DATE", label: "GRN_Date", width: 200, align: "center" },
+    { key: "ITEM NAME", label: "Item_Name", width: 500, align: "left" },
+    { key: "GRN RATE", label: "GRN_Rate", width: 230, align: "right" },
+    { key: "GRN SELLING RATE", label: "GRN_Selling_Rate", width: 200, align: "right" },
+    { key: "GRN DIS %", label: "GRN_Dis%", width: 200, align: "right" },
+    { key: "RATE", label: "Rate", width: 200, align: "right" },
+    { key: "DIS %", label: "Disc %", width: 200, align: "right" },
+    { key: "PO MARGIN %", label: "PO_Margin%", width: 200, align: "right" },
+    { key: "RATE VARIATION", label: "Rate_Variation", width: 200, align: "right" },
+    { key: "QUO MARGIN %", label: "Quo_Margin%", width: 200, align: "right" },
+    { key: "PURCHASE MARGIN %", label: "Purchase_Margin%", width: 200, align: "right" },
+    { key: "MARGIN_DIFF", label: "Margin_Diff", width: 200, align: "right" },
+    { key: "GRN VARIATION QTY", label: "GRN_Variation_Qty", width: 200, align: "right" },
+    { key: "GRN VARIATION FREE", label: "GRN_Variation_Free", width: 200, align: "right" },
+    { key: "DATE_DIFF", label: "Date_Diff", width: 200, align: "right" },
+    { key: "DISCOUNT VARIATION", label: "Disc_Variation", width: 200, align: "right" },
+    // { key: "DATA PUSH", label: "Data_Push", width: 80, align: "center" },
+    { key: "COMMENTS", label: "Comments", width: 80, align: "right" },
 ];
 
 const RateVariationUpdation = ({ setActiveComponent }) => {
@@ -52,6 +52,10 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
     const [selected, setSelected] = useState("0");
     const [searchValue, setSearchValue] = useState("");
     const [variationType, setVariationType] = useState(0);
+    const [selectedRows, setSelectedRows] = useState([]);
+
+    const getRowKey = (row) =>
+        `${row["GRN NO"]}-${row["ITEM NAME"]}`;
 
     const queryClient = useQueryClient()
 
@@ -74,6 +78,29 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
         staleTime: Infinity
     })
 
+    const handleCheckboxChange = (row) => {
+        const key = getRowKey(row);
+
+        setSelectedRows(prev => {
+            const exists = prev.some(r => getRowKey(r) === key);
+
+            return exists
+                ? prev.filter(r => getRowKey(r) !== key)
+                : [...prev, row];
+        });
+
+
+        if (variationType === 1) {
+            setSelectedRows(prev => {
+                const exists = prev.some(r => getRowKey(r) === key);
+
+                return exists
+                    ? prev.filter(r => getRowKey(r) !== key)
+                    : [...prev, row];
+            });
+        }
+    };
+
     const FetchData = useCallback(async () => {
         const result = await axiosellider.post('/storeReport/getGrmDetails', filterParams)
         const { success, data } = result.data
@@ -82,7 +109,6 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                 ?.filter(val => val["RATE VARIATION"] > 0)
                 ?.map(val => ({
                     ...val,
-                    // MARGIN_DIFF: Number(val["QUO MARGIN %"]) - Number(val["PURCHASE MARGIN %"])
                     MARGIN_DIFF:
                         Number(val["QUO MARGIN %"]) === 0
                             ? Number(val["PURCHASE MARGIN %"]) - Number(val["PO MARGIN %"])
@@ -164,9 +190,13 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
         XLSX.writeFile(workbook, "Rate_Variation.xlsx");
     };
 
-    const InsertDatas = useCallback(async (val) => {
 
-        const insertVal = {
+
+
+    const InsertDatas = useCallback(async () => {
+        if (!selectedRows || selectedRows.length === 0) return;
+
+        const insertVal = selectedRows.map((val) => ({
             grn_no: val["GRN NO"],
             grn_date: format(new Date(val["GRN DATE"]), "yyyy-MM-dd"),
             item_name: val["ITEM NAME"],
@@ -186,26 +216,46 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             create_user: loginId,
             po_margin: val["PO MARGIN %"],
             suplier_name: val["SUC_NAME"],
-        };
-        const result = await axioslogin.post('RateVariationReport/insertRateVariation', insertVal)
-        const { message, success } = result.data
-        if (success === 1) {
-            queryClient.invalidateQueries('getdefaultdata');
+        }));
 
-            succesNotify(message)
+        // console.log("insertVal:", insertVal);
+        try {
+            const result = await axioslogin.post(
+                'RateVariationReport/insertRateVariationBulk',
+                insertVal
+            );
 
+            const { message, success } = result.data;
+
+            if (success === 1) {
+                queryClient.invalidateQueries('getdefaultdata');
+                succesNotify(message);
+                setSelectedRows([])
+            } else {
+                warningNotify(message);
+            }
+        } catch (error) {
+            console.error(error);
+            setSelectedRows([])
+            warningNotify('Something went wrong');
         }
-        else {
-            warningNotify(message)
+
+    }, [selectedRows, loginId, queryClient, setSelectedRows]);
+
+    useEffect(() => {
+        if (variationType === 1) {
+            setSelectedRows(filtered);
+        } else {
+            setSelectedRows([]);
         }
-    }, [loginId, queryClient])
+    }, [variationType, filtered]);
 
     return (
         <CardCloseOnly title="Rate Variation" close={backToSetting}>
             <Paper sx={{ width: '100%' }}>
 
                 {/* TOP FILTER SECTION */}
-                <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 1, p: 1 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 1, p: 1, flexWrap: "wrap" }}>
                     <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                         <CommonDateFeilds
                             fromDate={fromDate}
@@ -223,6 +273,31 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                             <Option value={1}>Rate Variation with Margin_Diff</Option>
 
                         </Select>
+
+                        <Button
+                            onClick={InsertDatas}
+                            size="sm"
+                            sx={{
+                                width: { xs: 100, sm: 120 },
+                                border: '1px solid',
+                                borderColor: 'green',
+                                backgroundColor: '#E8F5E9',
+                                p: 0.5,
+                                borderRadius: 1,
+                                display: 'flex',
+                                gap: 0.5,
+
+                                '&:hover': {
+                                    backgroundColor: '#E8F5E9', // same as normal
+                                    borderColor: 'green',
+                                },
+                            }}
+                        >
+                            <UpgradeIcon sx={{ color: 'green' }} />
+                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
+                                Data Push
+                            </Typography>
+                        </Button>
                     </Box>
 
                     {/* Search Input */}
@@ -239,18 +314,37 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                             size="sm"
                             disabled={selected === "0"}
                         />
-                        <CustomeToolTip title="Download Excel">
-                            <CusIconButton variant="soft" color="success" onClick={onExportClick}>
-                                <DownloadIcon />
+
+                        <Button
+                            onClick={onExportClick}
+                            size="sm"
+                            sx={{
+                                width: { xs: 100, sm: 120 },
+                                border: '1px solid',
+                                borderColor: 'green',
+                                backgroundColor: '#E8F5E9',
+                                p: 0.5,
+                                borderRadius: 1,
+                                display: 'flex',
+                                gap: 0.5,
+
+                                '&:hover': {
+                                    backgroundColor: '#E8F5E9', // same as normal
+                                    borderColor: 'green',
+                                },
+                            }}
+                        >
+                            <DownloadIcon sx={{ color: 'green' }} />
+                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
                                 Download
-                            </CusIconButton>
-                        </CustomeToolTip>
+                            </Typography>
+                        </Button>
                     </Box>
                 </Box>
 
                 {/* TABLE */}
                 <Box sx={{ overflowX: "auto", width: "100%" }}>
-                    <Box sx={{ minWidth: `${columns.length * 100}px` }}>
+                    <Box sx={{ width: `${columns.length * 150}px` }}>
                         {/* HEADER ROW */}
                         <Box sx={{
                             display: "flex",
@@ -311,8 +405,9 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                                     sx={{
                                                         width: col.width,
                                                         display: "flex",
-                                                        justifyContent: col.align === 'right' ? 'flex-end' :
-                                                            col.align === 'center' ? 'center' : 'flex-start',
+                                                        justifyContent: col.align,
+                                                        // === 'right' ? 'flex-end' :
+                                                        // col.align === 'center' ? 'center' : 'flex-start',
                                                         alignItems: "center",
                                                         backgroundColor: bgColor,
                                                         fontSize: 14
@@ -321,19 +416,19 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                                     {/* COMMENTS COLUMN BUTTON */}
                                                     {
                                                         col.key === "DATA PUSH" ? (
-                                                            <IconButton sx={{ p: 0 }}>
-                                                                <MdOutlineFileUpload
-                                                                    style={{ fontSize: 20, color: "#A7C1A8", cursor: "pointer" }}
-                                                                    onClick={() => InsertDatas(val)}
-                                                                />
-                                                            </IconButton>
+                                                            <input
+                                                                disabled={val.status === 1}
+                                                                type="checkbox"
+                                                                checked={selectedRows.some(
+                                                                    r => getRowKey(r) === getRowKey(val)
+                                                                )}
+                                                                onChange={() => handleCheckboxChange(val)}
+                                                            />
+                                                        ) : (
+                                                            value
                                                         )
-                                                            : (
-                                                                value
-                                                            )}
+                                                    }
                                                 </Box>
-
-
                                             );
                                         })}
                                     </Box>
@@ -348,4 +443,5 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
 }
 
 export default memo(RateVariationUpdation)
+
 
