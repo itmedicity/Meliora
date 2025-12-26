@@ -437,14 +437,15 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                 <Box
                   sx={{
                     bgcolor: '#7AB75E',
-                    width: 120,
+                    width: 130,
                     textAlign: 'center',
-                    // margin: 'auto',
                     borderRadius: 4,
                     color: 'white',
                     fontWeight: 600,
                     cursor: 'pointer',
                     py: 0.3,
+                    px: .5,
+                    mb: .5,
                     boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.6)',
                     transform: 'translateZ(0)',
                     transition: 'transform 0.2s ease',
@@ -454,9 +455,27 @@ const BillDetailsAdding = ({ detailArry, grndetailarry, assetSpare, count, setCo
                   }}
                   onClick={ViewBillImage}
                 >
-                  Attached Bill
+                  View Attached Bill
                 </Box>
-              ) : null}
+              ) : <Box
+                sx={{
+                  bgcolor: 'lightgrey',
+                  width: 125,
+                  textAlign: 'center',
+                  borderRadius: 4,
+                  color: 'black',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  py: 0.3,
+                  px: .5,
+                  transform: 'translateZ(0)',
+                  transition: 'transform 0.2s ease',
+                  mb: .5
+
+                }}
+              >
+                No Bills Attached
+              </Box>}
             </Box>
           </Box>
           <Box sx={{ display: 'flex' }}>
