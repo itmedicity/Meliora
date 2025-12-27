@@ -1,16 +1,14 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
-import { Paper } from '@mui/material'
+import { IconButton, Paper, Tooltip } from '@mui/material'
 import { Box, Input, Option, Select, Typography } from '@mui/joy'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds'
-import CusIconButton from '../Components/CusIconButton'
-import CustomeToolTip from '../Components/CustomeToolTip'
 import { axiosellider } from '../Axios/Axios'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import { IoSearchSharp } from "react-icons/io5";
-import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
+import { RiFileExcel2Fill } from 'react-icons/ri'
 
 const columns = [
     { key: "sl_no", label: "Sl_No", width: 100, align: "center" },
@@ -138,9 +136,20 @@ const GrnReport = ({ setActiveComponent }) => {
                             onFromDateChange={setFromDate}
                             onToDateChange={setToDate}
                         />
-                        <CusIconButton variant="soft" color="success" onClick={FetchData}>
-                            <IoSearchSharp />
-                        </CusIconButton>
+
+                        <IconButton
+                            onClick={FetchData}
+                            size="sm"
+                            sx={{
+                                p: 0,
+                                borderRadius: 1,
+                                display: 'flex',
+                            }}
+                        >
+                            <IoSearchSharp
+                                color="#756AB6"
+                            />
+                        </IconButton>
 
                         <Select value={variationType} onChange={(e, newValue) => setVariationType(newValue)} size="sm"
                             sx={{ width: 200 }}>
@@ -166,12 +175,25 @@ const GrnReport = ({ setActiveComponent }) => {
                             disabled={selected === "0"}
                         />
 
-                        <CustomeToolTip title="Download Excel">
-                            <CusIconButton variant="soft" color="success" onClick={onExportClick}>
-                                <DownloadIcon />
-                                Download
-                            </CusIconButton>
-                        </CustomeToolTip>
+                        <Tooltip title="Download Excel" >
+                            <IconButton
+                                onClick={onExportClick}
+                                size="sm"
+                                sx={{
+                                    border: '1px solid #756AB6',
+                                    p: 0.5,
+                                    borderRadius: 1,
+                                    display: 'flex',
+                                    gap: 0.5,
+
+
+                                }}
+                            >
+                                <RiFileExcel2Fill
+                                    color="#756AB6"
+                                />
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                 </Box>
 

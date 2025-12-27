@@ -2,17 +2,15 @@ import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
 import { Box, IconButton, Input, Option, Select, Tooltip, Typography } from '@mui/joy'
-import CusIconButton from '../Components/CusIconButton'
-import CustomeToolTip from '../Components/CustomeToolTip'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
-import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
 import { useQuery } from '@tanstack/react-query'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds'
 import { ratevariationResolved } from './CommonApiFun'
 import { format } from 'date-fns'
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { RiFileExcel2Fill } from 'react-icons/ri'
 
 
 const RateVariationResolved = ({ setActiveComponent }) => {
@@ -104,8 +102,6 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                 return grnDate >= fromDate && grnDate <= toDate;
             });
         }
-        // else if (refresh === 1) return ResolvedDatas || [];
-
 
         return result;
     }, [searchValue, selected, ResolvedDatas, fromDate, toDate]);
@@ -140,27 +136,24 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                 onFromDateChange={setFromDate}
                                 onToDateChange={setToDate}
                             />
-                            {/* Refresh Button */}
-                            <Tooltip title="Refresh" placement="top">
-                                <CusIconButton
-                                    variant="soft"
-                                    color="success"
-                                    size="md"
+                            <Tooltip title="Refresh" >
+                                <IconButton
                                     onClick={RefreshData}
+                                    size="sm"
                                     sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        px: 2.2,
-                                        py: 1,
-                                        borderRadius: "12px",
-                                        boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                                        "&:hover": {
-                                            boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                        },
+                                        border: '1px solid #756AB6',
+                                        p: 0,
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        // gap: 0.5,
+
+
                                     }}
                                 >
-                                    <RefreshIcon />
-                                </CusIconButton>
+                                    <RefreshIcon
+                                        color="#756AB6"
+                                    />
+                                </IconButton>
                             </Tooltip>
                         </Box>
 
@@ -177,12 +170,26 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                 size="sm"
                                 disabled={selected === "0"}
                             />
-                            <CustomeToolTip title="Download Excel">
-                                <CusIconButton variant="soft" color="success" onClick={onExportClick}>
-                                    <DownloadIcon />
-                                    Download
-                                </CusIconButton>
-                            </CustomeToolTip>
+
+                            <Tooltip title="Download Excel" >
+                                <IconButton
+                                    onClick={onExportClick}
+                                    size="sm"
+                                    sx={{
+                                        border: '1px solid #756AB6',
+                                        p: 0.5,
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        gap: 0.5,
+
+
+                                    }}
+                                >
+                                    <RiFileExcel2Fill
+                                        color="#756AB6"
+                                    />
+                                </IconButton>
+                            </Tooltip>
                         </Box>
 
 

@@ -1,18 +1,17 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
-import { Box, Button, IconButton, Input, Option, Select, Typography } from '@mui/joy'
+import { Box, IconButton, Input, Option, Select, Tooltip, Typography } from '@mui/joy'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
-import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getRateVariationComments, getVarationData } from './CommonApiFun'
 import { useSelector } from 'react-redux'
 import { axioslogin } from '../Axios/Axios'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
-// import RateVariationResolved from './RateVariationResolved'
 import CommentModalAction from './CommentModalAction'
+import { RiFileExcel2Fill } from 'react-icons/ri'
 
 const Ratevariation = ({ setActiveComponent }) => {
 
@@ -124,10 +123,6 @@ const Ratevariation = ({ setActiveComponent }) => {
         }
     }, [selectedRow, commentText, activeTab, loginId, queryClient, selectedAction, checkResolved])
 
-    // const ViewResolvedList = useCallback(() => {
-    //     setShowResolvelist(1)
-    // }, [])
-
     const filtered = useMemo(() => {
         let result = RatevarationData;
         if (searchValue.trim()) {
@@ -181,8 +176,6 @@ const Ratevariation = ({ setActiveComponent }) => {
     };
     return (
         <Fragment>
-            {/* {showResolvelist === 1 ?
-                <RateVariationResolved setShowResolvelist={setShowResolvelist} /> : */}
             <CardCloseOnly title="Rate Variation Updation" close={backToSetting}>
                 <Paper sx={{
                     width: '100%'
@@ -203,70 +196,32 @@ const Ratevariation = ({ setActiveComponent }) => {
                                 disabled={selected === "0"}
                             />
 
-                            <Button
-                                onClick={onExportClick}
-                                size="sm"
-                                sx={{
-                                    width: { xs: 100, sm: 120 },
-                                    border: '1px solid',
-                                    borderColor: 'green',
-                                    backgroundColor: '#E8F5E9',
-                                    p: 0.5,
-                                    borderRadius: 1,
-                                    display: 'flex',
-                                    gap: 0.5,
+                            <Tooltip title="Download Excel" >
+                                <IconButton
+                                    onClick={onExportClick}
+                                    size="sm"
+                                    sx={{
+                                        border: '1px solid #756AB6',
+                                        p: 0.5,
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        gap: 0.5,
 
-                                    '&:hover': {
-                                        backgroundColor: '#E8F5E9', // same as normal
-                                        borderColor: 'green',
-                                    },
-                                }}
-                            >
-                                <DownloadIcon sx={{ color: 'green' }} />
-                                <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
-                                    Download
-                                </Typography>
-                            </Button>
 
+                                    }}
+                                >
+                                    <RiFileExcel2Fill
+                                        color="#756AB6"
+                                    />
+                                </IconButton>
+                            </Tooltip>
                         </Box>
-
                         <Box sx={{ display: "flex", flex: 1, justifyContent: "space-between" }}>
                             <Box sx={{ display: "flex", mt: 1 }}>
                                 <Box sx={{ width: 30, height: 20, bgcolor: "#D1E9F6", border: "1px solid #062535ff", mr: 1, }} />
                                 <Typography sx={{ fontSize: 13 }}>Direct Purchase</Typography>
-                                {/* <Box sx={{ display: "flex", mt: 0.5 }}>
-                                        <SquareIcon sx={{ color: "#D1E9F6", border: 1, borderColor: "green" }} />
-                                        <Typography>Direct Purchase</Typography>
-                                    </Box> */}
                             </Box>
-                            {/* <Box>
-
-                                    <Button
-                                        onClick={ViewResolvedList}
-                                        size="sm"
-                                        sx={{
-                                            width: { xs: 350, sm: 120 },
-                                            border: '1px solid',
-                                            // borderColor: 'green',
-                                            backgroundColor: "#926FB1",
-                                            p: 0.5,
-                                            borderRadius: 1,
-                                            display: 'flex',
-                                            gap: 0.5,
-
-                                            '&:hover': {
-                                                backgroundColor: '#926FB1', // same as normal
-                                                borderColor: '#926FB1',
-                                            },
-                                        }}
-                                    >
-                                        <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'white' }}>
-                                            Go to Resolved
-                                        </Typography>
-                                    </Button>
-                                </Box> */}
                         </Box>
-
                     </Box>
 
                     <Box sx={{ overflowX: "auto", width: "100%", }}>

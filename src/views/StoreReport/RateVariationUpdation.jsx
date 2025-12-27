@@ -1,16 +1,13 @@
 
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
-import { Paper } from '@mui/material'
+import { IconButton, Paper, Tooltip } from '@mui/material'
 import { Box, Button, Input, Option, Select, Typography } from '@mui/joy'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds'
-import CusIconButton from '../Components/CusIconButton'
-// import CustomeToolTip from '../Components/CustomeToolTip'
 import { axiosellider, axioslogin } from '../Axios/Axios'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import { IoSearchSharp } from "react-icons/io5";
-import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
 import { useSelector } from 'react-redux'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -18,6 +15,7 @@ import { getVarationData } from './CommonApiFun'
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { format } from 'date-fns'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
+import { RiFileExcel2Fill } from 'react-icons/ri'
 
 const columns = [
     { key: "sl_no", label: "Sl_No", width: 200, align: "center" },
@@ -269,9 +267,20 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                             onFromDateChange={setFromDate}
                             onToDateChange={setToDate}
                         />
-                        <CusIconButton variant="soft" color="success" onClick={FetchData}>
-                            <IoSearchSharp />
-                        </CusIconButton>
+                        <IconButton
+                            onClick={FetchData}
+                            size="sm"
+                            sx={{
+                                p: 0,
+                                borderRadius: 1,
+                                display: 'flex',
+                            }}
+                        >
+                            <IoSearchSharp
+                                color="#756AB6"
+                            />
+                        </IconButton>
+                        {/* </Tooltip> */}
 
                         <Select value={variationType} onChange={(e, newValue) => setVariationType(newValue)} size="sm"
                             sx={{ width: 200 }}>
@@ -287,20 +296,20 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                 width: { xs: 100, sm: 120 },
                                 border: '1px solid',
                                 borderColor: 'green',
-                                backgroundColor: '#E8F5E9',
+                                backgroundColor: '#756AB6',
                                 p: 0.5,
                                 borderRadius: 1,
                                 display: 'flex',
                                 gap: 0.5,
 
                                 '&:hover': {
-                                    backgroundColor: '#E8F5E9', // same as normal
+                                    backgroundColor: '#756AB6', // same as normal
                                     borderColor: 'green',
                                 },
                             }}
                         >
-                            <UpgradeIcon sx={{ color: 'green' }} />
-                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
+                            <UpgradeIcon sx={{ color: '#E8F5E9' }} />
+                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: '#E8F5E9' }}>
                                 Data Push
                             </Typography>
                         </Button>
@@ -320,31 +329,23 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                             size="sm"
                             disabled={selected === "0"}
                         />
-
-                        <Button
-                            onClick={onExportClick}
-                            size="sm"
-                            sx={{
-                                width: { xs: 100, sm: 120 },
-                                border: '1px solid',
-                                borderColor: 'green',
-                                backgroundColor: '#E8F5E9',
-                                p: 0.5,
-                                borderRadius: 1,
-                                display: 'flex',
-                                gap: 0.5,
-
-                                '&:hover': {
-                                    backgroundColor: '#E8F5E9', // same as normal
-                                    borderColor: 'green',
-                                },
-                            }}
-                        >
-                            <DownloadIcon sx={{ color: 'green' }} />
-                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
-                                Download
-                            </Typography>
-                        </Button>
+                        <Tooltip title="Download Excel" >
+                            <IconButton
+                                onClick={onExportClick}
+                                size="sm"
+                                sx={{
+                                    border: '1px solid #756AB6',
+                                    p: 0.5,
+                                    borderRadius: 1,
+                                    display: 'flex',
+                                    gap: 0.5,
+                                }}
+                            >
+                                <RiFileExcel2Fill
+                                    color="#756AB6"
+                                />
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                 </Box>
 

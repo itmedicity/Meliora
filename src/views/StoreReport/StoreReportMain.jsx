@@ -2,16 +2,14 @@
 import { Box, Input, Option, Select, Typography } from '@mui/joy';
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso';
-import { Paper } from '@mui/material';
+import { IconButton, Paper, Tooltip } from '@mui/material';
 import CardCloseOnly from '../Components/CardCloseOnly';
-import CustomeToolTip from '../Components/CustomeToolTip';
-import CusIconButton from '../Components/CusIconButton';
-import DownloadIcon from '@mui/icons-material/Download'
 import * as XLSX from 'xlsx'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds';
 import { IoSearchSharp } from "react-icons/io5";
 import { axiosellider } from '../Axios/Axios';
 import { formatDateTime } from './StoreCommonCode/CommonStyle';
+import { RiFileExcel2Fill } from 'react-icons/ri';
 
 const columns = [
     { key: "sl_no", label: "Sl No", align: "center", width: 100, },
@@ -181,26 +179,23 @@ const StoreReportMain = ({ setActiveComponent }) => {
                             onFromDateChange={setFromDate}
                             onToDateChange={setToDate}
                         />
-                        {/* Search Button */}
-                        <CusIconButton
-                            variant="soft"
-                            color="success"
-                            size="md"
+                        <IconButton
                             onClick={FetchData}
+                            size="sm"
                             sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                px: 2.2,
-                                py: 1,
-                                borderRadius: "12px",
-                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                                "&:hover": {
-                                    boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                },
+                                // border: '1px solid #756AB6',
+                                p: 0,
+                                borderRadius: 1,
+                                display: 'flex',
+                                // gap: 0.5,
+
+
                             }}
                         >
-                            <IoSearchSharp />
-                        </CusIconButton>
+                            <IoSearchSharp
+                                color="#756AB6"
+                            />
+                        </IconButton>
                     </Box>
 
                     {/* Right Section - Dropdown + Input + Search + Download */}
@@ -234,30 +229,25 @@ const StoreReportMain = ({ setActiveComponent }) => {
                             disabled={selected === "0" ? true : false}
                         />
 
-                        {/* Download Excel */}
-                        <CustomeToolTip title="Download Excel" placement="left">
-                            <CusIconButton
-                                variant="soft"
-                                color="success"
-                                size="md"
+                        <Tooltip title="Download Excel" >
+                            <IconButton
                                 onClick={onExportClick}
+                                size="sm"
                                 sx={{
-                                    display: "flex",
-                                    gap: 1,
-                                    px: 2.5,
-                                    py: 1,
-                                    borderRadius: "12px",
-                                    fontWeight: 600,
-                                    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                                    "&:hover": {
-                                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                                    },
+                                    border: '1px solid #756AB6',
+                                    p: 0.5,
+                                    borderRadius: 1,
+                                    display: 'flex',
+                                    gap: 0.5,
+
+
                                 }}
                             >
-                                <DownloadIcon sx={{ fontSize: 22 }} />
-                                Download
-                            </CusIconButton>
-                        </CustomeToolTip>
+                                <RiFileExcel2Fill
+                                    color="#756AB6"
+                                />
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                 </Box>
                 <Box

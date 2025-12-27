@@ -122,8 +122,6 @@ const PendingApprovalQuatation = ({ setActiveComponent }) => {
                                 size="sm"
                                 disabled={selected === "0"}
                             />
-
-
                             <Tooltip title="Download Excel" >
                                 <IconButton
                                     onClick={onExportClick}
@@ -134,8 +132,6 @@ const PendingApprovalQuatation = ({ setActiveComponent }) => {
                                         borderRadius: 1,
                                         display: 'flex',
                                         gap: 0.5,
-
-
                                     }}
                                 >
                                     <RiFileExcel2Fill
