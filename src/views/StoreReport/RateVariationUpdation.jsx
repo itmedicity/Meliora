@@ -36,6 +36,7 @@ const columns = [
     { key: "QUO MARGIN %", label: "Quo_Margin%", width: 200, align: "right" },
     { key: "PURCHASE MARGIN %", label: "Purchase_Margin%", width: 200, align: "right" },
     { key: "MARGIN_DIFF", label: "Margin_Diff", width: 200, align: "right" },
+    { key: "VARI_AMT", label: "Variation_Amount", width: 200, align: "right" },
     { key: "GRN VARIATION QTY", label: "GRN_Variation_Qty", width: 200, align: "right" },
     { key: "GRN VARIATION FREE", label: "GRN_Variation_Free", width: 200, align: "right" },
     { key: "DATE_DIFF", label: "Date_Diff", width: 200, align: "right" },
@@ -112,7 +113,9 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                     MARGIN_DIFF:
                         Number(val["QUO MARGIN %"]) === 0
                             ? Number(val["PURCHASE MARGIN %"]) - Number(val["PO MARGIN %"])
-                            : Number(val["QUO MARGIN %"]) - Number(val["PURCHASE MARGIN %"])
+                            : Number(val["QUO MARGIN %"]) - Number(val["PURCHASE MARGIN %"]),
+                    VARI_AMT:
+                        Number(val["GRN QTY"]) * Number(val["RATE VARIATION"])
 
                 }));
             setGrmData(filteredData);
@@ -175,6 +178,7 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             suplier_name: item["SUC_NAME"],
             po_margin: item["PO MARGIN %"],
             rate_variation: item["RATE VARIATION"],
+            Variation_Amount: item["VARI_AMT"],
             quo_margin_percent: item["QUO MARGIN %"],
             purchase_margin_percent: item["PURCHASE MARGIN %"],
             margin_difference: item["MARGIN_DIFF"], //******** */
@@ -216,6 +220,8 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             create_user: loginId,
             po_margin: val["PO MARGIN %"],
             suplier_name: val["SUC_NAME"],
+            Variation_Amount: val["VARI_AMT"],
+
         }));
 
         // console.log("insertVal:", insertVal);
@@ -390,14 +396,22 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                             if (["GRN DATE"].includes(col.key))
                                                 value = formatDateTime(value);
 
-                                            if (["GRN RATE", "GRN SELLING RATE", "GRN DIS %", "RATE", "RATE VARIATION", "PO MARGIN %", "QUO MARGIN %", "PURCHASE MARGIN %", "MARGIN_DIFF"]
+                                            if (["GRN RATE", "GRN SELLING RATE", "GRN DIS %", "RATE", "RATE VARIATION", "PO MARGIN %", "QUO MARGIN %", "PURCHASE MARGIN %", "MARGIN_DIFF", "VARI_AMT"]
                                                 .includes(col.key))
                                                 value = Number(value).toFixed(4);
+                                            // const bgColor =
+                                            //     col.key === "MARGIN_DIFF" && isPositiveMarginDiff
+                                            //         ? "#F6DFEB"
+                                            //         : val.status === 1 ? "#F5FAE1"
+                                            //             : "white";
                                             const bgColor =
-                                                col.key === "MARGIN_DIFF" && isPositiveMarginDiff
-                                                    ? "#F6DFEB"
-                                                    : val.status === 1 ? "#F5FAE1"  // light red only when diff is positive
-                                                        : "white";
+                                                col.key === "VARI_AMT"
+                                                    ? "#FFCDC9"
+                                                    : col.key === "MARGIN_DIFF" && isPositiveMarginDiff
+                                                        ? "#F6DFEB"
+                                                        : val.status === 1
+                                                            ? "#F5FAE1"
+                                                            : "white";
 
                                             return (
                                                 <Box

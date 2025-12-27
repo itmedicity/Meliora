@@ -1,9 +1,8 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
-import { Box, Button, Input, Option, Select, Typography } from '@mui/joy'
+import { Box, IconButton, Input, Option, Select, Tooltip, Typography } from '@mui/joy'
 import * as XLSX from 'xlsx'
-import DownloadIcon from '@mui/icons-material/Download'
 import { Virtuoso } from 'react-virtuoso'
 import { useQuery } from '@tanstack/react-query'
 import { axiosellider } from '../Axios/Axios'
@@ -11,6 +10,7 @@ import { warningNotify } from '../Common/CommonCode'
 import { getPendingApprovalQtn } from 'src/api/StoreReports'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import QuatationModal from './QuatationModal'
+import { RiFileExcel2Fill } from "react-icons/ri";
 
 const PendingApprovalQuatation = ({ setActiveComponent }) => {
 
@@ -123,31 +123,26 @@ const PendingApprovalQuatation = ({ setActiveComponent }) => {
                                 disabled={selected === "0"}
                             />
 
-                            <Button
-                                onClick={onExportClick}
-                                size="sm"
-                                sx={{
-                                    width: { xs: 100, sm: 120 },
-                                    border: '1px solid',
-                                    borderColor: '#AC87C5',
-                                    backgroundColor: '#F5EFFF',
-                                    p: 0.5,
-                                    borderRadius: 1,
-                                    display: 'flex',
-                                    gap: 0.5,
 
-                                    '&:hover': {
-                                        backgroundColor: '#F5EFFF', // same as normal
-                                        borderColor: '#AC87C5',
-                                    },
-                                }}
-                            >
-                                <DownloadIcon sx={{ color: '#AC87C5' }} />
-                                <Typography sx={{ fontSize: 13, fontWeight: 400, color: '#756AB6' }}>
-                                    Download
-                                </Typography>
-                            </Button>
+                            <Tooltip title="Download Excel" >
+                                <IconButton
+                                    onClick={onExportClick}
+                                    size="sm"
+                                    sx={{
+                                        border: '1px solid #756AB6',
+                                        p: 0.5,
+                                        borderRadius: 1,
+                                        display: 'flex',
+                                        gap: 0.5,
 
+
+                                    }}
+                                >
+                                    <RiFileExcel2Fill
+                                        color="#756AB6"
+                                    />
+                                </IconButton>
+                            </Tooltip>
                         </Box>
                     </Box>
 

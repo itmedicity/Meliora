@@ -164,29 +164,32 @@ const CommentModalAction = ({
                         </Box>
                         : null}
                 <Box>
-                    <Box
-                        sx={{
-                            p: 0.5,
-                            borderRadius: 2,
-                            bgcolor: "#eef5ff",
-                            border: "1px solid #d0e2ff",
-                            mt: 1
-                        }}
-                    >
-                        <Typography level="title-sm" mb={1.5} sx={{ color: "#0a3d91" }}>
-                            If Resolved
-                        </Typography>
-                        <Checkbox
-                            label="Resolved"
-                            checked={checkResolved === "Resolved"}
-                            onChange={(e) =>
-                                setCheckResolved(e.target.checked ? "Resolved" : "")
-                            }
-                        />
-                    </Box>
+                    {activeTab === "Accounts" ?
+
+                        <Box
+                            sx={{
+                                p: 0.5,
+                                borderRadius: 2,
+                                bgcolor: "#eef5ff",
+                                border: "1px solid #d0e2ff",
+                                mt: 1
+                            }}
+                        >
+                            <Typography level="title-sm" mb={1.5} sx={{ color: "#0a3d91" }}>
+                                If Resolved
+                            </Typography>
+                            <Checkbox
+                                label="Resolved"
+                                checked={checkResolved === "Resolved"}
+                                onChange={(e) =>
+                                    setCheckResolved(e.target.checked ? "Resolved" : "")
+                                }
+                            />
+                        </Box> : null}
+
 
                     {
-                        checkResolved === "Resolved" ?
+                        checkResolved === "Resolved" && activeTab === "Accounts" ?
                             <Box>
                                 <Typography level="title-sm" mt={2} mb={1}>
                                     Resolved Remark (

@@ -15,7 +15,7 @@ import { format } from 'date-fns'
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 
-const RateVariationResolved = ({ setShowResolvelist }) => {
+const RateVariationResolved = ({ setActiveComponent }) => {
     const [selected, setSelected] = useState("0");
     const [searchValue, setSearchValue] = useState("");
     const [fromDate, setFromDate] = useState(null);
@@ -44,8 +44,8 @@ const RateVariationResolved = ({ setShowResolvelist }) => {
     ];
 
     const backToSetting = useCallback(() => {
-        setShowResolvelist(0)
-    }, [setShowResolvelist])
+        setActiveComponent(0)
+    }, [setActiveComponent])
 
     const {
         data: ResolvedDatas,

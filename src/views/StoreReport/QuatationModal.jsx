@@ -1,16 +1,15 @@
 import React, { memo, useCallback, useState } from "react";
-import { Modal, Box, Typography, Button } from "@mui/joy";
+import { Modal, Box, Typography, IconButton, Tooltip } from "@mui/joy";
 import { Virtuoso } from "react-virtuoso";
 import { formatDateTime } from "./StoreCommonCode/CommonStyle";
 import CloseIcon from '@mui/icons-material/Close'
 import CusIconButton from "../Components/CusIconButton";
-import DownloadIcon from '@mui/icons-material/Download'
 import * as XLSX from 'xlsx'
 import { axiosellider } from "../Axios/Axios";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PurchaseDetails from "./PurchaseDetails";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
+import { RiFileExcel2Fill } from "react-icons/ri";
 const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
     const [detailArr, SetDetailArr] = useState([]);
     const [openDetail, setOpenDetail] = useState(false);
@@ -27,14 +26,14 @@ const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
         { key: "GST", label: "GST", width: 100, align: "right" },
         { key: "DIS %", label: "Dis%", width: 100, align: "right" },
         { key: "DIS AMNT", label: "Dis Amnt", width: 200, align: "right" },
-        { key: "FREE QTY", label: "Free Qty", width: 80, align: "right" },
+        { key: "FREE QTY", label: "Free Qty", width: 80, align: "center" },
         { key: "RATE", label: "Rate", width: 100, align: "right" },
         { key: "GST AMT", label: "GST Amt", width: 100, align: "right" },
         { key: "RATE + GST", label: "Rate + GST", width: 100, align: "right" },
         { key: "SELLING RATE", label: "Selling Rate", width: 100, align: "right" },
         { key: "MRP - INCL GST", label: "MRP- Incl GST", width: 100, align: "right" },
         { key: "MARGIN AMT", label: "Margin Amt", width: 100, align: "right" },
-        { key: "MARGIN %", label: "Margin %", width: 100, align: "right" },
+        { key: "MARGIN %", label: "Margin %", width: 100, align: "center" },
         { key: "QUN NET AMT", label: "Qun Net Amt", width: 100, align: "right" }
     ];
 
@@ -143,32 +142,24 @@ const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
                     </Box>
 
                     <Box>
-                        <Button
-                            onClick={onExportClick}
-                            size="sm"
-                            sx={{
-                                width: { xs: 100, sm: 120 },
-                                border: '1px solid',
-                                borderColor: '#AC87C5',
-                                backgroundColor: '#F5EFFF',
-                                p: 0.5,
-                                borderRadius: 1,
-                                display: 'flex',
-                                gap: 0.5,
-                                mt: 5.5,
 
+                        <Tooltip title="Download Excel" >
+                            <IconButton
+                                onClick={onExportClick}
+                                size="sm"
+                                sx={{
+                                    border: '1px solid #756AB6',
+                                    borderRadius: 1,
+                                    display: 'flex',
+                                    mt: 5.5,
+                                }}
+                            >
+                                <RiFileExcel2Fill
+                                    color="#756AB6"
+                                />
 
-                                '&:hover': {
-                                    backgroundColor: '#F5EFFF', // same as normal
-                                    borderColor: '#AC87C5',
-                                },
-                            }}
-                        >
-                            <DownloadIcon sx={{ color: '#AC87C5' }} />
-                            <Typography sx={{ fontSize: 13, fontWeight: 400, color: '#756AB6' }}>
-                                Download
-                            </Typography>
-                        </Button>
+                            </IconButton>
+                        </Tooltip>
                     </Box>
 
                 </Box>
@@ -214,6 +205,7 @@ const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
                                             if (["RATE", "QTY", "RATE + GST", "QUN NET AMT", "SELLING RATE", "GST AMT", "MARGIN %", "MRP - INCL GST"].includes(col.key)) {
                                                 value = Math.round(value);
                                             }
+                                            const isMarginField = ["MARGIN %"].includes(col.key);
                                             return (
                                                 <Box
                                                     key={col.key}
@@ -228,7 +220,8 @@ const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
                                                                     : "flex-start",
                                                         alignItems: "center",
                                                         fontSize: 14,
-                                                        fontWeight: col.fontWeight
+                                                        fontWeight: col.fontWeight,
+                                                        backgroundColor: isMarginField ? "#F0D9FF" : "white"
                                                     }}
                                                 >
                                                     {col.key === "#" ? (

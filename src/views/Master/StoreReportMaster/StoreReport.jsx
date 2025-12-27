@@ -30,8 +30,8 @@ const StoreReport = () => {
         { id: 2, name: 'GRN Report' },
         { id: 3, name: 'Rate Variation Report' },
         { id: 4, name: 'Rate Variation Updation' },
-        { id: 5, name: 'Pending Approval Quatation' }
-
+        { id: 5, name: 'Pending Approval Quatation' },
+        { id: 6, name: 'Resolved List' },
     ]
 
     const updateUserCreation = useCallback(

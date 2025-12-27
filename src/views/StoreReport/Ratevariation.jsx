@@ -11,7 +11,7 @@ import { getRateVariationComments, getVarationData } from './CommonApiFun'
 import { useSelector } from 'react-redux'
 import { axioslogin } from '../Axios/Axios'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
-import RateVariationResolved from './RateVariationResolved'
+// import RateVariationResolved from './RateVariationResolved'
 import CommentModalAction from './CommentModalAction'
 
 const Ratevariation = ({ setActiveComponent }) => {
@@ -23,7 +23,7 @@ const Ratevariation = ({ setActiveComponent }) => {
     const [selectedRow, setSelectedRow] = useState(null);
     const [activeTab, setActiveTab] = useState("Accounts")
     const [selectedAction, setSelectedAction] = useState("");
-    const [showResolvelist, setShowResolvelist] = useState(0);
+    // const [showResolvelist, setShowResolvelist] = useState(0);
     const [showExtraCols, setShowExtraCols] = useState(false);
     const [checkResolved, setCheckResolved] = useState("");
 
@@ -54,7 +54,7 @@ const Ratevariation = ({ setActiveComponent }) => {
     ];
 
     const extraColumns = [
-
+        { fontWeight: 500, key: "variation_amount", label: "Variation_Amount", width: 200, align: "right" },
         { fontWeight: 500, key: "grn_rate", label: "GRN Rate", width: 100, align: "right" },
         { fontWeight: 500, key: "grn_selling_rate", label: "GRN Selling Rate", width: 135, align: "right" },
         { fontWeight: 500, key: "grn_dis", label: "GRN Dis%", width: 110, align: "center" },
@@ -124,9 +124,9 @@ const Ratevariation = ({ setActiveComponent }) => {
         }
     }, [selectedRow, commentText, activeTab, loginId, queryClient, selectedAction, checkResolved])
 
-    const ViewResolvedList = useCallback(() => {
-        setShowResolvelist(1)
-    }, [])
+    // const ViewResolvedList = useCallback(() => {
+    //     setShowResolvelist(1)
+    // }, [])
 
     const filtered = useMemo(() => {
         let result = RatevarationData;
@@ -157,6 +157,7 @@ const Ratevariation = ({ setActiveComponent }) => {
             dis_percent: item["disc"],
             supplier_name: item["supplier_name"],
             rate_variation: item["rate_variation"],
+            variation_amount: item["variation_amount"],
             quo_margin_percent: item["quo_margin"],
             purchase_margin_percent: item["purchase_margin"],
             margin_difference: item["margin_diff"],
@@ -180,65 +181,65 @@ const Ratevariation = ({ setActiveComponent }) => {
     };
     return (
         <Fragment>
-            {showResolvelist === 1 ?
-                <RateVariationResolved setShowResolvelist={setShowResolvelist} /> :
-                <CardCloseOnly title="Rate Variation Updation" close={backToSetting}>
-                    <Paper sx={{
-                        width: '100%'
-                    }}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 0, p: 1, flexWrap: "wrap" }}>
+            {/* {showResolvelist === 1 ?
+                <RateVariationResolved setShowResolvelist={setShowResolvelist} /> : */}
+            <CardCloseOnly title="Rate Variation Updation" close={backToSetting}>
+                <Paper sx={{
+                    width: '100%'
+                }}>
+                    <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 0, p: 1, flexWrap: "wrap" }}>
 
-                            <Box sx={{ display: "flex", gap: 1, alignItems: "center", flex: 1 }}>
-                                <Select value={selected} onChange={(e, newValue) => setSelected(newValue)} size="sm">
-                                    <Option value="0">Select to Search</Option>
-                                    <Option value="1">GRN Number</Option>
-                                </Select>
+                        <Box sx={{ display: "flex", gap: 1, alignItems: "center", flex: 1 }}>
+                            <Select value={selected} onChange={(e, newValue) => setSelected(newValue)} size="sm">
+                                <Option value="0">Select to Search</Option>
+                                <Option value="1">GRN Number</Option>
+                            </Select>
 
-                                <Input
-                                    placeholder="Search value"
-                                    value={searchValue}
-                                    onChange={e => setSearchValue(e.target.value)}
-                                    size="sm"
-                                    disabled={selected === "0"}
-                                />
+                            <Input
+                                placeholder="Search value"
+                                value={searchValue}
+                                onChange={e => setSearchValue(e.target.value)}
+                                size="sm"
+                                disabled={selected === "0"}
+                            />
 
-                                <Button
-                                    onClick={onExportClick}
-                                    size="sm"
-                                    sx={{
-                                        width: { xs: 100, sm: 120 },
-                                        border: '1px solid',
+                            <Button
+                                onClick={onExportClick}
+                                size="sm"
+                                sx={{
+                                    width: { xs: 100, sm: 120 },
+                                    border: '1px solid',
+                                    borderColor: 'green',
+                                    backgroundColor: '#E8F5E9',
+                                    p: 0.5,
+                                    borderRadius: 1,
+                                    display: 'flex',
+                                    gap: 0.5,
+
+                                    '&:hover': {
+                                        backgroundColor: '#E8F5E9', // same as normal
                                         borderColor: 'green',
-                                        backgroundColor: '#E8F5E9',
-                                        p: 0.5,
-                                        borderRadius: 1,
-                                        display: 'flex',
-                                        gap: 0.5,
+                                    },
+                                }}
+                            >
+                                <DownloadIcon sx={{ color: 'green' }} />
+                                <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
+                                    Download
+                                </Typography>
+                            </Button>
 
-                                        '&:hover': {
-                                            backgroundColor: '#E8F5E9', // same as normal
-                                            borderColor: 'green',
-                                        },
-                                    }}
-                                >
-                                    <DownloadIcon sx={{ color: 'green' }} />
-                                    <Typography sx={{ fontSize: 13, fontWeight: 400, color: 'green' }}>
-                                        Download
-                                    </Typography>
-                                </Button>
+                        </Box>
 
-                            </Box>
-
-                            <Box sx={{ display: "flex", flex: 1, justifyContent: "space-between" }}>
-                                <Box sx={{ display: "flex", mt: 1 }}>
-                                    <Box sx={{ width: 30, height: 20, bgcolor: "#D1E9F6", border: "1px solid #062535ff", mr: 1, }} />
-                                    <Typography sx={{ fontSize: 13 }}>Direct Purchase</Typography>
-                                    {/* <Box sx={{ display: "flex", mt: 0.5 }}>
+                        <Box sx={{ display: "flex", flex: 1, justifyContent: "space-between" }}>
+                            <Box sx={{ display: "flex", mt: 1 }}>
+                                <Box sx={{ width: 30, height: 20, bgcolor: "#D1E9F6", border: "1px solid #062535ff", mr: 1, }} />
+                                <Typography sx={{ fontSize: 13 }}>Direct Purchase</Typography>
+                                {/* <Box sx={{ display: "flex", mt: 0.5 }}>
                                         <SquareIcon sx={{ color: "#D1E9F6", border: 1, borderColor: "green" }} />
                                         <Typography>Direct Purchase</Typography>
                                     </Box> */}
-                                </Box>
-                                <Box>
+                            </Box>
+                            {/* <Box>
 
                                     <Button
                                         onClick={ViewResolvedList}
@@ -263,198 +264,120 @@ const Ratevariation = ({ setActiveComponent }) => {
                                             Go to Resolved
                                         </Typography>
                                     </Button>
-                                </Box>
-                            </Box>
-
+                                </Box> */}
                         </Box>
 
-                        <Box sx={{ overflowX: "auto", width: "100%", }}>
-                            <Box sx={{ minWidth: showExtraCols ? '2500px' : '1500px' }}>
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto", width: "100%", }}>
+                        <Box sx={{ minWidth: showExtraCols ? '2500px' : '1500px' }}>
+                            <Box
+                                display="flex"
+                                sx={{ borderBottom: "1px solid grey", background: "#F0F0F0" }}
+                            >
+                                <Typography sx={{ width: 600, fontWeight: 700, textAlign: "center", }}>
+                                </Typography>
+                                <Typography sx={{
+                                    // width: 1800,
+                                    width: 1800, fontWeight: 550, textAlign: "center", backgroundColor: "#E8F5E9" //"#F0F3FF" 
+                                }}>
+                                    GRN DETAILS
+                                </Typography>
+                                <Typography sx={{
+                                    // width: 1300,
+                                    width: 1300, fontWeight: 490, textAlign: "center", backgroundColor: "#E3F2FD"
+                                }}>
+                                    PURCHASE ORDER
+                                </Typography>
+                                {
+                                    !showExtraCols ?
+                                        <Typography
+                                            sx={{
+                                                width: 320,
+                                                fontWeight: 700,
+                                                textAlign: "right",
+                                                backgroundColor: "#E8F5E9",
+                                                cursor: "pointer",
+                                                pr: 2,
+                                                "&:hover": { backgroundColor: "#C8E6C9" }
+                                            }}
+                                            onClick={handleShowMore}
+                                        >
+                                            More &gt;&gt;
+                                        </Typography>
+                                        :
+                                        <Typography
+                                            sx={{
+                                                width: 920,
+                                                fontWeight: 700,
+                                                textAlign: "right",
+                                                backgroundColor: "#E8F5E9",
+                                                cursor: "pointer",
+                                                pr: 2,
+                                                "&:hover": { backgroundColor: "#C8E6C9" }
+                                            }}
+                                            onClick={handleShowLess}
+                                        >
+                                            &lt;&lt; Less
+                                        </Typography>
+                                }
+
+                            </Box>
+                            <Box sx={{ minWidth: `${columns.length * 120}px` }}>
+
                                 <Box
-                                    display="flex"
-                                    sx={{ borderBottom: "1px solid grey", background: "#F0F0F0" }}
+                                    sx={{
+                                        display: "flex",
+                                        p: 1,
+                                        bgcolor: "#F0F0F0",
+                                        position: "sticky",
+                                        top: 0,
+                                        zIndex: 2,
+                                        borderBottom: "1px solid lightgrey"
+                                    }}
                                 >
-                                    <Typography sx={{ width: 600, fontWeight: 700, textAlign: "center", }}>
-                                    </Typography>
-                                    <Typography sx={{
-                                        // width: 1800,
-                                        width: 1800, fontWeight: 550, textAlign: "center", backgroundColor: "#E8F5E9" //"#F0F3FF" 
-                                    }}>
-                                        GRN DETAILS
-                                    </Typography>
-                                    <Typography sx={{
-                                        // width: 1300,
-                                        width: 1300, fontWeight: 490, textAlign: "center", backgroundColor: "#E3F2FD"
-                                    }}>
-                                        PURCHASE ORDER
-                                    </Typography>
-                                    {
-                                        !showExtraCols ?
-                                            <Typography
-                                                sx={{
-                                                    width: 320,
-                                                    fontWeight: 700,
-                                                    textAlign: "right",
-                                                    backgroundColor: "#E8F5E9",
-                                                    cursor: "pointer",
-                                                    pr: 2,
-                                                    "&:hover": { backgroundColor: "#C8E6C9" }
-                                                }}
-                                                onClick={handleShowMore}
-                                            >
-                                                More &gt;&gt;
-                                            </Typography>
-                                            :
-                                            <Typography
-                                                sx={{
-                                                    width: 920,
-                                                    fontWeight: 700,
-                                                    textAlign: "right",
-                                                    backgroundColor: "#E8F5E9",
-                                                    cursor: "pointer",
-                                                    pr: 2,
-                                                    "&:hover": { backgroundColor: "#C8E6C9" }
-                                                }}
-                                                onClick={handleShowLess}
-                                            >
-                                                &lt;&lt; Less
-                                            </Typography>
-                                    }
-
+                                    {columns.map(col => (
+                                        <Typography
+                                            key={col.key}
+                                            sx={{
+                                                width: col.width,
+                                                textAlign: col.align,
+                                                fontWeight: 600,
+                                                fontSize: 12
+                                            }}
+                                        >
+                                            {col.label}
+                                        </Typography>
+                                    ))}
                                 </Box>
-                                <Box sx={{ minWidth: `${columns.length * 120}px` }}>
-
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            p: 1,
-                                            bgcolor: "#F0F0F0",
-                                            position: "sticky",
-                                            top: 0,
-                                            zIndex: 2,
-                                            borderBottom: "1px solid lightgrey"
-                                        }}
-                                    >
-                                        {columns.map(col => (
-                                            <Typography
-                                                key={col.key}
-                                                sx={{
-                                                    width: col.width,
-                                                    textAlign: col.align,
-                                                    fontWeight: 600,
-                                                    fontSize: 12
-                                                }}
-                                            >
-                                                {col.label}
-                                            </Typography>
-                                        ))}
-                                    </Box>
 
 
-                                    <Virtuoso
-                                        style={{ height: "63vh", width: "100%", }}
-                                        data={filtered}
-                                        itemContent={(index, val) => {
-                                            const quo = Number(val["quo_margin"]);
-                                            const pur = Number(val["purchase_margin"]);
-                                            const quoround = Math.round(Number(val["quo_margin"]));
-                                            const purround = Math.round(Number(val["purchase_margin"]));
-                                            const margin = Math.round(Number(val["margin_diff"]));
-                                            const isPositiveMarginDiff = quo > pur;
-                                            const isPositivemargin = quoround > purround
-                                            const isneativemargin = quoround < purround
-                                            const margindiff = margin > 1
-                                            const margindiffpositive = margin < 0
-                                            const QtnMarginbg = quoround === 0
+                                <Virtuoso
+                                    style={{ height: "63vh", width: "100%", }}
+                                    data={filtered}
+                                    itemContent={(index, val) => {
+                                        const quo = Number(val["quo_margin"]);
+                                        const pur = Number(val["purchase_margin"]);
+                                        const quoround = Math.round(Number(val["quo_margin"]));
+                                        const purround = Math.round(Number(val["purchase_margin"]));
+                                        const margin = Math.round(Number(val["margin_diff"]));
+                                        const isPositiveMarginDiff = quo > pur;
+                                        const isPositivemargin = quoround > purround
+                                        const isneativemargin = quoround < purround
+                                        const margindiff = margin > 1
+                                        const margindiffpositive = margin < 0
+                                        const QtnMarginbg = quoround === 0
 
-                                            return (
-                                                <Box display="flex" sx={{ borderBottom: "1px solid lightgrey" }}>
-                                                    {columns.map(col => {
-                                                        let value = val[col.key];
-                                                        if (col.key === "sl_no") value = index + 1;
-                                                        if (col.key === "comments") {
-                                                            value = value ? value : "Not Updated";
-                                                        }
-                                                        if (col.key === "comments") {
-                                                            const statusText = value ? value : "Not Updated";
-
-                                                            return (
-                                                                <Box
-                                                                    key={col.key}
-                                                                    sx={{
-                                                                        width: col.width,
-                                                                        display: "flex",
-                                                                        justifyContent: "center",
-                                                                        alignItems: "center",
-                                                                    }}
-                                                                >
-                                                                    <Box
-                                                                        sx={{
-                                                                            borderRadius: 2,
-                                                                            minWidth: 150,
-                                                                            textAlign: "center",
-                                                                            border: "1px solid #90CAF9",
-                                                                            backgroundColor: value === "Payment Proceed" ? "#CAE8BD" : value === "Hold Payment" || value === "New Quot (Rec)" || value === "Hold Purchase" ? "#FFCFCF" : "white",
-                                                                            fontSize: 14,
-                                                                            color: value ? "black" : "#D32F2F",
-                                                                        }}
-                                                                    >
-                                                                        {statusText}
-                                                                    </Box>
-                                                                </Box>
-                                                            );
-                                                        }
-                                                        if (["grn_date"].includes(col.key)) value = formatDateTime(value);
-                                                        if (["grn_selling_rate", "grn_dis", "rate", "rate_variation"]
-                                                            .includes(col.key))
-                                                            value = Number(value).toFixed(4);
-                                                        if (["quo_margin", "purchase_margin", "po_margin"].includes(col.key)) {
-                                                            value = Math.round(value);
-                                                        }
-                                                        if (["margin_diff"].includes(col.key)) {
-                                                            value = Math.round(value);
-                                                        }
-                                                        const Color =
-                                                            col.key === "margin_diff" ? (isPositiveMarginDiff && margindiff ? "#c73580ff" : margindiffpositive ? "#085024dd" : "black")
-
-
-                                                                : col.key === "purchase_margin"
-                                                                    ? (
-                                                                        isPositiveMarginDiff && isPositivemargin
-                                                                            ? "#bc170ba9"
-                                                                            : isneativemargin ? "green"
-
-                                                                                : "black"
-                                                                    )
-                                                                    : col.key === "quo_margin"
-                                                                        ? (
-                                                                            isPositiveMarginDiff && isPositivemargin
-                                                                                ? "#bc170ba9"
-                                                                                : isneativemargin ? "green"
-                                                                                    : "black"
-                                                                        )
-                                                                        : col.key === "rate_variation"
-                                                                            ? (
-                                                                                isPositiveMarginDiff && isPositivemargin
-                                                                                    ? "#bc170ba9"
-                                                                                    : isneativemargin ? "green"
-                                                                                        : "black"
-                                                                            )
-
-                                                                            : col.key === "po_margin"
-                                                                                ? (
-                                                                                    isPositiveMarginDiff && isPositivemargin
-                                                                                        ? "#bc170ba9"
-                                                                                        : isneativemargin ? "green"
-                                                                                            : "black"
-                                                                                )
-                                                                                :
-                                                                                QtnMarginbg ? "#D1E9F6" : "black";
-
-
-                                                        const bgColor = QtnMarginbg ? "#D1E9F6" : "white";
-
-                                                        const btmBrClr = col.key === "margin_diff" ? (isPositiveMarginDiff && margindiff ? "#c73580ff" : margindiffpositive ? "#085024dd" : "#8CA9FF") : "white";
+                                        return (
+                                            <Box display="flex" sx={{ borderBottom: "1px solid lightgrey" }}>
+                                                {columns.map(col => {
+                                                    let value = val[col.key];
+                                                    if (col.key === "sl_no") value = index + 1;
+                                                    if (col.key === "comments") {
+                                                        value = value ? value : "Not Updated";
+                                                    }
+                                                    if (col.key === "comments") {
+                                                        const statusText = value ? value : "Not Updated";
 
                                                         return (
                                                             <Box
@@ -462,51 +385,129 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                 sx={{
                                                                     width: col.width,
                                                                     display: "flex",
-                                                                    justifyContent: col.align === 'right'
-                                                                        ? 'flex-end'
-                                                                        : col.align === 'center'
-                                                                            ? 'center'
-                                                                            : 'flex-start',
+                                                                    justifyContent: "center",
                                                                     alignItems: "center",
-                                                                    backgroundColor: bgColor,
-                                                                    color: QtnMarginbg ? "black" : Color,
-                                                                    fontSize: 14,
-                                                                    fontWeight: col.fontWeight
                                                                 }}
                                                             >
-                                                                {col.key === "margin_diff" ?
-                                                                    (<IconButton >
-                                                                        <Box
-                                                                            sx={{
-                                                                                width: 100,
-                                                                                borderRadius: 3,
-                                                                                bgcolor: bgColor,
-                                                                                color: Color,
-                                                                                border: 1,
-                                                                                borderColor: btmBrClr
-                                                                            }}
-                                                                            onClick={() => handleOpenComment(val)}
-                                                                        >
-                                                                            {Math.abs(Number(val.margin_diff))}
-
-                                                                        </Box>
-                                                                    </IconButton>
-                                                                    )
-                                                                    : value}
+                                                                <Box
+                                                                    sx={{
+                                                                        borderRadius: 2,
+                                                                        minWidth: 150,
+                                                                        textAlign: "center",
+                                                                        border: "1px solid #90CAF9",
+                                                                        backgroundColor: value === "Payment Proceed" ? "#CAE8BD" : value === "Hold Payment" || value === "New Quot (Rec)" || value === "Hold Purchase" ? "#FFCFCF" : "white",
+                                                                        fontSize: 14,
+                                                                        color: value ? "black" : "#D32F2F",
+                                                                    }}
+                                                                >
+                                                                    {statusText}
+                                                                </Box>
                                                             </Box>
                                                         );
-                                                    })}
-                                                </Box>
-                                            );
-                                        }}
-                                    />
+                                                    }
+                                                    if (["grn_date"].includes(col.key)) value = formatDateTime(value);
+                                                    if (["grn_selling_rate", "grn_dis", "rate", "rate_variation"]
+                                                        .includes(col.key))
+                                                        value = Number(value).toFixed(4);
+                                                    if (["quo_margin", "purchase_margin", "po_margin"].includes(col.key)) {
+                                                        value = Math.round(value);
+                                                    }
+                                                    if (["margin_diff"].includes(col.key)) {
+                                                        value = Math.round(value);
+                                                    }
+                                                    const Color =
+                                                        col.key === "margin_diff" ? (isPositiveMarginDiff && margindiff ? "#c73580ff" : margindiffpositive ? "#085024dd" : "black")
 
 
-                                </Box>
+                                                            : col.key === "purchase_margin"
+                                                                ? (
+                                                                    isPositiveMarginDiff && isPositivemargin
+                                                                        ? "#bc170ba9"
+                                                                        : isneativemargin ? "green"
+
+                                                                            : "black"
+                                                                )
+                                                                : col.key === "quo_margin"
+                                                                    ? (
+                                                                        isPositiveMarginDiff && isPositivemargin
+                                                                            ? "#bc170ba9"
+                                                                            : isneativemargin ? "green"
+                                                                                : "black"
+                                                                    )
+                                                                    : col.key === "rate_variation"
+                                                                        ? (
+                                                                            isPositiveMarginDiff && isPositivemargin
+                                                                                ? "#bc170ba9"
+                                                                                : isneativemargin ? "green"
+                                                                                    : "black"
+                                                                        )
+
+                                                                        : col.key === "po_margin"
+                                                                            ? (
+                                                                                isPositiveMarginDiff && isPositivemargin
+                                                                                    ? "#bc170ba9"
+                                                                                    : isneativemargin ? "green"
+                                                                                        : "black"
+                                                                            )
+                                                                            :
+                                                                            QtnMarginbg ? "#D1E9F6" : "black";
+
+
+                                                    const bgColor = QtnMarginbg ? "#D1E9F6" : "white";
+
+                                                    const btmBrClr = col.key === "margin_diff" ? (isPositiveMarginDiff && margindiff ? "#c73580ff" : margindiffpositive ? "#085024dd" : "#8CA9FF") : "white";
+
+                                                    return (
+                                                        <Box
+                                                            key={col.key}
+                                                            sx={{
+                                                                width: col.width,
+                                                                display: "flex",
+                                                                justifyContent: col.align === 'right'
+                                                                    ? 'flex-end'
+                                                                    : col.align === 'center'
+                                                                        ? 'center'
+                                                                        : 'flex-start',
+                                                                alignItems: "center",
+                                                                backgroundColor: bgColor,
+                                                                color: QtnMarginbg ? "black" : Color,
+                                                                fontSize: 14,
+                                                                fontWeight: col.fontWeight
+                                                            }}
+                                                        >
+                                                            {col.key === "margin_diff" ?
+                                                                (<IconButton >
+                                                                    <Box
+                                                                        sx={{
+                                                                            width: 100,
+                                                                            borderRadius: 3,
+                                                                            bgcolor: bgColor,
+                                                                            color: Color,
+                                                                            border: 1,
+                                                                            borderColor: btmBrClr
+                                                                        }}
+                                                                        onClick={() => handleOpenComment(val)}
+                                                                    >
+                                                                        {Math.abs(Number(val.margin_diff))}
+
+                                                                    </Box>
+                                                                </IconButton>
+                                                                )
+                                                                : value}
+                                                        </Box>
+                                                    );
+                                                })}
+                                            </Box>
+                                        );
+                                    }}
+                                />
+
+
                             </Box>
                         </Box>
-                        {/* comment modal  with comment section */}
-                        {/* <CommentModal
+                    </Box>
+                    {/* comment modal  with comment section */}
+                    {/* <CommentModal
                             open={openCommentModal}
                             onClose={OncloseModalFun}
                             commentText={commentText}
@@ -522,24 +523,24 @@ const Ratevariation = ({ setActiveComponent }) => {
                             checkResolved={checkResolved}
                         /> */}
 
-                        <CommentModalAction
-                            open={openCommentModal}
-                            onClose={OncloseModalFun}
-                            commentText={commentText}
-                            setCommentText={setCommentText}
-                            onSave={handleSaveComment}
-                            selectedRow={selectedRow}
-                            activeTab={activeTab}
-                            setActiveTab={setActiveTab}
-                            commentsArr={RateVariationComments}
-                            setSelectedAction={setSelectedAction}
-                            selectedAction={selectedAction}
-                            setCheckResolved={setCheckResolved}
-                            checkResolved={checkResolved}
-                        />
-                    </Paper>
-                </CardCloseOnly>
-            }
+                    <CommentModalAction
+                        open={openCommentModal}
+                        onClose={OncloseModalFun}
+                        commentText={commentText}
+                        setCommentText={setCommentText}
+                        onSave={handleSaveComment}
+                        selectedRow={selectedRow}
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+                        commentsArr={RateVariationComments}
+                        setSelectedAction={setSelectedAction}
+                        selectedAction={selectedAction}
+                        setCheckResolved={setCheckResolved}
+                        checkResolved={checkResolved}
+                    />
+                </Paper>
+            </CardCloseOnly>
+            {/* } */}
         </Fragment >
     )
 }
