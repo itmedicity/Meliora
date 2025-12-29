@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 import {
-    Box, Chip, Sheet,
+    Box, Chip, Sheet, Tooltip
 } from "@mui/joy";
 import IncidentTextComponent from "../Components/IncidentTextComponent";
 import ApprovalLevelCard from "./ApprovalLevelCard";
 import { formatDate } from "../CommonComponent/Incidnethelper";
+import { FaRegEye } from 'react-icons/fa';
+import { PiEyeClosedDuotone } from "react-icons/pi";
 
 const ApprovalPreview = ({
     items,
@@ -17,7 +19,7 @@ const ApprovalPreview = ({
 }) => {
 
     const [scaledIndex, setScaledIndex] = useState(null);
-
+    const [expandaction, setExpandAction] = useState(true)
     const reviewRefs = useRef([]);
 
     const getStatusChip = (state) => {
@@ -30,56 +32,74 @@ const ApprovalPreview = ({
     // 1. highest approved level
     const highestApprovedLevel = Math.max(0, ...highlevelapprovals.map(h => h.level_no));
 
-
     // Final level (fixes crash when incidentlevels = [])
     const finalLevelNo =
         incidentlevels.length > 0
             ? Math.max(...incidentlevels.map(l => l.level_no))
             : 0;
 
-    let approvalLevels = [];
+    // let approvalLevels = incidentlevels
+    //     ?.filter(item => item?.level_status === 1)
+    //     ?.sort((a, b) => a.level_no - b.level_no)
+    //     ?.filter(lvl => {
+    //         const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
+    //         if (found) return true;
+    //         if (lvl.level_no < highestApprovedLevel) return false;
+    //         return true;
+    //     })
+    //     ?.map((lvl) => {
+    //         const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
 
-    if (!incidentlevels || incidentlevels.length === 0) {
-        // directly map highlevelapprovals
-        approvalLevels = highlevelapprovals.map(h => ({
-            label: h.level_name,
-            name: h.em_name,
-            review: h.level_review,
-            date: h.level_review_date,
-            state: h.level_review_state,
-            canEdit: false,  // can't edit in this mode
-            level_slno: h.level_review_slno
-        }));
-    } else {
-        // Main logic
-        approvalLevels = incidentlevels
-            ?.filter(item => item?.level_status === 1)
-            ?.sort((a, b) => a.level_no - b.level_no)
-            ?.filter(lvl => {
-                const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
-                if (found) return true;
-                if (lvl.level_no < highestApprovedLevel) return false;
-                return true;
-            })
-            ?.map((lvl) => {
-                const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
+    //         const canEdit =
+    //             lvl.level_no === highestApprovedLevel &&
+    //             lvl.level_no !== finalLevelNo;
 
-                const canEdit =
-                    lvl.level_no === highestApprovedLevel &&
-                    lvl.level_no !== finalLevelNo;
+    //         return {
+    //             label: lvl.level_name,
+    //             name: found?.em_name || "--",
+    //             review: found?.level_review || "Current Level Have No Review...!",
+    //             date: found?.level_review_date || null,
+    //             state: found?.level_review_state || null,
+    //             canEdit,
+    //             level_slno: found?.level_review_slno
+    //         };
+    //     });
+    // }
+    const approvedRejected = incidentlevels
+        ?.filter(lvl => lvl?.level_status === 1)
+        ?.sort((a, b) => a.level_no - b.level_no)
+        ?.map(lvl => {
+            const found = highlevelapprovals?.find(
+                hl => hl.level_no === lvl.level_no
+            );
+            if (!found) return null;
 
-                return {
-                    label: lvl.level_name,
-                    name: found?.em_name || "--",
-                    review: found?.level_review || "",
-                    date: found?.level_review_date || null,
-                    state: found?.level_review_state || null,
-                    canEdit,
-                    level_slno: found?.level_review_slno
-                };
-            });
-    }
+            return {
+                level_no: lvl.level_no,
+                label: lvl.level_name,
+                name: found.em_name || "--",
+                review: found.level_review || "No remarks have been provided by this Reviewer.",
+                date: found.level_review_date || null,
+                state: found.level_review_state, // A / R
+                level_slno: found.level_review_slno
+            };
+        })
+        ?.filter(Boolean);
 
+
+    let approvalLevels = approvedRejected.map(lvl => {
+        const nextLevelExists = highlevelapprovals?.some(
+            hl => hl.level_no === lvl.level_no + 1
+        );
+
+        const canEdit =
+            lvl.state === "A" &&
+            lvl.level_no === highestApprovedLevel &&
+            lvl.level_no !== finalLevelNo &&
+            !nextLevelExists;
+
+        return { ...lvl, canEdit };
+    });
 
     const rejectIndex = approvalLevels?.findIndex((lvl) => lvl.state === "R");
 
@@ -113,7 +133,10 @@ const ApprovalPreview = ({
                 bgcolor: 'var(--royal-purple-400)',
                 py: 0.5,
                 px: 1,
-                mt: 2
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
             }}>
                 <IncidentTextComponent
                     text={"REVIEW DETAIL"}
@@ -121,15 +144,27 @@ const ApprovalPreview = ({
                     weight={600}
                     color={"white"}
                 />
+
+                <Tooltip title={expandaction ? 'Hide' : 'View'} variant="plain" size='sm'>
+                    <span onClick={() => setExpandAction((prev) => !prev)} style={{ cursor: 'pointer' }}>
+                        {expandaction ? (
+                            <FaRegEye size={18} color="black" />
+                        ) : (
+                            <PiEyeClosedDuotone size={18} color="black" />
+                        )}
+                    </span>
+                </Tooltip>
             </Box>
 
             <Sheet
                 variant="outlined"
                 sx={{
-                    borderRadius: "md",
                     p: 1,
                     bgcolor: "background.body",
                     position: "relative",
+                    overflow: 'hidden',
+                    maxHeight: expandaction ? '1000px' : 0, // big enough to fit content
+                    transition: 'max-height 0.4s ease, opacity 0.4s ease',
                 }}
             >
                 {/* Blur overlay when an item is scaled */}

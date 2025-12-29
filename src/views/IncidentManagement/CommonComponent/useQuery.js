@@ -4,6 +4,7 @@ import {
     DashBoardIncidentDetails,
     fetchAllIncidents,
     fetchAllInvolvedDep,
+    fetchAllInvolvedEmployeeDep,
     getAllCommonDataCollectionDeparment,
     getAllDeparmentActions,
     getAllIncidentActionMastDetail,
@@ -14,6 +15,7 @@ import {
     getAllIncidentSubCategory,
     getCurrentCompanyDetail,
     getDepActions,
+    getDepartmentSectionEmployees,
     getFishBoneAnalysisData,
     hodinchargeApprovalIncident,
     IncidentCommonLevelApprovalDetailMaster,
@@ -80,6 +82,9 @@ export const useInvolvedDepartments = (incRegisterSlno) => {
     });
 };
 
+
+
+
 //  7. Fetch all Action Incdient departments
 export const useIncidentActionsMaster = () => {
     return useQuery({
@@ -120,11 +125,11 @@ export const useIncidentSubCategory = () => {
 
 
 //10 Fetch All Incident Department Data Collection
-export const useIncidentDepartmentDataCollection = (empdept) => {
+export const useIncidentDepartmentDataCollection = (empdept, empid) => {
     return useQuery({
-        queryKey: ['incidentDataCollect', empdept],
-        queryFn: () => getAllIncidentDataCollection(empdept),
-        enabled: !!empdept,
+        queryKey: ['incidentDataCollect', empdept, empid],
+        queryFn: () => getAllIncidentDataCollection(empdept, empid),
+        enabled: !!empdept && !!empid,
         staleTime: Infinity, // optional: match your other hook style
     });
 };
@@ -227,6 +232,26 @@ export const useCommonDataCollectionDepartments = () => {
 
 
 
+// Get all Employeee Based on Sec Id
+export const useDepartmentSectionEmployee = (secid) => {
+    return useQuery({
+        queryKey: ['sectionemployee', secid],
+        queryFn: () => getDepartmentSectionEmployees(secid),
+        staleTime: Infinity,
+        enabled: !!secid
+    });
+};
+
+
+
+//   Fetch all Employee involved departments
+export const useEmployeeInvolvedDepartments = (incRegisterSlno, empID) => {
+    return useQuery({
+        queryKey: ['allempinvdep', incRegisterSlno, empID],
+        queryFn: () => fetchAllInvolvedEmployeeDep(incRegisterSlno, empID),
+        enabled: !!incRegisterSlno && !!empID,
+    });
+};
 // fetch current employee type (Clinical and Non Clinical)
 // const { data: empDeptType } = useQuery({
 //     queryKey: ['emptype', empdept],

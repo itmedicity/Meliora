@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, lazy, Suspense, useMemo } from 'react';
+import React, { memo, useCallback, useState, lazy, Suspense, useMemo, useEffect, useRef } from 'react';
 import { Box, Divider, Modal, ModalClose, ModalDialog } from '@mui/joy';
 import { CgFileDocument } from "react-icons/cg";
 import { BiSolidEditAlt } from "react-icons/bi";
@@ -18,6 +18,8 @@ import { axioslogin } from 'src/views/Axios/Axios';
 import AddButtonSkeleton from '../SkeletonComponent/AddButtonSkeleton';
 import IncidentStatusSkeleton from '../SkeletonComponent/IncidentStatusSkeleton';
 import { safeParse } from '../CommonComponent/Incidnethelper';
+import { getYear, parse } from 'date-fns';
+import { useLocation } from "react-router-dom";
 // import { useCurrentCompanyData } from '../CommonComponent/useQuery';
 
 // Lazy-loaded components
@@ -43,7 +45,7 @@ const IncidentListCard = ({
     loadinglevel,
     FinalIncidentLevels,
     CompanyName,
-    key
+    autoOpen
 }) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -57,6 +59,12 @@ const IncidentListCard = ({
     const [levelitems, setLevelItems] = useState([]);
     const [levelactionreview, setLevelActionReview] = useState([]);
 
+    const location = useLocation();
+
+    const { state } = location;
+
+    const hasAutoOpened = useRef(false);
+
     const tags = useMemo(() => items?.nature_of_inc || [], [items?.nature_of_inc]);
 
     const { fetchIncidentFiles, loadingFiles } = useIncidentFiles();
@@ -65,9 +73,17 @@ const IncidentListCard = ({
 
     const { FetchAllActionReviewDetails, loadingactionsreviewdetail } = useLevelActionDetails();
 
-    const handleClose = useCallback(() => setOpen(false), []);
-
-
+    // const handleClose = useCallback(() => setOpen(false), []);
+    //Modal closing along with the clearing the notification state
+    const handleClose = useCallback(() => {
+        setOpen(false);
+        if (state?.fromNotification) {
+            navigate(location.pathname, {
+                replace: true,
+                state: null,
+            });
+        }
+    }, [navigate, location.pathname, state]);
 
 
     // Using Common Helper to fetch All Detail in one Click 
@@ -138,8 +154,25 @@ const IncidentListCard = ({
         }
     }
 
+    // Extracting the Correct Registerd Date.
+    const CurrentYear = getYear(
+        parse(items?.create_date, 'yyyy-MM-dd HH:mm:ss', new Date())
+    );
+
+
+    // The Incident List is Opening 
+    useEffect(() => {
+        if (!autoOpen || open) return;
+        if (hasAutoOpened.current) return;
+
+        hasAutoOpened.current = true;
+        HandleViewOption(items.inc_register_slno, items.file_status);
+    }, [autoOpen, open, HandleViewOption]);
+
+
+
     return (
-        <Box key={key}>
+        <Box>
             <Box
 
                 sx={{
@@ -175,7 +208,12 @@ const IncidentListCard = ({
                 }}>
                     {/* Left Section */}
                     <Box sx={{ width: '15%', display: 'flex', flexDirection: 'column', gap: 0.2 }}>
-                        <IncidentTextComponent text={`${CompanyName}${items?.inc_register_slno}`} color="var(--royal-purple-400)" size={18} weight={900} />
+                        <IncidentTextComponent
+                            text={`${CompanyName}${CurrentYear}/${items?.inc_register_slno}`}
+                            color="var(--royal-purple-400)"
+                            size={16}
+                            weight={900}
+                        />
                         <IncidentTextComponent text={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")} color="#403d3dff" size={13} weight={400} />
                         <IncidentTextComponent text={items?.em_name} color="#1a1a1a" size={14} weight={700} />
                         <IncidentTextComponent text={items?.sec_name} color="#5A5A5A" size={12} weight={500} />
@@ -193,8 +231,10 @@ const IncidentListCard = ({
                             weight={800}
                         />
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, rowGap: 1, mt: 0.5 }}>
-                            {tags?.map((tag) => (
-                                <IncidentTagChip key={tag} tag={tag} />
+                            {tags?.map((tag, inx) => (
+                                <Box key={inx}>
+                                    <IncidentTagChip tag={tag} />
+                                </Box>
                             ))}
                         </Box>
                     </Box>
@@ -223,11 +263,12 @@ const IncidentListCard = ({
                                         index === self.findIndex(d => d.section === item.section)
                                 )
                                 ?.map((dep, index) => (
-                                    <DataCollectionChip
-                                        key={index}
-                                        status={dep?.inc_dep_status}
-                                        label={dep?.section}
-                                    />
+                                    <Box key={index}>
+                                        <DataCollectionChip
+                                            status={dep?.inc_dep_status}
+                                            label={dep?.section}
+                                        />
+                                    </Box>
                                 ))}
                         </Box>
                     </Box>
@@ -345,6 +386,7 @@ const IncidentListCard = ({
                             levelactionreview={levelactionreview}
                             FinalIncidentLevels={FinalIncidentLevels}
                             CompanyName={CompanyName}
+                            CurrentYear={CurrentYear}
                         />
                     </Suspense>
                 </ModalDialog>

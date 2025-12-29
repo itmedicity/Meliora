@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { AppHeaderDropdown } from './header/index'
 import { TiThMenuOutline } from 'react-icons/ti'
 
@@ -15,6 +15,8 @@ import Dropdown from '@mui/joy/Dropdown'
 
 import { IoPersonOutline } from 'react-icons/io5'
 import LiveClock from 'src/views/Components/LiveClock'
+import NotificationBell from 'src/views/IncidentManagement/IncidentNotification/NotificationBell'
+import { initNotificationSound } from 'src/views/IncidentManagement/IncidentNotification/notificationSound'
 
 const AppHeader = ({ collapsed, setCollapsed }) => {
   // // Get login user emp_id
@@ -49,6 +51,20 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
   // const PRIMARY_MAIN = 'var(--rose-pink-200)'
   // const PRIMARY_DARKER = 'var(--rose-pink-100)'
 
+  useEffect(() => {
+    const enableSound = () => {
+      initNotificationSound();
+      window.removeEventListener("click", enableSound);
+    };
+
+    window.addEventListener("click", enableSound);
+
+    return () => {
+      window.removeEventListener("click", enableSound);
+    };
+  }, []);
+
+
   return (
     <Fragment>
       <Box
@@ -78,17 +94,18 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+              <NotificationBell />
               <Box sx={{ display: 'flex', alignItems: 'end', flexDirection: 'column' }}>
                 <Box sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>Travancore Medicity</Box>
                 <LiveClock />
                 {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
+            
               <Dropdown>
                 <MenuButton
                   sx={{ ml: 2, background: 'var(--royal-purple-100)' }}
                   slots={{ root: IconButton }}
-                  slotProps={{ root: { variant: 'outlined', color: 'danger' } }}
-                >
+                  slotProps={{ root: { variant: 'outlined', color: 'danger' } }}>
                   <IoPersonOutline color="var(--rose-pink-400)" />
                 </MenuButton>
                 <AppHeaderDropdown />

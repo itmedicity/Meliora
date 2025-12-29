@@ -74,7 +74,7 @@ const IncidentCategoryMaster = () => {
         data: incidentcategory,
         refetch: FetchAllCategory
     } = useQuery({
-        queryKey: 'getincidentcategory',
+        queryKey: ['getincidentcategory'],
         queryFn: () => getAllIncidentCategory(),
         staleTime: Infinity
     })

@@ -14,6 +14,7 @@ import SectionHeader from '../Components/SectionHeader';
 import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdFilePresent } from "react-icons/md";
+import { warningNotify } from 'src/views/Common/CommonCode';
 
 const FishboneQuestionContainer = ({
     setFormValues, formValues, open, setOpen, setSaveDetail
@@ -26,6 +27,9 @@ const FishboneQuestionContainer = ({
         }));
     };
 
+    const { MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT } = formValues;
+
+
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
@@ -33,6 +37,10 @@ const FishboneQuestionContainer = ({
     };
 
     const handleSave = () => {
+        if (![MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT]?.some(Boolean)) {
+            warningNotify("Please Enter Any of the Above Before Submitting!");
+            return
+        }
         setSaveDetail(true)
         setOpen(false)
     }

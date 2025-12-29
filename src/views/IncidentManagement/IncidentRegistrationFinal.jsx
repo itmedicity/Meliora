@@ -411,6 +411,7 @@ const IncidentRegistrationFinal = () => {
     };
 
 
+
     // Hanlde Updation
     const HandleIncidentUpdation = useCallback(async () => {
         setFormSubmitting(true)
@@ -790,7 +791,7 @@ const IncidentRegistrationFinal = () => {
                     gap: 1,
                     p: 1,
                     borderRadius: 5,
-                    mt:IncidentEditing? 2: 5,
+                    mt: IncidentEditing ? 2 : 5,
                     border: '1.5px solid #d8dde2ff',
                     position: 'relative',
                     animation: 'fadeIn 0.5s ease-in'

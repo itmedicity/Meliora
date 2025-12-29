@@ -96,9 +96,9 @@ const InchargeApprovalDetail = ({
                 return;
             }
 
-            if (typeof review === "string" && review.trim() === "") return warningNotify("Please Enter the Review");
+            // if (typeof review === "string" && review.trim() === "") return warningNotify("Please Enter the Review");
 
-            if (IsSacMatrixExist && incidentcategory === null) return warningNotify("Please Select Incident Category!");
+            if (IsSacMatrixExist && (incidentcategory === null || incidentsubcat === null)) return warningNotify("Please Select  Category!");
 
             const fishbonedetail = {
                 inc_register_slno: item?.inc_register_slno,

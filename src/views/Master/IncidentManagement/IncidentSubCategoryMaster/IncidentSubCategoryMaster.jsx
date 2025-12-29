@@ -58,7 +58,7 @@ const IncidentSubCategoryMaster = () => {
         // isLoading: isLoadingIncident,
         // error: categoryerr
     } = useQuery({
-        queryKey: 'getincidentsubcategory',
+        queryKey: ['getincidentsubcategory'],
         queryFn: () => getAllIncidentSubCategory(),
         enabled: true
     })

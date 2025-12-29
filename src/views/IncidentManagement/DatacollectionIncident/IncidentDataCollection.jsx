@@ -1,5 +1,5 @@
 import { Box } from '@mui/joy';
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
 import CusCheckBox from 'src/views/Components/CusCheckBox';
 import SectionHeader from '../Components/SectionHeader';
@@ -12,9 +12,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
 
-import IncMultipleDepartment from 'src/views/CommonSelectCode/IncMultipleDepartment';
-// import { useInvolvedDepartments } from '../CommonComponent/useQuery';
-
+import SelectDepartmentSection from '../Components/SelectDepartmentSection';
+import SelectDepartmentSectionEmployye from '../Components/SelectDepartmentSectionEmployye';
 
 const IncidentDataCollection = ({
     ismultipledep,
@@ -26,76 +25,65 @@ const IncidentDataCollection = ({
     department,
     setIsMultipleDep,
     selectedDeps,
-    levelNo
+    levelNo,
+    involvedDepartment
     // setSelectedDeps
 }) => {
 
     const queryClient = useQueryClient();
-
-    const { empsecid, } = useSelector(state => {
+    const { empsecid, empid } = useSelector(state => {
         return state.LoginUserData
     });
+    const [emid, setEmpid] = useState({});
+    const [loading, setLoading] = useState(false)
+    // Department section and Employee Id
+    const { sec_id } = department ?? {};
+    const { em_id } = emid ?? {};
 
-    // const { data: involvedDepartment } = useInvolvedDepartments(items?.inc_register_slno);
+    const notAcknowledged = useMemo(() => {
+        return involvedDepartment && involvedDepartment?.filter(item => item?.inc_dep_status !== 1);
+    }, [involvedDepartment]);
 
+
+    //Handle Datacollection
     const hanldeDataCollection = useCallback(async () => {
-
-        //if department doesnt have then return
-        // if (!department?.length && !selectedDeps?.length) return warningNotify("Please Select department!");
-
-        // 1. Validate department selection
-        if (!department?.length && !selectedDeps?.length) {
-            return warningNotify("Please Select Department!");
-        }
-
-        // 2. Validate remarks
-        if (!datacollectionreamark?.length) {
-            return warningNotify("Please enter the Remarks");
-        }
-
-        // const existingIds = involvedDepartment?.map(item => item?.inc_req_collect_dep);
-        // const finalIds = selectedDeps?.map(item => item?.inc_dep_id);
-        // const departmentId = department?.map(item => item?.dept_id);
-        // const CombinedIds = [...new Set([...departmentId, ...finalIds])];
-
-        // // Split departments into new and existing
-        // const newDepartments = CombinedIds?.filter(depId => !existingIds.includes(depId)) || [];
-        // const existingDepartments = CombinedIds?.filter(depId => existingIds.includes(depId)) || [];
-        // // Map existing departments to their sec_name for display
-        // const existingSecNames = involvedDepartment
-        //     ?.filter(item => existingDepartments?.includes(item?.inc_req_collect_dep))
-        //     ?.map(item => item?.dept_name);
-
-        // if (existingSecNames.length > 0) {
-        //     // Notify user which sections already exist
-        //     warningNotify(`Data collection already exists for ${existingSecNames.join(", ")}`);
-        // }
-
-        // if (!newDepartments?.length) return;
-
-
-        // 3. Get department IDs from both lists
-        const selectedIds = [
-            ...(department?.map(d => d?.dept_id) || []),
-            ...(selectedDeps?.map(d => d?.inc_dep_id) || []),
-        ];
-
-        // 4. Remove duplicates
-        const uniqueDeptIds = [...new Set(selectedIds)];
-
-        //payload for data collection
-        const payload = {
-            slno: items?.inc_register_slno,
-            departments: uniqueDeptIds,
-            status: 1,
-            remark: datacollectionreamark,
-            createUser: employeeNumber(),
-            requested_department: empsecid,
-            level_no: levelNo
-        }
-
-    
         try {
+            setLoading(true)
+            //if department doesnt have then return
+            // if (!department?.length && !selectedDeps?.length) return warningNotify("Please Select department!");
+            // 1. Validate department selection and Employee
+            if (!sec_id) return warningNotify("Please Select Section!");
+            if (!em_id) return warningNotify("Please Select Employee!");
+            // 2. Validate remarks
+            if (!datacollectionreamark?.length) {
+                warningNotify("Please enter the Remarks");
+                return
+            }
+            if (Number(em_id) === Number(empid)) {
+                warningNotify("Cannot Sent to the Logged Person...")
+                return
+            }
+            const foundMatch = notAcknowledged?.find((item) => item?.inc_req_collect_dep === sec_id && item?.inc_req_collect_emp === em_id);
+
+            if (foundMatch) {
+                warningNotify("Data Collection sent to this Employee have not been Acknowledged.Please try After That...!");
+                return
+
+            }
+
+            //payload for data collection
+            const payload = {
+                slno: items?.inc_register_slno,
+                departments: sec_id,
+                status: 1,
+                remark: datacollectionreamark,
+                createUser: employeeNumber(),
+                requested_department: empsecid,
+                requested_employee: em_id,
+                level_no: levelNo
+            }
+
+
             const { data } = await axioslogin.post("/incidentMaster/reqdatacollection", payload);
             const { success, message } = data ?? {};
             if (success === 2) {
@@ -111,9 +99,10 @@ const IncidentDataCollection = ({
             setIncDep(0);
             setDataCollectionRemark("");
             setIsMultipleDep(false);
+            setLoading(false)
         }
 
-    }, [datacollectionreamark, department, items, empsecid, selectedDeps]);
+    }, [datacollectionreamark, sec_id, items, empsecid, selectedDeps, em_id, notAcknowledged]);
 
     return (
         <Box sx={{ mt: 2, borderRadius: 2, overflow: 'hidden', boxShadow: 1 }}>
@@ -172,13 +161,10 @@ const IncidentDataCollection = ({
                             }}>
                             {/* Department Select */}
                             <Box >
-                                <SectionHeader text="select Department" color={"Black"} fontSize={14} iconSize={18} />
-
-                                {/* <DepartmentSelect value={department} setValue={setDepartment} /> */}
-
-                                <IncMultipleDepartment department={department} setDepartment={setIncDep} />
-
-                                {/* <DataCollectDepSecSelect SetDeptSec={setIncDep} width={'100%'} /> */}
+                                <SectionHeader text="select Department Section" color={"Black"} fontSize={14} iconSize={18} />
+                                <SelectDepartmentSection departmentsec={department} setDepartmentSec={setIncDep} />
+                                <SectionHeader text="select Department Employee" color={"Black"} fontSize={14} iconSize={18} />
+                                <SelectDepartmentSectionEmployye value={emid} setValue={setEmpid} departmentsection={department} />
                                 <SectionHeader text="Remarks:" color={"Black"} fontSize={14} iconSize={18} />
                                 <textarea
                                     placeholder="Enter text here"
@@ -199,6 +185,7 @@ const IncidentDataCollection = ({
 
                             <Box sx={{ width: 100 }}>
                                 <ApprovalButton
+                                    disabled={loading}
                                     size={12}
                                     iconSize={17}
                                     text={"Add"}

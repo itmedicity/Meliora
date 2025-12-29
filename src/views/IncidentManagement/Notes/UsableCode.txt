@@ -270,3 +270,15 @@ export default memo(IncidentReviewTable);
                 level_slno: found?.level_review_slno
             };
         });
+
+
+
+DEPARTMENT SECTION AND DEPARTMENTS
+
+
+        {/* <DepartmentSelect value={department} setValue={setDepartment} /> */}
+                                {/* <IncMultipleDepartment department={department} setDepartment={setIncDep} /> */}
+                                {/* <IncMultipleDepartmentSection departmentsec={department} setDepartmentSec={setIncDep} /> */}
+ {/* <SectionHeader text="select Sections" color={"Black"} fontSize={14} iconSize={18} />
+                                 */}
+                                {/* <DataCollectDepSecSelect SetDeptSec={setIncDep} width={'100%'} /> */}

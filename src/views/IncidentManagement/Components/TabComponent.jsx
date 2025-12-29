@@ -14,8 +14,13 @@ import { getStatusInfo } from '../CommonComponent/CommonCode';
 import { useCurrentCompanyData, useIncidentCommonApprovalLevels } from '../CommonComponent/useQuery';
 import { TransforIncidentLevels } from '../CommonComponent/CommonFun';
 import IncidentListCardSkeleton from '../SkeletonComponent/IncidentListCardSkeleton';
+import { useLocation } from "react-router-dom";
 
 const TabComponent = ({ TabDetails, edit, fetchAgain, TotalLevelDepartments, level, loadinglist }) => {
+
+
+    const location = useLocation();
+    const { state } = location;
 
     // current level of incident
     const {
@@ -31,16 +36,21 @@ const TabComponent = ({ TabDetails, edit, fetchAgain, TotalLevelDepartments, lev
 
     const { data: CurrrentComapny, isLoading: LoadingCompanyData } = useCurrentCompanyData();
 
-
     const CompanyNumber = CurrrentComapny?.length > 0 ? CurrrentComapny[0]?.company_slno : null;
 
     //  CHOOSING THE CURRENT COMPANY DETAILS
     const CompanyName = useMemo(() => {
         if (CompanyNumber == null) return ''; // or loading text
         return Number(CompanyNumber) === 1
-            ? 'INCI/TMCH/'
-            : 'INCI/KMCH/';
+            ? 'IRN/TMCH/'
+            : 'IRN/KMCH/';
     }, [CompanyNumber]);
+
+
+    // Incident For Notificaton
+    const targetIncidentId = state?.fromNotification
+        ? state?.incidentNo
+        : null;
 
     return (
         <Box
@@ -156,20 +166,22 @@ const TabComponent = ({ TabDetails, edit, fetchAgain, TotalLevelDepartments, lev
                                     const { text, icons } = getStatusInfo(item, levelsForIncident);
 
                                     return (
-                                        <IncidentListCard
-                                            key={`incident-list-${idx}`}
-                                            CompanyName={CompanyName}
-                                            items={item}
-                                            isedit={edit}
-                                            level={levelName}
-                                            status={text}
-                                            icons={icons}
-                                            fetchAgain={fetchAgain}
-                                            levelNo={levelNo}
-                                            levelSlno={levelSlno}
-                                            loadinglevel={IncidentLevelLoading}
-                                            FinalIncidentLevels={levelsForIncident}
-                                        />
+                                        <Box key={`incident-list-${idx}`}>
+                                            <IncidentListCard
+                                                CompanyName={CompanyName}
+                                                items={item}
+                                                autoOpen={item?.inc_register_slno === targetIncidentId}
+                                                isedit={edit}
+                                                level={levelName}
+                                                status={text}
+                                                icons={icons}
+                                                fetchAgain={fetchAgain}
+                                                levelNo={levelNo}
+                                                levelSlno={levelSlno}
+                                                loadinglevel={IncidentLevelLoading}
+                                                FinalIncidentLevels={levelsForIncident}
+                                            />
+                                        </Box>
                                     );
                                 })}
 

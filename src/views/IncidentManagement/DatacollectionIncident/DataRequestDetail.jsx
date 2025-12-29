@@ -18,7 +18,10 @@ import CustomeIncidentLoading from '../Components/CustomeIncidentLoading';
 import { allowedFileType } from '../CommonComponent/CommonCode';
 import { IoAttachOutline, IoCloseCircle } from "react-icons/io5";
 import { safeParse } from '../CommonComponent/Incidnethelper';
-import { useInvolvedDepartments } from '../CommonComponent/useQuery';
+import {
+    useEmployeeInvolvedDepartments,
+    //  useInvolvedDepartments 
+} from '../CommonComponent/useQuery';
 import ExpandableSection from './ExpandableSection';
 import FilepreviewModal from '../IncidentModals/FilepreviewModal';
 // import { FaRegEye } from "react-icons/fa";
@@ -48,7 +51,7 @@ const DataRequestDetail = ({
 
     const queryClient = useQueryClient();
 
-    const { empsecid } = useSelector(state => {
+    const { empsecid, empid } = useSelector(state => {
         return state.LoginUserData
     });
     const { fetchIncidentFiles, loadingFiles } = useIncidentFiles();
@@ -63,13 +66,15 @@ const DataRequestDetail = ({
     const parsedDetails = safeParse(items?.data_collection_details) || [];
     const { uploadedFiles, previewUrls, handleFileSelect, handleRemoveFile } = useFileUpload(allowedFileType);
 
-    const { data: involvedDepartment } = useInvolvedDepartments(items?.inc_register_slno);
+    // const { data: involvedDepartment } = useInvolvedDepartments(items?.inc_register_slno);
+
+    const { data: EmpinvolvedDepartment } = useEmployeeInvolvedDepartments(items?.inc_register_slno, empid);
 
     const validDetails = parsedDetails?.filter(d => d?.inc_dep_status !== null && d?.inc_dep_rca !== null && d?.inc_dep_status === 0);
 
 
     // Checking if any Department Not Responded
-    const hasPending = involvedDepartment
+    const hasPending = EmpinvolvedDepartment
         ?.map(detail => {
             const match = validDetails?.find(
                 d => d.inc_dep_status === 0 && detail.inc_dep_status === 0
@@ -259,7 +264,7 @@ const DataRequestDetail = ({
                 </Box>
 
                 {
-                    involvedDepartment?.map((item, inx) => {
+                    EmpinvolvedDepartment?.map((item, inx) => {
                         return (
                             <Box
                                 key={inx}

@@ -87,7 +87,7 @@ const ApprovalLevelCard = ({
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                         <PiPersonLight style={{ color: "var(--joy-palette-primary-500)", fontSize: 18 }} />
                         <IncidentTextComponent
-                            text={`${level.label}: ${level.name || "--"}`}
+                            text={`${level.name || "--"}`}
                             size={14}
                             weight={600}
                         />
@@ -138,7 +138,7 @@ const ApprovalLevelCard = ({
                             marginTop: 0.4,
                         }}
                     >
-                        {`"${level.review}"`}
+                        {`${level.review}`}
                     </Typography>
                 )}
             </Box>

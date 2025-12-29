@@ -38,7 +38,7 @@ export const getFinalLevelActions = (levelitems = [], level, levelactionreview =
         }
 
         // SPECIAL CASE: Always include RCA
-        if (item?.inc_action_name?.toUpperCase() === 'PREVENTIVE ACTION') {
+        if (item?.inc_action_name?.toUpperCase() === 'PREVENTIVE ACTION' || item?.inc_action_name?.toUpperCase() === 'RCA') {
             return true;
         }
 

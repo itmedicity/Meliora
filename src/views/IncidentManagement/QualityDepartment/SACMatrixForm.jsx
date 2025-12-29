@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, {
+    useState,
+    useMemo,
+    useEffect,
+    useRef,
+    memo
+} from 'react';
 import Table from '@mui/joy/Table';
 import { TiArrowForwardOutline } from "react-icons/ti";
 import Stack from '@mui/joy/Stack';
@@ -6,63 +12,87 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
 import { Box } from '@mui/joy';
 
+/* =========================
+   CONSTANTS (OUTSIDE)
+   ========================= */
+const CONSEQUENCE_LEVELS = [
+    { label: 'Negligible', value: 1 },
+    { label: 'Minor', value: 2 },
+    { label: 'Moderate', value: 3 },
+    { label: 'Major', value: 4 },
+    { label: 'Catastrophic', value: 5 },
+];
+
+const LIKELIHOOD_LEVELS = [
+    { label: 'Almost Certain', value: 5 },
+    { label: 'Likely', value: 4 },
+    { label: 'Possible', value: 3 },
+    { label: 'Unlikely', value: 2 },
+    { label: 'Rare', value: 1 },
+];
+
+/* =========================
+   COMPONENT
+   ========================= */
 const SACMatrixForm = ({ setSelectedItems }) => {
 
-    const consequenceLevels = [
-        'Negligible',
-        'Minor',
-        'Moderate',
-        'Major',
-        'Catastrophic',
-    ];
+    // Selected cell
+    const [selectedCell, setSelectedCell] = useState(null);
 
-    const likelihoodLevels = ['Frequent', 'Likely', 'Possible', 'Unlikely', 'Rare'];
+    // Store last sent value (to avoid loop)
+    const lastSentRef = useRef(null);
 
-    const matrixValues = [
-        [3, 3, 2, 1, 1],
-        [4, 3, 2, 1, 1],
-        [4, 3, 2, 2, 1],
-        [4, 4, 3, 2, 1],
-        [4, 4, 4, 3, 2],
-    ];
-
-    // selected column index for each likelihood
-    const [selectedIndices, setSelectedIndices] = useState({});
-
-
+    // Click handler (guards duplicate clicks)
     const handleCellClick = (rowIdx, colIdx) => {
-        setSelectedIndices(prev => ({
-            ...prev,
-            [rowIdx]: colIdx,
-        }));
+        if (
+            selectedCell?.rowIdx === rowIdx &&
+            selectedCell?.colIdx === colIdx
+        ) {
+            return; // ? stop unnecessary render
+        }
+        setSelectedCell({ rowIdx, colIdx });
     };
 
-    // Derived data: readable format
-    const readableSelections = useMemo(() => {
-        return Object.entries(selectedIndices).reduce((acc, [rowIndex, colIndex]) => {
-            const likelihood = likelihoodLevels[rowIndex];
-            const consequence = consequenceLevels[colIndex];
-            const value = matrixValues[rowIndex][colIndex];
-            acc[likelihood] = { consequence, value };
-            return acc;
-        }, {});
-    }, [selectedIndices]);
+    // Derived selection
+    const readableSelection = useMemo(() => {
+        if (!selectedCell) return null;
 
-    //  Whenever readableSelections changes, update state + parent
+        const likelihood = LIKELIHOOD_LEVELS[selectedCell.rowIdx];
+        const consequence = CONSEQUENCE_LEVELS[selectedCell.colIdx];
+
+        return {
+            likelihood: likelihood.label,
+            likelihoodValue: likelihood.value,
+            consequence: consequence.label,
+            consequenceValue: consequence.value,
+            riskValue: likelihood.value * consequence.value,
+        };
+    }, [selectedCell]);
+
+    // Send to parent (guarded)
     useEffect(() => {
-        // setReadableSelectionsState(readableSelections);
-        setSelectedItems(readableSelections); // pass to parent
-    }, [
-        readableSelections,
-        setSelectedItems
-    ]);
+        if (!readableSelection) return;
+
+        if (
+            lastSentRef.current &&
+            lastSentRef.current.likelihood === readableSelection.likelihood &&
+            lastSentRef.current.consequence === readableSelection.consequence
+        ) {
+            return; // ? no parent update
+        }
+
+        lastSentRef.current = readableSelection;
+        setSelectedItems(readableSelection);
+    }, [readableSelection, setSelectedItems]);
 
     return (
         <Stack spacing={4} sx={{ width: '100%', mt: 2, bgcolor: "#fafafa", p: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.4 }}>
-                <TiArrowForwardOutline style={{ color: 'var(--rose-pink-400)', fontSize: 18 }} />
+                <TiArrowForwardOutline
+                    style={{ color: 'var(--rose-pink-400)', fontSize: 18 }}
+                />
                 <IncidentTextComponent
-                    text="Severity Assessment Code (SAC Matrix)"
+                    text="Risk Matrix Analysis"
                     size={14}
                     weight={600}
                     color="black"
@@ -89,22 +119,46 @@ const SACMatrixForm = ({ setSelectedItems }) => {
             >
                 <thead>
                     <tr>
-                        <th style={{ minWidth: 150 }}>Likelihood ↓ / Consequences →</th>
-                        {consequenceLevels.map((level) => (
-                            <th key={level}>{level}</th>
+                        <th style={{ minWidth: 150 }}>
+                            Likelihood ? / Consequences ?
+                        </th>
+                        {CONSEQUENCE_LEVELS.map(level => (
+                            <th
+                                key={level.label}
+                                style={{ fontSize: '12px', fontWeight: '800' }}
+                            >
+                                {level.label}
+                                <br /> ({level.value})
+                            </th>
                         ))}
                     </tr>
                 </thead>
+
                 <tbody>
-                    {likelihoodLevels.map((likelihood, rowIdx) => (
-                        <tr key={likelihood}>
-                            <th scope="row">{likelihood}</th>
-                            {matrixValues[rowIdx].map((val, colIdx) => {
-                                const isSelected = selectedIndices[rowIdx] === colIdx;
+                    {LIKELIHOOD_LEVELS.map((likelihood, rowIdx) => (
+                        <tr key={likelihood.label}>
+                            <th
+                                scope="row"
+                                style={{ fontSize: '12px', fontWeight: '800' }}
+                            >
+                                {likelihood.label}
+                                <br /> ({likelihood.value})
+                            </th>
+
+                            {CONSEQUENCE_LEVELS.map((consequence, colIdx) => {
+                                const value =
+                                    likelihood.value * consequence.value;
+
+                                const isSelected =
+                                    selectedCell?.rowIdx === rowIdx &&
+                                    selectedCell?.colIdx === colIdx;
+
                                 return (
                                     <td
                                         key={colIdx}
-                                        onClick={() => handleCellClick(rowIdx, colIdx)}
+                                        onClick={() =>
+                                            handleCellClick(rowIdx, colIdx)
+                                        }
                                     >
                                         <Stack
                                             direction="row"
@@ -115,10 +169,12 @@ const SACMatrixForm = ({ setSelectedItems }) => {
                                             {isSelected && (
                                                 <CheckCircleIcon
                                                     fontSize="small"
-                                                    sx={{ color: 'var(--royal-purple-300)' }}
+                                                    sx={{
+                                                        color: 'var(--royal-purple-300)',
+                                                    }}
                                                 />
                                             )}
-                                            <span>{val}</span>
+                                            <span>{value}</span>
                                         </Stack>
                                     </td>
                                 );
@@ -131,4 +187,5 @@ const SACMatrixForm = ({ setSelectedItems }) => {
     );
 };
 
-export default SACMatrixForm;
+export default memo(SACMatrixForm);
+

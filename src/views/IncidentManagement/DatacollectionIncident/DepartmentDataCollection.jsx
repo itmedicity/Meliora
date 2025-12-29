@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useEffect } from 'react';
 import { Box } from '@mui/joy';
 import Inciwrapper from '../../Components/Inciwrapper';
 import { useSelector } from 'react-redux';
@@ -7,10 +7,12 @@ import { useIncidentDepartmentDataCollection } from '../CommonComponent/useQuery
 
 import TabComponent from '../Components/TabComponent';
 import { safeParse } from '../CommonComponent/Incidnethelper';
+import { socket } from 'src/ws/socket'
+import { succesNotify } from 'src/views/Common/CommonCode';
 
 const DepartmentDataCollection = () => {
 
-    const { empdept } = useSelector(state => {
+    const { empsecid, empid } = useSelector(state => {
         return state.LoginUserData
     });
 
@@ -18,7 +20,7 @@ const DepartmentDataCollection = () => {
         data: IncidentDepartmentdataCollection,
         isLoading: LoadingDepartmentDataCollection,
         refetch: FetchAllIncidentDepartmentDataCollection
-    } = useIncidentDepartmentDataCollection(empdept);
+    } = useIncidentDepartmentDataCollection(empsecid, empid);
 
 
     // grouping data and returning them based on the tabllist
@@ -55,6 +57,24 @@ const DepartmentDataCollection = () => {
             ApprovedList: result.approved,
         };
     }, [IncidentDepartmentdataCollection]);
+
+    // used for refetching if new request have been come
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleNewRequest = (data) => {
+            succesNotify(
+                `New Data Collection Requested:${data.requestdetail?.[0]?.Requested_user}`
+            );
+            // ?? Refresh the list
+            FetchAllIncidentDepartmentDataCollection();
+        };
+        socket.on("new_data_collection_request", handleNewRequest);
+        return () => {
+            socket.off("new_data_collection_request", handleNewRequest);
+        };
+    }, [FetchAllIncidentDepartmentDataCollection]);
+
 
 
     // Tab List 

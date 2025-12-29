@@ -18,6 +18,7 @@ const AllDeptticketTile = React.lazy(() => import('./AllDeptticketTile'))
 const AllDeptPieChart = React.lazy(() => import('./AllDeptPieChart'))
 const AllDeptOpenTicketProgressBar = React.lazy(() => import('./AllDeptOpenTicketProgressBar'))
 const AllDeptClosedProgressBar = React.lazy(() => import('./AllDeptClosedProgressBar'))
+// import { socket } from 'src/ws/socket'
 
 const TicketManagementCmDeptMain = () => {
   const empdept = useSelector(state => {
@@ -140,6 +141,7 @@ const TicketManagementCmDeptMain = () => {
     queryFn: () => getEmployeeuserrightsMenu(postEmp)
   })
   const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee])
+
   useEffect(() => {
     // console.log(menuList)
     // console.log(employeeMenuRights)
@@ -149,6 +151,21 @@ const TicketManagementCmDeptMain = () => {
       setMenurights(array)
     }
   }, [menuList, employeeMenuRights])
+
+
+  // useEffect(() => {
+  //   socket.on("new_data_collection_request", (data) => {
+  //     // setSocketCount(1)
+  //     console.log(data);
+  //     succesNotify(`New DataCollection Requested:${data?.RequestedEmplyee}`);
+  //   });
+  //   // ? Clean up listeners on unmount
+  //   return () => {
+  //     socket.off("new_data_collection_request");
+  //   };
+  // }, []);
+
+  
 
   return (
     <Box

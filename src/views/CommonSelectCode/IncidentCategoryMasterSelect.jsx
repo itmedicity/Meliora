@@ -16,7 +16,7 @@ const IncidentCategoryMasterSelect = ({ value, setValue }) => {
         // isLoading: isLoadingIncident,
         // error: categoryerr
     } = useQuery({
-        queryKey: 'getincidentcategory',
+        queryKey: ['getincidentcategory'],
         queryFn: () => getAllIncidentCategory(),
         staleTime: Infinity
     })

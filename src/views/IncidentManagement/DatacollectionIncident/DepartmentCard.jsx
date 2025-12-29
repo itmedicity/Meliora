@@ -37,9 +37,10 @@ const DepartmentCard = ({
 
                     <IncidentTextComponent
                         text={
-                            item?.inc_dep_status === 1
-                                ? `${item?.acknowledged_user} (${item?.dept_name})`
-                                : item?.dept_name
+                            // item?.inc_dep_status === 1
+                            //     ? `${item?.Requested_to || item?.acknowledged_user} (${item?.dept_name})`
+                            //     : item?.dept_name
+                            `${item?.Requested_to || item?.acknowledged_user} (${item?.dept_name})`
                         }
                         size={14}
                         weight={600}
@@ -72,21 +73,21 @@ const DepartmentCard = ({
                         {item?.inc_dep_status === 1 ? "Acknowledged" : "Not Acknowledged"}
                     </Chip>
 
-                    {item?.inc_dep_status === 1 && (
-                        <Tooltip
-                            title="View"
-                            size="sm"
-                            variant="plain"
-                            onClick={() => toggleExpand(index)}
-                            sx={{ cursor: 'pointer' }}
-                        >
-                            <span>
-                                {expanded.includes(index)
-                                    ? <FaRegEye size={18} />
-                                    : <PiEyeClosedDuotone size={18} />}
-                            </span>
-                        </Tooltip>
-                    )}
+                    {/* {item?.inc_dep_status === 1 && ( */}
+                    <Tooltip
+                        title="View"
+                        size="sm"
+                        variant="plain"
+                        onClick={() => toggleExpand(index)}
+                        sx={{ cursor: 'pointer' }}
+                    >
+                        <span>
+                            {expanded.includes(index)
+                                ? <FaRegEye size={18} />
+                                : <PiEyeClosedDuotone size={18} />}
+                        </span>
+                    </Tooltip>
+                    {/* )} */}
                 </Box>
             </Box>
 

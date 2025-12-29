@@ -26,6 +26,7 @@ import {
     safeParse
 } from '../CommonComponent/Incidnethelper';
 import IncidentFlag from '../Components/IncidentFlag';
+import RcaDetailCard from '../Components/RcaDetailCard';
 
 
 const CustomeIncidentLoading = lazy(() => import('../Components/CustomeIncidentLoading'));
@@ -69,7 +70,8 @@ const IncidentViewModal = ({
     levelitems,
     levelactionreview,
     FinalIncidentLevels,
-    CompanyName
+    CompanyName,
+    CurrentYear
 }) => {
 
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(items);
@@ -103,6 +105,8 @@ const IncidentViewModal = ({
         METHOD: '',
         MEASUREMENT: ''
     });
+
+
 
     // open modadl
     const onImageClick = useCallback((file) => {
@@ -149,6 +153,22 @@ const IncidentViewModal = ({
             : []
     }, [incidentaction]);
 
+    // Checking is Rca Present
+    const IsRcaPresent = levelactionreview.some(
+        review =>
+            review?.inc_action_name === "RCA"
+    );
+
+    // Handle RiskAnalysis Matrix Change
+    const handleSACChange = useCallback((data) => {
+        setSaxDetail(prev => {
+            // prevent useless state updates
+            if (JSON.stringify(prev) === JSON.stringify(data)) {
+                return prev;
+            }
+            return data;
+        });
+    }, []);
 
     // Initialize dynamic review states once incidentlevels are fetched
     useEffect(() => {
@@ -206,7 +226,6 @@ const IncidentViewModal = ({
         };
     })();
 
-
     // Used for handle the Review for each levels
     const handleActionReviewChange = (slno, value) => {
         setActionReviews(prev => ({
@@ -242,17 +261,21 @@ const IncidentViewModal = ({
                 item.section !== null)
             ?.every(item => Number(item.inc_dep_status) === 1)
 
-
+    // For checking if Action requested already exist and also check if it was completed
+    const IsCurrentLevelActionRequestAccepted =
+        stableDepActions
+            ?.filter(item =>
+                item.inc_dep_action_status === 0 &&
+                item.inc_dep_action_status !== null)
+            ?.every(item => Number(item.inc_dep_action_status) === 1)
 
     return (
 
         <>
             <IncidentFlag
-                code={`${CompanyName}${items?.inc_register_slno}`}
+                code={`${CompanyName}${CurrentYear}/${items?.inc_register_slno}`}
                 date={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")}
             />
-
-
 
             <Box
                 sx={{
@@ -439,11 +462,22 @@ const IncidentViewModal = ({
 
                                 <IncidentReviewTable
                                     ActiveActions={ActiveActions}
-                                    involvedDepartment={involvedDepartment}
+                                    // involvedDepartment={involvedDepartment}
                                     LevelActionReveiw={levelactionreview}
                                 />
                             </Box>
                         </>
+                    }
+
+                    {/* RCA DETAILS */}
+
+                    {
+                        IsRcaPresent &&
+                        <RcaDetailCard
+                            ActiveActions={ActiveActions}
+                            LevelActionReveiw={levelactionreview}
+                        />
+
                     }
 
                     {/* INCIDENT DATA COLLECTION */}
@@ -483,6 +517,7 @@ const IncidentViewModal = ({
                                 selectedDeps={selectedDeps}
                                 setSelectedDeps={setSelectedDeps}
                                 levelNo={levelNo}
+                                involvedDepartment={involvedDepartment}
                             />
                         </Box>
                     }
@@ -502,7 +537,8 @@ const IncidentViewModal = ({
                     {/* INCIDENT ACTION REQUIRED DETAIL */}
                     {
                         level === 'DAC' &&
-                        <IncidentActionSubmit items={items}
+                        <IncidentActionSubmit
+                            items={items}
                             setOpenModal={setOpenModal}
                         />
                     }
@@ -543,6 +579,7 @@ const IncidentViewModal = ({
 
                     {/* Approval Preview */}
                     {
+                        IsCurrentLevelActionRequestAccepted &&
                         IsCurrentLevelDataCollectionRequesetedAccepted &&
                         !(['REGISTERED USER', 'DDC', 'DAC'].includes(level)) &&
                         (items?.inc_current_level < levelNo &&
@@ -599,7 +636,8 @@ const IncidentViewModal = ({
                                         setSelectedSubCategory={setIncidentSubCategory}
                                     />
                                     <SACMatrixForm
-                                        setSelectedItems={setSaxDetail}
+                                        setSelectedItems={handleSACChange}
+                                    // setSelectedItems={setSaxDetail}
                                     />
                                 </Box>
                             }
@@ -610,6 +648,7 @@ const IncidentViewModal = ({
                                     (items?.inc_current_level_review_state === 'A' ||
                                         items?.inc_current_level_review_state === null)) &&
                                 IsCurrentLevelDataCollectionRequesetedAccepted &&
+                                IsCurrentLevelActionRequestAccepted &&
                                 FinalLevelAction?.map(action => (
                                     <ReviewInput
                                         key={action?.inc_level_item_slno}
@@ -639,7 +678,7 @@ const IncidentViewModal = ({
                                 mt: 2
                             }}>
                                 <IncidentTextComponent
-                                    text={`SAC MATRIX VISUALIZATION`}
+                                    text={`RISK MATRIX VISUALIZATION`}
                                     size={14}
                                     weight={600}
                                     color={"white"} />
@@ -660,6 +699,7 @@ const IncidentViewModal = ({
                         }
 
                         {
+                            IsCurrentLevelActionRequestAccepted &&
                             IsCurrentLevelDataCollectionRequesetedAccepted && (
                                 edit || (
                                     (items?.inc_current_level < levelNo &&

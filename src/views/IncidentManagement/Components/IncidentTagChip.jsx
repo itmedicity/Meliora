@@ -1,8 +1,8 @@
 import { Box } from "@mui/joy";
 import React, { memo } from "react";
 
-const IncidentTagChip = ({ tag, key }) => (
-    <Box key={key} sx={{
+const IncidentTagChip = ({ tag }) => (
+    <Box  sx={{
         px: 1.4,
         py: 0.3,
         background: '#ede5f9',

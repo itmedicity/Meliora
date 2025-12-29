@@ -124,6 +124,27 @@ export const fetchAllInvolvedDep = async (slno) => {
     }
 };
 
+
+
+export const fetchAllInvolvedEmployeeDep = async (slno, empId) => {
+    if (!slno) {
+        console.log("fetchAllIncidents called without a valid user slno");
+        return [];
+    }
+    try {
+        const res = await axioslogin.post('/incidentMaster/getallinvolveddepemp', { inc_register_slno: slno, em_id: empId });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching all incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
 export const getAllCommonDataCollectionDeparment = async () => {
     try {
         const res = await axioslogin.get('/incidentMaster/getdatacollectioncs');
@@ -154,13 +175,13 @@ export const getAllIncidentActionMastDetail = async () => {
 };
 
 
-export const getAllIncidentDataCollection = async (depid) => {
+export const getAllIncidentDataCollection = async (depid, empid) => {
     if (!depid) {
         console.log("getAllIncidentDataCollection called without a valid user Department Id");
         return [];
     }
     try {
-        const res = await axioslogin.post('/incidentMaster/getdepdatacollection', { dept_id: depid });
+        const res = await axioslogin.post('/incidentMaster/getdepdatacollection', { dept_id: depid, em_id: empid });
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {
             return data;
@@ -276,6 +297,22 @@ export const getDepActions = async (slno, depslno) => {
 
 
 export const getAllActiveDepartments = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getallactivedepartment');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching all incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+export const getAllActiveDepartmentSection = async () => {
     try {
         const res = await axioslogin.get('/incidentMaster/getallactivedepartment');
         const { success, data } = res.data || {};
@@ -596,7 +633,7 @@ export const getDepartmentSectionEmployees = async (id) => {
         }
         return [];
     } catch (error) {
-        console.error("Error fetching HOD/Incharge approval incidents:", error?.message || error);
+        console.error("Error Fetching Section Employye:", error?.message || error);
         return [];
     }
 };

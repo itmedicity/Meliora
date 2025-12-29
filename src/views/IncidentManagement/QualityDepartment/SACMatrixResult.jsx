@@ -1,54 +1,54 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Box, Sheet, Typography, Tooltip } from '@mui/joy';
 
 const SACMatrixResult = ({ sacData }) => {
+
     // --- Parse data safely ---
-    let parsedData = {};
+    let parsedData = null;
     try {
         parsedData =
             typeof sacData === 'string'
                 ? JSON.parse(sacData)
-                : sacData || {};
+                : sacData || null;
     } catch (err) {
         console.error('Invalid SAC data JSON:', err);
-        parsedData = {};
+        parsedData = null;
     }
 
-    const isEmpty = Object.keys(parsedData).length === 0;
+    const isEmpty = !parsedData;
 
-    // --- Define Levels ---
-    const likelihoodLevels = ['Frequent', 'Likely', 'Possible', 'Unlikely', 'Rare'];
-    const consequenceLevels = ['Negligible', 'Minor', 'Moderate', 'Major', 'Catastrophic'];
-    const matrixValues = [
-        [3, 3, 2, 1, 1],
-        [4, 3, 2, 1, 1],
-        [4, 3, 2, 2, 1],
-        [4, 4, 3, 2, 1],
-        [4, 4, 4, 3, 2],
+    // --- Levels (SAME AS FORM) ---
+    const likelihoodLevels = [
+        { label: 'Almost Certain', value: 5 },
+        { label: 'Likely', value: 4 },
+        { label: 'Possible', value: 3 },
+        { label: 'Unlikely', value: 2 },
+        { label: 'Rare', value: 1 },
     ];
 
-    // --- Normalize consequence names (to match headers) ---
-    const normalizeConsequence = (consequence) => {
-        const map = {
-            Insignificant: 'Negligible',
-            negligible: 'Negligible',
-        };
-        return map[consequence] || consequence;
-    };
+    const consequenceLevels = [
+        { label: 'Negligible', value: 1 },
+        { label: 'Minor', value: 2 },
+        { label: 'Moderate', value: 3 },
+        { label: 'Major', value: 4 },
+        { label: 'Catastrophic', value: 5 },
+    ];
 
-    // --- Prepare highlight cells ---
-    const highlightCells = useMemo(() => {
-        return Object.entries(parsedData)
-            .map(([likelihood, { consequence }]) => {
-                const normalizedConseq = normalizeConsequence(consequence);
-                const rowIndex = likelihoodLevels.indexOf(likelihood);
-                const colIndex = consequenceLevels.indexOf(normalizedConseq);
-                if (rowIndex !== -1 && colIndex !== -1) {
-                    return `${rowIndex}-${colIndex}`;
-                }
-                return null;
-            })
-            .filter(Boolean); // removes null values
+    // --- Find selected cell ---
+    const selectedCell = useMemo(() => {
+        if (!parsedData) return null;
+
+        const rowIndex = likelihoodLevels.findIndex(
+            (l) => l.label === parsedData.likelihood
+        );
+
+        const colIndex = consequenceLevels.findIndex(
+            (c) => c.label === parsedData.consequence
+        );
+
+        if (rowIndex === -1 || colIndex === -1) return null;
+
+        return { rowIndex, colIndex };
     }, [parsedData]);
 
     return (
@@ -72,7 +72,7 @@ const SACMatrixResult = ({ sacData }) => {
                         level="body-sm"
                         sx={{ fontWeight: 600, mb: 1, color: '#333' }}
                     >
-                        SAC Matrix Visualization
+                        Risk Matrix Visualization
                     </Typography>
 
                     <Box
@@ -85,9 +85,9 @@ const SACMatrixResult = ({ sacData }) => {
                     >
                         {/* Header Row */}
                         <Box />
-                        {consequenceLevels.map((c, idx) => (
+                        {consequenceLevels.map((c) => (
                             <Typography
-                                key={idx}
+                                key={c.label}
                                 level="body-xs"
                                 sx={{
                                     textAlign: 'center',
@@ -95,28 +95,30 @@ const SACMatrixResult = ({ sacData }) => {
                                     color: '#555',
                                 }}
                             >
-                                {c}
+                                {c.label} ({c.value})
                             </Typography>
                         ))}
 
                         {/* Matrix Rows */}
-                        {matrixValues.map((row, rowIndex) => (
-                            <React.Fragment key={rowIndex}>
+                        {likelihoodLevels?.map((l, rowIndex) => (
+                            <React.Fragment key={l.label}>
                                 <Typography
                                     level="body-xs"
                                     sx={{ fontWeight: 600, color: '#555' }}
                                 >
-                                    {likelihoodLevels[rowIndex]}
+                                    {l.label} ({l.value})
                                 </Typography>
 
-                                {row.map((value, colIndex) => {
-                                    const isHighlighted = highlightCells.includes(
-                                        `${rowIndex}-${colIndex}`
-                                    );
+                                {consequenceLevels.map((c, colIndex) => {
+                                    const value = l.value * c.value;
+                                    const isSelected =
+                                        selectedCell?.rowIndex === rowIndex &&
+                                        selectedCell?.colIndex === colIndex;
+
                                     return (
                                         <Tooltip
                                             key={colIndex}
-                                            title={`${likelihoodLevels[rowIndex]} × ${consequenceLevels[colIndex]} = ${value}`}
+                                            title={`${l.label} (${l.value}) × ${c.label} (${c.value}) = ${value}`}
                                             variant="soft"
                                             size="sm"
                                         >
@@ -126,14 +128,14 @@ const SACMatrixResult = ({ sacData }) => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    bgcolor: isHighlighted
+                                                    bgcolor: isSelected
                                                         ? 'var(--joy-palette-primary-softBg)'
                                                         : '#f0f0f0',
                                                     borderRadius: 'sm',
                                                     fontSize: 12,
                                                     fontWeight: 600,
                                                     border: '1px solid #ddd',
-                                                    color: isHighlighted
+                                                    color: isSelected
                                                         ? '#0d47a1'
                                                         : '#555',
                                                 }}
@@ -152,4 +154,4 @@ const SACMatrixResult = ({ sacData }) => {
     );
 };
 
-export default SACMatrixResult;
+export default memo(SACMatrixResult);

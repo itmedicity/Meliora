@@ -39,7 +39,7 @@ const ExpandableSection = ({
                     }}
                 >
                     <IncidentTextComponent
-                        text={`"${rca}"`}
+                        text={`${rca ? rca : 'Not Acknowledged Yet'}`}
                         size={zoomRca ? 20 : 14}
                         weight={400}
                         color="#444"
@@ -50,7 +50,7 @@ const ExpandableSection = ({
             {/* Preventive Action */}
             <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
                 <Chip onDoubleClick={() => setZoomPrev(p => !p)} size="sm" variant="soft" color="warning"
-                    sx={{ mb: 0.5, cursor: "zoom-in"}}>
+                    sx={{ mb: 0.5, cursor: "zoom-in" }}>
                     Preventive Action
                 </Chip>
 
@@ -63,7 +63,7 @@ const ExpandableSection = ({
                     }}
                 >
                     <IncidentTextComponent
-                        text={`"${preventiveAction}"`}
+                        text={`${preventiveAction ? preventiveAction : 'Not Acknowledged Yet'}`}
                         size={zoomPrev ? 20 : 14}
                         weight={400}
                         color="#444"
