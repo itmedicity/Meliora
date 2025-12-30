@@ -541,6 +541,20 @@ export const getAllDepartmentType = async () => {
     }
 };
 
+
+export const getAllIncDcEmpMap = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getalldatacollectionemp');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching HOD/Incharge approval incidents:", error?.message || error);
+        return [];
+    }
+};
 // export const currentLevelNotApprovedIncident = async (levelno, priority, dep, sec) => {
 //     try {
 //         const res = await axioslogin.post('/incidentMaster/fetchcurrentlevelapprvl', {
@@ -638,6 +652,21 @@ export const getDepartmentSectionEmployees = async (id) => {
     }
 };
 
+export const getDataCollectEmployee = async (id) => {
+    try {
+        const res = await axioslogin.post(`/incidentMaster/getallactiveDcEmp`, {
+            sec_id: id
+        })
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching Section Employye:", error?.message || error);
+        return [];
+    }
+};
 
 
 export const getAllCommonSetting = async () => {
@@ -654,6 +683,20 @@ export const getAllCommonSetting = async () => {
     }
 };
 
+
+export const getAllIncidentNature = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/getallincnature');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching HOD/Incharge approval incidents:", error?.message || error);
+        return [];
+    }
+};
 
 // common api handler  for all masters
 export const handleApi = async (method, url, data, successCode, refetch, reset) => {

@@ -1,4 +1,8 @@
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, {
+    memo, useCallback,
+    //  useMemo,
+    useState
+} from 'react';
 import {
     Avatar, Box,
 } from '@mui/joy';
@@ -18,12 +22,11 @@ import ToggleButtonGroup from '@mui/joy/ToggleButtonGroup';
 import Button from '@mui/joy/Button';
 import { useNavigate } from 'react-router-dom';
 import AnimatedActionButton from './Components/AnimatedActionButton';
-import { useCurrentCompanyData, useIncidentCommonApprovalLevels, useIncidentDashBoardData } from './CommonComponent/useQuery';
-import { useSelector } from 'react-redux';
-import { TransforIncidentLevels, useIncidentStats } from './CommonComponent/CommonFun';
+import { useCurrentCompanyData, useIncidentDashBoardData } from './CommonComponent/useQuery';
+import {
+    useIncidentStats
+} from './CommonComponent/CommonFun';
 import IncidentFilterBox from './Components/IncidentFilterBox';
-
-
 
 const IncidentDashboard = () => {
 
@@ -40,19 +43,6 @@ const IncidentDashboard = () => {
         data: CurrrentComapny,
         // isLoading: loadingCurrentCompany
     } = useCurrentCompanyData();
-
-    const { empdept, empsecid } = useSelector(state => {
-        return state.LoginUserData
-    });
-    // current level of incident
-    const {
-        data: CommonIncidentLevels,
-        // isLoading: IncidentLevelLoading
-    } = useIncidentCommonApprovalLevels(empdept, empsecid);
-    // Transforming incomming data into Managable foramt (json to array)
-    const incidentlevels = useMemo(() => {
-        return TransforIncidentLevels(CommonIncidentLevels);
-    }, [CommonIncidentLevels]);
 
 
     const {
@@ -77,7 +67,6 @@ const IncidentDashboard = () => {
         ? Math.round((closedCount / totalCount) * 100) + "%"
         : "0%";
 
-
     const pieData = [
         { id: 0, value: totalCount },
         { id: 1, value: closedCount },
@@ -94,9 +83,7 @@ const IncidentDashboard = () => {
                 <IncidentTextComponent text={"DashBoard"} color={'#2f2e2eff'} size={12} weight={300} />
             </Box>
 
-
             {/* Create Task */}
-
             <Box sx={{
                 display: 'flex',
                 gap: 1,
@@ -301,7 +288,7 @@ const IncidentDashboard = () => {
                         onChange={(event, newValue) => setType(newValue || "Incident")}
                     >
                         {
-                            ["All", "New", "Open", "Closed"].map((item) => {
+                            ["All", "New", "Open", "Rejected", "Closed"].map((item) => {
                                 return (
                                     <Button key={item} value={item} fullWidth sx={{ flex: 1 }}>{item}</Button>
                                 )
@@ -323,7 +310,6 @@ const IncidentDashboard = () => {
                 mt: 1
             }}>
                 <DashBoardAgeGrid
-                    incidentlevels={incidentlevels}
                     CurrrentComapny={CurrrentComapny}
                     DashboardIncidents={DashboardIncidents}
                     type={type}

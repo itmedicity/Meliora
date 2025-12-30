@@ -64,7 +64,7 @@ const DepartmentDataCollection = () => {
 
         const handleNewRequest = (data) => {
             succesNotify(
-                `New Data Collection Requested:${data.requestdetail?.[0]?.Requested_user}`
+                `New Action Requested:${data.requestdetail?.[0]?.Requested_user}`
             );
             // ?? Refresh the list
             FetchAllIncidentDepartmentDataCollection();

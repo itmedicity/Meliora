@@ -26,7 +26,7 @@ const NotificationBell = () => {
             <Badge badgeContent={unreadCount} size="sm" color="danger"
             // sx={{ color: 'var(--rose-pink-400)' }}
             >
-                <NotificationsIcon sx={{ color: 'white' }} />
+                <NotificationsIcon sx={{ color: 'white',fontSize:18 }} />
             </Badge>
             {open && <NotificationPanel />}
         </Box>

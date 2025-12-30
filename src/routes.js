@@ -296,13 +296,15 @@ const Qualitydep = React.lazy(() => import('./views/IncidentManagement/QualityDe
 const IncidentApproval = React.lazy(() => import('./views/IncidentManagement/IncidentApproval/IncidentApproval'));
 const DepartmentDataCollection = React.lazy(() => import('./views/IncidentManagement/DatacollectionIncident/DepartmentDataCollection'));
 const DepartmentActionList = React.lazy(() => import('./views/IncidentManagement/IncidentActions/DepartmentActionList'));
-const IncidentlevelMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentLevelMaster/IncidentlevelMaster'));
+// const IncidentlevelMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentLevelMaster/IncidentlevelMaster'));
+const IncidentNature = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNature/IncidentNature'));
 const IncidentLevelItemMapMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentLevelItemMapMaster/IncidentLevelItemMapMaster'));
 const IncidentActionMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentActionMaster/IncidentActionMaster'));
 const CommonSetting = React.lazy(() => import('./views/Master/IncidentManagement/CommonSetting/CommonSetting'));
 const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentManagement/CommonSettingMapMaster/CommonSettingMapMaster'));
 const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
+const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
 // const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
@@ -1095,12 +1097,13 @@ const routes = [
   { path: 'Departmentdatacollection', name: 'Incident Data Collection', element: <DepartmentDataCollection /> },
   { path: 'Incidentaction', name: 'Incident Action', element: <DepartmentActionList /> },
   { path: 'inclevelitemmapmaster', name: 'Level Item Map Master', element: <IncidentLevelItemMapMaster /> },
-  { path: 'inclevelmaster', name: 'Level Master', element: <IncidentlevelMaster /> },
-  { path: 'incactionmaster', name: 'Level Master', element: <IncidentActionMaster /> },
+  { path: 'incidentnature', name: 'Nature of Incident Master', element: <IncidentNature /> },
+  { path: 'incactionmaster', name: 'Level Action Master', element: <IncidentActionMaster /> },
   { path: 'CommonSetting', name: 'Incident Common Setting', element: <CommonSetting /> },
   { path: 'commonsettingmap', name: 'Incident Common Setting Map Master', element: <CommonSettingMapMaster /> },
   { path: 'categorymaster', name: 'Incident Category Master', element: <IncidentCategoryMaster /> },
   { path: 'subcategorymaster', name: 'Incident SubCategory Master', element: <IncidentSubCategoryMaster /> },
+  { path: 'dcmapmaster', name: 'Data Collection Map Master', element: <IncDataCollectionEmpRightMap /> },
   // { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
 
 ]

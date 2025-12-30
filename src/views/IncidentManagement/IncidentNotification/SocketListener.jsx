@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 const SocketListener = () => {
     const { addNotification } = useNotifications();
     // Department and Department Section of Loggin User
-    const empid = useSelector((state) => {
-        return state.LoginUserData.empid
+    const { empid, empdept } = useSelector((state) => {
+        return state.LoginUserData
     })
 
     useEffect(() => {
@@ -41,6 +41,41 @@ const SocketListener = () => {
 
         return () => {
             socket.off("new_data_collection_request", handler);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handler = (data) => {
+
+            const IncidentSlno = data?.inc_register_slno;
+            const requestedDep = data?.actionDetail?.[0]?.inc_action_collect_dep;
+            const acitonSlno = data?.actionDetail?.[0]?.inc_dep_action_detail_slno;
+
+            // only visible to the deparment with Rights
+            if (Number(empdept) !== Number(requestedDep)) {
+                return; //  not for this user → ignore
+            }
+
+            addNotification({
+                id: acitonSlno || Date.now(),
+                incidentNo: IncidentSlno,
+                type: "ACTION_REQUEST",
+                title: "New Action Request",
+                path: "/Home/Incidentaction",
+                message: `Requested by ${data.actionDetail?.[0]?.requested_employee}`,
+                payload: data,
+                read: false,
+                createdAt: data.createdAt
+            });
+
+            //  PLAY SOUND WHEN DATA ARRIVES
+            playNotificationSound();
+        };
+
+        socket.on("new_action_requested", handler);
+
+        return () => {
+            socket.off("new_action_requested", handler);
         };
     }, []);
 

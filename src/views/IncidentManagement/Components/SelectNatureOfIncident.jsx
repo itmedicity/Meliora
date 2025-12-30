@@ -1,24 +1,17 @@
 import { Box } from '@mui/joy'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import RelatedToCard from './RelatedToCard';
+import { useInidentNatuer } from '../CommonComponent/useQuery';
 
 const SelectNatureOfIncident = ({ handleMultiSelect, selectedCategories }) => {
 
+    const {
+        data: NatureofIncident = [],
+    } = useInidentNatuer();
 
-    const selectNatureofIncident = [
-        { label: 'Clinical', },
-        { label: 'Non Clinical', },
-        { label: 'Drug', },
-        { label: 'Violence', },
-        { label: 'Fire', },
-        { label: 'Security', },
-        { label: 'Equipment', },
-        { label: 'Accident', },
-        { label: 'Work Related || Health', },
-        { label: 'Infection Related', },
-        { label: 'Other', },
-    ];
-
+    const selectNatureofIncident = useMemo(() => {
+        return Array.isArray(NatureofIncident) && NatureofIncident?.filter(item => item?.inc_nature_status === 1)
+    }, [NatureofIncident]);
 
 
     return (
@@ -34,20 +27,22 @@ const SelectNatureOfIncident = ({ handleMultiSelect, selectedCategories }) => {
                 position: 'relative'
             }}>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1 }}>
-                {selectNatureofIncident?.map(({ label, symbol }) => (
-                    <Box key={label}>
-                        <RelatedToCard
-                            width={'auto'}
-                            size={12}
-                            key={symbol}
-                            label={label}
-                            symbol={label}
-                            selected={selectedCategories?.includes(label)}
-                            multiple={true}
-                            onSelect={handleMultiSelect}
-                        />
-                    </Box>
-                ))}
+                {selectNatureofIncident?.map((label, symbol) => {
+                    return (
+                        <Box key={label?.inc_nature_slno}>
+                            <RelatedToCard
+                                width={'auto'}
+                                size={12}
+                                key={symbol}
+                                label={label?.inc_nature_name}
+                                symbol={label?.inc_nature_name}
+                                selected={selectedCategories?.includes(label?.inc_nature_name)}
+                                multiple={true}
+                                onSelect={handleMultiSelect}
+                            />
+                        </Box>
+                    )
+                })}
             </Box>
         </Box>
     )

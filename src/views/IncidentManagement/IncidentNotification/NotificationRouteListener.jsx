@@ -10,6 +10,10 @@ const NotificationRouteListener = () => {
     if (location.pathname === "/Home/Departmentdatacollection") {
       removeByType("DATA_COLLECTION");
     }
+    if (location.pathname === "/Home/Incidentaction") {
+      removeByType("ACTION_REQUEST");
+    }
+
   }, [location.pathname]);
 
   return null;

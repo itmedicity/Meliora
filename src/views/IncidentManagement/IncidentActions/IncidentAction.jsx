@@ -18,6 +18,7 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
     const { empdept } = useSelector(state => state.LoginUserData);
 
     const queryClient = useQueryClient();
+    const [submitting, setSubmitting] = useState(false)
 
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [remarks, setRemarks] = useState({});
@@ -95,6 +96,7 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
         }));
 
         try {
+            setSubmitting(true)
             const { data } = await axioslogin.post("/incidentMaster/insertdepaction", payload);
             const { success, message } = data ?? {};
             if (success === 2) {
@@ -107,6 +109,8 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
             }
         } catch (error) {
             warningNotify(error?.message ?? "Something went wrong");
+        } finally {
+            setSubmitting(false)
         }
     };
 
@@ -261,6 +265,7 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
                 {!allDisabled && (
                     <Box sx={{ width: 100, mt: 2 }}>
                         <ApprovalButton
+                            disabled={submitting}
                             size={12}
                             iconSize={17}
                             text={'Add'}

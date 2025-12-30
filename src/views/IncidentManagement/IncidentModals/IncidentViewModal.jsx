@@ -565,7 +565,7 @@ const IncidentViewModal = ({
 
                     {/* Review Section */}
                     {
-                        stableHighLevelApprovals?.length > 0 &&
+                        !(['DDC', 'DAC'].includes(level)) && stableHighLevelApprovals?.length > 0 &&
                         <ApprovalPreview
                             incidentlevels={FinalIncidentLevels}
                             levelNo={levelNo}

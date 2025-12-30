@@ -1,4 +1,4 @@
-import React, { Fragment, memo, useState } from 'react';
+import React, { Fragment,  useState } from 'react';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -48,4 +48,4 @@ const SelectDepartmentSectionEmployye = ({ value, setValue, departmentsection })
     );
 };
 
-export default memo(SelectDepartmentSectionEmployye);
+export default SelectDepartmentSectionEmployye;

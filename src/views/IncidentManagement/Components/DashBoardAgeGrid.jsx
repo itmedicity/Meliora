@@ -4,10 +4,12 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Chip } from "@mui/joy";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { getStatusInfo } from "../CommonComponent/CommonCode";
+// import { getStatusInfo } from "../CommonComponent/CommonCode";
 
 
-const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, DashboardIncidents }) => {
+const DashBoardAgeGrid = ({ type, keyword, CurrrentComapny, DashboardIncidents }) => {
+
+
 
     const CompanyNumber = CurrrentComapny?.length > 0 ? CurrrentComapny[0]?.company_slno : null;
 
@@ -41,23 +43,20 @@ const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, Dash
                 valueFormatter: params => (params.value ? String(params.value).toUpperCase() : "")
             },
             {
-                headerName: "Department",
+                headerName: "Department Section",
                 field: "sec_name",
                 flex: 1,
             },
             {
                 headerName: "Status",
                 field: "status",
-                // flex: 1,
                 width: 200,
                 cellRenderer: (params) => {
-                    const item = {
-                        inc_current_level: params.data?.inc_current_level,
-                        inc_current_level_review_state: params.data?.inc_current_level_review_state
-                    };
-                    const { text } = getStatusInfo(item, incidentlevels);
 
-                    const statusColors = params.data?.inc_current_level_review_state === 'A' ? 'success' :
+                    const IncidentStatus = params.data?.inc_all_approved === 1 ? "All Approved" : params.data?.inc_current_level_review_state === 'A' ? 'Processing' :
+                        params.data?.inc_current_level_review_state === 'R' ? 'Rejected' : 'Pending';
+
+                    const statusColors = params.data?.inc_all_approved === 1 ? "success" : params.data?.inc_current_level_review_state === 'A' ? 'primary' :
                         params.data?.inc_current_level_review_state === 'R' ? 'danger' : 'neutral';
 
                     return (
@@ -67,7 +66,7 @@ const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, Dash
                             size="sm"
                             sx={{ fontSize: 13, fontWeight: 600 }}
                         >
-                            {text}
+                            {IncidentStatus}
                         </Chip>
                     );
                 },
@@ -96,7 +95,7 @@ const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, Dash
                 ),
             }
         ],
-        [incidentlevels, CompanyName]
+        [CompanyName]
     );
 
 
@@ -113,7 +112,8 @@ const DashBoardAgeGrid = ({ type, keyword, incidentlevels, CurrrentComapny, Dash
         // Filter by type
         if (type !== "All") {
             if (type === "New") result = result?.filter(d => d.inc_current_level === 0 && d.inc_current_level_review_state === null);
-            else if (type === "Open") result = result?.filter(d => d.inc_current_level != 0 && d.inc_current_level_review_state != null);
+            else if (type === "Open") result = result?.filter(d => d.inc_current_level != 0 && d.inc_current_level_review_state != null && d.inc_all_approved === 0);
+            else if (type === "Rejected") result = result?.filter(d => d.inc_current_level != 0 && d.inc_current_level_review_state === 'R' && d.inc_all_approved === 0);
             else if (type === "Closed") result = result?.filter(d => d.inc_all_approved === 1);
             else result;
         }

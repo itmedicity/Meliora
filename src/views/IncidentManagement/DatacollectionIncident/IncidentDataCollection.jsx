@@ -13,7 +13,7 @@ import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import { useSelector } from 'react-redux';
 
 import SelectDepartmentSection from '../Components/SelectDepartmentSection';
-import SelectDepartmentSectionEmployye from '../Components/SelectDepartmentSectionEmployye';
+import SelectDataCollectionEmployyee from '../Components/SelectDataCollectionEmployyee';
 
 const IncidentDataCollection = ({
     ismultipledep,
@@ -49,8 +49,6 @@ const IncidentDataCollection = ({
     const hanldeDataCollection = useCallback(async () => {
         try {
             setLoading(true)
-            //if department doesnt have then return
-            // if (!department?.length && !selectedDeps?.length) return warningNotify("Please Select department!");
             // 1. Validate department selection and Employee
             if (!sec_id) return warningNotify("Please Select Section!");
             if (!em_id) return warningNotify("Please Select Employee!");
@@ -97,6 +95,7 @@ const IncidentDataCollection = ({
             warningNotify(error?.message ?? "Something went wrong");
         } finally {
             setIncDep(0);
+            setEmpid({})
             setDataCollectionRemark("");
             setIsMultipleDep(false);
             setLoading(false)
@@ -164,7 +163,7 @@ const IncidentDataCollection = ({
                                 <SectionHeader text="select Department Section" color={"Black"} fontSize={14} iconSize={18} />
                                 <SelectDepartmentSection departmentsec={department} setDepartmentSec={setIncDep} />
                                 <SectionHeader text="select Department Employee" color={"Black"} fontSize={14} iconSize={18} />
-                                <SelectDepartmentSectionEmployye value={emid} setValue={setEmpid} departmentsection={department} />
+                                <SelectDataCollectionEmployyee value={emid} setValue={setEmpid} departmentsection={department} />
                                 <SectionHeader text="Remarks:" color={"Black"} fontSize={14} iconSize={18} />
                                 <textarea
                                     placeholder="Enter text here"

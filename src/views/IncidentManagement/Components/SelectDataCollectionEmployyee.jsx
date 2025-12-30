@@ -1,24 +1,19 @@
-import React, { Fragment, memo, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useQuery } from '@tanstack/react-query';
-import { getDepartmentSection } from
-    'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
+import { useDepartDataCollectionEmployee } from '../CommonComponent/useQuery';
 
-const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
+const SelectDataCollectionEmployyee = ({ value, setValue, departmentsection }) => {
 
     const [inputValue, setInputValue] = useState('');
+    const secid = departmentsection?.sec_id;
+    // fetch employees based on section id
+    const {
+        data: employees = [],
+        isLoading
+    } = useDepartDataCollectionEmployee(secid);
 
-    const { data: sections = [], isLoading } = useQuery({
-        queryKey: ['getallactivedepsec'],
-        queryFn: getDepartmentSection,
-        select: (res) =>
-            Array.isArray(res) ? res : res?.data ?? [],
-    });
-
-
-    
     return (
         <Fragment>
             <CssVarsProvider>
@@ -28,37 +23,29 @@ const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
                         minHeight: 35,
                         borderRadius: 0
                     }}
-                    placeholder="Select Section"
-                    options={sections}
-                    value={departmentsec ?? null}
+                    placeholder="Select Employee"
+                    options={employees}
+                    value={value ?? null} 
                     loading={isLoading}
                     clearOnBlur
                     onChange={(event, newValue) => {
-                        setDepartmentSec(newValue ?? null);
+                        setValue(newValue ?? null); 
                     }}
                     inputValue={inputValue}
                     onInputChange={(event, newInputValue) => {
                         setInputValue(newInputValue);
                     }}
                     isOptionEqualToValue={(option, value) =>
-                        option?.sec_id === value?.sec_id
+                        option?.em_id === value?.em_id
                     }
-                    getOptionKey={(option) => option.sec_id}
-                    getOptionLabel={(option) => option?.sec_name || ''}
+                    getOptionLabel={(option) => option?.em_name || ''}
                     loadingText="Loading..."
                     endDecorator={<ArrowDropDownIcon />}
+                    disabled={!secid}
                 />
             </CssVarsProvider>
         </Fragment>
     );
 };
 
-export default memo(SelectDepartmentSection);
-
-
-
-
-
-
-
-
+export default SelectDataCollectionEmployyee;

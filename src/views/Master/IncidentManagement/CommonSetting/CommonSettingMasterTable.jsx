@@ -11,7 +11,7 @@ const CommonSettingMasterTable = ({ tableData, rowSelect }) => {
         {
             headerName: 'Status',
             field: 'inc_cs_status',
-            valueGetter: (params) => params.data.inc_data_map_status === 1 ? 'Active' : 'Inactive'
+            valueGetter: (params) => params.data.inc_cs_status === 1 ? 'Active' : 'Inactive'
         },
         {
             headerName: 'Action',

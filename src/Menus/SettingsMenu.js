@@ -180,7 +180,7 @@ export const Work_two = [
 
 
 export const Inc_One = [
-    { to: '/Home/inclevelmaster', name: 'Level Master', slno: 320 },
+    { to: '/Home/incidentnature', name: 'Nature of Incident Master', slno: 293 },
     { to: '/Home/inclevelitemmapmaster', name: 'Level Item Map Master', slno: 327 },
     { to: '/Home/incactionmaster', name: 'Incident Action Master', slno: 327 },
 ]
@@ -191,6 +191,7 @@ export const Inc_Two = [
 ]
 export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
+    { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
 ]
 
 // //Diet Master Menu

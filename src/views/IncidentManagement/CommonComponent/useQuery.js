@@ -12,8 +12,10 @@ import {
     getAllIncidentDataCollection,
     getAllIncidentDeparmentAction,
     getAllIncidentLevelMapItemDetail,
+    getAllIncidentNature,
     getAllIncidentSubCategory,
     getCurrentCompanyDetail,
+    getDataCollectEmployee,
     getDepActions,
     getDepartmentSectionEmployees,
     getFishBoneAnalysisData,
@@ -242,9 +244,27 @@ export const useDepartmentSectionEmployee = (secid) => {
     });
 };
 
+// Get all Employeee Based on Sec Id
+export const useDepartDataCollectionEmployee = (secid) => {
+    return useQuery({
+        queryKey: ['dcemployee', secid],
+        queryFn: () => getDataCollectEmployee(secid),
+        staleTime: Infinity,
+        enabled: !!secid
+    });
+};
 
 
-//   Fetch all Employee involved departments
+export const useInidentNatuer = () => {
+    return useQuery({
+        queryKey: ['incnautre'],
+        queryFn: () => getAllIncidentNature(),
+        staleTime: Infinity,
+
+    });
+};
+
+// Fetch all Employee involved departments
 export const useEmployeeInvolvedDepartments = (incRegisterSlno, empID) => {
     return useQuery({
         queryKey: ['allempinvdep', incRegisterSlno, empID],
