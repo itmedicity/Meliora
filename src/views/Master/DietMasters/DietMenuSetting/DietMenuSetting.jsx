@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { MdOutlineAddCircleOutline } from 'react-icons/md'
@@ -16,6 +13,7 @@ import SelectDietTypeName from 'src/views/CommonSelectCode/SelectDietTypeName'
 import ItemGroupName from 'src/views/CommonSelectCode/ItemGroupName'
 import SelectItemName from 'src/views/CommonSelectCode/SelectItemName'
 import { useSelector } from 'react-redux'
+import DietDaysSelect from 'src/views/CommonSelectCode/DietDaysSelect'
 const DietMenuSetting = () => {
   const history = useNavigate()
 
@@ -263,34 +261,12 @@ const DietMenuSetting = () => {
                 <SelectDietTypeName value={type} setValue={setType} setName={setTypeName} />
               </Grid>
               <Grid item xl={12} lg={12}>
-                <Box sx={{}}>
-                  <FormControl fullWidth size="small">
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={day}
-                      onChange={(e, { props }) => {
-                        setDay(e.target.value)
-                        setDayName(props.children)
-                      }}
-                      size="small"
-                      fullWidth
-                      variant="outlined"
-                      sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-                    >
-                      <MenuItem value={0} disabled>
-                        Select Days
-                      </MenuItem>
-                      <MenuItem value={1}>Monday</MenuItem>
-                      <MenuItem value={2}>Tuesday</MenuItem>
-                      <MenuItem value={3}>Wednesday</MenuItem>
-                      <MenuItem value={4}>Thursday</MenuItem>
-                      <MenuItem value={5}>Friday</MenuItem>
-                      <MenuItem value={6}>Saturday</MenuItem>
-                      <MenuItem value={7}>Sunday</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
+                <DietDaysSelect
+                  day={day}
+                  setDay={setDay}
+                  setDayName={setDayName}
+                />
+
               </Grid>
               <Grid item xl={12} lg={12}>
                 <ItemGroupName value={group} setValue={setGroup} setName={setItemGroupName} />

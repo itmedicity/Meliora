@@ -1,48 +1,40 @@
 import React, { useEffect, memo } from 'react'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
+import { Box, FormControl, Select, Option } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiet } from 'src/redux/actions/Diet.action'
 
 const SelectDiet = ({ value, setValue }) => {
   const dispatch = useDispatch()
-  /**getDiet -state update function of reducer
-   *dietList- initial state of reducer function
-   *dietdata is used to list select box items by using map
-   */
-  const dietdata = useSelector(state => {
-    return state.getDiet.dietList || 0
-  })
+
+  const dietdata = useSelector(state => state.getDiet.dietList || [])
+
   useEffect(() => {
     dispatch(getDiet())
   }, [dispatch])
 
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="sm" sx={{ width: '100%' }}>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          placeholder="Select Diet"
           value={value}
-          onChange={e => setValue(e.target.value)}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          onChange={(e, newValue) => setValue(newValue)}
+          size="sm"
+          sx={{
+
+            p: 0.5,
+            m: 0,
+          }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Diet
-          </MenuItem>
-          {dietdata &&
-            dietdata.map((val, index) => {
-              return (
-                <MenuItem key={index} value={val.diet_slno}>
-                  {val.diet_name}
-                </MenuItem>
-              )
-            })}
+          </Option>
+
+          {dietdata.map((val, index) => (
+            <Option key={index} value={val.diet_slno}>
+              {val.diet_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>
@@ -50,3 +42,57 @@ const SelectDiet = ({ value, setValue }) => {
 }
 
 export default memo(SelectDiet)
+
+
+// import React, { useEffect, memo } from 'react'
+// import Box from '@mui/material/Box'
+// import FormControl from '@mui/material/FormControl'
+// import MenuItem from '@mui/material/MenuItem'
+// import Select from '@mui/material/Select'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { getDiet } from 'src/redux/actions/Diet.action'
+
+// const SelectDiet = ({ value, setValue }) => {
+//   const dispatch = useDispatch()
+//   /**getDiet -state update function of reducer
+//    *dietList- initial state of reducer function
+//    *dietdata is used to list select box items by using map
+//    */
+//   const dietdata = useSelector(state => {
+//     return state.getDiet.dietList || 0
+//   })
+//   useEffect(() => {
+//     dispatch(getDiet())
+//   }, [dispatch])
+
+//   return (
+//     <Box>
+//       <FormControl fullWidth size="small">
+//         <Select
+//           labelId="demo-simple-select-label"
+//           id="demo-simple-select"
+//           value={value}
+//           onChange={e => setValue(e.target.value)}
+//           size="small"
+//           fullWidth
+//           variant="outlined"
+//           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+//         >
+//           <MenuItem value={0} disabled>
+//             Select Diet
+//           </MenuItem>
+//           {dietdata &&
+//             dietdata.map((val, index) => {
+//               return (
+//                 <MenuItem key={index} value={val.diet_slno}>
+//                   {val.diet_name}
+//                 </MenuItem>
+//               )
+//             })}
+//         </Select>
+//       </FormControl>
+//     </Box>
+//   )
+// }
+
+// export default memo(SelectDiet)

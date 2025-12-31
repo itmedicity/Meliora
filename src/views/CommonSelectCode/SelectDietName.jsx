@@ -1,50 +1,43 @@
 import React, { useEffect, memo } from 'react'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
+import { Box, FormControl, Select, Option } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiet } from 'src/redux/actions/Diet.action'
 
 const SelectDietName = ({ value, setValue, setName }) => {
   const dispatch = useDispatch()
-  /**getDiet -state update function of reducer
-   *dietList- initial state of reducer function
-   *dietdata is used to list select box items by using map
-   */
-  const dietdata = useSelector(state => {
-    return state.getDiet.dietList || 0
-  })
+
+  const dietdata = useSelector(state => state.getDiet.dietList ?? [])
+
   useEffect(() => {
     dispatch(getDiet())
   }, [dispatch])
+
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="sm" fullWidth>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.children)
+          onChange={(e, newValue) => {
+            setValue(newValue)
+            const selected = dietdata.find(v => v.diet_slno === newValue)
+            setName(selected?.diet_name ?? '')
           }}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          sx={{
+
+            p: 0.5,
+            m: 0,
+            lineHeight: 1.2
+          }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Diet
-          </MenuItem>
-          {dietdata &&
-            dietdata.map((val, index) => {
-              return (
-                <MenuItem key={index} value={val.diet_slno}>
-                  {val.diet_name}
-                </MenuItem>
-              )
-            })}
+          </Option>
+
+          {dietdata.map((val, index) => (
+            <Option key={index} value={val.diet_slno}>
+              {val.diet_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>
@@ -52,3 +45,60 @@ const SelectDietName = ({ value, setValue, setName }) => {
 }
 
 export default memo(SelectDietName)
+
+
+
+// import React, { useEffect, memo } from 'react'
+// import Box from '@mui/material/Box'
+// import FormControl from '@mui/material/FormControl'
+// import MenuItem from '@mui/material/MenuItem'
+// import Select from '@mui/material/Select'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { getDiet } from 'src/redux/actions/Diet.action'
+
+// const SelectDietName = ({ value, setValue, setName }) => {
+//   const dispatch = useDispatch()
+//   /**getDiet -state update function of reducer
+//    *dietList- initial state of reducer function
+//    *dietdata is used to list select box items by using map
+//    */
+//   const dietdata = useSelector(state => {
+//     return state.getDiet.dietList || 0
+//   })
+//   useEffect(() => {
+//     dispatch(getDiet())
+//   }, [dispatch])
+//   return (
+//     <Box>
+//       <FormControl fullWidth size="small">
+//         <Select
+//           labelId="demo-simple-select-label"
+//           id="demo-simple-select"
+//           value={value}
+//           onChange={(e, { props }) => {
+//             setValue(e.target.value)
+//             setName(props.children)
+//           }}
+//           size="small"
+//           fullWidth
+//           variant="outlined"
+//           sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+//         >
+//           <MenuItem value={0} disabled>
+//             Select Diet
+//           </MenuItem>
+//           {dietdata &&
+//             dietdata.map((val, index) => {
+//               return (
+//                 <MenuItem key={index} value={val.diet_slno}>
+//                   {val.diet_name}
+//                 </MenuItem>
+//               )
+//             })}
+//         </Select>
+//       </FormControl>
+//     </Box>
+//   )
+// }
+
+// export default memo(SelectDietName)

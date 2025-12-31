@@ -29,7 +29,11 @@ import {
   taskManagement_one,
   ams_one,
   Work_one,
-  Work_two
+  Work_two,
+  dm_setting_one,
+  dm_setting_three,
+  dm_setting_two
+
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -52,9 +56,9 @@ const Settings = () => {
   const [rmMast_secOne, setrmMast_secOne] = useState()
   const [rmMast_secTwo, setrmMast_secTwo] = useState()
   const [rmMast_secThree, setrmMast_secThree] = useState()
-  // const [dmMast_secOne, setdmMast_secOne] = useState();
-  // const [dmMast_secTwo, setdmMast_secTwo] = useState();
-  // const [dmMast_secThree, setdmMast_secThree] = useState();
+  const [dmMast_secOne, setdmMast_secOne] = useState();
+  const [dmMast_secTwo, setdmMast_secTwo] = useState();
+  const [dmMast_secThree, setdmMast_secThree] = useState();
   const [userManagment_secOne, setUserManag_secOne] = useState()
   const [userManagment_secTwo, setUserManag_secTwo] = useState()
   const [userManagment_secThree, setUserManag_secThree] = useState()
@@ -124,13 +128,13 @@ const Settings = () => {
       const rm_setting_section_three = rm_setting_three.filter(val => menuSlnoArray.includes(val.slno))
       setrmMast_secThree(rm_setting_section_three)
 
-      // //Diet Management Master
-      // const dm_setting_section_one = dm_setting_one.filter(val => menuSlnoArray.includes(val.slno));
-      // setdmMast_secOne(dm_setting_section_one)
-      // const dm_setting_section_two = dm_setting_two.filter(val => menuSlnoArray.includes(val.slno));
-      // setdmMast_secTwo(dm_setting_section_two)
-      // const dm_setting_section_three = dm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
-      // setdmMast_secThree(dm_setting_section_three)
+      //Diet Management Master
+      const dm_setting_section_one = dm_setting_one.filter(val => menuSlnoArray.includes(val.slno)); 
+      setdmMast_secOne(dm_setting_section_one)
+      const dm_setting_section_two = dm_setting_two.filter(val => menuSlnoArray.includes(val.slno));
+      setdmMast_secTwo(dm_setting_section_two)
+      const dm_setting_section_three = dm_setting_three.filter(val => menuSlnoArray.includes(val.slno));
+      setdmMast_secThree(dm_setting_section_three)
 
       // //WE Work
       // const we_setting_section_one = we_setting_one.filter(val => menuSlnoArray.includes(val.slno));
@@ -637,6 +641,62 @@ const Settings = () => {
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
+      </CardContent>
+
+      {/* diet */}
+        <CardHeader
+        title={'Diet Management'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {dmMast_secOne &&
+              dmMast_secOne.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {dmMast_secTwo &&
+              dmMast_secTwo.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {dmMast_secThree &&
+              dmMast_secThree.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{
+                    textDecoration: 'none', color: 'var( --true-blue-600)',
+
+                  }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
           </Box>
         </Box>
       </CardContent>

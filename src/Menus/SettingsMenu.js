@@ -180,23 +180,23 @@ export const Work_two = [
 
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
 ]
-// //Diet Master Menu
-// export const dm_setting_one = [
-//     { to: '/Home/Diet', name: 'Diet ', slno: 36 },
-//     { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
-//     { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
-// ]
+//Diet Master Menu
+export const dm_setting_one = [
+    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
+    { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
+    { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
+]
 
-// export const dm_setting_two = [
-//     { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
-//     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+export const dm_setting_two = [
+    { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
+    { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
 
-// ]
+]
 
-// export const dm_setting_three = [
-//     { to: '/Home/RateList', name: 'Rate List', slno: 40 },
-//     { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
-// ]
+export const dm_setting_three = [
+    { to: '/Home/RateList', name: 'Rate List', slno: 40 },
+    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
+]
 
 // //We  Work Menu
 // export const we_setting_one = [

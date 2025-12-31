@@ -1,60 +1,51 @@
-import React, { useEffect, memo, useState } from 'react'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import React, { useEffect, memo, useState } from 'react';
+import { Box, FormControl, Select, Option } from '@mui/joy';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { warningNotify } from 'src/views/Common/CommonCode';
 
 const ExtraRoomMeliSelect = ({ nurse, setValue, value }) => {
-  const [room, setRoom] = useState([])
+  const [room, setRoom] = useState([]);
 
   useEffect(() => {
-    const postdata = {
-      ns_code: nurse
-    }
+    const postdata = { ns_code: nurse };
+
     const getRoom = async () => {
       if (nurse !== 0) {
-        const result1 = await axioslogin.post('/delivery/getRoom/nurse', postdata)
-        const { succes, dataa } = result1.data
+        const result1 = await axioslogin.post('/delivery/getRoom/nurse', postdata);
+        const { succes, dataa } = result1.data;
+
         if (succes === 1) {
-          setRoom(dataa)
+          setRoom(dataa);
         } else {
-          warningNotify('Error occured contact EDP')
+          warningNotify('Error occurred, contact EDP');
         }
       }
-    }
-    getRoom()
-  }, [nurse])
+    };
+    getRoom();
+  }, [nurse]);
 
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="sm" sx={{ width: '100%' }}>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           value={value}
-          onChange={e => setValue(e.target.value)}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+          placeholder="Select Room"
+          onChange={(event, newValue) => setValue(newValue)}
+          sx={{ minHeight: 32, p: 0, m: 0, fontSize: 14 }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Room
-          </MenuItem>
-          {room &&
-            room.map((val, index) => {
-              return (
-                <MenuItem key={index} value={val.rm_code}>
-                  {val.rmc_name}
-                </MenuItem>
-              )
-            })}
+          </Option>
+
+          {room?.map((val, index) => (
+            <Option key={index} value={val.rm_code}>
+              {val.rmc_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>
-  )
-}
+  );
+};
 
-export default memo(ExtraRoomMeliSelect)
+export default memo(ExtraRoomMeliSelect);

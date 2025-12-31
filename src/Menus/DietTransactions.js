@@ -14,6 +14,12 @@ const DietTransactions = [
     to: '/Home/DietOrderList',
     icon: <CiStop1 />
   },
+    {
+    men_slno: 58,
+    name: 'Diet Plan List',
+    to: '/Home/InpatientList',
+    icon: <CiStop1 />
+  },
   {
     men_slno: 59,
     name: 'Diet Extra Order',

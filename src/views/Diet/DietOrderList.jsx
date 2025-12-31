@@ -1,16 +1,13 @@
-import { Box } from '@mui/system'
-import { IconButton, Paper } from '@mui/material'
-import React, { Fragment, useCallback, useEffect, useMemo, memo, useState } from 'react'
+
+import React, { useCallback, useEffect, useMemo, memo, useState } from 'react'
 import Test from '../CommonSelectCode/Test'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
 import { axioslogin } from '../Axios/Axios'
 import { succesNotify, warningNotify, infoNotify } from '../Common/CommonCode'
 import TextFieldCustom from '../Components/TextFieldCustom'
 import { editicon } from 'src/color/Color'
 import SearchIcon from '@mui/icons-material/Search'
 import DietOrderSearch from './DietOrderSearch'
+import { Box, Option, Select } from '@mui/joy'
 const DietOrderList = () => {
   const [value, setValue] = useState(0)
   const [room, setRoom] = useState([])
@@ -137,10 +134,10 @@ const DietOrderList = () => {
   //     history.push(`/Home/settings`)
   // }, [history])
   return (
-    <Fragment>
+    <Box>
       <Box sx={{ width: '100%', pl: 1, pt: 1, pr: 1, pb: 1 }}>
-        <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }}>
-          {' '}
+        <Box sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }}>
+
           <Box
             sx={{
               width: '100%',
@@ -166,30 +163,46 @@ const DietOrderList = () => {
               <Test value={value} setValue={setValue} />
             </Box>
             <Box sx={{ width: '20%', pr: 1, mt: 1 }}>
-              <FormControl fullWidth size="small">
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  size="small"
-                  fullWidth
-                  value={value1}
-                  onChange={e => setValue1(e.target.value)}
-                  variant="outlined"
-                  sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
-                >
-                  <MenuItem value={0} disabled>
-                    Select Room
-                  </MenuItem>
-                  {room &&
-                    room.map((val, index) => {
-                      return (
-                        <MenuItem key={index} value={val.rm_code}>
-                          {val.rmc_desc}
-                        </MenuItem>
-                      )
-                    })}
-                </Select>
-              </FormControl>
+              {/* 
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                size="small"
+                fullWidth
+                value={value1}
+                onChange={e => setValue1(e.target.value)}
+                variant="outlined"
+                sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+              >
+                <MenuItem value={0} disabled>
+                  Select Room
+                </MenuItem>
+                {room &&
+                  room.map((val, index) => {
+                    return (
+                      <MenuItem key={index} value={val.rm_code}>
+                        {val.rmc_desc}
+                      </MenuItem>
+                    )
+                  })}
+              </Select> */}
+
+              <Select
+                size="sm"
+                value={value1}
+                onChange={(e, newValue) => setValue1(newValue)}
+                sx={{ height: 24, p: 0, m: 0, lineHeight: 1.2 }}
+              >
+                <Option value={0} disabled>
+                  Select Room
+                </Option>
+
+                {room?.map((val, index) => (
+                  <Option key={index} value={val.rm_code}>
+                    {val.rmc_desc}
+                  </Option>
+                ))}
+              </Select>
             </Box>
             <Box sx={{ width: '20%', pr: 1 }}>
               <TextFieldCustom type="date" size="sm" value={date} onchange={updateDate} />
@@ -200,12 +213,13 @@ const DietOrderList = () => {
               </IconButton>
             </Box>
           </Box>
-        </Paper>
+        </Box>
       </Box>
       {search === 1 ? (
+
         <DietOrderSearch dietdetail={dietdetail} dietcrct={dietcrct} slno={slno} setDietdetail={setDietdetail} />
       ) : null}
-    </Fragment>
+    </Box>
   )
 }
 export default memo(DietOrderList)

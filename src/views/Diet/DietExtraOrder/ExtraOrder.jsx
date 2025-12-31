@@ -1,4 +1,3 @@
-import { IconButton, Paper, Typography, Box, Tooltip } from '@mui/material'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
@@ -17,6 +16,7 @@ import { format } from 'date-fns'
 import ExtraOrderView from './ExtraOrderView'
 import { Fragment } from 'react'
 import ItemSelectExtra from 'src/views/CommonSelectCode/ItemSelectExtra'
+import { Box, IconButton, Tooltip, Typography } from '@mui/joy'
 
 const ExtraOrder = () => {
   /** Variable initialization */
@@ -394,7 +394,7 @@ const ExtraOrder = () => {
   }, [Count])
 
   return (
-    <Fragment>
+    <Box sx={{ flexGrow: 1 }}>
       {disview === 0 ? (
         <CardMasterView
           title="Extra Order"
@@ -410,7 +410,7 @@ const ExtraOrder = () => {
             submitDiettype={submitDiettype}
           />
           <Box sx={{ width: '100%', p: 1 }}>
-            <Paper square elevation={3} sx={{ p: 2 }}>
+            <Box sx={{ p: 2 }}>
               <Box
                 sx={{
                   width: '100%',
@@ -812,24 +812,25 @@ const ExtraOrder = () => {
                 }}
               >
                 {add === 1 ? (
-                  <ExtraOrderTable
-                    newfood={newfood}
-                    setNewdata={setNewdata}
-                    setHospital={setHospital}
-                    setCanteen={setCanteen}
-                    sumCanteen={sumCanteen}
-                    sumHosptial={sumHosptial}
-                    editdatas={editdatas}
-                  />
+                  <></>
+                  // <ExtraOrderTable
+                  //   newfood={newfood}
+                  //   setNewdata={setNewdata}
+                  //   setHospital={setHospital}
+                  //   setCanteen={setCanteen}
+                  //   sumCanteen={sumCanteen}
+                  //   sumHosptial={sumHosptial}
+                  //   editdatas={editdatas}
+                  // />
                 ) : null}
               </Box>
-            </Paper>
+            </Box>
           </Box>
         </CardMasterView>
       ) : (
         <ExtraOrderView dietExtraViews={dietExtraViews} setDisview={setDisview} />
       )}
-    </Fragment>
+    </Box>
   )
 }
 export default ExtraOrder

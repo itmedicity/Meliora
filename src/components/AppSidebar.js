@@ -50,6 +50,9 @@ import IcuTransaction from 'src/Menus/IcuTransaction'
 // import { FaSyringe } from "react-icons/fa6";
 import { MdPattern } from "react-icons/md";
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
+import DietTransactions from 'src/Menus/DietTransactions'
+import { MdOutlineFoodBank } from "react-icons/md";
+
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -70,6 +73,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [icuTransact, setIcuTransact] = useState()
   // const [labresultTransact, setLabResultTransact] = useState()
   const [deviceCredentials, setDeviceCredentials] = useState()
+  const [dietTransction, setDietTransction] = useState()
  const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
@@ -258,7 +262,17 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       items: deviceCredentials,
       route: '/Home',
       icon: <MdPattern />
+    },
+        {
+      slno: 7,
+      name: 'Diet',
+      items: dietTransction,
+      route: '/Home',
+      icon: <MdOutlineFoodBank />
     }
+
+
+
  ]
 
   useEffect(() => {
@@ -296,9 +310,11 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setAmsTransact(AmsTransact)
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
-
         const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setDeviceCredentials(DeviceCredentialTransact)
+
+        const DietTransact =DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
+        setDietTransction(DietTransact)
         
 
         setCount(1)
