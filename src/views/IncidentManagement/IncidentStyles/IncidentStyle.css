@@ -1,0 +1,26 @@
+.normal-row {
+    transition: all 0.25s ease-in-out;
+    transform: scale(1);
+    font-size: 13px;
+    font-family:sans-serif;
+}
+
+.expanded-row {
+    transition: all 0.25s ease-in-out;
+    transform: scale(1.08);
+    background: #ffffff;
+    font-size: 28px;
+
+    /* Border styles (converted from JS → valid CSS) */
+    border: 4px solid var(--rose-pink-400);
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+
+    /* Shape / rounded corners */
+    border-radius: 20px / 15px;
+
+    /* Increased visibility */
+    /* position: relative;
+    z-index: 9999; */
+}

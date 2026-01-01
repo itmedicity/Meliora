@@ -166,8 +166,6 @@ export const userManagement_three = [
 //TaskManagement Menu
 export const taskManagement_one = [
     { to: '/Home/TMOverdueCountMaster', name: 'TaskMaster Duedate Count', slno: 218 },
-
-
 ]
 
 //Ams Menu
@@ -178,9 +176,25 @@ export const ams_one = [
 export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
 
 export const Work_two = [
-
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
 ]
+
+
+export const Inc_One = [
+    { to: '/Home/incidentnature', name: 'Nature of Incident Master', slno: 293 },
+    { to: '/Home/inclevelitemmapmaster', name: 'Level Item Map Master', slno: 327 },
+    { to: '/Home/incactionmaster', name: 'Incident Action Master', slno: 333 },
+]
+export const Inc_Two = [
+    { to: '/Home/CommonSetting', name: 'Incident Common Setting', slno: 334 },
+    { to: '/Home/commonsettingmap', name: 'Incident Common Setting Map Master', slno: 335 },
+    { to: '/Home/categorymaster', name: 'Incident Category Master', slno: 288 },
+]
+export const Inc_Three = [
+    { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
+    { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
+]
+
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },

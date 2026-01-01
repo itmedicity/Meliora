@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDeptsection } from 'src/redux/actions/DeptSection.action'
 
-const DataCollectDepSecSelect = ({ SetDeptSec }) => {
+const DataCollectDepSecSelect = ({ SetDeptSec, width }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getDeptsection())
@@ -15,6 +15,7 @@ const DataCollectDepSecSelect = ({ SetDeptSec }) => {
   const deptsectiondata = useSelector(state => {
     return state.getDeptsection.deptsectionList || 0
   })
+  
   const Onclick = useCallback(
     values => {
       if (values !== null) {
@@ -37,7 +38,7 @@ const DataCollectDepSecSelect = ({ SetDeptSec }) => {
     <Autocomplete
       placeholder="Select Department"
       multiple
-      style={{ height: 'auto', p: 0, m: 0, lineHeight: 1.2, width: '90%' }}
+      style={{ height: 'auto', p: 0, m: 0, lineHeight: 1.2, width: width ? width : '90%' }}
       value={selectedValues}
       clearOnBlur
       onChange={(_, newValue) => {
