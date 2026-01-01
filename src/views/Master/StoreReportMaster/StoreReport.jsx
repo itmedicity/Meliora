@@ -32,6 +32,12 @@ const StoreReport = () => {
         { id: 4, name: 'Rate Variation Updation' },
         { id: 5, name: 'Pending Approval Quatation' },
         { id: 6, name: 'Resolved List' },
+        { id: 7, name: 'Hold Paymnet' },
+        { id: 8, name: 'New Quotation(Rec)' },
+        { id: 9, name: 'Payment Proceed' },
+        { id: 10, name: 'Hold Purchase' },
+        { id: 11, name: 'Resolved Status' },
+        { id: 12, name: 'ED and MD Rights' },
     ]
 
     const updateUserCreation = useCallback(

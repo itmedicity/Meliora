@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import { Virtuoso } from 'react-virtuoso'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getRateVariationComments, getVarationData } from './CommonApiFun'
+import { getRateVariationComments, getStoreUserRights, getVarationData } from './CommonApiFun'
 import { useSelector } from 'react-redux'
 import { axioslogin } from '../Axios/Axios'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
@@ -20,22 +20,22 @@ const Ratevariation = ({ setActiveComponent }) => {
     const [openCommentModal, setOpenCommentModal] = useState(false);
     const [commentText, setCommentText] = useState("");
     const [selectedRow, setSelectedRow] = useState(null);
-    const [activeTab, setActiveTab] = useState("Accounts")
     const [selectedAction, setSelectedAction] = useState("");
-    // const [showResolvelist, setShowResolvelist] = useState(0);
     const [showExtraCols, setShowExtraCols] = useState(false);
-    const [checkResolved, setCheckResolved] = useState("");
+    const [checkResolved, setCheckResolved] = useState(null);
 
     const loginId = useSelector(state => state.LoginUserData.empid)
 
+    const empdept = useSelector(state => state.LoginUserData.empdeptname)
+
     const queryClient = useQueryClient()
 
-    const OncloseModalFun = () => {
+    const OncloseModalFun = useCallback(() => {
         setOpenCommentModal(false)
         setSelectedRow(null)
-        setActiveTab("Accounts")
         setCommentText(null)
-    }
+        setCheckResolved(null)
+    }, [setOpenCommentModal, setSelectedRow, setCommentText, setCheckResolved])
 
     const mainColumns = [
         { fontWeight: 350, key: "sl_no", label: "Sl No", width: 100, align: "center" },
@@ -89,6 +89,36 @@ const Ratevariation = ({ setActiveComponent }) => {
         enabled: !!slno
     })
 
+
+    //rights
+    const { data: fetchStoreUserRights } = useQuery({
+        queryKey: ["getStoreRights", loginId],
+        queryFn: () => getStoreUserRights(loginId),
+        enabled: !!loginId,
+        staleTime: Infinity
+    });
+    /* ================= ACTION CONFIG ================= */
+    const actionRightsMap = [
+        { id: 7, label: "Hold Payment", value: "Hold Payment" },
+        { id: 8, label: "New Quot (Rec)", value: "New Quot (Rec)" },
+        { id: 9, label: "Payment Proceed", value: "Payment Proceed" },
+        { id: 10, label: "Hold Purchase", value: "Hold Purchase" },
+        { id: 11, label: "Resolved Status", value: "Resolved" },// handled separately
+        { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" }
+    ];
+
+    /* ================= FILTERED RIGHTS ================= */
+    const allowedActionButtons = actionRightsMap.filter(
+        action =>
+            fetchStoreUserRights?.includes(action.id) &&
+            action.id !== 11 && action.id !== 12
+    );
+
+    const hasResolvedRight = fetchStoreUserRights?.includes(11);
+    const EdMdRights = fetchStoreUserRights?.includes(12);
+
+
+
     const handleOpenComment = useCallback((row) => {
         setSelectedRow(row);
         setOpenCommentModal(true);
@@ -99,11 +129,11 @@ const Ratevariation = ({ setActiveComponent }) => {
             grn_no: selectedRow?.grn_no,
             item_name: selectedRow?.item_name,
             comment: commentText,
-            Cmt_Dept: activeTab,
+            Cmt_Dept: empdept,
             rate_variation_slno: selectedRow?.slno,
             loginId: loginId,
             selectedAction: selectedAction !== '' ? selectedAction : checkResolved,
-            checkResolved: checkResolved !== "" ? 1 : 0
+            checkResolved: checkResolved !== null ? 1 : 0
         }
         const result = await axioslogin.post("RateVariationReport/insertComment", postComment)
         const { success, message } = result.data;
@@ -111,17 +141,17 @@ const Ratevariation = ({ setActiveComponent }) => {
             succesNotify(message)
             queryClient.invalidateQueries('getComments');
             setCommentText("")
-            setActiveTab("Accounts")
             setSelectedAction("")
             setOpenCommentModal(false)
+            setCheckResolved(null)
         } else {
             warningNotify(message)
             setCommentText("")
-            setActiveTab("Accounts")
             setSelectedAction("")
             setOpenCommentModal(false)
+            setCheckResolved(null)
         }
-    }, [selectedRow, commentText, activeTab, loginId, queryClient, selectedAction, checkResolved])
+    }, [selectedRow, commentText, empdept, loginId, queryClient, selectedAction, checkResolved, setCheckResolved])
 
     const filtered = useMemo(() => {
         let result = RatevarationData;
@@ -342,9 +372,10 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     display: "flex",
                                                                     justifyContent: "center",
                                                                     alignItems: "center",
+                                                                    backgroundColor: QtnMarginbg ? "#D1E9F6" : "white"
                                                                 }}
                                                             >
-                                                                <Box
+                                                                {/* <Box
                                                                     sx={{
                                                                         borderRadius: 2,
                                                                         minWidth: 150,
@@ -353,10 +384,92 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                         backgroundColor: value === "Payment Proceed" ? "#CAE8BD" : value === "Hold Payment" || value === "New Quot (Rec)" || value === "Hold Purchase" ? "#FFCFCF" : "white",
                                                                         fontSize: 14,
                                                                         color: value ? "black" : "#D32F2F",
+                                                                        cursor: "pointer",
+
                                                                     }}
                                                                 >
                                                                     {statusText}
-                                                                </Box>
+                                                                </Box> */}
+                                                                {/* <Tooltip
+                                                                    title={val.cmt_description}
+                                                                    placement="right"
+                                                                    color="primary"
+                                                                    size="sm"
+                                                                    variant="plain"
+                                                                    arrow
+
+                                                                >
+                                                                    <Box
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            minWidth: 150,
+                                                                            textAlign: "center",
+                                                                            border: "1px solid #90CAF9",
+                                                                            backgroundColor:
+                                                                                value === "Payment Proceed"
+                                                                                    ? "#CAE8BD"
+                                                                                    : value === "Hold Payment" ||
+                                                                                        value === "New Quot (Rec)" ||
+                                                                                        value === "Hold Purchase"
+                                                                                        ? "#FFCFCF"
+                                                                                        : "white",
+                                                                            fontSize: 14,
+                                                                            color: value ? "black" : "#D32F2F",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                    >
+                                                                        {statusText}
+                                                                    </Box>
+                                                                </Tooltip> */}
+
+                                                                <Tooltip
+                                                                    title={val.cmt_description}
+                                                                    placement="right"
+                                                                    // color="primary"
+                                                                    size="sm"
+                                                                    variant="outlined"
+                                                                    arrow
+
+                                                                    sx={{
+                                                                        width: 250,        // ✅ fixed width
+                                                                        maxWidth: 250,     // prevents auto resize
+                                                                        whiteSpace: "normal",
+                                                                        wordBreak: "break-word",
+                                                                        fontSize: 13,
+                                                                        color: "#524b4fff"
+                                                                    }}
+                                                                >
+                                                                    <Box
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            minWidth: 150,
+                                                                            textAlign: "center",
+                                                                            // border: "2px solid #90CAF9",
+                                                                            border:
+                                                                                value === "Payment Proceed"
+                                                                                    ? "2px solid #2d4c20a7"
+                                                                                    : value === "Hold Payment" ||
+                                                                                        value === "New Quot (Rec)" ||
+                                                                                        value === "Hold Purchase"
+                                                                                        ? "2px solid #862020a9"
+                                                                                        : "2px solid #90CAF9",
+
+                                                                            backgroundColor:
+                                                                                value === "Payment Proceed"
+                                                                                    ? "#CAE8BD"
+                                                                                    : value === "Hold Payment" ||
+                                                                                        value === "New Quot (Rec)" ||
+                                                                                        value === "Hold Purchase"
+                                                                                        ? "#FFCFCF"
+                                                                                        : "white",
+                                                                            fontSize: 14,
+                                                                            color: value ? "black" : "#D32F2F",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                    >
+                                                                        {statusText}
+                                                                    </Box>
+                                                                </Tooltip>
                                                             </Box>
                                                         );
                                                     }
@@ -463,20 +576,21 @@ const Ratevariation = ({ setActiveComponent }) => {
                     </Box>
                     {/* comment modal  with comment section */}
                     {/* <CommentModal
-                            open={openCommentModal}
-                            onClose={OncloseModalFun}
-                            commentText={commentText}
-                            setCommentText={setCommentText}
-                            onSave={handleSaveComment}
-                            selectedRow={selectedRow}
-                            activeTab={activeTab}
-                            setActiveTab={setActiveTab}
-                            commentsArr={RateVariationComments}
-                            setSelectedAction={setSelectedAction}
-                            selectedAction={selectedAction}
-                            setCheckResolved={setCheckResolved}
-                            checkResolved={checkResolved}
-                        /> */}
+                        open={openCommentModal}
+                        onClose={OncloseModalFun}
+                        commentText={commentText}
+                        setCommentText={setCommentText}
+                        onSave={handleSaveComment}
+                        selectedRow={selectedRow}
+                        activeTab={activeTab}
+                        commentsArr={RateVariationComments}
+                        setSelectedAction={setSelectedAction}
+                        selectedAction={selectedAction}
+                        setCheckResolved={setCheckResolved}
+                        checkResolved={checkResolved}
+                        allowedActionButtons = { allowedActionButtons }
+                        hasResolvedRight={hasResolvedRight}
+                    /> */}
 
                     <CommentModalAction
                         open={openCommentModal}
@@ -485,13 +599,15 @@ const Ratevariation = ({ setActiveComponent }) => {
                         setCommentText={setCommentText}
                         onSave={handleSaveComment}
                         selectedRow={selectedRow}
-                        activeTab={activeTab}
-                        setActiveTab={setActiveTab}
                         commentsArr={RateVariationComments}
                         setSelectedAction={setSelectedAction}
                         selectedAction={selectedAction}
                         setCheckResolved={setCheckResolved}
                         checkResolved={checkResolved}
+                        loginId={loginId}
+                        allowedActionButtons={allowedActionButtons}
+                        hasResolvedRight={hasResolvedRight}
+                        EdMdRights={EdMdRights}
                     />
                 </Paper>
             </CardCloseOnly>
