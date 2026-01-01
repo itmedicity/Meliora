@@ -93,7 +93,6 @@ const IncidentViewModal = ({
     const [expanded, setExpanded] = useState(true);
     const [open, setOpen] = useState(false);
     const [savedetail, setSaveDetail] = useState(false)
-
     const [expandaction, setExpandAction] = useState(true)
 
 
@@ -105,8 +104,6 @@ const IncidentViewModal = ({
         METHOD: '',
         MEASUREMENT: ''
     });
-
-
 
     // open modadl
     const onImageClick = useCallback((file) => {
@@ -147,6 +144,7 @@ const IncidentViewModal = ({
     const CheckIsUpperLevelApprovedForDDC = checkUpperLevelApprovedForDDC(stableHighLevelApprovals, levelNo);
 
 
+
     const ActiveActions = useMemo(() => {
         return Array.isArray(incidentaction) ? incidentaction
             ?.filter(item => Number(item?.inc_action_item_stauts) === 1)
@@ -154,7 +152,7 @@ const IncidentViewModal = ({
     }, [incidentaction]);
 
     // Checking is Rca Present
-    const IsRcaPresent = levelactionreview.some(
+    const IsRcaPresent = Array.isArray(levelactionreview) && levelactionreview?.some(
         review =>
             review?.inc_action_name === "RCA"
     );
@@ -463,7 +461,7 @@ const IncidentViewModal = ({
                                 <IncidentReviewTable
                                     ActiveActions={ActiveActions}
                                     // involvedDepartment={involvedDepartment}
-                                    LevelActionReveiw={levelactionreview}
+                                    LevelActionReveiw={levelactionreview || []}
                                 />
                             </Box>
                         </>
@@ -475,7 +473,7 @@ const IncidentViewModal = ({
                         IsRcaPresent &&
                         <RcaDetailCard
                             ActiveActions={ActiveActions}
-                            LevelActionReveiw={levelactionreview}
+                            LevelActionReveiw={levelactionreview || []}
                         />
 
                     }
@@ -544,7 +542,8 @@ const IncidentViewModal = ({
                     }
 
                     {
-                        isActionRequestExist && items?.inc_current_level <= levelNo &&
+                        isActionRequestExist &&
+                        items?.inc_current_level <= levelNo &&
                         <Box>
                             <IncidentAction
                                 levelNo={levelNo}

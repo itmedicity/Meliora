@@ -358,14 +358,7 @@ const IncidentRegistrationFinal = () => {
                 inc_initiator_dtl: InitiatorDtl,
                 dep_slno: empdept,
                 sec_slno: empsecid,
-                inc_incharge_approval: 0,
-                inc_hod_approval: 0,
                 inc_reg_corrective: regcorrectiveaction,
-                // departments: getemployeedepartmenttype,
-                // status: 1,
-                // remark: "Default Registration Remarks",
-                // createUser: employeeNumber(),
-                // requested_department: empsecid,
                 inc_data_collection_req: 0
             };
 

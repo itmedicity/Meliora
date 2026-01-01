@@ -182,11 +182,11 @@ export const Work_two = [
 export const Inc_One = [
     { to: '/Home/incidentnature', name: 'Nature of Incident Master', slno: 293 },
     { to: '/Home/inclevelitemmapmaster', name: 'Level Item Map Master', slno: 327 },
-    { to: '/Home/incactionmaster', name: 'Incident Action Master', slno: 327 },
+    { to: '/Home/incactionmaster', name: 'Incident Action Master', slno: 333 },
 ]
 export const Inc_Two = [
-    { to: '/Home/CommonSetting', name: 'Incident Common Setting', slno: 311 },
-    { to: '/Home/commonsettingmap', name: 'Incident Common Setting Map Master', slno: 312 },
+    { to: '/Home/CommonSetting', name: 'Incident Common Setting', slno: 334 },
+    { to: '/Home/commonsettingmap', name: 'Incident Common Setting Map Master', slno: 335 },
     { to: '/Home/categorymaster', name: 'Incident Category Master', slno: 288 },
 ]
 export const Inc_Three = [

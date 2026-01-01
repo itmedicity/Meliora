@@ -3,14 +3,13 @@ import { Table, Sheet } from "@mui/joy";
 import IncidentTextComponent from "../Components/IncidentTextComponent";
 import '../IncidentStyles/IncidentStyle.css'
 
-const IncidentReviewTable = ({ LevelActionReveiw, ActiveActions }) => {
+const IncidentReviewTable = ({ LevelActionReveiw = [], ActiveActions = [] }) => {
 
     const [expandedRow, setExpandedRow] = useState(null);
 
     const handleRowDoubleClick = (key) => {
         setExpandedRow(prev => (prev === key ? null : key));
     };
-
 
     return (
         <Sheet variant="outlined" sx={{ borderRadius: "sm", p: 2 }}>
@@ -45,7 +44,7 @@ const IncidentReviewTable = ({ LevelActionReveiw, ActiveActions }) => {
                             ?.filter(item => item?.inc_action_name != 'RCA')
                             ?.map((item, index) => {
                                 // Find matching rows
-                                const rowItems = LevelActionReveiw?.filter(
+                                const rowItems = Array.isArray(LevelActionReveiw) && LevelActionReveiw?.filter(
                                     (val) => Number(val.inc_action_slno) === Number(item.inc_action_slno)
                                 );
 

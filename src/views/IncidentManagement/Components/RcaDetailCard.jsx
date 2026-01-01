@@ -12,7 +12,7 @@ const RcaDetailCard = ({ ActiveActions = [], LevelActionReveiw = [] }) => {
         return ActiveActions
             .filter(item => item?.inc_action_name === "RCA")
             .map(action => {
-                const reviews = LevelActionReveiw.filter(
+                const reviews = LevelActionReveiw?.filter(
                     review =>
                         Number(review?.inc_action_slno) === Number(action?.inc_action_slno)
                 );
@@ -66,7 +66,7 @@ const RcaDetailCard = ({ ActiveActions = [], LevelActionReveiw = [] }) => {
                     gap: 1.5,
                     maxHeight: expanded ? '1000px' : 0, // big enough to fit content
                     transition: 'max-height 0.4s ease, opacity 0.4s ease',
-                    overflow:'hidden'
+                    overflow: 'hidden'
                 }}>
                 {rcaActions.length === 0 && (
                     <IncidentTextComponent

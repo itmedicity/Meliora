@@ -31,7 +31,7 @@ export const generateInitialComments = (incidentlevels = []) => {
 
 
 export const getFinalLevelActions = (levelitems = [], level, levelactionreview = []) => {
-    return levelitems.filter(item => {
+    return levelitems?.filter(item => {
         // Must match the level and be active
         if (item?.level_name !== level || Number(item?.inc_action_item_stauts) !== 1) {
             return false;
@@ -43,7 +43,7 @@ export const getFinalLevelActions = (levelitems = [], level, levelactionreview =
         }
 
         // For all others → filter out if already reviewed
-        return !levelactionreview.some(
+        return Array.isArray(levelactionreview) && !levelactionreview?.some(
             val => val?.inc_action_slno === item?.inc_action_slno
         );
     });
