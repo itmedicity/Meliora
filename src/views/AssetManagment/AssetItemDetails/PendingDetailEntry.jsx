@@ -41,8 +41,8 @@ const PendingDetailEntry = ({ detailArry, setpendingDetailFlag, setRender, rende
     item_asset_no_only !== undefined
       ? String(item_asset_no_only).padStart(6, '0')
       : spare_asset_no_only !== undefined
-      ? String(spare_asset_no_only).padStart(6, '0')
-      : 'Not Found'
+        ? String(spare_asset_no_only).padStart(6, '0')
+        : 'Not Found'
 
   const assetSpare = am_item_map_slno !== undefined ? 1 : am_spare_item_map_slno !== undefined ? 2 : 0
   const [grndetailarry, setGrnDetailArry] = useState({})
@@ -321,6 +321,7 @@ const PendingDetailEntry = ({ detailArry, setpendingDetailFlag, setRender, rende
                 }}
               >
                 <ItemGRNandBill
+                  am_item_map_slno={am_item_map_slno}
                   grndetailarry={grndetailarry}
                   detailArry={detailArry}
                   exist={exist}

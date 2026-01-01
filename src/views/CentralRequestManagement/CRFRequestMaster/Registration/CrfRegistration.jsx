@@ -112,6 +112,7 @@ const CrfRegistration = ({
   const [category, setCategory] = useState([])
   const [catFlag, setcatFlag] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [count, setcount] = useState(0)
 
   const {
     data: authDept,
@@ -166,6 +167,7 @@ const CrfRegistration = ({
         levelTwo: level_two,
         deptType: dept_type
       }))
+      setcount(0)
     } else {
       setCrfRegister(prev => ({
         ...prev,
@@ -174,7 +176,7 @@ const CrfRegistration = ({
         deptType: 0
       }))
     }
-  }, [authData])
+  }, [authData, count])
 
   const updateEmergency = e => {
     if (e.target.checked === true) {
@@ -611,6 +613,7 @@ const CrfRegistration = ({
                   }
                 }
                 succesNotify(message)
+                setcount(1)
                 reset()
               } else {
                 warningNotify(message)

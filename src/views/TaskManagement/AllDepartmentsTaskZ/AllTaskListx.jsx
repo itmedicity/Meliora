@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Input, Table, Typography } from '@mui/joy'
+import { Box, Chip, Table, Typography } from '@mui/joy'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit'
@@ -11,8 +11,8 @@ import EditTaskInDir from './EditTaskInDir'
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded'
 import { getFilesFromZip } from 'src/api/FileViewsFn'
 import { useQuery } from '@tanstack/react-query'
-import SearchIcon from '@mui/icons-material/Search';
 import CircularProgress from '@mui/joy/CircularProgress';
+import FloatingSearch from 'src/views/Components/FloatingSearch'
 
 
 
@@ -135,24 +135,11 @@ const AllTaskListx = () => {
         />
       ) : null}
 
-      <Box sx={{ width: '100%', overflowX: 'auto' }}>
-
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-          <Input
-            label="Search"
-            variant="outlined"
-            placeholder="Type here..."
-            autoComplete="off"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            startDecorator={
-              <Button variant="soft" color="neutral">
-                <SearchIcon /> Search
-              </Button>
-            }
-            sx={{ width: 300 }}
-          />
-        </Box>
+      <Box sx={{ width: '100%', overflowX: 'auto', position: "relative" }}>
+        <FloatingSearch
+          value={filterText}
+          setValue={setFilterText}
+        />
 
 
         {isLoading ? (

@@ -70,7 +70,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [icuTransact, setIcuTransact] = useState()
   // const [labresultTransact, setLabResultTransact] = useState()
   const [deviceCredentials, setDeviceCredentials] = useState()
- const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
 
   const {
@@ -252,14 +252,14 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
     //   route: '/IcuDashboard',
     //   icon: <FaSyringe color="var(--true-blue-800)" />
     // }
-        {
+    {
       slno: 29,
       name: 'Device Credentials',
       items: deviceCredentials,
       route: '/Home',
       icon: <MdPattern />
     }
- ]
+  ]
 
   useEffect(() => {
     /*** get menus based on user rights */
@@ -299,7 +299,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
         const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setDeviceCredentials(DeviceCredentialTransact)
-        
+
 
         setCount(1)
         const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))

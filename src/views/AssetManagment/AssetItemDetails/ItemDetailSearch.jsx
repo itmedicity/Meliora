@@ -7,15 +7,16 @@ import { warningNotify } from 'src/views/Common/CommonCode'
 import AmDepartmentSelWOName from 'src/views/CommonSelectCode/AmDepartmentSelWOName'
 import AmDeptSecSelectSpare from 'src/views/CommonSelectCode/AmDeptSecSelectSpare'
 import AmDeptSecSelectWOName from 'src/views/CommonSelectCode/AmDeptSecSelectWOName'
-import AmItemDeptSecBsedWOName from 'src/views/CommonSelectCode/AmItemDeptSecBsedWOName'
-import AmSpareItemListDeptSecBsed from 'src/views/CommonSelectCode/AmSpareItemListDeptSecBsed'
 import CusIconButton from 'src/views/Components/CusIconButton'
 import TextComponent from 'src/views/Components/TextComponent'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import AssetCustodianDepartment from 'src/views/CommonSelectCode/AssetCustodianDepartment'
-const ItemListViewTable = React.lazy(() => import('../ItemListView/ItemListViewTable'))
+import AmItemNameUnderCustodian from 'src/views/CommonSelectCode/AmItemNameUnderCustodian'
+import AmSpareItemNameUnderCustodian from 'src/views/CommonSelectCode/AmSpareItemNameUnderCustodian'
+import ItemListTableView from './ItemListTableView'
+
 
 const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
   const [spareNo, setspareNo] = useState('')
   const [custoDian, setCustodian] = useState(0)
   const [custodianAllDetails, setcustodianAllDetails] = useState({})
+  const [loading, setLoading] = useState(false);
   const {
     am_custdn_asset_no_first,
     am_custdn_asset_no_second,
@@ -95,40 +97,87 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
     setspareNo('')
   }, [])
 
-  const search = useCallback(() => {
-    const getdata = async postdata => {
-      const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata)
-      const { success, data } = result.data
-      if (success === 1) {
-        setDisArry(data)
-        setFlag(1)
-      } else {
-        warningNotify('No data for Selected Condition')
-        setDisArry([])
-        setFlag(0)
-        setSerailno('')
-      }
-    }
-    const getdataSpareItem = async postdataSpare => {
-      const result = await axioslogin.post(`/itemCreationDeptmap/getSpareItemsFronList`, postdataSpare)
-      const { success, data } = result.data
-      if (success === 1) {
-        setDisArry(data)
-        setFlag(1)
-      } else {
-        warningNotify('No data for Selected Condition')
-        setDisArry([])
-        setFlag(0)
-        setSerailno('')
-      }
-    }
+  // const search = useCallback(() => {
+  //   const getdata = async postdata => {
+  //     const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata)
+  //     const { success, data } = result.data
+  //     if (success === 1) {
+  //       setDisArry(data)
+  //       setFlag(1)
+  //     } else {
+  //       warningNotify('No data for Selected Condition')
+  //       setDisArry([])
+  //       setFlag(0)
+  //       setSerailno('')
+  //     }
+  //   }
+  //   const getdataSpareItem = async postdataSpare => {
+  //     const result = await axioslogin.post(`/itemCreationDeptmap/getSpareItemsFronList`, postdataSpare)
+  //     const { success, data } = result.data
+  //     if (success === 1) {
+  //       setDisArry(data)
+  //       setFlag(1)
+  //     } else {
+  //       warningNotify('No data for Selected Condition')
+  //       setDisArry([])
+  //       setFlag(0)
+  //       setSerailno('')
+  //     }
+  //   }
 
-    if (assetSpare === 1) {
-      getdata(postdata)
-    } else {
-      getdataSpareItem(postdataSpare)
-    }
-  }, [postdata, postdataSpare, assetSpare])
+  //   if (assetSpare === 1) {
+  //     getdata(postdata)
+  //   } else {
+  //     getdataSpareItem(postdataSpare)
+  //   }
+  // }, [postdata, postdataSpare, assetSpare])
+
+
+  const search = useCallback(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        if (assetSpare === 1) {
+          const result = await axioslogin.post(`/itemCreationDeptmap/getItemsFronList`, postdata);
+          const { success, data } = result.data;
+
+          if (success === 1) {
+            setDisArry(data);
+            setFlag(1);
+          } else {
+            warningNotify('No data for Selected Condition');
+            setDisArry([]);
+            setFlag(0);
+            setSerailno('');
+          }
+
+        } else {
+          const result = await axioslogin.post(`/itemCreationDeptmap/getSpareItemsFronList`, postdataSpare);
+          const { success, data } = result.data;
+
+          if (success === 1) {
+            setDisArry(data);
+            setFlag(1);
+          } else {
+            warningNotify('No data for Selected Condition');
+            setDisArry([]);
+            setFlag(0);
+            setSerailno('');
+          }
+        }
+      } catch (err) {
+        warningNotify("Something went wrong!");
+        setFlag(0);
+        setDisArry([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+  }, [postdata, postdataSpare, assetSpare]);
+
 
   return (
     <Box>
@@ -223,9 +272,9 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
           <Box sx={{ flex: 1 }}>
             <TextComponent text={'Item Name'} sx={{ color: 'black', fontWeight: 500, pl: 0.5 }}></TextComponent>
             {assetSpare === 1 ? (
-              <AmItemDeptSecBsedWOName item={item} setItem={setItem} />
+              <AmItemNameUnderCustodian item={item} setItem={setItem} custoDian={custoDian} />
             ) : (
-              <AmSpareItemListDeptSecBsed item={item} setItem={setItem} />
+              <AmSpareItemNameUnderCustodian item={item} setItem={setItem} custoDian={custoDian} />
             )}
           </Box>
           <Box sx={{ flex: 0.5, display: 'flex', gap: 0.5 }}>
@@ -244,7 +293,7 @@ const ItemDetailSearch = ({ assetSpare, AddDetails, count }) => {
       </Box>
       {flag === 1 ? (
         <Box sx={{ m: 1, border: 1, p: 0.5, borderColor: '#D0D0D0' }}>
-          <ItemListViewTable assetSpare={assetSpare} displayarry={displayarry} AddDetails={AddDetails} count={count} />
+          <ItemListTableView assetSpare={assetSpare} displayarry={displayarry} AddDetails={AddDetails} count={count} loading={loading} />
         </Box>
       ) : null}
     </Box>

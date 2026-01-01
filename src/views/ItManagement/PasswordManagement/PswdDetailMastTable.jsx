@@ -25,6 +25,14 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
             </thead>
             <tbody>
               {arry?.map((val, index) => {
+                const formatIp = (ip) => {
+                  if (!ip) return 'not given';
+                  return ip
+                    .split('.')
+                    .map(oct => String(Number(oct)))
+                    .join('.');
+                };
+
                 return (
                   <tr
                     key={index}
@@ -38,7 +46,7 @@ const PswdDetailMastTable = ({ arry, selectForEdit }) => {
                     <td> {val.user_name || 'not given'}</td>
                     <td> {val.password || 'not given'}</td>
                     <td> {val.port || 'not given'}</td>
-                    <td> {val.ipAddress || 'not given'}</td>
+                    <td> {formatIp(val.ipAddress)}</td>
                     <td> {val.remarks || 'not given'}</td>
                   </tr>
                 )

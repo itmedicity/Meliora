@@ -90,6 +90,7 @@ const PasswordManagement = () => {
   })
 
   const [tabledata, setTabledata] = useState([])
+
   useEffect(() => {
     const getMasterTable = async () => {
       const result = await axioslogin.get('PasswordManagementMain/masterView')
@@ -143,9 +144,12 @@ const PasswordManagement = () => {
       }
       setPswd_mast_asset_no(pswd_mast_asset_no)
       setPasswordMast(formdata)
+
       const getdetailtable = async pswd_mast_slno => {
         const result = await axioslogin.get(`/PasswordManagementMain/viewDetailByid/${pswd_mast_slno}`)
         const { success, data } = result.data
+
+
         if (data.length !== 0) {
           if (success === 2) {
             const setDetailData =
@@ -177,23 +181,23 @@ const PasswordManagement = () => {
     [setPasswordMast]
   )
 
-  const selectForEdit = useCallback(
-    val => {
-      const { pswd_detail_slno, credential, credentialName, description, user_name, password, port, remarks, ipAddress } = val
-      const setDetailData = {
-        pswd_detail_slno: pswd_detail_slno,
-        description: description,
-        user_name: user_name,
-        password: password,
-        port: port,
-        remarks: remarks,
-        ipAddress: ipAddress
-      }
-      setCredential(credential)
-      setCredentialName(credentialName)
-      setPasswordManagement(setDetailData)
-      setTableEdit(1)
-    },
+  const selectForEdit = useCallback(val => {
+
+    const { pswd_detail_slno, credential, credentialName, description, user_name, password, port, remarks, ipAddress } = val
+    const setDetailData = {
+      pswd_detail_slno: pswd_detail_slno,
+      description: description,
+      user_name: user_name,
+      password: password,
+      port: port,
+      remarks: remarks,
+      ipAddress: ipAddress
+    }
+    setCredential(credential)
+    setCredentialName(credentialName)
+    setPasswordManagement(setDetailData)
+    setTableEdit(1)
+  },
     [setPasswordManagement]
   )
   const {
@@ -369,6 +373,7 @@ const PasswordManagement = () => {
     setTableEdit(0)
     setaddflag(0)
   }, [setPasswordMast, setPswd_mast_asset_no, setCount, setArry, setTableEdit])
+
   const insertdata = useMemo(() => {
     return {
       pswd_mast_asset_no: pswd_mast_asset_no === 0 ? null : pswd_mast_asset_no,
@@ -492,7 +497,6 @@ const PasswordManagement = () => {
       if (flag === 1) {
         const InsertPasswordMast = async insertdata => {
           const result = await axioslogin.post('/PasswordManagementMain/insertMast', insertdata)
-
           return result.data
         }
         const InsertDetailMast = async postForDetail => {
@@ -553,6 +557,8 @@ const PasswordManagement = () => {
             const { message, success } = value
             succesNotify(message)
             if (success === 2) {
+
+
               const patchdataDetail =
                 arry &&
                 arry.map(val => {
@@ -569,6 +575,7 @@ const PasswordManagement = () => {
                     edit_user: id
                   }
                 })
+
               const InsertInUpdate = async newinsert => {
                 const result = await axioslogin.post('/PasswordManagementMain/insertDetail', newinsert)
                 return result.data
@@ -589,6 +596,8 @@ const PasswordManagement = () => {
                     psw_detail_ip_num: val.psw_detail_ip_num,
                     create_user: id
                   }
+
+
                 })
                 InsertInUpdate(newinsert)
                 UpdatePasswordDetail(patchdataDetail)
@@ -669,7 +678,8 @@ const PasswordManagement = () => {
     resetSoftware()
   }, [reset, resetSoftware])
   return (
-    <Box sx={{ flexGrow: 1, }}>
+    <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
+
       <Box sx={{
         height: '100%',
         borderRadius: 1,
@@ -721,10 +731,7 @@ const PasswordManagement = () => {
                 >
                   <Box sx={{ width: 400, }}>
                     <Input
-
-                      startDecorator={
-                        "Search Asset Number"
-                      }
+                      placeholder='Search Asset No. eg:- TMC/IT/000001'
                       endDecorator={
                         <Button variant="soft" color="neutral" >
                           < SearchIcon onClick={searchAssetNo} />
@@ -965,10 +972,9 @@ const PasswordManagement = () => {
               </Box>
               <Box sx={{ mt: 2 }}>
                 {addflag === 1 ? (
+
                   <Box>
-
                     <PswdDetailMastTable selectForEdit={selectForEdit} arry={arry} setArry={setArry} />
-
                   </Box>
                 ) : null}
               </Box>

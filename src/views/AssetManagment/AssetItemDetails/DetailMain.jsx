@@ -1,5 +1,4 @@
 import { Box, CssVarsProvider, Tab, TabList, TabPanel, Tabs } from '@mui/joy'
-import { Paper } from '@mui/material'
 import React, { memo, useCallback, useState } from 'react'
 import TextComponent from 'src/views/Components/TextComponent'
 import CloseIcon from '@mui/icons-material/Close'
@@ -29,11 +28,12 @@ const DetailMain = () => {
     history('/Home')
   }, [history])
 
-  const AddDetails = useCallback(params => {
-    const data = params.api.getSelectedRows()
-    setDetailArry(data[0])
-    setDetailflag(1)
-    setmodalOpwn(true)
+
+
+  const AddDetails = useCallback((data) => {
+    setDetailArry(data);
+    setDetailflag(1);
+    setmodalOpwn(true);
   }, [])
 
   const enterDetails = useCallback(val => {
@@ -42,7 +42,7 @@ const DetailMain = () => {
   }, [])
 
   return (
-    <Paper sx={{ borderRadius: 0, height: '90vh', width: '100%' }}>
+    <Box sx={{ height: '90vh', width: '100%' }}>
       {detailflag === 1 ? (
         <ItemDetailAdd
           detailArry={detailArry}
@@ -202,7 +202,7 @@ const DetailMain = () => {
           </CssVarsProvider>
         </Box>
       )}
-    </Paper>
+    </Box>
   )
 }
 

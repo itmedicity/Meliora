@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect } from 'react'
 import { AppHeaderDropdown } from './header/index'
 import { TiThMenuOutline } from 'react-icons/ti'
-
+import { IoMdTime } from "react-icons/io";
+import { BsFillPersonLinesFill } from "react-icons/bs";
 // import { Box } from '@mui/material'
 
 import AppBar from '@mui/material/AppBar'
@@ -15,41 +16,17 @@ import Dropdown from '@mui/joy/Dropdown'
 
 import { IoPersonOutline } from 'react-icons/io5'
 import LiveClock from 'src/views/Components/LiveClock'
+
 import NotificationBell from 'src/views/IncidentManagement/IncidentNotification/NotificationBell'
 import { initNotificationSound } from 'src/views/IncidentManagement/IncidentNotification/notificationSound'
+import { useSelector } from 'react-redux'
+
 
 const AppHeader = ({ collapsed, setCollapsed }) => {
-  // // Get login user emp_id
-  // const id = useSelector((state) => {
-  //   return state.LoginUserData.empid
-  // })
-  // useEffect(() => {
-  //   dispatch(getManualEmpList());
-  // }, [dispatch])
 
-  // const emparry = useSelector((state) => {
-  //   return state.setManualEmpList.ManualEmpListdata
-  // })
-
-  // const [Manualshow, setManualshow] = useState(0)
-
-  // useEffect(() => {
-  //   if (emparry.length !== 0) {
-  //     const resultarray = emparry.filter((val) => {
-  //       return val.emp_id_inch === id
-  //     })
-  //     if (resultarray.length !== 0) {
-  //       setManualshow(1)
-  //     } else {
-  //       setManualshow(0)
-  //     }
-  //   }
-  // }, [emparry, id])
-
-  // const TEXT_PRIMARY = 'var(--rose-pink-400)'
-  // const PRIMARY_LIGHT = 'var(--rose-pink-300)'
-  // const PRIMARY_MAIN = 'var(--rose-pink-200)'
-  // const PRIMARY_DARKER = 'var(--rose-pink-100)'
+  const empname = useSelector(state => {
+    return state.LoginUserData.empname
+  })
 
   useEffect(() => {
     const enableSound = () => {
@@ -97,8 +74,20 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
               <NotificationBell />
               <Box sx={{ display: 'flex', alignItems: 'end', flexDirection: 'column' }}>
                 <Box sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>Travancore Medicity</Box>
-                <LiveClock />
-                {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                  <BsFillPersonLinesFill />
+
+                  <Box sx={{ fontWeight: 600, fontSize: 12, fontFamily: 'var(--roboto-font)' }}>
+                    {empname
+                      ?.toLowerCase()
+                      .split(' ')
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ')}
+
+                  </Box>
+                  <IoMdTime />
+                  <LiveClock />
+                </Box>                {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
             
               <Dropdown>

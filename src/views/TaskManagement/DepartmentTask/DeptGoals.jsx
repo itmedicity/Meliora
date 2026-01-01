@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Input, Tooltip, Typography } from '@mui/joy'
+import { Box, Button, Chip, Tooltip, Typography } from '@mui/joy'
 import React, { memo, useCallback, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import EditIcon from '@mui/icons-material/Edit'
@@ -10,9 +10,11 @@ import TextComponent from 'src/views/Components/TextComponent'
 import { useQuery } from '@tanstack/react-query'
 import { CircularProgress } from '@mui/material'
 import TaskCountDownComponent from 'src/views/Components/TaskCountDownComponent'
-import SearchIcon from '@mui/icons-material/Search';
 import FormattedDate from 'src/views/Components/FormattedDate'
 import ReadmoreDescribtion from 'src/views/Components/ReadmoreDescribtion'
+import FloatingSearch from 'src/views/Components/FloatingSearch'
+import FloatingAddButton from 'src/views/Components/FloatingAddButton'
+
 
 const DeptGoals = () => {
 
@@ -82,7 +84,25 @@ const DeptGoals = () => {
   );
 
   return (
-    <Box sx={{ flex: 1 }}>
+    <Box sx={{ flex: 1, position: 'relative' }}>
+      <Box
+        sx={{
+          position: "absolute",
+          right: 20,
+          gap: 1,
+          display: "flex",
+          alignItems: "center",
+          zIndex: 1000
+        }}
+      >
+        <FloatingSearch
+          value={filterText}
+          setValue={setFilterText}
+        />
+
+        <FloatingAddButton onClick={CreateGoal} />
+      </Box>
+
       {addGoalFlag === 1 ? <GoalCreation open={addGoalModalOpen}
         setAddGoalFlag={setAddGoalFlag} setaddGoalModalOpen={setaddGoalModalOpen}
       /> : null}
@@ -91,25 +111,8 @@ const DeptGoals = () => {
         setgoalData={setgoalData}
       /> : null}
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, }}>
-        <Chip sx={{ px: 1, cursor: 'pointer', border: 1, borderColor: '#4B7BF5', '&:hover': { bgcolor: '#15B5B0' } }}
-          onClick={CreateGoal}> + Create new goal</Chip>
-        <Input
-          label="Search"
-          variant="outlined"
-          placeholder="Type here..."
-          autoComplete="off"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          startDecorator={
-            <Button variant="soft" color="neutral">
-              <SearchIcon /> Search
-            </Button>
-          }
-          sx={{ width: 300 }}
-        />
-      </Box>
-      <Box sx={{ px: 1, height: '67vh', overflow: 'auto', }}>
+
+      <Box sx={{ p: 1, height: '67vh', overflow: 'auto', }}>
         {isLoading ? (
           <CircularProgress thickness={4} />
         ) : isError ? (

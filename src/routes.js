@@ -286,6 +286,7 @@ const LevelMaster = React.lazy(() => import('./views/Master/ApprovalLevelMaster/
 const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
 const AllDeviceCredentialList = React.lazy(() => import('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
 
+
 // Incident Management ( rohith krishna)
 // const IncidentRegistration = React.lazy(() => import('./views/IncidentManagement/NewIncidentRegistration'));
 const IncidentDashboard = React.lazy(() => import('./views/IncidentManagement/IncidentDashboard'));
@@ -560,6 +561,10 @@ const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/Inc
 //   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
 
 // ]
+
+const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
+const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
+
 
 
 const routes = [
@@ -1087,6 +1092,7 @@ const routes = [
     name: 'AllDeviceCredentialList',
     element: <AllDeviceCredentialList />
   },
+
   { path: 'DcReport', name: 'DcReport', element: <DcReport /> },
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
@@ -1105,6 +1111,18 @@ const routes = [
   { path: 'subcategorymaster', name: 'Incident SubCategory Master', element: <IncidentSubCategoryMaster /> },
   { path: 'dcmapmaster', name: 'Data Collection Map Master', element: <IncDataCollectionEmpRightMap /> },
   // { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
+
+  {
+    path: 'StoreReport',
+    name: 'StoreReport',
+    element: <StoreReport />
+  },
+  {
+    path: 'StoreReportMaster',
+    name: 'StoreReportMaster',
+    element: <StoreReportMaster />
+  },
+
 
 ]
 

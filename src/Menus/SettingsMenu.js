@@ -8,6 +8,7 @@ export const co_setting_one = [
 export const co_setting_two = [
     { to: '/Home/DepartmentSection', name: 'Department Section', slno: 2 },
     { to: '/Home/EscalationTime', name: 'Escalation Time', slno: 82 },
+    { to: '/Home/StoreReportMaster', name: 'StoreReport Master', slno: 330 },
 ]
 
 export const co_setting_three = [

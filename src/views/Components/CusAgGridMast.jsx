@@ -1,9 +1,9 @@
-import { Paper } from '@mui/material'
-import { Box } from '@mui/system'
+
 import React, { Fragment, memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
+import { Box } from '@mui/joy'
 
 const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes, getRowStyle, loading }) => {
   const rowHeight = 30
@@ -30,32 +30,32 @@ const CusAgGridMast = ({ columnDefs, tableData, onSelectionChanged, columnTypes,
 
   return (
     <Fragment>
-      <Paper elevation={0}>
-        <Box
-          className="ag-theme-alpine ListItemScrol"
-          sx={{
-            height: 400,
-            width: '100%'
-          }}
-        >
-          {loading && <div>loading....</div>}
-          <AgGridReact
-            columnDefs={columnDefs}
-            rowData={tableData}
-            defaultColDef={defaultColDef}
-            rowHeight={rowHeight}
-            headerHeight={headerHeight}
-            rowDragManaged={true}
-            animateRows={true}
-            onGridReady={onGridReady}
-            rowSelection="multiple"
-            onSelectionChanged={onSelectionChanged}
-            rowStyle={rowStyle}
-            columnTypes={columnTypes}
-            getRowStyle={getRowStyle}
-          ></AgGridReact>
-        </Box>
-      </Paper>
+      {/* <Paper elevation={0}> */}
+      <Box
+        className="ag-theme-alpine ListItemScrol"
+        sx={{
+          height: 400,
+          width: '100%'
+        }}
+      >
+        {loading && <div>loading....</div>}
+        <AgGridReact
+          columnDefs={columnDefs}
+          rowData={tableData}
+          defaultColDef={defaultColDef}
+          rowHeight={rowHeight}
+          headerHeight={headerHeight}
+          rowDragManaged={true}
+          animateRows={true}
+          onGridReady={onGridReady}
+          rowSelection="multiple"
+          onSelectionChanged={onSelectionChanged}
+          rowStyle={rowStyle}
+          columnTypes={columnTypes}
+          getRowStyle={getRowStyle}
+        ></AgGridReact>
+      </Box>
+      {/* </Paper> */}
     </Fragment>
   )
 }
