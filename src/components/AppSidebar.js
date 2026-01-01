@@ -50,6 +50,8 @@ import IcuTransaction from 'src/Menus/IcuTransaction'
 // import { FaSyringe } from "react-icons/fa6";
 import { MdPattern } from "react-icons/md";
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
+import StoreTransaction from 'src/Menus/StoreTransaction'
+import { FaStore } from "react-icons/fa";
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -72,6 +74,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [deviceCredentials, setDeviceCredentials] = useState()
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
+  const [storeTransaction, setStoreTransaction] = useState(0)
+
 
   const {
     data: companyData,
@@ -258,7 +262,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       items: deviceCredentials,
       route: '/Home',
       icon: <MdPattern />
-    }
+    },
+    {
+      slno: 31,
+      name: 'Store Report',
+      items: storeTransaction,
+      route: '/Home',
+      icon: <FaStore color="var(--true-blue-800)" />
+    },
+
   ]
 
   useEffect(() => {
@@ -296,14 +308,15 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setAmsTransact(AmsTransact)
         const WorkOrders = WorkOrder.filter(val => menuSlnoAry.includes(val.men_slno))
         setWorkOrder(WorkOrders)
-
         const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setDeviceCredentials(DeviceCredentialTransact)
-
-
         setCount(1)
         const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setIcuTransact(IcuTrans)
+
+        const StoreTransact = StoreTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
+        setStoreTransaction(StoreTransact)
+
         // const LabResultTrans = LabResultTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         // setLabResultTransact(LabResultTrans)
       }
