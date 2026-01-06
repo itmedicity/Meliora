@@ -156,11 +156,13 @@ export const userManagement_two = [
     { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
     { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
     { to: '/Home/Authorization', name: 'Incharge Hod Authorization', slno: 204 },
+    
 ]
 export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
     { to: '/Home/UserCreation', name: 'User Creation', slno: 44 },
-    { to: '/Home/MelioraHodInchargeMaster', name: 'Meliora Hod Incharge Authorization', slno: 290 }
+    { to: '/Home/MelioraHodInchargeMaster', name: 'Meliora Hod Incharge Authorization', slno: 290 },
+    { to: '/Home/menumaster', name: 'Menu Master', slno: 336 },
 ]
 
 //TaskManagement Menu
