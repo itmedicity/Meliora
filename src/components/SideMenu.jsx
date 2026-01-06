@@ -66,8 +66,9 @@ const SideMenu = () => {
       icon: <GiMedicines size={35} color="var(--royal-purple-300)" />
     },
     {
+      men_slno: 283,
       path: '/Home/IncidentDashboard',
-      name: 'Incedent Form',
+      name: 'Incident Management',
       icon: <MdAppRegistration size={35} color="var(--royal-purple-300)" />
     },
     {
