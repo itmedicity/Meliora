@@ -565,7 +565,7 @@ const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/Inc
 const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
 const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
-
+const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
 
 
 const routes = [
@@ -1128,6 +1128,11 @@ const routes = [
     name: 'Menu Master',
     element: <MenuMaster />
   },
+  {
+    path: 'Inccommonview/:id',
+    name: 'Incident Common View',
+    element: <IncidentCommonView />
+  }
 
 
 ]

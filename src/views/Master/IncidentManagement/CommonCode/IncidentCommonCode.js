@@ -714,4 +714,24 @@ export const handleApi = async (method, url, data, successCode, refetch, reset) 
         infoNotify("Error while processing request");
         console.error(error);
     }
+
+};
+
+
+export const FetchDashBoardIncident = async (id) => {
+    if (!id) {
+        console.log("FetchDashBoardIncident called without a valid user id");
+        return [];
+    }
+    try {
+        const res = await axioslogin.post('/incidentMaster/getincidentcommon', { inc_register_slno: id });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
 };

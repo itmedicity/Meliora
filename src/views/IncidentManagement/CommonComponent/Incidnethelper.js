@@ -19,6 +19,9 @@ export const checkSacMatrix = (levelitems = []) => {
     return levelitems.some(item => Number(item?.inc_action_item_stauts) === 2);
 };
 
+export const checkFileUplod = (levelitems = []) => {
+    return levelitems.some(item => Number(item?.inc_action_item_stauts) === 3);
+};
 
 
 export const generateInitialComments = (incidentlevels = []) => {

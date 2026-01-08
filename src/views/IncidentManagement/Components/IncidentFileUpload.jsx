@@ -74,7 +74,7 @@ const IncidentFileUpload = ({ files = [], setFiles }) => {
                 }}
             >
                 <UploadFileIcon color="primary" />
-                <IncidentTextComponent text={" Click to upload or drag & drop files"} color={'#403d3dff'} size={12} weight={400} />
+                <IncidentTextComponent text={" Click to upload  files"} color={'#403d3dff'} size={12} weight={400} />
                 <input
                     ref={inputRef}
                     type="file"

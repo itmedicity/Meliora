@@ -30,13 +30,13 @@ const ApprovalPreview = ({
     };
 
     // 1. highest approved level
-    const highestApprovedLevel = Math.max(0, ...highlevelapprovals.map(h => h.level_no));
+    const highestApprovedLevel = Array.isArray(highlevelapprovals) && Math.max(0, ...highlevelapprovals.map(h => h.level_no));
 
     // Final level (fixes crash when incidentlevels = [])
-    const finalLevelNo =
+    const finalLevelNo = Array.isArray(incidentlevels) &&
         incidentlevels.length > 0
-            ? Math.max(...incidentlevels.map(l => l.level_no))
-            : 0;
+        ? Math.max(...incidentlevels.map(l => l.level_no))
+        : 0;
 
     // let approvalLevels = incidentlevels
     //     ?.filter(item => item?.level_status === 1)
@@ -87,7 +87,7 @@ const ApprovalPreview = ({
         ?.filter(Boolean);
 
 
-    let approvalLevels = approvedRejected.map(lvl => {
+    let approvalLevels = approvedRejected?.map(lvl => {
         const nextLevelExists = highlevelapprovals?.some(
             hl => hl.level_no === lvl.level_no + 1
         );
@@ -107,8 +107,8 @@ const ApprovalPreview = ({
     // Hiding if any level exist even after rejecting one
     if (rejectIndex !== -1) {
         approvalLevels = approvalLevels
-            .slice(0, rejectIndex + 1)
-            .map(lvl => ({ ...lvl, canEdit: false }));
+            ?.slice(0, rejectIndex + 1)
+            ?.map(lvl => ({ ...lvl, canEdit: false }));
     }
 
     const handleSlide = (index, value) => {
@@ -124,6 +124,8 @@ const ApprovalPreview = ({
         }
         return 40;
     };
+
+
 
     return (
 

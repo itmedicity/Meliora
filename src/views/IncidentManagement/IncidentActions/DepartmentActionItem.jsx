@@ -73,9 +73,9 @@ const DepartmentActionItem = ({
                         size="sm"
                         variant="plain"
                         onClick={() => toggleExpand(index)}
-                        sx={{ cursor: "pointer" }}
+
                     >
-                        <span>
+                        <span style={{ cursor: "pointer" }}>
                             {expanded.includes(index) ? (
                                 <FaRegEye size={18} />
                             ) : (

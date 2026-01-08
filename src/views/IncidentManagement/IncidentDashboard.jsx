@@ -27,6 +27,7 @@ import {
     useIncidentStats
 } from './CommonComponent/CommonFun';
 import IncidentFilterBox from './Components/IncidentFilterBox';
+import TableSkeleton from './SkeletonComponent/TableSkeleton';
 
 const IncidentDashboard = () => {
 
@@ -36,12 +37,12 @@ const IncidentDashboard = () => {
 
     const {
         data: DashboardIncidents,
-        // isLoading: loadingDashBoardData
+        isLoading: loadingDashBoardData
     } = useIncidentDashBoardData();
 
     const {
         data: CurrrentComapny,
-        // isLoading: loadingCurrentCompany
+        isLoading: loadingCurrentCompany
     } = useCurrentCompanyData();
 
 
@@ -309,12 +310,17 @@ const IncidentDashboard = () => {
                 display: 'flex',
                 mt: 1
             }}>
-                <DashBoardAgeGrid
-                    CurrrentComapny={CurrrentComapny}
-                    DashboardIncidents={DashboardIncidents}
-                    type={type}
-                    keyword={searchinput}
-                />
+                {
+                    (loadingDashBoardData || loadingCurrentCompany) ?
+                        <TableSkeleton rows={15} cols={7} /> :
+                        <DashBoardAgeGrid
+                            CurrrentComapny={CurrrentComapny}
+                            DashboardIncidents={DashboardIncidents}
+                            type={type}
+                            keyword={searchinput}
+                        />
+                }
+
             </Box>
 
         </Box>

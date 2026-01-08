@@ -5,14 +5,15 @@ import { FcApproval } from "react-icons/fc";
 import React, { memo, useCallback } from 'react';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { employeeNumber } from 'src/views/Constant/Constant'
-import { textAreaStyle } from '../CommonComponent/CommonCode';
+import { allowedFileType, textAreaStyle } from '../CommonComponent/CommonCode';
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { TiArrowForwardOutline } from "react-icons/ti";
 import { useSelector } from 'react-redux';
-import { handleRateLimitError } from '../CommonComponent/CommonFun';
+import { handleImageUpload, handleRateLimitError, useFileUpload } from '../CommonComponent/CommonFun';
 
 import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
+import FileUploadWithPreview from './FileUploadWithPreview';
 
 // const ApprovalButton = lazy(() => import('../ButtonComponent/ApprovalButton'));
 // const IncidentTextComponent = lazy(() => import('../Components/IncidentTextComponent'));
@@ -39,16 +40,18 @@ const InchargeApprovalDetail = ({
     sasdetial,
     levelNo,
     reviewEdit,
-    processing
+    processing,
+    isFileUploadExist,
+    IncidentFiles
 }) => {
-
-
 
     const { empsecid } = useSelector(state => {
         return state.LoginUserData
     });
 
     const { MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT } = formValues;
+
+    const { uploadedFiles, previewUrls, handleFileSelect, handleRemoveFile } = useFileUpload(allowedFileType);
 
     const completedActionSlnoList = Object.entries(actionReviews ?? {})
         .filter(([, value]) => typeof value === "string" && value.trim() !== "")
@@ -83,86 +86,131 @@ const InchargeApprovalDetail = ({
     // Handle Approvals 
     const handleApprovalandcancel = useCallback(
         async (slno, val) => {
-
-            if (
-                ![MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT].some(Boolean) && isFishBoneForthisLevel && val === 'A') {
-                warningNotify("Please Enter Any of the Above Before Submitting!");
-                return
-            }
-
-            if (Array.isArray(missingActions) && missingActions?.length > 0 && val === 'A') {
-                const names = missingActions.map(a => a?.inc_action_name).join(", ");
-                warningNotify(`Please complete all required actions: ${names}`);
-                return;
-            }
-
-            // if (typeof review === "string" && review.trim() === "") return warningNotify("Please Enter the Review");
-
-            if (IsSacMatrixExist && (incidentcategory === null || incidentsubcat === null)) return warningNotify("Please Select  Category!");
-
-            const fishbonedetail = {
-                inc_register_slno: item?.inc_register_slno,
-                inc_data_collection_slno: item?.inc_data_collection_slno,
-                dep_slno: empsecid,
-                inc_material: MATERIAL,
-                inc_machine: MACHINE,
-                inc_man: MAN,
-                inc_milieu: MILIEU,
-                inc_method: METHOD,
-                inc_measurement: MEASUREMENT,
-                inc_fba_status: 1,
-                create_user: employeeNumber(),
-            };
-
-            const dynamicLevelConfig = activeLevels?.reduce((acc, lvl) => {
-                acc[lvl?.level_name] = {
-                    url: "/incidentMaster/levelapproval",
-                    payload: {
-                        inc_current_level: levelNo,
-                        inc_current_level_review_state: val,
-                        inc_register_slno: slno,
-                        inc_all_approved: IsLastLevel ? 1 : 0,
-                        level_slno: lvl?.detail_slno,
-                        level_review_state: val,
-                        level_review: review,
-                        level_employee: employeeNumber(),
-                        level_review_status: 1,
-                        actionReviews: actionReviews,
-                        ...(IsSacMatrixExist && {
-                            inc_category: incidentcategory,
-                            inc_subcategory: incidentsubcat,
-                            inc_sacmatrix_detail: JSON.stringify(sasdetial)
-                        })
-                    },
-                };
-                return acc;
-            }, {});
-
-            //define an object with INCHARGE and HOD, then immediately use [level] to select the matching one.
-            const config = {
-                ...dynamicLevelConfig,
-            }[level];
-
-            setApprovalLoading(true);
-
-            if (!config) {
-                warningNotify("Invalid approval level");
-                setApprovalLoading(false);
-                return;
-            }
-
             try {
+                setApprovalLoading(true);
+             
+                const hasAnyFishboneValue = [
+                    MATERIAL,
+                    MACHINE,
+                    MAN,
+                    MILIEU,
+                    METHOD,
+                    MEASUREMENT,
+                ].some(v => typeof v === "string" && v.trim() !== "");
+
+                if (!hasAnyFishboneValue && isFishBoneForthisLevel && val === "A") {
+                    warningNotify("Please Enter Any of the Above Before Submitting!");
+                    return;
+                }
+
+                if (Array.isArray(missingActions) && missingActions?.length > 0 && val === 'A') {
+                    const names = missingActions.map(a => a?.inc_action_name).join(", ");
+                    warningNotify(`Please complete all required actions: ${names}`);
+                    return;
+                }
+
+                // if (typeof review === "string" && review.trim() === "") return warningNotify("Please Enter the Review");
+
+                if (IsSacMatrixExist && (incidentcategory === null || incidentsubcat === null)) return warningNotify("Please Select  Category!");
+
+                const fishbonedetail = {
+                    inc_register_slno: item?.inc_register_slno,
+                    inc_data_collection_slno: item?.inc_data_collection_slno,
+                    dep_slno: empsecid,
+                    inc_material: MATERIAL,
+                    inc_machine: MACHINE,
+                    inc_man: MAN,
+                    inc_milieu: MILIEU,
+                    inc_method: METHOD,
+                    inc_measurement: MEASUREMENT,
+                    inc_fba_status: 1,
+                    create_user: employeeNumber(),
+                };
+
+                const dynamicLevelConfig = activeLevels?.reduce((acc, lvl) => {
+                    acc[lvl?.level_name] = {
+                        url: "/incidentMaster/levelapproval",
+                        payload: {
+                            inc_current_level: levelNo,
+                            inc_current_level_review_state: val,
+                            inc_register_slno: slno,
+                            inc_all_approved: IsLastLevel ? 1 : 0,
+                            level_slno: lvl?.detail_slno,
+                            level_review_state: val,
+                            level_review: review,
+                            level_employee: employeeNumber(),
+                            level_review_status: 1,
+                            actionReviews: actionReviews,
+                            ...(Array.isArray(IncidentFiles) &&
+                                IncidentFiles.length === 0 &&
+                                uploadedFiles?.length > 0 && {
+                                file_status: 1
+                            }),
+                            ...(IsSacMatrixExist && {
+                                inc_category: incidentcategory,
+                                inc_subcategory: incidentsubcat,
+                                inc_sacmatrix_detail: JSON.stringify(sasdetial)
+                            })
+                        },
+                    };
+                    return acc;
+                }, {});
+
+                //define an object with INCHARGE and HOD, then immediately use [level] to select the matching one.
+                const config = {
+                    ...dynamicLevelConfig,
+                }[level];
+
+                if (!config) {
+                    warningNotify("Invalid approval level");
+                    return;
+                }
+
+
                 const { data } = await axioslogin.post(config.url, config.payload);
                 const { success, message } = data ?? {};
+
+                // Step 2: If there are files, upload them separately
+                if (success === 2 && uploadedFiles?.length > 0) {
+                    const formData = new FormData()
+                    formData.append('id', item?.inc_register_slno)
+
+                    if (Array.isArray(IncidentFiles) && IncidentFiles.length > 0) {
+                        const keptFiles = IncidentFiles.map(file => ({
+                            imageName: file.imageName,
+                            url: file.url
+                        }));
+
+                        formData.append("keptFiles", JSON.stringify(keptFiles));
+                    }
+
+                    for (const file of uploadedFiles) {
+                        if (file.type.startsWith('image')) {
+                            const compressedFile = await handleImageUpload(file)
+                            formData.append('files', compressedFile, compressedFile.name)
+                        } else {
+                            formData.append('files', file, file.name)
+                        }
+                    }
+                    const uploadResult = await axioslogin.post('/incidentMaster/uploadFiles', formData, {
+                        headers: { "Content-Type": "multipart/form-data" }
+                    });
+
+                    if (uploadResult.data.success !== 1) {
+                        warningNotify(uploadResult.data.message || "File upload failed");
+                        throw new Error("File upload failed");
+                    }
+                }
+                // Step 2: If there are files, upload them separately
                 if (isFishBoneForthisLevel && success === 2) {
                     const { data: fishRes } = await axioslogin.post("/incidentMaster/insertfishbone", fishbonedetail);
                     if (fishRes?.success === 2) {
                         succesNotify(fishRes.message);
-                        setOpenModal(false)
                     } else {
                         warningNotify(fishRes?.message);
                     }
                 }
+
                 if (success === 2) {
                     succesNotify(message);
                     setOpenModal(false);
@@ -170,6 +218,7 @@ const InchargeApprovalDetail = ({
                 } else {
                     warningNotify(message);
                 }
+
             } catch (error) {
                 if (handleRateLimitError(error)) return [];
                 warningNotify(error?.message ?? "Something went wrong");
@@ -192,8 +241,20 @@ const InchargeApprovalDetail = ({
             IsSacMatrixExist,
             levelNo,
             IsLastLevel,
-            actionReviews
+            actionReviews,
+            uploadedFiles,
+            item,
+            level,
+            review,
+            isFishBoneForthisLevel,
+            activeLevels,
+            fetchAgain,
+            employeeNumber,
+            handleImageUpload,
+            handleRateLimitError,
+            IncidentFiles
         ]
+
     );
 
 
@@ -261,6 +322,20 @@ const InchargeApprovalDetail = ({
                         e.target.style.border = '1.5px solid #d8dde2ff';
                     }}
                 />
+
+
+                {
+                    (item?.inc_current_level < levelNo &&
+                        (item?.inc_current_level_review_state === 'A' ||
+                            item?.inc_current_level_review_state === null)) &&
+                    isFileUploadExist &&
+                    <FileUploadWithPreview
+                        uploadedFiles={uploadedFiles}
+                        previewUrls={previewUrls}
+                        handleFileSelect={handleFileSelect}
+                        handleRemoveFile={handleRemoveFile}
+                    />
+                }
 
             </Box>
 
