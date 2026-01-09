@@ -18,6 +18,7 @@ import {
 import {
     checkActionRequestExist,
     checkDataCollection,
+    checkFileUplod,
     checkFishboneForLevel,
     checkSacMatrix,
     checkUpperLevelApprovedForDDC,
@@ -27,6 +28,7 @@ import {
 } from '../CommonComponent/Incidnethelper';
 import IncidentFlag from '../Components/IncidentFlag';
 import RcaDetailCard from '../Components/RcaDetailCard';
+import ComonApprovalPreview from '../IncidentCommonView/ComonApprovalPreview';
 
 
 const CustomeIncidentLoading = lazy(() => import('../Components/CustomeIncidentLoading'));
@@ -110,7 +112,6 @@ const IncidentViewModal = ({
         handleImageClick(file, setSelectedImage, setOpenViewModalModal)
     }, []); // common export for image viewing
 
-
     const {
         data: departmentreqactions,
         isLoading: loadingDepartmentaction
@@ -120,6 +121,7 @@ const IncidentViewModal = ({
         data: involvedDepartment,
         isLoading: loadinginvolveddepartment
     } = useInvolvedDepartments(items?.inc_register_slno);
+
 
     const { data: incidentaction } = useIncidentActionsMaster();
 
@@ -140,6 +142,7 @@ const IncidentViewModal = ({
     const isDataCollectionRequest = checkDataCollection(levelitems);
     const isActionRequestExist = checkActionRequestExist(levelitems);
     const IsSacMatrixExist = checkSacMatrix(levelitems);
+    const isFileUploadExist = checkFileUplod(levelitems);
     const FinalLevelAction = getFinalLevelActions(levelitems, level, levelactionreview);
     const CheckIsUpperLevelApprovedForDDC = checkUpperLevelApprovedForDDC(stableHighLevelApprovals, levelNo);
 
@@ -274,7 +277,7 @@ const IncidentViewModal = ({
                 code={`${CompanyName}${CurrentYear}/${items?.inc_register_slno}`}
                 date={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")}
             />
-
+            {approvalprocessing && <CustomeIncidentLoading text={"Submitting Please Wait...!"} />}
             <Box
                 sx={{
                     width: '60vw',
@@ -564,7 +567,8 @@ const IncidentViewModal = ({
 
                     {/* Review Section */}
                     {
-                        !(['DDC', 'DAC'].includes(level)) && stableHighLevelApprovals?.length > 0 &&
+                        !(['DDC', 'DAC', 'REGISTERD USER', 'COMMON'].includes(level)) &&
+                        stableHighLevelApprovals?.length > 0 &&
                         <ApprovalPreview
                             incidentlevels={FinalIncidentLevels}
                             levelNo={levelNo}
@@ -575,7 +579,12 @@ const IncidentViewModal = ({
                             highlevelapprovals={stableHighLevelApprovals}
                         />
                     }
-
+                    {
+                        level === 'COMMON' &&
+                        <ComonApprovalPreview
+                            levels={level}
+                            highlevelapprovals={stableHighLevelApprovals} />
+                    }
                     {/* Approval Preview */}
                     {
                         IsCurrentLevelActionRequestAccepted &&
@@ -655,7 +664,11 @@ const IncidentViewModal = ({
                                         review={actionReviews[action?.inc_action_slno] || ""}
                                         setReview={(val) => handleActionReviewChange(action?.inc_action_slno, val)}
                                     />
-                                ))}
+                                ))
+                            }
+                            {/* custome File upload */}
+
+
 
                         </>
                     }
@@ -691,13 +704,6 @@ const IncidentViewModal = ({
 
                     <Box sx={{ position: 'relative' }}>
                         {
-                            approvalprocessing &&
-                            <CustomeIncidentLoading
-                                text={`Submitting ${level} Review`}
-                            />
-                        }
-
-                        {
                             IsCurrentLevelActionRequestAccepted &&
                             IsCurrentLevelDataCollectionRequesetedAccepted && (
                                 edit || (
@@ -732,9 +738,12 @@ const IncidentViewModal = ({
                                     IsSacMatrixExist={IsSacMatrixExist}
                                     levelNo={levelNo}
                                     reviewEdit={editItem}
+                                    isFileUploadExist={isFileUploadExist}
+                                    IncidentFiles={IncidentFiles}
                                 />
                             )}
                     </Box>
+
 
                     {/* Modal component For image Preview*/}
                     <ImagePreviewModal

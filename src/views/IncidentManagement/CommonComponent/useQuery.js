@@ -5,6 +5,7 @@ import {
     fetchAllIncidents,
     fetchAllInvolvedDep,
     fetchAllInvolvedEmployeeDep,
+    FetchDashBoardIncident,
     getAllCommonDataCollectionDeparment,
     getAllDeparmentActions,
     getAllIncidentActionMastDetail,
@@ -270,6 +271,17 @@ export const useEmployeeInvolvedDepartments = (incRegisterSlno, empID) => {
         queryKey: ['allempinvdep', incRegisterSlno, empID],
         queryFn: () => fetchAllInvolvedEmployeeDep(incRegisterSlno, empID),
         enabled: !!incRegisterSlno && !!empID,
+    });
+};
+
+
+
+export const useIncidentDetailDashBoard = (id) => {
+    return useQuery({
+        queryKey: ['alldashboardincident', id],
+        queryFn: () => FetchDashBoardIncident(id),
+        enabled: !!id,
+        staleTime: Infinity,
     });
 };
 // fetch current employee type (Clinical and Non Clinical)

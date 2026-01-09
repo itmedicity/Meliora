@@ -81,7 +81,7 @@ const DepartmentCard = ({
                         onClick={() => toggleExpand(index)}
                         sx={{ cursor: 'pointer' }}
                     >
-                        <span>
+                        <span style={{cursor:'pointer'}}> 
                             {expanded.includes(index)
                                 ? <FaRegEye size={18} />
                                 : <PiEyeClosedDuotone size={18} />}

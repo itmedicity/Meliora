@@ -60,7 +60,7 @@ const IncidentDataCollectionPreview = ({ involvedDepartment, loading }) => {
                             px: 2,
                         }}>
                         <IncidentTextComponent
-                            text="DEPARTMENT RCA DETIALS"
+                            text="DEPARTMENT DATA COLLECTION DETIALS"
                             size={14}
                             weight={600}
                             color="White"
