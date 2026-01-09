@@ -277,7 +277,7 @@ const IncidentViewModal = ({
                 code={`${CompanyName}${CurrentYear}/${items?.inc_register_slno}`}
                 date={formatDateTime(items?.create_date, "dd/MM/yyyy hh:mm:ss a")}
             />
-
+            {approvalprocessing && <CustomeIncidentLoading text={"Submitting Please Wait...!"} />}
             <Box
                 sx={{
                     width: '60vw',
@@ -298,7 +298,7 @@ const IncidentViewModal = ({
                 {/* Wrap all lazy components inside Suspense */}
                 <Suspense fallback={<CustomeIncidentLoading text={"Loading Components"} />}>
                     {loading && <CustomeIncidentLoading text={"Fetching Files and Details"} />}
-                    {approvalprocessing && <CustomeIncidentLoading text={"Submitting Please Wait...!"} />}
+
                     {/* HEADER */}
                     <Box sx={{ mb: 2, overflow: "hidden" }}>
                         <RegisterdUserCard
