@@ -564,14 +564,11 @@ const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/Inc
 
 const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
 const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
-<<<<<<< HEAD
 const WorkOrderList = React.lazy(() => import('./views/WorkOrder/WorkOrderList'))
 const VendorMaster = React.lazy(() => import('./views/Master/VendorMaster/VendorMaster'))
 const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry/WorkOrderEntry'))
-=======
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
->>>>>>> ab52074da605cff8e8769b5f28d7dcebf9d85542
 
 
 const routes = [
@@ -1130,12 +1127,11 @@ const routes = [
     element: <StoreReportMaster />
   },
   {
-<<<<<<< HEAD
     path: 'WorkOrderList',
     name: 'WorkOrderList',
     element: <WorkOrderList />
   },
-=======
+  {
     path: 'menumaster',
     name: 'Menu Master',
     element: <MenuMaster />
@@ -1144,8 +1140,7 @@ const routes = [
     path: 'Inccommonview/:id',
     name: 'Incident Common View',
     element: <IncidentCommonView />
-  }
->>>>>>> ab52074da605cff8e8769b5f28d7dcebf9d85542
+  },
 
   {
     path: 'VendorMaster',
