@@ -175,12 +175,26 @@ export const ams_one = [
     { to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }
 ]
 
-export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
+
+
+
+// work order
+
+export const Work_one = [
+    { to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 },
+    { to: '/Home/VendorMaster', name: 'Vendor Master', slno: 336 },
+]
 
 export const Work_two = [
 
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
 ]
+
+
+
+
+
+
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },

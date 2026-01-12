@@ -287,6 +287,9 @@ const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
 const AllDeviceCredentialList = React.lazy(() => import('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
 const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
 const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
+const WorkOrderList = React.lazy(() => import('./views/WorkOrder/WorkOrderList'))
+const VendorMaster = React.lazy(() => import('./views/Master/VendorMaster/VendorMaster'))
+const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry/WorkOrderEntry'))
 
 
 const routes = [
@@ -826,8 +829,22 @@ const routes = [
     name: 'StoreReportMaster',
     element: <StoreReportMaster />
   },
+  {
+    path: 'WorkOrderList',
+    name: 'WorkOrderList',
+    element: <WorkOrderList />
+  },
 
-
+  {
+    path: 'VendorMaster',
+    name: 'VendorMaster',
+    element: <VendorMaster />
+  },
+  {
+    path: 'WorkOrderEntry',
+    name: 'WorkOrderEntry',
+    element: <WorkOrderEntry />
+  },
 ]
 
 export default routes

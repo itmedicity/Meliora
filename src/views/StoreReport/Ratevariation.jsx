@@ -56,6 +56,7 @@ const Ratevariation = ({ setActiveComponent }) => {
         { fontWeight: 500, key: "variation_amount", label: "Variation_Amount", width: 200, align: "right" },
         { fontWeight: 500, key: "grn_rate", label: "GRN Rate", width: 100, align: "right" },
         { fontWeight: 500, key: "grn_selling_rate", label: "GRN Selling Rate", width: 135, align: "right" },
+        { fontWeight: 500, key: "po_mrp", label: "Po Mrp", width: 135, align: "right" },
         { fontWeight: 500, key: "grn_dis", label: "GRN Dis%", width: 110, align: "center" },
         { fontWeight: 500, key: "rate", label: "PO Rate", width: 90, align: "right" },
         { fontWeight: 500, key: "disc", label: "Disc %", width: 100, align: "center" },
@@ -177,6 +178,7 @@ const Ratevariation = ({ setActiveComponent }) => {
             item_name: item["item_name"],
             grn_rate: item["grn_rate"],
             grn_selling_rate: item["grn_selling_rate"],
+            po_mrp: item["po_mrp"],
             grn_dis: item["grn_dis"],
             rate: item["rate"],
             dis_percent: item["disc"],
@@ -474,7 +476,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                         );
                                                     }
                                                     if (["grn_date"].includes(col.key)) value = formatDateTime(value);
-                                                    if (["grn_selling_rate", "grn_dis", "rate", "rate_variation"]
+                                                    if (["grn_selling_rate", "grn_dis", "rate", "rate_variation", "po_mrp"]
                                                         .includes(col.key))
                                                         value = Number(value).toFixed(4);
                                                     if (["quo_margin", "purchase_margin", "po_margin"].includes(col.key)) {
