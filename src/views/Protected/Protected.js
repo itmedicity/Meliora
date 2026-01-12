@@ -15,22 +15,18 @@ const Protected = () => {
   const [validUser, setValidUser] = useState({})
   const [validLogin, setValidLogin] = useState(false)
   const [loading, setLoading] = useState(true)
-
+  
   const validteToken = async () => {
     try {
 
       const authSlno = localStorage.getItem('app_auth')
       const authID = atob(JSON.parse(authSlno)?.empid)
-      // console.log(authID)
 
       const checkAccessToken = await axioslogin.get(`/validateAuthentication/getEmployeeAuthentication/${authID}`, {
         withCredentials: true
       })
 
       const { success, data } = checkAccessToken.data
-
-      // const {em_name,emp_no,em_id,sec_name,em_dept_section,em_department,dept_name,app_token,login,desg_name} = data
-      // console.log(checkAccessToken.data)
 
       if (success === 2) {
         setValidUser(data)

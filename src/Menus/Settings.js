@@ -29,7 +29,10 @@ import {
   taskManagement_one,
   ams_one,
   Work_one,
-  Work_two
+  Work_two,
+  Inc_One,
+  Inc_Two,
+  Inc_Three
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -73,6 +76,9 @@ const Settings = () => {
   const [setWork_secone, setWork_secOne] = useState()
   const [setWork_secTwo, setWork_sectwo] = useState()
   const [ams_secone, setams_secOne] = useState()
+  const [inc_one, setInc_one] = useState()
+  const [inc_two, setInc_Two] = useState()
+  const [inc_three, setInc_Three] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -183,6 +189,15 @@ const Settings = () => {
       setWork_secOne(work_setting_section_one)
       const work_setting_section_two = Work_two.filter(val => menuSlnoArray.includes(val.slno))
       setWork_sectwo(work_setting_section_two)
+
+      //incident managements
+      const incident_setting_one = Inc_One.filter(val => menuSlnoArray.includes(val.slno))
+      setInc_one(incident_setting_one)
+      const incident_setting_two = Inc_Two.filter(val => menuSlnoArray.includes(val.slno))
+      setInc_Two(incident_setting_two)
+      const incident_setting_three = Inc_Three.filter(val => menuSlnoArray.includes(val.slno))
+      setInc_Three(incident_setting_three)
+
     })
   }, [count])
 
@@ -681,6 +696,7 @@ const Settings = () => {
           </Box>
         </Box>
       </CardContent>
+
       <CardHeader
         title={'User Settings'}
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
@@ -735,6 +751,60 @@ const Settings = () => {
           </Box>
         </Box>
       </CardContent>
+
+      {/* Incident Management */}
+
+      <CardHeader
+        title={'Incident Management'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {inc_one &&
+              inc_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {inc_two &&
+              inc_two.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {inc_three &&
+              inc_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+
+        </Box>
+      </CardContent>
+
+
     </Card>
   )
 }
