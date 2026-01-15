@@ -8,10 +8,10 @@ import { Virtuoso } from 'react-virtuoso'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getRateVariationComments, getStoreUserRights, getVarationData } from './CommonApiFun'
 import { useSelector } from 'react-redux'
-import { axioslogin } from '../Axios/Axios'
-import { succesNotify, warningNotify } from '../Common/CommonCode'
 import CommentModalAction from './CommentModalAction'
 import { RiFileExcel2Fill } from 'react-icons/ri'
+import { axioslogin } from '../Axios/Axios'
+import { succesNotify, warningNotify } from '../Common/CommonCode'
 
 const Ratevariation = ({ setActiveComponent }) => {
 
@@ -28,6 +28,9 @@ const Ratevariation = ({ setActiveComponent }) => {
 
     const empdept = useSelector(state => state.LoginUserData.empdeptname)
 
+    const empdept_id = useSelector(state => state.LoginUserData?.empdept)
+
+
     const queryClient = useQueryClient()
 
     const OncloseModalFun = useCallback(() => {
@@ -41,7 +44,7 @@ const Ratevariation = ({ setActiveComponent }) => {
         { fontWeight: 350, key: "sl_no", label: "Sl No", width: 100, align: "center" },
         { fontWeight: 350, key: "comments", label: "Status", width: 250, align: "center" },
         { fontWeight: 350, key: "grn_no", label: "GRN No", width: 110, align: "center" },
-        { fontWeight: 350, key: "supplier_name", label: "Supplier name", width: 300, align: "center" },
+        { fontWeight: 350, key: "supplier_name", label: "Supplier name", width: 300, align: "left" },
         { fontWeight: 350, key: "grn_date", label: "GRN Date", width: showExtraCols ? 115 : 180, align: "center" },
         { fontWeight: 350, key: "item_name", label: "Item Name", width: showExtraCols ? 220 : 400, align: "left" },
         { fontWeight: 500, key: "date_diff", label: "Lead Time", width: 120, align: "center" },
@@ -63,8 +66,13 @@ const Ratevariation = ({ setActiveComponent }) => {
         { fontWeight: 500, key: "grn_variation_qty", label: "GRN Variation Qty", width: 135, align: "center" },
         { fontWeight: 500, key: "grn_variation_free", label: "GRN Variation Free", width: 130, align: "center" },
         { fontWeight: 500, key: "disc_variation", label: "Disc Variation", width: 120, align: "center" },
-
     ];
+
+    const viewRights = [
+        { slno: 1, name: "ACCOUNTS", deptid: 15 },
+        { slno: 2, name: "PURCHASE", deptid: 26 },
+        { slno: 3, name: "ADMINISTRATION", deptid: 30 }
+    ]
 
     const columns = useMemo(() => {
         return showExtraCols ? [...mainColumns, ...extraColumns] : mainColumns;
@@ -76,11 +84,10 @@ const Ratevariation = ({ setActiveComponent }) => {
     }, [setActiveComponent])
 
     const { data: RatevarationData } = useQuery({
-        queryKey: 'getdefaultdata',
+        queryKey: ['getdefaultdata'],
         queryFn: () => getVarationData(),
         staleTime: Infinity
     })
-
     const slno = useMemo(() => selectedRow?.slno, [selectedRow]);
 
     const { data: RateVariationComments } = useQuery({
@@ -90,7 +97,6 @@ const Ratevariation = ({ setActiveComponent }) => {
         enabled: !!slno
     })
 
-
     //rights
     const { data: fetchStoreUserRights } = useQuery({
         queryKey: ["getStoreRights", loginId],
@@ -98,17 +104,20 @@ const Ratevariation = ({ setActiveComponent }) => {
         enabled: !!loginId,
         staleTime: Infinity
     });
+
     /* ================= ACTION CONFIG ================= */
     const actionRightsMap = [
         { id: 7, label: "Hold Payment", value: "Hold Payment" },
         { id: 8, label: "New Quot (Rec)", value: "New Quot (Rec)" },
-        { id: 9, label: "Payment Proceed", value: "Payment Proceed" },
+        { id: 9, label: "Proceed Payment Against PO", value: "Proceed Payment Against PO" },
         { id: 10, label: "Hold Purchase", value: "Hold Purchase" },
         { id: 11, label: "Resolved Status", value: "Resolved" },// handled separately
-        { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" }
+        { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" },
+        { id: 13, label: "Proceed Payment Against Bill", value: "Proceed Payment Against Bill" }
     ];
 
     /* ================= FILTERED RIGHTS ================= */
+
     const allowedActionButtons = actionRightsMap.filter(
         action =>
             fetchStoreUserRights?.includes(action.id) &&
@@ -116,9 +125,7 @@ const Ratevariation = ({ setActiveComponent }) => {
     );
 
     const hasResolvedRight = fetchStoreUserRights?.includes(11);
-    const EdMdRights = fetchStoreUserRights?.includes(12);
-
-
+    // const EdMdRights = fetchStoreUserRights?.includes(12);
 
     const handleOpenComment = useCallback((row) => {
         setSelectedRow(row);
@@ -126,6 +133,44 @@ const Ratevariation = ({ setActiveComponent }) => {
     }, []);
 
     const handleSaveComment = useCallback(async () => {
+
+        let accounts_status = Number(selectedRow?.accounts_status ?? 1);
+        let purchase_status = Number(selectedRow?.purchase_status ?? 1);
+        let ed_md_status = Number(selectedRow?.ed_md_status ?? 1);
+
+        const hasAction =
+            selectedAction !== "" || checkResolved !== null;
+
+        /* ------------------------------------
+           CASE 1: NO action & NO resolved
+           → Logged dept status = 1
+        ------------------------------------ */
+        if (!hasAction) {
+            if (empdept_id === 15) accounts_status = 1;
+            if (empdept_id === 26) purchase_status = 1;
+            if (empdept_id === 30) ed_md_status = 1;
+        }
+
+        /* ------------------------------------
+           CASE 2: Action OR Resolved selected
+           → Move to NEXT dept
+        ------------------------------------ */
+        else {
+            accounts_status = 1;
+            purchase_status = 1;
+            ed_md_status = 1;
+
+            if (empdept_id === 15) {
+                purchase_status = 0;
+            }
+            else if (empdept_id === 26) {
+                ed_md_status = 0;
+            }
+            else if (empdept_id === 30) {
+                accounts_status = 0;
+            }
+        }
+
         const postComment = {
             grn_no: selectedRow?.grn_no,
             item_name: selectedRow?.item_name,
@@ -133,14 +178,19 @@ const Ratevariation = ({ setActiveComponent }) => {
             Cmt_Dept: empdept,
             rate_variation_slno: selectedRow?.slno,
             loginId: loginId,
-            selectedAction: selectedAction !== '' ? selectedAction : checkResolved,
-            checkResolved: checkResolved !== null ? 1 : 0
-        }
+            selectedAction: selectedAction !== "" ? selectedAction : checkResolved,
+            checkResolved: checkResolved !== null ? 1 : 0,
+            accounts_status,
+            purchase_status,
+            ed_md_status
+        };
+
         const result = await axioslogin.post("RateVariationReport/insertComment", postComment)
         const { success, message } = result.data;
         if (success === 1) {
             succesNotify(message)
-            queryClient.invalidateQueries('getComments');
+            queryClient.invalidateQueries(['getComments'])
+            queryClient.invalidateQueries(['getdefaultdata'])
             setCommentText("")
             setSelectedAction("")
             setOpenCommentModal(false)
@@ -152,19 +202,46 @@ const Ratevariation = ({ setActiveComponent }) => {
             setOpenCommentModal(false)
             setCheckResolved(null)
         }
-    }, [selectedRow, commentText, empdept, loginId, queryClient, selectedAction, checkResolved, setCheckResolved])
+    }, [
+        selectedRow,
+        commentText,
+        empdept,
+        loginId,
+        selectedAction,
+        checkResolved,
+        empdept_id,
+        setCommentText,
+        setSelectedAction,
+        setOpenCommentModal,
+        setCheckResolved
+    ]);
 
     const filtered = useMemo(() => {
-        let result = RatevarationData;
+        let result = RatevarationData ?? [];
+
+        if (empdept_id === 15) {
+            result = result.filter(val => val.account_status === 0);
+        }
+        else if (empdept_id === 26) {
+            result = result.filter(val => val.purchase_status === 0);
+        }
+        else if (empdept_id === 30) {
+            result = result.filter(val => val.ed_md_status === 0);
+        }
+
         if (searchValue.trim()) {
             if (selected === "1") {
-                result = result?.filter(val =>
-                    val["grn_no"]?.toString() === searchValue
+                result = result.filter(
+                    val => val.grn_no?.toString() === searchValue
                 );
             }
         }
+
         return result;
-    }, [searchValue, selected, RatevarationData]);
+    }, [searchValue, selected, RatevarationData, empdept_id]);
+
+
+
 
 
     const onExportClick = () => {
@@ -257,7 +334,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                     </Box>
 
                     <Box sx={{ overflowX: "auto", width: "100%", }}>
-                        <Box sx={{ minWidth: showExtraCols ? '2500px' : '1500px' }}>
+                        <Box sx={{ minWidth: showExtraCols ? '2650px' : '1500px' }}>
                             <Box
                                 display="flex"
                                 sx={{ borderBottom: "1px solid grey", background: "#F0F0F0" }}
@@ -571,8 +648,6 @@ const Ratevariation = ({ setActiveComponent }) => {
                                         );
                                     }}
                                 />
-
-
                             </Box>
                         </Box>
                     </Box>
@@ -609,11 +684,14 @@ const Ratevariation = ({ setActiveComponent }) => {
                         loginId={loginId}
                         allowedActionButtons={allowedActionButtons}
                         hasResolvedRight={hasResolvedRight}
-                        EdMdRights={EdMdRights}
+                        // EdMdRights={EdMdRights}
+                        RatevarationData={RatevarationData}
+                        empdept_id={empdept_id}
+                        viewRights={viewRights}
+
                     />
                 </Paper>
             </CardCloseOnly>
-            {/* } */}
         </Fragment >
     )
 }
