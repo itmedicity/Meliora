@@ -13,6 +13,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import { Typography } from '@mui/material'
 import AddIcon from "@mui/icons-material/Add"
 import MeterialDetailsModal from './WorkOrderModals/MeterialDetailsModal'
+import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
 
 const emptyMaterial = {
     workOrderDesc: '',
@@ -79,7 +80,21 @@ const WorkOrderMaterialDetails = ({
     }, [])
 
     return (
-        <Card sx={{ p: 3, borderRadius: '2xl', boxShadow: 'xl' }}>
+        <Card
+            sx={{
+                p: 3,
+                borderRadius: '2xl',
+                boxShadow: 'xl',
+                background:
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
+                animation: 'fadeUp 0.4s ease',
+                '@keyframes fadeUp': {
+                    from: { opacity: 0, transform: 'translateY(10px)' },
+                    to: { opacity: 1, transform: 'translateY(0)' }
+                }
+            }}
+        >
 
             {openModal && (
                 <MeterialDetailsModal
@@ -97,10 +112,15 @@ const WorkOrderMaterialDetails = ({
             )}
 
             {/* HEADER */}
+
             <Box display="flex" justifyContent="space-between" mb={2}>
-                <Typography variant="h6" fontWeight={700}>
-                    Work Order – Material Details
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <Inventory2RoundedIcon sx={{ color: '#4f46e5' }} />
+                    <Typography level="h4" fontWeight={800}>
+                        Work Order  Material Details
+                    </Typography>
+
+                </Box>
 
                 <Box
                     onClick={handleAdd}

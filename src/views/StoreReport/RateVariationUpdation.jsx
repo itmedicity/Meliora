@@ -86,15 +86,12 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
         });
     };
 
-
-
     const FetchData = useCallback(async () => {
         const result = await axiosellider.post('/storeReport/getGrmDetails', filterParams)
         const { success, data } = result.data
         if (success === 2) {
-            const filteredData = data
-                ?.filter(val => val["RATE VARIATION"] > 0)
-                ?.map(val => ({
+            const filteredData = Array.isArray(data)
+                ? data.map(val => ({
                     ...val,
                     MARGIN_DIFF:
                         Number(val["QUO MARGIN %"]) === 0
@@ -102,7 +99,9 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                             : Number(val["QUO MARGIN %"]) - Number(val["PURCHASE MARGIN %"]),
                     VARI_AMT:
                         Number(val["GRN QTY"]) * Number(val["RATE VARIATION"])
-                }));
+                }))
+                : [];
+
             setGrmData(filteredData);
         } else {
             setGrmData([])

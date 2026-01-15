@@ -9,15 +9,18 @@ import { useQuery } from '@tanstack/react-query'
 import CommonDateFeilds from './StoreCommonCode/CommonDateFeilds'
 import { ratevariationResolved } from './CommonApiFun'
 import { format } from 'date-fns'
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from '@mui/icons-material/Refresh'
 import { RiFileExcel2Fill } from 'react-icons/ri'
-
+import ResolveListCmtModal from './StoreCommonCode/ResolveListCmtModal'
+import { axioslogin } from '../Axios/Axios'
 
 const RateVariationResolved = ({ setActiveComponent }) => {
-    const [selected, setSelected] = useState("0");
-    const [searchValue, setSearchValue] = useState("");
-    const [fromDate, setFromDate] = useState(null);
-    const [toDate, setToDate] = useState(null);
+    const [selected, setSelected] = useState("0")
+    const [searchValue, setSearchValue] = useState("")
+    const [fromDate, setFromDate] = useState(null)
+    const [toDate, setToDate] = useState(null)
+    const [openModal, setOpenModal] = useState(false)
+    const [selecetdRow, setSelecetdRow] = useState([])
 
     const columns = [
         { key: "sl_no", label: "Sl No", width: 100, align: "center" },
@@ -37,21 +40,38 @@ const RateVariationResolved = ({ setActiveComponent }) => {
         { key: "grn_variation_qty", label: "GRN Variation Qty", width: 135, align: "center" },
         { key: "grn_variation_free", label: "GRN Variation Free", width: 130, align: "center" },
         { key: "date_diff", label: "Date Diff", width: 120, align: "center" },
-        { key: "disc_variation", label: "Disc Variation", width: 120, align: "center" },
-
-    ];
+        { key: "disc_variation", label: "Disc Variation", width: 120, align: "left" },
+        { key: "cmt_description", label: "Comment", width: 200, align: "left" },
+        { key: "view_cmt", label: "View Comments", width: 120, align: "center" },
+    ]
 
     const backToSetting = useCallback(() => {
         setActiveComponent(0)
     }, [setActiveComponent])
 
-    const {
-        data: ResolvedDatas,
-    } = useQuery({
-        queryKey: 'getrateResolved',
+    const { data: ResolvedDatas = [] } = useQuery({
+        queryKey: ['getrateResolved'],
         queryFn: () => ratevariationResolved(),
         staleTime: Infinity
     })
+
+    const filtered = useMemo(() => {
+        let result = ResolvedDatas
+        if (searchValue.trim() && selected === "1") {
+            result = result.filter(val => val?.grn_no?.toString() === searchValue.trim())
+        } else if (fromDate && toDate) {
+            result = result.filter(val => {
+                const grnDate = format(new Date(val.grn_date), "yyyy-MM-dd")
+                return grnDate >= fromDate && grnDate <= toDate
+            })
+        }
+        return result
+    }, [searchValue, selected, ResolvedDatas, fromDate, toDate])
+
+    const RefreshData = useCallback(() => {
+        setFromDate(null)
+        setToDate(null)
+    }, [])
 
     const onExportClick = () => {
         if (ResolvedDatas.length === 0) {
@@ -77,6 +97,7 @@ const RateVariationResolved = ({ setActiveComponent }) => {
             grn_variation_free: item["grn_variation_free"],
             date_diff: item["date_diff"],
             discount_variation: item["disc_variation"],
+            cmt_description: item["cmt_description"]
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -85,40 +106,25 @@ const RateVariationResolved = ({ setActiveComponent }) => {
         XLSX.writeFile(workbook, "Rate_Variation_Resolved.xlsx");
     };
 
-    const filtered = useMemo(() => {
-        let result = ResolvedDatas || [];
-        // Search by GRN number
-        if (searchValue.trim()) {
-            if (selected === "1") {
-                result = result.filter(val =>
-                    val?.grn_no?.toString() === searchValue.trim()
-                );
-            }
+
+    const ViewComments = useCallback(async (val) => {
+        setOpenModal(true)
+        const { slno } = val;
+        const result = await axioslogin.get(`/RateVariationReport/getResolvedComments/${slno}`)
+        const { success, data } = result.data;
+        if (success === 1) {
+            setSelecetdRow(data)
         }
-        // Filter by date range
-        else if (fromDate && toDate) {
-            result = result.filter(val => {
-                const grnDate = format(new Date(val.grn_date), "yyyy-MM-dd");
-                return grnDate >= fromDate && grnDate <= toDate;
-            });
+        else {
+            setSelecetdRow([])
         }
-
-        return result;
-    }, [searchValue, selected, ResolvedDatas, fromDate, toDate]);
-
-
-    const RefreshData = useCallback(() => {
-        // setRefresh(1)
-        setFromDate(null)
-        setToDate(null)
-    }, [setFromDate, setToDate])
+    }, [setOpenModal])
 
     return (
         <Fragment>
-
             <CardCloseOnly title="Rate Variation Resolved" close={backToSetting}>
-                <Paper sx={{ width: '100%' }}>
-
+                <Paper sx={{ width: "100%", overflow: "hidden" }}>
+                    {openModal === true ? <ResolveListCmtModal openModal={openModal} setOpenModal={setOpenModal} selecetdRow={selecetdRow} /> : null}
                     {/* TOP FILTER SECTION */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 1, p: 1 }}>
 
@@ -145,9 +151,6 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                         p: 0,
                                         borderRadius: 1,
                                         display: 'flex',
-                                        // gap: 0.5,
-
-
                                     }}
                                 >
                                     <RefreshIcon
@@ -191,31 +194,45 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-
-
                     </Box>
 
-                    {/* TABLE */}
-                    <Box sx={{ overflowX: "auto", width: "100%" }}>
-                        <Box sx={{ minWidth: `${columns.length * 100}px` }}>
-                            {/* HEADER ROW */}
-                            <Box sx={{
-                                display: "flex",
-                                p: 1,
-                                bgcolor: "#F0F0F0",
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 2,
-                                borderBottom: "1px solid lightgrey"
-                            }}>
+                    {/* HORIZONTAL SCROLL WRAPPER */}
+                    <Box
+                        sx={{
+                            width: "100%",
+                            overflowX: "auto",
+                            overflowY: "hidden",
+                            scrollBehavior: "smooth"
+                        }}
+                    >
+                        <Box sx={{ minWidth: `${columns.length * 120}px` }}>
+
+                            {/* HEADER */}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    bgcolor: "#F0F0F0",
+                                    p: 1,
+                                    position: "sticky",
+                                    top: 0,
+                                    zIndex: 3,
+                                    borderBottom: "1px solid lightgrey"
+                                }}
+                            >
                                 {columns.map(col => (
                                     <Typography
                                         key={col.key}
                                         sx={{
                                             width: col.width,
-                                            textAlign: col.align,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent:
+                                                col.align === "right" ? "flex-end" :
+                                                    col.align === "center" ? "center" : "flex-start",
                                             fontWeight: 600,
-                                            fontSize: 12
+                                            fontSize: 12,
+                                            whiteSpace: "nowrap",
+                                            px: 0.5
                                         }}
                                     >
                                         {col.label}
@@ -223,34 +240,34 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                 ))}
                             </Box>
 
-                            {/* DATA ROWS */}
+                            {/* VERTICAL SCROLL (ROWS) */}
                             <Virtuoso
-                                style={{ height: "73vh", width: "100%" }}
+                                style={{
+                                    height: "73vh",
+                                    width: "100%",
+                                    overflowX: "hidden"
+                                }}
                                 data={filtered}
-
                                 itemContent={(index, val) => {
-                                    const quo = Number(val["quo_margin"]);
-                                    const pur = Number(val["purchase_margin"]);
-                                    const marginDiff = Number(val["margin_diff"]);
-                                    const isPositiveMarginDiff = marginDiff > 0 && quo > pur;
+                                    const quo = Number(val.quo_margin)
+                                    const pur = Number(val.purchase_margin)
+                                    const marginDiff = Number(val.margin_diff)
+                                    const isPositiveMarginDiff = marginDiff > 0 && quo > pur
 
                                     return (
-                                        <Box display="flex" sx={{ borderBottom: "1px solid lightgrey" }}>
-                                            {/* --- map using columns array to avoid mistakes --- */}
+                                        <Box sx={{ display: "flex", minHeight: 40, borderBottom: "1px solid lightgrey" }}>
                                             {columns.map(col => {
-                                                let value = val[col.key];
-                                                if (col.key === "sl_no") value = index + 1;
-                                                if (["grn_date"].includes(col.key))
-                                                    value = formatDateTime(value);
+                                                let value = val[col.key]
+                                                if (col.key === "sl_no") value = index + 1
+                                                if (col.key === "grn_date") value = formatDateTime(value)
 
-                                                if (["grn_selling_rate", "grn_dis", "rate", "rate_variation", "quo_margin", "purchase_margin", "margin_diff"]
-                                                    .includes(col.key))
-                                                    value = Number(value).toFixed(4);
+                                                if (["grn_selling_rate", "grn_dis", "rate", "rate_variation", "quo_margin", "purchase_margin", "margin_diff"].includes(col.key))
+                                                    value = Number(value).toFixed(4)
+
                                                 const bgColor =
                                                     col.key === "margin_diff" && isPositiveMarginDiff
                                                         ? "#F6DFEB"
-                                                        : val.status === 1 ? "#F5FAE1"  // light red only when diff is positive
-                                                            : "white";
+                                                        : "white"
 
                                                 return (
                                                     <Box
@@ -258,43 +275,66 @@ const RateVariationResolved = ({ setActiveComponent }) => {
                                                         sx={{
                                                             width: col.width,
                                                             display: "flex",
-                                                            justifyContent: col.align === 'right' ? 'flex-end' :
-                                                                col.align === 'center' ? 'center' : 'flex-start',
                                                             alignItems: "center",
-                                                            backgroundColor: bgColor,
-                                                            fontSize: 14
+                                                            justifyContent:
+                                                                col.align === "right" ? "flex-end" :
+                                                                    col.align === "center" ? "center" : "flex-start",
+                                                            px: 0.5,
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            bgcolor: bgColor
                                                         }}
                                                     >
-                                                        {
-                                                            col.key === "margin_diff" ? (
+                                                        {col.key === "margin_diff" ? (
+                                                            <Box
+                                                                sx={{
+                                                                    width: "100%",
+                                                                    maxWidth: 90,
+                                                                    textAlign: "center",
+                                                                    border: 1,
+                                                                    borderRadius: 3,
+                                                                    borderColor: "#8CA9FF",
+                                                                    bgcolor: bgColor
+                                                                }}
+                                                            >
+                                                                {val.margin_diff}
+                                                            </Box>
+                                                        ) :
 
-                                                                <IconButton >
-                                                                    <Box sx={{ width: 100, borderRadius: 3, bgcolor: bgColor, border: 1, borderColor: "#8CA9FF" }}
-                                                                    >
-                                                                        {val.margin_diff}
-
-                                                                    </Box>
-                                                                </IconButton>
-                                                            )
-                                                                : (
-                                                                    value
-                                                                )
-                                                        }
+                                                            col.key === "view_cmt" ? (
+                                                                <Box
+                                                                    onClick={() => ViewComments(val)}
+                                                                    sx={{
+                                                                        width: "100%",
+                                                                        maxWidth: 90,
+                                                                        textAlign: "center",
+                                                                        border: 1,
+                                                                        borderRadius: 3,
+                                                                        borderColor: "#4a7d65",
+                                                                        bgcolor: "#896695",
+                                                                        color: "white",
+                                                                        cursor: "pointer"
+                                                                    }}
+                                                                >
+                                                                    View
+                                                                </Box>
+                                                            ) :
+                                                                value}
                                                     </Box>
-                                                );
+                                                )
                                             })}
                                         </Box>
-                                    );
+                                    )
                                 }}
                             />
                         </Box>
                     </Box>
                 </Paper>
-            </CardCloseOnly >
+            </CardCloseOnly>
         </Fragment >
-
-
     )
 }
 
-export default memo(RateVariationResolved) 
+export default memo(RateVariationResolved)
+
