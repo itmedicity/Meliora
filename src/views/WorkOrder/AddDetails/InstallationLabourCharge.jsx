@@ -33,7 +33,7 @@ const InstallationLabourCharge = () => {
     }
 
     const [labourData, setLabourData] = useState(emptyLabour)
-    const [labourList, setLabourList] = useState([])
+    // const [labourList, setLabourList] = useState([])
 
     // console.log("labourList:", labourList);
 
@@ -51,7 +51,7 @@ const InstallationLabourCharge = () => {
     const handleAdd = useCallback(() => {
         if (!labourData.description || !labourData.unitRate) return
 
-        setLabourList(prev => [...prev, labourData])
+        // setLabourList(prev => [...prev, labourData])
         setLabourData(emptyLabour) // reset form
     }, [labourData])
 
