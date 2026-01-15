@@ -218,9 +218,8 @@ const Ratevariation = ({ setActiveComponent }) => {
 
     const filtered = useMemo(() => {
         let result = RatevarationData ?? [];
-
         if (empdept_id === 15) {
-            result = result.filter(val => val.account_status === 0);
+            result = result.filter(val => val.accounts_status === 0);
         }
         else if (empdept_id === 26) {
             result = result.filter(val => val.purchase_status === 0);
@@ -239,9 +238,6 @@ const Ratevariation = ({ setActiveComponent }) => {
 
         return result;
     }, [searchValue, selected, RatevarationData, empdept_id]);
-
-
-
 
 
     const onExportClick = () => {
