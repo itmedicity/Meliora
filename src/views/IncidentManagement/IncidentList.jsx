@@ -1,143 +1,69 @@
-import { Box, Paper, TextField, Typography } from '@mui/material'
-import React, { memo, useCallback, useState } from 'react'
-// import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import IncidentListTableView from './Components/IncidentListTableView'
-import { axioslogin } from '../Axios/Axios'
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import { CssVarsProvider, Tooltip } from '@mui/joy'
-import { infoNotify } from '../Common/CommonCode'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { format } from 'date-fns'
-import SearchIcon from '@mui/icons-material/Search'
-import { useNavigate } from 'react-router-dom'
+import React, { memo, useMemo, Suspense } from 'react';
+import { Box } from '@mui/joy';
+import { useSelector } from 'react-redux';
+import CustomeIncidentLoading from './Components/CustomeIncidentLoading';
+import { groupIncidents } from './CommonComponent/CommonFun';
+import { useAllIncidentDetails, useApprovalDepartmentFetching } from './CommonComponent/useQuery';
+
+// Lazy load heavy components
+const TabComponent = React.lazy(() => import('./Components/TabComponent'));
 
 const IncidentList = () => {
-  const [tableData, setTableData] = useState([])
-  const [tabFlag, setTabFlag] = useState(0)
-  const [fromDate, setFromDate] = useState(format(new Date(), 'yyyy-MM-dd'))
-  const [toDate, setToDate] = useState(format(new Date(), 'yyyy-MM-dd'))
-  const history = useNavigate()
-  const backtoHome = useCallback(() => {
-    history('/Home')
-  }, [history])
+  // Get login user empid
+  const id = useSelector(state => state.LoginUserData.empid);
 
-  const SearchReport = useCallback(() => {
-    const searchData = {
-      from: format(new Date(fromDate), 'yyyy-MM-dd 00:00:00'),
-      to: format(new Date(toDate), 'yyyy-MM-dd 23:59:59 ')
-    }
-    const searchDetails = async () => {
-      const result = await axioslogin.post('/incidentMaster/search', searchData)
-      return result.data
-    }
-    searchDetails().then(value => {
-      const { success, data, message } = value
-      if (success === 1) {
-        setTableData(data)
-        setTabFlag(1)
-      } else {
-        infoNotify(message)
-        setTableData([])
-        setTabFlag(0)
-      }
-    })
-  }, [fromDate, toDate])
+  const { data: ApprovalDepartments } = useApprovalDepartmentFetching(id);
+
+  const {
+    data: AllIncidentDetail,
+    isLoading: AllincidentLoading,
+    refetch: FetchalluserRegisteredIncident
+  } = useAllIncidentDetails(id);
+
+
+  // grouping data and returning them based on the tabllist
+  const { rejectData, PendingList, ApprovedList, ProcessingList } = useMemo(() => {
+    const grouped = groupIncidents(AllIncidentDetail)?.sort(
+      (a, b) => b?.inc_register_slno - a?.inc_register_slno
+    );
+
+    return {
+      rejectData: grouped.filter(
+        (item) => item?.inc_current_level != 0 && item?.inc_current_level_review_state === 'R'),
+
+      PendingList: grouped?.filter((item) => item?.inc_current_level === 0 && item?.inc_current_level_review_state === null),
+
+      ApprovedList: grouped?.filter(
+        (item) => item?.inc_all_approved === 1
+      ),
+      ProcessingList: grouped?.filter(
+        (item) => item?.inc_current_level != 0 && item?.inc_current_level_review_state === 'A'
+      ),
+
+    };
+  }, [AllIncidentDetail]);
+
+
+  const TabDetails = useMemo(() => ([
+    { id: 0, name: "Open ", data: PendingList, },
+    { id: 1, name: "Rejected", data: rejectData },
+    { id: 2, name: "Close ", data: ApprovedList },
+    { id: 3, name: "Processing ", data: ProcessingList },
+  ]), [PendingList, rejectData, ApprovedList, ProcessingList]);
+
+
   return (
-    <Box sx={{ maxHeight: window.innerHeight - 70, width: '100%' }}>
-      <Paper variant="outlined" square sx={{ display: 'flex', flex: 1, height: 40 }}>
-        <Box sx={{ pl: 0.7, pt: 0.5 }}>
-          <WarningRoundedIcon sx={{ color: '#bf360c', height: 28, width: 28, opacity: 0.8 }} />
-        </Box>
-        <Box sx={{ flex: 1, pt: 1, pl: 1 }}>
-          <Typography sx={{ color: '#37474f', fontFamily: 'Arial', fontSize: 17 }}>Pre Incident List</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', fontSize: 20, pt: 0.4, px: 0.4 }}>
-          <CssVarsProvider>
-            <Tooltip title="Close" placement="bottom">
-              <HighlightOffIcon
-                sx={{ cursor: 'pointer', height: 35, width: 35, opacity: 0.6, color: 'darkred' }}
-                onClick={backtoHome}
-              />
-            </Tooltip>
-          </CssVarsProvider>
-        </Box>
-      </Paper>
-      <Paper variant="outlined" square sx={{ display: 'flex', pr: 1, pb: 0.5 }}>
-        <Box sx={{ flex: 0.5 }}></Box>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ pt: 1, pl: 2 }}>
-            <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>From</Typography>
-          </Box>
-          <Box sx={{ pt: 0.5, pl: 0.5 }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={fromDate}
-                views={['year', 'month', 'day']}
-                size="sm"
-                inputFormat="dd-MM-yyyy"
-                maxDate={new Date()}
-                onChange={newValue => {
-                  setFromDate(newValue)
-                  setTabFlag(0)
-                }}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    helperText={null}
-                    size="small"
-                    fullWidth
-                    sx={{ bgcolor: 'white', borderRadius: 0, pt: 0.5 }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ pt: 1, pl: 2 }}>
-            <Typography sx={{ fontSize: 13, textTransform: 'uppercase' }}>To</Typography>
-          </Box>
-          <Box sx={{ pt: 0.5, pl: 0.5 }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={toDate}
-                views={['year', 'month', 'day']}
-                size="sm"
-                inputFormat="dd-MM-yyyy"
-                maxDate={new Date()}
-                onChange={newValue => {
-                  setToDate(newValue)
-                  setTabFlag(0)
-                }}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    helperText={null}
-                    size="small"
-                    fullWidth
-                    sx={{ bgcolor: 'white', borderRadius: 0, pt: 0.5 }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </Box>
-        </Box>
-        <Box sx={{ flex: 0.5, pt: 4.5, pl: 1 }}>
-          <CssVarsProvider>
-            <Tooltip title="Search" placement="right">
-              <SearchIcon sx={{ color: '#555830', cursor: 'pointer', height: 35, width: 35 }} onClick={SearchReport} />
-            </Tooltip>
-          </CssVarsProvider>
-        </Box>
-        <Box sx={{ flex: 0.5 }}></Box>
-      </Paper>
-      <Box>
-        {tabFlag === 1 ? <IncidentListTableView tableData={tableData} SearchReport={SearchReport} /> : <Box></Box>}
-      </Box>
+    <Box sx={{ width: '100%' }}>
+      <Suspense fallback={<CustomeIncidentLoading text="Loading Tabs..." />}>
+        <TabComponent
+          loadinglist={AllincidentLoading}
+          level={"REGISTERED USER"}
+          TabDetails={TabDetails}
+          TotalLevelDepartments={ApprovalDepartments}
+          fetchAgain={FetchalluserRegisteredIncident} />
+      </Suspense>
     </Box>
-  )
-}
+  );
+};
 
-export default memo(IncidentList)
+export default memo(IncidentList);

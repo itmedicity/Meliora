@@ -63,7 +63,9 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_mob_two: '',
     it_supplier_saleperson_second_email_one: '',
     it_supplier_saleperson_second_email_two: '',
-    supplier_status: false
+    supplier_status: false,
+    it_supplier_regno: '',
+    it_supplier_gst: ''
   })
   const {
     it_supplier_slno,
@@ -102,7 +104,9 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_mob_two,
     it_supplier_saleperson_second_email_one,
     it_supplier_saleperson_second_email_two,
-    supplier_status
+    supplier_status,
+    it_supplier_regno,
+    it_supplier_gst
   } = supplierDetl
 
   const UpdateSupplierDetl = useCallback(
@@ -190,7 +194,9 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_email_two:
         saleSecCheck === true ? it_supplier_email_two : it_supplier_saleperson_second_email_two,
       supplier_status: supplier_status === true ? 1 : 0,
-      create_user: id
+      create_user: id,
+      it_supplier_regno: it_supplier_regno === '' ? null : it_supplier_regno,
+      it_supplier_gst: it_supplier_gst === '' ? null : it_supplier_gst,
     }
   }, [
     it_supplier_name,
@@ -233,7 +239,9 @@ const SupplierDetails = () => {
     imdCheck,
     saleCheck,
     saleSecCheck,
-    serviceCheck
+    serviceCheck,
+    it_supplier_regno,
+    it_supplier_gst
   ])
 
   const patchdata = useMemo(() => {
@@ -286,7 +294,9 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_email_two:
         it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
       supplier_status: supplier_status === true ? 1 : 0,
-      edit_user: id
+      edit_user: id,
+      it_supplier_regno: it_supplier_regno === '' ? null : it_supplier_regno,
+      it_supplier_gst: it_supplier_gst === '' ? null : it_supplier_gst,
     }
   }, [
     it_supplier_slno,
@@ -326,7 +336,9 @@ const SupplierDetails = () => {
     it_supplier_saleperson_second_email_one,
     supplier_status,
     it_supplier_saleperson_second_email_two,
-    id
+    id,
+    it_supplier_regno,
+    it_supplier_gst
   ])
 
   const rowSelect = useCallback(
@@ -370,7 +382,9 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_mob_two,
         it_supplier_saleperson_second_email_one,
         it_supplier_saleperson_second_email_two,
-        supplier_status
+        supplier_status,
+        it_supplier_regno,
+        it_supplier_gst
       } = data
 
       const frmdata = {
@@ -426,7 +440,9 @@ const SupplierDetails = () => {
         it_supplier_saleperson_second_email_two:
           it_supplier_saleperson_second_email_two === null ? '' : it_supplier_saleperson_second_email_two,
         supplier_status: supplier_status === 1 ? true : false,
-        edit_user: id
+        edit_user: id,
+        it_supplier_regno: it_supplier_regno === null ? '' : it_supplier_regno,
+        it_supplier_gst: it_supplier_gst === null ? '' : it_supplier_gst,
       }
       setSupplierDetl(frmdata)
     },
@@ -471,7 +487,9 @@ const SupplierDetails = () => {
       it_supplier_saleperson_second_mob_two: '',
       it_supplier_saleperson_second_email_one: '',
       it_supplier_saleperson_second_email_two: '',
-      supplier_status: false
+      supplier_status: false,
+      it_supplier_regno: '',
+      it_supplier_gst: '',
     }
     setSupplierDetl(frmdata)
     setimdCheck(false)
@@ -659,7 +677,9 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_name !== '' &&
             it_supplier_saleperson_second_land_one !== '' &&
             it_supplier_saleperson_second_mob_one !== '' &&
-            it_supplier_saleperson_second_email_one !== ''
+            it_supplier_saleperson_second_email_one !== '' &&
+            it_supplier_regno !== '' &&
+            it_supplier_gst !== ''
           ) {
             InsertSupplierDetails(postdata)
           } else {
@@ -690,7 +710,9 @@ const SupplierDetails = () => {
             it_supplier_saleperson_second_name !== '' &&
             it_supplier_saleperson_second_land_one !== '' &&
             it_supplier_saleperson_second_mob_one !== '' &&
-            it_supplier_saleperson_second_email_one !== ''
+            it_supplier_saleperson_second_email_one !== '' &&
+            it_supplier_regno !== '' &&
+            it_supplier_gst !== ''
           ) {
             UpdateSupplierDetails(patchdata)
           } else {
@@ -739,7 +761,9 @@ const SupplierDetails = () => {
       it_supplier_escl_mob_one,
       it_supplier_escl_name,
       it_supplier_land_one,
-      saleCheck
+      saleCheck,
+      it_supplier_regno,
+      it_supplier_gst,
     ]
   )
 
@@ -867,6 +891,43 @@ const SupplierDetails = () => {
                       onchange={UpdateSupplierDetl}
                     ></TextFieldCustom>
                   </Box>
+
+                  {/* new Box here */}
+
+                  <Box sx={{ display: "flex", mt: 1 }}>
+                    <Box sx={{ flex: 1, px: 0.5 }}>
+                      <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
+                        Supplier Reg No<span style={{ color: '#74112F' }}>*</span>
+                      </Box>
+                      <Box sx={{ fontWeight: 600, fontSize: 12 }}>
+                        <TextFieldCustom
+                          placeholder="supplier register number"
+                          type="text"
+                          size="sm"
+                          name="it_supplier_regno"
+                          value={it_supplier_regno}
+                          onchange={UpdateSupplierDetl}
+                        ></TextFieldCustom>
+                      </Box>
+                    </Box>
+
+                  </Box>
+                  <Box sx={{ flex: 1, px: 0.5, mt: 1 }}>
+                    <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
+                      Supplier GST Number{/* <span style={{ color: '#74112F' }} >*</span> */}
+                    </Box>
+                    <Box sx={{ fontWeight: 600, fontSize: 12 }}>
+                      <TextFieldCustom
+                        placeholder="supplier gst number"
+                        type="text"
+                        size="sm"
+                        name="it_supplier_gst"
+                        value={it_supplier_gst}
+                        onchange={UpdateSupplierDetl}
+                      ></TextFieldCustom>
+                    </Box>
+                  </Box>
+
                   <Box sx={{ pt: 1 }}>
                     <CusCheckBox
                       label="status"
@@ -878,6 +939,7 @@ const SupplierDetails = () => {
                       onCheked={UpdateSupplierDetl}
                     ></CusCheckBox>
                   </Box>
+
                 </Box>
                 <Box sx={{ flex: 1, px: 0.5 }}>
                   <Box sx={{ fontWeight: 600, fontSize: 12, color: '#145DA0', pl: 0.5 }}>
@@ -894,8 +956,10 @@ const SupplierDetails = () => {
                     ></TextFieldCustom>
                   </Box>
                 </Box>
+
               </Box>
             </Paper>
+
             <Box sx={{ display: 'flex' }}>
               <Paper sx={{ flex: 1, borderRadius: 0, p: 2, mt: 1, mr: 0.5 }}>
                 <CssVarsProvider>

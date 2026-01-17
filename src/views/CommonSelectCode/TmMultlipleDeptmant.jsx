@@ -6,9 +6,11 @@ import { getDeptSections } from 'src/redux/actions/TmMultipleDepSectList.action'
 const TmMultlipleDeptmant = ({ department, setDepartment }) => {
   const dispatch = useDispatch()
   const departmentList = useSelector(state => state.getDepartment?.departmentList)
+  
   const handleChange = (event, value) => {
     setDepartment(value)
   }
+
 
   useEffect(() => {
     if (department.length !== 0) {
@@ -53,8 +55,8 @@ const TmMultlipleDeptmant = ({ department, setDepartment }) => {
       getOptionLabel={option => option.dept_name || ''}
       options={departmentList}
       onChange={handleChange}
-      // renderinput={(params) => <TextField {...params} variant="standard" />
-      // }
+    // renderinput={(params) => <TextField {...params} variant="standard" />
+    // }
     />
   )
 }
