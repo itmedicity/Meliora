@@ -560,7 +560,8 @@ const InPatientList = () => {
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, bgcolor: 'red', minHeight: '100vh' }}>
+      {/* rohith */}
       <DashboardCard
         icon={LocalDiningIcon}
         title="Diet Plan"
@@ -676,7 +677,7 @@ const InPatientList = () => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ flex: 1, height: '75vh', overflow: 'auto', m: 1 }}>
+        <Box sx={{ flex: 1, minHeight: '75vh', overflow: 'auto', m: 1 }}>
           <FloatingPanel
             open={activeButton === "dietType"}
             onClose={() => {
@@ -1006,87 +1007,4 @@ const InPatientList = () => {
   )
 }
 export default InPatientList
-
-// activeButton === "allList" || activeButton === "findPatient" || activeButton === "foodTime" ? (
-
-//   <Box
-//     sx={{
-//       height: "100%",
-//       display: "flex",
-//       flexDirection: "column",
-//       gap: 0.5,
-//       overflow: "hidden",
-//     }}
-//   >
-
-//     <Section title="Not Planned" titleColor="#770707" bg="#fdecea">
-//       <TileGrid>
-//         {notPlannedPatients.map((item, index) => (
-//           <DietTileNotPlanned
-//             key={index}
-//             name={item.ptc_ptname}
-//             pt_no={item.pt_no}
-//             mrdNo={item.mrdNo}
-//             status="Not Planned"
-//             statusColor="red"
-//             bordercolor={"2px solid darkred"}
-//             image={getDietImage(item)}
-//             onClick={() => onTileClick(item)}
-//             roomName={item.room}
-//           />
-//         ))}
-//       </TileGrid>
-//     </Section>
-
-//     <Section
-//       title="Planned Diet"
-//       titleColor={taskColor.darkPurple}
-//       bg={taskColor.lightpurple}
-//       sx={{ maxHeight: "55%" }}
-//     >
-//       <TileGrid>
-//         {sortedPatients.map(patient => (
-//           <CurrenttimeFeedTile
-//             key={patient.pt_no}
-//             name={patient.ptc_ptname}
-//             roomName={patient.room}
-//             mrdNo={patient.mrdNo}
-//             pt_no={patient.pt_no}
-//             image={getDietImage(patient)}
-//             FeedingTime={
-//               patient.selectedFeed
-//                 ? `${patient.selectedFeed.from} - ${patient.selectedFeed.to}`
-//                 : "No Feed"
-//             }
-//             FeedingName={patient.selectedFeed?.name || ""}
-//             dietTypeName={patient.dietTypeName}
-//             orderStatus={patient.selectedFeed?.orderStatusId ?? 0}
-//             deliveredTime={patient.selectedFeed?.deliveredTime || null}
-//             onClick={() => onTileClick(patient)}
-//           />
-//         ))}
-//       </TileGrid>
-//     </Section>
-
-//     <Section title="Not Under Diet" titleColor="black" bg="#e7e7eeff">
-//       <TileGrid>
-//         {notUnderDeitplaning.map((item, index) => (
-//           <DietTile
-//             key={index}
-//             name={item.ptc_ptname}
-//             pt_no={item.pt_no}
-//             mrdNo={item.mrdNo}
-//             status="Not Under Deit"
-//             bordercolor={"2px solid black"}
-//             statusColor="grey"
-//             roomName={item.room}
-//             image={getDietImage(item)}
-//           />
-//         ))}
-//       </TileGrid>
-//     </Section>
-//   </Box>
-//   )
-
-
 

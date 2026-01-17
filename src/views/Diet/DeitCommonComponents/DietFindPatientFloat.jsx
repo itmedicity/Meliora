@@ -1,5 +1,3 @@
-
-
 import { Box, Input, IconButton } from '@mui/joy'
 import SearchIcon from '@mui/icons-material/Search'
 import React, { useState } from 'react'

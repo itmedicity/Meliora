@@ -284,7 +284,11 @@ const CondemnationAssetOld = React.lazy(() => import('./views/AssetManagment/Ass
 const DeliveryMarking_Report = React.lazy(() => import('./views/Report/CrmReport/DeliveryMarking_Report'))
 const LevelMaster = React.lazy(() => import('./views/Master/ApprovalLevelMaster/LevelMaster'))
 const IcuDashboard = React.lazy(() => import('./views/IcuBeds/IcuDashboard'))
-const AllDeviceCredentialList = React.lazy(() => import ('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
+const AllDeviceCredentialList = React.lazy(() => import('./views/ItManagement/PasswordManagement/AllDeviceCredentialList'))
+
+
+const NewItemAdd = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/RecipeCards/NewItemAdd'))
+
 
 
 const routes = [
@@ -336,7 +340,9 @@ const routes = [
   { path: 'SubRoomCreation', name: 'Sub Room Creation', element: <SubRoomCreation /> },
   { path: 'DietMenuSetting', name: 'Diet Plan', element: <DietMenuSetting /> },
   { path: 'ItemGroup', name: 'Item Group', element: <ItemGroup /> },
-  { path: 'ItemMaster', name: 'Item Master', element: <ItemMaster /> },
+  // change this befor push Reminder
+  { path: 'ItemMasters', name: 'Item Master', element: <ItemMaster /> },
+  { path: 'ItemMaster', name: 'Item Master', element: <NewItemAdd /> },
   { path: 'DietDetail', name: 'Diet Detail', element: <DietDetail /> },
   { path: 'DietApproval', name: 'Diet Approval', element: <DietApproval /> },
   { path: 'DietPlanList', name: 'Diet Plan List', element: <DietPlanList /> },
@@ -809,7 +815,7 @@ const routes = [
     name: 'IcuDashboard',
     element: <IcuDashboard />
   },
-    {
+  {
     path: 'AllDeviceCredentialList',
     name: 'AllDeviceCredentialList',
     element: <AllDeviceCredentialList />
