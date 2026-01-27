@@ -396,7 +396,8 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                                     : col.key === "MARGIN_DIFF" && isPositiveMarginDiff
                                                         ? "#F6DFEB"
                                                         : val.status === 1
-                                                            ? "#F5FAE1"
+                                                            // ? "#F5FAE1"
+                                                            ? "#D8E983"
                                                             : "white";
 
                                             return (

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useState } from 'react'
 import {
     Modal,
     ModalDialog,
@@ -9,15 +9,6 @@ import {
     Button,
     Textarea,
 } from '@mui/joy'
-// import Inventory2Icon from '@mui/icons-material/Inventory2'
-// import EngineeringIcon from '@mui/icons-material/Engineering'
-// import GavelIcon from '@mui/icons-material/Gavel'
-// import PaymentsIcon from '@mui/icons-material/Payments'
-// import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-// import CancelIcon from '@mui/icons-material/Cancel'
-// import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-// import BusinessIcon from '@mui/icons-material/Business'
 import { useQuery } from '@tanstack/react-query'
 import { getmaterialDetails } from '../WorkOrderCommonApi'
 import { Business, CalendarMonth, CancelOutlined, CheckCircle, EngineeringOutlined, GavelOutlined, InfoOutlined, Inventory2Outlined, PaymentOutlined } from '@mui/icons-material'
@@ -28,23 +19,16 @@ const STATUS_MAP = {
     2: { label: 'Rejected', color: 'danger' },
 }
 
-const WoApprovalModal = ({ selectedWO, onClose,
-    // ApprovalDepartments
-}) => {
+const WoApprovalModal = ({ selectedWO, onClose }) => {
     const { data } = useQuery({
         queryKey: ['woDetails', selectedWO?.wo_slno],
         queryFn: () => getmaterialDetails(selectedWO.wo_slno),
         enabled: !!selectedWO?.wo_slno,
     })
 
-    // const { level_name, level_no } = ApprovalDepartments
-
-    // console.log("ApprovalDepartments:", level_name);
-
     const woData = data?.[0]
     const [remarks, setRemarks] = useState('')
     const status = STATUS_MAP[selectedWO?.approval_status]
-    // const approval = APPROVAL_STATUS[selectedWO?.approval_status]
 
 
     const capitalizeFirst = (text = '') =>
@@ -53,9 +37,9 @@ const WoApprovalModal = ({ selectedWO, onClose,
             .replace(/^\w/, c => c.toUpperCase())
 
 
-    const handleApprovals = useCallback((val) => {
-        // console.log("val", val);
-    }, [])
+    // const handleApprovals = useCallback((val) => {
+    //     // console.log("val", val);
+    // }, [])
 
     return (
         <Modal open onClose={onClose}>
@@ -251,7 +235,7 @@ const WoApprovalModal = ({ selectedWO, onClose,
                                 // <CheckCircleIcon />
                                 <CheckCircle />
                             }
-                            onClick={() => handleApprovals(selectedWO?.wo_slno)}
+                            // onClick={() => handleApprovals(selectedWO?.wo_slno)}
                             sx={{ color: "success" }}
                         >
                             Approve
