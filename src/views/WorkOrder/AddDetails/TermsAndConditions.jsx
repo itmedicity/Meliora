@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import {
     Box,
     Card,
@@ -13,35 +13,35 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import GavelIcon from '@mui/icons-material/Gavel'
 
-const TermsAndConditions = () => {
-
-    const [terms, setTerms] = useState([''])
-    const [validUpto, setValidUpto] = useState(
-        new Date().toISOString().split('T')[0]
-    )
+const TermsAndConditions = ({ termsData, setTermsData }) => {
 
     const handleChange = (index, value) => {
-        const updated = [...terms]
+        const updated = [...termsData.terms]
         updated[index] = value
-        setTerms(updated)
+        setTermsData(prev => ({ ...prev, terms: updated }))
     }
 
     const addTerm = () => {
-        setTerms([...terms, ''])
+        setTermsData(prev => ({
+            ...prev,
+            terms: [...prev.terms, '']
+        }))
     }
 
     const removeTerm = (index) => {
-        if (terms.length === 1) return
-        setTerms(terms.filter((_, i) => i !== index))
+        if (termsData.terms.length === 1) return
+        setTermsData(prev => ({
+            ...prev,
+            terms: prev.terms.filter((_, i) => i !== index)
+        }))
     }
-
 
     return (
         <Card
             sx={{
-                maxWidth: 800,
+                height: 440,
                 mx: 'auto',
-                p: 3,
+                p: 1.5,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
@@ -67,54 +67,89 @@ const TermsAndConditions = () => {
             <Divider sx={{ my: 2 }} />
 
             {/* Valid Upto */}
-            <Box sx={{ mb: 3 }}>
-                <Typography level="body-sm" fontWeight={600}>
-                    Valid Upto
-                </Typography>
-                <Input
-                    type="date"
-                    value={validUpto}
-                    onChange={(e) => setValidUpto(e.target.value)}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box sx={{ mb: 0 }}>
+                    <Typography level="body-sm" fontWeight={600}>
+                        Valid Upto
+                    </Typography>
+                    <Input
+                        type="date"
+                        value={termsData?.validUpto}
+                        onChange={(e) =>
+                            setTermsData(prev => ({
+                                ...prev,
+                                validUpto: e.target.value
+                            }))
+                        }
+                    />
+                </Box>
+                <Box
                     sx={{
-                        maxWidth: 260,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                         mt: 0.5,
-                        borderRadius: 'lg',
-                        bgcolor: '#eef2ff',
-                        fontWeight: 700
+                        p: 2
                     }}
-                />
+                >
+                    <Button
+                        startDecorator={<AddIcon />}
+                        variant="soft"
+                        color="primary"
+                        onClick={addTerm}
+                        sx={{
+                            borderRadius: 'xl',
+                            fontWeight: 700
+                        }}
+                    >
+                        Add Term
+                    </Button>
+
+                    <Typography level="body-sm" fontWeight={600}>
+                        {termsData?.terms?.length} term(s) added
+                    </Typography>
+                </Box>
             </Box>
 
-            {/* Terms List */}
-            <Box>
-                {terms.map((term, index) => (
+            {/* Terms List (Scrollable) */}
+            <Box
+                sx={{
+                    maxHeight: 400,        // 👈 controls scroll height
+                    overflowY: 'auto',
+                    // pr: 1,                // space for scrollbar
+                    scrollbarWidth: 'thin',
+                    '&::-webkit-scrollbar': {
+                        width: '6px'
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: '#c7d2fe',
+                        borderRadius: '8px'
+                    },
+                    '&::-webkit-scrollbar-track': {
+                        backgroundColor: '#eef2ff'
+                    }
+                }}
+            >
+                {termsData?.terms?.map((term, index) => (
                     <Card
                         key={index}
                         variant="soft"
                         sx={{
-                            mb: 2,
-                            p: 2,
                             borderRadius: 'xl',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 1.5,
-                            background:
-                                'linear-gradient(90deg,#f8fafc,#eef2ff)'
+                            background: 'linear-gradient(90deg,#f8fafc,#eef2ff)',
+                            flexDirection: 'row'
                         }}
                     >
-                        <Typography
-                            fontWeight={800}
-                            sx={{ color: '#4f46e5' }}
-                        >
+                        <Typography fontWeight={800} sx={{ color: '#4f46e5' }}>
                             {index + 1}.
                         </Typography>
 
                         <Input
                             fullWidth
                             value={term}
-                            onChange={(e) =>
-                                handleChange(index, e.target.value)
-                            }
+                            onChange={(e) => handleChange(index, e.target.value)}
                             placeholder="Enter term or condition"
                             sx={{ borderRadius: 'lg' }}
                         />
@@ -129,38 +164,6 @@ const TermsAndConditions = () => {
                     </Card>
                 ))}
             </Box>
-
-            {/* Actions */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mt: 3,
-                    p: 2,
-                    borderRadius: 'xl',
-                    background:
-                        'linear-gradient(90deg,#eef2ff,#f5f3ff)'
-                }}
-            >
-                <Button
-                    startDecorator={<AddIcon />}
-                    variant="soft"
-                    color="primary"
-                    onClick={addTerm}
-                    sx={{
-                        borderRadius: 'xl',
-                        fontWeight: 700
-                    }}
-                >
-                    Add Term
-                </Button>
-
-                <Typography level="body-sm" fontWeight={600}>
-                    {terms.length} term(s) added
-                </Typography>
-            </Box>
-
         </Card>
     )
 }

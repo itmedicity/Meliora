@@ -569,7 +569,7 @@ const VendorMaster = React.lazy(() => import('./views/Master/VendorMaster/Vendor
 const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry/WorkOrderEntry'))
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
-
+const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
 
 const routes = [
   { path: '', element: <Home /> },
@@ -1151,6 +1151,12 @@ const routes = [
     path: 'WorkOrderEntry',
     name: 'WorkOrderEntry',
     element: <WorkOrderEntry />
+  },
+
+  {
+    path: 'WorkOrderApproval',
+    name: 'WorkOrderApproval',
+    element: <WorkOrderApproval />
   },
 ]
 

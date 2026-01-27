@@ -12,16 +12,17 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import SelectVendorNames from './SelectVendorNames'
 
 const VendorDetailsEntry = ({
-    SelectedData,
+    sec_name,
+    crfNo,
+    req_date,
     vendorList,
     SetVendorList,
     wod,
     setWod,
     vendor_Desc,
-    setVendor_Desc
+    setVendor_Desc,
+    last_wo_slno
 }) => {
-
-    const { sec_name, crfNo, req_date } = SelectedData || {}
 
     const labelStyle = { fontWeight: 600, mb: 0.5 }
     const inputStyle = { borderRadius: 'lg' }
@@ -29,7 +30,8 @@ const VendorDetailsEntry = ({
     return (
         <Box
             sx={{
-                p: 2,
+
+                p: 0,
                 display: 'grid',
                 gridTemplateColumns: { xs: '1fr', md: '1fr 1.2fr' },
                 gap: 2
@@ -38,8 +40,9 @@ const VendorDetailsEntry = ({
             {/* LEFT – Vendor Details */}
             <Card
                 sx={{
+                    height: 440,
                     borderRadius: '2xl',
-                    p: 3,
+                    p: 2,
                     background:
                         'linear-gradient(180deg,#ffffff,#f1f5ff)',
                     color: '#fff',
@@ -88,7 +91,7 @@ const VendorDetailsEntry = ({
             <Card
                 sx={{
                     borderRadius: '2xl',
-                    p: 3,
+                    p: 2,
                     background:
                         'linear-gradient(180deg,#ffffff,#f1f5ff)',
                     boxShadow: 'xl',
@@ -119,6 +122,8 @@ const VendorDetailsEntry = ({
                         <Input
                             placeholder="WO-2026-001"
                             sx={inputStyle}
+                            value={`WO-${String(last_wo_slno + 1).padStart(5, '0')}`}
+                            disabled
                         />
                     </Box>
 

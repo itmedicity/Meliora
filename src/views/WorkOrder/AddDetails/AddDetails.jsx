@@ -1,5 +1,4 @@
-
-import React, { memo, useCallback, useState, useMemo } from 'react'
+import React, { memo, useCallback, useState, useMemo, useEffect } from 'react'
 import {
   Box,
   Typography,
@@ -21,7 +20,14 @@ import WorkOrderMaterialDetails from './WorkOrderMaterialDetails'
 import WorkOrderStepperComp from '../WorkOrderStepperComp'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-/* 🔹 Contract Types */
+import WorkOrderPreviewModal from './WorkOrderModals/WorkOrderPreviewModal'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { useSelector } from 'react-redux'
+import { getLastWOnumber } from '../WorkOrderCommonApi'
+import { useQuery } from '@tanstack/react-query'
+
+/*  Contract Types */
 const TAB_CONFIG = [
   {
     id: 1,
@@ -41,39 +47,280 @@ const TAB_CONFIG = [
 ]
 
 const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
+
   const [tabValue, setTabValue] = useState(0)
+  const [openNext, setOpenNext] = useState(0)
+
   const [fromDate, setFromDate] = useState('')
   const [toDate, setToDate] = useState('')
   const [vendorList, SetVendorList] = useState(null)
   const [wod, setWod] = useState('')
   const [vendor_Desc, setVendor_Desc] = useState('')
-  const [openNext, setOpenNext] = useState(0)
+  const [Wo_numb, SetWoNumb] = useState('')
 
-  // Material
-  const [uom, setUOM] = useState(0)
-  const [uomName, setUomName] = useState('')
+  const loginId = useSelector(state => state.LoginUserData.empid)
+
+  /**  MATERIAL STATE (SOURCE OF TRUTH) */
+  const [materialItems, setMaterialItems] = useState([])
+
+  /** PREVIEW */
+  const [previewOpen, setPreviewOpen] = useState(false)
+
+  //add laboour charge
+  const [labourItems, setLabourItems] = useState([])
+
+  //add rentinal data
+  const [retentionData, setRetentionData] = useState({})
+
+  //add Terms and condition datas
+  const [termsData, setTermsData] = useState({
+    validUpto: '',
+    terms: []
+  })
+  // paymentTermsData
+  const [paymentTermsData, setPaymentTermsData] = useState({
+    validUpto: '',
+    terms: ['']   // 👈 important: not empty array
+  })
+
+  // invoiceTermsData
+  const [invoiceTermsData, setInvoiceTermsData] = useState({
+    validUpto: '',
+    terms: ['']
+  })
+
+  /** DRAFT DATA */
+  const [draftData, setDraftData] = useState({
+    vendorDetails: {},
+    materialDetails: [],
+    labourDetails: [],
+    retentionDetails: {},
+    terms: {},
+    paymentTerms: {},
+    billingTerms: {},
+    loginId: loginId
+  })
+
+  const {
+    sec_name,
+    request_deptsec_slno,
+    crfNo,
+    req_date, req_slno
+  } = SelectedData || {};
 
   const selectedTab = useMemo(() => TAB_CONFIG[tabValue], [tabValue])
 
+  const { data: getWOnumber = {} } = useQuery({
+    queryKey: ['lastWOnumber'],
+    queryFn: getLastWOnumber,
+  });
+
+  const last_wo_slno = getWOnumber?.[0]?.wo_slno ?? 0;
+
+  /** CLOSE */
   const close = useCallback(() => {
     setOpen(0)
     setSelectedData([])
   }, [setOpen, setSelectedData])
 
-  const handleNext = useCallback(() => {
-    setOpenNext(prev => prev + 1)
-  }, [])
+  /** STEPPER */
+  const handleNext = () => setOpenNext(prev => prev + 1)
+  const handleBack = () => setOpenNext(prev => prev - 1)
 
-  const handleBack = useCallback(() => {
-    setOpenNext(prev => prev - 1)
-  }, [])
+  /**  SYNC VENDOR DETAILS */
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      vendorDetails: {
+        vendor_slno: vendorList?.it_supplier_name,
+        vendor_desc: vendor_Desc,
+        wod,
+        sec_name,
+        crfNo,
+        req_date,
+        fromDate,
+        toDate,
+        contractType: selectedTab?.id,
+        loginId,
+        Wo_numb
+      },
+    }))
+  }, [
+    vendorList,
+    vendor_Desc,
+    wod,
+    request_deptsec_slno,
+    crfNo,
+    req_date,
+    fromDate,
+    toDate,
+    selectedTab,
+    loginId,
+    Wo_numb
+  ])
+
+  /** SYNC MATERIAL DETAILS */
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      materialDetails: materialItems,
+    }))
+  }, [materialItems])
+
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      labourDetails: labourItems,
+    }))
+  }, [labourItems])
+
+
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      retentionDetails: retentionData,
+    }))
+  }, [retentionData])
+
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      terms: termsData
+    }))
+  }, [termsData])
+
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      paymentTerms: paymentTermsData
+    }))
+  }, [paymentTermsData])
+
+  useEffect(() => {
+    setDraftData(prev => ({
+      ...prev,
+      billingTerms: invoiceTermsData
+    }))
+  }, [invoiceTermsData])
+
+  const buildPostPayload = (draftData) => {
+    return {
+      vendor_details: {
+        vendor_slno: vendorList?.it_supplier_slno,
+        vendor_desc: draftData.vendorDetails.vendor_desc,
+        wod: draftData.vendorDetails.wod,
+        req_date: draftData.vendorDetails.req_date,
+        from_date: draftData.vendorDetails.fromDate,
+        to_date: draftData.vendorDetails.toDate,
+        contract_type: draftData.vendorDetails.contractType,
+        crf_no: req_slno,
+        wo_number: last_wo_slno + 1,
+        sec_name: request_deptsec_slno,
+        loginId: loginId
+      },
+
+      material_details: draftData.materialDetails.map(item => ({
+        item_code: item.itemCode,
+        item_name: item.itemName,
+        description: item.itemDesc,
+        brand: item.itemBrand,
+        specification: item.specification,
+        qty: Number(item.quantity),
+        uom: item.uom,
+        unit_price: Number(item.unitPrice),
+        gross_amount: Number(item.grossAmount),
+        gst_amount: Number(item.gstAmount),
+        total_amount: Number(item.totalAmount),
+        loginId: loginId
+      })),
+
+
+      labour_details: draftData.labourDetails.map(item => ({
+        description: item.description,
+        specification: item.specification,
+        quantity: Number(item.quantity),
+        rate_unit: item.rateUnit,
+        unit_rate: Number(item.unitRate),
+        total_amount: Number(item.totalAmount),
+        loginId: loginId
+      })),
+
+      retention_details: {
+        payment_type: draftData.retentionDetails.paymentType,
+        amount: Number(draftData.retentionDetails.amount),
+        description: draftData.retentionDetails.description,
+        loginId: loginId
+      },
+
+      termsConditions: {
+        terms: draftData.terms?.terms ?? [],
+        validUpto: draftData.terms?.validUpto,
+        loginId: draftData.vendorDetails.loginId,
+      },
+
+      paymentTerms: {
+        terms: draftData.paymentTerms?.terms ?? [],
+        validUpto: draftData.paymentTerms?.validUpto,
+        loginId: draftData.vendorDetails.loginId,
+      },
+
+      billingTerms: {
+        terms: draftData.billingTerms?.terms ?? [],
+        validUpto: draftData.billingTerms?.validUpto,
+        loginId: draftData.vendorDetails.loginId,
+      },
+    }
+  }
+
+
+  /** SAVE */
+  const handleSave = useCallback(async () => {
+    const postData = buildPostPayload(draftData)
+    const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
+    const { success, message } = result.data;
+    if (success === 1) {
+      succesNotify(message)
+      setDraftData({
+        vendorDetails: {},
+        materialDetails: [],
+        labourDetails: [],
+        retentionDetails: {},
+        terms: {},
+        paymentTerms: {},
+        billingTerms: {},
+      })
+      SetWoNumb('')
+      setVendor_Desc('')
+      setWod('')
+      SetVendorList(null)
+      setToDate('')
+      setFromDate('')
+      setOpenNext(0)
+      setTabValue(0)
+      setOpen(0)
+
+    }
+    else {
+      warningNotify(message)
+    }
+  }, [draftData,
+    setDraftData,
+    SetWoNumb,
+    setVendor_Desc,
+    setWod,
+    SetVendorList,
+    setToDate,
+    setFromDate,
+    setOpenNext,
+    setTabValue
+  ])
+
   return (
     <Box sx={{ width: '100%' }}>
       <Card
         sx={{
           flex: 1,
           p: 3,
-          // borderRadius: '24px',
           height: "90vh",
           background:
             'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,242,255,0.92))',
@@ -82,6 +329,16 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
           position: 'relative',
         }}
       >
+        {/* Preview Modal */}
+
+        {previewOpen && (
+          <WorkOrderPreviewModal
+            open={previewOpen}
+            onClose={() => setPreviewOpen(false)}
+            data={draftData}
+          />
+        )}
+
         {/* CLOSE BUTTON */}
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <IconButton
@@ -168,12 +425,7 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
           {/* TITLE */}
           <Box
             sx={{
-              color: "#A88EC2",
-              // px: 4,
-              // py: 1.2,
-              // borderRadius: '999px',
-              // background: selectedTab.gradient,
-              // boxShadow: '0 12px 30px rgba(79,70,229,0.4)',
+              color: "#A88EC2"
             }}
           >
             <Typography
@@ -238,6 +490,7 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
         {/* CONTENT */}
         <Box
           sx={{
+            overflow: "auto",
             animation: 'fadeSlide 0.35s ease',
             '@keyframes fadeSlide': {
               from: { opacity: 0, transform: 'translateY(12px)' },
@@ -247,33 +500,60 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
         >
           {openNext === 0 && (
             <VendorDetailsEntry
-              SelectedData={SelectedData}
+              sec_name={sec_name}
+              crfNo={crfNo}
+              req_date={req_date}
               vendorList={vendorList}
               SetVendorList={SetVendorList}
               wod={wod}
               setWod={setWod}
               vendor_Desc={vendor_Desc}
               setVendor_Desc={setVendor_Desc}
+              Wo_numb={Wo_numb}
+              SetWoNumb={SetWoNumb}
+              last_wo_slno={last_wo_slno}
             />
           )}
 
           {openNext === 1 && (
             <WorkOrderMaterialDetails
-              uom={uom}
-              setUOM={setUOM}
-              setUomName={setUomName}
-              uomName={uomName}
+              items={materialItems}
+              setItems={setMaterialItems}
+              setDraftData={setDraftData}
             />
           )}
 
-          {openNext === 2 && <InstallationLabourCharge />}
-          {openNext === 3 && <RetentialDetails />}
-          {openNext === 4 && <TermsAndConditions />}
-          {openNext === 5 && <PaymentTermsAndCondition />}
-          {openNext === 6 && <InvoiceOrBillingTermsAndCondition />}
+          {openNext === 2 && (
+            <InstallationLabourCharge
+              labourItems={labourItems}
+              setLabourItems={setLabourItems}
+            />
+          )}
+          {openNext === 3 && (
+            <RetentialDetails
+              retentionData={retentionData}
+              setRetentionData={setRetentionData}
+            />
+          )}
+          {openNext === 4 && (
+            <TermsAndConditions
+              termsData={termsData}
+              setTermsData={setTermsData}
+            />
+          )}
+          {openNext === 5 && (
+            <PaymentTermsAndCondition
+              paymentTermsData={paymentTermsData}
+              setPaymentTermsData={setPaymentTermsData}
+            />
+          )}
+          {openNext === 6 && (
+            <InvoiceOrBillingTermsAndCondition
+              invoiceTermsData={invoiceTermsData}
+              setInvoiceTermsData={setInvoiceTermsData}
+            />
+          )}
         </Box>
-
-
 
         {/* footer secton */}
         <Box
@@ -307,310 +587,61 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
             Back
           </Button>
 
-          {/* Next Button */}
+          {/* For Preview Purpose */}
           <Button
-            endDecorator={<ArrowForwardIcon />}
-            size="lg"
-            onClick={handleNext}
-            sx={{
-              px: 5,
-              borderRadius: "xl",
-              fontWeight: 800,
-              background: "linear-gradient(135deg,#7c3aed,#5b21b6)",
-              boxShadow: "0 12px 28px rgba(124,58,237,0.45)",
-              transition: "all 0.25s ease",
-              "&:hover": {
-                transform: "translateY(-2px)",
-                boxShadow: "0 16px 36px rgba(124,58,237,0.6)",
-              },
-            }}
+            variant="outlined"
+            color="neutral"
+            onClick={() => setPreviewOpen(true)}
           >
-            Next
+            Preview
           </Button>
+
+          {openNext === 6 ?
+            <Button
+              endDecorator={<ArrowForwardIcon />}
+              size="lg"
+              onClick={handleSave}
+              sx={{
+                px: 5,
+                borderRadius: "xl",
+                fontWeight: 800,
+                background: "linear-gradient(135deg,#7c3aed,#5b21b6)",
+                boxShadow: "0 12px 28px rgba(124,58,237,0.45)",
+                transition: "all 0.25s ease",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 16px 36px rgba(124,58,237,0.6)",
+                },
+              }}
+            >
+              Save
+            </Button>
+            :
+            < Button
+              endDecorator={<ArrowForwardIcon />}
+              size="lg"
+              onClick={handleNext}
+              disabled={openNext === 6}
+              sx={{
+                px: 5,
+                borderRadius: "xl",
+                fontWeight: 800,
+                background: "linear-gradient(135deg,#7c3aed,#5b21b6)",
+                boxShadow: "0 12px 28px rgba(124,58,237,0.45)",
+                transition: "all 0.25s ease",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 16px 36px rgba(124,58,237,0.6)",
+                },
+              }}
+            >
+              Next
+            </Button>
+          }
         </Box>
-
-
-
       </Card >
-
-
-
-
-
     </Box >
   )
 }
 
 export default memo(AddDetails)
-
-
-// import React, { memo, useCallback, useMemo, useState } from 'react'
-// import { Box, Typography, Card, Select, Option, Input, Button, } from '@mui/joy'
-// import { IconButton } from '@mui/material'
-// import CloseIcon from '@mui/icons-material/Close'
-// import VendorDetailsEntry from './VendorDetailsEntry'
-// import InstallationLabourCharge from './InstallationLabourCharge'
-// import RetentialDetails from './RetentialDetails'
-// import TermsAndConditions from './TermsAndConditions'
-// import PaymentTermsAndCondition from './PaymentTermsAndCondition'
-// import InvoiceOrBillingTermsAndCondition from './InvoiceOrBillingTermsAndCondition'
-// import WorkOrderMaterialDetails from './WorkOrderMaterialDetails'
-// import WorkOrderStepperComp from '../WorkOrderStepperComp'
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
-
-// const TAB_CONFIG = [
-//   {
-//     id: 1,
-//     label: 'ANNUAL MAINTANANCE CONTRACT',
-//     gradient: 'linear-gradient(135deg,#C5B0CD,#9B7EBD)',
-//   },
-//   {
-//     id: 2,
-//     label: 'COMPREHENSIVE MAINTANANCE CONTRACT',
-//     gradient: 'linear-gradient(135deg,#A2AADB,#6A7FDB)',
-//   },
-//   {
-//     id: 3,
-//     label: 'RATE CONTRACT',
-//     gradient: 'linear-gradient(135deg,#8174A0,#4A3F73)',
-//   },
-// ]
-
-// const AddDtails = ({ setOpen,
-//   SelectedData,
-//   setSelectedData }) => {
-//   const [tabValue, setTabValue] = useState(0)
-//   const [fromDate, setFromDate] = useState('')
-//   const [toDate, setToDate] = useState('')
-//   const [vendorList, SetVendorList] = useState(null)
-//   const [wod, setWod] = useState('')
-//   const [vendor_Desc, setVendor_Desc] = useState('')
-//   const [openNext, setOpenNext] = useState(0)
-
-//   // Material
-//   const [uom, setUOM] = useState(0)
-//   const [uomName, setUomName] = useState('')
-
-//   const selectedTab = useMemo(() => TAB_CONFIG[tabValue], [tabValue])
-
-//   const close = useCallback(() => {
-//     setOpen(0)
-//     setSelectedData([])
-//   }, [setOpen, setSelectedData])
-
-//   const handleNext = useCallback(() => {
-//     setOpenNext(prev => prev + 1)
-//   }, [])
-
-//   const handleBack = useCallback(() => {
-//     setOpenNext(prev => prev - 1)
-//   }, [])
-
-//   return (
-//     <Card
-//       sx={{
-//         flex: 1,
-//         p: 3,
-//         height: "90vh",                 // ✅ fixed height
-//         display: "flex",                // ✅ flex layout
-//         flexDirection: "column",
-//         background:
-//           "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,242,255,0.92))",
-//         boxShadow:
-//           "0 30px 80px rgba(79,70,229,0.15), inset 0 0 0 1px rgba(199,210,254,0.8)",
-//         borderRadius: "24px",
-//       }}
-//     >
-//       {/* ================= HEADER ================= */}
-//       <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-//         <IconButton onClick={close} sx={{ bgcolor: '#926FB1', '&:hover': { bgcolor: '#926FB1' }, }} >
-//           <CloseIcon sx={{ color: 'white' }} />
-//         </IconButton>
-//       </Box>
-//       {/* STEPPER */}
-//       <Box sx={{ mb: 3, p: 2, borderRadius: '18px', bgcolor: '#eef2ff', boxShadow: 'inset 0 0 0 1px #c7d2fe', }} >
-//         <WorkOrderStepperComp currentstep={openNext} />
-//       </Box>
-//       {/* HEADER */}
-//       <Box sx={{
-//         position: 'sticky', top: 0, zIndex: 10, display: 'flex',
-//         alignItems: 'center', justifyContent: 'space-between', p: 2,
-//         mb: 3, borderRadius: '20px', background: 'linear-gradient(135deg, rgba(255,255,255,0.97), rgba(238,242,255,0.92))',
-//         backdropFilter: 'blur(12px)', boxShadow: '0 10px 30px rgba(79,70,229,0.15), inset 0 0 0 1px rgba(199,210,254,0.8)',
-//       }} >
-//         {/* CONTRACT SELECT */}
-//         <Select value={tabValue} onChange={(e, v) => setTabValue(v)} placeholder="Select Contract"
-//           sx={{
-//             width: 400, bgcolor: '#fff', borderRadius: '14px', fontWeight: 700,
-//             border: '1px solid #e0e7ff', boxShadow: 'sm', '&:hover': { boxShadow: 'md' }, '&:focus-within': { borderColor: '#6366f1', boxShadow: '0 0 0 3px rgba(99,102,241,0.2)', },
-//           }} > {TAB_CONFIG.map((tab, index) => (
-//             <Option key={tab.label} value={index}
-//               sx={{
-//                 fontWeight: 600, borderRadius: '10px', my: 0.5, '&.Mui-selected':
-//                   { bgcolor: tab.gradient, color: '#fff', },
-//               }} > {tab.label} </Option>))}
-//         </Select>
-//         {/* TITLE */}
-//         <Box sx={{
-//           color: "#A88EC2",
-//           px: 4,
-//           py: 1.2, borderRadius: '999px', background: selectedTab.gradient,
-//           boxShadow: '0 12px 30px rgba(79,70,229,0.4)',
-//         }} >
-//           <Typography level="h4" sx={{
-//             fontWeight: 900, color: "#A88EC2",
-//             letterSpacing: 0.8, whiteSpace: 'nowrap', textTransform: 'uppercase',
-//           }} >
-//             {selectedTab.label} </Typography> </Box>
-//         {/* DATE RANGE */}
-//         <Box sx={{
-//           display: 'flex', alignItems: 'center', gap: 1, p: 1,
-//           borderRadius: '14px', bgcolor: '#fff', border: '1px solid #e0e7ff', boxShadow: 'sm',
-//         }} >
-//           <Input type="date" size="sm" value={fromDate} onChange={(e) => setFromDate(e.target.value)}
-//             sx={{ borderRadius: '10px', fontWeight: 600, minWidth: 135 }} />
-//           <Box sx={{
-//             px: 1.2, py: 0.5, borderRadius: '999px', bgcolor: '#eef2ff',
-//             fontWeight: 800, color: '#4f46e5',
-//           }} > → </Box> <Input type="date" size="sm"
-//             value={toDate} min={fromDate || undefined} onChange={(e) => setToDate(e.target.value)}
-//             sx={{ borderRadius: '10px', fontWeight: 600, minWidth: 135 }} />
-//         </Box> </Box>
-
-//       {/* ================= SCROLLABLE CONTENT ================= */}
-//       {/* <Box
-//         sx={{
-//           flex: 1,                    // ✅ takes remaining space
-//           overflowY: "auto",          // ✅ scrolls only content
-//           pr: 1,
-//           animation: "fadeSlide 0.35s ease",
-//           "@keyframes fadeSlide": {
-//             from: { opacity: 0, transform: "translateY(12px)" },
-//             to: { opacity: 1, transform: "translateY(0)" },
-//           },
-//         }}
-//       >
-//         <Box sx={{ minHeight: 600 }}>
-//           <Typography level="h4" mb={2}>
-//             Step Content {openNext + 1}
-//           </Typography>
-
-//           <Typography>
-//             This area will scroll if content is long.
-//             Footer buttons will stay fixed at the bottom.
-//           </Typography>
-
-//           {[...Array(20)].map((_, i) => (
-//             <Typography key={i} mt={1}>
-//               Content line {i + 1}
-//             </Typography>
-//           ))}
-//         </Box>
-//       </Box> */}
-
-
-
-// //         {/* CONTENT */}
-//       <Box
-//         sx={{
-//           animation: 'fadeSlide 0.35s ease',
-//           '@keyframes fadeSlide': {
-//             from: { opacity: 0, transform: 'translateY(12px)' },
-//             to: { opacity: 1, transform: 'translateY(0)' },
-//           },
-//         }}
-//       >
-//         {openNext === 0 && (
-//           <VendorDetailsEntry
-//             SelectedData={SelectedData}
-//             vendorList={vendorList}
-//             SetVendorList={SetVendorList}
-//             wod={wod}
-//             setWod={setWod}
-//             vendor_Desc={vendor_Desc}
-//             setVendor_Desc={setVendor_Desc}
-//           />
-//         )}
-
-//         {openNext === 1 && (
-//           <WorkOrderMaterialDetails
-//             uom={uom}
-//             setUOM={setUOM}
-//             setUomName={setUomName}
-//             uomName={uomName}
-//           />
-//         )}
-
-//         {openNext === 2 && <InstallationLabourCharge />}
-//         {openNext === 3 && <RetentialDetails />}
-//         {openNext === 4 && <TermsAndConditions />}
-//         {openNext === 5 && <PaymentTermsAndCondition />}
-//         {openNext === 6 && <InvoiceOrBillingTermsAndCondition />}
-//       </Box>
-
-//       {/* ================= FOOTER (STICKY) ================= */}
-//       <Box
-//         sx={{
-//           display: "flex",
-//           justifyContent: "space-between",
-//           pt: 2,
-//           mt: 2,
-//           borderTop: "1px solid #e0e7ff",
-//           background:
-//             "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,242,255,0.96))",
-//           position: "sticky",        // ✅ sticks inside card
-//           bottom: 0,
-//           zIndex: 10,
-//         }}
-//       >
-//         <Button
-//           startDecorator={<ArrowBackIcon />}
-//           size="lg"
-//           disabled={openNext === 0}
-//           onClick={handleBack}
-//           sx={{
-//             px: 5,
-//             borderRadius: "xl",
-//             fontWeight: 800,
-//             background: "linear-gradient(135deg,#64748b,#475569)",
-//             boxShadow: "0 12px 28px rgba(100,116,139,0.45)",
-//             transition: "all 0.25s ease",
-//             "&:hover": {
-//               transform: "translateY(-2px)",
-//               boxShadow: "0 16px 36px rgba(100,116,139,0.6)",
-//             },
-//           }}
-//         >
-//           Back
-//         </Button>
-
-//         <Button
-//           endDecorator={<ArrowForwardIcon />}
-//           size="lg"
-//           onClick={handleNext}
-//           sx={{
-//             px: 5,
-//             borderRadius: "xl",
-//             fontWeight: 800,
-//             background: "linear-gradient(135deg,#7c3aed,#5b21b6)",
-//             boxShadow: "0 12px 28px rgba(124,58,237,0.45)",
-//             transition: "all 0.25s ease",
-//             "&:hover": {
-//               transform: "translateY(-2px)",
-//               boxShadow: "0 16px 36px rgba(124,58,237,0.6)",
-//             },
-//           }}
-//         >
-//           {openNext === 3 ? "Finish" : "Next"}
-//         </Button>
-//       </Box>
-//     </Card>
-//   );
-// };
-
-// export default memo(AddDtails);
-
-
-

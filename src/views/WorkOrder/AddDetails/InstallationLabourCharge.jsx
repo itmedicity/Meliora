@@ -1,42 +1,43 @@
-
-
 import React, { memo, useState, useCallback, useEffect } from 'react'
 import {
     Box,
     Card,
     Typography,
-    Input,
-    Grid,
     Divider,
+    Table,
+    Sheet,
+    Modal,
+    ModalDialog,
+    Input,
+    Select,
+    Option,
+    IconButton,
+    Button
 } from '@mui/joy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import AddIcon from "@mui/icons-material/Add"
+import EditRoundedIcon from '@mui/icons-material/EditRounded'
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 
-const InstallationLabourCharge = () => {
+const emptyLabour = {
+    description: '',
+    specification: '',
+    unitRate: '',
+    quantity: '',
+    rateUnit: 'Per Day',
+    totalAmount: '0.00'
+}
 
-    // const [labourData, setLabourData] = useState({
-    //     description: '',
-    //     specification: '',
-    //     unitRate: '',
-    //     quantity: '',
-    //     rateUnit: '',
-    //     totalAmount: ''
-    // })
+const InstallationLabourCharge = ({
+    labourItems,
+    setLabourItems
+}) => {
 
-    const emptyLabour = {
-        description: '',
-        specification: '',
-        unitRate: '',
-        quantity: '',
-        rateUnit: '',
-        totalAmount: ''
-    }
-
+    const [open, setOpen] = useState(false)
     const [labourData, setLabourData] = useState(emptyLabour)
-    // const [labourList, setLabourList] = useState([])
+    const [editIndex, setEditIndex] = useState(null)
 
-    // console.log("labourList:", labourList);
-
+    // Auto calculate total amount
     useEffect(() => {
         const total =
             Number(labourData.unitRate || 0) *
@@ -47,16 +48,6 @@ const InstallationLabourCharge = () => {
             totalAmount: total.toFixed(2)
         }))
     }, [labourData.unitRate, labourData.quantity])
-
-    const handleAdd = useCallback(() => {
-        if (!labourData.description || !labourData.unitRate) return
-
-        // setLabourList(prev => [...prev, labourData])
-        setLabourData(emptyLabour) // reset form
-    }, [labourData])
-
-
-
 
     const handleChange = useCallback((e) => {
         const { name, value } = e.target
@@ -66,34 +57,50 @@ const InstallationLabourCharge = () => {
         }))
     }, [])
 
-    useEffect(() => {
-        const total =
-            Number(labourData.unitRate || 0) *
-            Number(labourData.quantity || 0)
+    const handleAddOrUpdate = useCallback(() => {
+        if (!labourData.description || !labourData.unitRate) return
 
-        setLabourData(prev => ({
-            ...prev,
-            totalAmount: total.toFixed(2)
-        }))
-    }, [labourData.unitRate, labourData.quantity])
+        if (editIndex !== null) {
+            setLabourItems(prev =>
+                prev.map((item, index) =>
+                    index === editIndex ? labourData : item
+                )
+            )
+        } else {
+            setLabourItems(prev => [...prev, labourData])
+        }
 
+        setLabourData(emptyLabour)
+        setEditIndex(null)
+        setOpen(false)
+    }, [labourData, editIndex, setLabourItems])
 
-    // const handleAdd = useCallback(() => {
-    //     // setMaterialData(emptyMaterial)
-    //     // setEditIndex(null)
-    //     // setOpenModal(true)
-    // }, [])
+    const handleEdit = (row, index) => {
+        setLabourData(row)
+        setEditIndex(index)
+        setOpen(true)
+    }
 
+    const handleDelete = (index) => {
+        setLabourItems(prev => prev.filter((_, i) => i !== index))
+    }
+
+    const handleOpenAdd = () => {
+        setLabourData(emptyLabour)
+        setEditIndex(null)
+        setOpen(true)
+    }
 
     return (
         <Card
             sx={{
-                p: 3,
+                height: 440,
+                mx: 'auto',
+                p: 1.5,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
-                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
-                backdropFilter: 'blur(8px)',
+                    'linear-gradient(145deg,#ffffff,#eef2ff)',
                 animation: 'fadeUp 0.4s ease',
                 '@keyframes fadeUp': {
                     from: { opacity: 0, transform: 'translateY(10px)' },
@@ -102,17 +109,16 @@ const InstallationLabourCharge = () => {
             }}
         >
 
+            {/* HEADER */}
             <Box display="flex" justifyContent="space-between" mb={2}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                    <EngineeringIcon sx={{ color: '#4f46e5' }} />
-                    <Typography level="h4" fontWeight={800}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <EngineeringIcon color="primary" />
+                    <Typography level="h4" fontWeight={700}>
                         Installation Labour Charges
                     </Typography>
-
                 </Box>
-
                 <Box
-                    onClick={handleAdd}
+                    onClick={handleOpenAdd}
                     sx={{
                         display: "flex",
                         alignItems: "center",
@@ -126,120 +132,217 @@ const InstallationLabourCharge = () => {
                     }}
                 >
                     <AddIcon fontSize="small" />
-                    Add Labour
+                    Add Material
                 </Box>
             </Box>
 
-            <Divider sx={{ mb: 3 }} />
+            <Divider />
 
-            <Grid container spacing={2}>
-                {/* Description */}
-                <Grid xs={12}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Description
-                    </Typography>
-                    <Input
-                        name="description"
-                        value={labourData.description}
-                        onChange={handleChange}
-                        placeholder="Enter labour work description"
-                    />
-                </Grid>
+            {/* TABLE */}
+            {labourItems.length > 0 ? (
+                <Sheet sx={{ mt: 3, borderRadius: 'xl' }}>
+                    <Table hoverRow>
+                        <thead>
+                            <tr>
+                                <th>Sl No</th>
+                                <th>Description</th>
+                                <th>Specification</th>
+                                <th>Rate Unit</th>
+                                <th>Unit Rate (₹)</th>
+                                <th>Qty</th>
+                                <th>Total (₹)</th>
+                                <th style={{ textAlign: 'center' }}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {labourItems.map((row, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{row.description}</td>
+                                    <td>{row.specification}</td>
+                                    <td>{row.rateUnit}</td>
+                                    <td>₹ {row.unitRate}</td>
+                                    <td>{row.quantity}</td>
+                                    <td style={{ fontWeight: 700 }}>
+                                        ₹ {row.totalAmount}
+                                    </td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <IconButton
+                                            size="sm"
+                                            color="primary"
+                                            onClick={() => handleEdit(row, index)}
+                                        >
+                                            <EditRoundedIcon />
+                                        </IconButton>
 
-                {/* Specification */}
-                <Grid xs={12}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Specification
-                    </Typography>
-                    <Input
-                        name="specification"
-                        value={labourData.specification}
-                        onChange={handleChange}
-                        placeholder="Specification / Scope of work"
-                    />
-                </Grid>
-
-                {/* Unit Rate */}
-                <Grid xs={12} sm={6} md={3}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Unit Rate (₹)
-                    </Typography>
-                    <Input
-                        type="number"
-                        name="unitRate"
-                        value={labourData.unitRate}
-                        onChange={handleChange}
-                        placeholder="₹ 0.00"
-                    />
-                </Grid>
-
-                {/* Quantity */}
-                <Grid xs={12} sm={6} md={3}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Quantity
-                    </Typography>
-                    <Input
-                        type="number"
-                        name="quantity"
-                        value={labourData.quantity}
-                        onChange={handleChange}
-                        placeholder="0"
-                    />
-                </Grid>
-
-                {/* Rate Unit */}
-                <Grid xs={12} sm={6} md={3}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Rate Unit
-                    </Typography>
-                    <Input
-                        name="rateUnit"
-                        value={labourData.rateUnit}
-                        onChange={handleChange}
-                        placeholder="Per Day / Per Job"
-                    />
-                </Grid>
-
-                {/* Total Amount */}
-                <Grid xs={12} sm={6} md={3}>
-                    <Typography level="body-sm" fontWeight={600}>
-                        Total Amount (₹)
-                    </Typography>
-                    <Input
-                        readOnly
-                        value={labourData.totalAmount}
-                        sx={{
-                            bgcolor: '#eef2ff',
-                            fontWeight: 800,
-                            color: '#4338ca'
-                        }}
-                    />
-                </Grid>
-            </Grid>
-
-            {/* Summary Footer */}
-            <Box
-                sx={{
-                    mt: 3,
-                    p: 2,
-                    borderRadius: 'lg',
-                    background: 'linear-gradient(90deg,#e0e7ff,#f5f3ff)',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}
-            >
-                <Typography fontWeight={700}>
-                    Calculated Labour Cost
+                                        <IconButton
+                                            size="sm"
+                                            color="danger"
+                                            onClick={() => handleDelete(index)}
+                                        >
+                                            <DeleteForeverRoundedIcon />
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Sheet>
+            ) : (
+                <Typography sx={{ mt: 3 }} color="text.secondary">
+                    No labour charges added
                 </Typography>
-                <Typography
-                    level="h4"
-                    fontWeight={900}
-                    sx={{ color: '#4f46e5' }}
+            )}
+
+
+            <Modal open={open} onClose={() => setOpen(false)}>
+                <ModalDialog
+                    size="lg"
+                    sx={{
+                        p: 0,
+                        borderRadius: '2xl',
+                        boxShadow: 'xl',
+                        overflow: 'hidden'
+                    }}
                 >
-                    ₹ {labourData.totalAmount || '0.00'}
-                </Typography>
-            </Box>
+
+                    {/* HEADER */}
+                    <Box
+                        sx={{
+                            px: 3,
+                            py: 2,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            background: '#B7A3E3',
+                            color: '#fff'
+                        }}
+                    >
+                        <EngineeringIcon />
+                        <Typography level="h4" fontWeight={700}>
+                            {editIndex !== null ? 'Edit Labour Charge' : 'Add Labour Charge'}
+                        </Typography>
+                    </Box>
+
+                    {/* BODY */}
+                    <Box sx={{ p: 3, display: 'grid', gap: 2.5 }}>
+
+                        {/* Description */}
+                        <Box>
+                            <Typography level="body-sm" mb={0.5}>
+                                Labour Description
+                            </Typography>
+                            <Input
+                                placeholder="Eg: Installation support labour"
+                                name="description"
+                                value={labourData.description}
+                                onChange={handleChange}
+                            />
+                        </Box>
+
+                        {/* Specification */}
+                        <Box>
+                            <Typography level="body-sm" mb={0.5}>
+                                Specification / Scope of Work
+                            </Typography>
+                            <Input
+                                placeholder="Eg: Skilled manpower for machine installation"
+                                name="specification"
+                                value={labourData.specification}
+                                onChange={handleChange}
+                            />
+                        </Box>
+
+                        {/* Rate & Quantity */}
+                        <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+                            <Box>
+                                <Typography level="body-sm" mb={0.5}>
+                                    Unit Rate (₹)
+                                </Typography>
+                                <Input
+                                    type="number"
+                                    name="unitRate"
+                                    value={labourData.unitRate}
+                                    onChange={handleChange}
+                                    startDecorator="₹"
+                                />
+                            </Box>
+
+                            <Box>
+                                <Typography level="body-sm" mb={0.5}>
+                                    Quantity
+                                </Typography>
+                                <Input
+                                    type="number"
+                                    name="quantity"
+                                    value={labourData.quantity}
+                                    onChange={handleChange}
+                                />
+                            </Box>
+                        </Box>
+
+                        {/* Rate Unit */}
+                        <Box>
+                            <Typography level="body-sm" mb={0.5}>
+                                Rate Unit
+                            </Typography>
+                            <Select
+                                value={labourData.rateUnit}
+                                onChange={(e, val) =>
+                                    setLabourData(prev => ({
+                                        ...prev,
+                                        rateUnit: val
+                                    }))
+                                }
+                            >
+                                <Option value="Per Day">Per Day</Option>
+                                <Option value="Per Job">Per Job</Option>
+                            </Select>
+                        </Box>
+
+                        {/* TOTAL AMOUNT CARD */}
+                        <Box
+                            sx={{
+                                mt: 1,
+                                p: 2,
+                                borderRadius: 'lg',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                background: 'linear-gradient(135deg,#eef2ff,#f8fafc)',
+                                border: '1px solid #e0e7ff'
+                            }}
+                        >
+                            <Typography level="body-md" fontWeight={600}>
+                                Calculated Labour Cost
+                            </Typography>
+                            <Typography level="h4" fontWeight={800} color="primary">
+                                ₹ {labourData.totalAmount}
+                            </Typography>
+                        </Box>
+
+                        {/* ACTIONS */}
+                        <Box display="flex" justifyContent="flex-end" gap={1.5} mt={1}>
+                            <Button
+                                variant="outlined"
+                                color="neutral"
+                                onClick={() => setOpen(false)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                color="primary"
+                                onClick={handleAddOrUpdate}
+                            >
+                                {editIndex !== null ? 'Update Labour' : 'Save Labour'}
+                            </Button>
+                        </Box>
+
+                    </Box>
+                </ModalDialog>
+            </Modal>
+
+
         </Card>
     )
 }
@@ -247,185 +350,3 @@ const InstallationLabourCharge = () => {
 export default memo(InstallationLabourCharge)
 
 
-// import React, { memo, useState, useCallback, useEffect } from 'react'
-// import {
-//     Box,
-//     Card,
-//     Typography,
-//     Input,
-//     Grid,
-//     Divider,
-// } from '@mui/joy'
-// import EngineeringIcon from '@mui/icons-material/Engineering'
-
-// const InstallationLabourCharge = () => {
-
-//     const [labourData, setLabourData] = useState({
-//         description: '',
-//         specification: '',
-//         unitRate: '',
-//         quantity: '',
-//         rateUnit: '',
-//         totalAmount: ''
-//     })
-
-//     const handleChange = useCallback((e) => {
-//         const { name, value } = e.target
-//         setLabourData(prev => ({
-//             ...prev,
-//             [name]: value
-//         }))
-//     }, [])
-
-//     useEffect(() => {
-//         const total =
-//             Number(labourData.unitRate || 0) *
-//             Number(labourData.quantity || 0)
-
-//         setLabourData(prev => ({
-//             ...prev,
-//             totalAmount: total.toFixed(2)
-//         }))
-//     }, [labourData.unitRate, labourData.quantity])
-
-
-//     return (
-//         <Card
-//             sx={{
-//                 p: 3,
-//                 borderRadius: '2xl',
-//                 boxShadow: 'xl',
-//                 background:
-//                     'linear-gradient(135deg, #fdfbff, #eef2ff)',
-//                 backdropFilter: 'blur(8px)',
-//                 animation: 'fadeUp 0.4s ease',
-//                 '@keyframes fadeUp': {
-//                     from: { opacity: 0, transform: 'translateY(10px)' },
-//                     to: { opacity: 1, transform: 'translateY(0)' }
-//                 }
-//             }}
-//         >
-//             {/* Header */}
-//             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-//                 <EngineeringIcon sx={{ color: '#4f46e5' }} />
-//                 <Typography level="h4" fontWeight={800}>
-//                     Installation Labour Charges
-//                 </Typography>
-
-//             </Box>
-
-//             <Divider sx={{ mb: 3 }} />
-
-//             <Grid container spacing={2}>
-//                 {/* Description */}
-//                 <Grid xs={12}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Description
-//                     </Typography>
-//                     <Input
-//                         name="description"
-//                         value={labourData.description}
-//                         onChange={handleChange}
-//                         placeholder="Enter labour work description"
-//                     />
-//                 </Grid>
-
-//                 {/* Specification */}
-//                 <Grid xs={12}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Specification
-//                     </Typography>
-//                     <Input
-//                         name="specification"
-//                         value={labourData.specification}
-//                         onChange={handleChange}
-//                         placeholder="Specification / Scope of work"
-//                     />
-//                 </Grid>
-
-//                 {/* Unit Rate */}
-//                 <Grid xs={12} sm={6} md={3}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Unit Rate (₹)
-//                     </Typography>
-//                     <Input
-//                         type="number"
-//                         name="unitRate"
-//                         value={labourData.unitRate}
-//                         onChange={handleChange}
-//                         placeholder="₹ 0.00"
-//                     />
-//                 </Grid>
-
-//                 {/* Quantity */}
-//                 <Grid xs={12} sm={6} md={3}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Quantity
-//                     </Typography>
-//                     <Input
-//                         type="number"
-//                         name="quantity"
-//                         value={labourData.quantity}
-//                         onChange={handleChange}
-//                         placeholder="0"
-//                     />
-//                 </Grid>
-
-//                 {/* Rate Unit */}
-//                 <Grid xs={12} sm={6} md={3}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Rate Unit
-//                     </Typography>
-//                     <Input
-//                         name="rateUnit"
-//                         value={labourData.rateUnit}
-//                         onChange={handleChange}
-//                         placeholder="Per Day / Per Job"
-//                     />
-//                 </Grid>
-
-//                 {/* Total Amount */}
-//                 <Grid xs={12} sm={6} md={3}>
-//                     <Typography level="body-sm" fontWeight={600}>
-//                         Total Amount (₹)
-//                     </Typography>
-//                     <Input
-//                         readOnly
-//                         value={labourData.totalAmount}
-//                         sx={{
-//                             bgcolor: '#eef2ff',
-//                             fontWeight: 800,
-//                             color: '#4338ca'
-//                         }}
-//                     />
-//                 </Grid>
-//             </Grid>
-
-//             {/* Summary Footer */}
-//             <Box
-//                 sx={{
-//                     mt: 3,
-//                     p: 2,
-//                     borderRadius: 'lg',
-//                     background: 'linear-gradient(90deg,#e0e7ff,#f5f3ff)',
-//                     display: 'flex',
-//                     justifyContent: 'space-between',
-//                     alignItems: 'center'
-//                 }}
-//             >
-//                 <Typography fontWeight={700}>
-//                     Calculated Labour Cost
-//                 </Typography>
-//                 <Typography
-//                     level="h4"
-//                     fontWeight={900}
-//                     sx={{ color: '#4f46e5' }}
-//                 >
-//                     ₹ {labourData.totalAmount || '0.00'}
-//                 </Typography>
-//             </Box>
-//         </Card>
-//     )
-// }
-
-// export default memo(InstallationLabourCharge)
