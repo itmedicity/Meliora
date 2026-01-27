@@ -448,14 +448,15 @@ export const IncidentCommonLevelApprovalDetailMaster = async (dep, sec) => {
     }
 };
 
-export const IncidentEmployeeApprovalDepartments = async (emp_id) => {
+export const IncidentEmployeeApprovalDepartments = async (emp_id, levelNo) => {
     if (!emp_id) {
         warningNotify("Employee Id  Missing");
         return [];
     }
     try {
         const res = await axioslogin.post('/incidentMaster/approvaldeps', {
-            emp_id: emp_id
+            emp_id: emp_id,
+            level_no: levelNo
         });
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {

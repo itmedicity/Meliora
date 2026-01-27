@@ -1,7 +1,6 @@
 import React, { Fragment, memo, useState } from 'react';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useQuery } from '@tanstack/react-query';
 import { getDepartmentSection } from
     'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
@@ -18,7 +17,7 @@ const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
     });
 
 
-    
+
     return (
         <Fragment>
             <CssVarsProvider>
@@ -46,7 +45,6 @@ const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
                     getOptionKey={(option) => option.sec_id}
                     getOptionLabel={(option) => option?.sec_name || ''}
                     loadingText="Loading..."
-                    endDecorator={<ArrowDropDownIcon />}
                 />
             </CssVarsProvider>
         </Fragment>

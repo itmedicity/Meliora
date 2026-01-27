@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import {
     Box,
     Card,
@@ -12,21 +12,15 @@ import {
 } from '@mui/joy'
 import PaymentsIcon from '@mui/icons-material/Payments'
 
-const RetentialDetails = () => {
-
-    const [retentialData, setRetentialData] = useState({
-        description: '',
-        paymentType: '',
-        amount: ''
-    })
+const RetentialDetails = ({ retentionData, setRetentionData }) => {
 
     const handleChange = useCallback((e) => {
         const { name, value } = e.target
-        setRetentialData(prev => ({ ...prev, [name]: value }))
-    }, [])
+        setRetentionData(prev => ({ ...prev, [name]: value }))
+    }, [setRetentionData])
 
     const handlePaymentType = (e, value) => {
-        setRetentialData(prev => ({
+        setRetentionData(prev => ({
             ...prev,
             paymentType: value,
             amount: ''
@@ -36,13 +30,13 @@ const RetentialDetails = () => {
     return (
         <Card
             sx={{
-                maxWidth: 700,
+                height: 440,
+                // maxWidth: 700,
                 mx: 'auto',
                 p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
-                background:
-                    'linear-gradient(145deg,#ffffff,#eef2ff)',
+                background: 'linear-gradient(145deg,#ffffff,#eef2ff)',
                 animation: 'fadeIn 0.4s ease'
             }}
         >
@@ -65,69 +59,66 @@ const RetentialDetails = () => {
             </Typography>
             <Textarea
                 minRows={4}
+                maxRows={5}
                 name="description"
-                value={retentialData.description}
+                value={retentionData?.description || ''}
                 onChange={handleChange}
                 placeholder="Enter retention terms & conditions..."
-                sx={{
-                    mt: 0.5,
-                    borderRadius: 'lg'
-                }}
+                sx={{ mt: 0.5, borderRadius: 'lg' }}
             />
 
             {/* Payment Type */}
-            <Box mt={3}>
-                <Typography level="body-sm" fontWeight={600}>
-                    Payment Type
-                </Typography>
-
-                <Select
-                    placeholder="Select retention type"
-                    value={retentialData.paymentType}
-                    onChange={handlePaymentType}
-                    sx={{
-                        mt: 0.5,
-                        borderRadius: 'lg',
-                        '--Select-focusedThickness': '2px',
-                        '--Select-focusedHighlight': '#6366f1'
-                    }}
-                >
-                    <Option value="amount">Fixed Amount</Option>
-                    <Option value="percentage">Fixed Percentage</Option>
-                </Select>
-            </Box>
-
-            {/* Amount / Percentage */}
-            {retentialData.paymentType && (
-                <Box mt={3}>
-                    <Typography level="body-sm" fontWeight={700}>
-                        {retentialData.paymentType === 'amount'
-                            ? 'Retention Amount (₹)'
-                            : 'Retention Percentage (%)'}
+            <Box sx={{ display: "flex", gap: 1 }}>
+                <Box mt={1} sx={{ flex: 1 }}>
+                    <Typography level="body-sm" fontWeight={600}>
+                        Payment Type
                     </Typography>
 
-                    <Input
-                        type="number"
-                        name="amount"
-                        value={retentialData.amount}
-                        onChange={handleChange}
-                        placeholder={
-                            retentialData.paymentType === 'amount'
-                                ? '₹ 0.00'
-                                : '0 %'
-                        }
+                    <Select
+                        placeholder="Select retention type"
+                        value={retentionData?.paymentType || ''}
+                        onChange={handlePaymentType}
                         sx={{
                             mt: 0.5,
                             borderRadius: 'lg',
-                            bgcolor: '#eef2ff',
-                            fontWeight: 800,
-                            color: '#4338ca'
+                            '--Select-focusedThickness': '2px',
+                            '--Select-focusedHighlight': '#6366f1'
                         }}
-                    />
+                    >
+                        <Option value="amount">Fixed Amount</Option>
+                        <Option value="percentage">Fixed Percentage</Option>
+                    </Select>
                 </Box>
-            )}
 
+                {retentionData?.paymentType && (
+                    <Box mt={1} sx={{ flex: 1 }}>
+                        <Typography level="body-sm" fontWeight={700}>
+                            {retentionData.paymentType === 'amount'
+                                ? 'Retention Amount (₹)'
+                                : 'Retention Percentage (%)'}
+                        </Typography>
 
+                        <Input
+                            type="number"
+                            name="amount"
+                            value={retentionData?.amount || ''}
+                            onChange={handleChange}
+                            placeholder={
+                                retentionData.paymentType === 'amount'
+                                    ? '₹ 0.00'
+                                    : '0 %'
+                            }
+                            sx={{
+                                mt: 0.5,
+                                borderRadius: 'lg',
+                                bgcolor: '#eef2ff',
+                                fontWeight: 800,
+                                color: '#4338ca'
+                            }}
+                        />
+                    </Box>
+                )}
+            </Box>
         </Card>
     )
 }

@@ -184,10 +184,10 @@ export const useCurrentCompanyData = () => {
 };
 
 //  15. Get all incident levels
-export const useApprovalDepartmentFetching = (empid) => {
+export const useApprovalDepartmentFetching = (empid, levelNo) => {
     return useQuery({
-        queryKey: ['getapprovaldeps', empid],
-        queryFn: () => IncidentEmployeeApprovalDepartments(empid),
+        queryKey: ['getapprovaldeps', empid, levelNo],
+        queryFn: () => IncidentEmployeeApprovalDepartments(empid, levelNo),
         enabled: !!empid,
         staleTime: Infinity,
     });

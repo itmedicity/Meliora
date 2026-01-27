@@ -22,8 +22,14 @@ const WorkOrder = [
         name: 'Work Order Entry',
         to: '/Home/WorkOrderEntry',
         icon: <CiStop1 />
+    },
+    {
+        men_slno: 338,
+        // component: CNavItem,
+        name: 'Work Order Approval',
+        to: '/Home/WorkOrderApproval',
+        icon: <CiStop1 />
     }
-
 
 ]
 

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import AddDetails from "./AddDetails/AddDetails";
 import { useQuery } from '@tanstack/react-query';
 import { getCRFDetails } from "src/api/WorkOrderApi";
+import { format, isValid, parse, parseISO } from "date-fns";
 
 const columns = [
     { key: "sl_no", label: "Sl No", align: "center", width: 60 },
@@ -46,10 +47,40 @@ const WorkOrderList = () => {
         history(`/Home`)
     }, [history])
 
-    const OnclickFun = useCallback((val) => {
-        setOpen(1)
-        setSelectedData(val)
-    }, [])
+    const formatDate = (value) => {
+        if (!value) return null;
+
+        let date;
+
+        if (typeof value === 'string' && value.includes('-') && value.length === 10) {
+            // Try ISO first
+            date = parseISO(value);
+            if (!isValid(date)) {
+                date = parse(value, 'dd-MM-yyyy', new Date());
+            }
+        } else {
+            date = new Date(value);
+        }
+
+        return isValid(date) ? format(date, 'yyyy-MM-dd') : null;
+    };
+
+
+    const OnclickFun = useCallback((row) => {
+        if (!row) return;
+
+        const data = {
+            sec_name: row.sec_name,
+            request_deptsec_slno: row.request_deptsec_slno,
+            crfNo: row.crfNo,
+            req_date: formatDate(row.req_date),
+            req_slno: row?.req_slno
+        };
+
+        setOpen(1);
+        setSelectedData(data); // keep array if UI expects array
+    }, []);
+
 
     return (
         <Fragment>
