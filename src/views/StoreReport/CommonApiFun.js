@@ -1,7 +1,19 @@
 import { axioslogin } from "../Axios/Axios"
 
+// with resolved status===0
 export const getVarationData = async () => {
     return axioslogin.get('/RateVariationReport/selectRateVariation').then(res => {
+        const { success, data } = res.data
+        if (success === 1 && data.length > 0) {
+            return data
+        } else {
+            return []
+        }
+    })
+}
+
+export const getInsertedVarationData = async () => {
+    return axioslogin.get('/RateVariationReport/getInsertedVarationData').then(res => {
         const { success, data } = res.data
         if (success === 1 && data.length > 0) {
             return data

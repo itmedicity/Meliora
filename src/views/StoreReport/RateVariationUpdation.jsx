@@ -11,11 +11,37 @@ import { IoSearchSharp } from "react-icons/io5";
 import { Virtuoso } from 'react-virtuoso'
 import { useSelector } from 'react-redux'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getVarationData } from './CommonApiFun'
+import { getInsertedVarationData } from './CommonApiFun'
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { format } from 'date-fns'
 import { succesNotify, warningNotify } from '../Common/CommonCode'
 import { RiFileExcel2Fill } from 'react-icons/ri'
+
+// const columns = [
+//     { key: "sl_no", label: "Sl_No", width: 200, align: "center" },
+//     { key: "GRN NO", label: "GRN_No", width: 200, align: "center" },
+//     { key: "SUC_NAME", label: "Suc_Name", width: 500, align: "left" },
+//     { key: "GRN DATE", label: "GRN_Date", width: 200, align: "center" },
+//     { key: "ITEM NAME", label: "Item_Name", width: 500, align: "left" },
+//     { key: "GRN RATE", label: "GRN_Rate", width: 230, align: "right" },
+//     { key: "GRN SELLING RATE", label: "GRN_Selling_Rate", width: 200, align: "right" },
+//     { key: "PO_MRP", label: "Po_Mrp", width: 200, align: "right" },
+//     { key: "GRN DIS %", label: "GRN_Dis%", width: 200, align: "right" },
+//     { key: "RATE", label: "Rate", width: 200, align: "right" },
+//     { key: "DIS %", label: "Disc %", width: 200, align: "right" },
+//     { key: "PO MARGIN %", label: "PO_Margin%", width: 200, align: "right" },
+//     { key: "RATE VARIATION", label: "Rate_Variation", width: 200, align: "right" },
+//     { key: "QUO MARGIN %", label: "Quo_Margin%", width: 200, align: "right" },
+//     { key: "PURCHASE MARGIN %", label: "Purchase_Margin%", width: 200, align: "right" },
+//     { key: "MARGIN_DIFF", label: "Margin_Diff", width: 200, align: "right" },
+//     { key: "VARI_AMT", label: "Variation_Amount", width: 200, align: "right" },
+//     { key: "DATA PUSH", label: "Data_Push", width: 200, align: "center" },
+//     { key: "GRN VARIATION QTY", label: "GRN_Variation_Qty", width: 200, align: "right" },
+//     { key: "GRN VARIATION FREE", label: "GRN_Variation_Free", width: 200, align: "right" },
+//     { key: "DATE_DIFF", label: "Date_Diff", width: 200, align: "right" },
+//     { key: "DISCOUNT VARIATION", label: "Disc_Variation", width: 200, align: "right" },
+//     { key: "COMMENTS", label: "Comments", width: 80, align: "right" },
+// ];
 
 const columns = [
     { key: "sl_no", label: "Sl_No", width: 200, align: "center" },
@@ -25,15 +51,15 @@ const columns = [
     { key: "ITEM NAME", label: "Item_Name", width: 500, align: "left" },
     { key: "GRN RATE", label: "GRN_Rate", width: 230, align: "right" },
     { key: "GRN SELLING RATE", label: "GRN_Selling_Rate", width: 200, align: "right" },
-    { key: "PO_MRP", label: "Po_Mrp", width: 200, align: "right" },
     { key: "GRN DIS %", label: "GRN_Dis%", width: 200, align: "right" },
-    { key: "RATE", label: "Rate", width: 200, align: "right" },
+    { key: "RATE", label: "Po_Rate", width: 200, align: "right" },
+    { key: "PO_MRP", label: "Po_Selling_Rate", width: 200, align: "right" },
     { key: "DIS %", label: "Disc %", width: 200, align: "right" },
     { key: "PO MARGIN %", label: "PO_Margin%", width: 200, align: "right" },
-    { key: "RATE VARIATION", label: "Rate_Variation", width: 200, align: "right" },
     { key: "QUO MARGIN %", label: "Quo_Margin%", width: 200, align: "right" },
     { key: "PURCHASE MARGIN %", label: "Purchase_Margin%", width: 200, align: "right" },
     { key: "MARGIN_DIFF", label: "Margin_Diff", width: 200, align: "right" },
+    { key: "RATE VARIATION", label: "Rate_Variation", width: 200, align: "right" },
     { key: "VARI_AMT", label: "Variation_Amount", width: 200, align: "right" },
     { key: "DATA PUSH", label: "Data_Push", width: 200, align: "center" },
     { key: "GRN VARIATION QTY", label: "GRN_Variation_Qty", width: 200, align: "right" },
@@ -42,6 +68,7 @@ const columns = [
     { key: "DISCOUNT VARIATION", label: "Disc_Variation", width: 200, align: "right" },
     { key: "COMMENTS", label: "Comments", width: 80, align: "right" },
 ];
+
 
 
 const RateVariationUpdation = ({ setActiveComponent }) => {
@@ -69,13 +96,13 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
         toDate
     }), [fromDate, toDate]);
 
-    const { data: RatevarationData } = useQuery({
-        queryKey: 'getdefaultdata',
-        queryFn: () => getVarationData(),
+    const { data: InsertedVarationData } = useQuery({
+        queryKey: 'VarationData',
+        queryFn: () => getInsertedVarationData(),
         staleTime: Infinity
     })
 
-    // ✅ Manual toggle only (no auto select)
+    // Manual toggle only (no auto select)
     const handleCheckboxChange = (row) => {
         const key = getRowKey(row);
         setSelectedRows(prev => {
@@ -90,21 +117,6 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
         const result = await axiosellider.post('/storeReport/getGrmDetails', filterParams)
         const { success, data } = result.data
         if (success === 2) {
-            // const filteredData = Array.isArray(data)
-            //     ? data?.map(val => ({
-            //         ...val,
-            //         MARGIN_DIFF:
-            //             Number(val["QUO MARGIN %"]) === 0
-            //                 ? Number(val["PURCHASE MARGIN %"]) - Number(val["PO MARGIN %"])
-            //                 : Number(val["QUO MARGIN %"]) - Number(val["PURCHASE MARGIN %"]),
-            //         VARI_AMT:
-            //             Number(val["GRN QTY"]) * Number(val["RATE VARIATION"])
-            //     }))
-            //     : [];
-
-            // setGrmData(filteredData);
-
-
             const filteredData = Array.isArray(data)
                 ? data
                     .filter(val => Number(val["RATE VARIATION"]) !== 0)
@@ -128,7 +140,7 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
     }, [filterParams])
 
     const grmDataWithStatus = useMemo(() => {
-        const variationArray = Array.isArray(RatevarationData) ? RatevarationData : [];
+        const variationArray = Array.isArray(InsertedVarationData) ? InsertedVarationData : [];
         return GrmData?.map(val => {
             const exists = variationArray?.some(r =>
                 Number(r?.grn_no) === Number(val["GRN NO"]) &&
@@ -137,7 +149,7 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             );
             return { ...val, status: exists ? 1 : 0 };
         });
-    }, [GrmData, RatevarationData]);
+    }, [GrmData, InsertedVarationData]);
 
     const filtered = useMemo(() => {
         let result = grmDataWithStatus;
@@ -191,7 +203,7 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             );
 
             if (result.data.success === 1) {
-                queryClient.invalidateQueries('getdefaultdata');
+                queryClient.invalidateQueries('VarationData');
                 succesNotify(result.data.message);
                 setSelectedRows([]);
             } else {
@@ -217,9 +229,9 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
             item_name: item["ITEM NAME"],
             grn_rate: item["GRN RATE"],
             grn_selling_rate: item["GRN SELLING RATE"],
-            po_mrp: item["PO_MRP"],
             grn_dis: item["GRN DIS %"],
-            rate: item["RATE"],
+            po_rate: item["RATE"],
+            po_selling_rate: item["PO_MRP"],
             dis_percent: item["DIS %"],
             suplier_name: item["SUC_NAME"],
             po_margin: item["PO MARGIN %"],

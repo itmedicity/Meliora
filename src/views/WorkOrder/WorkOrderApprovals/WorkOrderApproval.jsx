@@ -141,15 +141,12 @@ const WorkOrderApprovalPage = () => {
     const { data: ApprovalDepartments = [] } =
         useApprovalDepartmentFetching(empid, levelNo);
 
-    // const level_name = ApprovalDepartments?.[0]?.level_name;
+    const level_name = ApprovalDepartments?.[0]?.level_name;
     const level_no = ApprovalDepartments?.[0]?.level_no;
-    const nextLevelNo = level_no
-        ? level_no - 1
-        : null;
+    const nextLevelNo = level_no ? level_no - 1 : null;
 
     // console.log("level_name:", level_name);
-    // console.log("level_no:", level_no);
-
+    // console.log("nextLevelNo:", nextLevelNo);
 
     const { data: workOrders = [], isLoading } = useQuery({
         queryKey: ['GetWorkOrderDetails', nextLevelNo],
@@ -159,6 +156,8 @@ const WorkOrderApprovalPage = () => {
     });
 
     // console.log("nextLevelNo:", nextLevelNo);
+
+    // console.log("workOrders:", workOrders);
 
     // const { data: workOrders = [], isLoading } = useQuery({
     //     queryKey: ['GetWorkOrderDetails'],
@@ -215,7 +214,10 @@ const WorkOrderApprovalPage = () => {
                 <WoApprovalModal
                     selectedWO={selectedWO}
                     onClose={() => setSelectedWO(null)}
-                // ApprovalDepartments={ApprovalDepartments}
+                    // ApprovalDepartments={ApprovalDepartments}
+                    level_name={level_name}
+                    level_no={level_no}
+                    empid={empid}
                 />
             )}
         </>

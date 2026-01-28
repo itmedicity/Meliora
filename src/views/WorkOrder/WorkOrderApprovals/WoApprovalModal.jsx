@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import {
     Modal,
     ModalDialog,
@@ -12,6 +12,8 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { getmaterialDetails } from '../WorkOrderCommonApi'
 import { Business, CalendarMonth, CancelOutlined, CheckCircle, EngineeringOutlined, GavelOutlined, InfoOutlined, Inventory2Outlined, PaymentOutlined } from '@mui/icons-material'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 
 const STATUS_MAP = {
     0: { label: 'Pending', color: 'warning' },
@@ -19,7 +21,8 @@ const STATUS_MAP = {
     2: { label: 'Rejected', color: 'danger' },
 }
 
-const WoApprovalModal = ({ selectedWO, onClose }) => {
+const WoApprovalModal = ({ selectedWO, onClose, level_name, level_no, empid }) => {
+
     const { data } = useQuery({
         queryKey: ['woDetails', selectedWO?.wo_slno],
         queryFn: () => getmaterialDetails(selectedWO.wo_slno),
@@ -27,7 +30,9 @@ const WoApprovalModal = ({ selectedWO, onClose }) => {
     })
 
     const woData = data?.[0]
+
     const [remarks, setRemarks] = useState('')
+
     const status = STATUS_MAP[selectedWO?.approval_status]
 
 
@@ -37,9 +42,29 @@ const WoApprovalModal = ({ selectedWO, onClose }) => {
             .replace(/^\w/, c => c.toUpperCase())
 
 
-    // const handleApprovals = useCallback((val) => {
-    //     // console.log("val", val);
-    // }, [])
+    const handleApprovals = useCallback(async (val) => {
+        console.log("val", val);
+
+        const obj = {
+            level_name: level_name,
+            level_no: level_no,
+            wo_slno: val,
+            remarks: remarks,
+            empid: empid,
+            review_status: "A"
+        }
+        console.log("obj:", obj);
+
+        const result = await axioslogin.post('/workOrder/woLevelApproval', obj);
+        const { message, success } = result.data;
+        if (success === 1) {
+            succesNotify(message)
+        }
+        else {
+            warningNotify(message)
+        }
+
+    }, [level_name, level_no, remarks, empid])
 
     return (
         <Modal open onClose={onClose}>
@@ -200,62 +225,62 @@ const WoApprovalModal = ({ selectedWO, onClose }) => {
                     </Section>
 
                     {/* -------- REMARKS -------- */}
-                    {selectedWO.approval_status === 0 && (
-                        <Section icon={
-                            // <InfoOutlinedIcon />
-                            <InfoOutlined />
-                        } title=" Remarks">
-                            <Textarea
-                                minRows={3}
-                                value={remarks}
-                                placeholder="Enter reason "
-                                onChange={e => setRemarks(e.target.value)}
-                            />
-                        </Section>
-                    )}
+                    {/* {selectedWO.approval_status === 0 && ( */}
+                    <Section icon={
+                        // <InfoOutlinedIcon />
+                        <InfoOutlined />
+                    } title="Remarks">
+                        <Textarea
+                            minRows={3}
+                            value={remarks}
+                            placeholder="Enter reason "
+                            onChange={e => setRemarks(e.target.value)}
+                        />
+                    </Section>
+                    {/* )} */}
                 </Box>
 
                 {/* ================= FOOTER ================= */}
-                {selectedWO.approval_status === 0 && (
-                    <Box
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: 1.5,
-                            borderTop: '1px solid',
-                            borderColor: 'divider',
-                            bgcolor: 'background.level1',
-                        }}
+                {/* {selectedWO.approval_status === 0 && ( */}
+                <Box
+                    sx={{
+                        p: 2,
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: 1.5,
+                        borderTop: '1px solid',
+                        borderColor: 'divider',
+                        bgcolor: 'background.level1',
+                    }}
+                >
+                    <Button
+
+                        size="lg"
+                        startDecorator={
+                            // <CheckCircleIcon />
+                            <CheckCircle />
+                        }
+                        onClick={() => handleApprovals(selectedWO?.wo_slno)}
+                        sx={{ color: "success" }}
                     >
-                        <Button
+                        Approve
+                    </Button>
 
-                            size="lg"
-                            startDecorator={
-                                // <CheckCircleIcon />
-                                <CheckCircle />
-                            }
-                            // onClick={() => handleApprovals(selectedWO?.wo_slno)}
-                            sx={{ color: "success" }}
-                        >
-                            Approve
-                        </Button>
-
-                        <Button
-                            // color="danger"
-                            size="lg"
-                            variant="soft"
-                            startDecorator={
-                                // <CancelIcon />
-                                <CancelOutlined />
-                            }
-                            disabled={!remarks}
-                            sx={{ color: "danger" }}
-                        >
-                            Reject
-                        </Button>
-                    </Box>
-                )}
+                    <Button
+                        // color="danger"
+                        size="lg"
+                        variant="soft"
+                        startDecorator={
+                            // <CancelIcon />
+                            <CancelOutlined />
+                        }
+                        disabled={!remarks}
+                        sx={{ color: "danger" }}
+                    >
+                        Reject
+                    </Button>
+                </Box>
+                {/* )} */}
             </ModalDialog>
         </Modal>
     )
