@@ -60,6 +60,8 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
 
   const loginId = useSelector(state => state.LoginUserData.empid)
 
+  console.log(loginId);
+
   /**  MATERIAL STATE (SOURCE OF TRUTH) */
   const [materialItems, setMaterialItems] = useState([])
 
@@ -80,13 +82,13 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
   // paymentTermsData
   const [paymentTermsData, setPaymentTermsData] = useState({
     validUpto: '',
-    terms: ['']   // 👈 important: not empty array
+    terms: []
   })
 
   // invoiceTermsData
   const [invoiceTermsData, setInvoiceTermsData] = useState({
     validUpto: '',
-    terms: ['']
+    terms: []
   })
 
   /** DRAFT DATA */
@@ -272,14 +274,57 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
     }
   }
 
+  const validateVendorDetails = (draftData) => {
+    const vd = draftData?.vendorDetails || {}
+
+    const requiredFields = [
+      { key: 'vendor_desc', label: 'Vendor' },
+      { key: 'wod', label: 'WO Date' },
+      { key: 'req_date', label: 'Request Date' },
+      { key: 'fromDate', label: 'From Date' },
+      { key: 'toDate', label: 'To Date' },
+      { key: 'contractType', label: 'Contract Type' },
+    ]
+
+    // values coming from outside vendorDetails
+    if (!vendorList?.it_supplier_slno) return 'Vendor is required'
+    if (!req_slno) return 'CRF Number is required'
+    if (!last_wo_slno) return 'WO Number is missing'
+    if (!request_deptsec_slno) return 'Department is required'
+
+    for (const field of requiredFields) {
+      const value = vd[field.key]
+      if (value === null || value === undefined || value === '') {
+        return `${field.label} is required`
+      }
+    }
+
+    return null // ✅ valid
+  }
+
 
   /** SAVE */
   const handleSave = useCallback(async () => {
+
+    // 🔴 VALIDATION FIRST
+    const errorMsg = validateVendorDetails(draftData)
+    if (errorMsg) {
+      warningNotify(errorMsg)
+      return
+    }
+
     const postData = buildPostPayload(draftData)
-    const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
-    const { success, message } = result.data;
+
+    const result = await axioslogin.post(
+      '/workOrder/insertWorkOrderDetails',
+      postData
+    )
+
+    const { success, message } = result.data
+
     if (success === 1) {
       succesNotify(message)
+
       setDraftData({
         vendorDetails: {},
         materialDetails: [],
@@ -289,6 +334,7 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
         paymentTerms: {},
         billingTerms: {},
       })
+
       SetWoNumb('')
       setVendor_Desc('')
       setWod('')
@@ -299,21 +345,58 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
       setTabValue(0)
       setOpen(0)
 
-    }
-    else {
+    } else {
       warningNotify(message)
     }
-  }, [draftData,
-    setDraftData,
-    SetWoNumb,
-    setVendor_Desc,
-    setWod,
-    SetVendorList,
-    setToDate,
-    setFromDate,
-    setOpenNext,
-    setTabValue
+
+  }, [
+    draftData,
+    vendorList,
+    req_slno,
+    last_wo_slno,
+    request_deptsec_slno,
   ])
+
+  // const handleSave = useCallback(async () => {
+  //   const postData = buildPostPayload(draftData)
+  //   const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
+  //   const { success, message } = result.data;
+  //   if (success === 1) {
+  //     succesNotify(message)
+  //     setDraftData({
+  //       vendorDetails: {},
+  //       materialDetails: [],
+  //       labourDetails: [],
+  //       retentionDetails: {},
+  //       terms: {},
+  //       paymentTerms: {},
+  //       billingTerms: {},
+  //     })
+  //     SetWoNumb('')
+  //     setVendor_Desc('')
+  //     setWod('')
+  //     SetVendorList(null)
+  //     setToDate('')
+  //     setFromDate('')
+  //     setOpenNext(0)
+  //     setTabValue(0)
+  //     setOpen(0)
+
+  //   }
+  //   else {
+  //     warningNotify(message)
+  //   }
+  // }, [draftData,
+  //   setDraftData,
+  //   SetWoNumb,
+  //   setVendor_Desc,
+  //   setWod,
+  //   SetVendorList,
+  //   setToDate,
+  //   setFromDate,
+  //   setOpenNext,
+  //   setTabValue
+  // ])
 
   return (
     <Box sx={{ width: '100%' }}>

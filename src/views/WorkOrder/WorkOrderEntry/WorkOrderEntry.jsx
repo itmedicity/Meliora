@@ -61,9 +61,9 @@ const WorkOrderEntry = () => {
     const [crfNo, SetcrfNo] = useState('')
     const [req_date, SetReq_date] = useState('')
 
-    console.log("departmentsec:", departmentsec);
+    // console.log("departmentsec:", departmentsec);
 
-    console.log("crfNo:", crfNo);
+    // console.log("crfNo:", crfNo);
 
 
     // sec_id
@@ -284,14 +284,58 @@ const WorkOrderEntry = () => {
 
 
     /** SAVE */
-    const handleSave = useCallback(async () => {
-        const postData = buildPostPayload(draftData)
-        console.log("postData:", postData);
+    const validateVendorDetails = (draftData) => {
+        const vd = draftData?.vendorDetails || {}
+        console.log("vd:", vd);
 
-        const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
-        const { success, message } = result.data;
+        const requiredFields = [
+            { key: 'vendor_desc', label: 'Vendor' },
+            { key: 'wod', label: 'WO Date' },
+            { key: 'req_date', label: 'Request Date' },
+            { key: 'fromDate', label: 'From Date' },
+            { key: 'toDate', label: 'To Date' },
+            { key: 'contractType', label: 'Contract Type' },
+        ]
+
+        // values coming from outside vendorDetails
+        if (!vendorList?.it_supplier_slno) return 'Vendor is required'
+        if (!crfNo) return 'CRF Number is required'
+        if (!last_wo_slno) return 'WO Number is missing'
+        if (!sec_id) return 'Department is required'
+
+        for (const field of requiredFields) {
+            const value = vd[field.key]
+            if (value === null || value === undefined || value === '') {
+                return `${field.label} is required`
+            }
+        }
+
+        return null // ✅ valid
+    }
+
+
+    /** SAVE */
+    const handleSave = useCallback(async () => {
+
+        //  VALIDATION FIRST
+        const errorMsg = validateVendorDetails(draftData)
+        if (errorMsg) {
+            warningNotify(errorMsg)
+            return
+        }
+
+        const postData = buildPostPayload(draftData)
+
+        const result = await axioslogin.post(
+            '/workOrder/insertWorkOrderDetails',
+            postData
+        )
+
+        const { success, message } = result.data
+
         if (success === 1) {
             succesNotify(message)
+
             setDraftData({
                 vendorDetails: {},
                 materialDetails: [],
@@ -310,10 +354,10 @@ const WorkOrderEntry = () => {
             setOpenNext(0)
             setTabValue(0)
 
-        }
-        else {
+        } else {
             warningNotify(message)
         }
+
     }, [draftData,
         setDraftData,
         SetWoNumb,
@@ -325,6 +369,46 @@ const WorkOrderEntry = () => {
         setOpenNext,
         setTabValue
     ])
+
+    // const handleSave = useCallback(async () => {
+    //     const postData = buildPostPayload(draftData)
+    //     const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
+    //     const { success, message } = result.data;
+    //     if (success === 1) {
+    //         succesNotify(message)
+    //         setDraftData({
+    //             vendorDetails: {},
+    //             materialDetails: [],
+    //             labourDetails: [],
+    //             retentionDetails: {},
+    //             terms: {},
+    //             paymentTerms: {},
+    //             billingTerms: {},
+    //         })
+    //         SetWoNumb('')
+    //         setVendor_Desc('')
+    //         setWod('')
+    //         SetVendorList(null)
+    //         setToDate('')
+    //         setFromDate('')
+    //         setOpenNext(0)
+    //         setTabValue(0)
+
+    //     }
+    //     else {
+    //         warningNotify(message)
+    //     }
+    // }, [draftData,
+    //     setDraftData,
+    //     SetWoNumb,
+    //     setVendor_Desc,
+    //     setWod,
+    //     SetVendorList,
+    //     setToDate,
+    //     setFromDate,
+    //     setOpenNext,
+    //     setTabValue
+    // ])
 
     return (
         <Box sx={{ width: '100%' }}>
