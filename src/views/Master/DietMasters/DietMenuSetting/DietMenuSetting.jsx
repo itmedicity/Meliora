@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import CardMaster from 'src/views/Components/CardMaster'
 import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
-import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { MdOutlineAddCircleOutline } from 'react-icons/md'
-import DietMenuSettCmp from './DietMenuSettCmp'
-import SelectDietName from 'src/views/CommonSelectCode/SelectDietName'
-import SelectDietTypeName from 'src/views/CommonSelectCode/SelectDietTypeName'
-import ItemGroupName from 'src/views/CommonSelectCode/ItemGroupName'
-import SelectItemName from 'src/views/CommonSelectCode/SelectItemName'
-import { useSelector } from 'react-redux'
-import DietDaysSelect from 'src/views/CommonSelectCode/DietDaysSelect'
+import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import DietMenuSettCmp from './DietMenuSettCmp';
+import SelectDietName from 'src/views/CommonSelectCode/SelectDietName';
+import SelectDietTypeName from 'src/views/CommonSelectCode/SelectDietTypeName';
+import ItemGroupName from 'src/views/CommonSelectCode/ItemGroupName';
+import SelectItemName from 'src/views/CommonSelectCode/SelectItemName';
+import { useSelector } from 'react-redux';
+import DietDaysSelect from 'src/views/CommonSelectCode/DietDaysSelect';
 const DietMenuSetting = () => {
   const history = useNavigate()
 

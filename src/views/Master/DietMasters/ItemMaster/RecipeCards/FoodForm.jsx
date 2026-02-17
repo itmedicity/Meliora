@@ -1,292 +1,17 @@
-// import React, { useState } from "react";
-// import { Box, Typography, IconButton } from "@mui/joy";
-// import { TbWorldSearch } from "react-icons/tb";
-// import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
-// import FoodSuggestionItem from "./FoodSuggestionItem";
-// import AddFoodButton from "./AddFoodButton";
-// import { Data, inputStyle } from "src/views/Diet/CommonData/Common";
-
-// /* ---------- FIELD WRAPPER ---------- */
-// const Field = ({ label, children }) => (
-//     <Box sx={{ display: "flex", flexDirection: "column" }}>
-//         <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#666", ml: 1 }}>
-//             {label}
-//         </Typography>
-//         <Box sx={{ backgroundColor: "#f1f1f1", borderRadius: 8, px: 2, py: 1.2 }}>
-//             {children}
-//         </Box>
-//     </Box>
-// );
-
-// const FoodForm = ({
-//     setImage,
-//     formData,
-//     setFormData,
-//     setFoodData,
-//     setLoadingData,
-//     ExistFoodDetail = [],
-// }) => {
-
-//     /* ---------- FOOD SEARCH ---------- */
-//     const [query, setQuery] = useState("");
-//     const [suggestions, setSuggestions] = useState([]);
-//     const [showSuggestions, setShowSuggestions] = useState(false);
-
-//     /* ---------- INGREDIENT STATE (CLEAN) ---------- */
-//     const [ingredientInput, setIngredientInput] = useState({
-//         name: "",
-//         grams: "",
-//     });
-//     const [ingredients, setIngredients] = useState([]);
-
-//     /* ---------- INGREDIENT FUNCTIONS ---------- */
-//     const addIngredient = () => {
-//         if (!ingredientInput.name || !ingredientInput.grams) return;
-
-//         setIngredients(prev => [...prev, ingredientInput]);
-//         setIngredientInput({ name: "", grams: "" });
-//     };
-
-//     const removeIngredient = (index) => {
-//         setIngredients(prev => prev.filter((_, i) => i !== index));
-//     };
-
-//     /* ---------- FOOD NAME ---------- */
-//     const handleFoodChange = (e) => {
-//         const value = e.target.value;
-//         setQuery(value);
-//         setFormData(prev => ({ ...prev, name: value }));
-
-//         if (!value.trim()) {
-//             setSuggestions([]);
-//             setShowSuggestions(false);
-//             return;
-//         }
-
-//         const filtered = ExistFoodDetail
-//             ?.filter(item =>
-//                 item?.item_name?.toLowerCase().includes(value.toLowerCase())
-//             )
-//             .slice(0, 8);
-
-//         setSuggestions(filtered);
-//         setShowSuggestions(true);
-//     };
-
-//     const handleSelectFood = (food) => {
-//         setFormData(prev => ({
-//             ...prev,
-//             name: food.item_name,
-//             hospitalRate: food.rate_hosp ?? "",
-//             canteenRate: food.rate ?? "",
-//             type: food.group_name === "VEG" ? "veg" : "nonveg",
-//         }));
-//         setQuery(food.item_name);
-//         setShowSuggestions(false);
-//     };
-
-//     /* ---------- COMMON CHANGE ---------- */
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         setFormData(prev => ({ ...prev, [name]: value }));
-//     };
-
-//     /* ---------- IMAGE ---------- */
-//     const handleUpload = (e) => {
-//         const file = e.target.files[0];
-//         if (!file) return;
-//         const url = URL.createObjectURL(file);
-//         setFormData(prev => ({ ...prev, image: url }));
-//         setImage(url);
-//     };
-
-//     /* ---------- MOCK SEARCH ---------- */
-//     const searchFood = async () => {
-//         try {
-//             setLoadingData(true);
-//             setTimeout(() => setFoodData(Data), 1500);
-//         } finally {
-//             setLoadingData(false);
-//         }
-//     };
-
-//     /* ---------- SUBMIT ---------- */
-//     const handleSubmit = () => {
-//         const payload = {
-//             ...formData,
-//             ingredients,
-//         };
-//         console.log("FINAL PAYLOAD:", payload);
-//     };
-
-//     return (
-//         <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 1, boxShadow: "md", borderRadius: 5 }}>
-
-//             <Typography level="h4" fontWeight={700}>Food Information</Typography>
-
-//             {/* FOOD NAME */}
-//             <Box sx={{ display: "flex", gap: 1 }}>
-//                 <Box sx={{ flex: 1 }}>
-//                     <Field label="Food Name">
-//                         <Box sx={{ position: "relative" }}>
-//                             <input
-//                                 value={query.toUpperCase()}
-//                                 onChange={handleFoodChange}
-//                                 onFocus={() => query && setShowSuggestions(true)}
-//                                 onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-//                                 style={inputStyle}
-//                             />
-//                             {showSuggestions && (
-//                                 <Box sx={{ position: "absolute", top: "110%", left: 0, right: 0, bgcolor: "#fff", borderRadius: 8, boxShadow: "md", zIndex: 20 }}>
-//                                     {suggestions.map(food => (
-//                                         <FoodSuggestionItem
-//                                             key={food.item_slno}
-//                                             food={food}
-//                                             onSelect={handleSelectFood}
-//                                         />
-//                                     ))}
-//                                 </Box>
-//                             )}
-//                         </Box>
-//                     </Field>
-//                 </Box>
-//                 <TbWorldSearch size={22} style={{ cursor: "pointer" }} onClick={searchFood} />
-//             </Box>
-
-//             {/* DESCRIPTION */}
-//             <Field label="Description">
-//                 <textarea
-//                     name="description"
-//                     rows={3}
-//                     value={formData.description?.toUpperCase()}
-//                     onChange={handleChange}
-//                     style={{ ...inputStyle, resize: "none" }}
-//                 />
-//             </Field>
-
-//             {/* INGREDIENTS */}
-//             <Box >
-//                 <Typography fontWeight={600} mb={1}>Ingredients</Typography>
-
-//                 <Box sx={{ display: "flex", gap: 1 }}>
-//                     <Field label="Ingredient">
-//                         <input
-//                             value={ingredientInput.name?.toUpperCase()}
-//                             onChange={(e) => setIngredientInput(prev => ({ ...prev, name: e.target.value }))}
-//                             style={{ ...inputStyle, width: 350 }}
-//                         />
-//                     </Field>
-
-//                     <Field label="Grams">
-//                         <input
-//                             type="number"
-//                             value={ingredientInput.grams}
-//                             onChange={(e) => setIngredientInput(prev => ({ ...prev, grams: e.target.value }))}
-//                             style={{ ...inputStyle, width: 50 }}
-//                         />
-//                     </Field>
-
-//                     <IconButton sx={{ alignSelf: "flex-end", mb: 0.5 }} onClick={addIngredient}>
-//                         <AiOutlinePlus />
-//                     </IconButton>
-//                 </Box>
-
-//                 {/* ADDED INGREDIENTS */}
-//                 <Box mt={1}>
-//                     {ingredients.map((ing, i) => (
-//                         <Box key={i} sx={{ display: "flex", justifyContent: "space-between", bgcolor: "#f5f5f5", p: 1, borderRadius: 6, mb: 0.5 }}>
-//                             <Typography fontSize={13}>• {ing.name} – {ing.grams}g</Typography>
-//                             <IconButton size="sm" color="danger" onClick={() => removeIngredient(i)}>
-//                                 <AiOutlineDelete />
-//                             </IconButton>
-//                         </Box>
-//                     ))}
-//                 </Box>
-//             </Box>
-//             {/* RATES */}
-//             <Box
-//                 sx={{
-//                     display: 'flex',
-//                     justifyContent: 'space-between',
-//                 }}>
-//                 <Field label="Hospital Rate (₹)">
-//                     <input
-//                         name="hospitalRate"
-//                         value={formData.hospitalRate}
-//                         onChange={handleChange}
-//                         style={inputStyle}
-//                     />
-//                 </Field>
-
-//                 <Field label="Canteen Rate (₹)">
-//                     <input
-//                         name="canteenRate"
-//                         value={formData.canteenRate}
-//                         onChange={handleChange}
-//                         style={inputStyle}
-//                     />
-//                 </Field>
-//                 <Field label="Bystander Rate (₹)">
-//                     <input
-//                         name="bystanderRate"
-//                         value={formData.bystanderRate}
-//                         onChange={handleChange}
-//                         style={inputStyle}
-//                     />
-//                 </Field>
-//                 <Field label="Staff Rate (₹)">
-//                     <input
-//                         name="staffRate"
-//                         value={formData.staffRate}
-//                         onChange={handleChange}
-//                         style={inputStyle}
-//                     />
-//                 </Field>
-//                 <Field label="Special Rate (₹)">
-//                     <input
-//                         name="specialRate"
-//                         value={formData.specialRate}
-//                         onChange={handleChange}
-//                         style={inputStyle}
-//                     />
-//                 </Field>
-//             </Box>
-
-//             {/* IMAGE */}
-//             <Box component="label" sx={{ cursor: "pointer", border: "1px dashed #ccc", width: 150, textAlign: "center", p: 1 }}>
-//                 <Typography fontSize={10} fontWeight={600}>Upload Image</Typography>
-//                 <input hidden type="file" accept="image/*" onChange={handleUpload} />
-//             </Box>
-
-//             <AddFoodButton onClick={handleSubmit} />
-//         </Box>
-//     );
-// };
-
-// export default FoodForm;
-
-
-
-import React, { useState } from "react";
-import { Box, Typography, IconButton } from "@mui/joy";
+import React, { useCallback, useMemo, useState } from "react";
+import { Box, Typography, IconButton, Tooltip, Chip } from "@mui/joy";
 import { TbWorldSearch } from "react-icons/tb";
-import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import FoodSuggestionItem from "./FoodSuggestionItem";
 import AddFoodButton from "./AddFoodButton";
-import { Data, inputStyle } from "src/views/Diet/CommonData/Common";
-import { UseFoodTypeDetail, UseRoomTypeDetail } from "src/views/Diet/CommonData/UseQuery";
-
-/* ---------- FIELD WRAPPER ---------- */
-const Field = ({ label, children }) => (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography sx={{ fontSize: 13, fontWeight: 600, color: "#666", ml: 1 }}>
-            {label}
-        </Typography>
-        <Box sx={{ backgroundColor: "#f1f1f1", borderRadius: 8, px: 2, py: 1.2 }}>
-            {children}
-        </Box>
-    </Box>
-);
+import { Data, dietRestrictions, inputStyle } from "src/views/Diet/CommonData/Common";
+import IngredientList from "./IngredientList";
+import RoomPriceList from "./RoomPriceList";
+import Field from "./Field";
+import DietFoodTypeSelect from "src/views/CommonSelectCode/DietFoodTypeSelect";
+import DietMeasurementSelect from "src/views/CommonSelectCode/DietMeasurementSelect";
+import { warningNotify } from "src/views/Common/CommonCode";
+import { RiEdit2Fill } from "react-icons/ri";
 
 const FoodForm = ({
     setImage,
@@ -297,84 +22,40 @@ const FoodForm = ({
     ExistFoodDetail = [],
 }) => {
 
-    /* ---------- FOOD SEARCH ---------- */
     const [query, setQuery] = useState("");
-    const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-
-    /* ---------- INGREDIENT STATE ---------- */
-    const [ingredientInput, setIngredientInput] = useState({
-        name: "",
-        grams: "",
-    });
+    const [selectedDiets, setSelectedDiets] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const [editIndex, setEditIndex] = useState(null); //  ADD / EDIT MODE
-
-    const { data: foodItem } = UseFoodTypeDetail();
-    const { data: RoomType } = UseRoomTypeDetail();
-
-    console.log({
-        foodItem,
-        RoomType
-    });
+    const [ingredientInput, setIngredientInput] = useState({ name: "", value: "", unit: "" });
+    const [ingredientEditIndex, setIngredientEditIndex] = useState(null);
 
 
-    /* ---------- INGREDIENT FUNCTIONS ---------- */
-    const addOrUpdateIngredient = () => {
-        if (!ingredientInput.name || !ingredientInput.grams) return;
-
-        if (editIndex !== null) {
-            // UPDATE
-            setIngredients(prev =>
-                prev.map((ing, i) =>
-                    i === editIndex ? ingredientInput : ing
-                )
-            );
-            setEditIndex(null);
-        } else {
-            // ADD
-            setIngredients(prev => [...prev, ingredientInput]);
-        }
-
-        setIngredientInput({ name: "", grams: "" });
+    const handleDietToggle = (dietCode) => {
+        setSelectedDiets(prev =>
+            prev.includes(dietCode)
+                ? prev.filter(code => code !== dietCode)
+                : [...prev, dietCode]
+        );
     };
 
-    const editIngredient = (index) => {
-        setIngredientInput(ingredients[index]);
-        setEditIndex(index);
-    };
+    const filteredSuggestions = useMemo(() => {
+        if (!query.trim()) return [];
+        return ExistFoodDetail
+            ?.filter(item =>
+                item?.item_name?.toLowerCase().includes(query.toLowerCase())
+            )
+            ?.slice(0, 8);
+    }, [query, ExistFoodDetail]);
 
-    const removeIngredient = (index) => {
-        setIngredients(prev => prev.filter((_, i) => i !== index));
-        if (editIndex === index) {
-            setEditIndex(null);
-            setIngredientInput({ name: "", grams: "" });
-        }
-    };
 
-    /* ---------- FOOD NAME ---------- */
-    const handleFoodChange = (e) => {
+    const handleFoodChange = useCallback((e) => {
         const value = e.target.value;
         setQuery(value);
         setFormData(prev => ({ ...prev, name: value }));
+        setShowSuggestions(Boolean(value?.trim()));
+    }, [setFormData]);
 
-        if (!value.trim()) {
-            setSuggestions([]);
-            setShowSuggestions(false);
-            return;
-        }
-
-        const filtered = ExistFoodDetail
-            ?.filter(item =>
-                item?.item_name?.toLowerCase().includes(value.toLowerCase())
-            )
-            .slice(0, 8);
-
-        setSuggestions(filtered);
-        setShowSuggestions(true);
-    };
-
-    const handleSelectFood = (food) => {
+    const handleSelectFood = useCallback((food) => {
         setFormData(prev => ({
             ...prev,
             name: food.item_name,
@@ -384,44 +65,77 @@ const FoodForm = ({
         }));
         setQuery(food.item_name);
         setShowSuggestions(false);
-    };
+    }, [setFormData]);
 
-    /* ---------- COMMON CHANGE ---------- */
-    const handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-    };
+    }, [setFormData]);
 
-    /* ---------- IMAGE ---------- */
-    const handleUpload = (e) => {
+
+    const addOrUpdateIngredient = useCallback(() => {
+        if (!ingredientInput.name || !ingredientInput.value || !ingredientInput.unit) {
+            return warningNotify("Missing something");
+        }
+
+        setIngredients(prev => {
+            if (ingredientEditIndex !== null) {
+                return prev.map((item, i) =>
+                    i === ingredientEditIndex ? ingredientInput : item
+                );
+            }
+            return [...prev, ingredientInput];
+        });
+
+        setIngredientInput({ name: "", value: "", unit: "" });
+        setIngredientEditIndex(null);
+    }, [ingredientInput, ingredientEditIndex]);
+
+
+    const editIngredient = useCallback((index) => {
+        setIngredientInput(ingredients[index]);
+        setIngredientEditIndex(index);
+    }, [ingredients]);
+
+
+    const removeIngredient = useCallback((index) => {
+        setIngredients(prev => prev.filter((_, i) => i !== index));
+        if (ingredientEditIndex === index) {
+            setIngredientEditIndex(null);
+            setIngredientInput({ name: "", value: "", unit: "" });
+        }
+    }, [ingredientEditIndex]);
+
+
+
+    const handleUpload = useCallback((e) => {
         const file = e.target.files[0];
         if (!file) return;
         const url = URL.createObjectURL(file);
         setFormData(prev => ({ ...prev, image: url }));
         setImage(url);
-    };
+    }, [setFormData, setImage]);
 
-    /* ---------- MOCK SEARCH ---------- */
-    const searchFood = async () => {
+
+    const searchFood = useCallback(async () => {
         try {
             setLoadingData(true);
             setTimeout(() => setFoodData(Data), 1500);
         } finally {
             setLoadingData(false);
         }
-    };
+    }, [setFoodData, setLoadingData]);
 
-    /* ---------- SUBMIT ---------- */
-    const handleSubmit = () => {
+
+    const handleSubmit = useCallback(() => {
         const payload = {
             ...formData,
             ingredients,
+            // roomPrices,
         };
         console.log("FINAL PAYLOAD:", payload);
-    };
+    }, [formData, ingredients]);
 
-
-    
 
     return (
         <Box sx={{ p: 3, display: "flex", flexDirection: "column", gap: 1, boxShadow: "md", borderRadius: 5 }}>
@@ -430,7 +144,7 @@ const FoodForm = ({
 
             {/* FOOD NAME */}
             <Box sx={{ display: "flex", gap: 1 }}>
-                <Box sx={{ flex: 1 }}>
+                <Box sx={{ flex: 1, width: '60%' }}>
                     <Field label="Food Name">
                         <Box sx={{ position: "relative" }}>
                             <input
@@ -441,20 +155,38 @@ const FoodForm = ({
                                 style={inputStyle}
                             />
                             {showSuggestions && (
-                                <Box sx={{ position: "absolute", top: "110%", left: 0, right: 0, bgcolor: "#fff", borderRadius: 8, boxShadow: "md", zIndex: 20 }}>
-                                    {suggestions.map(food => (
-                                        <FoodSuggestionItem
-                                            key={food.item_slno}
-                                            food={food}
-                                            onSelect={handleSelectFood}
-                                        />
-                                    ))}
+                                <Box sx={{
+                                    position: "absolute",
+                                    top: "110%",
+                                    left: 0,
+                                    right: 0,
+                                    bgcolor: "#fff",
+                                    borderRadius: 8,
+                                    boxShadow: "md",
+                                    zIndex: 20
+                                }}>
+                                    <FoodSuggestionItem
+                                        suggestions={filteredSuggestions}
+                                        onSelect={handleSelectFood}
+                                    />
                                 </Box>
                             )}
                         </Box>
                     </Field>
                 </Box>
-                <TbWorldSearch size={22} style={{ cursor: "pointer" }} onClick={searchFood} />
+                <Box sx={{ width: '40%', mt: 0 }}>
+                    <Field label="Food Type">
+                        <DietFoodTypeSelect
+                            value={formData.foodType}
+                            setValue={(val) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    foodType: val
+                                }))
+                            }
+                        />
+                    </Field>
+                </Box>
             </Box>
 
             {/* DESCRIPTION */}
@@ -468,94 +200,122 @@ const FoodForm = ({
                 />
             </Field>
 
+
+
             {/* INGREDIENTS */}
             <Box>
-                <Typography fontWeight={600} mb={1}>Ingredients</Typography>
+                <Typography sx={{ mt: 2 }} fontWeight={600}>Ingredient Detail</Typography>
+                <Box sx={{
+                    display: "flex",
+                    gap: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <Box sx={{ width: '80%' }}>
+                        <Field label="Ingredient">
+                            <input
+                                value={ingredientInput.name?.toUpperCase()}
+                                onChange={(e) =>
+                                    setIngredientInput(prev => ({ ...prev, name: e.target.value }))
+                                }
+                                style={{ ...inputStyle, mt: 1 }}
+                            />
+                        </Field>
+                    </Box>
 
-                <Box sx={{ display: "flex", gap: 1 }}>
-                    <Field label="Ingredient">
-                        <input
-                            value={ingredientInput.name?.toUpperCase()}
-                            onChange={(e) =>
-                                setIngredientInput(prev => ({ ...prev, name: e.target.value }))
-                            }
-                            style={{ ...inputStyle, width: 350 }}
-                        />
-                    </Field>
-
-                    <Field label="Grams">
+                    <Field label="Measurement">
                         <input
                             type="number"
-                            value={ingredientInput.grams}
+                            value={ingredientInput?.value}
                             onChange={(e) =>
-                                setIngredientInput(prev => ({ ...prev, grams: e.target.value }))
+                                setIngredientInput(prev => ({ ...prev, value: e.target.value }))
                             }
                             style={{ ...inputStyle, width: 60 }}
                         />
                     </Field>
 
+                    <Box sx={{ width: '15%' }}>
+                        <Field label="unit">
+                            <DietMeasurementSelect
+                                value={ingredientInput?.unit}
+                                setValue={(val) =>
+                                    setIngredientInput(prev => ({ ...prev, unit: val }))
+                                }
+                            />
+                        </Field>
+                    </Box>
+
+
                     <IconButton
+                        variant="soft"
                         sx={{ alignSelf: "flex-end", mb: 0.5 }}
-                        color={editIndex !== null ? "warning" : "primary"}
-                        onClick={addOrUpdateIngredient}
-                    >
-                        {editIndex !== null ? "Update" : <AiOutlinePlus />}
+                        color={ingredientEditIndex !== null ? "warning" : "primary"}
+                        onClick={addOrUpdateIngredient}>
+                        {ingredientEditIndex !== null ? <RiEdit2Fill /> : <AiOutlinePlus />}
                     </IconButton>
                 </Box>
 
                 {/* ADDED INGREDIENTS */}
-                <Box mt={1}>
-                    {ingredients?.map((ing, i) => (
-                        <Box
-                            key={i}
-                            onClick={() => editIngredient(i)}
-                            sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                bgcolor: editIndex === i ? "#e3f2fd" : "#f5f5f5",
-                                p: 1,
-                                borderRadius: 6,
-                                mb: 0.5,
-                                cursor: "pointer"
-                            }}
-                        >
-                            <Typography fontSize={13}>
-                                • {ing?.name?.toUpperCase()} – {ing?.grams} g
-                            </Typography>
-
-                            <IconButton
-                                size="sm"
-                                color="danger"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    removeIngredient(i);
-                                }}
-                            >
-                                <AiOutlineDelete />
-                            </IconButton>
-                        </Box>
-                    ))}
-                </Box>
+                {
+                    ingredients?.length > 0 &&
+                    <Box sx={{ border: '1px solid #9822c326', p: 1, mt: 2 }}>
+                        <IngredientList
+                            ingredients={ingredients}
+                            editIndex={ingredientEditIndex}
+                            onEdit={editIngredient}
+                            onRemove={removeIngredient}
+                        />
+                    </Box>
+                }
             </Box>
 
-            {/* RATES */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                <Field label="Hospital Rate (₹)">
-                    <input name="hospitalRate" value={formData.hospitalRate} onChange={handleChange} style={inputStyle} />
-                </Field>
-                <Field label="Canteen Rate (₹)">
-                    <input name="canteenRate" value={formData.canteenRate} onChange={handleChange} style={inputStyle} />
-                </Field>
-                <Field label="Bystander Rate (₹)">
-                    <input name="bystanderRate" value={formData.bystanderRate} onChange={handleChange} style={inputStyle} />
-                </Field>
-                <Field label="Staff Rate (₹)">
-                    <input name="staffRate" value={formData.staffRate} onChange={handleChange} style={inputStyle} />
-                </Field>
-                <Field label="Special Rate (₹)">
-                    <input name="specialRate" value={formData.specialRate} onChange={handleChange} style={inputStyle} />
-                </Field>
+
+            <Typography sx={{ mt: 2 }} fontWeight={600}>Hospital Rate Detail</Typography>
+
+            <Box sx={{
+                display: "flex",
+                gap: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'red'
+            }}>
+
+            </Box>
+
+            <RoomPriceList />
+
+            <Typography sx={{ mt: 2 }} fontWeight={600}>Food Speciality</Typography>
+
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, border: '1px solid #9822c365', p: 1 }}>
+                {dietRestrictions?.map((diet) => {
+                    const selected = selectedDiets?.includes(diet.diet_code);
+                    return (
+                        <Chip
+                            key={diet.diet_code}
+                            variant={selected ? "solid" : "soft"}
+                            onClick={() => handleDietToggle(diet.diet_code)}
+                            sx={{
+                                cursor: "pointer",
+                                fontSize: 12,
+                                px: 1.2,
+                                py: 0.6,
+                                borderRadius: 12,
+                                textTransform: "uppercase",
+                                opacity: diet.status === 0 ? 0.4 : 1,
+                                pointerEvents: diet.status === 0 ? "none" : "auto",
+
+                                "--Chip-bgColor": selected
+                                    ? "var(--royal-purple-400)"
+                                    : "transparent",
+
+                                "--Chip-color": selected ? "#fff" : "#000",
+                            }}
+                        >
+                            • {diet.description}
+                        </Chip>
+
+                    );
+                })}
             </Box>
 
             {/* IMAGE */}
@@ -563,8 +323,19 @@ const FoodForm = ({
                 <Typography fontSize={10} fontWeight={600}>Upload Image</Typography>
                 <input hidden type="file" accept="image/*" onChange={handleUpload} />
             </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Tooltip title="Get Nutritional Detail" placement="top" variant="solid">
+                    <Box component="span" sx={{ display: 'inline-flex', cursor: 'pointer' }}>
+                        <TbWorldSearch
+                            size={22}
+                            onClick={searchFood}
+                        />
+                    </Box>
+                </Tooltip>
 
-            <AddFoodButton onClick={handleSubmit} />
+                <AddFoodButton onClick={handleSubmit} />
+            </Box>
+
         </Box>
     );
 };

@@ -209,6 +209,7 @@ export const Inc_Two = [
 export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
+
 ]
 
 // //Diet Master Menu
@@ -222,12 +223,15 @@ export const Inc_Three = [
 export const dm_setting_two = [
     { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+    { to: '/Home/dietroom', name: 'Diet Room Master', slno: 337 },
+    { to: '/Home/dietdelmaster', name: 'Diet Delivery Master', slno: 340 },
 
 ]
 
 export const dm_setting_three = [
     { to: '/Home/RateList', name: 'Rate List', slno: 40 },
-    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
+    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 },
+    { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 55 }
 ]
 
 // //We  Work Menu

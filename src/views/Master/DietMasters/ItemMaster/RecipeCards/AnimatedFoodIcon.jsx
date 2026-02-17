@@ -9,7 +9,7 @@ import { Box } from "@mui/joy";
 //     "#d14fe8",
 // ];
 
-const AnimatedFoodIcon = ({ icons, size = 28, interval = 1400 }) => {
+const AnimatedFoodIcon = ({ icons, size = 28, interval = 1400, Iconcolor = "var(--royal-purple-400)" }) => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const AnimatedFoodIcon = ({ icons, size = 28, interval = 1400 }) => {
             <IconComponent
                 style={{
                     fontSize: size,
-                    // color: colors[index % colors.length],
+                    color: Iconcolor,
                     // filter: "drop-shadow(2px 2px 6px rgba(0,0,0,0.35))",
                     transition: "color 0.4s ease, filter 0.4s ease, transform 0.4s ease",
                 }}

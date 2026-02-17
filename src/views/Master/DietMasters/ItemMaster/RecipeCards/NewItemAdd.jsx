@@ -7,7 +7,6 @@ import FoodForm from './FoodForm';
 import FoodDetails from './FoodDetails';
 import { UseFoodDetail } from 'src/views/Diet/CommonData/UseQuery';
 
-
 const NewItemAdd = () => {
     const [image, setImage] = useState(null);
     const [loadingdata, setLoadingData] = useState(false);
@@ -16,13 +15,12 @@ const NewItemAdd = () => {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
-        type: "",
+        diet_type: null,
+        foodType: null,
         serves: "",
         prepTime: "",
         cookTime: "",
         totalTime: "",
-        hospitalRate: "",
-        canteenRate: "",
         staffRate: "",
         bystanderRate: "",
         specialRate: "",
@@ -67,7 +65,7 @@ const NewItemAdd = () => {
                     <Box
                         sx={{
                             width: "100%",
-                            height: "40%",
+                            height: 400,
                             borderRadius: 5,
                             overflow: "hidden",
                             boxShadow: 'md',
@@ -99,7 +97,6 @@ const NewItemAdd = () => {
                         Loading={loadingdata}
                         Data={fooddata ?? {}}
                     />
-
                 </Box>
             </Box>
         </Box>

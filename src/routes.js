@@ -1,4 +1,6 @@
 import React from 'react'
+import { KotFilterProvider } from './views/Diet/DietReducer/contextprovider/KotFilterContext'
+
 
 
 
@@ -311,6 +313,16 @@ const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
 const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
 
+
+
+// Diet Rohith
+
+const DietTypeGrouping = React.lazy(() => import('./views/Diet/DietTypeGrouping/DietTypeGrouping'));
+const DietdelivaryMaster = React.lazy(() => import('./views/Master/DietMasters/DietDelivaryMaster/DietDeliveryTimeMaster'));
+const KotItemContainer = React.lazy(() => import('./views/Diet/KotItemList/KotItemContainer'));
+const KotPreparationDelivery = React.lazy(() => import('./views/Diet/KotDeliveryPreparation/KotPreparationDelivery'));
+
+
 // const CommonSetting = React.lazy(() => import('./views/Master'));
 // const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
 
@@ -574,7 +586,9 @@ const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
 
-
+const DietRoomMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomMaster/DietRoomMaster'));
+const DietRoomTypeGroupingMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomTypeGroupingMaster/DietRoomTypeGroupingMaster'));
+const OrderTakingPage = React.lazy(() => import('./views/Diet/DietOrderList/OrderTakingPage'));
 
 const routes = [
   { path: '', element: <Home /> },
@@ -630,7 +644,7 @@ const routes = [
   { path: 'ItemMaster', name: 'Item Master', element: <NewItemAdd /> },
   { path: 'DietDetail', name: 'Diet Detail', element: <DietDetail /> },
   { path: 'DietApproval', name: 'Diet Approval', element: <DietApproval /> },
-  { path: 'DietPlanList', name: 'Diet Plan List', element: <DietPlanList /> },
+  { path: 'DietPlanList', name: 'Patient List', element: <DietPlanList /> },
   { path: 'DietOrderList', name: 'Diet Order List', element: <DietOrderList /> },
   { path: 'DietExtraOrder', name: 'Diet Extra Order', element: <DietExtraOrder /> },
   { path: 'DietDelivery', name: 'Diet Delivery', element: <DietDelivery /> },
@@ -1148,7 +1162,6 @@ const routes = [
     name: 'Incident Common View',
     element: <IncidentCommonView />
   },
-
   {
     path: 'VendorMaster',
     name: 'VendorMaster',
@@ -1158,6 +1171,45 @@ const routes = [
     path: 'WorkOrderEntry',
     name: 'WorkOrderEntry',
     element: <WorkOrderEntry />
+  },
+  {
+    path: 'dietroom',
+    name: 'Diet Room Master',
+    element: <DietRoomMaster />
+  },
+  {
+    path: 'dietroomtypegroup',
+    name: 'Diet Room Type Grouping Master',
+    element: <DietRoomTypeGroupingMaster />
+  },
+  {
+    path: 'diettypegroup',
+    name: 'Diet Type Grouping',
+    element: <DietTypeGrouping />
+  },
+  {
+    path: 'dietdelmaster',
+    name: 'Diet Delivery Master',
+    element: <DietdelivaryMaster />
+  },
+  {
+    path: 'kotitemlist',
+    name: 'KOT Item List',
+    element: <KotItemContainer />
+  },
+  {
+    path: 'kotprepdev',
+    name: 'KOT Preperation / Delivery',
+    element: (
+      <KotFilterProvider>
+        <KotPreparationDelivery />
+      </KotFilterProvider>
+    )
+  },
+  {
+    path: 'dietorder',
+    name: 'Diet Order',
+    element: <OrderTakingPage />
   },
 ]
 

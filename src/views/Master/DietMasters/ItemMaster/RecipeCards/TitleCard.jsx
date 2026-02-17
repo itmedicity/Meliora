@@ -14,7 +14,7 @@ const TitleCard = () => {
             sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 0,
+                gap: 1,
                 p: 1
             }}>
             <AnimatedFoodIcon
@@ -37,7 +37,7 @@ const TitleCard = () => {
                     fontSize: 18,
                     fontWeight: 600,
                     fontFamily: "var(--roboto-font)",
-                    mt:2
+                    mt: 2
                 }}> RECIPE CARD</Typography>
 
         </Box>
