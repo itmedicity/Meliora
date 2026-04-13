@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, useMemo, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import {
   Box,
   Typography,
@@ -7,450 +7,453 @@ import {
   Option,
   Input,
   Button,
+  IconButton,
 } from '@mui/joy'
-import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { useDispatch, useSelector } from 'react-redux'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  setStep,
+  updateVendorDetails,
+  togglePreview,
+  saveWorkOrder,
+  resetWorkOrder,
+} from '../../../redux/actions/Workorder.action'
+
 import VendorDetailsEntry from './VendorDetailsEntry'
+import WorkOrderStepperComp from '../WorkOrderStepperComp'
+import WorkOrderPreviewModal from './WorkOrderModals/WorkOrderPreviewModal'
+import { warningNotify } from 'src/views/Common/CommonCode'
+import { getCrfItem, getLastWOnumber } from '../WorkOrderCommonApi'
+import WorkOrderMaterialDetails from './WorkOrderMaterialDetails'
 import InstallationLabourCharge from './InstallationLabourCharge'
 import RetentialDetails from './RetentialDetails'
 import TermsAndConditions from './TermsAndConditions'
 import PaymentTermsAndCondition from './PaymentTermsAndCondition'
 import InvoiceOrBillingTermsAndCondition from './InvoiceOrBillingTermsAndCondition'
-import WorkOrderMaterialDetails from './WorkOrderMaterialDetails'
-import WorkOrderStepperComp from '../WorkOrderStepperComp'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import WorkOrderPreviewModal from './WorkOrderModals/WorkOrderPreviewModal'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
-import { useSelector } from 'react-redux'
-import { getLastWOnumber } from '../WorkOrderCommonApi'
-import { useQuery } from '@tanstack/react-query'
+import { TAB_CONFIG, validateVendorDetails } from '../ReUsableCodes'
 
-/*  Contract Types */
-const TAB_CONFIG = [
-  {
-    id: 1,
-    label: 'ANNUAL MAINTANANCE CONTRACT',
-    gradient: 'linear-gradient(135deg,#C5B0CD,#9B7EBD)',
-  },
-  {
-    id: 2,
-    label: 'COMPREHENSIVE MAINTANANCE CONTRACT',
-    gradient: 'linear-gradient(135deg,#A2AADB,#6A7FDB)',
-  },
-  {
-    id: 3,
-    label: 'RATE CONTRACT',
-    gradient: 'linear-gradient(135deg,#8174A0,#4A3F73)',
-  },
-]
 
-const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
+const AddDetails = ({ setOpen, SelectedData }) => {
 
-  const [tabValue, setTabValue] = useState(0)
-  const [openNext, setOpenNext] = useState(0)
-
-  const [fromDate, setFromDate] = useState('')
-  const [toDate, setToDate] = useState('')
-  const [vendorList, SetVendorList] = useState(null)
-  const [wod, setWod] = useState('')
-  const [vendor_Desc, setVendor_Desc] = useState('')
-  const [Wo_numb, SetWoNumb] = useState('')
+  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
 
   const loginId = useSelector(state => state.LoginUserData.empid)
+  // Storing
+  const WorderFullData = useSelector(state => state.getworkOrderReducer)
 
-  console.log(loginId);
-
-  /**  MATERIAL STATE (SOURCE OF TRUTH) */
-  const [materialItems, setMaterialItems] = useState([])
-
-  /** PREVIEW */
-  const [previewOpen, setPreviewOpen] = useState(false)
-
-  //add laboour charge
-  const [labourItems, setLabourItems] = useState([])
-
-  //add rentinal data
-  const [retentionData, setRetentionData] = useState({})
-
-  //add Terms and condition datas
-  const [termsData, setTermsData] = useState({
-    validUpto: '',
-    terms: []
-  })
-  // paymentTermsData
-  const [paymentTermsData, setPaymentTermsData] = useState({
-    validUpto: '',
-    terms: []
-  })
-
-  // invoiceTermsData
-  const [invoiceTermsData, setInvoiceTermsData] = useState({
-    validUpto: '',
-    terms: []
-  })
-
-  /** DRAFT DATA */
-  const [draftData, setDraftData] = useState({
-    vendorDetails: {},
-    materialDetails: [],
-    labourDetails: [],
-    retentionDetails: {},
-    terms: {},
-    paymentTerms: {},
-    billingTerms: {},
-    loginId: loginId
-  })
+  const FullData = useMemo(() => WorderFullData, [WorderFullData])
+  // DeStructuring the Stored Data
+  const {
+    step,
+    vendorDetails,
+    materialList,
+    labourList,
+    retentionDetails,
+    terms,
+    paymentTerms,
+    billingTerms,
+    previewOpen,
+    loading
+  } = FullData ?? {};
 
   const {
     sec_name,
-    request_deptsec_slno,
-    crfNo,
-    req_date, req_slno
-  } = SelectedData || {};
-
-  const selectedTab = useMemo(() => TAB_CONFIG[tabValue], [tabValue])
-
-  const { data: getWOnumber = {} } = useQuery({
-    queryKey: ['lastWOnumber'],
-    queryFn: getLastWOnumber,
-  });
-
-  const last_wo_slno = getWOnumber?.[0]?.wo_slno ?? 0;
-
-  /** CLOSE */
-  const close = useCallback(() => {
-    setOpen(0)
-    setSelectedData([])
-  }, [setOpen, setSelectedData])
-
-  /** STEPPER */
-  const handleNext = () => setOpenNext(prev => prev + 1)
-  const handleBack = () => setOpenNext(prev => prev - 1)
-
-  /**  SYNC VENDOR DETAILS */
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      vendorDetails: {
-        vendor_slno: vendorList?.it_supplier_name,
-        vendor_desc: vendor_Desc,
-        wod,
-        sec_name,
-        crfNo,
-        req_date,
-        fromDate,
-        toDate,
-        contractType: selectedTab?.id,
-        loginId,
-        Wo_numb
-      },
-    }))
-  }, [
-    vendorList,
-    vendor_Desc,
-    wod,
-    request_deptsec_slno,
     crfNo,
     req_date,
-    fromDate,
-    toDate,
-    selectedTab,
-    loginId,
-    Wo_numb
-  ])
+    req_slno
+  } = SelectedData || {}
 
-  /** SYNC MATERIAL DETAILS */
+  // Dynamic localStorage key based on req_slno
+  const LOCAL_KEY = useMemo(() => `VendorFullData_${req_slno}`, [req_slno]);
+
+  const { data: getWOnumber = [] } = useQuery({
+    queryKey: ['lastWOnumber'],
+    queryFn: getLastWOnumber
+  })
+
+  const { data: getCrfItems = [] } = useQuery({
+    queryKey: ['getCrfItemsList', req_slno],
+    queryFn: () => getCrfItem(req_slno),
+    enabled: !!req_slno
+  })
+
+  const last_wo_slno = getWOnumber?.[0]?.wo_slno ?? 0
+
+  const selectedTab = useMemo(
+    () => TAB_CONFIG.find(t => t.id === vendorDetails.contractType),
+    [vendorDetails, TAB_CONFIG]
+  )
+
+  //  Load draft from localStorage when req_slno changes
   useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      materialDetails: materialItems,
-    }))
-  }, [materialItems])
+    if (!req_slno) return
 
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      labourDetails: labourItems,
-    }))
-  }, [labourItems])
+    const savedDraft = JSON.parse(
+      localStorage.getItem(LOCAL_KEY) || "{}"
+    )
 
-
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      retentionDetails: retentionData,
-    }))
-  }, [retentionData])
-
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      terms: termsData
-    }))
-  }, [termsData])
-
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      paymentTerms: paymentTermsData
-    }))
-  }, [paymentTermsData])
-
-  useEffect(() => {
-    setDraftData(prev => ({
-      ...prev,
-      billingTerms: invoiceTermsData
-    }))
-  }, [invoiceTermsData])
-
-  const buildPostPayload = (draftData) => {
-    return {
-      vendor_details: {
-        vendor_slno: vendorList?.it_supplier_slno,
-        vendor_desc: draftData.vendorDetails.vendor_desc,
-        wod: draftData.vendorDetails.wod,
-        req_date: draftData.vendorDetails.req_date,
-        from_date: draftData.vendorDetails.fromDate,
-        to_date: draftData.vendorDetails.toDate,
-        contract_type: draftData.vendorDetails.contractType,
-        crf_no: req_slno,
-        wo_number: last_wo_slno + 1,
-        sec_name: request_deptsec_slno,
-        loginId: loginId
-      },
-
-      material_details: draftData.materialDetails.map(item => ({
-        item_code: item.itemCode,
-        item_name: item.itemName,
-        description: item.itemDesc,
-        brand: item.itemBrand,
-        specification: item.specification,
-        qty: Number(item.quantity),
-        uom: item.uom,
-        unit_price: Number(item.unitPrice),
-        gross_amount: Number(item.grossAmount),
-        gst_amount: Number(item.gstAmount),
-        total_amount: Number(item.totalAmount),
-        loginId: loginId
-      })),
-
-
-      labour_details: draftData.labourDetails.map(item => ({
-        description: item.description,
-        specification: item.specification,
-        quantity: Number(item.quantity),
-        rate_unit: item.rateUnit,
-        unit_rate: Number(item.unitRate),
-        total_amount: Number(item.totalAmount),
-        loginId: loginId
-      })),
-
-      retention_details: {
-        payment_type: draftData.retentionDetails.paymentType,
-        amount: Number(draftData.retentionDetails.amount),
-        description: draftData.retentionDetails.description,
-        loginId: loginId
-      },
-
-      termsConditions: {
-        terms: draftData.terms?.terms ?? [],
-        validUpto: draftData.terms?.validUpto,
-        loginId: draftData.vendorDetails.loginId,
-      },
-
-      paymentTerms: {
-        terms: draftData.paymentTerms?.terms ?? [],
-        validUpto: draftData.paymentTerms?.validUpto,
-        loginId: draftData.vendorDetails.loginId,
-      },
-
-      billingTerms: {
-        terms: draftData.billingTerms?.terms ?? [],
-        validUpto: draftData.billingTerms?.validUpto,
-        loginId: draftData.vendorDetails.loginId,
-      },
-    }
-  }
-
-  const validateVendorDetails = (draftData) => {
-    const vd = draftData?.vendorDetails || {}
-
-    const requiredFields = [
-      { key: 'vendor_desc', label: 'Vendor' },
-      { key: 'wod', label: 'WO Date' },
-      { key: 'req_date', label: 'Request Date' },
-      { key: 'fromDate', label: 'From Date' },
-      { key: 'toDate', label: 'To Date' },
-      { key: 'contractType', label: 'Contract Type' },
-    ]
-
-    // values coming from outside vendorDetails
-    if (!vendorList?.it_supplier_slno) return 'Vendor is required'
-    if (!req_slno) return 'CRF Number is required'
-    if (!last_wo_slno) return 'WO Number is missing'
-    if (!request_deptsec_slno) return 'Department is required'
-
-    for (const field of requiredFields) {
-      const value = vd[field.key]
-      if (value === null || value === undefined || value === '') {
-        return `${field.label} is required`
-      }
+    if (Object.keys(savedDraft).length > 0) {
+      dispatch(updateVendorDetails(savedDraft.vendorDetails || {}))
+      dispatch(setStep(savedDraft.step || 0))
     }
 
-    return null // ✅ valid
-  }
+  }, [dispatch, req_slno, LOCAL_KEY])
 
+  useEffect(() => {
+    dispatch(updateVendorDetails({
+      sec_name,
+      crfNo,
+      req_date,
+      wo_number: last_wo_slno + 1
+    }))
+  }, [dispatch, sec_name, crfNo, req_date, last_wo_slno])
 
-  /** SAVE */
-  const handleSave = useCallback(async () => {
+  const handleSave = useCallback(() => {
 
-    // 🔴 VALIDATION FIRST
-    const errorMsg = validateVendorDetails(draftData)
+    const postData = {
+      vendorDetails,
+      materialList,
+      labourList,
+      retentionDetails,
+      terms,
+      paymentTerms,
+      billingTerms
+    }
+
+    const errorMsg = validateVendorDetails(postData)
     if (errorMsg) {
       warningNotify(errorMsg)
       return
     }
 
-    const postData = buildPostPayload(draftData)
+    const apiPayload = {
+      vendor_details: {
+        ...vendorDetails,
+        loginId,
+        crf_no: req_slno
+      },
 
-    const result = await axioslogin.post(
-      '/workOrder/insertWorkOrderDetails',
-      postData
-    )
+      material_details: materialList.map((row) => ({
+        item_name: row.itemName,
+        item_code: row.itemCode,
+        item_brand: row.itemBrand,
+        item_desc: row.itemDesc,
+        specification: row.specification,
+        quantity: Number(row.quantity),
+        unit_price: Number(row.unitPrice),
+        gst_amount: Number(row.gstAmount),
+        total_amount: Number(row.totalAmount),
+        gross_amount: Number(row.grossAmount),
+        uom: row.uom,
+        uom_name: row.uomName,
+        loginId,
+      })),
 
-    const { success, message } = result.data
+      labour_details: labourList.map((row) => ({
+        description: row.description,
+        specification: row.specification,
+        unit_rate: Number(row.unitRate),
+        quantity: Number(row.quantity),
+        rate_unit: row.rateUnit,
+        total_amount: Number(row.totalAmount),
+        loginId,
+      })),
 
-    if (success === 1) {
-      succesNotify(message)
+      retention_details: {
+        description: retentionDetails.description,
+        payment_type: retentionDetails.paymentType,
+        amount: Number(retentionDetails.amount),
+        loginId,
+      },
 
-      setDraftData({
-        vendorDetails: {},
-        materialDetails: [],
-        labourDetails: [],
-        retentionDetails: {},
-        terms: {},
-        paymentTerms: {},
-        billingTerms: {},
-      })
+      // terms_details: terms,
+      // payment_terms_details: paymentTerms,
+      // billing_terms_details: billingTerms,
+      // loginId,
+      terms_details: {
+        ...terms,
+        loginId
+      },
 
-      SetWoNumb('')
-      setVendor_Desc('')
-      setWod('')
-      SetVendorList(null)
-      setToDate('')
-      setFromDate('')
-      setOpenNext(0)
-      setTabValue(0)
-      setOpen(0)
+      payment_terms_details: {
+        ...paymentTerms,
+        loginId
+      },
 
-    } else {
-      warningNotify(message)
+      billing_terms_details: {
+        ...billingTerms,
+        loginId
+      },
     }
 
+    dispatch(saveWorkOrder(apiPayload, queryClient))
+
+    //  Clear only this CRF draft
+    localStorage.removeItem(LOCAL_KEY)
+    setOpen(0)
+
   }, [
-    draftData,
-    vendorList,
+    vendorDetails,
+    materialList,
+    labourList,
+    retentionDetails,
+    terms,
+    paymentTerms,
+    billingTerms,
+    loginId,
     req_slno,
-    last_wo_slno,
-    request_deptsec_slno,
+    dispatch,
+    LOCAL_KEY,
+    setOpen,
+    queryClient
   ])
 
-  // const handleSave = useCallback(async () => {
-  //   const postData = buildPostPayload(draftData)
-  //   const result = await axioslogin.post('/workOrder/insertWorkOrderDetails', postData)
-  //   const { success, message } = result.data;
-  //   if (success === 1) {
-  //     succesNotify(message)
-  //     setDraftData({
-  //       vendorDetails: {},
-  //       materialDetails: [],
-  //       labourDetails: [],
-  //       retentionDetails: {},
-  //       terms: {},
-  //       paymentTerms: {},
-  //       billingTerms: {},
-  //     })
-  //     SetWoNumb('')
-  //     setVendor_Desc('')
-  //     setWod('')
-  //     SetVendorList(null)
-  //     setToDate('')
-  //     setFromDate('')
-  //     setOpenNext(0)
-  //     setTabValue(0)
-  //     setOpen(0)
 
+  const isValidValue = (value) => {
+    return value !== null && value !== undefined && value !== "";
+  };
+
+
+
+  // const HandleNext = useCallback(() => {
+
+  //   const {
+  //     sup_email_one,
+  //     sup_email_two,
+  //     sup_first_mob,
+  //     sup_second_mob,
+  //     ...mandatoryFields
+  //   } = vendorDetails;
+
+  //   const allFieldsValid = Object.values(mandatoryFields).every(isValidValue);
+
+  //   if (!allFieldsValid) {
+  //     warningNotify("Please fill all required vendor details before continuing.");
+  //     return;
   //   }
-  //   else {
-  //     warningNotify(message)
+
+  //   const hasEmail =
+  //     Boolean(sup_email_one?.trim()) ||
+  //     Boolean(sup_email_two?.trim());
+
+  //   const hasMobile =
+  //     Boolean(sup_first_mob?.trim()) ||
+  //     Boolean(sup_second_mob?.trim());
+
+  //   if (!hasEmail && !hasMobile) {
+  //     warningNotify("Please provide at least one email and one mobile number.");
+  //     return;
   //   }
-  // }, [draftData,
-  //   setDraftData,
-  //   SetWoNumb,
-  //   setVendor_Desc,
-  //   setWod,
-  //   SetVendorList,
-  //   setToDate,
-  //   setFromDate,
-  //   setOpenNext,
-  //   setTabValue
-  // ])
+
+  //   if (!hasEmail) {
+  //     warningNotify("Please provide at least one email.");
+  //     return;
+  //   }
+
+  //   if (!hasMobile) {
+  //     warningNotify("Please provide at least one mobile number.");
+  //     return;
+  //   }
+
+  //   const existingDraft = JSON.parse(localStorage.getItem(LOCAL_KEY) || "{}");
+
+  //   const nextUIStep = step + 1;
+
+  //   //  Prevent overwriting with empty FullData
+  //   const safeFullData =
+  //     FullData && Object.keys(FullData).length > 0
+  //       ? FullData
+  //       : {};
+
+  //   const mergedData = {
+  //     ...existingDraft,
+  //     ...safeFullData,
+
+  //     step:
+  //       existingDraft?.step > step
+  //         ? existingDraft.step
+  //         : nextUIStep
+  //   };
+
+  //   localStorage.setItem(LOCAL_KEY, JSON.stringify(mergedData));
+
+  //   dispatch(setStep(nextUIStep));
+
+  // }, [dispatch, step, FullData, vendorDetails, LOCAL_KEY]);
+
+
+  const HandleNext = useCallback(() => {
+
+    const {
+      sup_email_one,
+      sup_email_two,
+      sup_first_mob,
+      sup_second_mob,
+      ...mandatoryFields
+    } = vendorDetails;
+
+    const allFieldsValid = Object.values(mandatoryFields).every(isValidValue);
+
+    if (!allFieldsValid) {
+      warningNotify("Please fill all required vendor details before continuing.");
+      return;
+    }
+
+    const hasEmail =
+      Boolean(sup_email_one?.trim()) ||
+      Boolean(sup_email_two?.trim());
+
+    const hasMobile =
+      Boolean(sup_first_mob?.trim()) ||
+      Boolean(sup_second_mob?.trim());
+
+    if (!hasEmail && !hasMobile) {
+      warningNotify("Please provide at least one email and one mobile number.");
+      return;
+    }
+
+    if (!hasEmail) {
+      warningNotify("Please provide at least one email.");
+      return;
+    }
+
+    if (!hasMobile) {
+      warningNotify("Please provide at least one mobile number.");
+      return;
+    }
+
+    // 🔹 Load existing draft safely
+    const existingDraft = JSON.parse(
+      localStorage.getItem(LOCAL_KEY) || "{}"
+    );
+
+    const nextUIStep = step + 1;
+
+    //  Safe merge (NEVER overwrite existing valid data with empty)
+    const mergedData = {
+      ...existingDraft,
+
+      vendorDetails:
+        Object.keys(vendorDetails || {}).length
+          ? vendorDetails
+          : existingDraft.vendorDetails,
+
+      materialList:
+        materialList?.length
+          ? materialList
+          : existingDraft.materialList,
+
+      labourList:
+        labourList?.length
+          ? labourList
+          : existingDraft.labourList,
+
+      retentionDetails:
+        Object.keys(retentionDetails || {}).length
+          ? retentionDetails
+          : existingDraft.retentionDetails,
+
+      terms:
+        Object.keys(terms || {}).length
+          ? terms
+          : existingDraft.terms,
+
+      paymentTerms:
+        Object.keys(paymentTerms || {}).length
+          ? paymentTerms
+          : existingDraft.paymentTerms,
+
+      billingTerms:
+        Object.keys(billingTerms || {}).length
+          ? billingTerms
+          : existingDraft.billingTerms,
+
+      step:
+        existingDraft?.step > step
+          ? existingDraft.step
+          : step + 1
+    };
+
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(mergedData));
+
+    // UI always moves forward only 1 step
+    dispatch(setStep(nextUIStep));
+
+  }, [
+    dispatch,
+    step,
+    vendorDetails,
+    materialList,
+    labourList,
+    retentionDetails,
+    terms,
+    paymentTerms,
+    billingTerms,
+    LOCAL_KEY
+  ]);
+
+  //  Fetch local data based on req_slno
+  const localStorageData = JSON.parse(
+    localStorage.getItem(LOCAL_KEY) || "{}"
+  )
+
+  const stepComponents = [
+    <VendorDetailsEntry
+      key={0}
+      last_wo_slno={last_wo_slno}
+      SelectedData={SelectedData}
+      localdata={localStorageData}
+    />,
+    <WorkOrderMaterialDetails localdata={localStorageData} key={1} getCrfItems={getCrfItems} />,
+    <InstallationLabourCharge localdata={localStorageData} key={2} />,
+    <RetentialDetails key={3} localdata={localStorageData} />,
+    <TermsAndConditions key={4} localdata={localStorageData} />,
+    <PaymentTermsAndCondition key={5} localdata={localStorageData} />,
+    <InvoiceOrBillingTermsAndCondition key={6} localdata={localStorageData} />,
+  ];
+
+  const handleClose = useCallback(() => {
+    setOpen(0)
+    dispatch(resetWorkOrder())
+  }, [dispatch])
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Card
-        sx={{
-          flex: 1,
-          p: 3,
-          height: "90vh",
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,242,255,0.92))',
-          boxShadow:
-            '0 30px 80px rgba(79,70,229,0.15), inset 0 0 0 1px rgba(199,210,254,0.8)',
-          position: 'relative',
-        }}
-      >
-        {/* Preview Modal */}
+      <Card sx={{ p: 2, height: '90vh' }}>
 
         {previewOpen && (
           <WorkOrderPreviewModal
             open={previewOpen}
-            onClose={() => setPreviewOpen(false)}
-            data={draftData}
+            onClose={() => dispatch(togglePreview(false))}
+            data={{
+              vendorDetails, materialList, labourList,
+              retentionDetails, terms, paymentTerms, billingTerms
+            }}
           />
         )}
 
-        {/* CLOSE BUTTON */}
-        <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-          <IconButton
-            onClick={close}
-            sx={{
-              bgcolor: '#926FB1',
-              '&:hover': { bgcolor: '#926FB1' },
-            }}
-          >
-            <CloseIcon sx={{ color: 'white' }} />
-          </IconButton>
-        </Box>
+        <IconButton
+          // onClick={() => setOpen(0)}
+          onClick={handleClose}
 
-        {/* STEPPER */}
-        <Box
           sx={{
-            mb: 3,
-            p: 2,
-            borderRadius: '18px',
-            bgcolor: '#eef2ff',
-            boxShadow: 'inset 0 0 0 1px #c7d2fe',
+            position: 'absolute',
+            top: 12,
+            right: 12,
+            zIndex: 20
           }}
         >
-          <WorkOrderStepperComp currentstep={openNext} />
-        </Box>
+          <CloseIcon />
+        </IconButton>
+        <WorkOrderStepperComp currentstep={step} />
 
-        {/* HEADER */}
         <Box
           sx={{
+            mt: 2,
             position: 'sticky',
             top: 0,
             zIndex: 10,
@@ -469,9 +472,11 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
         >
           {/* CONTRACT SELECT */}
           <Select
-            value={tabValue}
-            onChange={(e, v) => setTabValue(v)}
-            placeholder="Select Contract"
+            placeholder="Select Contract Type"
+            value={vendorDetails.contractType || null}
+            onChange={(e, v) =>
+              dispatch(updateVendorDetails({ contractType: v }))
+            }
             sx={{
               width: 400,
               bgcolor: '#fff',
@@ -483,24 +488,12 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
               '&:focus-within': {
                 borderColor: '#6366f1',
                 boxShadow: '0 0 0 3px rgba(99,102,241,0.2)',
-              },
+              }
             }}
           >
-            {TAB_CONFIG.map((tab, index) => (
-              <Option
-                key={tab.label}
-                value={index}
-                sx={{
-                  fontWeight: 600,
-                  borderRadius: '10px',
-                  my: 0.5,
-                  '&.Mui-selected': {
-                    bgcolor: tab.gradient,
-                    color: '#fff',
-                  },
-                }}
-              >
-                {tab.label}
+            {TAB_CONFIG.map((t) => (
+              <Option key={t.id} value={t.id}>
+                {t.label}
               </Option>
             ))}
           </Select>
@@ -521,7 +514,7 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
                 textTransform: 'uppercase',
               }}
             >
-              {selectedTab.label}
+              {selectedTab?.label}
             </Typography>
           </Box>
 
@@ -531,21 +524,31 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              p: 1,
-              borderRadius: '14px',
-              bgcolor: '#fff',
-              border: '1px solid #e0e7ff',
-              boxShadow: 'sm',
+              p: 1
             }}
           >
             <Input
               type="date"
-              size="sm"
-              value={fromDate}
-              onChange={(e) => setFromDate(e.target.value)}
-              sx={{ borderRadius: '10px', fontWeight: 600, minWidth: 135 }}
+              value={vendorDetails.fromDate || ''}
+              sx={{
+                bgcolor: '#fff',
+                borderRadius: '14px',
+                border: '1px solid #e0e7ff',
+                boxShadow: 'sm',
+                '&:hover': { boxShadow: 'md' },
+                '&:focus-within': {
+                  borderColor: '#6366f1',
+                  boxShadow: '0 0 0 3px rgba(99,102,241,0.2)',
+                },
+              }}
+              onChange={(e) =>
+                dispatch(
+                  updateVendorDetails({
+                    fromDate: e.target.value
+                  })
+                )
+              }
             />
-
             <Box
               sx={{
                 px: 1.2,
@@ -558,86 +561,33 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
             >
               →
             </Box>
-
             <Input
               type="date"
-              size="sm"
-              value={toDate}
-              min={fromDate || undefined}
-              onChange={(e) => setToDate(e.target.value)}
-              sx={{ borderRadius: '10px', fontWeight: 600, minWidth: 135 }}
+              value={vendorDetails.toDate || ''}
+              sx={{
+                bgcolor: '#fff',
+                borderRadius: '14px',
+                border: '1px solid #e0e7ff',
+                boxShadow: 'sm',
+                '&:hover': { boxShadow: 'md' },
+                '&:focus-within': {
+                  borderColor: '#6366f1',
+                  boxShadow: '0 0 0 3px rgba(99,102,241,0.2)',
+                },
+              }}
+              onChange={(e) =>
+                dispatch(
+                  updateVendorDetails({
+                    toDate: e.target.value
+                  })
+                )
+              }
             />
           </Box>
         </Box>
-
-        {/* CONTENT */}
-        <Box
-          sx={{
-            overflow: "auto",
-            animation: 'fadeSlide 0.35s ease',
-            '@keyframes fadeSlide': {
-              from: { opacity: 0, transform: 'translateY(12px)' },
-              to: { opacity: 1, transform: 'translateY(0)' },
-            },
-          }}
-        >
-          {openNext === 0 && (
-            <VendorDetailsEntry
-              sec_name={sec_name}
-              crfNo={crfNo}
-              req_date={req_date}
-              vendorList={vendorList}
-              SetVendorList={SetVendorList}
-              wod={wod}
-              setWod={setWod}
-              vendor_Desc={vendor_Desc}
-              setVendor_Desc={setVendor_Desc}
-              Wo_numb={Wo_numb}
-              SetWoNumb={SetWoNumb}
-              last_wo_slno={last_wo_slno}
-            />
-          )}
-
-          {openNext === 1 && (
-            <WorkOrderMaterialDetails
-              items={materialItems}
-              setItems={setMaterialItems}
-              setDraftData={setDraftData}
-            />
-          )}
-
-          {openNext === 2 && (
-            <InstallationLabourCharge
-              labourItems={labourItems}
-              setLabourItems={setLabourItems}
-            />
-          )}
-          {openNext === 3 && (
-            <RetentialDetails
-              retentionData={retentionData}
-              setRetentionData={setRetentionData}
-            />
-          )}
-          {openNext === 4 && (
-            <TermsAndConditions
-              termsData={termsData}
-              setTermsData={setTermsData}
-            />
-          )}
-          {openNext === 5 && (
-            <PaymentTermsAndCondition
-              paymentTermsData={paymentTermsData}
-              setPaymentTermsData={setPaymentTermsData}
-            />
-          )}
-          {openNext === 6 && (
-            <InvoiceOrBillingTermsAndCondition
-              invoiceTermsData={invoiceTermsData}
-              setInvoiceTermsData={setInvoiceTermsData}
-            />
-          )}
-        </Box>
-
+        {stepComponents.map((Comp, index) =>
+          index === step ? Comp : null
+        )}
         {/* footer secton */}
         <Box
           sx={{
@@ -652,8 +602,11 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
           <Button
             startDecorator={<ArrowBackIcon />}
             size="lg"
-            onClick={handleBack}
-            disabled={openNext === 0}
+            disabled={step === 0}
+            onClick={
+
+              () => dispatch(setStep(step - 1))
+            }
             sx={{
               px: 5,
               borderRadius: "xl",
@@ -674,15 +627,16 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
           <Button
             variant="outlined"
             color="neutral"
-            onClick={() => setPreviewOpen(true)}
+            onClick={() => dispatch(togglePreview(true))}
           >
             Preview
           </Button>
 
-          {openNext === 6 ?
+          {step === 6 ?
             <Button
               endDecorator={<ArrowForwardIcon />}
               size="lg"
+              loading={loading}
               onClick={handleSave}
               sx={{
                 px: 5,
@@ -703,8 +657,7 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
             < Button
               endDecorator={<ArrowForwardIcon />}
               size="lg"
-              onClick={handleNext}
-              disabled={openNext === 6}
+              onClick={HandleNext}
               sx={{
                 px: 5,
                 borderRadius: "xl",
@@ -722,9 +675,10 @@ const AddDetails = ({ setOpen, SelectedData, setSelectedData }) => {
             </Button>
           }
         </Box>
-      </Card >
-    </Box >
+      </Card>
+    </Box>
   )
 }
-
 export default memo(AddDetails)
+
+

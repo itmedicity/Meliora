@@ -1,11 +1,9 @@
-
 import React, { memo, useCallback, useState } from 'react'
 import {
     Modal,
     ModalDialog,
     Box,
     Typography,
-    Divider,
     Textarea,
 } from '@mui/joy'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -25,14 +23,50 @@ import CloseIcon from '@mui/icons-material/Close'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { getmaterialDetails } from '../WorkOrderCommonApi'
+import {
+    actionBtn,
+    Empty,
+    formatDate,
+    ListRow,
+} from '../ReUsableCodes'
+import Section from '../Components/Section'
+import Infocard from '../Components/Infocard'
+import DetailCard from '../Components/DetailCard'
+
+/* ================= REUSABLE HELPERS ================= */
+
+const DetailsSection = ({ icon, title, data = [], renderItem }) => (
+    <Section icon={icon} title={title}>
+        {data.length ? data.map(renderItem) : <Empty />}
+    </Section>
+)
+
+const ListSection = ({ icon, title, data = [] }) => (
+    <Section icon={icon} title={title}>
+        {data.length ? (
+            data.map((t, i) => (
+                <ListRow key={t.wot_slno || t.wop_slno || t.wob_slno}>
+                    {i + 1}. {t.term_desc}
+                </ListRow>
+            ))
+        ) : (
+            <Empty />
+        )}
+    </Section>
+)
+
+/* ================= MAIN COMPONENT ================= */
 
 const WoApprovalModal = ({
+    setView,
+    open,
+    setOpen,
     selectedWO,
-    onClose,
-    level_name,
-    level_no,
     empid,
+    level_name,
+    level_no
 }) => {
+
     const [remarks, setRemarks] = useState('')
     const [status, setStatus] = useState(
         selectedWO.wo_current_level_review_status
@@ -40,10 +74,8 @@ const WoApprovalModal = ({
     const queryClient = useQueryClient()
 
     const isPending = status === 'P'
-    // const isApproved = status === 'A'
-    // const isRejected = status === 'R'
 
-    /* ---------------- FETCH DETAILS ONLY IF PENDING ---------------- */
+    /* -------- FETCH DETAILS (ONLY IF PENDING) -------- */
     const { data } = useQuery({
         queryKey: ['woDetails', selectedWO?.wo_slno],
         queryFn: () => getmaterialDetails(selectedWO.wo_slno),
@@ -52,55 +84,50 @@ const WoApprovalModal = ({
 
     const woData = data?.[0]
 
-    /* ---------------- HELPERS ---------------- */
-    const formatDate = d =>
-        d ? new Date(d).toLocaleDateString('en-IN') : '-'
+    /* ---------------- APPROVE / REJECT ---------------- */
+    const handleAction = useCallback(
+        async (review_status) => {
+            if (review_status === 'R' && !remarks) return
 
-    /* ---------------- ACTIONS ---------------- */
-    const handleApprove = useCallback(async () => {
-        const obj = {
-            level_name,
-            level_no,
-            wo_slno: selectedWO.wo_slno,
-            remarks,
-            empid,
-            review_status: 'A',
-        }
+            const obj = {
+                level_name,
+                level_no,
+                wo_slno: selectedWO.wo_slno,
+                remarks,
+                empid,
+                review_status,
+            }
 
-        const result = await axioslogin.post('/workOrder/woLevelApproval', obj)
+            const result = await axioslogin.post(
+                '/workOrder/woLevelApproval',
+                obj
+            )
 
-        if (result.data?.success === 1) {
-            succesNotify(result.data.message)
-            setStatus('A')
-            queryClient.invalidateQueries('GetWorkOrderDetails');
-        } else {
-            warningNotify(result.data.message)
-        }
-    }, [level_name, level_no, remarks, empid, selectedWO, queryClient])
+            if (result.data?.success === 1) {
+                review_status === 'A'
+                    ? succesNotify(result.data.message)
+                    : succesNotify('Work order Rejected')
 
-    const handleReject = useCallback(async () => {
-        if (!remarks) return
-        const obj = {
-            level_name,
-            level_no,
-            wo_slno: selectedWO.wo_slno,
-            remarks,
-            empid,
-            review_status: 'R',
-        }
+                setStatus(review_status)
+                setOpen(false)
+                setView(0)
+                queryClient.invalidateQueries('GetWorkOrderDetails')
+            } else {
+                warningNotify(result.data.message)
+                setOpen(false)
+                setView(0)
+            }
+        },
+        [level_name, level_no, remarks, empid, selectedWO, queryClient, setOpen, setView]
+    )
 
-        const result = await axioslogin.post('/workOrder/woLevelApproval', obj)
-        if (result.data?.success === 1) {
-            warningNotify('Work order rejected')
-            setStatus('R')
-            queryClient.invalidateQueries('GetWorkOrderDetails');
-        } else {
-            warningNotify(result.data.message)
-        }
-    }, [level_name, level_no, remarks, empid, selectedWO, queryClient])
+    const handleClose = useCallback(() => {
+        setOpen(false)
+        setView(0)
+    }, [setOpen, setView])
 
     return (
-        <Modal open onClose={onClose}>
+        <Modal open={open} onClose={handleClose} >
             <ModalDialog
                 sx={{
                     width: 950,
@@ -126,115 +153,135 @@ const WoApprovalModal = ({
                         <Typography
                             level="body-sm"
                             sx={{ color: 'white' }}
-                            startDecorator={<Business />}
+                            startDecorator={
+                                <Business sx={{ color: 'white' }} />
+                            }
                         >
                             {selectedWO.it_supplier_name}
                         </Typography>
                     </Box>
 
                     <CloseIcon
-                        onClick={onClose}
+                        onClick={handleClose}
                         sx={{ cursor: 'pointer', color: 'white' }}
                     />
                 </Box>
 
-                {/* ================= BODY (ONLY FOR PENDING) ================= */}
-                {isPending && (
-                    <Box sx={{ p: 3, maxHeight: '70vh', overflowY: 'auto' }}>
-                        {/* INFO */}
-                        <Box
-                            sx={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(3, 1fr)',
-                                gap: 2,
-                                mb: 3,
-                            }}
-                        >
-                            <InfoCard
-                                icon={<Business />}
-                                label="Department"
-                                value={selectedWO.sec_name}
-                            />
-                            <InfoCard
-                                icon={<CalendarMonth />}
-                                label="From Date"
-                                value={formatDate(selectedWO.wo_fromdate)}
-                            />
-                            <InfoCard
-                                icon={<CalendarMonth />}
-                                label="To Date"
-                                value={formatDate(selectedWO.wo_todate)}
-                            />
-                        </Box>
-
-                        <Section icon={<Inventory2Outlined />} title="Material Details">
-
-                            {woData?.material_details?.length
-                                ? woData.material_details.map((m, i) => (
-                                    <Row key={m.wom_slno}>
-                                        <b>{i + 1}. {m.item_name}</b><br />
-                                        Qty: {m.item_qty} {m.umo} ·
-                                        Rate: ₹{m.unit_price} ·
-                                        <b> Total: ₹{m.gross_amt}</b>
-                                    </Row>
-                                ))
-                                : <Empty />}
-                        </Section>
-
-                        <Section icon={<EngineeringOutlined />} title="Labour Details">
-                            {woData?.labour_details?.length
-                                ? woData.labour_details.map((l, i) => (
-                                    <Row key={l.wol_slno}>
-                                        <b>{i + 1}. {l.labour_desc}</b><br />
-                                        Qty: {l.qty} · Rate: ₹{l.unit_rate}
-                                    </Row>
-                                ))
-                                : <Empty />}
-                        </Section>
-
-                        <Section icon={<PaymentOutlined />} title="Retention">
-                            {woData?.retention_details?.length
-                                ? woData.retention_details.map(r => (
-                                    <Row key={r.wor_slno}>
-                                        ₹{r.rent_amount} – {r.rent_description}
-                                    </Row>
-                                ))
-                                : <Empty />}
-                        </Section>
-
-                        <Section icon={<GavelOutlined />} title="Terms & Conditions">
-                            {woData?.terms_conditions?.map((t, i) => (
-                                <Row key={t.wot_slno}>
-                                    {i + 1}. {t.term_desc}
-                                </Row>
-                            ))}
-                        </Section>
-
-                        <Section icon={<PaymentsOutlined />} title="Payment Terms & Conditions">
-                            {woData?.payment_terms?.map((t, i) => (
-                                <Row key={t.wop_slno}>
-                                    {i + 1}. {t.term_desc}
-                                </Row>
-                            ))}
-                        </Section>
-
-                        <Section icon={<ReceiptLongOutlined />} title="Billing Terms & Conditions">
-                            {woData?.billing_terms?.map((t, i) => (
-                                <Row key={t.wob_slno}>
-                                    {i + 1}. {t.term_desc}
-                                </Row>
-                            ))}
-                        </Section>
-
-                        <Textarea
-                            minRows={3}
-                            value={remarks}
-                            placeholder="Enter remarks"
-                            onChange={e => setRemarks(e.target.value)}
+                {/* ================= BODY ================= */}
+                {/* {isPending && ( */}
+                <Box sx={{ p: 3, maxHeight: '70vh', overflowY: 'auto' }}>
+                    {/* -------- INFO CARDS -------- */}
+                    <Box
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: 2,
+                            mb: 3,
+                        }}
+                    >
+                        <Infocard
+                            icon={<Business />}
+                            label="Department"
+                            value={selectedWO.sec_name}
+                        />
+                        <Infocard
+                            icon={<CalendarMonth />}
+                            label="From Date"
+                            value={formatDate(
+                                selectedWO.wo_fromdate
+                            )}
+                        />
+                        <Infocard
+                            icon={<CalendarMonth />}
+                            label="To Date"
+                            value={formatDate(selectedWO.wo_todate)}
                         />
                     </Box>
-                )}
 
+                    {/* -------- MATERIAL -------- */}
+                    <DetailsSection
+                        icon={<Inventory2Outlined />}
+                        title="Material Details"
+                        data={woData?.material_details}
+                        renderItem={(m, i) => (
+                            <DetailCard key={m.wom_slno}>
+                                <Typography fontWeight={600}>
+                                    {i + 1}. {m.item_name}
+                                </Typography>
+                                <Typography level="body-sm">
+                                    Qty: {m.item_qty} {m.umo} · Rate:
+                                    ₹{m.unit_price}
+                                </Typography>
+                                <Typography fontWeight={600}>
+                                    Total: ₹{m.gross_amt}
+                                </Typography>
+                            </DetailCard>
+                        )}
+                    />
+
+                    {/* -------- LABOUR -------- */}
+                    <DetailsSection
+                        icon={<EngineeringOutlined />}
+                        title="Labour Details"
+                        data={woData?.labour_details}
+                        renderItem={(l, i) => (
+                            <DetailCard key={l.wol_slno}>
+                                <Typography fontWeight={600}>
+                                    {i + 1}. {l.labour_desc}
+                                </Typography>
+                                <Typography level="body-sm">
+                                    Qty: {l.qty} · Rate: ₹
+                                    {l.unit_rate}
+                                </Typography>
+                            </DetailCard>
+                        )}
+                    />
+
+                    {/* -------- RETENTION -------- */}
+                    <DetailsSection
+                        icon={<PaymentOutlined />}
+                        title="Retention"
+                        data={woData?.retention_details}
+                        renderItem={(r) => (
+                            <DetailCard key={r.wor_slno}>
+                                ₹{r.rent_amount} —{' '}
+                                {r.rent_description}
+                            </DetailCard>
+                        )}
+                    />
+
+                    {/* -------- TERMS -------- */}
+                    <ListSection
+                        icon={<GavelOutlined />}
+                        title="Terms & Conditions"
+                        data={woData?.terms_conditions}
+                    />
+
+                    <ListSection
+                        icon={<PaymentsOutlined />}
+                        title="Payment Terms"
+                        data={woData?.payment_terms}
+                    />
+
+                    <ListSection
+                        icon={<ReceiptLongOutlined />}
+                        title="Billing Terms"
+                        data={woData?.billing_terms}
+                    />
+
+                    {/* -------- REMARKS -------- */}
+                    <Textarea
+                        minRows={3}
+                        value={remarks}
+                        placeholder="Enter remarks"
+                        onChange={(e) =>
+                            setRemarks(e.target.value)
+                        }
+                    />
+                </Box>
+                {/* )} */}
+
+                {/* ================= FOOTER ================= */}
                 {isPending && (
                     <Box
                         sx={{
@@ -247,17 +294,25 @@ const WoApprovalModal = ({
                         }}
                     >
                         <Box
-                            onClick={handleApprove}
+                            onClick={() => handleAction('A')}
                             sx={actionBtn('#C47BE4')}
                         >
-                            <CheckCircle sx={{ color: "white" }} /> Approve
+                            <CheckCircle sx={{ color: 'white' }} />
+                            Approve
                         </Box>
 
                         <Box
-                            onClick={remarks ? handleReject : undefined}
-                            sx={actionBtn(remarks ? '#92487A' : '#F3B6B5')}
+                            onClick={
+                                remarks
+                                    ? () => handleAction('R')
+                                    : undefined
+                            }
+                            sx={actionBtn(
+                                remarks ? '#92487A' : '#F3B6B5'
+                            )}
                         >
-                            <CancelOutlined sx={{ color: "white" }} /> Reject
+                            <CancelOutlined sx={{ color: 'white' }} />
+                            Reject
                         </Box>
                     </Box>
                 )}
@@ -265,56 +320,5 @@ const WoApprovalModal = ({
         </Modal>
     )
 }
-
-/* ================= UI HELPERS ================= */
-
-const actionBtn = bg => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: 1,
-    px: 3,
-    py: 1.2,
-    borderRadius: '999px',
-    bgcolor: bg,
-    color: 'white',
-    fontWeight: 600,
-    cursor: 'pointer',
-})
-
-const Section = ({ title, icon, color = '#DDAED3', children }) => (
-    <Box sx={{ mb: 2.5 }}>
-        <Typography
-            fontWeight={600}
-            startDecorator={icon}
-            color={color}
-        >
-            {title}
-        </Typography>
-        <Divider sx={{ mb: 1 }} />
-        {children}
-    </Box>
-)
-
-
-const Row = ({ children }) => (
-    <Typography level="body-sm" sx={{ mb: 1 }}>
-        {children}
-    </Typography>
-)
-
-const InfoCard = ({ label, value, icon }) => (
-    <Box sx={{ p: 2, border: '1px solid', borderColor: 'divider' }}>
-        <Typography level="body-xs" startDecorator={icon}>
-            {label}
-        </Typography>
-        <Typography fontWeight={600}>{value}</Typography>
-    </Box>
-)
-
-const Empty = () => (
-    <Typography level="body-sm" color="neutral">
-        No data available
-    </Typography>
-)
 
 export default memo(WoApprovalModal)

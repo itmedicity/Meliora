@@ -185,6 +185,7 @@ import { getEquipmentList } from './QIEquipment.Reducer'
 import { getStoreReceivePendingReducer, getStoreReceiveAllReducer } from './CrmStoreProcess.Reducer'
 import { getRoomsNameNdTypeList } from './CmRoomNameNdTypeList.Reducer'
 import { getDeptsectionTmc } from './DeptSection.Reducer'
+import getworkOrderReducer from '../reducers/WorkOrder.Reducer'
 
 const reducer = combineReducers({
   changeState,
@@ -371,6 +372,7 @@ const reducer = combineReducers({
   getPOStoreDashboard,
   getRoomsNameNdTypeList,
   getprojectFrTaskCreation,
-  getDeptsectionTmc
+  getDeptsectionTmc,
+  getworkOrderReducer
 })
 export default reducer

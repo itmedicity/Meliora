@@ -136,6 +136,10 @@ const WorkOrderApprovalPage = () => {
         staleTime: Infinity,
     })
 
+
+    // console.log("workOrders:", workOrders);
+
+
     const filteredWorkOrders = workOrders.filter(
         wo => wo.wo_current_level_review_status === statusFilter
     )
@@ -201,10 +205,10 @@ const WorkOrderApprovalPage = () => {
                 {selectedWO && (
                     <WoApprovalModal
                         selectedWO={selectedWO}
-                        onClose={() => setSelectedWO(null)}
-                        empid={empid}
+                        setSelectedWO={setSelectedWO}
                         level_name={level_name}
                         level_no={level_no}
+                        empid={empid}
                     />
                 )}
             </CardCloseOnly>

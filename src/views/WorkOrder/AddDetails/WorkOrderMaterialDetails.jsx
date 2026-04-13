@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import {
     Card,
     Divider,
@@ -13,55 +13,135 @@ import { Typography } from '@mui/material'
 import AddIcon from "@mui/icons-material/Add"
 import MeterialDetailsModal from './WorkOrderModals/MeterialDetailsModal'
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
+import { useDispatch, useSelector } from 'react-redux'
+import { resetMaterialDetails, setMaterialDetails, setMaterialList } from 'src/redux/actions/Workorder.action'
 
-const emptyMaterial = {
-    itemName: '',
-    itemCode: '',
-    itemBrand: '',
-    itemDesc: '',
-    specification: '',
-    quantity: 0,
-    unitPrice: 0,
-    gstAmount: 0,
-    totalAmount: 0,
-    grossAmount: 0,
-    uom: null,
-    uomName: '',
-}
+const WorkOrderMaterialDetails = ({ getCrfItems, localdata }) => {
 
-const WorkOrderMaterialDetails = ({ items, setItems }) => {
-    const [materialData, setMaterialData] = useState(emptyMaterial)
+    const LocalmaterialList = localdata?.materialList;
+    const LocalmaterialDetail = localdata?.materialDetails;
+
+
+    console.log({
+        LocalmaterialList,
+        LocalmaterialDetail
+    });
+
+
+
     const [openModal, setOpenModal] = useState(false)
     const [editIndex, setEditIndex] = useState(null)
+    const dispatch = useDispatch();
+
+    const { materialDetails, materialList } = useSelector(
+        (state) => state.getworkOrderReducer
+    );
+
+
+    useEffect(() => {
+        const reduxEmpty =
+            !Array.isArray(materialList) ||
+            materialList.length === 0;
+
+        if (
+            reduxEmpty &&
+            Array.isArray(LocalmaterialList) &&
+            LocalmaterialList.length > 0
+        ) {
+            dispatch(setMaterialList(LocalmaterialList))
+        }
+
+        if (
+            reduxEmpty &&
+            LocalmaterialDetail &&
+            Object.keys(LocalmaterialDetail).length > 0
+        ) {
+            dispatch(setMaterialDetails(LocalmaterialDetail))
+        }
+    }, [LocalmaterialList, LocalmaterialDetail, materialList, dispatch])
+
+    // useEffect(() => {
+    //     if (!materialList.length && Array.isArray(getCrfItems) && getCrfItems.length) {
+    //         const mapped = getCrfItems.map(item => ({
+    //             itemName: item.approve_item_desc || '',
+    //             itemCode: item.item_slno || '',
+    //             itemBrand: item.approve_item_brand || '',
+    //             itemDesc: item.approve_item_desc || '',
+    //             specification: item.approve_item_specification || '',
+    //             quantity: item.item_qnty_approved || 0,
+    //             unitPrice: item.approve_item_unit_price || 0,
+    //             gstAmount: 0,
+    //             totalAmount: item.approve_aprox_cost || 0,
+    //             grossAmount: item.approve_aprox_cost || 0,
+    //             uom: item.approve_item_unit || null,
+    //             uomName: item.apprv_uom || ''
+    //         }))
+
+    //         dispatch(setMaterialList(mapped))
+    //     }
+    // }, [getCrfItems, materialList.length, dispatch])
+
+    useEffect(() => {
+        if (
+            !materialList.length &&
+            (!Array.isArray(LocalmaterialList) || !LocalmaterialList.length) &&
+            Array.isArray(getCrfItems) &&
+            getCrfItems.length
+        ) {
+            const mapped = getCrfItems.map(item => ({
+                itemName: item.approve_item_desc || '',
+                itemCode: item.item_slno || '',
+                itemBrand: item.approve_item_brand || '',
+                itemDesc: item.approve_item_desc || '',
+                specification: item.approve_item_specification || '',
+                quantity: item.item_qnty_approved || 0,
+                unitPrice: item.approve_item_unit_price || 0,
+                gstAmount: 0,
+                totalAmount: item.approve_aprox_cost || 0,
+                grossAmount: item.approve_aprox_cost || 0,
+                uom: item.approve_item_unit || null,
+                uomName: item.apprv_uom || ''
+            }))
+
+            dispatch(setMaterialList(mapped))
+        }
+    }, [getCrfItems, materialList.length, LocalmaterialList, dispatch])
+
 
     const handleAdd = () => {
-        setMaterialData(emptyMaterial)
+        dispatch(resetMaterialDetails());
         setEditIndex(null)
         setOpenModal(true)
     }
 
-    const handleSave = useCallback(
-        (data) => {
-            if (editIndex !== null) {
-                setItems(prev => prev.map((i, idx) => (idx === editIndex ? data : i)))
-            } else {
-                setItems(prev => [...prev, data])
-            }
-            setOpenModal(false)
-            setEditIndex(null)
-        },
-        [editIndex, setItems]
-    )
+    const handleSave = useCallback(() => {
+        if (editIndex !== null) {
+            const updatedList = materialList.map((i, idx) =>
+                idx === editIndex ? materialDetails : i
+            );
+            dispatch(setMaterialList(updatedList));
+        } else {
+            const updatedList = [...materialList, materialDetails];
+            dispatch(setMaterialList(updatedList));
+        }
+
+        setOpenModal(false);
+        setEditIndex(null);
+        dispatch(resetMaterialDetails());
+    }, [editIndex, materialList, materialDetails, setMaterialList, dispatch]);
 
     const handleEditItem = (row, index) => {
-        setMaterialData(row)
+        dispatch(setMaterialDetails(row))
         setEditIndex(index)
         setOpenModal(true)
     }
 
     const handleDeleteItem = (index) => {
-        setItems(prev => prev.filter((_, i) => i !== index))
-    }
+        const updatedList = materialList.filter((_, i) => i !== index);
+        dispatch(setMaterialList(updatedList));
+    };
+
+
 
     return (
         <Card
@@ -80,20 +160,16 @@ const WorkOrderMaterialDetails = ({ items, setItems }) => {
                 }
             }}
         >
-
             {openModal && (
                 <MeterialDetailsModal
                     open={openModal}
                     setOpen={setOpenModal}
-                    materialData={materialData}
-                    setMaterialData={setMaterialData}
                     onSave={handleSave}
                     isEdit={editIndex !== null}
                 />
             )}
 
             {/* HEADER */}
-
             <Box display="flex" justifyContent="space-between" mb={2}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                     <Inventory2RoundedIcon sx={{ color: '#4f46e5' }} />
@@ -102,7 +178,6 @@ const WorkOrderMaterialDetails = ({ items, setItems }) => {
                     </Typography>
 
                 </Box>
-
                 <Box
                     onClick={handleAdd}
                     sx={{
@@ -121,15 +196,18 @@ const WorkOrderMaterialDetails = ({ items, setItems }) => {
                     Add Material
                 </Box>
             </Box>
-
             <Divider />
-
             {/* TABLE */}
-            {items.length > 0 ? (
-                <Sheet sx={{ mt: 3, borderRadius: 'xl' }}>
-                    <Table stickyHeader hoverRow>
-                        <thead>
 
+            {Array.isArray(materialList) && materialList?.length > 0 ? (
+                <Sheet sx={{
+                    mt: 3,
+                    borderRadius: 'xl',
+                    maxHeight: 350,
+                    overflow: 'auto'
+                }}>
+                    <Table stickyHeader >
+                        <thead>
                             <tr>
                                 <th>SlNo</th>
                                 <th>Item</th>
@@ -145,7 +223,7 @@ const WorkOrderMaterialDetails = ({ items, setItems }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {items.map((row, index) => (
+                            {materialList?.map((row, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{row.itemName}</td>
@@ -189,6 +267,5 @@ const WorkOrderMaterialDetails = ({ items, setItems }) => {
         </Card>
     )
 }
-
 export default memo(WorkOrderMaterialDetails)
 
