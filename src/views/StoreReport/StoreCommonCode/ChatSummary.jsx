@@ -6,7 +6,7 @@ const ChatSummary = ({ sortedComments }) => {
     return (
         <Box
             sx={{
-                maxHeight: 260,
+                maxHeight: 200,
                 overflowY: "auto",
                 p: 2,
                 borderRadius: 2,

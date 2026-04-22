@@ -384,9 +384,14 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                 const pur = Number(val["PURCHASE MARGIN %"]);
                                 const marginDiff = Number(val["MARGIN_DIFF"]);
                                 const isPositiveMarginDiff = marginDiff > 0 && quo > pur;
-
+                                const isSelected = selectedRows.some(
+                                    r => getRowKey(r) === getRowKey(val)
+                                );
                                 return (
-                                    <Box display="flex" sx={{ borderBottom: "1px solid lightgrey" }}>
+                                    <Box display="flex" sx={{
+                                        borderBottom: "1px solid lightgrey",
+                                        backgroundColor: isSelected ? "#DCEBFF" : "transparent", // 👈 row highlight
+                                    }}>
                                         {/* --- map using columns array to avoid mistakes --- */}
                                         {columns.map(col => {
                                             let value = val[col.key];
@@ -402,15 +407,26 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
                                             //         ? "#F6DFEB"
                                             //         : val.status === 1 ? "#F5FAE1"
                                             //             : "white";
+                                            // const bgColor =
+                                            //     col.key === "VARI_AMT"
+                                            //         ? "#FFCDC9"
+                                            //         : col.key === "MARGIN_DIFF" && isPositiveMarginDiff
+                                            //             ? "#F6DFEB"
+                                            //             : val.status === 1
+                                            //                 // ? "#F5FAE1"
+                                            //                 ? "#D8E983"
+                                            //                 : "white";
+
                                             const bgColor =
-                                                col.key === "VARI_AMT"
-                                                    ? "#FFCDC9"
-                                                    : col.key === "MARGIN_DIFF" && isPositiveMarginDiff
-                                                        ? "#F6DFEB"
-                                                        : val.status === 1
-                                                            // ? "#F5FAE1"
-                                                            ? "#D8E983"
-                                                            : "white";
+                                                isSelected
+                                                    ? "#DCEBFF" // force row highlight color
+                                                    : col.key === "VARI_AMT"
+                                                        ? "#FFCDC9"
+                                                        : col.key === "MARGIN_DIFF" && isPositiveMarginDiff
+                                                            ? "#F6DFEB"
+                                                            : val.status === 1
+                                                                ? "#D8E983"
+                                                                : "white";
 
                                             return (
                                                 <Box
