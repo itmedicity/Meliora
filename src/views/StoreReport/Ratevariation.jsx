@@ -188,6 +188,7 @@ const Ratevariation = ({ setActiveComponent }) => {
 
         // resolve validation
         if (checkResolved !== null) {
+
             const matchedData = (RatevarationData || []).filter(
                 (val) => Number(val?.grn_no) === Number(selectedRow?.grn_no)
             );
@@ -196,11 +197,20 @@ const Ratevariation = ({ setActiveComponent }) => {
                 matchedData.length > 0 &&
                 matchedData.every(val => Number(val?.ed_approval_status) === 1);
 
-            if (!allApproved) {
+
+
+            const IntitalResolveStatus = matchedData.length > 0 &&
+                matchedData.every(val => (Number(val?.accounts_status) === 0) && (Number(val?.ed_md_status) === 1) && (Number(val?.purchase_status) === 1));
+
+
+
+
+            if (!allApproved && !IntitalResolveStatus) {
                 warningNotify("Previous items are still pending for approval. We cannot resolve until all are approved");
                 return;
             }
         }
+
 
         // if (checkResolved !== null) {
         //     const matchedData = (RatevarationData || []).filter(

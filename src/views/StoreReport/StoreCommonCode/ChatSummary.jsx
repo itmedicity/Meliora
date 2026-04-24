@@ -22,6 +22,7 @@ const ChatSummary = ({ sortedComments }) => {
             ) : (
                 sortedComments.map((cmt) => (
                     <Box
+
                         key={cmt.cmt_slno}
                         sx={{
                             display: "flex",
