@@ -12,29 +12,44 @@ import {
     Select,
     Option,
     IconButton,
-    Button
+    Button,
+    Textarea
 } from '@mui/joy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import AddIcon from "@mui/icons-material/Add"
 import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLabourList } from 'src/redux/actions/Workorder.action'
 
-const emptyLabour = {
-    description: '',
-    specification: '',
-    unitRate: '',
-    quantity: '',
-    rateUnit: 'Per Day',
-    totalAmount: '0.00'
-}
 
-const InstallationLabourCharge = ({
-    labourItems,
-    setLabourItems
-}) => {
+const InstallationLabourCharge = ({ localdata }) => {
+
+
+
+
+    const LocallabourList = localdata?.labourList || [];
+    const LocallabourDetails = localdata?.labourDetails || {};
+
+    console.log({
+        LocallabourList,
+        LocallabourDetails
+    });
+
+
+    const dispatch = useDispatch()
+    const reduxData = useSelector(state => state.getworkOrderReducer);
+
+    const labourList = reduxData?.labourList?.length
+        ? reduxData.labourList
+        : (LocallabourList || []);
+
+    const labourDetails = reduxData?.labourDetails && Object.keys(reduxData.labourDetails).length
+        ? reduxData.labourDetails
+        : (LocallabourDetails || {});
 
     const [open, setOpen] = useState(false)
-    const [labourData, setLabourData] = useState(emptyLabour)
+    const [labourData, setLabourData] = useState(labourDetails)
     const [editIndex, setEditIndex] = useState(null)
 
     // Auto calculate total amount
@@ -60,47 +75,52 @@ const InstallationLabourCharge = ({
     const handleAddOrUpdate = useCallback(() => {
         if (!labourData.description || !labourData.unitRate) return
 
+        let updatedList = []
+
         if (editIndex !== null) {
-            setLabourItems(prev =>
-                prev.map((item, index) =>
-                    index === editIndex ? labourData : item
-                )
+            updatedList = labourList.map((item, index) =>
+                index === editIndex ? labourData : item
             )
         } else {
-            setLabourItems(prev => [...prev, labourData])
+            updatedList = [...labourList, labourData]
         }
 
-        setLabourData(emptyLabour)
+        dispatch(setLabourList(updatedList))
+
+        setLabourData(labourDetails)
         setEditIndex(null)
         setOpen(false)
-    }, [labourData, editIndex, setLabourItems])
+    }, [labourData, editIndex, labourList, labourDetails, dispatch])
 
     const handleEdit = (row, index) => {
         setLabourData(row)
+
         setEditIndex(index)
         setOpen(true)
     }
 
     const handleDelete = (index) => {
-        setLabourItems(prev => prev.filter((_, i) => i !== index))
+        const updated = labourList.filter((_, i) => i !== index)
+        dispatch(setLabourList(updated))
     }
-
     const handleOpenAdd = () => {
-        setLabourData(emptyLabour)
+        setLabourData({ ...labourDetails })
         setEditIndex(null)
         setOpen(true)
     }
+
+
 
     return (
         <Card
             sx={{
                 height: 440,
-                mx: 'auto',
-                p: 1.5,
+                p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
-                    'linear-gradient(145deg,#ffffff,#eef2ff)',
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
                 animation: 'fadeUp 0.4s ease',
                 '@keyframes fadeUp': {
                     from: { opacity: 0, transform: 'translateY(10px)' },
@@ -108,14 +128,13 @@ const InstallationLabourCharge = ({
                 }
             }}
         >
-
-            {/* HEADER */}
             <Box display="flex" justifyContent="space-between" mb={2}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <EngineeringIcon color="primary" />
-                    <Typography level="h4" fontWeight={700}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <EngineeringIcon sx={{ color: '#4f46e5' }} />
+                    <Typography level="h4" fontWeight={800}>
                         Installation Labour Charges
                     </Typography>
+
                 </Box>
                 <Box
                     onClick={handleOpenAdd}
@@ -135,27 +154,35 @@ const InstallationLabourCharge = ({
                     Add Material
                 </Box>
             </Box>
-
             <Divider />
 
+            <Divider />
             {/* TABLE */}
-            {labourItems.length > 0 ? (
-                <Sheet sx={{ mt: 3, borderRadius: 'xl' }}>
-                    <Table hoverRow>
+            {Array.isArray(labourList) && labourList.length > 0 ? (
+                <Sheet sx={{
+                    mt: 3,
+                    borderRadius: 'xl',
+                    maxHeight: 350,
+                    overflow: 'auto'
+                }}>
+                    <Table
+                        // hoverRow
+                        stickyHeader >
                         <thead>
                             <tr>
-                                <th>Sl No</th>
+                                <th>#</th>
                                 <th>Description</th>
                                 <th>Specification</th>
-                                <th>Rate Unit</th>
-                                <th>Unit Rate (₹)</th>
+                                <th>Unit</th>
+                                <th>Rate</th>
                                 <th>Qty</th>
-                                <th>Total (₹)</th>
-                                <th style={{ textAlign: 'center' }}>Action</th>
+                                <th>Total</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            {labourItems.map((row, index) => (
+                            {labourList.map((row, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{row.description}</td>
@@ -166,11 +193,12 @@ const InstallationLabourCharge = ({
                                     <td style={{ fontWeight: 700 }}>
                                         ₹ {row.totalAmount}
                                     </td>
-                                    <td style={{ textAlign: 'center' }}>
+                                    <td>
                                         <IconButton
                                             size="sm"
                                             color="primary"
                                             onClick={() => handleEdit(row, index)}
+                                            sx={{ mr: 1 }}
                                         >
                                             <EditRoundedIcon />
                                         </IconButton>
@@ -189,23 +217,32 @@ const InstallationLabourCharge = ({
                     </Table>
                 </Sheet>
             ) : (
-                <Typography sx={{ mt: 3 }} color="text.secondary">
+                <Typography sx={{ mt: 3, textAlign: 'center' }} color="text.secondary">
                     No labour charges added
                 </Typography>
             )}
 
-
-            <Modal open={open} onClose={() => setOpen(false)}>
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
                 <ModalDialog
                     size="lg"
                     sx={{
+                        width: '100%',
+                        maxWidth: '1200px',   // desktop max width
+                        mx: 1,
                         p: 0,
                         borderRadius: '2xl',
                         boxShadow: 'xl',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
                     }}
                 >
-
                     {/* HEADER */}
                     <Box
                         sx={{
@@ -232,11 +269,14 @@ const InstallationLabourCharge = ({
                             <Typography level="body-sm" mb={0.5}>
                                 Labour Description
                             </Typography>
-                            <Input
+                            <Textarea
+                                minRows={4}
+                                maxRows={6}
                                 placeholder="Eg: Installation support labour"
                                 name="description"
                                 value={labourData.description}
                                 onChange={handleChange}
+                                sx={{ borderRadius: 'lg' }}
                             />
                         </Box>
 
@@ -245,14 +285,16 @@ const InstallationLabourCharge = ({
                             <Typography level="body-sm" mb={0.5}>
                                 Specification / Scope of Work
                             </Typography>
-                            <Input
+                            <Textarea
+                                minRows={2}
+                                maxRows={4}
                                 placeholder="Eg: Skilled manpower for machine installation"
                                 name="specification"
                                 value={labourData.specification}
                                 onChange={handleChange}
+                                sx={{ borderRadius: 'lg' }}
                             />
                         </Box>
-
                         {/* Rate & Quantity */}
                         <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
                             <Box>
@@ -322,7 +364,7 @@ const InstallationLabourCharge = ({
                         </Box>
 
                         {/* ACTIONS */}
-                        <Box display="flex" justifyContent="flex-end" gap={1.5} mt={1}>
+                        {/* <Box display="flex" justifyContent="flex-end" gap={1.5} mt={1}>
                             <Button
                                 variant="outlined"
                                 color="neutral"
@@ -336,13 +378,46 @@ const InstallationLabourCharge = ({
                             >
                                 {editIndex !== null ? 'Update Labour' : 'Save Labour'}
                             </Button>
+                        </Box> */}
+
+                        <Box
+                            sx={{
+                                px: { xs: 2, sm: 3 },
+                                py: 2,
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                flexWrap: 'wrap',
+                                gap: 1.5,
+                                borderTop: '1px solid #e0e7ff',
+                                background: '#f8fafc',
+                            }}
+                        >
+                            <Button
+                                variant="outlined"
+                                sx={{ borderRadius: 10, px: 3, fontWeight: 700 }}
+                                onClick={() => setOpen(false)}
+                            >
+                                Cancel
+                            </Button>
+
+                            <Button
+                                variant="solid"
+                                onClick={handleAddOrUpdate}
+                                sx={{
+                                    borderRadius: 10,
+                                    px: 4,
+                                    fontWeight: 800,
+                                    background: 'linear-gradient(135deg,#4f46e5,#7c3aed)',
+                                    boxShadow: '0 6px 18px rgba(79,70,229,0.45)',
+                                }}
+                            >
+                                {editIndex !== null ? 'Update Labour' : 'Save Labour'}
+                            </Button>
                         </Box>
 
                     </Box>
                 </ModalDialog>
             </Modal>
-
-
         </Card>
     )
 }

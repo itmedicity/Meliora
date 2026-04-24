@@ -8,56 +8,66 @@ import {
     Button,
     Divider,
     IconButton,
-    Chip
 } from '@mui/joy'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import GavelIcon from '@mui/icons-material/Gavel'
+import { useDispatch, useSelector } from 'react-redux'
+import { setPaymentTerms } from 'src/redux/actions/Workorder.action'
 
-const PaymentTermsAndCondition = ({
-    paymentTermsData,
-    setPaymentTermsData
-}) => {
+const PaymentTermsAndCondition = () => {
 
-    const { terms, validUpto } = paymentTermsData
+    const dispatch = useDispatch()
 
-    const handleChange = (index, value) => {
-        const updated = [...terms]
-        updated[index] = value
+    const { paymentTerms } = useSelector(
+        state => state.getworkOrderReducer
+    )
 
-        setPaymentTermsData(prev => ({
-            ...prev,
+    // 🛡 SAFETY GUARD
+    const safeTerms = Array.isArray(paymentTerms?.terms)
+        ? paymentTerms.terms
+        : [{ text: '', date: '' }]
+
+    const handleChange = (index, field, value) => {
+        const updated = [...safeTerms]
+
+        updated[index] = {
+            ...updated[index],
+            [field]: value
+        }
+
+        dispatch(setPaymentTerms({
+            ...paymentTerms,
             terms: updated
         }))
     }
 
     const addTerm = () => {
-        setPaymentTermsData(prev => ({
-            ...prev,
-            terms: [...prev.terms, '']
+        dispatch(setPaymentTerms({
+            ...paymentTerms,
+            terms: [...safeTerms, { text: '', date: '' }]
         }))
     }
 
     const removeTerm = (index) => {
-        if (terms.length === 1) return
+        if (safeTerms.length === 1) return
 
-        setPaymentTermsData(prev => ({
-            ...prev,
-            terms: prev.terms.filter((_, i) => i !== index)
+        dispatch(setPaymentTerms({
+            ...paymentTerms,
+            terms: safeTerms.filter((_, i) => i !== index)
         }))
     }
-
 
     return (
         <Card
             sx={{
                 height: 440,
-                mx: 'auto',
-                p: 1.5,
+                p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
-                    'linear-gradient(145deg,#ffffff,#eef2ff)',
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
                 animation: 'fadeUp 0.4s ease',
                 '@keyframes fadeUp': {
                     from: { opacity: 0, transform: 'translateY(10px)' },
@@ -71,94 +81,66 @@ const PaymentTermsAndCondition = ({
                 <Typography level="h4" fontWeight={800}>
                     Payment Terms & Conditions
                 </Typography>
-                <Chip size="sm" variant="soft" color="primary">
-                    Work Order
-                </Chip>
             </Box>
 
             <Divider sx={{ my: 2 }} />
 
             {/* Valid Upto */}
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Box sx={{ mb: 0 }}>
+                <Box>
                     <Typography level="body-sm" fontWeight={600}>
                         Valid Upto
                     </Typography>
                     <Input
                         type="date"
-                        value={validUpto}
+                        value={paymentTerms?.validUpto || ''}
                         onChange={(e) =>
-                            setPaymentTermsData(prev => ({
-                                ...prev,
+                            dispatch(setPaymentTerms({
+                                ...paymentTerms,
                                 validUpto: e.target.value
                             }))
                         }
                     />
                 </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        mt: 0.5,
-                        p: 2,
-                        // borderRadius: 'xl',
-                        // background:
-                        //     'linear-gradient(90deg,#eef2ff,#f5f3ff)'
-                    }}
-                >
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Button
                         startDecorator={<AddIcon />}
                         variant="soft"
                         color="primary"
                         onClick={addTerm}
-                        sx={{
-                            borderRadius: 'xl',
-                            fontWeight: 700
-                        }}
+                        sx={{ borderRadius: 'xl', fontWeight: 700 }}
                     >
                         Add Term
                     </Button>
 
                     <Typography level="body-sm" fontWeight={600}>
-                        {terms.length} term(s) added
+                        {safeTerms.length} term(s)
                     </Typography>
                 </Box>
             </Box>
 
             {/* Terms List */}
-            {/* Terms List (Scrollable) */}
             <Box
                 sx={{
-                    maxHeight: 400,        // 👈 controls scroll height
+                    mt: 2,
+                    maxHeight: 300,
                     overflowY: 'auto',
-                    // pr: 1,                // space for scrollbar
-                    scrollbarWidth: 'thin',
-                    '&::-webkit-scrollbar': {
-                        width: '6px'
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: '#c7d2fe',
-                        borderRadius: '8px'
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        backgroundColor: '#eef2ff'
-                    },
-
                 }}
             >
-                {terms.map((term, index) => (
-
-
+                {safeTerms.map((term, index) => (
                     <Card
                         key={index}
                         variant="soft"
                         sx={{
                             borderRadius: 'xl',
                             display: 'flex',
+                            gap: 1,
+                            flexDirection: 'row',
                             alignItems: 'center',
                             background: 'linear-gradient(90deg,#f8fafc,#eef2ff)',
-                            flexDirection: 'row'
+                            mb: 1,
+                            p: 1
                         }}
                     >
                         <Typography fontWeight={800} sx={{ color: '#4f46e5' }}>
@@ -167,10 +149,21 @@ const PaymentTermsAndCondition = ({
 
                         <Input
                             fullWidth
-                            value={term}
-                            onChange={(e) => handleChange(index, e.target.value)}
                             placeholder="Enter term or condition"
+                            value={term.text}
+                            onChange={(e) =>
+                                handleChange(index, 'text', e.target.value)
+                            }
                             sx={{ borderRadius: 'lg' }}
+                        />
+
+                        <Input
+                            type="date"
+                            value={term.date}
+                            onChange={(e) =>
+                                handleChange(index, 'date', e.target.value)
+                            }
+                            sx={{ width: 160, borderRadius: 'lg' }}
                         />
 
                         <IconButton
@@ -181,17 +174,223 @@ const PaymentTermsAndCondition = ({
                             <DeleteIcon />
                         </IconButton>
                     </Card>
-
                 ))}
             </Box>
-
-
-            {/* Actions */}
-
-
         </Card>
     )
 }
 
 export default memo(PaymentTermsAndCondition)
 
+
+
+// import React, { memo, useEffect } from 'react'
+// import {
+//     Box,
+//     Card,
+//     Typography,
+//     Input,
+//     Button,
+//     Divider,
+//     IconButton,
+//     // Chip
+// } from '@mui/joy'
+// import AddIcon from '@mui/icons-material/Add'
+// import DeleteIcon from '@mui/icons-material/Delete'
+// import GavelIcon from '@mui/icons-material/Gavel'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { setPaymentTerms } from 'src/redux/actions/Workorder.action'
+
+// const PaymentTermsAndCondition = ({ localdata }) => {
+
+//     const dispatch = useDispatch()
+
+//     const localPayment = localdata?.paymentTerms || {}
+
+//     const { paymentTerms } = useSelector(
+//         state => state.getworkOrderReducer
+//     )
+
+
+//     useEffect(() => {
+//         const reduxEmpty =
+//             !paymentTerms ||
+//             !Array.isArray(paymentTerms?.terms) ||
+//             paymentTerms.terms.length === 0 ||
+//             (
+//                 paymentTerms.terms.length === 1 &&
+//                 !paymentTerms.terms[0]?.text &&
+//                 !paymentTerms.terms[0]?.date
+//             )
+
+//         if (
+//             reduxEmpty &&
+//             localPayment &&
+//             Array.isArray(localPayment.terms) &&
+//             localPayment.terms.length > 0
+//         ) {
+//             dispatch(setPaymentTerms(localPayment))
+//         }
+//     }, [localPayment, paymentTerms, dispatch])
+
+//     // 🛡 SAFETY GUARD
+//     const safeTerms = Array.isArray(paymentTerms?.terms)
+//         ? paymentTerms.terms
+//         : [{ text: '', date: '' }]
+
+//     const handleChange = (index, field, value) => {
+//         const updated = [...safeTerms]
+
+//         updated[index] = {
+//             ...updated[index],
+//             [field]: value
+//         }
+
+//         dispatch(setPaymentTerms({
+//             ...paymentTerms,
+//             terms: updated
+//         }))
+//     }
+
+//     const addTerm = () => {
+//         dispatch(setPaymentTerms({
+//             ...paymentTerms,
+//             terms: [...safeTerms, { text: '', date: '' }]
+//         }))
+//     }
+
+//     const removeTerm = (index) => {
+//         if (safeTerms.length === 1) return
+
+//         dispatch(setPaymentTerms({
+//             ...paymentTerms,
+//             terms: safeTerms.filter((_, i) => i !== index)
+//         }))
+//     }
+
+//     return (
+//         <Card
+//             sx={{
+//                 height: 440,
+//                 p: 3,
+//                 borderRadius: '2xl',
+//                 boxShadow: 'xl',
+//                 background:
+//                     'linear-gradient(135deg, #fdfbff, #eef2ff)',
+//                 backdropFilter: 'blur(8px)',
+//                 animation: 'fadeUp 0.4s ease',
+//                 '@keyframes fadeUp': {
+//                     from: { opacity: 0, transform: 'translateY(10px)' },
+//                     to: { opacity: 1, transform: 'translateY(0)' }
+//                 }
+//             }}
+//         >
+//             {/* Header */}
+//             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+//                 <GavelIcon sx={{ color: '#4f46e5' }} />
+//                 <Typography level="h4" fontWeight={800}>
+//                     Payment Terms & Conditions
+//                 </Typography>
+//                 {/* <Chip size="sm" variant="soft" color="primary">
+//                     Work Order
+//                 </Chip> */}
+//             </Box>
+
+//             <Divider sx={{ my: 2 }} />
+
+//             {/* Valid Upto */}
+//             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+//                 <Box>
+//                     <Typography level="body-sm" fontWeight={600}>
+//                         Valid Upto
+//                     </Typography>
+//                     <Input
+//                         type="date"
+//                         value={paymentTerms?.validUpto || ''}
+//                         onChange={(e) =>
+//                             dispatch(setPaymentTerms({
+//                                 ...paymentTerms,
+//                                 validUpto: e.target.value
+//                             }))
+//                         }
+//                     />
+//                 </Box>
+
+//                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+//                     <Button
+//                         startDecorator={<AddIcon />}
+//                         variant="soft"
+//                         color="primary"
+//                         onClick={addTerm}
+//                         sx={{ borderRadius: 'xl', fontWeight: 700 }}
+//                     >
+//                         Add Term
+//                     </Button>
+
+//                     <Typography level="body-sm" fontWeight={600}>
+//                         {safeTerms.length} term(s)
+//                     </Typography>
+//                 </Box>
+//             </Box>
+
+//             {/* Terms List */}
+//             <Box
+//                 sx={{
+//                     mt: 2,
+//                     maxHeight: 300,
+//                     overflowY: 'auto',
+//                 }}
+//             >
+//                 {safeTerms.map((term, index) => (
+//                     <Card
+//                         key={index}
+//                         variant="soft"
+//                         sx={{
+//                             borderRadius: 'xl',
+//                             display: 'flex',
+//                             gap: 1,
+//                             flexDirection: 'row',
+//                             alignItems: 'center',
+//                             background: 'linear-gradient(90deg,#f8fafc,#eef2ff)',
+//                             mb: 1,
+//                             p: 1
+//                         }}
+//                     >
+//                         <Typography fontWeight={800} sx={{ color: '#4f46e5' }}>
+//                             {index + 1}.
+//                         </Typography>
+
+//                         <Input
+//                             fullWidth
+//                             placeholder="Enter term or condition"
+//                             value={term.text}
+//                             onChange={(e) =>
+//                                 handleChange(index, 'text', e.target.value)
+//                             }
+//                             sx={{ borderRadius: 'lg' }}
+//                         />
+
+//                         <Input
+//                             type="date"
+//                             value={term.date}
+//                             onChange={(e) =>
+//                                 handleChange(index, 'date', e.target.value)
+//                             }
+//                             sx={{ width: 160, borderRadius: 'lg' }}
+//                         />
+
+//                         <IconButton
+//                             color="danger"
+//                             variant="soft"
+//                             onClick={() => removeTerm(index)}
+//                         >
+//                             <DeleteIcon />
+//                         </IconButton>
+//                     </Card>
+//                 ))}
+//             </Box>
+//         </Card>
+//     )
+// }
+
+// export default memo(PaymentTermsAndCondition)

@@ -1,3 +1,4 @@
+
 import React, { memo } from 'react'
 import {
     Box,
@@ -7,52 +8,70 @@ import {
     Button,
     Divider,
     IconButton,
-    Chip
 } from '@mui/joy'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import GavelIcon from '@mui/icons-material/Gavel'
+import { useDispatch, useSelector } from 'react-redux'
+import { setBillingTerms } from 'src/redux/actions/Workorder.action'
 
-const InvoiceOrBillingTermsAndCondition = ({
-    invoiceTermsData = { validUpto: '', terms: [''] },
-    setInvoiceTermsData
-}) => {
+const InvoiceOrBillingTermsAndCondition = () => {
 
-    const handleChange = (index, value) => {
-        const updated = [...invoiceTermsData.terms]
-        updated[index] = value
+    const dispatch = useDispatch()
 
-        setInvoiceTermsData(prev => ({
-            ...prev,
+    const { billingTerms } = useSelector(
+        state => state.getworkOrderReducer
+    )
+
+    // 🛡 SAFETY GUARD
+    const safeTerms = Array.isArray(billingTerms?.terms)
+        ? billingTerms.terms
+        : [{ text: '', date: '' }]
+
+    const handleChange = (index, field, value) => {
+        const updated = [...safeTerms]
+
+        updated[index] = {
+            ...updated[index],
+            [field]: value
+        }
+
+        dispatch(setBillingTerms({
+            ...billingTerms,
             terms: updated
         }))
     }
 
     const addTerm = () => {
-        setInvoiceTermsData(prev => ({
-            ...prev,
-            terms: [...prev.terms, '']
+        dispatch(setBillingTerms({
+            ...billingTerms,
+            terms: [...safeTerms, { text: '', date: '' }]
         }))
     }
 
     const removeTerm = (index) => {
-        if (invoiceTermsData.terms.length === 1) return
+        if (safeTerms.length === 1) return
 
-        setInvoiceTermsData(prev => ({
-            ...prev,
-            terms: prev.terms.filter((_, i) => i !== index)
+        dispatch(setBillingTerms({
+            ...billingTerms,
+            terms: safeTerms.filter((_, i) => i !== index)
         }))
     }
+
+
+
+
 
     return (
         <Card
             sx={{
                 height: 440,
-                mx: 'auto',
-                p: 1.5,
+                p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
-                background: 'linear-gradient(145deg,#ffffff,#eef2ff)',
+                background:
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
                 animation: 'fadeUp 0.4s ease',
                 '@keyframes fadeUp': {
                     from: { opacity: 0, transform: 'translateY(10px)' },
@@ -66,39 +85,29 @@ const InvoiceOrBillingTermsAndCondition = ({
                 <Typography level="h4" fontWeight={800}>
                     Invoice / Billing Terms & Conditions
                 </Typography>
-                <Chip size="sm" variant="soft" color="primary">
-                    Work Order
-                </Chip>
             </Box>
 
             <Divider sx={{ my: 2 }} />
 
             {/* Valid Upto */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box>
                     <Typography level="body-sm" fontWeight={600}>
                         Valid Upto
                     </Typography>
                     <Input
                         type="date"
-                        value={invoiceTermsData.validUpto}
+                        value={billingTerms?.validUpto || ''}
                         onChange={(e) =>
-                            setInvoiceTermsData(prev => ({
-                                ...prev,
+                            dispatch(setBillingTerms({
+                                ...billingTerms,
                                 validUpto: e.target.value
                             }))
                         }
                     />
                 </Box>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        mt: 0.5
-                    }}
-                >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Button
                         startDecorator={<AddIcon />}
                         variant="soft"
@@ -110,7 +119,7 @@ const InvoiceOrBillingTermsAndCondition = ({
                     </Button>
 
                     <Typography level="body-sm" fontWeight={600}>
-                        {invoiceTermsData.terms.length} term(s) added
+                        {safeTerms.length} term(s)
                     </Typography>
                 </Box>
             </Box>
@@ -118,31 +127,24 @@ const InvoiceOrBillingTermsAndCondition = ({
             {/* Terms List */}
             <Box
                 sx={{
-                    maxHeight: 400,
+                    mt: 2,
+                    maxHeight: 300,
                     overflowY: 'auto',
-                    scrollbarWidth: 'thin',
-                    '&::-webkit-scrollbar': { width: '6px' },
-                    '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: '#c7d2fe',
-                        borderRadius: '8px'
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        backgroundColor: '#eef2ff'
-                    }
                 }}
             >
-                {invoiceTermsData.terms.map((term, index) => (
+                {safeTerms.map((term, index) => (
                     <Card
                         key={index}
                         variant="soft"
                         sx={{
                             borderRadius: 'xl',
                             display: 'flex',
+                            gap: 1,
+                            flexDirection: 'row',
                             alignItems: 'center',
                             background: 'linear-gradient(90deg,#f8fafc,#eef2ff)',
-                            flexDirection: 'row',
-                            gap: 1,
-                            mb: 1
+                            mb: 1,
+                            p: 1
                         }}
                     >
                         <Typography fontWeight={800} sx={{ color: '#4f46e5' }}>
@@ -151,10 +153,21 @@ const InvoiceOrBillingTermsAndCondition = ({
 
                         <Input
                             fullWidth
-                            value={term}
-                            onChange={(e) => handleChange(index, e.target.value)}
-                            placeholder="Enter invoice / billing term"
+                            placeholder="Enter term or condition"
+                            value={term.text}
+                            onChange={(e) =>
+                                handleChange(index, 'text', e.target.value)
+                            }
                             sx={{ borderRadius: 'lg' }}
+                        />
+
+                        <Input
+                            type="date"
+                            value={term.date}
+                            onChange={(e) =>
+                                handleChange(index, 'date', e.target.value)
+                            }
+                            sx={{ width: 160, borderRadius: 'lg' }}
                         />
 
                         <IconButton

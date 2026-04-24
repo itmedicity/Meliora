@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import {
     Box,
     Card,
@@ -12,40 +12,95 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import GavelIcon from '@mui/icons-material/Gavel'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTerms } from 'src/redux/actions/Workorder.action'
 
-const TermsAndConditions = ({ termsData, setTermsData }) => {
+const TermsAndConditions = ({ localdata }) => {
 
-    const handleChange = (index, value) => {
-        const updated = [...termsData.terms]
-        updated[index] = value
-        setTermsData(prev => ({ ...prev, terms: updated }))
+    const dispatch = useDispatch()
+
+    const localTerms = localdata || null;
+
+
+    console.log({ localTerms });
+
+
+
+    const { terms } = useSelector(
+        state => state.getworkOrderReducer
+    )
+
+
+
+    useEffect(() => {
+        const reduxEmpty =
+            !terms ||
+            !Array.isArray(terms?.terms) ||
+            terms.terms.length === 0 ||
+            (
+                terms.terms.length === 1 &&
+                !terms.terms[0]?.text &&
+                !terms.terms[0]?.date
+            )
+
+        if (
+            localTerms &&
+            Array.isArray(localTerms.terms) &&
+            localTerms.terms.length > 0 &&
+            reduxEmpty
+        ) {
+            dispatch(setTerms(localTerms))
+        }
+    }, [localTerms, terms, dispatch])
+    // const retentionData = useMemo(() => retentionDatas, [retentionDatas])
+
+    // 🛡 SAFETY GUARD
+    const safeTerms = Array.isArray(terms?.terms)
+        ? terms.terms
+        : [{ text: '', date: '' }]
+
+    const handleChange = (index, field, value) => {
+        const updated = [...safeTerms]
+
+        updated[index] = {
+            ...updated[index],
+            [field]: value
+        }
+
+        dispatch(setTerms({
+            ...terms,
+            terms: updated
+        }))
     }
 
     const addTerm = () => {
-        setTermsData(prev => ({
-            ...prev,
-            terms: [...prev.terms, '']
+        dispatch(setTerms({
+            ...terms,
+            terms: [...safeTerms, { text: '', date: '' }]
         }))
     }
 
     const removeTerm = (index) => {
-        if (termsData.terms.length === 1) return
-        setTermsData(prev => ({
-            ...prev,
-            terms: prev.terms.filter((_, i) => i !== index)
+        if (safeTerms.length === 1) return
+
+        dispatch(setTerms({
+            ...terms,
+            terms: safeTerms.filter((_, i) => i !== index)
         }))
     }
+
+
 
     return (
         <Card
             sx={{
                 height: 440,
-                mx: 'auto',
-                p: 1.5,
+                p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
-                    'linear-gradient(145deg,#ffffff,#eef2ff)',
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
                 animation: 'fadeUp 0.4s ease',
                 '@keyframes fadeUp': {
                     from: { opacity: 0, transform: 'translateY(10px)' },
@@ -68,78 +123,60 @@ const TermsAndConditions = ({ termsData, setTermsData }) => {
 
             {/* Valid Upto */}
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Box sx={{ mb: 0 }}>
+                <Box>
                     <Typography level="body-sm" fontWeight={600}>
                         Valid Upto
                     </Typography>
                     <Input
                         type="date"
-                        value={termsData?.validUpto}
+                        value={terms?.validUpto || ''}
                         onChange={(e) =>
-                            setTermsData(prev => ({
-                                ...prev,
+                            dispatch(setTerms({
+                                ...terms,
                                 validUpto: e.target.value
                             }))
                         }
                     />
                 </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        mt: 0.5,
-                        p: 2
-                    }}
-                >
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Button
                         startDecorator={<AddIcon />}
                         variant="soft"
                         color="primary"
                         onClick={addTerm}
-                        sx={{
-                            borderRadius: 'xl',
-                            fontWeight: 700
-                        }}
+                        sx={{ borderRadius: 'xl', fontWeight: 700 }}
                     >
                         Add Term
                     </Button>
 
                     <Typography level="body-sm" fontWeight={600}>
-                        {termsData?.terms?.length} term(s) added
+                        {safeTerms.length} term(s)
                     </Typography>
                 </Box>
             </Box>
 
-            {/* Terms List (Scrollable) */}
+            {/* Terms List */}
             <Box
                 sx={{
-                    maxHeight: 400,        // 👈 controls scroll height
+                    mt: 2,
+                    maxHeight: 300,
                     overflowY: 'auto',
-                    // pr: 1,                // space for scrollbar
-                    scrollbarWidth: 'thin',
-                    '&::-webkit-scrollbar': {
-                        width: '6px'
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: '#c7d2fe',
-                        borderRadius: '8px'
-                    },
-                    '&::-webkit-scrollbar-track': {
-                        backgroundColor: '#eef2ff'
-                    }
                 }}
             >
-                {termsData?.terms?.map((term, index) => (
+                {safeTerms.map((term, index) => (
                     <Card
                         key={index}
                         variant="soft"
                         sx={{
                             borderRadius: 'xl',
                             display: 'flex',
+                            gap: 1,
+                            flexDirection: 'row',
                             alignItems: 'center',
                             background: 'linear-gradient(90deg,#f8fafc,#eef2ff)',
-                            flexDirection: 'row'
+                            mb: 1,
+                            p: 1
                         }}
                     >
                         <Typography fontWeight={800} sx={{ color: '#4f46e5' }}>
@@ -148,10 +185,21 @@ const TermsAndConditions = ({ termsData, setTermsData }) => {
 
                         <Input
                             fullWidth
-                            value={term}
-                            onChange={(e) => handleChange(index, e.target.value)}
                             placeholder="Enter term or condition"
+                            value={term.text}
+                            onChange={(e) =>
+                                handleChange(index, 'text', e.target.value)
+                            }
                             sx={{ borderRadius: 'lg' }}
+                        />
+
+                        <Input
+                            type="date"
+                            value={term.date}
+                            onChange={(e) =>
+                                handleChange(index, 'date', e.target.value)
+                            }
+                            sx={{ width: 160, borderRadius: 'lg' }}
                         />
 
                         <IconButton

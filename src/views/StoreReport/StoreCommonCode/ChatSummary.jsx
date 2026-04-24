@@ -6,7 +6,7 @@ const ChatSummary = ({ sortedComments }) => {
     return (
         <Box
             sx={{
-                maxHeight: 260,
+                maxHeight: 200,
                 overflowY: "auto",
                 p: 2,
                 borderRadius: 2,
@@ -22,6 +22,7 @@ const ChatSummary = ({ sortedComments }) => {
             ) : (
                 sortedComments.map((cmt) => (
                     <Box
+
                         key={cmt.cmt_slno}
                         sx={{
                             display: "flex",
