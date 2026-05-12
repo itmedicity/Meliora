@@ -7,39 +7,52 @@ import { GiFruitBowl } from "react-icons/gi";
 import { FaBowlFood } from "react-icons/fa6";
 import { IoFishSharp } from "react-icons/io5";
 import { GiChickenOven } from "react-icons/gi";
+import DietButton from "src/views/Diet/DietComponent/DietButton";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useNavigate } from "react-router-dom";
 
 const TitleCard = () => {
+    const navigate = useNavigate()
     return (
         <Box
             sx={{
                 display: "flex",
                 alignItems: "center",
                 gap: 1,
-                p: 1
+                p: 1,
+                justifyContent: 'space-between'
             }}>
-            <AnimatedFoodIcon
-                icons={[
-                    GiChickenOven,
-                    IoFishSharp,
-                    FaBowlFood,
-                    MdFastfood,
-                    MdEmojiFoodBeverage,
-                    RiDrinks2Fill,
-                    RiDrinksFill,
-                    GiFruitBowl,
-                ]}
-                size={32}
-                interval={4400}
+            <Box sx={{
+                display: "flex",
+                alignItems: "center",
+            }}>
+                <AnimatedFoodIcon
+                    icons={[
+                        GiChickenOven,
+                        IoFishSharp,
+                        FaBowlFood,
+                        MdFastfood,
+                        MdEmojiFoodBeverage,
+                        RiDrinks2Fill,
+                        RiDrinksFill,
+                        GiFruitBowl,
+                    ]}
+                    size={32}
+                    interval={4400}
+                />
+                <Typography
+                    sx={{
+                        color: "black",
+                        fontSize: 18,
+                        fontWeight: 600,
+                        fontFamily: "var(--roboto-font)",
+                        mt: 2
+                    }}> RECIPE CARD</Typography></Box>
+            <DietButton
+                onClick={() => navigate('/Home/Settings')}
+                name={'Go Back'}
+                icon={ExitToAppIcon}
             />
-            <Typography
-                sx={{
-                    color: "black",
-                    fontSize: 18,
-                    fontWeight: 600,
-                    fontFamily: "var(--roboto-font)",
-                    mt: 2
-                }}> RECIPE CARD</Typography>
-
         </Box>
     );
 };

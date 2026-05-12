@@ -4,17 +4,14 @@ import DietTextComponent from '../DietComponent/DietTextComponent'
 import DietButton from '../DietComponent/DietButton'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
-const KotFooterConfirm = ({ confirmedItems, onConfirm, pdf }) => {
+
+const KotFooterConfirm = ({ confirmedItems, onConfirm, SendList }) => {
 
     if (!confirmedItems?.length) return null
 
     const totalItems = confirmedItems.length
-    const totalQty = confirmedItems.reduce(
-        (sum, item) => sum + Number(item.Count || 0),
-        0
-    );
+
 
     return (
         <Sheet
@@ -38,12 +35,7 @@ const KotFooterConfirm = ({ confirmedItems, onConfirm, pdf }) => {
             <Box>
                 <DietTextComponent
                     size={16}
-                    value={`${totalItems} item${totalItems > 1 ? 's' : ''} added`}
-                />
-                <DietTextComponent
-                    size={15}
-                    value={`Total Quantity: ${totalQty}`}
-                    color="#6f10b4"
+                    value={`${totalItems} Batch${totalItems > 1 ? 's' : ''} Added`}
                 />
             </Box>
             <Box sx={{
@@ -54,25 +46,18 @@ const KotFooterConfirm = ({ confirmedItems, onConfirm, pdf }) => {
             }}>
                 {/* Confirm Button */}
                 <DietButton
+                    width={150}
                     onClick={onConfirm}
                     name={"Remove all Item"}
                     icon={DeleteOutlinedIcon}
                 />
                 <DietButton
-                    onClick={onConfirm}
+                    width={220}
+                    onClick={SendList}
                     name={"Confirm List For Preparation"}
                     icon={AddCircleOutlineOutlinedIcon}
                 />
-
-                <DietButton
-                    onClick={pdf}
-                    name={"Download Pdf"}
-                    icon={PictureAsPdfIcon}
-                />
             </Box>
-
-
-
         </Sheet>
     )
 }

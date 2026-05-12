@@ -1,41 +1,33 @@
-import { Box, Tooltip } from '@mui/joy'
-import React, { useState } from 'react'
+import { Box } from '@mui/joy'
+import React, { } from 'react'
 import DietTextComponent from '../DietComponent/DietTextComponent'
-import DietButton from '../DietComponent/DietButton'
-import ConfirmationNumberTwoToneIcon from '@mui/icons-material/ConfirmationNumberTwoTone'
-import RecommendIcon from '@mui/icons-material/Recommend';
 
-const KotItemList = ({ FoodItemDetail, bgcolor, onConfirm, foundmatch }) => {
+const KotItemList = ({ FoodItemDetail, bgcolor }) => {
     const {
-        Item_name,
-        Count,
-        unit,
-        processed_date,
-        description,
-        nutrition,
-    } = FoodItemDetail
+        item_name,
+        meal_type,
+        qty,
+        production_date,
+        kitchen_item_status
+    } = FoodItemDetail;
 
-    const [showInfo, setShowInfo] = useState(false)
 
     return (
         <Box
             sx={{
                 width: '100%',
                 px: 1.5,
-                // py: 1,
+                py: 1,
                 display: 'flex',
-                // alignItems: 'flex-start',
-                bgcolor: bgcolor.bg,
+                alignItems: 'center',
+                bgcolor: bgcolor?.bg || '#fff',
                 boxShadow: 'sm',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
+                gap: 1,
+                flexWrap: 'nowrap'
+            }}
+        >
             {/* Item Name + Info */}
             <Box
-                onDoubleClick={(e) => {
-                    e.stopPropagation()
-                    setShowInfo(prev => !prev)
-                }}
                 sx={{
                     width: '45%',
                     display: 'flex',
@@ -45,65 +37,25 @@ const KotItemList = ({ FoodItemDetail, bgcolor, onConfirm, foundmatch }) => {
                 }}>
                 {/* Name row */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, }}>
-                    <DietTextComponent size={13} value={Item_name?.toUpperCase()} />
+                    <DietTextComponent size={13} value={item_name?.toUpperCase()} />
                 </Box>
-
-                {/* Description + Nutrition (below name) */}
-                {showInfo && (
-                    <Box sx={{
-                        mt: 0.5, pl: 0.5,
-                        width: '100%',
-                    }}>
-                        <DietTextComponent
-                            size={12}
-                            value={description}
-
-                        />
-
-                        <DietTextComponent
-                            size={12}
-                            value={`Calories: ${nutrition?.calories}`}
-
-                        />
-
-                        <DietTextComponent
-                            size={12}
-                            value={`Benifits: ${nutrition?.benefits}`}
-                        />
-                    </Box>
-                )}
             </Box>
 
-
-            {/* Type */}
-            {/* <Box sx={{ width: '25%' }}>
-                <DietTextComponent value={Type} />
-            </Box> */}
-
-            {/* Processed Date */}
             <Box sx={{ width: '25%' }}>
-                <DietTextComponent size={13} value={processed_date} />
+                <DietTextComponent size={13} value={meal_type} />
+            </Box>
+            <Box sx={{ width: '25%' }}>
+                <DietTextComponent size={13} value={production_date} />
+            </Box>
+            <Box sx={{ width: '25%' }}>
+                <DietTextComponent size={13} value={kitchen_item_status} />
             </Box>
 
-            {/* Count */}
+
             <Box sx={{ width: '10%' }}>
-                <DietTextComponent size={13} value={Count} />
+                <DietTextComponent size={13} value={qty} />
             </Box>
-            <Box sx={{ width: '10%' }}>
-                <DietTextComponent size={13} value={unit} />
-            </Box>
-            {/* Action Button */}
-            <Tooltip size='sm' title={foundmatch ? "Selected" : "Add Item to List"} placement="top" >
-                <Box sx={{ width: '10%', display: 'flex', justifyContent: 'center' }}>
-                    <DietButton
-                        width={30}
-                        onClick={() => onConfirm(FoodItemDetail)}
-                        name={''}
-                        icon={foundmatch ? RecommendIcon : ConfirmationNumberTwoToneIcon}
-                    />
-                </Box>
-            </Tooltip>
-        </Box>
+        </Box >
     )
 }
 

@@ -1,6 +1,7 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { Box, Typography, IconButton } from "@mui/joy";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useAllUnitMaster } from "src/views/Diet/CommonData/UseQuery";
 
 const IngredientList = ({
     ingredients = [],
@@ -8,6 +9,10 @@ const IngredientList = ({
     onEdit,
     onRemove,
 }) => {
+    const { data: allUnits = [], } = useAllUnitMaster()
+    const unitMap = useMemo(() => Object.fromEntries(allUnits.map(u => [u.unit_id, u.unit_code])), [allUnits])
+
+
     return (
         <Box mt={1}>
             {ingredients?.map((ing, i) => (
@@ -26,7 +31,7 @@ const IngredientList = ({
                         boxShadow: 'sm'
                     }}>
                     <Typography fontSize={13}>
-                        • {ing?.name?.toUpperCase()} – {ing?.value} {ing?.unit}
+                        • {ing?.ingredient_name?.toUpperCase()} – {ing?.quantity} {unitMap[ing?.unit_id]}
                     </Typography>
 
                     <IconButton

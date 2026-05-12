@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/joy';
 import DietButton from '../DietComponent/DietButton';
 import DietTypeTimeSelect from './DietTypeTimeSelect';
 import DIetNameProcessing from './DIetNameProcessing';
-import React, { useState, Suspense, lazy, useEffect, useRef } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Person4TwoToneIcon from '@mui/icons-material/Person4TwoTone';
@@ -11,6 +11,11 @@ import BookmarkAddedTwoToneIcon from '@mui/icons-material/BookmarkAddedTwoTone';
 import CustomeIncidentLoading from 'src/views/IncidentManagement/Components/CustomeIncidentLoading';
 import SmartRealtimeCounter from '../DietComponent/SmartRealtimeCounter';
 import '../../Master/DietMasters/DietStyle/DietStyle.css';
+import { getSafeFormattedDate, groupByDiet, summarizePatients } from '../CommonData/CommonFun';
+import { useAllActivePatientTypeDetail, useAllDietProcessList, useFetchAllScheduledDiet } from '../CommonData/UseQuery';
+import { socket } from 'src/ws/socket'
+import { succesNotify } from 'src/views/Common/CommonCode';
+
 const DatePickerComponent = lazy(() => import('../DietComponent/DatePickerComponent'));
 
 const DietWiseProcessing = ({
@@ -20,26 +25,96 @@ const DietWiseProcessing = ({
     setSelectedDietTimes,
     selectedDietTimes,
     handleNewPatientOrder,
-    newpatientcount,
     isAllSelected,
-    allDietNames
+    setToDate,
+    todate
 }) => {
 
 
-    const [todate, setToDate] = useState(new Date());
+    // const [todate, setToDate] = useState(new Date());
     const [blink, setBlink] = useState(false); // default color
-    const prevPatientCount = useRef(newpatientcount);
+
+    const formattedDate = getSafeFormattedDate(todate, 'dd-MM-yyyy');
+
+    const apiDate = getSafeFormattedDate(todate, "yyyy-MM-dd");
+
+    const {
+        data: ActivePatientTypeDetail = [],
+        isLoading: isLoadingPatientType,
+        isError: isErrorPatientType,
+        error: errorPatientType,
+    } = useAllActivePatientTypeDetail(todate);
 
 
-    // work for new Diet patient
+
+    const {
+        data: ScheduledPatientDiet = [],
+        isLoading: isLoadingScheduledPlan,
+        isError: isErrorScheduledPatientPlan,
+        error: errorScheduledPatientPlan,
+        refetch: FetchScheduledDietPlan
+    } = useFetchAllScheduledDiet(apiDate);
+
+
+
+
+    const { data: ProcessedList = [] } = useAllDietProcessList(formattedDate);
+
+    const FormatedProcessedList = groupByDiet(ProcessedList);
+
+    const {
+        totalPatients,
+        patientsPerDiet,
+        newPatientCount,
+        // newPatients
+    } = summarizePatients(
+        ActivePatientTypeDetail, ScheduledPatientDiet
+    );
+
+    // console.log({
+    //     newPatients
+    // });
+
+
+
+
     useEffect(() => {
-        if (newpatientcount !== prevPatientCount.current) {
-            setBlink(true); // trigger blink
-            const timeout = setTimeout(() => setBlink(false), 500); // blink duration
-            prevPatientCount.current = newpatientcount;
-            return () => clearTimeout(timeout);
-        }
-    }, [newpatientcount]);
+        socket.on("newDietPlanCreated", (data) => {
+            console.log("New Diet Plan:", data);
+            succesNotify("New Diet Plan Added")
+            //  trigger blink ONLY on realtime event
+            setBlink(true);
+            //  refetch latest data
+            FetchScheduledDietPlan();
+            //  stop blink after animation
+            setTimeout(() => {
+                setBlink(false);
+            }, 800);
+        });
+
+        return () => socket.off("newDietPlanCreated");
+    }, []);
+
+
+    const isLoadingAll =
+        isLoadingScheduledPlan ||
+        isLoadingPatientType;
+
+    const isErrorAll =
+        isErrorScheduledPatientPlan ||
+        isErrorPatientType;
+
+    const errorMessage =
+        errorScheduledPatientPlan ||
+        errorPatientType?.message;
+
+    if (isLoadingAll) {
+        return <div>Loading...</div>;
+    }
+
+    if (isErrorAll) {
+        return <div>Error: {errorMessage}</div>;
+    }
 
 
     return (
@@ -108,11 +183,11 @@ const DietWiseProcessing = ({
                                         fontFamily: 'Bahnschrift',
                                         whiteSpace: 'nowrap'
                                     }}>
-                                    New Orders
+                                    New Patient
                                 </Typography>
                             </Box>
 
-                            <SmartRealtimeCounter value={Number(newpatientcount) || 0} />
+                            <SmartRealtimeCounter value={Number(newPatientCount) || 0} />
                         </Box>
 
                         <Box sx={{
@@ -155,7 +230,7 @@ const DietWiseProcessing = ({
                                     textAlign: 'center'
                                 }}
                             >
-                                125
+                                {totalPatients ?? 0}
                             </Typography>
                         </Box>
 
@@ -176,8 +251,11 @@ const DietWiseProcessing = ({
                             selectedDiets={selectedDiets}
                             setSelectedDiets={setSelectedDiets}
                             isAllSelected={isAllSelected}
-                            allDietNames={allDietNames}
+                            todate={todate}
                             selectedDietTimes={selectedDietTimes}
+                            FormatedProcessedList={FormatedProcessedList}
+                            setSelectedDietTimes={setSelectedDietTimes}
+                            patientsPerDiet={patientsPerDiet}
                         />
                     </Box>
 
@@ -187,7 +265,8 @@ const DietWiseProcessing = ({
                             selectedDietTimes={selectedDietTimes}
                             setSelectedDietTimes={setSelectedDietTimes}
                             isAllSelected={isAllSelected}
-
+                            setSelectedDiets={setSelectedDiets}
+                            FormatedProcessedList={FormatedProcessedList}
                         />
                     </Box>
                 </Box>

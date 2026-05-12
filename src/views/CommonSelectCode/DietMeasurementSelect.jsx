@@ -1,12 +1,15 @@
 import React, { memo } from 'react';
 import FormControl from '@mui/material/FormControl';
 import { Box, Option, Select } from '@mui/joy';
-import { foodUnits } from '../Diet/CommonData/Common';
+import { useAllUnitMaster } from '../Diet/CommonData/UseQuery';
 
 
 const DietMeasurementSelect = ({ value, setValue }) => {
+    const {
+        data: allUnits = []
+    } = useAllUnitMaster()
     return (
-        <Box>
+        <Box sx={{ width: '100%' }}>
             <FormControl fullWidth size="small">
                 <Select
                     id="demo-simple-select"
@@ -18,11 +21,11 @@ const DietMeasurementSelect = ({ value, setValue }) => {
                     <Option value={0} disabled>
                         Select Department
                     </Option>
-                    {foodUnits &&
-                        foodUnits?.map((val, index) => {
+                    {allUnits &&
+                        allUnits?.map((val, index) => {
                             return (
-                                <Option key={index} value={val.value}>
-                                    {val.label}
+                                <Option key={index} value={val?.unit_id}>
+                                    {val?.unit_name}
                                 </Option>
                             )
                         })}

@@ -22,8 +22,10 @@ const Field = ({ label, children, sx }) => {
                 sx={{
                     backgroundColor: "#f1f1f1",
                     borderRadius: 8,
-                    px: 2,
-                     py: 1.2,
+                    minHeight: 50,
+                    display: 'flex',
+                    alignItems: 'center',
+                    px:1
                 }}
             >
                 {children}

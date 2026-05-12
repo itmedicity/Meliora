@@ -176,8 +176,6 @@ export const ams_one = [
 ]
 
 
-
-
 // work order
 
 export const Work_one = [
@@ -191,9 +189,14 @@ export const Work_two = [
 
 //Diet Master Menu
 export const dm_setting_one = [
-    { to: '/Home/Diet', name: 'Diet ', slno: 36 },
+    // { to: '/Home/Diet', name: 'Diet ', slno: 36 },
+    { to: '/Home/ptdietmaster', name: 'Diet Master', slno: 36 },
     { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
-    { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
+    // { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
+    { to: '/Home/unitmaster', name: 'Unit Master', slno: 56 },
+    { to: '/Home/orderparty', name: 'Order Party Type ', slno: 56 }, // change slno
+    { to: '/Home/itemalias', name: 'Item Alias Master', slno: 56 }, // change slno
+
 ]
 
 export const Inc_One = [
@@ -225,13 +228,18 @@ export const dm_setting_two = [
     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
     { to: '/Home/dietroom', name: 'Diet Room Master', slno: 337 },
     { to: '/Home/dietdelmaster', name: 'Diet Delivery Master', slno: 340 },
-
+    { to: '/Home/itemtypemast', name: 'Item Type Master', slno: 340 },
+    { to: '/Home/billingmaster', name: 'Billing Category Master', slno: 340 },
 ]
 
 export const dm_setting_three = [
-    { to: '/Home/RateList', name: 'Rate List', slno: 40 },
-    { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 },
-    { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 55 }
+    // { to: '/Home/RateList', name: 'Rate List', slno: 40 },
+    { to: '/Home/dietspeciality', name: 'Diet Speciality Master', slno: 40 }, // new change this
+    // { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 },
+    { to: '/Home/dietallergence', name: 'Diet Allergency Master', slno: 340 },
+    { to: '/Home/dietdemplate', name: 'Diet Template Master', slno: 55 },
+    { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 55 },
+    { to: '/Home/itemcatmast', name: 'Item Category Master', slno: 55 } // change slno
 ]
 
 // //We  Work Menu

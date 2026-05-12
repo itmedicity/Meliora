@@ -5,8 +5,6 @@ const ChooseNursingStation = ({ value, handleChange }) => {
 
     const { data: nursingStations = [] } = useNursingStationMaster()
 
- 
-
     return (
         <select
             value={value ? String(value) : ''}

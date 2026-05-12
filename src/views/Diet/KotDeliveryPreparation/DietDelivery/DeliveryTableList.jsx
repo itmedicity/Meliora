@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React, { } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Box, Paper } from "@mui/material";
 import DietTextComponent from "../../DietComponent/DietTextComponent";
-import { useNursingStationMaster } from "../../CommonData/UseQuery";
+
 
 const Cell = ({ width, children }) => (
     <Box
@@ -18,20 +18,6 @@ const Cell = ({ width, children }) => (
 );
 
 const DeliveryTableList = ({ data = [] }) => {
-
-    const { data: NURSING_STATIONS = [] } = useNursingStationMaster();
-
-    const stationMap = useMemo(() => {
-        return NURSING_STATIONS.reduce((acc, s) => {
-            acc[s.fb_ns_code] = s;
-            return acc;
-        }, {});
-    }, [NURSING_STATIONS]);
-
-    console.log({
-        data
-    });
-
 
     return (
         <Paper sx={{ width: "100%" }}>
@@ -54,11 +40,11 @@ const DeliveryTableList = ({ data = [] }) => {
                     ["Patient", 140],
                     ["Pt No", 120],
                     ["Meal", 120],
-                    ["Diet", 160],
                     ["NS", 160],
-                    ["Items", 90],
-                    ["Food Status", 120],
-                    ["Assignee", 100],
+                    ["Order Status", 120],
+                    ["Item Priority", 120],
+                    ["Assignee", 180],
+                    ["Assignee Status", 100],
                     ["Assigned At", 180],
                 ].map(([label, width]) => (
                     <Cell key={label} width={width}>
@@ -76,8 +62,6 @@ const DeliveryTableList = ({ data = [] }) => {
                 style={{ height: "72vh" }}
                 data={data}
                 itemContent={(index, row) => {
-                    const station = stationMap[row.ns_code];
-
                     return (
                         <Box
                             key={`${row.order_id}-${index}`}
@@ -97,51 +81,53 @@ const DeliveryTableList = ({ data = [] }) => {
 
                             <Cell width={140}>
                                 <DietTextComponent
-                                    value={row.ptc_ptname}
+                                    value={row.fb_ptc_name}
                                     size={12}
                                 />
                             </Cell>
 
                             <Cell width={120}>
-                                <DietTextComponent value={row.pt_no} size={12} />
+                                <DietTextComponent value={row.fb_pt_no} size={12} />
                             </Cell>
 
                             <Cell width={120}>
                                 <DietTextComponent
-                                    value={row.meal?.toUpperCase()}
+                                    value={row.meal_type?.toUpperCase()}
                                     size={12}
                                 />
                             </Cell>
 
                             <Cell width={160}>
-                                <DietTextComponent value={row.diet_name} size={12} />
-                            </Cell>
-
-                            <Cell width={160}>
                                 <DietTextComponent
-                                    value={station?.fb_ns_name ?? row.ns_code}
-                                    size={12}
-                                />
-                            </Cell>
-
-                            <Cell width={90}>
-                                <DietTextComponent
-                                    value={`${row.items?.length || 0} items`}
+                                    value={row.nursing_station}
                                     size={12}
                                 />
                             </Cell>
 
                             <Cell width={120}>
                                 <DietTextComponent
-                                    value={row.foodStatus || "Pending"}
+                                    value={row.ItemStatus || "Pending"}
+                                    size={12}
+                                    color={row.color}
+                                />
+                            </Cell>
+                            <Cell width={120}>
+                                <DietTextComponent
+                                    value={row.ItemPriority || "Pending"}
                                     size={12}
                                     color={row.color}
                                 />
                             </Cell>
 
+                            <Cell width={180}>
+                                <DietTextComponent
+                                    value={row.assigned_to || "-"}
+                                    size={12}
+                                />
+                            </Cell>
                             <Cell width={100}>
                                 <DietTextComponent
-                                    value={row.assigneeName || "-"}
+                                    value={row.AssignyStatus}
                                     size={12}
                                 />
                             </Cell>
@@ -149,13 +135,15 @@ const DeliveryTableList = ({ data = [] }) => {
                             <Cell width={180}>
                                 <DietTextComponent
                                     value={
-                                        row.assignedAt
-                                            ? new Date(row.assignedAt).toLocaleString()
+                                        row.assigned_at
+                                            ? new Date(row.assigned_at).toLocaleString()
                                             : "-"
                                     }
                                     size={12}
                                 />
                             </Cell>
+
+
                         </Box>
                     );
                 }}

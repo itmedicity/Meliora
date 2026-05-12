@@ -6,8 +6,10 @@ const ChooseDietPatient = ({ value, setValue, disabled,
         setValue(e.target.value)
     }
 
+    
+
     const FilterdPatient = useMemo(() => {
-        return [...new Map(PtDetail?.map(item => [item.pt_no, item])).values()];
+        return [...new Map(PtDetail?.map(item => [item.fb_pt_no, item])).values()];
     }, [PtDetail]);
 
 
@@ -33,9 +35,9 @@ const ChooseDietPatient = ({ value, setValue, disabled,
             {FilterdPatient?.map((item, inx) => (
                 <option
                     key={inx}
-                    value={item.pt_no}
+                    value={item.fb_pt_no}
                 >
-                    {item.ptc_ptname}
+                    {item.fb_ptc_name}
                 </option>
             ))}
         </select>

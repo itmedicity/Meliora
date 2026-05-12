@@ -1,86 +1,166 @@
 import { Box } from '@mui/joy'
 import React, { useCallback, useMemo, useState } from 'react'
 import KotItemHeader from './KotItemHeader'
-import { DIET_ALT_COLORS, FoodDetail } from '../CommonData/Common'
-import KotItemList from './KotItemList'
 import DietFilterComponent from '../DietComponent/DietFilterComponent'
 import KotFooterConfirm from './KotFooterConfirm'
-import { useDietTimes } from '../CommonData/UseQuery'
+import { useDietTimes, useKitchenOrderList } from '../CommonData/UseQuery'
 import DietEmptyState from '../DietComponent/DietEmptyState'
-import { PrintFoodPreparationPdf } from '../CommonData/CommonFun'
+import {
+    groupMealItems,
+    PrintFoodPreparationPdf,
+    //  PrintFoodPreparationPdf
+} from '../CommonData/CommonFun'
+import { errorNotify, infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { axioslogin } from 'src/views/Axios/Axios'
+
+import KitchenStatusTab from './KitchenStatusTab'
+import KotBatchCard from './KotBatchCard'
 
 const KotItemContainer = () => {
 
-    const [items, setItems] = useState(FoodDetail)
-    const [confirmedItems, setConfirmedItems] = useState([])
-    const [search, setSearch] = useState('')
-    const [dietType, setDietType] = useState('')
+
+    const [selectedBatches, setSelectedBatches] = useState([]);
+    const [search, setSearch] = useState('');
+    const [dietType, setDietType] = useState('');
     const [select, setSelect] = useState(false);
+    const [activeTab, setActiveTab] = useState('ALL');
 
     // remove this when real data comes 
     const { data: DietTime = [] } = useDietTimes()
+    // const id = useSelector((state) => state.LoginUserData.empid);
 
     const MatchType = DietTime?.find(v => v?.type_slno === Number(dietType));
 
+    const {
+        data: KitechOrderItem = [], refetch: FetchConfirmedOrder
+    } = useKitchenOrderList();
+
+    const groupedData = useMemo(() => {
+        return groupMealItems(KitechOrderItem);
+    }, [KitechOrderItem]);
+
+
+
+
+
     // Fiter data based on the Diet Type and Search keyword?
     const FinalFilterdData = useMemo(() => {
-        return items.filter(item => {
+
+        return groupedData?.filter(item => {
+
+            // DIET TYPE FILTER
             const matchType =
                 !dietType ||
-                item.Type?.toUpperCase() === MatchType?.type_desc?.toUpperCase()
+                item.meal_type?.toUpperCase() ===
+                MatchType?.type_desc?.toUpperCase();
 
+            // SEARCH FILTER
             const matchSearch =
                 !search ||
-                item.Item_name?.toUpperCase().includes(search.toUpperCase())
+                item?.item_name
+                    ?.toUpperCase()
+                    .includes(search.toUpperCase());
 
-            return matchType && matchSearch
-        })
-    }, [items, dietType, search, MatchType])
+            // STATUS FILTER
+            const matchStatus =
+                activeTab === "ALL"
+                    ? true
+                    : item?.kitchen_status?.toUpperCase() ===
+                    activeTab?.toUpperCase();
 
+            return (
+                matchType &&
+                matchSearch &&
+                matchStatus
+            );
 
-    //Confirm Items
-    const handleConfirmItem = (item) => {
-        setConfirmedItems(prev => {
-            const exists = prev.some(
-                i => Number(i.item_slno) === Number(item.item_slno)
-            )
+        });
+
+    }, [
+        groupedData,
+        dietType,
+        search,
+        MatchType,
+        activeTab
+    ]);
+
+    const handleBatchSelect = useCallback((batchId) => {
+
+        setSelectedBatches(prev => {
+            const exists = prev.includes(batchId);
             if (exists) {
-                return prev.filter(
-                    i => Number(i.item_slno) !== Number(item.item_slno)
-                )
+                return prev.filter(id => id !== batchId);
             }
-            return [...prev, item]
-        })
-    }
+            return [...prev, batchId];
+        });
 
+    }, []);
 
     const HanldeSelectAll = useCallback((checked) => {
         setSelect(checked);
-
         if (checked) {
-            // move only filtered items to confirmed
-            setConfirmedItems(prev => {
-                const newItems = FinalFilterdData.filter(
-                    item => !prev.some(p => p.item_slno === item.item_slno)
-                );
-                return [...prev, ...newItems];
-            });
-        } else {
-            // move back only filtered confirmed items
-
-            setConfirmedItems(prev =>
-                prev.filter(
-                    item => !FinalFilterdData.some(f => f.item_slno === item.item_slno)
+            // SELECT ONLY PENDING BATCHES
+            const pendingBatchIds = FinalFilterdData
+                ?.filter(batch =>
+                    batch?.kitchen_status?.toUpperCase() === "PENDING"
                 )
+                ?.map(batch => batch.batch_id);
+
+            setSelectedBatches(pendingBatchIds);
+        } else {
+            setSelectedBatches([]);
+        }
+    }, [FinalFilterdData]);
+
+
+    const HandleBatchConfirmation = async () => {
+
+        if (selectedBatches?.length === 0) {
+            return warningNotify(
+                "Select Batch List Before Sending!"
             );
         }
-    }, [FinalFilterdData, confirmedItems]);
+        // CREATE PAYLOAD ITEMS
+        const payloadItems = selectedBatches.map(batch_id => ({ batch_id }));
+
+        try {
+
+            const payload = {
+                items: payloadItems,
+                kitchen_status: "SENT_TO_KITCHEN",
+            };
+
+            const res = await axioslogin.patch(
+                "/productionbatch/update/batch-status",
+                payload
+            );
+
+            const {
+                success,
+                message
+            } = res.data || {};
+
+            if (success === 0) {
+                return warningNotify(message || "Error in Setting List!");
+            }
+            succesNotify(message || " Successfully Created Kot List");
+            FetchConfirmedOrder()
+            setSelectedBatches([])
+
+        } catch (error) {
+            console.error(error);
+            errorNotify("Error in Status Updation");
+        }
+    };
 
 
+    const pdfData =
+        FinalFilterdData?.filter(batch => batch?.kitchen_status?.toUpperCase() === "SENT_TO_KITCHEN");
 
     const PrintToPdf = useCallback(() => {
-        PrintFoodPreparationPdf(confirmedItems);
-    }, [confirmedItems]);
+        if (!pdfData) return infoNotify("Not item Preseint")
+        PrintFoodPreparationPdf(pdfData);
+    }, [pdfData]);
 
     return (
 
@@ -106,27 +186,38 @@ const KotItemContainer = () => {
                 HanldeSelectAll={HanldeSelectAll}
             />
 
-            <Box sx={{
-                width: '95%',
-                minHeight: '55vh',
-                maxHeight: '75vh',
-                border: '1px solid #e9e5e56c',
-                mt: 1,
-                p: 1,
-                bgcolor: '#f6f6f6d9',
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-                overflowY: 'scroll',
-                gap: 0.2,
+            <KitchenStatusTab
+                kitchenOrders={FinalFilterdData}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                onClick={PrintToPdf}
+            />
+            <Box
+                sx={{
+                    width: '95%',
+                    minHeight: '55vh',
+                    maxHeight: '75vh',
+                    border: '1px solid #e9e5e56c',
+                    mt: 1,
+                    p: 1,
+                    bgcolor: '#f6f6f6d9',
 
-                /* Hide scrollbar */
-                scrollbarWidth: 'none',          // Firefox
-                msOverflowStyle: 'none',          // IE & Edge
-                '&::-webkit-scrollbar': {
-                    display: 'none',               // Chrome, Safari
-                },
-            }}>
+                    display: 'flex',
+                    flexDirection: 'column',
+
+                    alignItems: 'stretch',   //  FIX HERE (VERY IMPORTANT)
+
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+
+                    gap: 1,
+                    scrollbarWidth: 'none',          // Firefox
+                    msOverflowStyle: 'none',          // IE & Edge
+                    '&::-webkit-scrollbar': {
+                        display: 'none',               // Chrome, Safari
+                    },
+                }}
+            >
 
                 {
                     FinalFilterdData?.length === 0 ? (
@@ -135,30 +226,32 @@ const KotItemContainer = () => {
                             description="Try selecting a different diet type or search again"
                         />
                     ) : (
-                        FinalFilterdData?.map((item, index) => {
-                            const dietColor = DIET_ALT_COLORS[index % 2]
-                            const MatchConFirmed = confirmedItems?.some(val => val.item_slno === item.item_slno)
-                            return (
-                                <KotItemList
-                                    foundmatch={MatchConFirmed}
-                                    key={item.item_slno}
-                                    bgcolor={dietColor}
-                                    FoodItemDetail={item}
-                                    onConfirm={handleConfirmItem}
-                                />
-                            )
-                        })
+
+                        FinalFilterdData?.map((batch) => (
+                            <KotBatchCard
+                                key={batch.batch_id}
+                                batch={batch}
+                                refetch={FetchConfirmedOrder}
+                                selected={
+                                    selectedBatches.includes(batch.batch_id)
+                                }
+                                onSelectBatch={handleBatchSelect}
+                            />
+                        ))
                     )
                 }
 
 
                 <KotFooterConfirm
-                    pdf={PrintToPdf}
-                    confirmedItems={confirmedItems}
+                    SendList={HandleBatchConfirmation}
+                    confirmedItems={selectedBatches}
                     onConfirm={() => {
-                        setConfirmedItems([])
+                        setSelect(false)
+                        setSelectedBatches([])
                     }}
                 />
+
+
             </Box>
 
 

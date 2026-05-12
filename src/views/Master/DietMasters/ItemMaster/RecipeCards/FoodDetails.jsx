@@ -1,68 +1,112 @@
 import React from "react";
-import { Box, Typography, Skeleton } from "@mui/joy";
+import { Box, Skeleton } from "@mui/joy";
+import DietTextComponent from "src/views/Diet/DietComponent/DietTextComponent";
 
-const FoodDetails = ({
-    Loading,
-    Data
-}) => {
+const NutritionCard = ({ label, value, unit, loading }) => {
+    return (
+        <Box
+            sx={{
+                border: "1px solid #e0e0e0",
+                borderRadius: 8,
+                padding: 1.5,
+                minWidth: 110,
+                background: "#fafafa"
+            }}
+        >
+            {/* Label */}
+            <DietTextComponent
+                value={label}
+                size={12}
+                weight={500}
+                color={'neutral.600'}
+            />
 
+            {/* Value */}
+            {loading ? (
+                <Skeleton width={60} />
+            ) : (
+                <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
+                    <DietTextComponent
+                        value={value ?? "-"}
+                        size={18}
+                        weight={600}
+                        color={'black'}
+                    />
+                    <DietTextComponent
+                        value={unit}
+                        size={12}
+                        weight={400}
+                        color={'neutral.500'}
+                    />
+                </Box>
+            )}
+        </Box>
+    );
+};
 
-    // ingredients,
-    const { nutrition } = Data ?? {};
+const FoodDetails = ({ Loading, Data }) => {
+    const nutrition = Data ?? {};
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            {/* Ingredients */}
-            {/* <Box className="Ingredient">
-                <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
-                    Ingredients
-                </Typography>
-                {
-                    !Loading && ingredients && ingredients.length > 0 ?
-                        (
-                            <Typography sx={{ fontSize: 14, whiteSpace: "pre-line" }}>
-                                {ingredients.map(item => `• ${item}`)}
-                            </Typography>
-                        ) : (
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                                {[...Array(10)].map((_, i) => (
-                                    <Box
-                                        key={i}
-                                        sx={{
-                                            display: "flex",
-                                            gap: 1,
-                                            width: "15%",
-                                        }}
-                                    >
-                                        <Skeleton variant="text" width="100%" />
-                                    </Box>
-                                ))}
-                            </Box>
 
-                        )
-                }
-            </Box> */}
+            {/* Title */}
+            <DietTextComponent
+                value={"Nutrition Facts"}
+                size={16}
+                weight={600}
+                color={'black'}
+            />
 
-            {/* Nutritional Content */}
-            <Box className="NutritionalContent">
-                <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
-                    Nutritional Content
-                </Typography>
-                {!Loading && nutrition && nutrition.length > 0 ? (
-                    <Typography sx={{ fontSize: 14, whiteSpace: "pre-line" }}>
-                        {nutrition.map(item => `• ${item}`).join("\n")}
-                    </Typography>
-                ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                        {[...Array(4)].map((_, i) => (
-                            <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                                <Skeleton variant="circular" width={6} height={6} />
-                                <Skeleton variant="text" width={`${60 + i * 5}%`} />
-                            </Box>
-                        ))}
-                    </Box>
+            {/* Grid */}
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit,minmax(110px,1fr))",
+                    gap: 1
+                }}
+            >
+                <NutritionCard
+                    label="Calories"
+                    value={nutrition?.calories_kcal}
+                    unit="kcal"
+                    loading={Loading}
+                />
 
-                )}
+                <NutritionCard
+                    label="Protein"
+                    value={nutrition?.protein_g}
+                    unit="g"
+                    loading={Loading}
+                />
+
+                <NutritionCard
+                    label="Carbohydrates"
+                    value={nutrition?.carbohydrates_g}
+                    unit="g"
+                    loading={Loading}
+                />
+
+                <NutritionCard
+                    label="Fat"
+                    value={nutrition?.fat_g}
+                    unit="g"
+                    loading={Loading}
+                />
+
+                <NutritionCard
+                    label="Fiber"
+                    value={nutrition?.fiber_g}
+                    unit="g"
+                    loading={Loading}
+                />
+
+                <NutritionCard
+                    label="Sodium"
+                    value={nutrition?.sodium_mg}
+                    unit="mg"
+                    loading={Loading}
+                />
             </Box>
         </Box>
     );

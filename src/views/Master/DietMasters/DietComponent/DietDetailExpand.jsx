@@ -1,12 +1,16 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Box, Typography } from '@mui/joy'
 
-const DietDetailExpand = ({ children, sx = {}, name, status = false }) => {
+const DietDetailExpand = ({ children, sx = {}, name, status = false, condition = false }) => {
+
     const [open, setOpen] = useState(status)
+
+    useEffect(() => {
+        setOpen(false)
+    }, [condition]);
 
     return (
         <Box
-
             sx={{
                 width: '100%',
                 border: '1px solid #9393938c',
@@ -15,12 +19,20 @@ const DietDetailExpand = ({ children, sx = {}, name, status = false }) => {
                 overflow: 'hidden',
                 transition: 'border-color 0.2s ease',
                 mb: 1,
+                position: 'relative',
+                overflowY: 'auto',
+                scrollbarWidth: 'none', // Firefox
+                msOverflowStyle: 'none', // IE & Edge
+                '&::-webkit-scrollbar': {
+                    display: 'none' // Chrome, Safari
+                },
+                ...((condition && open) ? { height: "80%" } : {}),
                 ...sx
             }}
         >
             {/* HEADER */}
             <Box
-                onClick={() => setOpen(p => !p)}
+                onClick={!condition ? undefined : () => setOpen(p => !p)}
                 sx={{
                     height: 30,
                     display: 'flex',
@@ -29,7 +41,10 @@ const DietDetailExpand = ({ children, sx = {}, name, status = false }) => {
                     fontSize: 12,
                     fontWeight: 600,
                     boxShadow: 'md',
-                    bgcolor: '#fff'
+                    bgcolor: '#fff',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 999
                 }}
             >
                 <Typography fontSize={12}>

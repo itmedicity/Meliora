@@ -1,33 +1,24 @@
-import {
-    Box, Divider, Skeleton,
-} from '@mui/joy'
-import React, { useState } from 'react'
+import { Box, Divider } from '@mui/joy'
+import React, { memo, useState } from 'react'
 import TitleCard from './TitleCard';
 import FoodForm from './FoodForm';
 import FoodDetails from './FoodDetails';
-import { UseFoodDetail } from 'src/views/Diet/CommonData/UseQuery';
+import ImageCarouselPreview from './ImageCarouselPreview';
+
 
 const NewItemAdd = () => {
-    const [image, setImage] = useState(null);
-    const [loadingdata, setLoadingData] = useState(false);
-    const [fooddata, setFoodData] = useState({})
-
+    const [image, setImage] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         diet_type: null,
-        foodType: null,
-        serves: "",
-        prepTime: "",
-        cookTime: "",
-        totalTime: "",
-        staffRate: "",
-        bystanderRate: "",
-        specialRate: "",
-        image: null
+        item_group_id: null,
+        item_category_id: null,
+        itemcode: "",
+        itemalias: "",
+        image: [],
+        item_type_id: null
     });
-
-    const { data: FoodDetail } = UseFoodDetail()
 
     return (
         <Box sx={{
@@ -36,66 +27,34 @@ const NewItemAdd = () => {
             borderRadius: 5,
             border: '1px solid #9822c365',
             position: 'relative',
-            p: 1,
-
+            p: 1
         }}>
             <TitleCard />
             <Divider sx={{ height: 2, bgcolor: 'var(--royal-purple-400)' }} />
             <Box className="body" sx={{ display: 'flex', height: '100%', py: 1, gap: 1 }}>
-                <Box sx={{
-                    width: '70%'
-                }}>
+                <Box sx={{ width: '80%' }}>
                     <FoodForm
                         setImage={setImage}
                         formData={formData}
                         setFormData={setFormData}
-                        setFoodData={setFoodData}
-                        setLoadingData={setLoadingData}
-                        ExistFoodDetail={FoodDetail || []}
                     />
                 </Box>
                 <Box sx={{
-                    width: { md: '40%', lg: '40%', xl: '30%' },
+                    width: { md: '20%', lg: '20%', xl: '30%' },
                     height: '90%',
-                    // border: '1px solid #9822c365',
                     p: 2,
                     borderRadius: 5,
                     boxShadow: "md"
                 }}>
-                    <Box
-                        sx={{
-                            width: "100%",
-                            height: 400,
-                            borderRadius: 5,
-                            overflow: "hidden",
-                            boxShadow: 'md',
-                            p: 0.5
-                        }}
-                    >
-                        {image ? (
-                            <img
-                                src={image}
-                                alt="Food image"
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                    display: "block",
-                                }}
-                            />
-                        ) : (
-                            <Skeleton
-                                variant="rectangular"
-                                width="100%"
-                                height="100%"
-                                sx={{ borderRadius: 5 }}
-                            />
-                        )}
-                    </Box>
+
+                    <ImageCarouselPreview
+                        images={image}
+                        setImages={setImage}
+                    />
 
                     <FoodDetails
-                        Loading={loadingdata}
-                        Data={fooddata ?? {}}
+                        Loading={false}
+                        Data={{}}
                     />
                 </Box>
             </Box>
@@ -103,4 +62,4 @@ const NewItemAdd = () => {
     )
 }
 
-export default NewItemAdd
+export default memo(NewItemAdd)

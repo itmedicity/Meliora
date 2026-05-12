@@ -1,14 +1,18 @@
 import React, { memo } from 'react';
 import FormControl from '@mui/material/FormControl';
 import { Box, Option, Select } from '@mui/joy';
-import { UseFoodTypeDetail } from '../Diet/CommonData/UseQuery';
+import { useAllItemGroupMaster } from '../Diet/CommonData/UseQuery';
 
 const DietFoodTypeSelect = ({ value, setValue }) => {
 
-    const { data: foodItem } = UseFoodTypeDetail();
+    // const { data: foodItem } = UseFoodTypeDetail();
+
+    const {
+        data: foodItem
+    } = useAllItemGroupMaster();
 
     return (
-        <Box>
+        <Box sx={{ width: '100%' }}>
             <FormControl fullWidth size="small">
                 <Select
                     id="demo-simple-select"
@@ -23,7 +27,7 @@ const DietFoodTypeSelect = ({ value, setValue }) => {
                     {foodItem &&
                         foodItem?.map((val, index) => {
                             return (
-                                <Option key={index} value={val?.grp_slno}>
+                                <Option key={index} value={val?.item_group_id}>
                                     {val?.group_name}
                                 </Option>
                             )

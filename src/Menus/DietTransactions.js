@@ -15,27 +15,41 @@ const DietTransactions = [
     icon: <CiStop1 />
   },
   {
-    men_slno: 57,
-    name: 'Diet Order List',
-    to: '/Home/DietOrderList',
+    men_slno: 343,
+    name: 'Canteen Order Detail',
+    to: '/Home/canteenorder',
     icon: <CiStop1 />
   },
+  // {
+  //   men_slno: 57,
+  //   name: 'Diet Order List',
+  //   to: '/Home/DietOrderList',
+  //   icon: <CiStop1 />
+  // },
+  // {
+  //   men_slno: 59,
+  //   name: 'Diet Extra Order',
+  //   to: '/Home/DietExtraOrder',
+  //   icon: <CiStop1 />
+  // },
+  // {
+  //   men_slno: 60,
+  //   name: 'Diet Delivery',
+  //   to: '/Home/DietDelivery',
+  //   icon: <CiStop1 />
+  // },
+
+  // {
+  //   men_slno: 343,
+  //   name: 'Diet Order List',
+  //   to: '/Home/dietorder',
+  //   icon: <CiStop1 />
+  // },
+
   {
-    men_slno: 59,
-    name: 'Diet Extra Order',
-    to: '/Home/DietExtraOrder',
-    icon: <CiStop1 />
-  },
-  {
-    men_slno: 60,
-    name: 'Diet Delivery',
-    to: '/Home/DietDelivery',
-    icon: <CiStop1 />
-  },
-  {
-    men_slno: 339,
-    name: 'Diet Type Grouping',
-    to: '/Home/diettypegroup',
+    men_slno: 343,
+    name: 'Direct Orders',
+    to: '/Home/directorder',
     icon: <CiStop1 />
   },
   {
@@ -51,11 +65,12 @@ const DietTransactions = [
     icon: <CiStop1 />
   },
   {
-    men_slno: 343,
-    name: 'Diet Order List',
-    to: '/Home/dietorder',
+    men_slno: 339,
+    name: 'Diet Type Grouping',
+    to: '/Home/diettypegroup',
     icon: <CiStop1 />
   },
+
 ]
 
 export default DietTransactions

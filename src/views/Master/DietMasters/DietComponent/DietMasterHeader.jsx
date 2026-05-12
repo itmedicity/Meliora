@@ -13,11 +13,10 @@ const DietMasterHeader = ({ onClose, name }) => {
                 bgcolor: '#701591ab',
                 alignItems: 'center',
                 p: 1
-            }}
-        >
+            }}>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <KingBedOutlinedIcon sx={{color:'white'}}/>
-                <Typography fontWeight={600} sx={{ color: 'white' }}>
+                <KingBedOutlinedIcon sx={{ color: 'white' }} />
+                <Typography fontWeight={600} sx={{ color: 'white' }}>   
                     {name}
                 </Typography>
             </Box>

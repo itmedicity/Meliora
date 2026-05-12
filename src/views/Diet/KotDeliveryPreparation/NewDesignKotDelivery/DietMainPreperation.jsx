@@ -1,10 +1,10 @@
-import React, { memo, useState } from 'react'
+import React, { lazy, memo, Suspense, useState } from 'react'
 import { Box } from '@mui/joy'
 import MenuIcon from '@mui/icons-material/Menu'
 import DietContextDrawer from './DietContextDrawer'
 import PatientsViewWrapper from '../PatientsViewWrapper'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
-import PatientOrderModal from '../../DietModal/PatientOrderModal'
+// import PatientOrderModal from '../../DietModal/PatientOrderModal'
 import PatientOrderCancelModal from '../../DietModal/PatientOrderCancelModal'
 import ChooseAllEmployee from 'src/views/CommonSelectCode/ChooseAllEmployee'
 import DietInputLabel from 'src/views/Master/DietMasters/DietComponent/DietInputLabel'
@@ -14,11 +14,20 @@ import { FILTER_ACTIONS } from '../../DietReducer/action/kotPreparationFilter.ac
 import { useKotFilter } from '../../DietReducer/contextprovider/KotFilterContext'
 import AssignPatientConfirmModal from '../../DietModal/AssignPatientConfirmModal'
 import Delivery from '../DietDelivery/Delivery'
+import { infoNotify } from 'src/views/Common/CommonCode'
 
+
+
+const PatientOrderModal = lazy(() => import('../../DietModal/PatientOrderModal'));
 
 const DRAWER_WIDTH = 280
 
-const DietMainPreperation = ({ selectedStations, setSelectedStations, FilteredPatientDetail, activeTab }) => {
+const DietMainPreperation = ({
+    selectedStations,
+    setSelectedStations,
+    FilteredPatientDetail,
+    activeTab
+}) => {
 
     const [open, setOpen] = useState(true); // For Drawer Component
     const [isScrolled, setIsScrolled] = useState(false); //For animatin Purpsose . Not Important 
@@ -32,6 +41,11 @@ const DietMainPreperation = ({ selectedStations, setSelectedStations, FilteredPa
     const { state, dispatch } = useKotFilter();
     const { assignee, selectedPatients } = state
 
+
+    const handleOpenAssigneModal = () => {
+        if (!assignee) return infoNotify("Please Select Assigneee!")
+        setModalType("assignall")
+    }
 
     return (
 
@@ -95,25 +109,28 @@ const DietMainPreperation = ({ selectedStations, setSelectedStations, FilteredPa
                         color={isScrolled ? '#000000' : '#000000'}
                     />
                     <Box>
-                        <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        {
+                            activeTab === '1' &&
+                            <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
 
-                            <DietInputLabel name={"Choose Assignee"} />
-                            <ChooseAllEmployee value={assignee}
-                                setValue={(value) =>
-                                    dispatch({
-                                        type: FILTER_ACTIONS.SET_ASSIGNEE,
-                                        payload: value
-                                    })
-                                } />
-                        </Box>
+                                <DietInputLabel name={"Choose Assignee"} />
+                                <ChooseAllEmployee value={assignee}
+                                    setValue={(value) =>
+                                        dispatch({
+                                            type: FILTER_ACTIONS.SET_ASSIGNEE,
+                                            payload: value
+                                        })
+                                    } />
+                            </Box>
+                        }
                         {
                             activeTab === '1' &&
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <DietButton
                                     name={"Assign Patients"}
-                                    width={120}
+                                    width={180}
                                     icon={CheckCircleIcon}
-                                    onClick={() => setModalType("assignall")}
+                                    onClick={handleOpenAssigneModal}
                                 />
                             </Box>
                         }
@@ -128,29 +145,26 @@ const DietMainPreperation = ({ selectedStations, setSelectedStations, FilteredPa
                             setSelectedPatient={setSelectedPatient}
                             patientsByDiet={FilteredPatientDetail}
                         />
-                        : <Delivery filteredPatients={FilteredPatientDetail} />
+                        : <Delivery
+                            filteredPatients={FilteredPatientDetail}
+                        />
                 }
-
-
 
             </Box>
 
-
-            <PatientOrderModal
-                open={modalType === "view"}
-                onClose={() => setModalType(null)}
-                patient={selectedPatient}
-            />
-
+            <Suspense fallback={"loading...!"}>
+                <PatientOrderModal
+                    open={modalType === "view"}
+                    onClose={() => setModalType(null)}
+                    patient={selectedPatient}
+                />
+            </Suspense>
 
             <PatientOrderCancelModal
                 open={modalType === "cancel"}
                 onClose={() => setModalType(null)}
                 patient={selectedPatient}
-                onConfirm={(data) => {
-                    console.log("Cancel API Payload:", data);
-                    setModalType(null);
-                }}
+            // onConfirm={(data) => HandlePatientMealcancellation(data)}
             />
 
             <AssignPatientConfirmModal
@@ -161,6 +175,7 @@ const DietMainPreperation = ({ selectedStations, setSelectedStations, FilteredPa
                 assignee={assignee}
                 patients={selectedPatients}
                 dispatch={dispatch}
+            
             />
 
 

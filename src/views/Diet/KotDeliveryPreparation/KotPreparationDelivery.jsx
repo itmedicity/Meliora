@@ -6,15 +6,12 @@ import { useKotFilter } from '../DietReducer/contextprovider/KotFilterContext'
 import DietMainPreperation from './NewDesignKotDelivery/DietMainPreperation'
 import PreparationStatusFilter from './NewDesignKotDelivery/PreparationStatusFilter'
 import {
-    useDietNames,
-    useDietTimes,
-    useNursingStationMaster,
-    useAllEmployeeFetch
-} from '../CommonData/UseQuery'
-import {
-    generatePatientDietOrders,
-    getFoodStatus
-} from '../CommonData/CommonFun'
+    useGetAllAssignedOrderDetail,
+    useFetchAllCanteenOrderStatus
+} from '../CommonData/UseQuery';
+
+
+
 
 const KotPreparationDelivery = () => {
 
@@ -23,129 +20,81 @@ const KotPreparationDelivery = () => {
     const [activeTab, setActiveTab] = useState('1');
     const [activeStatus, setActiveStatus] = useState(null);
 
-    const { data: DIETS = [] } = useDietNames();
-    const { data: NURSING_STATIONS = [] } = useNursingStationMaster();
-    const { data: DietTime = [] } = useDietTimes();
-    const { data: AllEmployee = [] } = useAllEmployeeFetch();
-
     const { state } = useKotFilter();
+
+    const {
+        data: CanteenOrderDetails = []
+    } = useFetchAllCanteenOrderStatus();
+
+
+    const {
+        data: AssingedOrders = []
+    } = useGetAllAssignedOrderDetail();
+
+
+    
+
+    const PendingOrder = CanteenOrderDetails?.filter(
+        item =>
+            !(AssingedOrders ?? []).some(
+                assigned =>
+                    assigned.canteen_order_id === item.canteen_order_id
+            )
+    );
+
+    const DeliveryOrders =
+        CanteenOrderDetails?.filter(item =>
+            AssingedOrders?.some(
+                assigned => assigned.canteen_order_id === item.canteen_order_id
+            )
+        );
+
+    const FinalDeliveryOrderDetail = DeliveryOrders?.map(item => {
+        const assigned = AssingedOrders?.find(
+            assigned => assigned.canteen_order_id === item.canteen_order_id
+        );
+
+        return {
+            ...item,
+            assigned_to: assigned?.em_name || null,
+            ItemPriority: assigned?.ItemPriority || null,
+            ItemStatus: assigned?.ItemStatus || null,
+            AssignyStatus: assigned?.AssignyStatus || null,
+            assigned_at: assigned?.assigned_at || null,
+        };
+    });
+
+
+    const SourceData = useMemo(() => {
+        return activeTab === '2'
+            ? FinalDeliveryOrderDetail
+            : PendingOrder;
+    }, [
+        activeTab,
+        PendingOrder,
+        FinalDeliveryOrderDetail
+    ]);
 
     const {
         ptsearch,
         dietName,
         dietPatient,
         diettype,
-        assignee
+        assignee,
+        nursingBed
     } = state;
 
 
 
-    /**
-     * This given below piece of code just generate random Patients
-     * Only for the development puporse once real-time data comes this can be removed 
-     * 
-     */
-    const patientDietOrdersSample = useMemo(() => {
-        if (!DIETS.length || !NURSING_STATIONS.length) return [];
 
-        return generatePatientDietOrders({
-            count: 100,
-            diets: DIETS,
-            nursingStations: NURSING_STATIONS,
-            includeBystander: true
-        });
-    }, [DIETS, NURSING_STATIONS]);
-
-    /**
-     * Getting Already Assined Detail from the Local Storge
-     * This is Doing Because current it only Design so Storing in the Local stoarge
-     * Also be removed 
-     * 
-     */
-    const storedData = JSON.parse(
-        localStorage.getItem("assignedPatients")
-    ) || [];
-
-    const deliveryMergedPatients = useMemo(() => {
-        /*
-            Create a lookup map for employees.
-            This converts the employee array into an object like:
-            {
-                1: "Ravi",
-                2: "Suresh"
-            }
-            So we can quickly get employee name using assignee id.
-        */
-        const employeeMap = AllEmployee.reduce((acc, emp) => {
-            acc[emp.em_id] = emp.em_name;
-            return acc;
-        }, {});
-
-        /*
-            Merge localStorage assignment data with patient data.
-            storedData structure:
-            [
-                {
-                    assignee: 3,
-                    assignedAt: "...",
-                    patients: [ {...}, {...} ]
-                }
-            ]
-            For each assignment:
-            - Loop through its patients
-            - Attach:
-                assignee id
-                assignee name (from employeeMap)
-                assigned date/time
-        */
-        return storedData.flatMap((assignment) =>
-            (assignment.patients || []).map((patient) => ({
-                // Keep original patient data
-                ...patient,
-                // Attach assignee id (if exists)
-                assignee: assignment.assignee || null,
-                // Attach assignee name using lookup map
-                assigneeName: employeeMap[assignment.assignee] || null,
-                // Attach assignment timestamp
-                assignedAt: assignment.assignedAt || null
-            }))
-        );
-
-    }, [storedData, AllEmployee]);
-
-
-    /* MATCH SELECTED DIET & TIME*/
-    const DietNameMatch = useMemo(() => {
-        if (!dietName) return null;
-        return DIETS.find(
-            v => Number(v.diet_slno) === Number(dietName)
-        ) || null;
-    }, [DIETS, dietName]);
-
-    const DietTypeMatch = useMemo(() => {
-        if (!diettype) return null;
-        return DietTime.find(
-            v => Number(v.type_slno) === Number(diettype)
-        ) || null;
-    }, [DietTime, diettype]);
-
-
-
-    /* SELECT SOURCE BASED ON TAB */
-    const sourcePatients = useMemo(() => {
-        return activeTab === '2'
-            ? deliveryMergedPatients
-            : patientDietOrdersSample;
-    }, [activeTab, deliveryMergedPatients, patientDietOrdersSample]);
 
     /* BASE FILTER */
-    const baseFilteredPatients = useMemo(() => {
-
+    const filteredPatients = useMemo(() => {
         /*
             If there is no data in the selected source
             (Preparation or Delivery), return empty array.
         */
-        if (!sourcePatients?.length) return [];
+        if (!SourceData?.length) return [];
         /*
             Normalize filter values for comparison.
             - searchValue: lowercase trimmed text search
@@ -153,16 +102,13 @@ const KotPreparationDelivery = () => {
             - selectedTime: selected meal type
         */
         const searchValue = ptsearch?.trim().toLowerCase();
-        const selectedDietSlno = DietNameMatch?.diet_name;
-        const selectedTime = DietTypeMatch?.type_desc;
 
         /*
             Apply all filters to the selected data source.
             Every condition must return true for the patient
             to be included in the final result.
         */
-        return sourcePatients.filter((pt) => {
-
+        return SourceData?.filter((pt) => {
             /*
                 Search filter:
                 Matches patient name or patient number.
@@ -171,14 +117,19 @@ const KotPreparationDelivery = () => {
             const searchMatch =
                 !searchValue ||
                 pt.ptc_ptname?.toLowerCase().includes(searchValue) ||
-                pt.pt_no?.toLowerCase().includes(searchValue);
+                pt.fb_pt_no?.toLowerCase().includes(searchValue);
 
             /*
                 Patient status filter:
                 If no status selected, allow all.
             */
             const statusMatch =
-                !status || pt.patient_status_code === status;
+                !status || pt.kitchen_status === status;
+
+
+            const bedmatch =
+                !nursingBed ||
+                String(pt.fb_bd_code) === String(nursingBed);
 
             /*
                 Nursing station filter:
@@ -186,7 +137,7 @@ const KotPreparationDelivery = () => {
             */
             const stationMatch =
                 !selectedStations.length ||
-                selectedStations.includes(pt.ns_code);
+                selectedStations.includes(pt.fb_ns_code);
 
             /*
                 Diet name filter:
@@ -194,8 +145,8 @@ const KotPreparationDelivery = () => {
                 If none selected, allow all.
             */
             const dietMatch =
-                !selectedDietSlno ||
-                String(pt.diet_name) === String(selectedDietSlno);
+                !dietName ||
+                String(pt.diet_id) === String(dietName);
 
             /*
                 Diet time (meal) filter:
@@ -203,129 +154,37 @@ const KotPreparationDelivery = () => {
                 If none selected, allow all.
             */
             const dietTimeMatch =
-                !selectedTime ||
-                String(pt.meal?.trim().toUpperCase()) === String(selectedTime);
+                !diettype ||
+                String(pt.type_slno) === String(diettype);
 
-            /*
-                Assignee filter:
-                This is applied only in Delivery tab (activeTab === '2').
-                In Preparation tab, this condition is ignored.
-            */
-            const assigneeMatch =
-                activeTab === '2'
-                    ? (!assignee || Number(pt.assignee) === Number(assignee))
-                    : true;
 
-            /*
-                Return patient only if all filter conditions pass.
-            */
+            const PatientMatch = !dietPatient || String(pt.fb_pt_no) === String(dietPatient);
+
             return (
                 searchMatch &&
                 statusMatch &&
                 stationMatch &&
                 dietMatch &&
                 dietTimeMatch &&
-                assigneeMatch
+                PatientMatch &&
+                bedmatch
             );
         });
 
     }, [
-        sourcePatients,
+        SourceData,
         ptsearch,
         status,
         selectedStations,
-        DietNameMatch,
-        DietTypeMatch,
         assignee,
-        activeTab
-    ]);
-
-
-    /* FINAL FILTER + FOOD STATUS */
-    const filteredPatients = useMemo(() => {
-
-        /*
-            Step 1: If a specific patient is selected (dietPatient),
-            filter the base list to include only that patient.
-            Otherwise, use the full baseFilteredPatients list.
-        */
-        const baseData = dietPatient
-            ? baseFilteredPatients.filter(pt => pt.pt_no === dietPatient)
-            : baseFilteredPatients;
-
-        /*
-            Step 2: Extract all assigned patients from localStorage.
-            This flattens the stored assignment structure so we can
-            easily check if a patient + meal combination is assigned.
-        */
-        const allPatients = storedData.flatMap(
-            item => item.patients || []
-        );
-
-        /*
-            Step 3: Enhance each patient with:
-            - Food preparation status
-            - UI-related status flags
-            - Assignee details (if available)
-        */
-        const mappedData = baseData.map(pt => {
-
-            /*
-                Check whether the current patient (for a specific meal)
-                exists in the assigned patients list.
-            */
-            const isAssigned = allPatients.some(
-                sp => sp.pt_no === pt.pt_no && sp.meal === pt.meal
-            );
-
-            /*
-                Determine food status and related UI values
-                using the helper function.
-            */
-            const { foodStatus, checkStatus, color, bgcolor } =
-                getFoodStatus(pt, isAssigned);
-
-            /*
-                Return the updated patient object.
-                Assignee fields will exist only in Delivery tab.
-            */
-            return {
-                ...pt,
-                assignee: pt.assignee || null,
-                assigneeName: pt.assigneeName || null,
-                assignedAt: pt.assignedAt || null,
-                foodStatus,
-                checkStatus,
-                color,
-                bgcolor
-            };
-        });
-
-        /*
-            Step 4: Apply status-based filtering (from top status tabs).
-    
-            - If no activeStatus is selected, return all mapped data.
-            - If "Bystander" is selected, filter by bystander flag.
-            - Otherwise, filter by foodStatus.
-        */
-        if (!activeStatus) return mappedData;
-
-        if (activeStatus === "Bystander") {
-            return mappedData.filter(
-                pt => pt.is_bystander === true
-            );
-        }
-
-        return mappedData.filter(
-            pt => pt.foodStatus === activeStatus
-        );
-
-    }, [
-        baseFilteredPatients,
+        activeTab,
+        nursingBed,
         dietPatient,
-        storedData,
-        activeStatus
+        diettype
     ]);
+
+
+
 
 
     return (
@@ -354,7 +213,7 @@ const KotPreparationDelivery = () => {
                 selectedStations={selectedStations}
                 value={status}
                 onChange={setStatus}
-                FilteredPatientDetail={baseFilteredPatients}
+                FilteredPatientDetail={filteredPatients}
             />
 
             <DietMainPreperation

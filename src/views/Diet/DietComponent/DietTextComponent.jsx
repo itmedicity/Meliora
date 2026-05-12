@@ -6,7 +6,12 @@ const DietTextComponent = ({
     weight = 500,
     value,
     fam = 'Bahnschrift',
-    color = 'black'
+    color = 'black',
+
+    //  NEW PROPS
+    wrap = false,
+    lines = 1,
+    sx = {}
 }) => {
     return (
         <Typography
@@ -15,10 +20,29 @@ const DietTextComponent = ({
                 fontWeight: weight,
                 color: color,
                 fontFamily: fam,
-                whiteSpace: 'nowrap',
-                // textAlign: 'center'
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
+
+                //  CONDITIONAL BEHAVIOR
+                ...(wrap
+                    ? {
+                        whiteSpace: 'normal',
+                        wordBreak: 'break-word',
+                        overflowWrap: 'anywhere'
+                    }
+                    : {
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                    }),
+
+                //  MULTI-LINE ELLIPSIS (optional)
+                ...(wrap && lines > 1 && {
+                    display: '-webkit-box',
+                    WebkitLineClamp: lines,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden'
+                }),
+
+                ...sx
             }}
         >
             {value}

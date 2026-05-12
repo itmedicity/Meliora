@@ -1,33 +1,79 @@
 import React, { memo } from 'react';
 import { Box } from '@mui/joy';
-import { STATUS_FILTERS } from '../../CommonData/Common';
-import StatusComponent from '../../DietComponent/StatusComponent';
-import { KotFilterProvider, useKotFilter } from '../../DietReducer/contextprovider/KotFilterContext';
-import { FILTER_ACTIONS } from '../../DietReducer/action/kotPreparationFilter.actions';
-import ChooseNursingBed from 'src/views/CommonSelectCode/ChooseNursingBed';
-import ChooseDietName from 'src/views/CommonSelectCode/ChooseDietName';
-import ChooseDietPatient from 'src/views/CommonSelectCode/ChooseDietPatient';
-import ChooseDIetType from 'src/views/CommonSelectCode/ChooseDIetType';
-import DietSearchComponent from '../../DietComponent/DietSearchComponent';
 
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+
+import StatusComponent from '../../DietComponent/StatusComponent';
+
+import {
+    KotFilterProvider,
+    useKotFilter
+} from '../../DietReducer/contextprovider/KotFilterContext';
+
+import { FILTER_ACTIONS }
+    from '../../DietReducer/action/kotPreparationFilter.actions';
+
+import ChooseNursingBed
+    from 'src/views/CommonSelectCode/ChooseNursingBed';
+
+// import ChooseDietName
+//     from 'src/views/CommonSelectCode/ChooseDietName';
+
+import ChooseDietPatient
+    from 'src/views/CommonSelectCode/ChooseDietPatient';
+
+import ChooseDIetType
+    from 'src/views/CommonSelectCode/ChooseDIetType';
+
+import DietSearchComponent
+    from '../../DietComponent/DietSearchComponent';
 
 const PreparationStatusFilter = ({
     selectedStations,
-    value = null,          // selected status code
-    onChange = () => { },   // callback
+    value = null,
+    onChange = () => { },
     FilteredPatientDetail
 }) => {
 
+    const { state, dispatch } = useKotFilter();
 
-    const { state, dispatch } = useKotFilter()
     const {
         nursingBed,
         dietName,
         dietPatient,
         diettype,
         ptsearch
-    } = state
+    } = state;
 
+    const statusConfig = {
+        PENDING: {
+            color: "warning",
+            icon: HourglassEmptyIcon,
+            label: "PENDING",
+        },
+
+
+        SENT_TO_KITCHEN: {
+            color: "primary",
+            icon: FastfoodIcon,
+            label: "SENT_TO_KITCHEN",
+        },
+
+        COMPLETED: {
+            color: "success",
+            icon: CheckCircleIcon,
+            label: "COMPLETED",
+        },
+
+        CANCELLED: {
+            color: "danger",
+            icon: CancelIcon,
+            label: "CANCELLED",
+        }
+    };
 
     return (
         <KotFilterProvider>
@@ -39,20 +85,29 @@ const PreparationStatusFilter = ({
                     mt: 1,
                     p: 1,
                     bgcolor: '#f6f6f6d9',
+
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+
                     gap: 1.5,
+
                     borderRight: '4px solid #7c51a1',
                     borderLeft: '4px solid #7c51a1',
+
                     borderRadius: 5,
                     flexWrap: 'wrap'
-                }}>
-                <Box sx={{
-                    display: 'flex',
-                    gap: 1
-                }}>
+                }}
+            >
 
+                {/* Filters */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        flexWrap: 'wrap'
+                    }}
+                >
 
                     <ChooseNursingBed
                         value={nursingBed}
@@ -75,16 +130,15 @@ const PreparationStatusFilter = ({
                         }
                     />
 
-                    <ChooseDietName
+                    {/* <ChooseDietName
                         value={dietName}
-                        // disabled={!nursingStation}
                         setValue={(val) =>
                             dispatch({
                                 type: FILTER_ACTIONS.SET_DIET_NAME,
                                 payload: val
                             })
                         }
-                    />
+                    /> */}
 
                     <ChooseDietPatient
                         PtDetail={FilteredPatientDetail}
@@ -97,6 +151,7 @@ const PreparationStatusFilter = ({
                             })
                         }
                     />
+
                     <DietSearchComponent
                         width={'120px'}
                         value={ptsearch}
@@ -110,20 +165,33 @@ const PreparationStatusFilter = ({
                     />
                 </Box>
 
-                <Box>
-                    {
-                        STATUS_FILTERS?.map((status) => (
-                            <StatusComponent
-                                key={status.code}
-                                status={status}
-                                value={value}
-                                onChange={() => onChange((prev) => (prev === status.code ? null : status.code))}
-                            />
-                        ))}
+                {/* Status Filters */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: 1
+                    }}
+                >
+                    {Object.values(statusConfig).map((status) => (
+                        <StatusComponent
+                            key={status.label}
+                            status={status}
+                            value={value}
+                            onChange={() =>
+                                onChange((prev) =>
+                                    prev === status.label
+                                        ? null
+                                        : status.label
+                                )
+                            }
+                        />
+                    ))}
                 </Box>
             </Box>
         </KotFilterProvider>
-    )
-}
+    );
+};
 
-export default memo(PreparationStatusFilter)
+export default memo(PreparationStatusFilter);

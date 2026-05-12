@@ -61,47 +61,67 @@ export const kotPreparationFilterReducer = (state, action) => {
                 ...state,
                 assignee: action.payload
             }
-        // case FILTER_ACTIONS.TOGGLE_SELECTED_PATIENT:
-        //     return {
-        //         ...state,
-        //         selectedPatients: state.selectedPatients?.includes(action.payload)
-        //             ? state.selectedPatients?.filter(id => id !== action.payload)
-        //             : [...state.selectedPatients, action.payload]
-        //     }
+
         case FILTER_ACTIONS.TOGGLE_SELECTED_PATIENT: {
-            const exists = state.selectedPatients.some(
-                item => item.order_id === action.payload.order_id
-            )
+
+            const exists = state.selectedPatients?.some(
+                p =>
+                    p.canteen_order_id === action.payload.canteen_order_id &&
+                    p.batch_id === action.payload.batch_id &&
+                    p.fb_ip_no === action.payload.fb_ip_no
+            );
 
             return {
                 ...state,
+
                 selectedPatients: exists
-                    ? state.selectedPatients.filter(
-                        item => item.order_id !== action.payload.order_id
+                    ? state.selectedPatients?.filter(
+                        p =>
+                            !(
+                                p.canteen_order_id === action.payload.canteen_order_id &&
+                                p.batch_id === action.payload.batch_id &&
+                                p.fb_ip_no === action.payload.fb_ip_no
+                            )
                     )
-                    : [...state.selectedPatients, action.payload]
-            }
+
+                    // STORE FULL ROW DETAILS
+                    : [
+                        ...state.selectedPatients,
+                        action.payload
+                    ]
+            };
         }
+
         case FILTER_ACTIONS.REMOVE_SELECTED_PATIENT:
+
             return {
                 ...state,
-                selectedPatients: state.selectedPatients.filter(
-                    item => item.order_id !== action.payload
+
+                selectedPatients: state.selectedPatients?.filter(
+                    p =>
+                        !(
+                            p.canteen_order_id === action.payload.canteen_order_id &&
+                            p.batch_id === action.payload.batch_id &&
+                            p.fb_ip_no === action.payload.fb_ip_no
+                        )
                 )
             };
 
-
         case FILTER_ACTIONS.SET_SELECTED_PATIENTS:
+
             return {
                 ...state,
+
+                // STORE FULL ARRAY OF ROWS
                 selectedPatients: action.payload
-            }
+            };
 
         case FILTER_ACTIONS.CLEAR_SELECTED_PATIENTS:
+
             return {
                 ...state,
                 selectedPatients: []
-            }
+            };
 
         case FILTER_ACTIONS.RESET_ALL:
             return initialFilterState

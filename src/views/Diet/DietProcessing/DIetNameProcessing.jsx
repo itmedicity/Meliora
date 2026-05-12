@@ -1,29 +1,79 @@
-import React from 'react'
-import { useDietNames } from '../CommonData/UseQuery'
+import React, { } from 'react'
+import { useAllActivePatientDietPlan, useAllPatientDietMaster } from '../CommonData/UseQuery'
 import { Box, Checkbox, Tooltip, Typography } from '@mui/joy'
 import MenuBookTwoToneIcon from '@mui/icons-material/MenuBookTwoTone';
-import { DietNameTimes } from '../CommonData/Common';
+
 import PersonIcon from '@mui/icons-material/Person';
 
-const DIetNameProcessing = ({ selectedDiets, setSelectedDiets, selectedDietTimes }) => {
-    const { data: DietName = [] } = useDietNames()
+const DIetNameProcessing = ({
+    selectedDiets,
+    setSelectedDiets,
+    selectedDietTimes,
+    FormatedProcessedList,
+    setSelectedDietTimes,
+    patientsPerDiet,
+    todate
+}) => {
 
-    const allDietNames = DietName?.map(d => d.diet_name)
+
+
+    const { data: DietName = [] } = useAllPatientDietMaster();
+    const { data: ActivePatient = [] } = useAllActivePatientDietPlan(todate);
+
+    const FinalDietNames = DietName?.filter((diet) =>
+        ActivePatient?.some((patient) => patient.diet_id === diet.diet_id)
+    );
+
+    const allDietNames = FinalDietNames?.map(d => d.diet_id);
+
     const isAllSelected =
         allDietNames.length > 0 &&
-        selectedDiets.length === allDietNames.length
+        selectedDiets.length === allDietNames.length &&
+        Object.values(selectedDietTimes).every(times => times.length > 0);
 
-    const toggleDiet = dietName => {
-        setSelectedDiets(prev =>
-            prev.includes(dietName)
-                ? prev.filter(d => d !== dietName)
-                : [...prev, dietName]
-        )
-    }
+
+    const toggleDiet = (diet_id) => {
+        const diet = FormatedProcessedList.find(d => d.diet_id === diet_id);
+        if (!diet?.types?.length) return;
+
+        setSelectedDietTimes(prevTimes => {
+            const currentTimes = prevTimes[diet_id] || [];
+            const updatedTimes = { ...prevTimes };
+
+            if (currentTimes.length === diet.types.length) {
+                // Uncheck diet -> remove all times
+                delete updatedTimes[diet_id];
+            } else {
+                // Check diet -> select all times
+                updatedTimes[diet_id] = diet.types.map(t => t.type_id);
+            }
+
+            // Update selectedDiets based on actual times
+            const newSelectedDiets = Object.keys(updatedTimes).filter(d => updatedTimes[d]?.length > 0);
+            setSelectedDiets(newSelectedDiets);
+
+            return updatedTimes;
+        });
+    };
+
 
     const toggleSelectAll = () => {
-        setSelectedDiets(isAllSelected ? [] : allDietNames)
-    }
+        if (isAllSelected) {
+            setSelectedDiets([]);
+            setSelectedDietTimes({});
+        } else {
+            setSelectedDiets(allDietNames);
+
+            // Immediately select all times for these diets
+            const allTimes = {};
+            allDietNames?.forEach(dietId => {
+                const diet = FormatedProcessedList.find(d => d.diet_id === dietId);
+                if (!diet?.types?.length) return;
+                allTimes[dietId] = diet.types.map(t => t.type_id);
+            });
+            setSelectedDietTimes(allTimes);
+        }
+    };
 
     return (
         <>
@@ -56,10 +106,10 @@ const DIetNameProcessing = ({ selectedDiets, setSelectedDiets, selectedDietTimes
                     p: 1
                 }}>
                     <Checkbox
+                        onChange={toggleSelectAll}
+                        checked={isAllSelected}
                         variant="outlined"
                         size="sm"
-                        checked={isAllSelected}
-                        onChange={toggleSelectAll}
                         sx={{
                             '--Checkbox-radius': '4px',
                             '--Checkbox-gap': '6px',
@@ -88,14 +138,12 @@ const DIetNameProcessing = ({ selectedDiets, setSelectedDiets, selectedDietTimes
             </Box>
 
             {/* INDIVIDUAL DIETS */}
-            {DietName?.map((val, index) => {
+            {FinalDietNames?.map((val, index) => {
 
-                const Match = DietNameTimes?.find(v => v?.name?.toUpperCase() === val.diet_name);
-                const TotalType = Match?.times?.length;
-                console.log({
-                    selectedDietTimes
-                });
-                const Count = selectedDietTimes[val?.diet_name]?.length;
+                const Match = FormatedProcessedList?.find(v => v?.diet_id === val?.diet_id);
+                const TotalType = Match?.types?.length;
+                const Count = selectedDietTimes[val?.diet_id]?.length;
+                const TotalPatineCountPerDiet = patientsPerDiet[val?.diet_id]
                 return (
                     <Box key={index} sx={{
                         width: '100%',
@@ -110,8 +158,8 @@ const DIetNameProcessing = ({ selectedDiets, setSelectedDiets, selectedDietTimes
                             <Checkbox
                                 variant="outlined"
                                 size="sm"
-                                checked={selectedDiets.includes(val.diet_name)}
-                                onChange={() => toggleDiet(val.diet_name)}
+                                checked={Number(selectedDietTimes[val.diet_id]?.length) > 0}
+                                onChange={() => toggleDiet(val.diet_id)}
                                 sx={{
                                     '--Checkbox-radius': '4px',
                                     '--Checkbox-gap': '6px',
@@ -197,7 +245,7 @@ const DIetNameProcessing = ({ selectedDiets, setSelectedDiets, selectedDietTimes
                                     whiteSpace: 'nowrap',
                                     textAlign: 'end'
                                 }}>
-                                88
+                                {TotalPatineCountPerDiet}
                             </Typography>
                         </Box>
                     </Box>

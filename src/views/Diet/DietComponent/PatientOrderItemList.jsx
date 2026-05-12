@@ -27,9 +27,9 @@ const PatientOrderItemList = ({ items = [], onRemove }) => {
                                     alignItems: "center",
                                     gap: 1
                                 }}>
-                        
+
                                 <DietTextComponent
-                                    value={item.item_name}
+                                    value={item?.item_name}
                                     size={14}
                                     weight={600}
                                 />
@@ -50,7 +50,7 @@ const PatientOrderItemList = ({ items = [], onRemove }) => {
 
                             <DietTextComponent
                                 value={
-                                    item.nutritious_value ||
+                                    item?.description ||
                                     "Good For the Patient Health"
                                 }
                                 size={11}
@@ -82,7 +82,7 @@ const PatientOrderItemList = ({ items = [], onRemove }) => {
                         </Box>
 
                         <HighlightOffIcon
-                            onClick={() => onRemove(index)}
+                            onClick={() => onRemove(item, index)}
                             sx={{ fontSize: 18, cursor: "pointer" }}
                         />
                     </Box>

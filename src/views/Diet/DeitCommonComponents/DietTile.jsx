@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/joy";
 import React from "react";
 
 
-const DietTile = ({ name, mrdNo, pt_no, image, onClick, bordercolor, roomName, status }) => {
+const DietTile = ({ name, mrdNo, pt_no, image, onClick, bordercolor, roomName, status, category  }) => {
     return (
         <Box
             onClick={onClick}

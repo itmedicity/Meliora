@@ -1,167 +1,219 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { Box, Checkbox, Typography } from "@mui/joy";
-import { warningNotify } from "src/views/Common/CommonCode";
-import { UseRoomCategoryDetail } from "src/views/Diet/CommonData/UseQuery";
+import { useAllOrderPartyType } from "src/views/Diet/CommonData/UseQuery";
+import RoomPriceListSkeleton from "src/views/Diet/DietSkeleton/RoomPriceListSkeleton";
+import RoomPriceListError from "src/views/Diet/DietErrorComponent/RoomPriceListError";
+import { applyColumnToAll } from "src/views/Diet/CommonData/CommonFun";
 
-const rateLabels = [
-    "Bystander Rate (₹)",
-    "Patient Rate (₹)",
-    "Staff Rate (₹)",
-    "Guest Rate (₹)",
-    "Special Rate (₹)"
-];
+const RoomPriceList = ({ prices, setPrices }) => {
 
-const RoomPriceList = ({ editIndex }) => {
+    const {
+        data: allPartyType = [],
+        isLoading,
+        isError
+    } = useAllOrderPartyType();
 
-    const { data: RoomCategoryDetil = [] } = UseRoomCategoryDetail();
+    const [applyGST, setApplyGST] = useState(false);
+    const [applyDiscount, setApplyDiscount] = useState(false);
+    const [applyDiscountRate, setApplyDiscountRate] = useState(false);
 
-    const [rooms, setRooms] = useState([]);
-    const [rates, setRates] = useState({});
-    const [applyAll, setApplyAll] = useState(false);
-    const [applyColumn, setApplyColumn] = useState({}); // track per-column apply
-
-    useEffect(() => {
-        setRooms(RoomCategoryDetil);
-    }, [RoomCategoryDetil]);
-
-    // Handle rate change per room and per rate column
-    const handleRateChange = (roomKey, rateIndex, value) => {
-        setRates(prev => ({
+    // Update Field
+    const handleChange = useCallback((partyId, field, value) => {
+        setPrices(prev => ({
             ...prev,
-            [roomKey]: {
-                ...prev[roomKey],
-                [rateIndex]: value
+            [partyId]: {
+                ...prev?.[partyId],
+                [field]: value
             }
         }));
+    }, [setPrices]);
+
+
+    const applyGSTAll = (checked) => {
+        applyColumnToAll(
+            "gst_rate",
+            checked,
+            allPartyType,
+            prices,
+            setPrices,
+            setApplyGST
+        );
     };
 
-    // Apply first row rate to all rooms
-    const applySameToAll = (checked) => {
-        if (!rooms.length) return warningNotify("No rooms available");
-
-        const firstRoomKey = rooms[0].diet_rm_name;
-
-        if (checked) {
-            if (!rates[firstRoomKey] || Object.values(rates[firstRoomKey]).every(v => !v)) {
-                return warningNotify("Please enter rate for first room before applying");
-            }
-
-            const updatedRates = {};
-            rooms.forEach(room => {
-                updatedRates[room.diet_rm_name] = { ...rates[firstRoomKey] };
-            });
-            setApplyAll(true);
-            setRates(updatedRates);
-        } else {
-            setApplyAll(false);
-        }
+    const applyDiscountAll = (checked) => {
+        applyColumnToAll(
+            "discount",
+            checked,
+            allPartyType,
+            prices,
+            setPrices,
+            setApplyDiscount
+        );
     };
 
-    // Apply a single column value from first row to all rows
-    const applyColumnToAll = (rateIndex, checked) => {
-        const firstRoomKey = rooms[0]?.diet_rm_name;
-        const firstValue = rates[firstRoomKey]?.[rateIndex];
-
-        if (checked) {
-            if (!firstValue) {
-                return warningNotify("Please enter value in first room before applying");
-            }
-
-            setRates(prev => {
-                const updated = { ...prev };
-                rooms.forEach(room => {
-                    const key = room.diet_rm_name;
-                    updated[key] = {
-                        ...updated[key],
-                        [rateIndex]: firstValue
-                    };
-                });
-                return updated;
-            });
-        } else {
-            setRates(prev => {
-                const updated = { ...prev };
-                rooms?.forEach(room => {
-                    const key = room.diet_rm_name;
-                    if (key !== firstRoomKey && updated[key]) {
-                        delete updated[key][rateIndex];
-                    }
-                });
-                return updated;
-            });
-        }
-
-        setApplyColumn(prev => ({ ...prev, [rateIndex]: checked }));
+    const applyDiscountRateAll = (checked) => {
+        applyColumnToAll(
+            "discount_rate",
+            checked,
+            allPartyType,
+            prices,
+            setPrices,
+            setApplyDiscountRate
+        );
     };
 
+    // Loading UI
+    if (isLoading) return <RoomPriceListSkeleton />
+
+    // Error UI
+    if (isError) return <RoomPriceListError message="Failed to load party types" />;
+    
     return (
         <Box sx={{ width: "100%", overflowX: "auto" }}>
-            <Checkbox
-                label="Apply same price to all rooms"
-                checked={applyAll}
-                onChange={(e) => applySameToAll(e.target.checked)}
-                sx={{ mb: 1 }}
-            />
-
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                    <tr style={{ background: "#f0f0f0" }}>
-                        <th style={{ padding: "8px", border: "1px solid #ccc", fontSize: 12 }}>Room Name</th>
-                        {rateLabels?.map((label, rateIndex) => (
-                            <th key={rateIndex} style={{ padding: "8px", border: "1px solid #ccc" }}>
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 1, fontSize: 12, justifyContent: 'center' }}>
-                                    {label}
-                                    {/* Checkbox to apply this column to all */}
-                                    <Checkbox
-                                        size="sm"
-                                        checked={applyColumn[rateIndex] || false}
-                                        onChange={(e) => applyColumnToAll(rateIndex, e.target.checked)}
-                                    />
-                                </Box>
-                            </th>
-                        ))}
+                    <tr style={{ background: "#f5f5f5" }}>
+                        <th style={th}>Party Type</th>
+                        <th style={th}>Price (₹)</th>
+                        <th style={th}>
+                            <Box sx={headerBox}>
+                                GST %
+                                <Checkbox
+                                    size="sm"
+                                    checked={applyGST}
+                                    onChange={(e) => applyGSTAll(e.target.checked)}
+                                />
+                            </Box>
+                        </th>
+
+                        <th style={th}>
+                            <Box sx={headerBox}>
+                                Discount ₹
+                                <Checkbox
+                                    size="sm"
+                                    checked={applyDiscount}
+                                    onChange={(e) => applyDiscountAll(e.target.checked)}
+                                />
+                            </Box>
+                        </th>
+
+                        <th style={th}>
+                            <Box sx={headerBox}>
+                                Discount %
+                                <Checkbox
+                                    size="sm"
+                                    checked={applyDiscountRate}
+                                    onChange={(e) =>
+                                        applyDiscountRateAll(e.target.checked)
+                                    }
+                                />
+                            </Box>
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    {
-                        rooms?.map((room, i) => {
-                            const roomKey = room?.diet_rm_name;
-                            return (
-                                <tr
-                                    key={roomKey}
-                                    style={{
-                                        background: editIndex === i ? "#e3f2fd" : "white"
-                                    }}>
-                                    <td style={{ padding: "8px", border: "1px solid #ccc" }}>
-                                        <Typography fontSize={12} fontWeight={500} >
-                                            {roomKey}
-                                        </Typography>
-                                    </td>
 
-                                    {rateLabels?.map((_, rateIndex) => (
-                                        <td key={rateIndex} style={{ padding: "4px", border: "1px solid #ccc" }}>
-                                            <input
-                                                type="number"
-                                                value={rates[roomKey]?.[rateIndex] || ""}
-                                                onChange={(e) =>
-                                                    handleRateChange(roomKey, rateIndex, e.target.value)
-                                                }
-                                                style={{
-                                                    width: "100%",
-                                                    padding: "6px",
-                                                    borderRadius: 4,
-                                                    border: "1px solid #ccc"
-                                                }}
-                                            />
-                                        </td>
-                                    ))}
-                                </tr>
-                            );
-                        })}
+                <tbody>
+
+                    {allPartyType?.map((party) => {
+                        const id = party?.party_type_id;
+                        return (
+
+                            <tr key={id}>
+
+                                <td style={td}>
+                                    <Typography fontSize={13} fontWeight={500}>
+                                        {party?.party_name}
+                                    </Typography>
+                                </td>
+
+
+                                <td style={td}>
+                                    <input
+                                        type="number"
+                                        value={prices?.[id]?.price || ""}
+                                        onChange={(e) =>
+                                            handleChange(id, "price", e.target.value)
+                                        }
+                                        style={input}
+                                    />
+                                </td>
+
+
+                                <td style={td}>
+                                    <input
+                                        type="number"
+                                        value={prices?.[id]?.gst_rate || ""}
+                                        onChange={(e) =>
+                                            handleChange(id, "gst_rate", e.target.value)
+                                        }
+                                        style={input}
+                                    />
+                                </td>
+
+
+                                <td style={td}>
+                                    <input
+                                        type="number"
+                                        value={prices?.[id]?.discount || ""}
+                                        onChange={(e) =>
+                                            handleChange(id, "discount", e.target.value)
+                                        }
+                                        style={input}
+                                    />
+                                </td>
+
+
+                                <td style={td}>
+                                    <input
+                                        type="number"
+                                        value={prices?.[id]?.discount_rate || ""}
+                                        onChange={(e) =>
+                                            handleChange(id, "discount_rate", e.target.value)
+                                        }
+                                        style={input}
+                                    />
+                                </td>
+
+                            </tr>
+
+                        );
+
+                    })}
+
                 </tbody>
+
             </table>
+
         </Box>
     );
+};
+
+
+const th = {
+    padding: "10px",
+    border: "1px solid #ddd",
+    fontSize: 12,
+    textAlign: "center"
+};
+
+const td = {
+    padding: "6px",
+    border: "1px solid #ddd"
+};
+
+const input = {
+    width: "100%",
+    padding: "6px",
+    borderRadius: 4,
+    border: "1px solid #ccc"
+};
+
+const headerBox = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 1,
+    fontSize: 12
 };
 
 export default memo(RoomPriceList);

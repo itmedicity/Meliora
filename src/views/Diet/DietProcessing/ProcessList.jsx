@@ -1,63 +1,202 @@
-import { Box } from '@mui/joy';
-import React, { useCallback, useEffect, useState } from 'react'
+import { Box, } from '@mui/joy';
+import React, { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import DietMasterHeader from 'src/views/Master/DietMasters/DietComponent/DietMasterHeader'
 import DietWiseProcessing from './DietWiseProcessing';
 import ProcessCompletedList from './ProcessCompletedList';
-import { warningNotify } from 'src/views/Common/CommonCode';
-import { ProcessedList } from '../CommonData/Common';
-import { useDietNames } from '../CommonData/UseQuery';
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import {
+    useAllActivePatientTypeDetail,
+    useAllDietProcessList,
+    useAllPatientDietMaster,
+    useFetchAllScheduledDiet,
+} from '../CommonData/UseQuery';
+import {
+    getDietProductionItems,
+    filterUnprocessedItemsByType,
+    getSafeFormattedDate,
+    groupByDiet,
+    groupByPlanId
+} from '../CommonData/CommonFun';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useSelector } from 'react-redux';
+import PatientSelectionDrawer from './PatientSelectionDrawer';
+
 
 const ProcessList = () => {
 
-
     const navigate = useNavigate();
-    const { data: DietName = [] } = useDietNames();
+    const id = useSelector(state => { return state.LoginUserData.empid })
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedPlans, setSelectedPlans] = useState([]);
 
-
+    const [todate, setToDate] = useState(new Date());
     const [selectedDiets, setSelectedDiets] = useState([]);
-    const [processing, setProcessing] = useState(false);
+    // const [processing, setProcessing] = useState(false);
     const [selectedDietTimes, setSelectedDietTimes] = useState({});
-    const [processedRows, setProcessedRows] = useState({});
-    const [newpatientcount, setNewPatientCount] = useState(520); // NUMBER
+
+    const formattedDate = getSafeFormattedDate(todate, 'dd-MM-yyyy');
+
+    const mysqlInsertDate = getSafeFormattedDate(todate, 'yyyy-MM-dd HH:mm:ss');
+    const apiDate = getSafeFormattedDate(todate, "yyyy-MM-dd");
+
+    const {
+        data: FormatedProcessedList = [],
+        isLoading: isLoadingProcess,
+        isError: isErrorProcess,
+        error: errorProcess
+    } = useAllDietProcessList(formattedDate);
+
+
+    const {
+        data: FinalDietNames = [],
+        isLoading: isLoadingDiet,
+        isError: isErrorDiet,
+        error: errorDiet
+    } = useAllPatientDietMaster();
+
+
+
+    // const {
+    //     data: ActivePatient = [],
+    //     isLoading: isLoadingPatient,
+    //     isError: isErrorPatient,
+    //     error: errorPatient
+    // } = useAllActivePatientDietPlan(todate);
+
+
+
+
+
+    const {
+        data: ActivePatientTypeDetail = [],
+        isLoading: isLoadingPatientType,
+        isError: isErrorPatientType,
+        error: errorPatientType,
+        refetch: FetchActivePatients
+    } = useAllActivePatientTypeDetail(todate);
+
+    console.log({
+        ActivePatientTypeDetail
+    });
+
+
+    const {
+        data: ScheduledPatientDiet = [],
+        isLoading: isLoadingScheduledPlan,
+        isError: isErrorScheduledPatientPlan,
+        error: errorScheduledPatientPlan,
+        refetch: FetchScheduledDietPlan
+    } = useFetchAllScheduledDiet(apiDate);
+
+
+    // const {
+    //     data: BatchDetail = [],
+    //     isLoading: isLoadingBatch,
+    //     isError: isErrorBatch,
+    //     error: errorBatch,
+    //     // refetch: FetchAllBatchDetail
+    // } = useAllProductionBatchDetail(todate);
+
+
+    const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient.diet_id === diet.diet_id));
+
+    const itemDetail = getDietProductionItems(ActivePatientTypeDetail, selectedDiets);
+
+    const ProcessedList = useMemo(() => groupByDiet(FormatedProcessedList), [FormatedProcessedList]);
+
+
+    const allDietNames = DietName?.map(d => d.diet_name);
+
+    const isAllSelected = allDietNames.length > 0 && selectedDiets.length === allDietNames.length;
+
+    // const processedMap = getProcessedPlanIdsByType(BatchDetail);
+
+    const filteredItemDetail = useMemo(() => {
+        return filterUnprocessedItemsByType(
+            itemDetail,
+            ScheduledPatientDiet,
+            selectedDietTimes
+        );
+    }, [itemDetail, selectedDietTimes]);
+
+
+    const groupedPlans = useMemo(() => {
+        return groupByPlanId(filteredItemDetail);
+    }, [filteredItemDetail]);
+
+
+    const FinalFilterdItemDetail =
+        selectedPlans?.length === 0
+            ? filteredItemDetail
+            : filteredItemDetail.filter(item =>
+                selectedPlans.includes(item.plan_id)
+            );
+
+
 
     // Function to GoBack
     const hanldeGoBack = useCallback(() => {
-        navigate('/Home/Settings')
+        navigate('/Home/InpatientList')
     }, [navigate]);
 
+    // example: '2026-03-24'
     /* Function used for tracking which time have already processed only 
         use
     */
-    const HandleDIetProcessing = useCallback(() => {
-        // No diet selected
+
+    const HandleDIetProcessing = useCallback(async () => {
+        // Check object exists
         if (!selectedDietTimes || Object.keys(selectedDietTimes).length === 0) {
             return warningNotify("Select Diet Before Processing");
         }
-        // Diet selected but no time selected
-        const hasAnyTime = Object.values(selectedDietTimes).some(
-            times => Array.isArray(times) && times.length > 0
+
+        // Remove empty selections
+        const validSelections = Object.fromEntries(
+            Object.entries(selectedDietTimes).filter(
+                ([, times]) => Array.isArray(times) && times.length > 0
+            )
         );
-        if (!hasAnyTime) {
-            return warningNotify("Select Diet Time!");
+
+        if (Object.keys(validSelections).length === 0) return warningNotify("Select Diet Time!");
+
+        // Date validation
+        if (!todate) return warningNotify("Select Production Date");
+
+        if (filteredItemDetail?.length === 0) return warningNotify("No new Patinet For the Next Batch");
+
+        try {
+            // const payload = { batch: validBatch, itemDetail: filteredItemDetail };
+            const payload = {
+                itemDetail: FinalFilterdItemDetail,
+                process_date: mysqlInsertDate,
+                status: 'PENDING',
+                created_by: id
+            };
+
+            const result = await axioslogin.post('/dietschedule/schedule/list', payload);
+            const { success, message } = result?.data || {};
+
+            if (success !== 2) {
+                return warningNotify(message || "Processing Failed");
+            }
+            succesNotify(message);
+
+            // // Refresh data and reset selections
+            FetchActivePatients();
+            FetchScheduledDietPlan();
+            setSelectedDiets([]);
+            setSelectedDietTimes([]);
+        } catch (error) {
+            console.log({
+                error
+            });
+
+            warningNotify("Processing Failed");
         }
-        setProcessing(true)
-        setTimeout(() => {
-            setProcessing(false)
-
-            // mark selected rows as processed
-            setProcessedRows(prev => {
-                const updated = { ...prev }
-                Object.entries(selectedDietTimes).forEach(([diet, times]) => {
-                    times.forEach(time => {
-                        updated[`${diet.toUpperCase()}|${time}`] = true
-                    })
-                })
-                return updated
-            })
-        }, 2000)
-    }, [selectedDietTimes])
-
+    }, [selectedDietTimes, mysqlInsertDate, FinalFilterdItemDetail, DietName, isAllSelected,
+        // BatchDetail
+    ]);
 
     /**
      * function to handle New patient Orders fo diet
@@ -67,37 +206,55 @@ const ProcessList = () => {
      * 
      */
     const handleNewPatientOrder = useCallback(() => {
-        const dietSet = new Set()   // to store unique diet names
-        const timeMap = {}          // to store which meals each diet has
-
-        ProcessedList.forEach(row => {
-            if (row.new_Count !== null) {       // only consider rows with new patients
-                const dietKey = row.diet_name.toUpperCase()
-                dietSet.add(dietKey)            // add diet to the set
-                if (!timeMap[dietKey]) timeMap[dietKey] = []
-                timeMap[dietKey].push(row.type) // store the meal type
-            }
+        // Store selected diet IDs
+        const dietIds = []
+        // Store type_ids per diet_id
+        // Format: { diet_id: [type_id, type_id] }
+        const timeMap = {}
+        // Loop through each diet
+        ProcessedList?.forEach(diet => {
+            const dietId = diet.diet_id
+            // Add diet_id to list
+            dietIds.push(dietId)
+            // Extract all type_ids for that diet
+            timeMap[dietId] = [...new Set(diet.types.map(t => t.type_id))]
         })
+        // Set diets (example: [1, 2])
+        setSelectedDiets(dietIds)
+        // Set times (example: {1: [1,3,5], 2: [1,3,4]})
+        setSelectedDietTimes(timeMap)
+        // Optional reset
 
-        setSelectedDiets(Array.from(dietSet)) // update state with all diets
-        setSelectedDietTimes(timeMap)         // update state with meal types per diet
-        setNewPatientCount(0)                 // reset new patient count
-
-    }, [])
+    }, [ProcessedList])
 
 
-    // this is Dummy this only work when new Patient Comes under the Diet
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setNewPatientCount((prev) => prev + Math.floor(Math.random() * 5 + 1));
-        }, 20000);
-        return () => clearInterval(interval);
-    }, []);
+    const isLoadingAll =
+        isLoadingProcess ||
+        isLoadingDiet ||
+        isLoadingScheduledPlan ||
+        isLoadingPatientType;
 
-    const allDietNames = DietName?.map(d => d.diet_name);
-    const isAllSelected =
-        allDietNames.length > 0 &&
-        selectedDiets.length === allDietNames.length
+    const isErrorAll =
+        isErrorProcess ||
+        isErrorDiet ||
+        isErrorScheduledPatientPlan ||
+        // isErrorBatch ||
+        isErrorPatientType;
+
+    const errorMessage =
+        errorProcess?.message ||
+        errorDiet?.message ||
+        errorScheduledPatientPlan ||
+        // errorBatch?.message ||
+        errorPatientType?.message;
+
+    if (isLoadingAll) {
+        return <div>Loading...</div>;
+    }
+
+    if (isErrorAll) {
+        return <div>Error: {errorMessage}</div>;
+    }
 
     return (
         <Box sx={{
@@ -135,24 +292,69 @@ const ProcessList = () => {
                                     selectedDietTimes={selectedDietTimes}
                                     setSelectedDietTimes={setSelectedDietTimes}
                                     handleNewPatientOrder={handleNewPatientOrder}
-                                    newpatientcount={newpatientcount}
                                     isAllSelected={isAllSelected}
                                     allDietNames={allDietNames}
+                                    todate={todate}
+                                    setToDate={setToDate}
                                 />
                             </Box>
                         </Box>
-                        <Box sx={{ width: '55%', boxShadow: "md" }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <ProcessCompletedList
-                                    setProcessing={setProcessing}
-                                    handleProcessing={HandleDIetProcessing}
-                                    selectedDietTimes={selectedDietTimes}
-                                    processing={processing}
-                                    selectedDiets={selectedDiets}
-                                    processedRows={processedRows}
-                                    setProcessedRows={setProcessedRows}
+                        <Box sx={{ width: '55%', boxShadow: "md", position: "relative", overflow: "hidden" }}>
+
+                            {/* TOGGLE BUTTON */}
+                            <Box
+                                onClick={() => setDrawerOpen(prev => !prev)}
+                                sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: drawerOpen ? 320 : 0,
+                                    transform: 'translateY(-50%)',
+                                    zIndex: 25,
+                                    width: 24,
+                                    height: 60,
+                                    backgroundColor: '#1976d2',
+                                    color: '#fff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderTopRightRadius: 6,
+                                    borderBottomRightRadius: 6,
+                                    cursor: 'pointer',
+                                    transition: 'left 0.3s ease'
+                                }}
+                            >
+                                {drawerOpen ? '◀' : '▶'}
+                            </Box>
+
+                            {/* DRAWER OVERLAY */}
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    height: "100%",
+                                    zIndex: 15,
+                                    transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
+                                    transition: "transform 0.3s ease"
+                                }}
+                            >
+                                <PatientSelectionDrawer
+                                    open={true} // always true (animation handled outside)
+                                    data={groupedPlans}
+                                    selectedPlans={selectedPlans}
+                                    setSelectedPlans={setSelectedPlans}
                                 />
                             </Box>
+
+                            {/* MAIN CONTENT */}
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <ProcessCompletedList
+                                    fetchscheduled={FetchScheduledDietPlan}
+                                    fetchactive={FetchActivePatients}
+                                    processedRows={ScheduledPatientDiet ?? []}
+                                />
+                            </Box>
+
                         </Box>
                     </Box>
                 </Box>

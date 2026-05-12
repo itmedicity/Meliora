@@ -1,45 +1,70 @@
-import React from 'react'
-import { Box } from '@mui/joy'
-import DietTextComponent from './DietTextComponent'
+import React from 'react';
+import { Box } from '@mui/joy';
+import DietTextComponent from './DietTextComponent';
 
-const StatusComponent = ({ status, value, onChange }) => {
+const StatusComponent = ({
+    status,
+    value,
+    onChange
+}) => {
 
+    const isActive = value === status.label;
 
-    const isActive = value === status.code
-
-    const handleClick = () => {
-        onChange(prev => (prev === status.code ? null : status.code))
-    }
+    const Icon = status.icon;
 
     return (
         <Box
             role="button"
-            onClick={handleClick}
+            onClick={onChange}
             sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                px: 1,
-                py: 0.5,
+
+                px: 1.2,
+                py: 0.6,
+
                 borderRadius: 5,
+
                 cursor: 'pointer',
                 userSelect: 'none',
-                //  COLOR IS THE MESSAGE
-                bgcolor: `${status.color}.solidBg`,
-                color: `${status.color}.solidColor`,
-                // optional focus indicator only
-                outline: isActive
-                    ? `2px solid var(--joy-palette-${status.color}-solidBg)`
-                    : 'none',
-                outlineOffset: 2,
-                mr: 1
-            }}>
+
+                transition: '0.2s ease',
+
+                bgcolor: isActive
+                    ? `${status.color}.solidBg`
+                    : '#fff',
+
+                border: `1px solid var(--joy-palette-${status.color}-solidBg)`,
+
+                '&:hover': {
+                    transform: 'translateY(-1px)',
+                    boxShadow: 'sm'
+                }
+            }}
+        >
+
+            <Icon
+                fontSize="small"
+                sx={{
+                    mr: 0.5,
+
+                    color: isActive
+                        ? '#fff'
+                        : `var(--joy-palette-${status.color}-solidBg)`
+                }}
+            />
+
             <DietTextComponent
                 size={10}
                 value={status.label}
-                color="#ffffff"
+                color={
+                    isActive
+                        ? '#fff'
+                        : `var(--joy-palette-${status.color}-solidBg)`
+                }
             />
         </Box>
-    )
-}
+    );
+};
 
-export default StatusComponent
+export default StatusComponent;

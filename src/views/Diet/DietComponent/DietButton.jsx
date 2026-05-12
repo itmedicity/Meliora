@@ -13,8 +13,8 @@ const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, widt
                 }
             }}
             sx={{
-                minWidth: width ? width : 100,
-                height: 30,
+                width: width ? width : 100,
+                height: 35,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -54,4 +54,4 @@ const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, widt
     )
 }
 
-export default memo(DietButton)
+    export default memo(DietButton)

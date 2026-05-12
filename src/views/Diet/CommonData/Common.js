@@ -1,3 +1,5 @@
+import { format, parseISO } from "date-fns";
+
 export const Data = {
     "ingredients": [
         "Basmati rice",
@@ -70,9 +72,14 @@ export const foodUnits = [
 ];
 
 export const DAYS = [
-    "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday", "Sunday"
-]
+    { id: 1, name: "Monday" },
+    { id: 2, name: "Tuesday" },
+    { id: 3, name: "Wednesday" },
+    { id: 4, name: "Thursday" },
+    { id: 5, name: "Friday" },
+    { id: 6, name: "Saturday" },
+    { id: 7, name: "Sunday" }
+];
 
 export const dietRestrictions = [
     {
@@ -1432,3 +1439,31 @@ export const STATUS_BORDER_COLOR = {
 }
 
 
+
+
+
+export function formatProcessedAt(dateTimeStr, includeMinutes = false) {
+    if (!dateTimeStr) return '';
+
+    const date = parseISO(dateTimeStr);
+    return includeMinutes
+        ? format(date, 'EEEE h:mm a')  // "Tuesday 3:10 PM"
+        : format(date, 'EEEE h a');    // "Tuesday 3 PM"
+}
+
+
+
+export const safeParseJSON = (value, fallback = []) => {
+    try {
+        if (!value) return fallback;
+
+        // If already parsed (object/array), return as is
+        if (typeof value === "object") return value;
+
+        // If it's a string, parse it
+        return JSON.parse(value);
+    } catch (error) {
+        console.warn("JSON parse failed:", error, value);
+        return fallback;
+    }
+};

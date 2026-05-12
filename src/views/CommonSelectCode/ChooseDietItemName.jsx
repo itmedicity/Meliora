@@ -1,13 +1,14 @@
 import React, { memo } from 'react'
-import { UseFoodDetail } from '../Diet/CommonData/UseQuery'
+import { UseIemFullDetail } from '../Diet/CommonData/UseQuery'
 
 const ChooseDietItemName = ({ value, setValue, setName, setItemType }) => {
-    const { data: FoodDetail = [] } = UseFoodDetail()
+
+    const { data: FoodDetail = [] } = UseIemFullDetail();
 
     const handleChange = (e) => {
         const selectedValue = Number(e.target.value)
         const selectedItem = FoodDetail.find(
-            item => item.item_slno === selectedValue
+            item => item.item_id === selectedValue
         )
 
         setValue(selectedValue)
@@ -33,10 +34,10 @@ const ChooseDietItemName = ({ value, setValue, setName, setItemType }) => {
                 Select Item
             </option>
 
-            {FoodDetail.map(item => (
+            {FoodDetail.map((item, index) => (
                 <option
-                    key={item?.item_slno}
-                    value={item?.item_slno}
+                    key={`${item?.item_id}-${index}`} // unique key
+                    value={item?.item_id}
                 >
                     {item?.item_name}
                 </option>

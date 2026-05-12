@@ -2,25 +2,22 @@ import { Box, Typography } from "@mui/joy";
 import React, { memo } from "react";
 
 const DietTileNotPlanned = ({
-    name,
-    roomName,
-    mrdNo,
-    pt_no,
-    status,
+    item,
     image,
     onClick,
     bordercolor,
 }) => {
+
     return (
         <Box
-            onClick={onClick}
+            onClick={() => onClick(item)}
             sx={{
-                width: "100%",            // Grid controls width
+                width: "100%",
                 height: "100%",
                 minHeight: "clamp(80px, 10vw, 100px)",
 
                 borderRadius: "clamp(6px, 1vw, 10px)",
-                border: bordercolor,
+                border: bordercolor || "1px solid #ddd",
                 bgcolor: "#fff",
                 overflow: "hidden",
 
@@ -29,20 +26,19 @@ const DietTileNotPlanned = ({
 
                 "&:hover": {
                     boxShadow: "0px 6px 18px rgba(0,0,0,0.18)",
-                    transform: "translateY(-2px)", // SAFE hover
+                    transform: "translateY(-2px)",
                 },
             }}
         >
             {/* TOP */}
             <Box
                 sx={{
-                    height: "70%",
+                    height: "100%",
                     display: "flex",
                     alignItems: "center",
-                    borderTopLeftRadius: "inherit",
-                    borderTopRightRadius: "inherit",
                 }}
             >
+                {/* LEFT TEXT */}
                 <Box
                     sx={{
                         px: 1,
@@ -51,25 +47,45 @@ const DietTileNotPlanned = ({
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
-                        background: "#faf8ff",
+                        // background: "#faf8ff",
                         overflow: "hidden",
                     }}
                 >
+                    {/* Room */}
                     <Typography
                         noWrap
-                        sx={{ fontSize: "clamp(11px, 1vw, 14px)", fontWeight: 700 }}
+                        sx={{
+                            fontSize: "clamp(11px, 1vw, 14px)",
+                            fontWeight: 700
+                        }}
                     >
-                        {roomName}
+                        {item?.room || item?.fb_rmc_desc}
                     </Typography>
 
+                    {/* Patient Name */}
                     <Typography
                         noWrap
-                        sx={{ fontSize: "clamp(10px, 0.9vw, 13px)" }}
+                        sx={{
+                            fontSize: "clamp(10px, 0.9vw, 13px)",
+                            fontWeight: 500
+                        }}
                     >
-                        {name}
+                        {item?.ptc_ptname}
+                    </Typography>
+
+                    {/* Patient ID */}
+                    <Typography
+                        noWrap
+                        sx={{
+                            fontSize: "clamp(9px, 0.8vw, 12px)",
+                            color: "#666"
+                        }}
+                    >
+                        {item?.pt_no}
                     </Typography>
                 </Box>
 
+                {/* RIGHT IMAGE */}
                 <Box
                     sx={{
                         width: "clamp(32px, 3vw, 40px)",
@@ -88,33 +104,6 @@ const DietTileNotPlanned = ({
                     />
                 </Box>
             </Box>
-
-            {/* BOTTOM */}
-            {status === "Not Planned" && (
-                <Box
-                    sx={{
-                        height: "30%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "#eebfbf",
-                    }}
-                >
-                    <Box
-                        sx={{
-                            px: 1.5,
-                            py: 0.3,
-                            borderRadius: 12,
-                            fontSize: "clamp(10px, 0.9vw, 12px)",
-                            fontWeight: 700,
-                            color: "darkred",
-                            bgcolor: "rgba(255,255,255,0.9)",
-                        }}
-                    >
-                        Not Planned
-                    </Box>
-                </Box>
-            )}
         </Box>
     );
 };

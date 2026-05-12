@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { foodUnits } from '../Diet/CommonData/Common'
+import { useAllUnitMaster } from '../Diet/CommonData/UseQuery'
 
 const ChooseDietMeasurementSelect = ({ value, setValue }) => {
 
@@ -7,10 +7,17 @@ const ChooseDietMeasurementSelect = ({ value, setValue }) => {
         setValue(e.target.value)
     }
 
+    const {
+        data: allUnits = [],
+        isLoading,
+        isError
+    } = useAllUnitMaster()
+
     return (
         <select
             value={value ? String(value) : ''}
             onChange={handleChange}
+            disabled={isLoading}
             style={{
                 minWidth: 120,
                 height: 30,
@@ -21,15 +28,29 @@ const ChooseDietMeasurementSelect = ({ value, setValue }) => {
                 outline: 'none'
             }}
         >
-            <option value="" disabled>
-                Select Unit
+            <option value="">
+                {isLoading ? "Loading Units..." : "Select Unit"}
             </option>
 
-            {foodUnits?.map((val, index) => (
-                <option key={index} value={val.value}>
-                    {val.label}
+            {isError && (
+                <option disabled>
+                    Error loading units
                 </option>
-            ))}
+            )}
+
+            {!isLoading && !isError && allUnits.length === 0 && (
+                <option disabled>
+                    No Units Found
+                </option>
+            )}
+
+            {!isLoading && !isError &&
+                allUnits.map((val) => (
+                    <option key={val.unit_id} value={val.unit_id}>
+                        {val.unit_name}
+                    </option>
+                ))
+            }
         </select>
     )
 }

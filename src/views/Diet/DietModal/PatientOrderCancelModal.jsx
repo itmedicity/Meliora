@@ -14,26 +14,54 @@ import RestaurantOutlinedIcon from "@mui/icons-material/RestaurantOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DietTextComponent from "../DietComponent/DietTextComponent";
 import DietButton from "../DietComponent/DietButton";
+import { axioslogin } from "src/views/Axios/Axios";
+import { errorNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
+import { useSelector } from "react-redux";
 
 const PatientOrderCancelModal = ({
     open,
     onClose,
     patient,
-    onConfirm
 }) => {
     const [reason, setReason] = useState("");
     const [error, setError] = useState(false);
 
+    const id = useSelector(state => {
+        return state.LoginUserData.empid
+    });
+
     if (!patient) return null;
 
-    const handleConfirm = () => {
+
+
+    const HandlePatientMealcancellation = async () => {
         if (!reason.trim()) {
             setError(true);
             return;
         }
+        const Payload = {
+            patient_name: patient.ptc_ptname,
+            type_name: patient.meal,
+            batch_id: patient.batch_id,
+            plan_id: patient.plan_id,
+            cancel_reason: reason,
+            cancelled_by: id
+        }
+
+        try {
+            const response = await axioslogin.post('/fooddietorder/patient-batch-cancel', Payload);
+            const { success, message } = response.data ?? {};
+            if (success === 0) return warningNotify(message);
+            succesNotify(message)
+        }
+        catch (error) {
+            console.error('Error Inserting item:', error);
+            errorNotify(`Error in Cancelling ${patient.meal} !`)
+            // Optional: show toast or alert to user
+        }
 
         setError(false);
-        onConfirm({ ...patient, cancel_reason: reason });
+
         setReason("");
         onClose();
     };
@@ -175,7 +203,7 @@ const PatientOrderCancelModal = ({
                         name="Confirm Cancel"
                         width={140}
                         icon={CheckCircleIcon}
-                        onClick={handleConfirm}
+                        onClick={HandlePatientMealcancellation}
                     />
                 </Box>
             </ModalDialog>

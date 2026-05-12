@@ -4,7 +4,8 @@ import DietInputLabel from "src/views/Master/DietMasters/DietComponent/DietInput
 import ChooseDietMeasurementSelect from "src/views/CommonSelectCode/ChooseDietMeasurementSelect";
 import FoodSuggestionItem from "src/views/Master/DietMasters/ItemMaster/RecipeCards/FoodSuggestionItem";
 import DietButton from "../DietComponent/DietButton";
-import { UseFoodDetail } from "../CommonData/UseQuery";
+import { useItemFullDetials } from "../CommonData/UseQuery";
+import { infoNotify } from "src/views/Common/CommonCode";
 
 const AddFoodSection = ({
     tempFood,
@@ -13,19 +14,19 @@ const AddFoodSection = ({
     setOpenDetailCard
 }) => {
 
-    const { data: ExistFoodDetail = [] } = UseFoodDetail();
-
     const [query, setQuery] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
 
+    const { data: ExistFoodDetail = [] } = useItemFullDetials(query.length > 0);
     //  Suggestions Filter
     const filteredSuggestions = useMemo(() => {
-        if (!query.trim()) return [];
+        if (!query.trim() || !Array.isArray(ExistFoodDetail)) return [];
+        const lowerQuery = query.toLowerCase();
         return ExistFoodDetail
-            ?.filter((item) =>
-                item?.item_name?.toLowerCase().includes(query.toLowerCase())
+            .filter((item) =>
+                item?.item_name?.toLowerCase().includes(lowerQuery)
             )
-            ?.slice(0, 8);
+            .slice(0, 8);
     }, [query, ExistFoodDetail]);
 
 
@@ -36,31 +37,45 @@ const AddFoodSection = ({
             item_id: food.item_id,
             item_name: food.item_name,
             itemtype: food.group_name,
+            description: food.description
         }));
 
         setQuery(food.item_name);
         setShowSuggestions(false);
-    }, []);
+    }, [setTempFood]);
 
 
     //  Add Food
     const handleAddFood = () => {
-
         if (!tempFood.item_name || !tempFood.qty) return;
 
         const selectedFood = ExistFoodDetail?.find(
             (f) => f.item_id === tempFood.item_id
         );
 
-        const newItem = {
-            item_name: tempFood.item_name,
-            qty: Number(tempFood.qty),
-            price: selectedFood?.rate_hosp || 0,
-            nutritious_value: selectedFood?.nutritious_value || "",
-            isNew: true
-        };
+        // Setting the Vlaue ot the Current Items
+        setItems((prev) => {
+            const alreadyExists = prev.some(
+                (item) => item?.item_id === tempFood?.item_id
+            );
 
-        setItems((prev) => [...prev, newItem]);
+            if (alreadyExists) {
+                infoNotify("Item Already Present")
+                return prev;
+            }
+            return [
+                ...prev,
+                {
+                    item_id: selectedFood?.item_id,
+                    item_name: tempFood.item_name,
+                    qty: Number(tempFood.qty),
+                    price: selectedFood?.price || 0,
+                    measure: tempFood?.measure || "",
+                    description: selectedFood?.description || "",
+                    isNew: true
+                }
+            ];
+        });
 
         // Reset
         setTempFood({
@@ -75,11 +90,11 @@ const AddFoodSection = ({
     };
 
     // ? Input Change
-    const handleFoodChange = useCallback((e) => {
-        const value = e.target.value;
-        setQuery(value);
-        setShowSuggestions(Boolean(value?.trim()));
-    }, []);
+    // const handleFoodChange = useCallback((e) => {
+    //     const value = e.target.value;
+    //     setQuery(value);
+    //     setShowSuggestions(Boolean(value?.trim()));
+    // }, []);
 
 
     return (
@@ -91,8 +106,14 @@ const AddFoodSection = ({
 
                 <Box sx={{ position: "relative" }}>
                     <input
-                        value={query.toUpperCase()}
-                        onChange={handleFoodChange}
+                        // value={query.toUpperCase()}
+                        // onChange={handleFoodChange}
+                        value={query}
+                        onChange={(e) => {
+                            const value = e.target.value.toUpperCase();
+                            setQuery(value);
+                            setShowSuggestions(Boolean(value.trim()));
+                        }}
                         onFocus={() => query && setShowSuggestions(true)}
                         onBlur={() =>
                             setTimeout(() => setShowSuggestions(false), 150)

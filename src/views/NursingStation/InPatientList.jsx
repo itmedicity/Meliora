@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography } from '@mui/joy'
+import { Box, Tooltip } from '@mui/joy'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import DashboardCard from '../Components/DashboardCard';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
@@ -9,25 +9,23 @@ import deitNotPlanned from '../../assets/images/deitNotPlanned.png'
 import NotUnderDeit from '../../assets/images/NotUnderDeit.jpg'
 import DietPlan from '../Diet/DietPlan';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import ToggleSquareButton from '../Components/ToggleSquareButton';
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import RamenDiningIcon from '@mui/icons-material/RamenDining';
-import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DeitMastComponent from '../Diet/DeitCommonComponents/DietMastComponent';
 import FloatingPanel from '../Components/FloatingPanel';
-import DeitFindPatientFloat from '../Diet/DeitCommonComponents/DietFindPatientFloat';
 import PatientDietView from '../Diet/DeitCommonComponents/PatientDietView';
-import DietFeedtimeComponent from '../Diet/DeitCommonComponents/DietFeedtimeComponent';
-import DietOrderStatus from '../Diet/DeitCommonComponents/DietOrderStatus';
+
 import { fullPatientsList } from '../Diet/DeitCommonComponents/DietdummyPatients';
 import DietTileNotPlanned from '../Diet/DeitCommonComponents/DietTileNotPlanned';
 import DietView from '../Diet/DeitCommonComponents/DietView';
-import TimerIcon from '@mui/icons-material/Timer';
-import TimelapseIcon from '@mui/icons-material/Timelapse';
 import CurrenttimeFeedTile from '../Diet/DeitCommonComponents/CurrenttimeFeedTile';
+import AutoScaleSection from './Component/AutoScaleSection';
+import { getButtonConfig } from './CommonExportCode/buttonConfig';
+import { getPanelConfig } from './CommonExportCode/panelConfig';
+import { useAllPatientDietPlan } from '../Diet/CommonData/UseQuery';
+import { errorNotify, warningNotify } from '../Common/CommonCode';
+import { axioslogin } from '../Axios/Axios';
+import CustomeIncidentLoading from '../IncidentManagement/Components/CustomeIncidentLoading';
+
+
 
 const InPatientList = () => {
 
@@ -42,7 +40,19 @@ const InPatientList = () => {
   const [showPatientFlag, setshowPatientFlag] = useState(0)
   const [feedingTime, setfeedingTime] = useState(2)
   const [orderStatus, setorderStatus] = useState('')
-  const dummyPatients = fullPatientsList
+
+  const [templatedetail, setTemplateDetail] = useState([]);
+  const [loadingtemplate, setLoadingTemplate] = useState(false);
+  // const dummyPatients = fullPatientsList
+
+  const {
+    data: allPatientDiet = [],
+    refetch: FetchPatientDietPlan
+  } = useAllPatientDietPlan("W009")
+
+  const patients = allPatientDiet || [];
+
+
 
   const dietTypes = [
     {
@@ -173,21 +183,34 @@ const InPatientList = () => {
   }, [])
 
 
-  const getDietTypeName = (id) => {
-    const diet = dietTypes.find((d) => d.id === id);
-    return diet ? diet.name : "Not Planned";
-  };
+  // const getDietTypeName = (id) => {
+  //   const diet = dietTypes.find((d) => d.id === id);
+  //   return diet ? diet.name : "Not Planned";
+  // };
 
   const getDietImage = (item) => {
-    if (item.status === 0) return deitNotPlanned;
-    if (item.status === 1) return deitPic;
-    if (item.status === 2) return NotUnderDeit;
+    if (item.status === "NOT_PLANNED") return deitNotPlanned;
+    if (item.status === "ACTIVE" || item.status === "CHANGED") return deitPic;
+    if (item.status === "STOPPED") return NotUnderDeit;
     return null;
   };
 
-  const notPlannedPatients = dummyPatients.filter(p => p.status === 0);
-  const plannedPatients = dummyPatients.filter(p => p.status === 1);
-  const notUnderDeitplaning = dummyPatients.filter(p => p.status === 2);
+
+  const formattedPatients = patients.map(p => ({
+    ...p,
+    status: p.diet_status || "NOT_PLANNED",
+    room: p.fb_rmc_desc,
+    category: p.fb_rtc_desc,
+    dietTypeName: p.diet_name || "Not Planned",
+  }));
+
+
+  const notPlannedPatients = formattedPatients.filter(p => p.status === "NOT_PLANNED");
+  const plannedPatients = formattedPatients.filter(p => p.status === "ACTIVE" || p.status === "CHANGED");
+  // Optional (if you define logic later)
+  const notUnderDeitplaning = [];
+
+
 
 
   const getCurrentFeeding = () => {
@@ -250,6 +273,11 @@ const InPatientList = () => {
   const [maxTiles, setMaxTiles] = useState(0);
   const containerRef = useRef(null);
 
+
+  console.log({
+    maxTiles
+  });
+
   useEffect(() => {
     const updateMaxTiles = () => {
       if (containerRef.current) {
@@ -268,29 +296,63 @@ const InPatientList = () => {
 
 
 
-  const onTileClick = useCallback((item) => {
-    setSelectedPatientData(item)
-    setDeitPlanFlag(1)
-    setDeitPlanOpen(true)
-  }, [])
+  const onTileClick = useCallback(async (item) => {
+    if (!item) return;
 
-  const notMarkedPatients = dummyPatients.filter(p => p.status === 0);
+    setSelectedPatientData(item); // always set
+
+    if (item.status === "ACTIVE") {
+      if (!item.template_id) {
+        warningNotify("Template Id is Missing!");
+        return;
+      }
+
+      try {
+        setLoadingTemplate(true)
+        const response = await axioslogin.post(
+          "/patientdietplan/gettemplatedtl",
+          { template_id: item.template_id }
+        );
+
+        const { data, success, message } = response.data;
+
+        if (success === 0) {
+          errorNotify(message || "Error in Fetching Data");
+          return;
+        }
+        console.log({ data });
+
+        setTemplateDetail(data ?? []);
+      } catch (error) {
+        errorNotify(error?.message || "Something went wrong");
+      } finally {
+        setLoadingTemplate(false)
+      }
+    } else {
+      // optional: clear old data
+      setTemplateDetail([]);
+    }
+
+    setDeitPlanFlag(1);
+    setDeitPlanOpen(true);
+
+  }, [warningNotify, errorNotify]);
 
 
-  const assignFeedTimesToPatients = (patients, dietTypes) => {
-    return patients.map(pt => {
-      const diet = dietTypes.find(d => d.id === pt.dietTypeId);
-      return {
-        ...pt,
-        feedingTimes: diet ? diet.feedingTimes : []
-      };
-    });
-  };
+  // const assignFeedTimesToPatients = (patients, dietTypes) => {
+  //   return patients.map(pt => {
+  //     const diet = dietTypes.find(d => d.id === pt.dietTypeId);
+  //     return {
+  //       ...pt,
+  //       feedingTimes: diet ? diet.feedingTimes : []
+  //     };
+  //   });
+  // };
 
-  const patientsWithFeeds = assignFeedTimesToPatients(dummyPatients, dietTypes);
-  const patientsForSelectedFeed = patientsWithFeeds.filter(pt =>
-    pt.feedingTimes.includes(feedingTime)
-  );
+  // const patientsWithFeeds = assignFeedTimesToPatients(dummyPatients, dietTypes);
+  // const patientsForSelectedFeed = patientsWithFeeds.filter(pt =>
+  //   pt.feedingTimes.includes(feedingTime)
+  // );
 
 
   const getPatientsByOrderStatus = (orderStatus) => {
@@ -404,44 +466,44 @@ const InPatientList = () => {
     );
   };
 
-  const getPatientCurrentFeed = (feedingDetails) => {
-    if (!feedingDetails || feedingDetails.length === 0) return null;
+  // const getPatientCurrentFeed = (feedingDetails) => {
+  //   if (!feedingDetails || feedingDetails.length === 0) return null;
 
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  //   const now = new Date();
+  //   const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-    const toMinutes = (timeStr) => {
-      const [time, modifier] = timeStr.split(" ");
-      let [hours, minutes] = time.split(":").map(Number);
-      if (modifier === "PM" && hours !== 12) hours += 12;
-      if (modifier === "AM" && hours === 12) hours = 0;
-      return hours * 60 + minutes;
-    };
+  //   const toMinutes = (timeStr) => {
+  //     const [time, modifier] = timeStr.split(" ");
+  //     let [hours, minutes] = time.split(":").map(Number);
+  //     if (modifier === "PM" && hours !== 12) hours += 12;
+  //     if (modifier === "AM" && hours === 12) hours = 0;
+  //     return hours * 60 + minutes;
+  //   };
 
-    for (const feed of feedingDetails) {
-      const start = toMinutes(feed.from);
-      const end = toMinutes(feed.to);
+  //   for (const feed of feedingDetails) {
+  //     const start = toMinutes(feed.from);
+  //     const end = toMinutes(feed.to);
 
-      if (currentMinutes >= start && currentMinutes <= end) {
-        return feed; // Return feeding object from that patient
-      }
-    }
+  //     if (currentMinutes >= start && currentMinutes <= end) {
+  //       return feed; // Return feeding object from that patient
+  //     }
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
 
-  const processedPatients = fullPatientsList.map((patient) => {
-    const currentFeeding = getPatientCurrentFeed(patient.feedingDetails);
+  // const processedPatients = fullPatientsList.map((patient) => {
+  //   const currentFeeding = getPatientCurrentFeed(patient.feedingDetails);
 
-    return {
-      ...patient,
-      currentFeeding,
-      FeedingTime: currentFeeding
-        ? `${currentFeeding.name} (${currentFeeding.from} - ${currentFeeding.to})`
-        : "No Current Feed"
-    };
-  });
+  //   return {
+  //     ...patient,
+  //     currentFeeding,
+  //     FeedingTime: currentFeeding
+  //       ? `${currentFeeding.name} (${currentFeeding.from} - ${currentFeeding.to})`
+  //       : "No Current Feed"
+  //   };
+  // });
 
 
 
@@ -460,279 +522,138 @@ const InPatientList = () => {
     return (orderPriority[aStatus] || 99) - (orderPriority[bStatus] || 99);
   });
 
+  console.log({
+    sortedPatients
+  });
 
 
-  const Section = ({ title, titleColor, bg, children }) => (
-    <Box
-      sx={{
-        flex: "0 1 auto",
-        display: "flex",
-        flexDirection: "column",
-        bgcolor: bg,
-        borderRadius: 2,
-        p: 0.5,
-        overflow: "hidden",
-      }}
-    >
-      <Typography
-        sx={{
-          fontSize: 15,
-          fontWeight: 700,
-          color: titleColor,
-          borderLeft: `4px solid ${titleColor}`,
-          pl: 1,
-          mb: 0.5,
-        }}
-      >
-        {title}
-      </Typography>
 
-      {children}
-    </Box>
-  );
+  const buttonConfig = getButtonConfig(taskColor, dietIconRef)
 
-  const TileGrid = ({ children }) => (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-        gap: 0.5,
-        // px: 0.5,
-        alignContent: "start",
-      }}
-    >
-      {children}
-    </Box>
-  );
+  const panelConfig = getPanelConfig({
+    dietType, setDietType, dietTypes,
+    handleSearch, patientDietData, setPatientDietData,
+    ipNumber, setIpNumber, setshowPatientFlag,
+    feedingTime, setfeedingTime, eatingTimes,
+    orderStatus, setorderStatus, orderStatusList,
+    setActiveButton
+  });
 
-  const AutoScaleSection = ({
-    title,
-    titleColor,
-    bg,
-    children,
-    takeRest = false,
-  }) => (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
-      }}
-    >
-      {/* Title */}
-      <Box
-        sx={{
-          px: 0.8,
-          py: 0.4,
-          fontWeight: 700,
-          fontSize: "clamp(10px, 1vw, 14px)",
-          color: titleColor,
-          borderLeft: `4px solid ${titleColor}`,
-          bgcolor: bg,
-          flexShrink: 0,
-        }}
-      >
-        {title}
-      </Box>
 
-      {/* Tile Grid */}
-      <Box
-        sx={{
-          flex: takeRest ? 1 : "0 0 auto",
-          minHeight: 0,
 
-          display: "grid",
-          gap: 0.6,
-
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(clamp(110px, 10vw, 200px), 1fr))",
-
-          gridAutoRows:
-            "minmax(clamp(65px, 8vw, 95px), 1fr)",
-
-          overflow: "hidden",
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-
+  // if (loadingtemplate) return 
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'red', minHeight: '100vh' }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        height: '90vh',
+        overflowY: 'auto',
+        boxShadow: 'md',
+        // Hide scrollbar for Chrome, Safari
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        // Hide scrollbar for Firefox
+        scrollbarWidth: 'none',
+        // Hide scrollbar for IE/Edge
+        msOverflowStyle: 'none',
+        position: 'relative'
+      }}
+    >
+
       {/* rohith */}
       <DashboardCard
         icon={LocalDiningIcon}
         title="Diet Plan"
         onClose={handleClose}
       >
+        {
+          loadingtemplate
+          &&
+          <CustomeIncidentLoading
+            text={"Fetching Diet Detail Please Wait!"}
+          />
+        }
         {deitPlanFlag === 1 ?
-          <DietPlan Flag={deitPlanFlag} open={deitPlanOpen} setOpen={setDeitPlanOpen} selectedPatientData={selectedPatientData} dietTypes={dietTypes} />
+          <DietPlan
+            // Flag={deitPlanFlag}
+            open={deitPlanOpen}
+            template={templatedetail}
+            setOpen={setDeitPlanOpen}
+            selectedPatientData={selectedPatientData}
+            FetchPatientDietPlan={FetchPatientDietPlan}
+          />
           : null}
-        <Box sx={{ flex: 1, borderBottom: "1px solid #C5C5C5", p: .5 }}>
+
+        <Box sx={{
+          flex: 1,
+          borderBottom: "1px solid #C5C5C5",
+          p: .5,
+          position: "sticky",
+          top: 0,
+          zIndex: 9,
+          bgcolor: "#fff", // prevents overlap transparency
+
+        }}>
           <Box sx={{ display: 'flex', alignItems: "center", gap: 1 }}>
             <Box sx={{ color: taskColor.DarkViolet, fontWeight: 500 }}>
               Payward H
             </Box>
-            <Box sx={{ color: taskColor.DarkViolet, display: "flex", alignItems: "center", gap: 0.5, fontSize: 12, fontWeight: 500, flex: 1 }}>
+
+            {/* unwanted part */}
+            <Box sx={{
+              color: taskColor.DarkViolet,
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+              fontSize: 12,
+              fontWeight: 500,
+              flex: 1
+            }}>
               - <NotificationsActiveIcon />
               {currentFeed
                 ? `${currentFeed.name} (${currentFeed.from} - ${currentFeed.to})`
                 : "No Current Feed"}
             </Box>
+
+
             <Box sx={{ display: 'flex', gap: .5 }}>
-              <Tooltip title="All List" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<DashboardIcon fontSize="small" />}
-                    color={taskColor.purple}
-                    selected={activeButton === "allList"}
-                    onClick={() => setActiveButton("allList")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Not Marked" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<DoNotDisturbIcon fontSize="small" />}
-                    color="darkred"
-                    selected={activeButton === "notMarked"}
-                    onClick={() => setActiveButton("notMarked")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Diet Type" placement='top'>
-                <Box ref={dietIconRef}>
-                  <ToggleSquareButton
-                    icon={<RamenDiningIcon fontSize="small" />}
-                    color="#8E3801"
-                    selected={activeButton === "dietType"}
-                    onClick={() =>
-                      setActiveButton(activeButton === "dietType" ? "" : "dietType")
-                    }
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Find Patient" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<PersonIcon fontSize="small" />}
-                    color="blue"
-                    selected={activeButton === "findPatient"}
-                    onClick={() => setActiveButton("findPatient")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Order Status" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<ShoppingBagIcon fontSize="small" />}
-                    color="brown"
-                    selected={activeButton === "orderStatus"}
-                    onClick={() => setActiveButton("orderStatus")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Not Under Diet" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<DoNotDisturbOnIcon fontSize="small" />}
-                    color="black"
-                    selected={activeButton === "notUnderDiet"}
-                    onClick={() => setActiveButton("notUnderDiet")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Food Time" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<NotificationsActiveIcon fontSize="small" />}
-                    color="#BC922D"
-                    selected={activeButton === "foodTime"}
-                    onClick={() => setActiveButton("foodTime")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Delivered On Time" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<TimerIcon fontSize="small" />}
-                    color="green"
-                    selected={activeButton === "deliveredOnTime"}
-                    onClick={() => setActiveButton("deliveredOnTime")}
-                  />
-                </Box>
-              </Tooltip>
-              <Tooltip title="Delivery Delayed" placement='top'>
-                <Box>
-                  <ToggleSquareButton
-                    icon={<TimelapseIcon fontSize="small" />}
-                    color="red"
-                    selected={activeButton === "deliveryDelayed"}
-                    onClick={() => setActiveButton("deliveryDelayed")}
-                  />
-                </Box>
-              </Tooltip>
+              {buttonConfig?.map(btn => (
+                <Tooltip key={btn.key} title={btn.title} placement="top">
+                  <Box ref={btn.ref || null}>
+                    <ToggleSquareButton
+                      icon={btn.icon}
+                      color={btn.color}
+                      selected={activeButton === btn.key}
+                      onClick={() =>
+                        btn.toggle
+                          ? setActiveButton(activeButton === btn.key ? "" : btn.key)
+                          : setActiveButton(btn.key)
+                      }
+                    />
+                  </Box>
+                </Tooltip>
+              ))}
             </Box>
+
           </Box>
         </Box>
-        <Box sx={{ flex: 1, minHeight: '75vh', overflow: 'auto', m: 1 }}>
-          <FloatingPanel
-            open={activeButton === "dietType"}
-            onClose={() => {
-              setDietType("");
-              setActiveButton("allList");
-            }}
-            title={"Diet Type"}
-          >
-            <DeitMastComponent
-              dietType={dietType}
-              dietTypes={dietTypes}
-              setDietType={(val) => setDietType(Number(val))}
-            />
-          </FloatingPanel>
-          <FloatingPanel
-            open={activeButton === "findPatient"}
-            onClose={() => {
-              setActiveButton("allList");
-              setIpNumber("")
-              setshowPatientFlag(0)
-            }}
-            title={"IP Number"}
-          >
-            <DeitFindPatientFloat handleSearch={handleSearch} patientDietData={patientDietData}
-              setPatientDietData={setPatientDietData} setIpNumber={setIpNumber} ipNumber={ipNumber} />
-          </FloatingPanel>
 
-          <FloatingPanel
-            open={activeButton === "foodTime"}
-            onClose={() => {
-              setfeedingTime("");
-              setActiveButton("allList");
-            }}
-            title={"Food Time"}
-          >
-            <DietFeedtimeComponent
-              feedingTime={feedingTime}
-              eatingTimes={eatingTimes}
-              setfeedingTime={(val) => setfeedingTime(Number(val))}
-            />
-          </FloatingPanel>
-          <FloatingPanel
-            open={activeButton === "orderStatus"}
-            onClose={() => {
-              setDietType("");
-              setActiveButton("allList");
-            }}
-            title={"Order Status"}
-          >
-            <DietOrderStatus
-              orderStatus={orderStatus}
-              orderStatusList={orderStatusList}
-              setorderStatus={(val) => setorderStatus(Number(val))}
-            />
-          </FloatingPanel>
+
+        <Box sx={{ flex: 1, minHeight: '75vh', overflow: 'auto', m: 1 }}>
+
+          {panelConfig?.map(panel => (
+            <FloatingPanel
+              key={panel.key}
+              open={activeButton === panel.key}
+              onClose={panel.onClose}
+              title={panel.title}
+            >
+              {panel?.content}
+            </FloatingPanel>
+          ))}
+
           {activeButton === "notMarked" ? (
             <DietView
               title={"Not Planned"}
@@ -742,7 +663,7 @@ const InPatientList = () => {
               bgColor="#fdecea"
               status="Not Planned"
               tileBorder={"2px solid darkred"}
-              patients={notMarkedPatients}
+              patients={notPlannedPatients}
               getDietImage={getDietImage}
               onTileClick={onTileClick}
               activeButton={"notMarked"}
@@ -854,78 +775,7 @@ const InPatientList = () => {
 
                         ) :
                           (
-                            // activeButton === "allList" ||
-                            // activeButton === "findPatient" ||
-                            // activeButton === "foodTime") && (
-                            // <Box
-                            //   sx={{
-                            //     height: "100%",
-                            //     overflowY: "auto",
-                            //     overflowX: "hidden",
-                            //     pr: 0.5,
-                            //   }}
-                            // >
-                            //   {/* NOT PLANNED */}
-                            //   <DietGroup
-                            //     title="Not Planned"
-                            //     titleColor="#770707"
-                            //     bg="#fdecea"
-                            //   >
-                            //     {notPlannedPatients.map((item) => (
-                            //       <DietTileNotPlanned
-                            //         key={item.pt_no}
-                            //         name={item.ptc_ptname}
-                            //         pt_no={item.pt_no}
-                            //         mrdNo={item.mrdNo}
-                            //         status="Not Planned"
-                            //         bordercolor="2px solid darkred"
-                            //         image={getDietImage(item)}
-                            //         onClick={() => onTileClick(item)}
-                            //         roomName={item.room}
-                            //       />
-                            //     ))}
-                            //   </DietGroup>
-                            //   {/* PLANNED */}
-                            //   <DietGroup
-                            //     title="Planned Diet"
-                            //     titleColor={taskColor.darkPurple}
-                            //     bg={taskColor.lightpurple}
-                            //   >
-                            //     {sortedPatients.map((patient) => (
-                            //       <CurrenttimeFeedTile
-                            //         key={patient.pt_no}
-                            //         name={patient.ptc_ptname}
-                            //         roomName={patient.room}
-                            //         pt_no={patient.pt_no}
-                            //         image={getDietImage(patient)}
-                            //         FeedingName={patient.selectedFeed?.name || ""}
-                            //         dietTypeName={patient.dietTypeName}
-                            //         orderStatus={patient.selectedFeed?.orderStatusId ?? 0}
-                            //         deliveredTime={patient.selectedFeed?.deliveredTime || null}
-                            //         onClick={() => onTileClick(patient)}
-                            //       />
-                            //     ))}
-                            //   </DietGroup>
-                            //   {/* NOT UNDER DIET */}
-                            //   <DietGroup
-                            //     title="Not Under Diet"
-                            //     titleColor="black"
-                            //     bg="#e7e7ee"
-                            //   >
-                            //     {notUnderDeitplaning.map((item) => (
-                            //       <DietTile
-                            //         key={item.pt_no}
-                            //         name={item.ptc_ptname}
-                            //         pt_no={item.pt_no}
-                            //         mrdNo={item.mrdNo}
-                            //         status="Not Under Diet"
-                            //         bordercolor="2px solid black"
-                            //         roomName={item.room}
-                            //         image={getDietImage(item)}
-                            //       />
-                            //     ))}
-                            //   </DietGroup>
-                            // </Box>
+
                             activeButton === "allList" ||
                             activeButton === "findPatient" ||
                             activeButton === "foodTime") && (
@@ -938,65 +788,66 @@ const InPatientList = () => {
                                 overflow: "hidden",
                               }}
                             >
-                              <AutoScaleSection
-                                title="Not Planned"
-                                titleColor="#770707"
-                                bg="#fdecea"
-                              >
-                                {notPlannedPatients.map((item) => (
-                                  <DietTileNotPlanned
-                                    key={item.pt_no}
-                                    name={item.ptc_ptname}
-                                    pt_no={item.pt_no}
-                                    mrdNo={item.mrdNo}
-                                    status="Not Planned"
-                                    bordercolor="2px solid darkred"
-                                    image={getDietImage(item)}
-                                    onClick={() => onTileClick(item)}
-                                    roomName={item.room}
-                                  />
-                                ))}
-                              </AutoScaleSection>
+                              {
+                                notPlannedPatients?.length > 0 &&
+                                <AutoScaleSection
+                                  title="Not Planned"
+                                  titleColor="Black"
+                                  bg="#fef0f0"
+                                >
+                                  {
 
-                              <AutoScaleSection
-                                title="Planned Diet"
-                                titleColor={taskColor.darkPurple}
-                                bg={taskColor.lightpurple}
-                              >
-                                {sortedPatients.map((patient) => (
-                                  <CurrenttimeFeedTile
-                                    key={patient.pt_no}
-                                    name={patient.ptc_ptname}
-                                    roomName={patient.room}
-                                    pt_no={patient.pt_no}
-                                    image={getDietImage(patient)}
-                                    FeedingName={patient.selectedFeed?.name || ""}
-                                    dietTypeName={patient.dietTypeName}
-                                    orderStatus={patient.selectedFeed?.orderStatusId ?? 0}
-                                    deliveredTime={patient.selectedFeed?.deliveredTime || null}
-                                    onClick={() => onTileClick(patient)}
-                                  />
-                                ))}
-                              </AutoScaleSection>
+                                    notPlannedPatients?.map((item) => (
+                                      <DietTileNotPlanned
+                                        item={item}
+                                        key={item.pt_no}
+                                        status="Not Planned"
+                                        onClick={() => onTileClick(item)}
+                                        image={getDietImage(item)}
+                                      />
+                                    ))}
+                                </AutoScaleSection>
+                              }
 
-                              <AutoScaleSection
-                                title="Not Under Diet"
-                                titleColor="black"
-                                bg="#e7e7ee"
-                              >
-                                {notUnderDeitplaning.map((item) => (
-                                  <DietTile
-                                    key={item.pt_no}
-                                    name={item.ptc_ptname}
-                                    pt_no={item.pt_no}
-                                    mrdNo={item.mrdNo}
-                                    status="Not Under Diet"
-                                    bordercolor="2px solid black"
-                                    roomName={item.room}
-                                    image={getDietImage(item)}
-                                  />
-                                ))}
-                              </AutoScaleSection>
+                              {
+                                plannedPatients?.length > 0 &&
+                                <AutoScaleSection
+                                  title="Planned Diet"
+                                  titleColor="black"
+                                  bg="#e7e7ee"
+                                >
+                                  {
+                                    plannedPatients?.map((patient) => (
+                                      <CurrenttimeFeedTile
+                                        key={patient.pt_no}
+                                        patient={patient}
+                                        onClick={() => onTileClick(patient)}
+                                        image={getDietImage(patient)}
+                                      />
+                                    ))}
+                                </AutoScaleSection>
+                              }
+
+                              {
+                                notUnderDeitplaning?.length > 0 &&
+                                <AutoScaleSection
+                                  title="Not Under Diet"
+                                  titleColor="black"
+                                  bg="#e7e7ee"
+                                >
+                                  {
+                                    notUnderDeitplaning?.map((item) => (
+                                      <DietTile
+                                        key={item.pt_no}
+                                        item={item}
+                                        status="Not Under Diet"
+                                        bordercolor="2px solid black"
+                                        image={getDietImage(item)}
+                                      />
+                                    ))}
+                                </AutoScaleSection>
+                              }
+
                             </Box>
 
                           )}

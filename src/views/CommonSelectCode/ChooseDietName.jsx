@@ -1,17 +1,13 @@
-import React, { useEffect, memo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getDiet } from 'src/redux/actions/Diet.action'
+import React, { memo} from 'react'
+
+import { useAllPatientDietMaster } from '../Diet/CommonData/UseQuery'
 
 const ChooseDietName = ({ value, setValue, width, disabled = false }) => {
-    const dispatch = useDispatch()
 
-    const dietdata = useSelector(
-        state => state.getDiet.dietList ?? []
-    )
+    const {
+        data: allDietMaster = []
+    } = useAllPatientDietMaster()
 
-    useEffect(() => {
-        dispatch(getDiet())
-    }, [dispatch])
 
     return (
         <select
@@ -33,8 +29,8 @@ const ChooseDietName = ({ value, setValue, width, disabled = false }) => {
                 Select Diet
             </option>
 
-            {dietdata.map((val) => (
-                <option key={val.diet_slno} value={val.diet_slno}>
+            {allDietMaster.map((val) => (
+                <option key={val.diet_id} value={val.diet_id}>
                     {val.diet_name}
                 </option>
             ))}

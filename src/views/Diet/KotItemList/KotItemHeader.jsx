@@ -63,7 +63,7 @@ const KotItemHeader = ({ name, goBackPath }) => {
                 />
             </Box>
             <DietButton
-                width={40}
+                width={120}
                 onClick={HandleGoPrev}
                 name={'Go Back'}
                 icon={ExitToAppIcon}
