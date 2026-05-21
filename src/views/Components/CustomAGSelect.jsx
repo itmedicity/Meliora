@@ -1,9 +1,9 @@
-import React, { Fragment, memo } from 'react'
+import React, { memo } from 'react'
 import { AgGridReact } from 'ag-grid-react'
-import { Paper } from '@mui/material'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css'
-import { Box } from '@mui/system'
+import { Box } from '@mui/joy'
+
 
 const CustomAGSelect = ({ tableData, columnDefs, onSelectionChanged, sx }) => {
   const rowHeight = 25
@@ -40,25 +40,23 @@ const CustomAGSelect = ({ tableData, columnDefs, onSelectionChanged, sx }) => {
   }
 
   return (
-    <Fragment>
-      <Paper elevation={0}>
-        <Box className="ag-theme-material ListItemScrol" sx={{ ...style, ...sx }}>
-          <AgGridReact
-            columnDefs={columnDefs}
-            rowData={tableData}
-            defaultColDef={defaultColDef}
-            rowHeight={rowHeight}
-            headerHeight={headerHeight}
-            rowDragManaged={true}
-            animateRows={true}
-            onGridReady={onGridReady}
-            rowSelection="multiple"
-            onSelectionChanged={onSelectionChanged}
-            rowStyle={rowStyle}
-          ></AgGridReact>
-        </Box>
-      </Paper>
-    </Fragment>
+
+    <Box className="ag-theme-material ListItemScrol" sx={{ ...style, ...sx }}>
+      <AgGridReact
+        columnDefs={columnDefs}
+        rowData={tableData}
+        defaultColDef={defaultColDef}
+        rowHeight={rowHeight}
+        headerHeight={headerHeight}
+        rowDragManaged={true}
+        animateRows={true}
+        onGridReady={onGridReady}
+        rowSelection="multiple"
+        onSelectionChanged={onSelectionChanged}
+        rowStyle={rowStyle}
+      ></AgGridReact>
+    </Box>
+
   )
 }
 

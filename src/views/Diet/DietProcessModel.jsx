@@ -1,18 +1,11 @@
-import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
+import React, { Fragment, memo, useEffect, useMemo, useState, useCallback } from 'react'
 import Slide from '@mui/material/Slide'
-// import { ToastContainer } from 'react-toastify';
-import { Box, Paper } from '@mui/material'
-import { Typography } from '@mui/material'
-import { useCallback } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNotify, infoNotify, succesNotify } from 'src/views/Common/CommonCode'
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
+import { Box, Button, DialogActions, Typography } from '@mui/joy'
+import { Dialog } from '@mui/material'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />
 })
@@ -160,8 +153,8 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
         keepMounted
         aria-describedby="alert-dialog-slide-descriptiona"
       >
-        <DialogTitle sx={{ fontSize: 10 }}>{'Diet Plan Process'}</DialogTitle>
-        <DialogContent
+        <Box sx={{ fontSize: 10 }}>{'Diet Plan Process'}</Box>
+        <Box
           sx={{
             minWidth: 300,
             maxWidth: 600,
@@ -169,7 +162,7 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
           }}
         >
           <Box sx={{ width: '100%' }}>
-            <Paper
+            <Box
               variant="outlined"
               sx={{
                 width: '100%',
@@ -241,9 +234,9 @@ const DietProcessModel = ({ open, handleClose, setOpen, detail, startdate, count
                   <Typography> {plan_remark}</Typography>
                 </Box>
               </Box>
-            </Paper>
+            </Box>
           </Box>
-        </DialogContent>
+        </Box>
         <DialogActions>
           <Button onClick={Process} color="secondary">
             Process

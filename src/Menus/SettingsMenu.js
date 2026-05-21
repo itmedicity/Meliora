@@ -176,8 +176,6 @@ export const ams_one = [
 ]
 
 
-
-
 // work order
 
 export const Work_one = [
@@ -189,6 +187,17 @@ export const Work_two = [
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
 ]
 
+//Diet Master Menu
+export const dm_setting_one = [
+    // { to: '/Home/Diet', name: 'Diet ', slno: 36 },
+    { to: '/Home/ptdietmaster', name: 'Diet Master', slno: 36 },
+    { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
+    // { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
+    { to: '/Home/unitmaster', name: 'Unit Master', slno: 56 },
+    { to: '/Home/orderparty', name: 'Order Party Type ', slno: 56 }, // change slno
+    { to: '/Home/itemalias', name: 'Item Alias Master', slno: 56 }, // change slno
+
+]
 
 export const Inc_One = [
     { to: '/Home/incidentnature', name: 'Nature of Incident Master', slno: 293 },
@@ -203,6 +212,7 @@ export const Inc_Two = [
 export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
+
 ]
 
 // //Diet Master Menu
@@ -212,16 +222,25 @@ export const Inc_Three = [
 //     { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
 // ]
 
-// export const dm_setting_two = [
-//     { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
-//     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
 
-// ]
+export const dm_setting_two = [
+    { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
+    { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+    { to: '/Home/dietroom', name: 'Diet Room Master', slno: 337 },
+    { to: '/Home/dietdelmaster', name: 'Diet Delivery Master', slno: 340 },
+    { to: '/Home/itemtypemast', name: 'Item Type Master', slno: 340 },
+    { to: '/Home/billingmaster', name: 'Billing Category Master', slno: 340 },
+]
 
-// export const dm_setting_three = [
-//     { to: '/Home/RateList', name: 'Rate List', slno: 40 },
-//     { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
-// ]
+export const dm_setting_three = [
+    // { to: '/Home/RateList', name: 'Rate List', slno: 40 },
+    { to: '/Home/dietspeciality', name: 'Diet Speciality Master', slno: 40 }, // new change this
+    // { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 },
+    { to: '/Home/dietallergence', name: 'Diet Allergency Master', slno: 340 },
+    { to: '/Home/dietdemplate', name: 'Diet Template Master', slno: 55 },
+    { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 55 },
+    { to: '/Home/itemcatmast', name: 'Item Category Master', slno: 55 } // change slno
+]
 
 // //We  Work Menu
 // export const we_setting_one = [

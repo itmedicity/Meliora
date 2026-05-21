@@ -50,8 +50,11 @@ import IcuTransaction from 'src/Menus/IcuTransaction'
 // import { FaSyringe } from "react-icons/fa6";
 import { MdPattern } from "react-icons/md";
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
+import DietTransactions from 'src/Menus/DietTransactions'
+import { MdOutlineFoodBank } from "react-icons/md";
 import StoreTransaction from 'src/Menus/StoreTransaction'
 import { FaStore } from "react-icons/fa";
+
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -72,7 +75,10 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [icuTransact, setIcuTransact] = useState()
   // const [labresultTransact, setLabResultTransact] = useState()
   const [deviceCredentials, setDeviceCredentials] = useState()
+
+  const [dietTransction, setDietTransction] = useState()
   const [count, setCount] = useState(0)
+
   const [menu, setMenu] = useState([])
   const [storeTransaction, setStoreTransaction] = useState(0)
 
@@ -264,14 +270,23 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       icon: <MdPattern />
     },
     {
+      slno: 7,
+      name: 'Diet',
+      items: dietTransction,
+      route: '/Home',
+      icon: <MdOutlineFoodBank />
+    },
+    {
       slno: 31,
       name: 'Store Report',
       items: storeTransaction,
       route: '/Home',
       icon: <FaStore color="var(--true-blue-800)" />
     },
-
   ]
+
+    
+
 
   useEffect(() => {
     /*** get menus based on user rights */
@@ -310,6 +325,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         setWorkOrder(WorkOrders)
         const DeviceCredentialTransact = DeviceCredentialTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
         setDeviceCredentials(DeviceCredentialTransact)
+        const DietTransact = DietTransactions.filter(val => menuSlnoAry.includes(val.men_slno))
+        setDietTransction(DietTransact)
         setCount(1)
         const IcuTrans = IcuTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setIcuTransact(IcuTrans)

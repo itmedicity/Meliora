@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
+
 import React, { Fragment, memo } from 'react'
-import { CssVarsProvider, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Typography } from '@mui/joy'
 
 const CustomPaperTitle = ({ heading, mandtry }) => {
   return (

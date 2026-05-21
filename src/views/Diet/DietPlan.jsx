@@ -1,183 +1,309 @@
-import React, { Fragment, useCallback, useMemo, useState, memo } from 'react'
-import Slide from '@mui/material/Slide'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
-import { Box, Paper, Grid, Typography } from '@mui/material'
-import SelectDiet from '../CommonSelectCode/SelectDiet'
-import { axioslogin } from '../Axios/Axios'
-import Dialog from '@mui/material/Dialog'
-import { infoNotify, succesNotify } from '../Common/CommonCode'
-import { useSelector } from 'react-redux'
-// import { ToastContainer } from 'react-toastify';
-import CustomTextarea from '../Components/CustomTextarea'
-import { format } from 'date-fns'
-import CusCheckBox from 'src/views/Components/CusCheckBox'
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="left" ref={ref} {...props} />
-})
-const DietPlan = ({ open, data, setOpen }) => {
-  const [diet, setDiet] = useState(0)
-  const [remark, setRemark] = useState('')
-  const { bdc_no, dietpt_slno, ptc_ptname, ip_no, pt_no, doc_name, bd_code } = data[0]
-  // Get login user emp_id
-  const Id = useSelector(state => {
-    return state.LoginUserData.empid
-  })
-  const updateRemarks = useCallback(e => {
-    setRemark(e.target.value)
-  }, [])
-  const [appRrquired, setappRequ] = useState(false)
-  const updaterequiredt = useCallback(e => {
-    if (e.target.checked === true) {
-      setappRequ(true)
-    } else {
-      setappRequ(false)
-    }
+import React, { useCallback, useState } from "react";
+import {
+  Modal,
+  ModalDialog,
+  Box,
+} from "@mui/joy";
+import { axioslogin } from "../Axios/Axios";
+import { format } from "date-fns";
+import { errorNotify, infoNotify, succesNotify } from "../Common/CommonCode";
+import { useSelector } from "react-redux";
+import { groupByDayAndType } from "./CommonData/CommonFun";
+import DietPlanHeader from "./DietInpatientList/DietInpatientComponents/DietPlanHeader";
+import DietPlanFooter from "./DietInpatientList/DietInpatientComponents/DietPlanFooter";
+import DietPlanCurrentTable from "./DietInpatientList/DietInpatientComponents/DietPlanCurrentTable";
+import NewDietPlanSection from "./DietInpatientList/DietInpatientComponents/NewDietPlanSection";
+import { useAllFetchTemplateFoodDetail, usePatientPlanFoodDetails } from "./CommonData/UseQuery";
+
+
+const DietPlan = ({
+  open,
+  setOpen,
+  selectedPatientData,
+  FetchPatientDietPlan,
+  template
+}) => {
+
+  const {
+    ptc_ptname,
+    pt_no,
+    ptc_sex,
+    doc_name,
+    fb_rmc_desc,
+    ip_no,
+    do_code,
+    ipd_date,
+    fb_ipd_disc,
+    diet_history
+
+  } = selectedPatientData || {};
+
+
+
+
+  const id = useSelector((state) => state.LoginUserData.empid);
+
+  const [dietType, setDietType] = useState("");
+  const [dietecian, setDietecian] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [editingPlanId, setEditingPlanId] = useState(null);
+
+  // ONLY FOR DIETITIAN
+  const [consultationRequired, setConsultationRequired] = useState(false);
+
+  const isPlanned = diet_history?.some(
+    (val) =>
+      val?.diet_status &&
+      val?.diet_status !== "STOPPED"
+  ) ?? false;
+
+
+  const hasActiveDiet = diet_history?.find(
+    (val) => val?.diet_status === "ACTIVE"
+  );
+
+
+  const PlanId = hasActiveDiet?.plan_id;
+
+
+  const { data: TemplateFoodDetail } = useAllFetchTemplateFoodDetail(PlanId);
+  const { data: FetchPlanFoodDetail = [] } = usePatientPlanFoodDetails(PlanId);
+
+
+  const groupedData = groupByDayAndType(
+    template,
+    TemplateFoodDetail,
+    FetchPlanFoodDetail
+  );
+
+
+
+  const resetForm = () => {
+    setDietType("");
+    setDietecian("");
+    setEditMode(false);
+    setEditingPlanId(null);
+    setConsultationRequired(false);
+  };
+
+  const HandleClose = useCallback(() => {
+    setOpen(false)
+    resetForm()
   }, [])
 
-  const v = 1
-  const postdata = useMemo(() => {
-    return {
-      ip_no: ip_no,
-      pt_no: pt_no,
-      diet_slno: diet,
-      dietpt_slno: dietpt_slno,
-      bd_code: bd_code,
-      plan_date: format(new Date(), 'yyyy-MM-dd'),
-      plan_remark: remark,
-      plan_status: 0,
-      em_id: Id,
-      process: 0,
-      discharge: v === 1 ? 'N' : 'Y',
-      approve_reqired: appRrquired === true ? 1 : 0
+  const handleEdit = (row) => {
+    if (!row) return infoNotify("Data Missing Please Refresh");
+    if (editMode && editingPlanId === row?.plan_id) {
+      setEditMode(false);
+      setEditingPlanId(null);
+      return;
     }
-  }, [ip_no, pt_no, diet, bd_code, remark, Id, v, dietpt_slno, appRrquired])
-  const reset = useCallback(() => {
-    setDiet(0)
-    setRemark('')
-    setOpen(false)
-    setappRequ(false)
-  }, [setOpen])
-  /*** usecallback function for form submitting */
-  const submitDietplan = useCallback(
-    e => {
-      e.preventDefault()
-      /*** * insert function for use call back     */
-      const InsertData = async postdata => {
-        const result = await axioslogin.post(`/dietplan/insert`, postdata)
-        const { message, success } = result.data
-        if (success === 1) {
-          succesNotify(message)
-          reset()
-        } else if (success === 7) {
-          infoNotify(message)
-          reset()
-        } else {
-          infoNotify(message)
-        }
-      }
-      if (diet === 0) {
-        infoNotify('Please Choose Diet')
-      } else {
-        InsertData(postdata)
-      }
-    },
-    [postdata, diet, reset]
-  )
+    setEditMode(true);
+    setEditingPlanId(row?.plan_id);
+    setDietType(row?.diet_id || "");
+    setDietecian(row?.dietitian_id || "");
+    setConsultationRequired(true);
+  };
+
+  const formatDate = (date) => {
+    if (!date) return null;
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime()))
+      return null;
+    return format(
+      parsedDate,
+      "yyyy-MM-dd HH:mm:ss"
+    );
+  };
+
+  const getGender = (sex) => {
+    if (sex === "F") return "Female";
+    if (sex === "M") return "Male";
+    return "-";
+  };
+
+
+  const validateForm = () => {
+    if (!pt_no)
+      return "Patient not selected";
+    if (!ip_no)
+      return "Admission ID missing";
+    // Diet always required
+    if (!dietType)
+      return "Please select Diet";
+    if (consultationRequired && !dietecian)
+      return "Please select Dietitian";
+  };
+
+  const handleSubmit = async (type = "save") => {
+    try {
+      const error = validateForm();
+      if (error)
+        return errorNotify(error);
+      const isEdit = type === "update";
+      const payload = {
+        ...(isEdit && {
+          plan_id: editingPlanId
+        }),
+        patient_id: pt_no,
+        admission_id: ip_no,
+        diet_id: dietType,
+        is_consultation: consultationRequired ? 1 : 0,
+        start_date: ipd_date
+          ? formatDate(ipd_date)
+          : null,
+        end_date: fb_ipd_disc
+          ? formatDate(fb_ipd_disc)
+          : null,
+        doctor_id: do_code || null,
+
+        dietitian_id: consultationRequired ? dietecian : null,
+
+        diet_status: "ACTIVE",
+
+        ...(isEdit
+          ? {
+            is_active: 1,
+            updated_by: id
+          }
+          : {
+            created_by: id
+          }),
+      };
+
+      const res = await axioslogin[
+        isEdit ? "patch" : "post"
+      ](
+        isEdit
+          ? `/patientdietplan/update`
+          : `/patientdietplan/insert`,
+        payload
+      );
+
+      const { success, message } = res.data;
+      if (success !== 2)
+        return errorNotify(message);
+      succesNotify(message);
+      FetchPatientDietPlan();
+      resetForm();
+      setOpen(false);
+    } catch (err) {
+      errorNotify(
+        type === "update"
+          ? "Error Updating Diet"
+          : "Error Inserting Diet"
+      );
+    }
+  };
+
+  const hanldeStopDiet = async (planId) => {
+    try {
+      const payload = {
+        plan_id: planId,
+        diet_status: "STOPPED",
+        is_active: 0,
+        updated_by: id
+      };
+      const res = await axioslogin.patch(
+        `/patientdietplan/update-status`,
+        payload
+      );
+      const { success, message } = res.data;
+      if (success !== 2)
+        return errorNotify(message);
+      succesNotify(message);
+      FetchPatientDietPlan();
+      resetForm();
+      setOpen(false);
+    } catch (err) {
+      errorNotify("Error Updating Status");
+    }
+  };
+
   return (
-    <Fragment>
-      {/* <ToastContainer /> */}
-      <Dialog
-        open={open}
-        onClose={reset}
-        TransitionComponent={Transition}
-        keepMounted
-        aria-describedby="alert-dialog-slide-descriptiona"
+
+    <Modal
+      open={open}
+      onClose={() => {
+        resetForm();
+        setOpen(false);
+      }}
+    >
+
+      <ModalDialog
+        sx={{
+          width: isPlanned ? '52%' : '45%',
+          borderRadius: 10,
+          p: 0,
+          overflow: 'hidden',
+          boxShadow: 'xl',
+          bgcolor: '#f7f8fc'
+        }}
       >
-        <DialogContent
-          id="alert-dialog-slide-descriptiona"
+        <DietPlanHeader
+          ptc_ptname={ptc_ptname}
+          pt_no={pt_no}
+          ptc_sex={ptc_sex}
+          fb_rmc_desc={fb_rmc_desc}
+          doc_name={doc_name}
+          isPlanned={isPlanned}
+          ActiveDiet={hasActiveDiet}
+          getGender={getGender}
+        />
+
+        {/* BODY */}
+        <Box
           sx={{
-            width: 500,
-            height: 480
+            p: 3,
+            maxHeight: '78vh',
+            overflow: 'auto',
+
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+
+            '&::-webkit-scrollbar': {
+              display: 'none'
+            }
           }}
         >
-          <DialogContentText id="alert-dialog-slide-descriptiona">Diet Plan</DialogContentText>
-          <Box sx={{ p: 2, height: '100%' }}>
-            <Paper square elevation={3}>
-              <Box sx={{ p: 2 }}>
-                <Grid item xl={12} lg={12}>
-                  <Grid container spacing={2} sx={{ pt: 0.1 }}>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>Diet Number:</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>{dietpt_slno}</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>Patient Number:</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>{pt_no}</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>Patient Name</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>{ptc_ptname}</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>Bed</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>{bdc_no}</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>Doctor</Typography>
-                    </Grid>
-                    <Grid item xl={5} lg={5}>
-                      <Typography>{doc_name}</Typography>
-                    </Grid>
-                    <Grid item xl={12} lg={12}>
-                      <SelectDiet value={diet} setValue={setDiet} />
-                    </Grid>
-                    <Grid item xl={12} lg={12}>
-                      <CustomTextarea
-                        style={{ width: 375 }}
-                        minRows={4}
-                        placeholder="Remarks"
-                        onchange={updateRemarks}
-                        value={remark}
-                      />
-                    </Grid>
-                    <Grid item xl={12} lg={12}>
-                      <CusCheckBox
-                        label="Consultation Required"
-                        color="primary"
-                        size="md"
-                        name="appRrquired"
-                        value={appRrquired}
-                        checked={appRrquired}
-                        onCheked={updaterequiredt}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button color="secondary" onClick={submitDietplan}>
-            Save
-          </Button>
-          <Button onClick={reset} color="secondary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Fragment>
-  )
-}
-export default memo(DietPlan)
+
+          {/* EXISTING PLAN */}
+          <DietPlanCurrentTable
+            isPlanned={isPlanned}
+            patient={selectedPatientData}
+            handleEdit={handleEdit}
+            hanldeStopDiet={hanldeStopDiet}
+            editMode={editMode}
+            groupedData={groupedData}
+          />
+
+          <NewDietPlanSection
+            isPlanned={isPlanned}
+            editMode={editMode}
+            consultationRequired={consultationRequired}
+            setConsultationRequired={setConsultationRequired}
+            dietType={dietType}
+            ActiveDiet={hasActiveDiet}
+            setDietType={setDietType}
+            dietecian={dietecian}
+            setDietecian={setDietecian}
+          />
+
+        </Box>
+
+        {/* FOOTER */}
+
+        <DietPlanFooter
+          HandleClose={HandleClose}
+          handleSubmit={handleSubmit}
+          editMode={editMode}
+          isPlanned={isPlanned}
+        />
+
+      </ModalDialog>
+
+    </Modal>
+  );
+};
+
+export default DietPlan;

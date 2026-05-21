@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -8,20 +8,32 @@ import CusCheckBox from 'src/views/Components/CusCheckBox'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import ItemGroupTable from './ItemGroupTable'
 import { useSelector } from 'react-redux'
+import { useAllItemGroupMaster } from 'src/views/Diet/CommonData/UseQuery'
+
+// Define form reset outside
+const formReset = {
+  item_group_id: '',
+  group_name: '',
+  group_code: '',
+  display_order: '',
+  status: false
+}
+
 const ItemGroupMast = () => {
-  const history = useNavigate()
-  //state for table render
-  const [count, setCount] = useState(0)
-  //state for edit
-  const [value, setValue] = useState(0)
-  //intilizing
-  const [itemgroup, setItemgrp] = useState({
-    group_name: '',
-    status: false,
-    grp_slno: ''
-  })
-  //Destructuring
-  const { group_name, status, grp_slno } = itemgroup
+
+  const navigate = useNavigate();
+
+  const {
+    data: allItemGroupMaster = [],
+    refetch: FetchAllGroupMaster
+  } = useAllItemGroupMaster();
+
+  const [editMode, setEditMode] = useState(false)
+  const [itemgroup, setItemgrp] = useState({ ...formReset })
+  const { item_group_id, group_name, group_code, display_order, status } = itemgroup
+
+  const id = useSelector(state => state.LoginUserData.empid)
+
   const updateitemgroup = useCallback(
     e => {
       const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -29,103 +41,61 @@ const ItemGroupMast = () => {
     },
     [itemgroup]
   )
-  // Get login user emp_id
-  const id = useSelector(state => {
-    return state.LoginUserData.empid
-  })
-  //data for insert
-  const postdata = useMemo(() => {
-    return {
-      group_name: group_name,
-      status: status === true ? 1 : 0,
-      em_id: id
-    }
-  }, [group_name, status, id])
-  //edit data setting on textfields
+
+  //Form Data
+  const formData = useMemo(() => ({
+    ...(editMode
+      ? { item_group_id, updated_by: id }
+      : { created_by: id }),
+    group_name,
+    group_code,
+    display_order: display_order || 0,
+    is_active: status ? 1 : 0
+  }), [editMode, item_group_id, group_name, group_code, display_order, status, id])
+
+  // Row select for edit
   const rowSelect = useCallback(params => {
-    setValue(1)
-    const data = params.api.getSelectedRows()
-    const { group_name, status, grp_slno } = data[0]
-    const frmdata = {
-      group_name: group_name,
-      status: status === 1 ? true : false,
-      grp_slno: grp_slno
-    }
-    setItemgrp(frmdata)
+    const data = params.api.getSelectedRows()[0]
+    setItemgrp({
+      item_group_id: data.item_group_id,
+      group_name: data.group_name,
+      group_code: data.group_code,
+      display_order: data.display_order,
+      status: data.is_active === 1
+    })
+    setEditMode(true)
   }, [])
-  //data for update
-  const patchdata = useMemo(() => {
-    return {
-      group_name: group_name,
-      status: status === true ? 1 : 0,
-      em_id: id,
-      grp_slno: grp_slno
-    }
-  }, [group_name, status, grp_slno, id])
-  /*** usecallback function for form submitting */
+
+  // Common submit using formData and only API path changes
   const submititemgrp = useCallback(
-    e => {
+    async e => {
       e.preventDefault()
-      const formreset = {
-        group_name: '',
-        status: false,
-        grp_slno: ''
-      }
-      /***    * insert function for use call back     */
-      const Insertitemgroup = async postdata => {
-        const result = await axioslogin.post('/itemgrp/insert', postdata)
-        const { message, success } = result.data
-        if (success === 1) {
+      const apiPath = editMode ? '/itemgrp/itemgrpdtl/update' : '/itemgrp/insertgroupdtl'
+      try {
+        const result = editMode
+          ? await axioslogin.patch(apiPath, formData)
+          : await axioslogin.post(apiPath, formData)
+
+        const { success, message } = result.data
+        if (success === 2 || success === 1) {
           succesNotify(message)
-          setCount(count + 1)
-          setItemgrp(formreset)
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      /***  * update function for use call back     */
-      const updateitemgrp = async patchdata => {
-        const result = await axioslogin.patch('/itemgrp/itemgrp/update', patchdata)
-        const { message, success } = result.data
-        if (success === 2) {
-          succesNotify(message)
-          setCount(count + 1)
-          setValue(0)
-          setItemgrp(formreset)
-        } else if (success === 0) {
-          infoNotify(message)
-        } else {
-          infoNotify(message)
-        }
-      }
-      /*** value=0 insert api call work else update call
-       * value initialy '0' when edit button click value changes to '1'
-       */
-      if (value === 0) {
-        Insertitemgroup(postdata)
-      } else {
-        updateitemgrp(patchdata)
+          setEditMode(false)
+          setItemgrp({ ...formReset })
+          FetchAllGroupMaster() // refresh table
+        } else infoNotify(message)
+      } catch (error) {
+        infoNotify('Something went wrong!')
       }
     },
-    [value, postdata, patchdata, count]
+    [editMode, formData, FetchAllGroupMaster]
   )
-  //close button function
-  const backtoSetting = useCallback(() => {
-    history('/Home/Settings')
-  }, [history])
-  //referesh func
+
+  const backtoSetting = useCallback(() => navigate('/Home/Settings'), [navigate])
+
   const refreshWindow = useCallback(() => {
-    const formreset = {
-      group_name: '',
-      status: false,
-      grp_slno: '',
-      em_id: ''
-    }
-    setItemgrp(formreset)
-    setValue(0)
-  }, [setItemgrp])
+    setItemgrp({ ...formReset })
+    setEditMode(false)
+  }, [])
 
   return (
     <CardMaster title="Item Group Master" submit={submititemgrp} close={backtoSetting} refresh={refreshWindow}>
@@ -143,7 +113,26 @@ const ItemGroupMast = () => {
                   onchange={updateitemgroup}
                 />
               </Grid>
-
+              <Grid item xl={12} lg={12}>
+                <TextFieldCustom
+                  placeholder="Group code"
+                  type="text"
+                  size="sm"
+                  name="group_code"
+                  value={group_code}
+                  onchange={updateitemgroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <TextFieldCustom
+                  placeholder="Display order"
+                  type="number"
+                  size="sm"
+                  name="display_order"
+                  value={display_order}
+                  onchange={updateitemgroup}
+                />
+              </Grid>
               <Grid item lg={2} xl={2}>
                 <CusCheckBox
                   label="Status"
@@ -158,7 +147,7 @@ const ItemGroupMast = () => {
             </Grid>
           </Grid>
           <Grid item lg={8} xl={8}>
-            <ItemGroupTable count={count} rowSelect={rowSelect} />
+            <ItemGroupTable tabledata={allItemGroupMaster} rowSelect={rowSelect} />
           </Grid>
         </Grid>
       </Box>
@@ -166,4 +155,4 @@ const ItemGroupMast = () => {
   )
 }
 
-export default ItemGroupMast
+export default memo(ItemGroupMast);

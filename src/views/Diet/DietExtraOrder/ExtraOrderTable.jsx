@@ -1,63 +1,97 @@
-import React, { Fragment, memo } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Tooltip } from '@mui/material'
-import { editicon } from 'src/color/Color'
-import EditIcon from '@mui/icons-material/Edit'
-const ExtraOrderTable = ({ newfood, setNewdata, setHospital, setCanteen, sumCanteen, sumHosptial, editdatas }) => {
-  const rowSelect = value => {
-    const newarry = newfood.filter(val => {
-      return val.item_slno !== value.item_slno
-    })
-    setNewdata(newarry)
-    setCanteen(sumCanteen - value.rate_cant * value.count)
-    setHospital(sumHosptial - value.rate_hos * value.count)
-  }
+import React, { Fragment, memo } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import {
+  Table,
+  Sheet,
+  IconButton,
+  Tooltip,
+} from '@mui/joy';
+import { editicon } from 'src/color/Color';
+
+const ExtraOrderTable = ({
+  newfood,
+  setNewdata,
+  setHospital,
+  setCanteen,
+  sumCanteen,
+  sumHosptial,
+  editdatas,
+}) => {
+  const rowSelect = (value) => {
+    const newArr = newfood.filter((val) => val.item_slno !== value.item_slno);
+    setNewdata(newArr);
+    setCanteen(sumCanteen - value.rate_cant * value.count);
+    setHospital(sumHosptial - value.rate_hos * value.count);
+  };
 
   return (
     <Fragment>
-      <TableContainer sx={{ maxHeight: 200 }}>
-        <Table size="small" stickyHeader aria-label="sticky table" sx={{ border: '0.5px solid' }}>
-          <TableHead sx={{ border: '1px ' }}>
-            <TableRow>
-              <TableCell align="center">Item Slno</TableCell>
-              <TableCell align="center">Item Name</TableCell>
-              <TableCell align="center">Hospital Rate</TableCell>
-              <TableCell align="center">Count</TableCell>
-              <TableCell align="center">Total</TableCell>
-              <TableCell align="center">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {newfood &&
-              newfood.map((val,) => {
-                return (
-                  <TableRow key={val.item_slno} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell align="center">{val.item_slno}</TableCell>
-                    <TableCell align="center">{val.item_name}</TableCell>
-                    <TableCell align="center">{val.rate_hos}</TableCell>
-                    <TableCell align="center">{val.count}</TableCell>
-                    <TableCell align="center">{val.total_hos}</TableCell>
+      <Sheet
+        variant="outlined"
+        sx={{
+          height: 200,
+          overflow: 'auto',
+          borderRadius: 'sm',
+        }}
+      >
+        <Table
+          stickyHeader
+          size="sm"
+          borderAxis="both"
+          hoverRow
+          sx={{
+            minWidth: 650,
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ textAlign: 'center' }}>Item Slno</th>
+              <th style={{ textAlign: 'center' }}>Item Name</th>
+              <th style={{ textAlign: 'center' }}>Hospital Rate</th>
+              <th style={{ textAlign: 'center' }}>Count</th>
+              <th style={{ textAlign: 'center' }}>Total</th>
+              <th style={{ textAlign: 'center' }}>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {newfood?.map((val) => (
+              <tr key={val.item_slno}>
+                <td align="center">{val.item_slno}</td>
+                <td align="center">{val.item_name}</td>
+                <td align="center">{val.rate_hos}</td>
+                <td align="center">{val.count}</td>
+                <td align="center">{val.total_hos}</td>
 
-                    <TableCell align="center">
-                      <Tooltip title="Edit" arrow>
-                        <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => editdatas(val)}>
-                          <EditIcon size={25} />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Delete" arrow>
-                        <IconButton sx={{ color: editicon, paddingY: 0.5 }} onClick={() => rowSelect(val)}>
-                          <DeleteIcon size={25} />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-          </TableBody>
+                <td align="center">
+                  <Tooltip title="Edit" arrow>
+                    <IconButton
+                      variant="outlined"
+                      size="sm"
+                      sx={{ color: editicon, mx: 0.5 }}
+                      onClick={() => editdatas(val)}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete" arrow>
+                    <IconButton
+                      variant="outlined"
+                      size="sm"
+                      sx={{ color: editicon, mx: 0.5 }}
+                      onClick={() => rowSelect(val)}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
-      </TableContainer>
+      </Sheet>
     </Fragment>
-  )
-}
+  );
+};
 
-export default memo(ExtraOrderTable)
+export default memo(ExtraOrderTable);

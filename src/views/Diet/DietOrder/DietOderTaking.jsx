@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
 import { useNavigate } from 'react-router-dom'
-import { Box, Paper, Typography } from '@mui/material'
 import NursingStationMeliSelect from 'src/views/CommonSelectCode/NursingStationMeliSelect'
 import ExtraRoomMeliSelect from '../DietExtraOrder/ExtraRoomMeliSelect'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -13,6 +12,7 @@ import { infoNotify } from 'src/views/Common/CommonCode'
 import DietOrderItems from './DietOrderItems'
 import CustomPaperTitle from 'src/views/Components/CustomPaperTitle'
 import { Fragment } from 'react'
+import { Box, Typography } from '@mui/joy'
 // import { useEffect } from 'react'
 
 const DietOderTaking = () => {
@@ -33,6 +33,8 @@ const DietOderTaking = () => {
         process_date: selectDate,
         rm_code: room
       }
+      console.log("postdata", postdata);
+
       const gettypeDmenu = async postdata => {
         const result = await axioslogin.post('/dietorder/getproslno/typeslno', postdata)
         const { message, success, data } = result.data
@@ -47,6 +49,9 @@ const DietOderTaking = () => {
     },
     [selectDate, room]
   )
+
+  console.log("dietType", dietType);
+
 
   // useEffect(() => {
   //   const getSearch = async () => {
@@ -142,7 +147,7 @@ const DietOderTaking = () => {
       refresh={refreshWindow}
     >
       <Box sx={{ width: '100%', p: 1 }}>
-        <Paper square elevation={3} sx={{ p: 2 }}>
+        <Box sx={{ p: 2 }}>
           <Box
             sx={{
               width: '100%',
@@ -257,14 +262,14 @@ const DietOderTaking = () => {
               </Box>
             </Box>
           </Box>
-        </Paper>
+        </Box>
 
         {tabledis !== 0 ? (
           <Fragment>
             {dietType &&
               dietType.map(val => {
                 return (
-                  <Paper square elevation={3} sx={{ pt: 2, mt: 1 }} key={val.type_slno}>
+                  <Box sx={{ pt: 2, mt: 1 }} key={val.type_slno}>
                     <Box
                       sx={{
                         width: '100%',
@@ -294,85 +299,12 @@ const DietOderTaking = () => {
                         />
                       </Box>
                     </Box>
-                  </Paper>
+                  </Box>
                 )
               })}
           </Fragment>
         ) : null}
 
-        {/* {
-                    tabledis !== 0 ? <Fragment>
-                        dietType && dietType.map((val)=>{
-                            return <Paper square elevation={3} sx={{ pt: 2, mt: 1 }} >
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            }}>
-                                <CustomPaperTitle heading="" />
-                            </Box>
-                        </Paper> 
-                        })
-                    </Fragment> : null
-
-
-
-
-                } */}
-
-        {/* {
-                    tabledis !== 0 ?
-
-                        <Paper square elevation={3} sx={{ pt: 2, mt: 1 }} >
-                            <Box sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', },
-                            }}>
-                                <TableContainer sx={{ maxHeight: 250, m: 2 }}>
-                                    <Table size="small"
-                                        stickyHeader aria-label="sticky table"
-
-                                        sx={{ border: "0.5px solid" }}>
-                                        <TableHead sx={{ border: "1px solid" }}>
-                                            <TableRow >
-                                                <TableCell align="center">Diet Type</TableCell>
-                                                <TableCell align="center">diet Items</TableCell>
-
-                                            </TableRow>
-                                        </TableHead>
-
-                                        <TableBody>
-                                            {dietType && dietType.map((val) => {
-                                                //   console.log(dietType);
-                                                return <TableRow
-                                                    key={val.type_slno}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell align="center">{val.type_desc}</TableCell>
-
-                                                    <DietOrderItems
-                                                        date={selectDate}
-                                                        dmenu={val.dmenu_slno}
-                                                        type={val.type_slno}
-                                                    />
-
-
-                                                </TableRow>
-                                            })}
-
-                                        </TableBody>
-
-
-
-
-                                    </Table>
-                                </TableContainer>
-
-                            </Box>
-                        </Paper>
-                        : null
-                } */}
       </Box>
     </CardMaster>
   )

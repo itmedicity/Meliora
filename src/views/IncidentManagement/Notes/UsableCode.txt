@@ -282,3 +282,364 @@ DEPARTMENT SECTION AND DEPARTMENTS
  {/* <SectionHeader text="select Sections" color={"Black"} fontSize={14} iconSize={18} />
                                  */}
                                 {/* <DataCollectDepSecSelect SetDeptSec={setIncDep} width={'100%'} /> */}
+
+
+
+
+@Diet
+
+
+// import React, { memo, useEffect, useState } from "react";
+// import { Box, Typography, IconButton, Checkbox, Tooltip } from "@mui/joy";
+// import { AiOutlineDelete } from "react-icons/ai";
+// import {
+//     UseRoomCategoryDetail
+//     // , UseRoomTypeDetail 
+// } from "src/views/Diet/CommonData/UseQuery";
+// import Field from "./Field";
+// import { LuEyeClosed, LuEye } from "react-icons/lu";
+// import { warningNotify } from "src/views/Common/CommonCode";
+
+// const rateLabels = [
+//     "Bystander Rate (?)",
+//     "Patient Rate (?)",
+//     "Staff Rate (?)",
+//     "Guest Rate (?)",
+//     "Other Rate (?)"
+// ];
+
+// const RoomPriceList = ({ editIndex }) => {
+
+//     // const { data: RoomType } = UseRoomTypeDetail();
+
+//     const { data: RoomCategoryDetil = [] } = UseRoomCategoryDetail();
+
+//     const [allRooms, setAllRooms] = useState([]);
+//     const [rooms, setRooms] = useState([]);
+//     const [rates, setRates] = useState({});
+//     const [applyAll, setApplyAll] = useState(false);
+//     const [showRates, setShowRates] = useState(false);
+//     const [searchkeyword, setSearchKeyWord] = useState("");
+
+//     useEffect(() => {
+//         if (RoomCategoryDetil) {
+//             setAllRooms(RoomCategoryDetil);
+//             setRooms(RoomCategoryDetil);
+//         }
+//     }, [RoomCategoryDetil]);
+
+
+//     /**
+//      * 
+//      * 
+//      * Search Funciton to select A Single ROom and set Value for Eas
+//      */
+//     const HanldeSearch = (value) => {
+//         setSearchKeyWord(value);
+//         if (!value) {
+//             setRooms(allRooms);
+//             return;
+//         }
+//         const filtered = allRooms.filter(room =>
+//             room?.fb_rcc_desc
+//                 ?.toLowerCase()
+//                 ?.includes(value.toLowerCase())
+//         );
+
+//         setRooms(filtered);
+//     };
+
+//     /**
+//      * 
+//      * Funciton to Remove Room from The Array
+//      *
+//      * */
+//     const handleRemoveRoom = (roomKey) => {
+//         setAllRooms(prev => prev.filter(r => r?.fb_rcc_desc !== roomKey));
+
+//         setRooms(prev => prev.filter(r => r?.fb_rcc_desc !== roomKey));
+
+//         setRates(prev => {
+//             const updated = { ...prev };
+//             delete updated[roomKey];
+//             return updated;
+//         });
+
+//         if (rooms[0]?.fb_rcc_desc === roomKey) {
+//             setApplyAll(false);
+//         }
+//     };
+
+//     /**
+//      * 
+//      * Handle All Room Rates and their Values
+//      */
+//     const handleRateChange = (roomKey, rateIndex, value) => {
+//         setRates(prev => ({
+//             ...prev,
+//             [roomKey]: {
+//                 ...prev[roomKey],
+//                 [rateIndex]: value
+//             }
+//         }));
+//     };
+
+//     /**
+//      *
+//      * Function to Apply the First Row Value to all the otheer Rooms
+//      * 
+//      * 
+//      * 
+//      */
+//     const applySameToAll = (checked) => {
+//         if (checked) {
+//             if (!rooms.length) return warningNotify("No rooms available");
+
+//             const firstRoomKey = rooms[0].fb_rcc_desc;
+
+//             if (
+//                 !rates[firstRoomKey] ||
+//                 Object.values(rates[firstRoomKey]).every(v => !v)
+//             ) {
+//                 return warningNotify("Please enter rate for first room before applying");
+//             }
+
+//             const updatedRates = {};
+//             rooms?.forEach(room => {
+//                 updatedRates[room.fb_rcc_desc] = { ...rates[firstRoomKey] };
+//             });
+
+//             setApplyAll(true);
+//             setRates(updatedRates);
+//         } else {
+//             setApplyAll(false);
+//             const firstRoomKey = rooms[0]?.fb_rcc_desc;
+//             setRates(firstRoomKey ? { [firstRoomKey]: rates[firstRoomKey] || {} } : {});
+//         }
+//     };
+
+//     /**
+//      * 
+//      * 
+//      * Function to Only Apply value to the Corresponding Columns 
+//      */
+//     const applyColumnToAll = (rateIndex, checked) => {
+//         const firstRoomKey = rooms[0]?.fb_rcc_desc;
+//         const firstValue = rates[firstRoomKey]?.[rateIndex];
+
+//         if (checked) {
+//             if (!firstValue) {
+//                 return warningNotify("Please enter value in first room before applying");
+//             }
+
+//             setRates(prev => {
+//                 const updated = { ...prev };
+//                 rooms?.forEach(room => {
+//                     const key = room?.fb_rcc_desc;
+//                     updated[key] = {
+//                         ...updated[key],
+//                         [rateIndex]: firstValue
+//                     };
+//                 });
+//                 return updated;
+//             });
+//         } else {
+//             setRates(prev => {
+//                 const updated = { ...prev };
+//                 rooms?.forEach(room => {
+//                     const key = room.fb_rcc_desc;
+//                     if (key !== firstRoomKey && updated[key]) {
+//                         delete updated[key][rateIndex];
+//                     }
+//                 });
+//                 return updated;
+//             });
+//         }
+//     };
+
+
+
+//     return (
+//         <Box sx={{ width: "100%" }}>
+//             {/* HEADER */}
+//             <Box sx={{ mb: 1, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+//                 <Checkbox
+//                     label="Apply same price to all rooms"
+//                     checked={applyAll}
+//                     onChange={(e) => applySameToAll(e.target.checked)}
+//                 />
+
+//                 <Box sx={{ display: "flex", gap: 1 }}>
+//                     <input
+//                         type="text"
+//                         placeholder="Search here"
+//                         value={searchkeyword}
+//                         disabled={!showRates}
+//                         onChange={(e) => HanldeSearch(e.target.value)}
+//                         style={{
+//                             padding: "6px",
+//                             borderRadius: 4,
+//                             border: "1px solid #ccc"
+//                         }}
+//                     />
+
+//                     <Tooltip title={showRates ? "Hide room rates" : "Show room rates"}>
+//                         <IconButton
+//                             size="sm"
+//                             variant="soft"
+//                             onClick={() => setShowRates(prev => !prev)}
+//                         >
+//                             {showRates ? <LuEye /> : <LuEyeClosed />}
+//                         </IconButton>
+//                     </Tooltip>
+//                 </Box>
+//             </Box>
+
+//             {/* ROOMS */}
+//             <Box
+//                 sx={{
+//                     maxHeight: showRates ? "auto" : "120px",
+//                     overflow: "hidden",
+//                     opacity: showRates ? 1 : 0.6,
+//                     pointerEvents: showRates ? "auto" : "none"
+//                 }}
+//             >
+//                 {rooms?.map((item, i) => {
+//                     const roomKey = item?.diet_rm_name;
+
+//                     return (
+//                         <Box
+//                             key={roomKey}
+//                             sx={{
+//                                 display: "flex",
+//                                 bgcolor: editIndex === i ? "#e3f2fd" : "#f5f5f5",
+//                                 p: 1,
+//                                 borderRadius: 6,
+//                                 mb: 0.8,
+//                                 position: "relative",
+//                                 alignItems: "center"
+//                             }}
+//                         >
+//                             {/* ROOM NAME */}
+//                             <Box sx={{ width: "20%" }}>
+//                                 <Typography fontSize={12} fontWeight={500}>
+//                                     • {roomKey}
+//                                 </Typography>
+
+//                                 <IconButton
+//                                     size="sm"
+//                                     color="danger"
+//                                     sx={{ position: "absolute", right: 0, top: 0 }}
+//                                     onClick={() => handleRemoveRoom(roomKey)}
+//                                 >
+//                                     <AiOutlineDelete />
+//                                 </IconButton>
+//                             </Box>
+
+//                             {/* RATES */}
+//                             <Box
+//                                 sx={{
+//                                     display: "grid",
+//                                     gridTemplateColumns: "repeat(5, 1fr)",
+//                                     gap: 0.8,
+//                                     width: "80%"
+//                                 }}
+//                             >
+//                                 {rateLabels?.map((label, rateIndex) => (
+//                                     <Field key={rateIndex} label={label}>
+//                                         <Box sx={{ display: "flex", gap: 0.5 }}>
+//                                             {i === 0 && (
+//                                                 <Checkbox
+//                                                     size="sm"
+//                                                     onChange={(e) =>
+//                                                         applyColumnToAll(rateIndex, e.target.checked)
+//                                                     }
+//                                                 />
+//                                             )}
+
+//                                             <input
+//                                                 type="number"
+//                                                 value={rates[roomKey]?.[rateIndex] || ""}
+//                                                 onChange={(e) =>
+//                                                     handleRateChange(roomKey, rateIndex, e.target.value)
+//                                                 }
+//                                                 style={{
+//                                                     width: "100%",
+//                                                     padding: "6px",
+//                                                     borderRadius: 4,
+//                                                     border: "1px solid #ccc"
+//                                                 }}
+//                                             />
+//                                         </Box>
+//                                     </Field>
+//                                 ))}
+//                             </Box>
+//                         </Box>
+//                     );
+//                 })}
+//             </Box>
+//         </Box>
+//     );
+// };
+
+// export default memo(RoomPriceList);
+
+
+
+
+
+Diet 
+
+
+// import React, { useMemo } from 'react'
+// import { AgGridReact } from 'ag-grid-react'
+// import { Box } from '@mui/joy'
+// import '../../Master/DietMasters/DietStyle/DietStyle.css'
+// import 'ag-grid-community/dist/styles/ag-grid.css'
+// import 'ag-grid-community/dist/styles/ag-theme-material.css'
+// import { ProcessedList } from '../CommonData/Common'
+
+// const ProcessCompletedList = () => {
+
+//     const columnDefs = useMemo(() => [
+//         { headerName: 'Sl No', valueGetter: 'node.rowIndex + 1', width: 80 },
+//         { headerName: 'Diet Name', field: 'diet_name', flex: 1 },
+//         { headerName: 'Process Date', field: 'process_date', flex: 1 },
+//         { headerName: 'Type', field: 'type', flex: 1 },
+//         { headerName: 'Patient Count', field: 'patient_count', flex: 1 },
+//         { headerName: 'Status', field: 'status', flex: 1 },
+//     ], [])
+
+//     const defaultColDef = useMemo(() => ({
+//         sortable: true,
+//         resizable: true,
+//         filter: true,
+//         cellStyle: {
+//             fontSize: '13px',
+//             fontWeight: 500,
+//             color: '#2e2e2e',
+//             lineHeight: '20px',
+//             padding:'6px'
+//         },
+//     }), [])
+
+
+//     return (
+//         <Box sx={{ height: 600, width: '100%' }}>
+//             <div
+//                 className="ag-theme-alpine"
+//                 style={{ height: '100%', width: '100%',padding:'6px' }}
+//             >
+//                 <AgGridReact
+//                     rowData={ProcessedList}
+//                     columnDefs={columnDefs}
+//                     defaultColDef={defaultColDef}
+//                     headerHeight={30}
+//                 />
+//             </div>
+//         </Box>
+//     )
+// }
+
+// export default ProcessCompletedList
+
