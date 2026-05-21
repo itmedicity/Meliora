@@ -8,6 +8,11 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const TemplateDetailsTable = ({ groupedData = {} }) => {
 
+    console.log({
+        groupedData
+    });
+
+
     const [expanded, setExpanded] = useState({});
 
     const handleToggle = (day, type) => {
@@ -103,7 +108,7 @@ const TemplateDetailsTable = ({ groupedData = {} }) => {
                     </thead>
 
                     <tbody>
-                        {Object.entries(filteredData)?.map(([day, types]) =>
+                        {/* {Object.entries(filteredData)?.map(([day, types]) =>
                             types
                                 ? Object.entries(types).map(([type, items], index) => {
                                     const isOpen = expanded?.[day]?.[type];
@@ -163,7 +168,6 @@ const TemplateDetailsTable = ({ groupedData = {} }) => {
                                                 </td>
                                             </tr>
 
-                                            {/* Expanded Row */}
                                             {isOpen && (
                                                 <tr>
                                                     <td colSpan={4}>
@@ -175,21 +179,142 @@ const TemplateDetailsTable = ({ groupedData = {} }) => {
                                                         >
                                                             <thead>
                                                                 <tr>
+                                                                    <th>Slno</th>
                                                                     <th>Item</th>
-                                                                    <th>Alias</th>
+                                                                    <th>Group</th>
                                                                     <th>Category</th>
                                                                     <th>Quantity</th>
+                                                                    <th>Food Status</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
-                                                                {items.map((item) => (
+                                                                {items.map((item, index) => (
                                                                     <tr key={item.template_food_id}>
+                                                                        <td>{index + 1}</td>
                                                                         <td>{item.item_name}</td>
-                                                                        <td>{item.alias_name || "-"}</td>
+                                                                        <td>{item.group_name || "-"}</td>
                                                                         <td>{item.category_name}</td>
                                                                         <td>
                                                                             {item.quantity} {item.unit_code}
+                                                                        </td>
+                                                                        <td>{item.order_status ?? "Order Not Yet"}</td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </Table>
+                                                    </td>
+                                                </tr>
+                                            )}
+
+                                        </React.Fragment>
+                                    );
+                                })
+                                : null
+                        )} */}
+                        {Object.entries(filteredData)?.map(([day, types]) =>
+                            types
+                                ? Object.entries(types).map(([type, typeData], index) => {
+
+                                    const isOpen = expanded?.[day]?.[type];
+
+                                    return (
+                                        <React.Fragment key={`${day}-${type}`}>
+
+                                            <tr>
+                                                <td>
+                                                    {index === 0 && (
+                                                        day === today ? (
+                                                            <>
+                                                                <span style={{ color: "#2e7d32", fontWeight: 800 }}>
+                                                                    TODAY
+                                                                </span>
+                                                                {" "}
+                                                                <span style={{ color: "#555", fontWeight: 800 }}>
+                                                                    ({day?.toUpperCase()})
+                                                                </span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <span style={{ color: "#2e7d32", fontWeight: 800 }}>
+                                                                    TOMORROW
+                                                                </span>
+                                                                {" "}
+                                                                <span style={{ color: "#555", fontWeight: 800 }}>
+                                                                    ({day?.toUpperCase()})
+                                                                </span>
+                                                            </>
+                                                        )
+                                                    )}
+                                                </td>
+
+                                                <td>{type}</td>
+
+                                                <td>
+                                                    <Chip
+                                                        size="sm"
+                                                        variant="soft"
+                                                        color={getStatusColor(getTypeStatus(typeData))}
+                                                    >
+                                                        {getTypeStatus(typeData)}
+                                                    </Chip>
+                                                </td>
+
+                                                <td>
+                                                    {isOpen ? (
+                                                        <VisibilityOffIcon
+                                                            onClick={() => handleToggle(day, type)}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                color: "#d32f2f",
+                                                                fontSize: 16
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <RemoveRedEyeIcon
+                                                            onClick={() => handleToggle(day, type)}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                color: "#1976d2",
+                                                                fontSize: 16
+                                                            }}
+                                                        />
+                                                    )}
+                                                </td>
+                                            </tr>
+
+                                            {isOpen && (
+                                                <tr>
+                                                    <td colSpan={4}>
+                                                        <Table
+                                                            size="sm"
+                                                            sx={{
+                                                                background: "#f9f9f9"
+                                                            }}
+                                                        >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Slno</th>
+                                                                    <th>Item</th>
+                                                                    <th>Group</th>
+                                                                    <th>Category</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Food Status</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                {typeData?.items?.map((item, index) => (
+                                                                    <tr key={item.template_food_id}>
+                                                                        <td>{index + 1}</td>
+                                                                        <td>{item.item_name}</td>
+                                                                        <td>{item.group_name || "-"}</td>
+                                                                        <td>{item.category_name}</td>
+                                                                        <td>
+                                                                            {item.quantity} {item.unit_code}
+                                                                        </td>
+                                                                        <td>
+                                                                            {item.order_status ?? "Order Not Yet"}
                                                                         </td>
                                                                     </tr>
                                                                 ))}

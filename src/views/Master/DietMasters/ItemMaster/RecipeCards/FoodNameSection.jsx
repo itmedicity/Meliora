@@ -1,21 +1,58 @@
 import { Box } from '@mui/joy'
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import Field from './Field'
 import FoodSuggestionItem from './FoodSuggestionItem'
 import DietFoodTypeSelect from 'src/views/CommonSelectCode/DietFoodTypeSelect'
 import DietFoodSubTypeSelect from 'src/views/CommonSelectCode/DietFoodSubTypeSelect'
 import { inputStyle } from 'src/views/Diet/CommonData/Common'
-import { UseIemFullDetail } from 'src/views/Diet/CommonData/UseQuery'
+import { useFetchItemFiles, UseIemFullDetail } from 'src/views/Diet/CommonData/UseQuery'
 import SelectItemType from 'src/views/CommonSelectCode/SelectItemType'
 
 const FoodNameSection = ({
     formData,
-    setFormData
+    setFormData,
+    setIngredients,
+    setRates,
+    setImage
 }) => {
 
     const [query, setQuery] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { data: ExistFoodDetail = [] } = UseIemFullDetail();
+
+
+    const { data: ItemFiles = [] } = useFetchItemFiles(formData?.item_id);
+
+    console.log({
+        ItemFiles
+    });
+
+
+    useEffect(() => {
+        if (!Array.isArray(ItemFiles)) {
+            return;
+        }
+        setImage(prev => {
+            const existing = Array.isArray(prev)
+                ? prev
+                : [];
+            /* keep newly added files */
+            const localFiles = existing.filter(
+                item => item?.isNew
+            );
+
+            /* backend files */
+            const backendFiles = ItemFiles.map(item => ({
+                ...item,
+                isNew: false
+            }));
+            return [
+                ...backendFiles,
+                ...localFiles
+            ];
+        });
+
+    }, [ItemFiles, setImage]);
 
     const filteredSuggestions = useMemo(() => {
         if (!query.trim()) return [];
@@ -33,7 +70,6 @@ const FoodNameSection = ({
     }, [query, ExistFoodDetail]);
 
 
-
     const handleFoodChange = useCallback((e) => {
         const value = e.target.value;
         setQuery(value);
@@ -41,15 +77,95 @@ const FoodNameSection = ({
         setShowSuggestions(Boolean(value?.trim()));
     }, [setFormData]);
 
+
+    // const handleSelectFood = useCallback((food) => {
+    //     console.log({
+    //         food
+    //     });
+
+    //     setFormData(prev => ({
+    //         ...prev,
+    //         name: food.item_name,
+    //         type: food.item_type_id,
+    //         description: food.description,
+    //         item_group_id: food.item_group_id,
+    //         item_category_id: food.item_category_id,
+    //         itemcode: food.item_code,
+    //         itemalias: food.item_alias,
+    //         image: [],
+    //         item_type_id: food.item_type_id
+    //     }));
+    //     setQuery(food.item_name);
+    //     setShowSuggestions(false);
+    // }, [setFormData]);
+
     const handleSelectFood = useCallback((food) => {
+
+        console.log({ food });
+
+        const parsedIngredients = food?.ingredients
+            ? JSON.parse(food.ingredients)
+            : [];
+
+        const parsedRates = food?.item_prices
+            ? JSON.parse(food.item_prices)
+            : [];
+
         setFormData(prev => ({
             ...prev,
-            name: food.item_name,
-            type: food.group_name === "VEG" ? "veg" : "nonveg",
+            item_id: food.item_id || "",
+            name: food.item_name || "",
+            type: food.item_type_id || 0,
+            description: food.description || "",
+            item_group_id: food.item_group_id || 0,
+            item_category_id: food.item_category_id || 0,
+            itemcode: food.item_code || "",
+            itemalias: food.item_alias || "",
+            image: [],
+            item_type_id: food.item_type_id || 0
         }));
-        setQuery(food.item_name);
+
+        /* INGREDIENTS ARRAY */
+        setIngredients(
+            parsedIngredients.map((item) => ({
+                recipe_id: item.recipe_id,
+                ingredient_item_id: item.ingredient_item_id,
+                ingredient_name: item.ingredient_name,
+                quantity: Number(item.quantity) || 0,
+                unit_id: item.unit_id,
+                unit_name: item.unit_name
+            }))
+        );
+
+        /* RATES OBJECT */
+        const formattedRates = parsedRates.reduce((acc, rate) => {
+
+            acc[rate.party_type_id] = {
+                price_id: rate.price_id,
+                party_type_id: rate.party_type_id,
+                party_name: rate.party_name,
+                price: Number(rate.price) || 0,
+                gst_rate: Number(rate.gst_rate) || 0,
+                discount: Number(rate.discount) || 0,
+                discount_rate: Number(rate.discount_rate) || 0
+            };
+
+            return acc;
+
+        }, {});
+
+        setRates(formattedRates);
+
+        setQuery(food.item_name || "");
         setShowSuggestions(false);
-    }, [setFormData]);
+
+    }, [
+        setFormData,
+        setIngredients,
+        setRates
+    ]);
+
+
 
 
     return (

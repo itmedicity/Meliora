@@ -94,6 +94,7 @@ const AssignPatientConfirmModal = ({
                 remarks: remark.trim(),
                 orders: patients?.map((pt) => ({
                     canteen_order_id: pt.canteen_order_id,
+                    type_slno: pt.type_slno,
                     delivery_priority:
                         priorityMap[pt.canteen_order_id] || "NORMAL",
                     remarks: remark.trim()

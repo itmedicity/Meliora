@@ -3,6 +3,7 @@ import { KotFilterProvider } from './views/Diet/DietReducer/contextprovider/KotF
 import DietAllergencyMaster from './views/Master/DietMasters/DietAllergencyMaster/DietAllergencyMaster'
 import BillingCategoryMaster from './views/Master/DietMasters/BillingCategoryMaster/BillingCategoryMaster'
 import { CanteenFilterProvider } from './views/Diet/DietReducer/contextprovider/CanteenFilterContext'
+import DietInpatientMainPage from './views/Diet/DietInpatientList/DietInpatientMainPage'
 
 
 
@@ -44,7 +45,7 @@ const DietCategory = React.lazy(() => import('./views/Master/DietMasters/Diet/Di
 const DietType = React.lazy(() => import('./views/Master/DietMasters/DietType/DietTypeMast'))
 const RateList = React.lazy(() => import('./views/Master/DietMasters/RateList/RateListMast'))
 const DietIssue = React.lazy(() => import('./views/Master/DietMasters/DietIssueSchedule/DietIssueScheduleMast'))
-const InpatientList = React.lazy(() => import('./views/NursingStation/InPatientList'))
+// const InpatientList = React.lazy(() => import('./views/NursingStation/InPatientList'))
 const DietProcess = React.lazy(() => import('./views/Diet/DietProcess'))
 const UserCreation = React.lazy(() => import('./views/Master/UserCreation/UserCreation'))
 const UserCreationTable = React.lazy(() => import('./views/Master/UserCreation/UserCreationTable'))
@@ -329,6 +330,7 @@ const ItemCategoryMaster = React.lazy(() => import('./views/Master/DietMasters/I
 const OrderPartyType = React.lazy(() => import('./views/Master/DietMasters/OrderPartyType/OrderPartyType'))
 const DietTemplate = React.lazy(() => import('./views/Master/DietMasters/DietTemplate/DietTemplate'))
 const DirectCanteenOrders = React.lazy(() => import('./views/Diet/DirectCanteenOrder/DirectCanteenOrders'))
+const ViewItemDetail = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/RecipeCards/ViewItemDetail'))
 
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
@@ -644,7 +646,8 @@ const routes = [
   { path: 'DietIssue', name: 'Diet Issue', element: <DietIssue /> },
   { path: 'DietType', name: 'Diet Type', element: <DietType /> },
   { path: 'RateList', name: 'Rate List', element: <RateList /> },
-  { path: 'InpatientList', name: 'In-Patient List', element: <InpatientList /> },
+  // { path: 'InpatientList', name: 'In-Patient List', element: <InpatientList /> },
+  { path: 'InpatientList', name: 'In-Patient List', element: <DietInpatientMainPage /> },
   { path: 'DietProcess', name: 'Diet Process', element: <DietProcess /> },
   { path: 'UserCreation', name: 'User Creation', element: <UserCreation /> },
   { path: 'UserCreationTable', name: 'User Creation Table', element: <UserCreationTable /> },
@@ -1288,6 +1291,11 @@ const routes = [
     path: 'directorder',
     name: 'Direct Orders',
     element: <DirectCanteenOrders />
+  },
+  {
+    path: 'viewitems',
+    name: 'View Items',
+    element: <ViewItemDetail />
   },
 
 

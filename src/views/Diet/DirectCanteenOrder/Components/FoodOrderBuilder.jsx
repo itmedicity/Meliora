@@ -18,7 +18,8 @@ const FoodOrderBuilder = ({
     patient,
     selectedFood,
     personType,
-    mealtype, setMealType
+    mealtype, setMealType,
+    PreviousOrders
 }) => {
 
     const [query, setQuery] = useState("");
@@ -108,6 +109,8 @@ const FoodOrderBuilder = ({
 
     /* ADD ITEM */
 
+  
+
     const handleAddFood = () => {
 
         if (!tempFood.item_name || !tempFood.qty) return;
@@ -130,11 +133,21 @@ const FoodOrderBuilder = ({
 
         setItems(prev => {
 
-            const alreadyExists = prev.some(
-                item => item?.item_id === tempFood?.item_id
+
+            /* CURRENT ITEMS CHECK */
+            const alreadyExistsInCurrent = prev.some(
+                item => Number(item?.item_id) === Number(tempFood?.item_id)
             );
 
-            if (alreadyExists) {
+            /* PREVIOUS ORDER CHECK */
+            const alreadyExistsInPrevious = PreviousOrders?.some(
+                item => Number(item?.item_id) === Number(tempFood?.item_id) &&
+                    Number(item?.type_slno) === Number(mealtype)
+            );
+
+
+
+            if (alreadyExistsInCurrent || alreadyExistsInPrevious) {
                 infoNotify("Item Already Present");
                 return prev;
             }

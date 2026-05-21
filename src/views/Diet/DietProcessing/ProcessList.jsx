@@ -56,18 +56,6 @@ const ProcessList = () => {
     } = useAllPatientDietMaster();
 
 
-
-    // const {
-    //     data: ActivePatient = [],
-    //     isLoading: isLoadingPatient,
-    //     isError: isErrorPatient,
-    //     error: errorPatient
-    // } = useAllActivePatientDietPlan(todate);
-
-
-
-
-
     const {
         data: ActivePatientTypeDetail = [],
         isLoading: isLoadingPatientType,
@@ -76,9 +64,6 @@ const ProcessList = () => {
         refetch: FetchActivePatients
     } = useAllActivePatientTypeDetail(todate);
 
-    console.log({
-        ActivePatientTypeDetail
-    });
 
 
     const {
@@ -100,6 +85,9 @@ const ProcessList = () => {
 
 
     const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient.diet_id === diet.diet_id));
+
+
+
 
     const itemDetail = getDietProductionItems(ActivePatientTypeDetail, selectedDiets);
 
@@ -173,6 +161,11 @@ const ProcessList = () => {
                 status: 'PENDING',
                 created_by: id
             };
+
+            console.log({
+                payload
+            });
+
 
             const result = await axioslogin.post('/dietschedule/schedule/list', payload);
             const { success, message } = result?.data || {};

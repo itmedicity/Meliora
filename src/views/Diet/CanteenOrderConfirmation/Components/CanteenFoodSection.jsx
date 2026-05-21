@@ -130,10 +130,13 @@ const CanteenFoodSection = ({
             return;
         }
 
+
+
         setItems(prev => {
 
             const alreadyExists = prev.some(
-                item => item?.item_id === tempFood?.item_id
+                item => item?.item_id === tempFood?.item_id &&
+                    Number(item?.type_slno) === Number(type_slno)
             );
 
             if (alreadyExists) {

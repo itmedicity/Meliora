@@ -4,7 +4,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import snowLogo from "../../../assets/images/logo.png";
 import { DIET_STATUS, getPatientStatus, MEAL_ITEMS, PATIENT_STATUS, PATIENT_STATUS_TO_CODE } from "./Common";
 import { warningNotify } from "src/views/Common/CommonCode";
-import { format, isValid, parseISO } from 'date-fns';
+import { format, isSameDay, isValid, parseISO } from 'date-fns';
 import JSZip from "jszip";
 
 
@@ -66,7 +66,7 @@ export const PrintFoodPreparationPdf = async (batchList = []) => {
         // ------------------------------------------
         content.push({
             table: {
-                widths: ['25%', '25%',  '50%'],
+                widths: ['25%', '25%', '50%'],
                 body: [
                     [
                         {
@@ -571,22 +571,108 @@ export const organizeBatchData = (batchFoodDetail = []) => {
     return Object.values(grouped);
 };
 
+export const formatPatientDietData = (data = []) => {
+
+    return Object.values(
+        data.reduce((acc, item) => {
+
+            // UNIQUE KEY
+            const key = item.ip_no;
+
+            // CREATE PATIENT ONLY ONCE
+            if (!acc[key]) {
+                acc[key] = {
+                    dietpt_slno: item.dietpt_slno,
+                    ip_no: item.ip_no,
+                    pt_no: item.pt_no,
+                    ptc_ptname: item.ptc_ptname,
+                    ptc_sex: item.ptc_sex,
+                    ipd_date: item.ipd_date,
+                    doc_name: item.doc_name,
+                    fb_bdc_no: item.fb_bdc_no,
+                    fb_bd_code: item.bd_code,
+                    fb_rmc_desc: item.fb_rmc_desc,
+                    fb_rtc_desc: item.fb_rtc_desc,
+                    fb_ns_name: item.fb_ns_name,
+                    do_code: item.do_code,
+
+                    // STORE ALL DIETS HERE
+                    diet_history: []
+                };
+            }
+
+            // ADD DIET ONLY IF PLAN EXISTS
+            if (item.plan_id) {
+                acc[key].diet_history.push({
+                    plan_id: item.plan_id,
+                    diet_status: item.diet_status,
+                    diet_id: item.diet_id,
+                    diet_name: item.diet_name,
+                    dietitian_id: item.dietitian_id,
+                    Dietecian_name: item.Dietecian_name,
+                    template_id: item.template_id,
+                    template_name: item.template_name,
+                    is_consultation: item.is_consultation,
+                    calories_per_day: item.calories_per_day,
+                    protein_per_day: item.protein_per_day,
+                    description: item.description,
+                    effective_from: item.effective_from,
+                    effective_to: item.effective_to
+                });
+            }
+
+            return acc;
+
+        }, {})
+    );
+};
+
+
+
+
+// export const transformRates = (ratesObj) => {
+//     if (!ratesObj || typeof ratesObj !== "object") return [];
+//     return Object.entries(ratesObj)?.map(([partyId, rate]) => ({
+//         party_type_id: Number(partyId),
+//         price: Number(rate?.price ?? 0),
+//         gst_rate: Number(rate?.gst_rate ?? 0),
+//         discount: Number(rate?.discount ?? 0),
+//         discount_rate: Number(rate?.discount_rate ?? 0)
+//     }));
+// };
 
 export const transformRates = (ratesObj) => {
-    if (!ratesObj || typeof ratesObj !== "object") return [];
-    return Object.entries(ratesObj)?.map(([partyId, rate]) => ({
+
+    if (!ratesObj || typeof ratesObj !== "object") {
+        return [];
+    }
+
+    return Object.entries(ratesObj).map(([partyId, rate]) => ({
+
+        price_id: rate?.price_id || null,
+
         party_type_id: Number(partyId),
-        price: Number(rate?.price || 0),
-        gst_rate: Number(rate?.gst_rate || 0),
-        discount: Number(rate?.discount || 0),
-        discount_rate: Number(rate?.discount_rate || 0)
+
+        price: Number(rate?.price ?? 0),
+
+        gst_rate: Number(rate?.gst_rate ?? 0),
+
+        discount: Number(rate?.discount ?? 0),
+
+        discount_rate: Number(rate?.discount_rate ?? 0)
+
     }));
 };
 
 
 
-export const groupByDayAndType = (data = []) => {
-    // Mapping numeric week_day values to actual day names
+
+export const groupByDayAndType = (
+    templateData = [],
+    orderItems = [],
+    scheduleDetails = []
+) => {
+
     const dayMap = {
         1: "Monday",
         2: "Tuesday",
@@ -597,24 +683,88 @@ export const groupByDayAndType = (data = []) => {
         7: "Sunday"
     };
 
-    // Use reduce to group data
-    return data?.reduce((acc, item) => {
-        // Convert numeric day to readable day name
-        const dayKey = dayMap[item.week_day] || "Unknown";
-        // Get meal type (e.g., BREAKFAST, LUNCH)
-        const type = item.type_desc;
-        // Initialize day object if not already present
+    // Current weekday (1-7)
+    const todayWeekDay = format(new Date(), "i");
+
+    return templateData?.reduce((acc, item) => {
+
+        const dayKey = dayMap[item?.week_day] || "Unknown";
+        const type = item?.type_desc;
+
+        // create day object
         if (!acc[dayKey]) {
             acc[dayKey] = {};
         }
-        // Initialize type array inside the day if not already present
+
+        // create type object only once
         if (!acc[dayKey][type]) {
-            acc[dayKey][type] = [];
+
+            // Match today's schedule detail only
+            const matchedSchedule = scheduleDetails.find((sch) => {
+                const sameType =
+                    sch?.type_desc === item?.type_desc;
+                const sameDate =
+                    sch?.process_date &&
+                    isSameDay(
+                        new Date(sch.process_date),
+                        new Date()
+                    );
+                const sameWeekDay =
+                    String(item?.week_day) === String(todayWeekDay);
+
+                return (
+                    sameType &&
+                    sameDate &&
+                    sameWeekDay
+                );
+            });
+
+            acc[dayKey][type] = {
+                type_status: matchedSchedule?.schedule_status || null,
+                patient_diet_id: matchedSchedule?.patient_diet_id || null,
+                process_date: matchedSchedule?.process_date || null,
+                items: []
+            };
         }
-        // Push current item into the correct day and type group
-        acc[dayKey][type].push(item);
-        // Return accumulator for next iteration
+
+        // Existing food order matching logic
+        const matchedOrder = orderItems.find((ord) => {
+
+            const sameItem =
+                ord?.item_name?.trim()?.toLowerCase() ===
+                item?.item_name?.trim()?.toLowerCase();
+
+            const sameType =
+                ord?.type_desc === item?.type_desc;
+
+            const sameWeekDay =
+                String(item?.week_day) === String(todayWeekDay);
+
+            const sameDate =
+                ord?.order_date &&
+                isSameDay(
+                    new Date(ord.order_date),
+                    new Date()
+                );
+
+            return (
+                sameItem &&
+                sameType &&
+                sameWeekDay &&
+                sameDate
+            );
+        });
+
+        // push item
+        acc[dayKey][type].items.push({
+            ...item,
+            order_status: matchedOrder?.order_status || null,
+            isOrdered: !!matchedOrder,
+            order_id: matchedOrder?.order_id || null
+        });
+
         return acc;
+
     }, {});
 };
 
@@ -756,14 +906,15 @@ export const groupByPlanId = (data = []) => {
 };
 
 
-export const getTypeStatus = (items = []) => {
-    const statuses = items.map(i => i.status || "Pending");
+export const getTypeStatus = (typeData = {}) => {
 
-    if (statuses.includes("CANCELLED")) return "Cancelled";
-    if (statuses.every(s => s === "SERVED")) return "Served";
-    return "Pending";
+    const status = typeData?.type_status;
+
+    if (status === "CANCELLED") return "CANCELLED";
+    if (status === "SERVED") return "SERVED";
+
+    return "PENDING";
 };
-
 
 // used for the safe parsing detail
 export const getSafeFormattedDate = (
@@ -1255,6 +1406,46 @@ export const getAllActivePatientDietDetail = async (date) => {
         return [];
     }
 };
+
+export const getAllDietFoodDetail = async (plan_id) => {
+    if (!plan_id) return warningNotify("Plan Id is Missing");
+    try {
+        const res = await axioslogin.post('/patientdietplan/gettemplatefoodstatus', {
+            plan_id: plan_id
+        });
+        const { success, data } = res.data;
+        if (success === 1) {
+            return [];
+        }
+        if (success === 2) {
+            return data || [];
+        }
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
+export const getPatienPlanFoodDetail = async (plan_id) => {
+    if (!plan_id) return warningNotify("Patient Id Missing");
+    try {
+        const res = await axioslogin.post('/dietschedule/schedule/processfood', {
+            plan_id: plan_id
+        });
+        const { success, data } = res.data;
+
+        if (success === 2) return data || [];
+
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
 
 export const getPatientMealTypeDetail = async (date) => {
     if (!date) return warningNotify("Date is Missign Missing");
@@ -2131,13 +2322,11 @@ export const getAllCanteenOrders = async (status) => {
         const res = await axioslogin.post('/canteenorder/list', {
             status
         });
-
         // check response exists
         if (!res || !res.data) {
             console.error("Invalid API response");
             return [];
         }
-
         const { success, data, message } = res.data;
         //  backend error
         if (success === 0) {
@@ -2157,6 +2346,71 @@ export const getAllCanteenOrders = async (status) => {
 
     } catch (error) {
         console.error("Unexpected Error:", error.message);
+        return [];
+    }
+};
+
+
+
+
+
+export const getAllItemFileDetails = async () => {
+
+    try {
+
+        const res = await axioslogin.get(
+            `/fooditemmast/allfiles`,
+            { responseType: 'blob' }
+        );
+
+        const contentType = res.headers['content-type'] || '';
+
+        if (contentType.includes('application/json')) {
+            return [];
+        }
+
+        const zip = await JSZip.loadAsync(res.data);
+
+        const files = Object.entries(zip.files).filter(
+            ([filename, file]) =>
+                !file.dir && /\.(jpe?g|png|gif|pdf)$/i.test(filename)
+        );
+
+        const filePromises = files.map(async ([filename, fileObj]) => {
+
+            const blobData = await fileObj.async('blob');
+
+            let mimeType = 'application/octet-stream';
+
+            if (filename.endsWith('.pdf')) {
+                mimeType = 'application/pdf';
+            } else if (filename.endsWith('.png')) {
+                mimeType = 'image/png';
+            } else if (/\.(jpg|jpeg)$/i.test(filename)) {
+                mimeType = 'image/jpeg';
+            }
+
+            const blob = new Blob([blobData], { type: mimeType });
+
+            const url = URL.createObjectURL(blob);
+
+
+            const [item_id, file_name] = filename.split("/");
+
+            return {
+                item_id,        //  folder name
+                name: file_name,
+                url,
+                blob,
+                fullPath: filename // includes folder structure
+            };
+        });
+
+        return await Promise.all(filePromises);
+
+    } catch (error) {
+        console.error("Error fetching all item files:", error);
+        warningNotify("Error fetching all files");
         return [];
     }
 };

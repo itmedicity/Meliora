@@ -33,7 +33,7 @@ const DietMainPreperation = ({
     const [isScrolled, setIsScrolled] = useState(false); //For animatin Purpsose . Not Important 
     const [selectedPatient, setSelectedPatient] = useState(null); // Hanlde the Selected patient Detail
     const [modalType, setModalType] = useState(null); // Commal State for View and Cancel Modal Hanlding
-
+    
     /**
      * 
      * Handling the Gloabal Disptch State Access

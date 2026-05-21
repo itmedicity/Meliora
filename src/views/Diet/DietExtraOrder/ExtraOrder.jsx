@@ -4,7 +4,7 @@ import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { editicon } from 'src/color/Color'
 import { MdOutlineAddCircleOutline } from 'react-icons/md'
 import moment from 'moment'
-import ExtraOrderTable from './ExtraOrderTable'
+// import ExtraOrderTable from './ExtraOrderTable'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import CardMasterView from 'src/views/Components/CardMasterView'
@@ -350,13 +350,13 @@ const ExtraOrder = () => {
   const [editCount, setEditCount] = useState(0)
   const [editArry, setEditArry] = useState([])
   // in item list edit icon taken button functon
-  const editdatas = useCallback(value => {
-    const { item_slno, count } = value
-    setEditArry(value)
-    setItem(item_slno)
-    setCount(count)
-    setEditCount(count)
-  }, [])
+  // const editdatas = useCallback(value => {
+  //   const { item_slno, count } = value
+  //   setEditArry(value)
+  //   setItem(item_slno)
+  //   setCount(count)
+  //   setEditCount(count)
+  // }, [])
 
   /** when count change array update function */
 

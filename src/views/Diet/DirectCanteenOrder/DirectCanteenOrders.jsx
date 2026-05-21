@@ -2,16 +2,12 @@ import React, { useState, useMemo, useEffect, memo, useRef } from "react";
 import { Box, Divider } from "@mui/joy";
 import DietTextComponent from "../DietComponent/DietTextComponent";
 import DietButton from "../DietComponent/DietButton";
-// import ChooseNursingBed from "src/views/CommonSelectCode/ChooseNursingBed";
-// import ChooseNursingStation from "src/views/CommonSelectCode/ChooseNursingStation";
-// import NsPatientListPanel from "./Components/NsPatientListPanel";
+
 import CanteenOrderItemList from "../CanteenOrderConfirmation/Components/CanteenOrderItemList";
 import KotItemHeader from "../KotItemList/KotItemHeader";
 import '../../Master/DietMasters/DietStyle/DietStyle.css'
 import {
-    // useAllNursingStationPatient,
     useAllOrderPartyType,
-    // useCustomerExtraOrderDetail,
     useCustomerPreviousCanteenOrder,
     useGetPatientDetail
 } from "../CommonData/UseQuery";
@@ -32,11 +28,6 @@ import { errorNotify, succesNotify, warningNotify } from "src/views/Common/Commo
 const DirectCanteenOrders = () => {
 
     const [personType, setPersonType] = useState(null);
-
-    // const [selectedStation, setSelectedStation] = useState([]);
-
-    // const [patient, setSelectedPatient] = useState({});
-    // const [isPanelOpen, setIsPanelOpen] = useState(false);
 
     const [selectedFood, setSelectedFood] = useState({})
     const [mealtype, setMealType] = useState(0)
@@ -332,30 +323,16 @@ const DirectCanteenOrders = () => {
                         <DietTextComponent value="Room No" size={12} color="#777" />
                         <BedSelect setBed={setBed} />
                     </Box>
-
                     <Box
                         sx={{ p: 0.5, borderRadius: 2 }}>
                         <PatientInfoCard patient={patient?.[0]} />
                     </Box>
-
 
                     <Box sx={{ mt: 1 }}>
                         <RecentOrdersCard data={groupedOrders} />
                     </Box>
 
                 </Box>
-
-
-                {/* <NsPatientListPanel
-                    data={ActiveNsPatient}
-                    selectedBed={bed}
-                    onSelectPatient={(pt) => {
-                        setBed(pt.fb_bd_code);
-                        setSelectedPatient(pt)
-                    }}
-                    isPanelOpen={isPanelOpen}
-                    setIsPanelOpen={setIsPanelOpen}
-                /> */}
 
                 <Box
                     sx={{
@@ -377,7 +354,9 @@ const DirectCanteenOrders = () => {
                             patient={patient?.[0]}
                             selectedFood={selectedFood}
                             personType={personType}
-                            mealtype={mealtype} setMealType={setMealType}
+                            mealtype={mealtype}
+                            PreviousOrders={PreviousOrders}
+                             setMealType={setMealType}
                         />
                         <FoodDetailShowCard selectedFood={selectedFood} />
                     </Box>

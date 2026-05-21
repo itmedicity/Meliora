@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import KotItemHeader from '../KotItemList/KotItemHeader'
 import CustomeTab from './CustomeTab'
@@ -9,7 +9,8 @@ import {
     useGetAllAssignedOrderDetail,
     useFetchAllCanteenOrderStatus
 } from '../CommonData/UseQuery';
-
+import { socket } from 'src/ws/socket'
+import { succesNotify } from 'src/views/Common/CommonCode'
 
 
 
@@ -19,39 +20,66 @@ const KotPreparationDelivery = () => {
     const [selectedStations, setSelectedStations] = useState([]);
     const [activeTab, setActiveTab] = useState('1');
     const [activeStatus, setActiveStatus] = useState(null);
-
     const { state } = useKotFilter();
 
     const {
-        data: CanteenOrderDetails = []
+        data: CanteenOrderDetails = [],
+        refetch: FetchAllCanteenOrderDetail
     } = useFetchAllCanteenOrderStatus();
 
 
     const {
-        data: AssingedOrders = []
+        data: AssingedOrders = [],
+        refetch: FetchAllAssignOrderDetail
     } = useGetAllAssignedOrderDetail();
 
 
-    
 
+    useEffect(() => {
+
+        console.log("socket listener mounted");
+        const handleDeliveryUpdate = (data) => {
+            console.log("SOCKET RECEIVED", data);
+            succesNotify(
+                `Your Orderd ${data?.meal} ${data?.item_name} is ${data?.delivery_status} !`
+            );
+
+            FetchAllAssignOrderDetail();
+            FetchAllCanteenOrderDetail();
+        };
+
+        socket.on(
+            "dietDeliveryStatusUpdated",
+            handleDeliveryUpdate
+        );
+
+        return () => {
+
+            socket.off(
+                "dietDeliveryStatusUpdated",
+                handleDeliveryUpdate
+            );
+        };
+
+    }, []);
     const PendingOrder = CanteenOrderDetails?.filter(
         item =>
             !(AssingedOrders ?? []).some(
                 assigned =>
-                    assigned.canteen_order_id === item.canteen_order_id
+                    assigned.canteen_order_id === item.canteen_order_id && assigned?.type_slno === item?.type_slno
             )
     );
 
     const DeliveryOrders =
         CanteenOrderDetails?.filter(item =>
             AssingedOrders?.some(
-                assigned => assigned.canteen_order_id === item.canteen_order_id
+                assigned => assigned.canteen_order_id === item.canteen_order_id && assigned?.type_slno === item?.type_slno
             )
         );
 
     const FinalDeliveryOrderDetail = DeliveryOrders?.map(item => {
         const assigned = AssingedOrders?.find(
-            assigned => assigned.canteen_order_id === item.canteen_order_id
+            assigned => assigned.canteen_order_id === item.canteen_order_id && assigned?.type_slno === item?.type_slno
         );
 
         return {
@@ -85,9 +113,7 @@ const KotPreparationDelivery = () => {
     } = state;
 
 
-
-
-
+ 
     /* BASE FILTER */
     const filteredPatients = useMemo(() => {
         /*

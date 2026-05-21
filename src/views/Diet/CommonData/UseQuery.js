@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import {
     ActivebedDetail,
     DietFoodFetching,
@@ -10,6 +9,7 @@ import {
     getAllCancelledFoodDetail,
     getAllCanteenOrders,
     getAllCanteenOrderStatus,
+    getAllDietFoodDetail,
     getAllDietician,
     getAllDietPriceMaster,
     GetAllDietRoomCategoryDetail,
@@ -21,6 +21,7 @@ import {
     getAllItemAlias,
     getAllItemCatgoryMaster,
     getAllItemCatgoryMasterById,
+    getAllItemFileDetails,
     getAllItemGroupMaster,
     getAllItemMasterDetail,
     getAllItemType,
@@ -48,160 +49,182 @@ import {
     getDietName,
     getFullDetailofItem,
     getItemFileDetails,
+    getPatienPlanFoodDetail,
     getPatientMealTypeDetail,
     getPatientTemplateFoodDetail,
     getProductionMaping
 } from "./CommonFun";
+import { useSafeQuery } from "./Helper";
 
 
 export const UseFoodDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getFood'],
         queryFn: () => DietFoodFetching(),
         staleTime: Infinity,
+        defaultValue: [],
+
     });
 };
 
 export const UseIemFullDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['foodItem'],
         queryFn: () => getAllItemMasterDetail(),
-        staleTime: Infinity,
+        staleTime: 0,
+        defaultValue: [],
+
     });
 };
 
 
 export const UseFoodTypeDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['itemtype'],
         queryFn: () => DietItemType(),
         staleTime: Infinity,
+        defaultValue: [],
+
     });
 };
 
 
 
 export const UseRoomTypeDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['dietroomtype'],
         queryFn: () => GetAllRoomTypeDetail(),
         staleTime: Infinity,
+        defaultValue: [],
+
     });
 };
 
 
 
 export const UseRoomCategoryDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['dietroomcat'],
         queryFn: () => GetAllDietRoomCategoryDetail(),
         staleTime: Infinity,
+        defaultValue: [],
     });
 };
 
 
 export const useDietTimes = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['diettime'],
         queryFn: () => getAllDietTime(),
         staleTime: Infinity,
+        defaultValue: [],
     });
 };
 
 export const useDietNames = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['dietname'],
         queryFn: () => getDietName(),
         staleTime: Infinity,
+        defaultValue: [],
     });
 };
 
 
 export const useDietDeliveryTime = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['dietdeltime'],
         queryFn: () => getDietDeliveryTime(),
         staleTime: Infinity,
+        defaultValue: [],
     });
 };
 
 export const useNursingStationMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getallnsmaster'],
         queryFn: getallNurseStationMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useNursingStationBedDetail = (code) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getallnsbedmast', code],
         queryFn: () => getallNurseStationBedDetail(code),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!code
     });
 };
 
 
 export const UseAllActiveBed = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getallnsbedmast'],
         queryFn: ActivebedDetail,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useAllEmployeeFetch = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['allemp'],
         queryFn: getAllEmployyeName,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useAllItemGroupMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['allitemgroup'],
         queryFn: getAllItemGroupMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useAllItemCategoryMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['fetchitemcatdtl'],
         queryFn: getAllItemCatgoryMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useAllItemCategoryById = (id) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['fetchitemcatdtlbyid', id],
         queryFn: () => getAllItemCatgoryMasterById(id),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!id
     });
 };
 
 export const useAllOrderPartyType = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['orderparty'],
         queryFn: getAllOrderPartyType,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useKitchenOrderList = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['kotlist'],
         queryFn: getAllPendingKotList,
         // IMPORTANT
         staleTime: 0,
-
+        defaultValue: [],
         refetchOnMount: true,
         refetchOnWindowFocus: true,
         refetchOnReconnect: true,
@@ -210,18 +233,20 @@ export const useKitchenOrderList = () => {
 
 
 export const useAllDietSpeciality = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['dietspeciality'],
         queryFn: getAllDietSpeciality,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useAllUnitMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['unimaster'],
         queryFn: getAllUnitMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
@@ -229,53 +254,60 @@ export const useAllUnitMaster = () => {
 
 
 export const useAllDietTemplate = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['diettemplate'],
         queryFn: getAllDietTemplate,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useAllPatientDietMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['ptdiet'],
         queryFn: getAllPateintDietMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
+
     });
 };
 
 export const useAllItemType = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['allitem'],
         queryFn: getAllItemType,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 export const useDietPrice = (dietid) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['usedietprice', dietid],
         queryFn: () => getAllDietPriceMaster(dietid),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!dietid
     });
 };
 
 
 export const useAllDietTemplateFood = (templateid) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['templatefood', templateid],
         queryFn: () => getAllDietTemplateFood(templateid),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!templateid
     });
 };
 
 export const useAllItemAlias = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['itemalias'],
         queryFn: getAllItemAlias,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
 
     });
 };
@@ -283,39 +315,55 @@ export const useAllItemAlias = () => {
 
 
 export const useAllPatientDietPlan = (nscode) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['patientdietplan', nscode],
         queryFn: () => getAllPatientDietPlan(nscode),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!nscode
     });
 };
 
 //it will be not using may be
 export const useAllActivePatientDietPlan = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['activediet', date],
         queryFn: () => getAllActivePatientDietDetail(date),
         staleTime: Infinity,
-        enabled: !!date
+        defaultValue: [],
+        enabled: !!date,
+
     });
 };
 
+export const useAllFetchTemplateFoodDetail = (planId) => {
+    return useSafeQuery({
+        queryKey: ['fetchTemplatefooddetail', planId],
+        queryFn: () => getAllDietFoodDetail(planId),
+        staleTime: 0,
+        enabled: !!planId,
+        defaultValue: []
+    });
+};
+
+
 export const useAllActivePatientTypeDetail = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['ptmealtype', date],
         queryFn: () => getPatientMealTypeDetail(date),
-        staleTime: Infinity,
-        enabled: !!date
+        staleTime: 0,
+        enabled: !!date,
+        defaultValue: []
     });
 };
 
 export const useFetchAllScheduledDiet = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['scheduleddiet', date],
         queryFn: () => getAllPatientDietScheduled(date),
         staleTime: 0,
-        enabled: !!date
+        enabled: !!date,
+        defaultValue: []
     });
 };
 
@@ -323,129 +371,142 @@ export const useFetchAllScheduledDiet = (date) => {
 
 
 export const useAllPatientTemplateFoodDetail = (plan_id, type_id, batch_id) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['singlepatientfood', plan_id, type_id, batch_id],
         queryFn: () => getPatientTemplateFoodDetail(plan_id, type_id, batch_id),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!plan_id && !!type_id && !!batch_id
     });
 };
 
 
 export const useAllPatientCancelledFOod = (plan_id, type_id, batch_id) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['patientfoodcancel', plan_id, type_id, batch_id],
         queryFn: () => getAllCancelledFoodDetail(plan_id, type_id, batch_id),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!plan_id && !!type_id && !!batch_id
     });
 };
 
 
 export const useGetDietecian = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getdietican'],
         queryFn: getAllDietician,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
 
     });
 };
 
 
 export const useItemFullDetials = (enabled) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['itemfulldetail'],
         queryFn: getFullDetailofItem,
         enabled, // only fetch when needed
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useAllDietProcessList = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['processlistdtl'],
         queryFn: () => getAllProcessListDetail(date),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!date
     });
 };
 
 
 export const useAllProductionBatchDetail = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['batch', date],
         queryFn: () => getAllProductionBatchDetail(date),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!date
     });
 };
 
 
 // export const useAllPatientProcessList = (date) => {
-//     return useQuery({
+//     return useSafeQuery({
 //         queryKey: ['batch', date],
 //         queryFn: () => getAllPatientProcessList(date),
 //         staleTime: Infinity,
+// defaultValue: [],
 //         enabled: !!date
 //     });
 // };
 
 
 export const useAllBatchProductionItemDetail = (date) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['batchitems', date],
         queryFn: () => getAllBatchProductionItemDetail(date),
         staleTime: 0,
-        enabled: !!date
+        enabled: !!date,
+        defaultValue: []
     });
 };
 
 
 export const useAllAllergenMaster = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getallergence'],
         queryFn: getAllAllegrenceMaster,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useAllBillingCategory = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['billingcategory'],
         queryFn: getAllBillingCategory,
-        staleTime: Infinity
+        staleTime: Infinity,
+        defaultValue: []
     });
 };
 
 
 export const useAllActiveNsPatient = (nscode) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['nsactivepatient', nscode],
         queryFn: () => getAllNsActivePatients(nscode),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!nscode
     });
 };
 
 // new
 export const useAllNursingStationPatient = (nscode) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['allnsactive', nscode],
         queryFn: () => getAllNursingStationPatients(nscode),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!nscode
     });
 };
 
 
 export const useFetchAllCanteenOrders = (status) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['canteenorders', status],
         queryFn: () => getAllCanteenOrders(status),
         enabled: !!status,
-        keepPreviousData: true
+        keepPreviousData: true,
+        defaultValue: []
     });
 };
 
@@ -453,18 +514,20 @@ export const useFetchAllCanteenOrders = (status) => {
 
 
 export const useBatchFoodDetail = (selectedRows = []) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['batchdetail', selectedRows],
         queryFn: () => getBatchItemDetail(selectedRows),
         enabled: selectedRows.length > 0,
+        defaultValue: []
     });
 };
 
 export const useFetchProductionMap = (isCheckMode) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['ProductionMap'],
         queryFn: getProductionMaping,
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!isCheckMode
     });
 };
@@ -472,57 +535,63 @@ export const useFetchProductionMap = (isCheckMode) => {
 
 
 export const useFetchAllCanteenOrderStatus = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['canteenorderstatus'],
         queryFn: getAllCanteenOrderStatus,
-        staleTime: Infinity
+        staleTime: 0,
+        defaultValue: []
     });
 };
 
 
 
 export const useOrderItemDetail = (memoOrder) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['canteenorders', memoOrder],
         queryFn: () => getAllOrderItemDetails(memoOrder),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!memoOrder
     });
 };
 
 export const usePatientExtraOrders = (ptId, Status) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['ptextraorder', ptId, Status],
         queryFn: () => getAllPatientExtraOrdres(ptId, Status),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!ptId && !!Status
     });
 };
 
 export const useGetPatientDetail = (bed_code) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['getactivePatient', bed_code],
         queryFn: () => getCurrentActivePatient(bed_code),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!bed_code
     });
 };
 
 export const useCustomerPreviousCanteenOrder = (admission_id, personType) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['customerorder', admission_id, personType],
         queryFn: () => getCustomerPreviousOrder(admission_id, personType),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!admission_id && !!personType
     });
 };
 
 
 export const useCustomerExtraOrderDetail = (patient_id, isPatient) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['customerextraorder', patient_id],
         queryFn: () => getCustomerExtraOrders(patient_id),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: isPatient && !!patient_id
     });
 };
@@ -530,26 +599,40 @@ export const useCustomerExtraOrderDetail = (patient_id, isPatient) => {
 
 
 export const useFetchItemFiles = (item_id) => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['itemfiles', item_id],
         queryFn: () => getItemFileDetails(item_id),
         staleTime: Infinity,
+        defaultValue: [],
         enabled: !!item_id
     });
 };
 
-// export const getAllDietItems = () => {
-//     return useQuery({
-//         queryKey: ['diettime'],
-//         queryFn: () => getAllDietTime(),
-//         staleTime: Infinity,
-//     });
-// };
 
 export const useGetAllAssignedOrderDetail = () => {
-    return useQuery({
+    return useSafeQuery({
         queryKey: ['assignedorder'],
         queryFn: getCurrentAssignedFoodDetail,
-        staleTime: Infinity,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+export const usePatientPlanFoodDetails = (plan_id) => {
+    return useSafeQuery({
+        queryKey: ['patientOrder', plan_id],
+        queryFn: () => getPatienPlanFoodDetail(plan_id),
+        staleTime: 0,
+        enabled: !!plan_id,
+        defaultValue: []
+    });
+};
+
+export const useFetchAllItemFileDetail = () => {
+    return useSafeQuery({
+        queryKey: ['fulitemfiles',],
+        queryFn: getAllItemFileDetails,
+        staleTime: 0,
+        defaultValue: []
     });
 };

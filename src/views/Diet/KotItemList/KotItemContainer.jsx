@@ -163,7 +163,6 @@ const KotItemContainer = () => {
     }, [pdfData]);
 
     return (
-
         <Box
             sx={{
                 width: '100%',

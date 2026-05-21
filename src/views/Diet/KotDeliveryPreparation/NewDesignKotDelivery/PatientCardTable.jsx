@@ -112,6 +112,7 @@ const PatientCardTable = ({
                     ['Pt No', 130],
                     ['Meal', 120],
                     ['Ip No', 160],
+                    ['Name', 160],
                     ['NS', 160],
                     ['Room', 100],
                     ['Kitchen Status', 120],
@@ -270,6 +271,12 @@ const PatientCardTable = ({
                             <Cell width={160}>
                                 <DietTextComponent
                                     value={row.fb_ip_no}
+                                    size={12}
+                                />
+                            </Cell>
+                             <Cell width={160}>
+                                <DietTextComponent
+                                    value={row.fb_ptc_name}
                                     size={12}
                                 />
                             </Cell>

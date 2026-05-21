@@ -4,6 +4,8 @@ import TitleCard from './TitleCard';
 import FoodForm from './FoodForm';
 import FoodDetails from './FoodDetails';
 import ImageCarouselPreview from './ImageCarouselPreview';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from 'src/NotFound/ErrorFallback';
 
 
 const NewItemAdd = () => {
@@ -20,45 +22,56 @@ const NewItemAdd = () => {
         item_type_id: null
     });
 
+
+
     return (
-        <Box sx={{
-            width: '100%',
-            minHeight: 650,
-            borderRadius: 5,
-            border: '1px solid #9822c365',
-            position: 'relative',
-            p: 1
-        }}>
-            <TitleCard />
-            <Divider sx={{ height: 2, bgcolor: 'var(--royal-purple-400)' }} />
-            <Box className="body" sx={{ display: 'flex', height: '100%', py: 1, gap: 1 }}>
-                <Box sx={{ width: '80%' }}>
-                    <FoodForm
-                        setImage={setImage}
-                        formData={formData}
-                        setFormData={setFormData}
-                    />
-                </Box>
-                <Box sx={{
-                    width: { md: '20%', lg: '20%', xl: '30%' },
-                    height: '90%',
-                    p: 2,
-                    borderRadius: 5,
-                    boxShadow: "md"
-                }}>
+        <ErrorBoundary
+            FallbackComponent={ErrorFallback}
+            onReset={() => {
+                window.location.reload();
+            }}
+        >
+            <Box sx={{
+                width: '100%',
+                minHeight: 650,
+                borderRadius: 5,
+                border: '1px solid #9822c365',
+                position: 'relative',
+                p: 1
+            }}>
+                <TitleCard />
+                <Divider sx={{ height: 2, bgcolor: 'var(--royal-purple-400)' }} />
+                <Box className="body" sx={{ display: 'flex', height: '100%', py: 1, gap: 1 }}>
+                    <Box sx={{ width: '80%' }}>
+                        <FoodForm
+                            setImage={setImage}
+                            formData={formData}
+                            setFormData={setFormData}
+                            image={image}
+                        />
+                    </Box>
+                    <Box sx={{
+                        width: { md: '20%', lg: '20%', xl: '30%' },
+                        height: '90%',
+                        p: 2,
+                        borderRadius: 5,
+                        boxShadow: "md"
+                    }}>
 
-                    <ImageCarouselPreview
-                        images={image}
-                        setImages={setImage}
-                    />
+                        <ImageCarouselPreview
+                            formData={formData}
+                            images={image}
+                            setImages={setImage}
+                        />
 
-                    <FoodDetails
-                        Loading={false}
-                        Data={{}}
-                    />
+                        <FoodDetails
+                            Loading={false}
+                            Data={{}}
+                        />
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+        </ErrorBoundary>
     )
 }
 

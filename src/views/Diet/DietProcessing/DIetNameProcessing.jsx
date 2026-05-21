@@ -24,6 +24,7 @@ const DIetNameProcessing = ({
         ActivePatient?.some((patient) => patient.diet_id === diet.diet_id)
     );
 
+   
     const allDietNames = FinalDietNames?.map(d => d.diet_id);
 
     const isAllSelected =

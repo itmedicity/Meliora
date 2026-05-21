@@ -51,6 +51,12 @@ const CanteenMain = ({
         return organizeBatchData(batchFoodDetail);
     }, [batchFoodDetail]);
 
+
+    console.log({
+        organizedBatchData
+    });
+    
+
     const HandleOpenBatchCheck = async () => {
         try {
             SetLoading(true)

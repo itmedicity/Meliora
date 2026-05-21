@@ -10,6 +10,8 @@ import { GiChickenOven } from "react-icons/gi";
 import DietButton from "src/views/Diet/DietComponent/DietButton";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
 
 const TitleCard = () => {
     const navigate = useNavigate()
@@ -48,11 +50,27 @@ const TitleCard = () => {
                         fontFamily: "var(--roboto-font)",
                         mt: 2
                     }}> RECIPE CARD</Typography></Box>
-            <DietButton
-                onClick={() => navigate('/Home/Settings')}
-                name={'Go Back'}
-                icon={ExitToAppIcon}
-            />
+            <Box sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                p: 1,
+                justifyContent: 'space-between'
+            }}>
+                <DietButton
+                    onClick={() => navigate('/Home/Settings')}
+                    name={'Go Back'}
+                    icon={ExitToAppIcon}
+                />
+                <DietButton
+                    width={150}
+                    onClick={() => navigate('/Home/viewitems')}
+                    name={'View Items'}
+                    icon={RemoveRedEyeIcon}
+                />
+
+            </Box>
+
         </Box>
     );
 };

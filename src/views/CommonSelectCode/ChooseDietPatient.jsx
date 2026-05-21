@@ -1,15 +1,29 @@
 import React, { memo, useMemo } from 'react'
-const ChooseDietPatient = ({ value, setValue, disabled,
-    //  diet,
-    PtDetail }) => {
+const ChooseDietPatient = (
+    { value, setValue, disabled, PtDetail }
+) => {
     const handleChange = (e) => {
         setValue(e.target.value)
     }
 
-    
+
+    console.log(
+        {
+            PtDetail
+        }
+    );
+
 
     const FilterdPatient = useMemo(() => {
-        return [...new Map(PtDetail?.map(item => [item.fb_pt_no, item])).values()];
+        return [
+            ...new Map(
+                PtDetail?.map(item => {
+                    const patientNo = item.fb_pt_no || item.pt_no;
+
+                    return [patientNo, item];
+                })
+            ).values()
+        ];
     }, [PtDetail]);
 
 
@@ -35,9 +49,11 @@ const ChooseDietPatient = ({ value, setValue, disabled,
             {FilterdPatient?.map((item, inx) => (
                 <option
                     key={inx}
-                    value={item.fb_pt_no}
+                    value={item?.fb_pt_no || item?.pt_no}
                 >
-                    {item.fb_ptc_name}
+                    {(item?.fb_ptc_name || item?.ptc_ptname)}
+                    {" - "}
+                    {(item?.fb_pt_no || item?.pt_no)}
                 </option>
             ))}
         </select>

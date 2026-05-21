@@ -52,6 +52,11 @@ const InPatientList = () => {
 
   const patients = allPatientDiet || [];
 
+  console.log({
+    patients
+  });
+
+
 
 
   const dietTypes = [
@@ -196,7 +201,7 @@ const InPatientList = () => {
   };
 
 
-  const formattedPatients = patients.map(p => ({
+  const formattedPatients = patients?.map(p => ({
     ...p,
     status: p.diet_status || "NOT_PLANNED",
     room: p.fb_rmc_desc,
@@ -577,7 +582,6 @@ const InPatientList = () => {
         }
         {deitPlanFlag === 1 ?
           <DietPlan
-            // Flag={deitPlanFlag}
             open={deitPlanOpen}
             template={templatedetail}
             setOpen={setDeitPlanOpen}

@@ -20,8 +20,8 @@ const SelectItemType = ({ value, setValue }) => {
                     size="sm"
                     sx={{ m: 0, backgroundColor: 'transparent', border: 'none', boxShadow: "none", p: 0 }}
                 >
-                    <Option value={0} disabled>
-                        Select Department
+                    <Option value={0} >
+                        Select Type
                     </Option>
                     {allItemType &&
                         allItemType?.map((val, index) => {

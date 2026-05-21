@@ -37,6 +37,7 @@ const DeliveryTableList = ({ data = [] }) => {
             >
                 {[
                     ["Sl.No", 60],
+                    ["Order Id", 60],
                     ["Patient", 140],
                     ["Pt No", 120],
                     ["Meal", 120],
@@ -78,6 +79,10 @@ const DeliveryTableList = ({ data = [] }) => {
                             <Cell width={60}>
                                 <DietTextComponent value={index + 1} size={12} />
                             </Cell>
+                               <Cell width={60}>
+                                <DietTextComponent value={`#${row.canteen_order_id}`} size={12} />
+                            </Cell>
+
 
                             <Cell width={140}>
                                 <DietTextComponent
@@ -127,7 +132,7 @@ const DeliveryTableList = ({ data = [] }) => {
                             </Cell>
                             <Cell width={100}>
                                 <DietTextComponent
-                                    value={row.AssignyStatus}
+                                    value={row.ItemStatus}
                                     size={12}
                                 />
                             </Cell>
