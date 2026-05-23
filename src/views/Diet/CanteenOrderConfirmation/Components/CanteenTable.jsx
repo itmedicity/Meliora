@@ -32,9 +32,7 @@ const CanteenTable = ({
     const { data: ProductionMapDetail = [] } =
         useFetchProductionMap(isCheckMode);
 
-    console.log({
-        ProductionMapDetail
-    });
+
     const mappedOrderIds = new Set(
         ProductionMapDetail?.map(item => item.canteen_order_id)
     );

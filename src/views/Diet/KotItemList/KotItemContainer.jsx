@@ -158,7 +158,11 @@ const KotItemContainer = () => {
         FinalFilterdData?.filter(batch => batch?.kitchen_status?.toUpperCase() === "SENT_TO_KITCHEN");
 
     const PrintToPdf = useCallback(() => {
-        if (!pdfData) return infoNotify("Not item Preseint")
+
+        if (!pdfData?.length) {
+            return infoNotify("No Item For Preparations");
+        }
+
         PrintFoodPreparationPdf(pdfData);
     }, [pdfData]);
 
@@ -168,53 +172,58 @@ const KotItemContainer = () => {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                height: '90vh',
+
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+                scrollbarWidth: 'none',          // Firefox
+                msOverflowStyle: 'none',          // IE & Edge
+                '&::-webkit-scrollbar': {
+                    display: 'none',               // Chrome, Safari
+                },
             }}>
+            <Box
+                sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 100,
+                    width: "100%",
+                    bgcolor: "#fff",
+                    pb: 1,
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.08)"
+                }}
+            >
+                <KotItemHeader
+                    name={'DIET LIST'}
+                    goBackPath={''}
+                />
 
-            <KotItemHeader
-                name={'DIET LIST'}
-                goBackPath={''}
-            />
+                <DietFilterComponent
+                    setSearch={setSearch}
+                    setDietType={setDietType}
+                    search={search}
+                    dietType={dietType}
+                    select={select}
+                    HanldeSelectAll={HanldeSelectAll}
+                />
 
-            <DietFilterComponent
-                setSearch={setSearch}
-                setDietType={setDietType}
-                search={search}
-                dietType={dietType}
-                select={select}
-                HanldeSelectAll={HanldeSelectAll}
-            />
-
-            <KitchenStatusTab
-                kitchenOrders={FinalFilterdData}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                onClick={PrintToPdf}
-            />
+                <KitchenStatusTab
+                    kitchenOrders={FinalFilterdData}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    onClick={PrintToPdf}
+                />
+            </Box>
             <Box
                 sx={{
                     width: '95%',
                     minHeight: '55vh',
-                    maxHeight: '75vh',
+
                     border: '1px solid #e9e5e56c',
                     mt: 1,
                     p: 1,
                     bgcolor: '#f6f6f6d9',
-
-                    display: 'flex',
-                    flexDirection: 'column',
-
-                    alignItems: 'stretch',   //  FIX HERE (VERY IMPORTANT)
-
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-
-                    gap: 1,
-                    scrollbarWidth: 'none',          // Firefox
-                    msOverflowStyle: 'none',          // IE & Edge
-                    '&::-webkit-scrollbar': {
-                        display: 'none',               // Chrome, Safari
-                    },
                 }}
             >
 

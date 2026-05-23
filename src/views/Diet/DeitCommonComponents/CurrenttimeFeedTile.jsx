@@ -19,10 +19,7 @@ const CurrenttimeFeedTile = ({
         selectedFeed
     } = patient || {};
 
-    console.log({
-        patient
-    });
-
+    
 
     const orderColors = {
         0: { bg: "#e5e7eb", text: "Pending", color: "#374151" },

@@ -70,7 +70,7 @@ const DietTransactions = [
     to: '/Home/diettypegroup',
     icon: <CiStop1 />
   },
-
+ 
 ]
 
 export default DietTransactions

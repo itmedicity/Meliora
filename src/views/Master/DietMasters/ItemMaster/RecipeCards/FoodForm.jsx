@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import {
     Box,
+    Checkbox,
     // Tooltip
 } from "@mui/joy";
 import { inputStyle } from "src/views/Diet/CommonData/Common";
@@ -173,6 +174,7 @@ const FoodForm = ({
                 item_alias: itemAlias.toUpperCase(),
                 item_code: itemCode.toUpperCase(),
                 item_type_id: formData.item_type_id,
+                is_active: formData.is_active,
                 created_by: id,
                 ingredients: cleanedIngredients,
                 itemrate: transformedRates
@@ -234,9 +236,6 @@ const FoodForm = ({
     }, [formData, image, ingredients, resetAll, id, fetchIemMasterDetail, rates]);
 
 
-    console.log({
-        image
-    });
 
     const handleUpdate = useCallback(async () => {
 
@@ -332,6 +331,7 @@ const FoodForm = ({
                 item_code: itemCode,
                 item_type_id: formData.item_type_id,
                 created_by: id,
+                is_active: formData.is_active,
                 ingredients: cleanedIngredients,
                 itemrate: transformedRates
             };
@@ -479,24 +479,18 @@ const FoodForm = ({
                     />
                 </Box>
 
-                {/* <FoodSpecialitySection
-                selectedDiets={selectedDiets}
-                setSelectedDiets={setSelectedDiets}
-            /> */}
-
                 <ImageUpload handleUpload={handleUpload} />
 
-                {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Tooltip title="Get Nutritional Detail" placement="top" variant="solid">
-                    <Box component="span" sx={{ display: 'inline-flex', cursor: 'pointer' }}>
-                        <TbWorldSearch
-                            size={22}
-                            onClick={searchFood}
-                        />
-                    </Box>
-                </Tooltip>
-            </Box> */}
-
+                <Checkbox
+                    label="Active"
+                    checked={formData?.is_active === 1}
+                    onChange={(e) =>
+                        setFormData(prev => ({
+                            ...prev,
+                            is_active: e.target.checked ? 1 : 0
+                        }))
+                    }
+                />
 
                 <DietButton
                     disabled={loading}
@@ -505,10 +499,10 @@ const FoodForm = ({
                     name={formData?.item_id ? 'Update Item' : 'Add Item'}
                     icon={LocalDiningRoundedIcon}
                 />
-                {/* <AddFoodButton onClick={handleSubmit} /> */}
+                
             </Box>
         </ErrorBoundary>
     );
 };
 
-export default FoodForm;
+export default memo(FoodForm);

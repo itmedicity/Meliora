@@ -195,7 +195,9 @@ export const dm_setting_one = [
     // { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
     { to: '/Home/unitmaster', name: 'Unit Master', slno: 56 },
     { to: '/Home/orderparty', name: 'Order Party Type ', slno: 56 }, // change slno
-    { to: '/Home/itemalias', name: 'Item Alias Master', slno: 56 }, // change slno
+    { to: '/Home/itemalias', name: 'Item Alias Master', slno: 344 }, // change slno
+    { to: '/Home/highlightmaping', name: 'Canteen Highlight Mapping', slno: 345 }, // change slno
+    { to: '/Home/highlight', name: 'Canteen Highlight', slno: 345 }, // change slno
 
 ]
 

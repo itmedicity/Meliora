@@ -37,10 +37,6 @@ const AssignPatientConfirmModal = ({
         return state.LoginUserData
     })
 
-    console.log({
-        patients
-    });
-
 
     const { data: AllEmployee = [] } = useAllEmployeeFetch() // Fetching All Employee with status 1
     const [expandedId, setExpandedId] = useState(null);
@@ -100,9 +96,7 @@ const AssignPatientConfirmModal = ({
                     remarks: remark.trim()
                 }))
             };
-            console.log({
-                payload
-            });
+         
 
             const response = await axioslogin.post(
                 '/dietdelivery/create',
@@ -151,18 +145,18 @@ const AssignPatientConfirmModal = ({
      * Function to Remvove Patinet Form the Selected Patient 
      * Funciton Focus of Removing the Patient Maped to the Assignee
      */
-    const handleRemovePatient = (orderId) => {
+    const handleRemovePatient = (patientData) => {
         const remainingCount = patients?.length - 1;
         dispatch({
             type: FILTER_ACTIONS.REMOVE_SELECTED_PATIENT,
-            payload: orderId
+            payload: patientData
         });
         // If last patient removed → close modal
         if (remainingCount <= 0) {
             onClose();
         }
         // Optional: reset expanded if same item
-        if (expandedId === orderId) {
+        if (expandedId === patientData.canteen_order_id) {
             setExpandedId(null);
         }
     };
@@ -242,11 +236,16 @@ const AssignPatientConfirmModal = ({
                 >
                     {patients?.map((pt, index) => {
 
-                        const isOpen = expandedId === pt.order_id;
+                        const isOpen = expandedId === pt.canteen_order_id;
+
+                        console.log({
+                            pt
+                        });
+
 
                         return (
                             <Box
-                                key={pt.order_id}
+                                key={pt.canteen_order_id}
                                 sx={{
                                     border: "1px solid #e0e0e0",
                                     borderRadius: 1,
@@ -264,7 +263,7 @@ const AssignPatientConfirmModal = ({
                                         cursor: "pointer"
                                     }}
                                     onClick={() =>
-                                        setExpandedId(isOpen ? null : pt.order_id)
+                                        setExpandedId(isOpen ? null : pt.canteen_order_id)
                                     }
                                 >
                                     <DietTextComponent
@@ -282,7 +281,11 @@ const AssignPatientConfirmModal = ({
                                         }}
                                         onClick={(e) => {
                                             e.stopPropagation(); // prevent expand toggle
-                                            handleRemovePatient(pt.order_id);
+                                            handleRemovePatient({
+                                                canteen_order_id: pt.canteen_order_id,
+                                                batch_id: pt.batch_id,
+                                                fb_ip_no: pt.fb_ip_no
+                                            });
                                         }}
                                     />
                                 </Box>
@@ -313,7 +316,7 @@ const AssignPatientConfirmModal = ({
 
 
                                     <DietTextComponent
-                                        value={`Order ID: ${pt.order_id}`}
+                                        value={`Order ID: ${pt.canteen_order_id}`}
                                         size={11}
                                     />
 
@@ -353,6 +356,7 @@ const AssignPatientConfirmModal = ({
                                         </select>
                                     </Box>
                                 </Box>
+
                             </Box>
 
                         );

@@ -5,11 +5,18 @@ import { useAllItemGroupMaster } from '../Diet/CommonData/UseQuery';
 
 const DietFoodTypeSelect = ({ value, setValue }) => {
 
-    // const { data: foodItem } = UseFoodTypeDetail();
+
 
     const {
-        data: foodItem
+        data: foodItem = []
     } = useAllItemGroupMaster();
+
+
+    const AllActiveFoodItems = Array.isArray(foodItem)
+        ? foodItem?.filter(i => i.is_active === 1)
+        : [];
+
+
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -19,13 +26,19 @@ const DietFoodTypeSelect = ({ value, setValue }) => {
                     value={value}
                     onChange={(e, newValue) => setValue(newValue)}
                     size="sm"
-                    sx={{ m: 0, backgroundColor: 'transparent', border: 'none', boxShadow: "none", p: 0 }}
+                    sx={{
+                        m: 0,
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        boxShadow: "none",
+                        p: 0
+                    }}
                 >
                     <Option value={0} disabled>
                         Select Department
                     </Option>
-                    {foodItem &&
-                        foodItem?.map((val, index) => {
+                    {AllActiveFoodItems &&
+                        AllActiveFoodItems?.map((val, index) => {
                             return (
                                 <Option key={index} value={val?.item_group_id}>
                                     {val?.group_name}

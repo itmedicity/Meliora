@@ -62,12 +62,18 @@ const RoomPriceList = ({ prices, setPrices }) => {
         );
     };
 
+    const preventInvalidNumberInput = (e) => {
+        if (["-", "+", "e", "E"].includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     // Loading UI
     if (isLoading) return <RoomPriceListSkeleton />
 
     // Error UI
     if (isError) return <RoomPriceListError message="Failed to load party types" />;
-    
+
     return (
         <Box sx={{ width: "100%", overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -130,7 +136,9 @@ const RoomPriceList = ({ prices, setPrices }) => {
                                 <td style={td}>
                                     <input
                                         type="number"
+                                        min={0}
                                         value={prices?.[id]?.price || ""}
+                                        onKeyDown={preventInvalidNumberInput}
                                         onChange={(e) =>
                                             handleChange(id, "price", e.target.value)
                                         }
@@ -142,6 +150,8 @@ const RoomPriceList = ({ prices, setPrices }) => {
                                 <td style={td}>
                                     <input
                                         type="number"
+                                        min={0}
+                                        onKeyDown={preventInvalidNumberInput}
                                         value={prices?.[id]?.gst_rate || ""}
                                         onChange={(e) =>
                                             handleChange(id, "gst_rate", e.target.value)
@@ -154,6 +164,8 @@ const RoomPriceList = ({ prices, setPrices }) => {
                                 <td style={td}>
                                     <input
                                         type="number"
+                                        min={0}
+                                        onKeyDown={preventInvalidNumberInput}
                                         value={prices?.[id]?.discount || ""}
                                         onChange={(e) =>
                                             handleChange(id, "discount", e.target.value)
@@ -166,6 +178,8 @@ const RoomPriceList = ({ prices, setPrices }) => {
                                 <td style={td}>
                                     <input
                                         type="number"
+                                        min={0}
+                                        onKeyDown={preventInvalidNumberInput}
                                         value={prices?.[id]?.discount_rate || ""}
                                         onChange={(e) =>
                                             handleChange(id, "discount_rate", e.target.value)

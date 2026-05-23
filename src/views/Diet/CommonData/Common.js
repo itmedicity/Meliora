@@ -1467,3 +1467,28 @@ export const safeParseJSON = (value, fallback = []) => {
         return fallback;
     }
 };
+
+
+
+export const statusVoiceMap = {
+    PENDING: "pending",
+    PREPARED: "prepared",
+    DELIVERED: "delivered",
+    PICKEDUP: "picked up",
+    RETURNED: "returned",
+    UNDELIVERED: "not delivered",
+    CANCELLED: "cancelled",
+    SKIPPED: "skipped"
+};
+
+export const formatStatus = (status) => {
+    if (!status) return "";
+
+    return statusVoiceMap[status] || status.toLowerCase();
+};
+
+export const safeText = (t) => {
+    if (Array.isArray(t)) return t.join(" ");
+    if (t === null || t === undefined) return "";
+    return String(t);
+};

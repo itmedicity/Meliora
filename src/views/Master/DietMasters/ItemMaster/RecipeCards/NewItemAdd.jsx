@@ -19,7 +19,8 @@ const NewItemAdd = () => {
         itemcode: "",
         itemalias: "",
         image: [],
-        item_type_id: null
+        item_type_id: null,
+        is_active: 1
     });
 
 

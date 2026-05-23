@@ -34,6 +34,7 @@ const PatientOrderCancelModal = ({
 
 
 
+
     const HandlePatientMealcancellation = async () => {
         if (!reason.trim()) {
             setError(true);
@@ -100,14 +101,14 @@ const PatientOrderCancelModal = ({
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                             <PersonOutlineIcon sx={{ fontSize: 16 }} />
                             <DietTextComponent
-                                value={patient.ptc_ptname}
+                                value={patient?.fb_ptc_name}
                                 size={15}
                                 weight={600}
                             />
                         </Box>
 
                         <DietTextComponent
-                            value={`IP: ${patient.ip_no}`}
+                            value={`IP: ${patient?.fb_ip_no}`}
                             size={13}
                             weight={400}
                             color="#555"
@@ -118,7 +119,7 @@ const PatientOrderCancelModal = ({
                         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, justifyContent: "flex-end" }}>
                             <RestaurantOutlinedIcon sx={{ fontSize: 14 }} />
                             <DietTextComponent
-                                value={patient.meal}
+                                value={patient?.meal_type}
                                 size={12}
                                 weight={400}
                                 color="#666"
@@ -128,7 +129,7 @@ const PatientOrderCancelModal = ({
                         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, justifyContent: "flex-end" }}>
                             <ReceiptLongOutlinedIcon sx={{ fontSize: 14 }} />
                             <DietTextComponent
-                                value={patient.order_id}
+                                value={patient?.canteen_order_id}
                                 size={12}
                                 weight={400}
                                 color="#666"

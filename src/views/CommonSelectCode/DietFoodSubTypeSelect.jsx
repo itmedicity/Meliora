@@ -6,13 +6,19 @@ import { useAllItemCategoryById } from '../Diet/CommonData/UseQuery';
 
 const DietFoodSubTypeSelect = ({ value, setValue, parentId }) => {
 
-  
+
     // Fetch usingParent
-    const { data: allItemCategoryMaster = [] } = useAllItemCategoryById(parentId);
+    const {
+        data: allItemCategoryMaster = []
+    } = useAllItemCategoryById(parentId);
+
+    const AllActiveItemCategoryMaster = Array.isArray(allItemCategoryMaster)
+        ? allItemCategoryMaster?.filter(i => i.is_active === 1)
+        : [];
 
 
     return (
-        <Box sx={{width:'100%'}}>
+        <Box sx={{ width: '100%' }}>
             <FormControl fullWidth size="small">
                 <Select
                     id="demo-simple-select"
@@ -24,8 +30,8 @@ const DietFoodSubTypeSelect = ({ value, setValue, parentId }) => {
                     <Option value={0} disabled>
                         Select Department
                     </Option>
-                    {allItemCategoryMaster &&
-                        allItemCategoryMaster?.map((val, index) => {
+                    {AllActiveItemCategoryMaster &&
+                        AllActiveItemCategoryMaster?.map((val, index) => {
                             return (
                                 <Option key={index} value={val?.item_category_id}>
                                     {val?.category_name}

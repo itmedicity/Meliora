@@ -44,7 +44,7 @@ const ViewItemDetail = () => {
     const groupedData = useMemo(() => {
         const map = new Map()
 
-        ExistFoodDetail.forEach((item) => {
+        ExistFoodDetail?.forEach((item) => {
 
             if (!map.has(item.item_id)) {
                 map.set(item.item_id, {
@@ -54,6 +54,7 @@ const ViewItemDetail = () => {
                     group_name: item.group_name,
                     category_name: item.category_name,
                     item_type_name: item.item_type_name,
+                    is_active: item.is_active,
                     images: imageMap.get(String(item.item_id)) || [],
                     ingredients: [],
                     prices: []
@@ -158,6 +159,7 @@ const ViewItemDetail = () => {
 
                         const images = item.images || []
                         const currentIndex = imgIndex[item.item_id] || 0
+                        const IsInactive = item?.is_active === 0
 
                         return (
                             <Box
@@ -166,7 +168,7 @@ const ViewItemDetail = () => {
                                     border: '1px solid #ddd',
                                     borderRadius: 12,
                                     p: 1.5,
-                                    background: '#fff'
+                                    background: IsInactive ? '#fcfafacc' : '#fff'
                                 }}
                             >
 
@@ -322,19 +324,57 @@ const ViewItemDetail = () => {
                                         </Box>
                                     </Box>
 
-                                    {/* RIGHT ACTION */}
-                                    <IconButton
-                                        onClick={() => toggleExpand(item.item_id)}
+                                    <Box
                                         sx={{
-                                            border: '1px solid #ddd'
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1
                                         }}
                                     >
-                                        {
-                                            expandedId === item.item_id
-                                                ? <ExpandLessIcon />
-                                                : <ExpandMoreIcon />
-                                        }
-                                    </IconButton>
+
+                                        <Box
+                                            sx={{
+                                                px: 1.2,
+                                                py: 0.4,
+                                                borderRadius: "20px",
+                                                fontSize: 12,
+                                                fontWeight: 600,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 0.7,
+                                                bgcolor: item.is_active === 1 ? "#e8f5e9" : "#ffebee",
+                                                color: item.is_active === 1 ? "#2e7d32" : "#d32f2f",
+                                                border: item.is_active === 1
+                                                    ? "1px solid #81c784"
+                                                    : "1px solid #ef9a9a"
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    width: 8,
+                                                    height: 8,
+                                                    borderRadius: "50%",
+                                                    bgcolor: item.is_active === 1 ? "#2e7d32" : "#d32f2f"
+                                                }}
+                                            />
+
+                                            {item.is_active === 1 ? "Active" : "Inactive"}
+                                        </Box>
+
+                                        <IconButton
+                                            onClick={() => toggleExpand(item.item_id)}
+                                            sx={{
+                                                border: '1px solid #ddd'
+                                            }}
+                                        >
+                                            {
+                                                expandedId === item.item_id
+                                                    ? <ExpandLessIcon />
+                                                    : <ExpandMoreIcon />
+                                            }
+                                        </IconButton>
+
+                                    </Box>
 
                                 </Box>
 

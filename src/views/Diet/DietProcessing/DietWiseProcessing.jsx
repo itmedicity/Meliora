@@ -71,12 +71,6 @@ const DietWiseProcessing = ({
         ActivePatientTypeDetail, ScheduledPatientDiet
     );
 
-    // console.log({
-    //     newPatients
-    // });
-
-
-
 
     useEffect(() => {
         socket.on("newDietPlanCreated", (data) => {

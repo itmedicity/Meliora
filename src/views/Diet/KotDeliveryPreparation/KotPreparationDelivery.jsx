@@ -11,6 +11,8 @@ import {
 } from '../CommonData/UseQuery';
 import { socket } from 'src/ws/socket'
 import { succesNotify } from 'src/views/Common/CommonCode'
+import { initSpeech, speakOrder } from '../Utils/SpeakOrder'
+import { formatStatus, safeText } from '../CommonData/Common'
 
 
 
@@ -33,16 +35,25 @@ const KotPreparationDelivery = () => {
         refetch: FetchAllAssignOrderDetail
     } = useGetAllAssignedOrderDetail();
 
+    useEffect(() => {
+        initSpeech();
 
+    }, []);
 
     useEffect(() => {
-
-        console.log("socket listener mounted");
         const handleDeliveryUpdate = (data) => {
-            console.log("SOCKET RECEIVED", data);
+
             succesNotify(
                 `Your Orderd ${data?.meal} ${data?.item_name} is ${data?.delivery_status} !`
             );
+
+            const voiceText =
+                data?.delivery_status === "CANCELLED"
+                    ? `Alert. Order for ${safeText(data?.item_name)} has been cancelled.`
+                    : `Order updated. ${safeText(data?.item_name)} is ${formatStatus(data?.delivery_status)}.`;
+
+
+            speakOrder(voiceText);
 
             FetchAllAssignOrderDetail();
             FetchAllCanteenOrderDetail();
@@ -62,6 +73,8 @@ const KotPreparationDelivery = () => {
         };
 
     }, []);
+
+
     const PendingOrder = CanteenOrderDetails?.filter(
         item =>
             !(AssingedOrders ?? []).some(
@@ -113,7 +126,7 @@ const KotPreparationDelivery = () => {
     } = state;
 
 
- 
+
     /* BASE FILTER */
     const filteredPatients = useMemo(() => {
         /*

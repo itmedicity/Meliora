@@ -18,6 +18,8 @@ import {
     getAllDietTemplateFood,
     getAllDietTime,
     getAllEmployyeName,
+    getAllHighlightMappings,
+    getAllHighlightTypes,
     getAllItemAlias,
     getAllItemCatgoryMaster,
     getAllItemCatgoryMasterById,
@@ -636,3 +638,25 @@ export const useFetchAllItemFileDetail = () => {
         defaultValue: []
     });
 };
+
+
+export const useAllHighlightMaster = () => {
+    return useSafeQuery({
+        queryKey: ['highlights',],
+        queryFn: getAllHighlightTypes,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllHighlightMappings = () => {
+    return useSafeQuery({
+        queryKey: ['highligtmapping',],
+        queryFn: getAllHighlightMappings,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+

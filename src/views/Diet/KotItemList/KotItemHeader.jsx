@@ -36,7 +36,12 @@ const KotItemHeader = ({
     ];
 
     const HandleGoPrev = () => {
-        navigate(goBackPath)
+        if (goBackPath) {
+            navigate(goBackPath);
+        } else {
+            navigate(-1); // fallback to previous page
+        }
+
     };
 
     return (

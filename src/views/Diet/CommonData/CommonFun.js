@@ -541,7 +541,39 @@ export const applyColumnToAll = (
 };
 
 
-export const organizeBatchData = (batchFoodDetail = []) => {
+// export const organizeBatchData = (batchFoodDetail = []) => {
+
+//     if (!batchFoodDetail?.length) return [];
+
+//     const grouped = {};
+
+//     batchFoodDetail.forEach(item => {
+
+//         const typeId = item.type_slno;
+//         const type_desc = item.type_desc;
+
+//         if (!grouped[typeId]) {
+//             grouped[typeId] = {
+//                 type_id: typeId,
+//                 type_desc: type_desc,
+//                 items: []
+//             };
+//         }
+
+//         grouped[typeId].items.push({
+//             item_id: item.item_id,
+//             item_name: item.item_name,
+//             required_qty: item.total_qty
+//         });
+
+//     });
+
+//     return Object.values(grouped);
+// };
+
+export const organizeBatchData = (
+    batchFoodDetail = []
+) => {
 
     if (!batchFoodDetail?.length) return [];
 
@@ -550,25 +582,44 @@ export const organizeBatchData = (batchFoodDetail = []) => {
     batchFoodDetail.forEach(item => {
 
         const typeId = item.type_slno;
-        const type_desc = item.type_desc;
 
         if (!grouped[typeId]) {
+
             grouped[typeId] = {
+
                 type_id: typeId,
-                type_desc: type_desc,
-                items: []
+
+                type_desc: item.type_desc,
+
+                items: [],
+
+                order_ids: new Set()
             };
         }
 
+        // ADD ITEM
         grouped[typeId].items.push({
+
             item_id: item.item_id,
+
             item_name: item.item_name,
+
             required_qty: item.total_qty
         });
 
+        // ADD ORDER ID
+        grouped[typeId].order_ids.add(
+            item.canteen_order_id
+        );
     });
 
-    return Object.values(grouped);
+    // CONVERT SET TO ARRAY
+    return Object.values(grouped).map(batch => ({
+
+        ...batch,
+
+        order_ids: [...batch.order_ids]
+    }));
 };
 
 export const formatPatientDietData = (data = []) => {
@@ -1173,8 +1224,6 @@ export const DietFoodFetching = async () => {
         return [];
     }
 };
-
-
 
 
 export const getAllItemMasterDetail = async () => {
@@ -2411,6 +2460,45 @@ export const getAllItemFileDetails = async () => {
     } catch (error) {
         console.error("Error fetching all item files:", error);
         warningNotify("Error fetching all files");
+        return [];
+    }
+};
+
+
+
+export const getAllHighlightTypes = async () => {
+    try {
+        const result = await axioslogin.get(
+            '/highlight/highlight-type'
+        );
+        const { success, data } = result.data;
+        if (success === 1) {
+            return data || [];
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("Error Fetching Highlight Types:", error);
+        warningNotify("Error Fetching Highlight Types");
+        return [];
+    }
+};
+
+
+export const getAllHighlightMappings = async () => {
+    try {
+        const result = await axioslogin.get(
+            '/highlightmaping/item-highlight'
+        );
+        const { success, data } = result.data;
+        if (success === 1) {
+            return data || [];
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("Error Fetching Highlight Mapping:", error);
+        warningNotify("Error Fetching Highlight Mapping");
         return [];
     }
 };

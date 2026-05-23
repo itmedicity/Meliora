@@ -339,7 +339,7 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                             color="#666"
                         />
                         {
-                            activeTab !== "CANCELLED" &&
+                            activeTab === "PENDING" &&
                             <Box mt={1} >
 
                                 <DietButton
@@ -356,7 +356,7 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
                 </Box>
                 {
-                    activeTab !== "CANCELLED" &&
+                    activeTab === "PENDING" &&
                     <AnimatePresence>
                         {opendetailcard && (
                             <motion.div
@@ -414,7 +414,13 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
                 <Divider sx={{ my: 1.5 }} />
 
-                <CanteenOrderItemList onRemove={handleRemoveItem} data={items} />
+                <CanteenOrderItemList
+                    FetcthPatienExtraOrders={FetcthPatienExtraOrders}
+                    FetchPatientFoodOrderDetails={FetchPatientFoodOrderDetails}
+                    onRemove={handleRemoveItem}
+                    data={items}
+                    activeTab={activeTab}
+                />
 
                 <Divider sx={{ my: 1.5 }} />
 

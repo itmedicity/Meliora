@@ -10,6 +10,12 @@ const SelectItemType = ({ value, setValue }) => {
         data: allItemType = []
     } = useAllItemType()
 
+
+    const AllActiveItemType = Array.isArray(allItemType)
+        ? allItemType?.filter(i => i.is_active === 1)
+        : [];
+
+
     return (
         <Box sx={{ width: '100%' }}>
             <FormControl fullWidth size="small">
@@ -23,8 +29,8 @@ const SelectItemType = ({ value, setValue }) => {
                     <Option value={0} >
                         Select Type
                     </Option>
-                    {allItemType &&
-                        allItemType?.map((val, index) => {
+                    {AllActiveItemType &&
+                        AllActiveItemType?.map((val, index) => {
                             return (
                                 <Option key={index} value={val?.item_type_id}>
                                     {val?.item_type_name}

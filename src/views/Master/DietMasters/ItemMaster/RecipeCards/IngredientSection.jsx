@@ -123,11 +123,6 @@ const IngredientSection = ({
     }, [query, ItemMasterFood]);
 
 
-    console.log({
-        filteredSuggestions
-    });
-
-
     /*  Select Ingredient */
     const selectIngredient = useCallback((item) => {
         setIngredientInput(prev => ({
@@ -186,7 +181,7 @@ const IngredientSection = ({
                 </Box>
 
                 {/* Measurement */}
-                <Field label="Measurement">
+                {/* <Field label="Measurement">
 
                     <input
                         type="number"
@@ -200,6 +195,24 @@ const IngredientSection = ({
                         style={{ ...inputStyle, width: 60 }}
                     />
 
+                </Field> */}
+
+                <Field label="Measurement">
+                    <input
+                        type="number"
+                        min={1}
+                        value={ingredientInput.value}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            // Prevent negative values
+                            if (Number(value) < 1) return;
+                            setIngredientInput(prev => ({
+                                ...prev,
+                                value
+                            }));
+                        }}
+                        style={{ ...inputStyle, width: 60 }}
+                    />
                 </Field>
 
                 {/* Unit */}

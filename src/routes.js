@@ -331,6 +331,8 @@ const OrderPartyType = React.lazy(() => import('./views/Master/DietMasters/Order
 const DietTemplate = React.lazy(() => import('./views/Master/DietMasters/DietTemplate/DietTemplate'))
 const DirectCanteenOrders = React.lazy(() => import('./views/Diet/DirectCanteenOrder/DirectCanteenOrders'))
 const ViewItemDetail = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/RecipeCards/ViewItemDetail'))
+const CanteenHighlight = React.lazy(() => import('./views/Master/DietMasters/CanteenHighlight/CanteenHighlight'))
+const CanteenHighlightMapping = React.lazy(() => import('./views/Master/DietMasters/CanteenHighLightMapping/HighlightMappingMaster'))
 
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
@@ -1296,6 +1298,16 @@ const routes = [
     path: 'viewitems',
     name: 'View Items',
     element: <ViewItemDetail />
+  },
+  {
+    path: 'highlightmaping',
+    name: 'Canteen Highlight Mapping',
+    element: <CanteenHighlightMapping />
+  },
+  {
+    path: 'highlight',
+    name: 'Canteen Highlight',
+    element: <CanteenHighlight />
   },
 
 

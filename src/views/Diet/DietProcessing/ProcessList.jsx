@@ -162,9 +162,7 @@ const ProcessList = () => {
                 created_by: id
             };
 
-            console.log({
-                payload
-            });
+        
 
 
             const result = await axioslogin.post('/dietschedule/schedule/list', payload);

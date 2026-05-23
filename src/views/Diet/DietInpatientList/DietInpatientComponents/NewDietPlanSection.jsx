@@ -22,14 +22,10 @@ const NewDietPlanSection = ({
 }) => {
 
     // CHECK ACTIVE PLAN
-    const hasActiveDiet = dietHistory?.some(
-        (val) => val?.diet_status === "ACTIVE"
-    );
+    // const hasActiveDiet = dietHistory?.some(
+    //     (val) => val?.diet_status === "ACTIVE"
+    // );
 
-
-    console.log({
-        hasActiveDiet
-    });
 
 
     // CHECK ONLY STOPPED

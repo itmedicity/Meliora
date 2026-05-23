@@ -8,6 +8,12 @@ const DietMeasurementSelect = ({ value, setValue }) => {
     const {
         data: allUnits = []
     } = useAllUnitMaster()
+
+    const AllActiveUnits = Array.isArray(allUnits)
+        ? allUnits?.filter(i => i.is_active === 1)
+        : [];
+
+
     return (
         <Box sx={{ width: '100%' }}>
             <FormControl fullWidth size="small">
@@ -21,8 +27,8 @@ const DietMeasurementSelect = ({ value, setValue }) => {
                     <Option value={0} disabled>
                         Select Department
                     </Option>
-                    {allUnits &&
-                        allUnits?.map((val, index) => {
+                    {AllActiveUnits &&
+                        AllActiveUnits?.map((val, index) => {
                             return (
                                 <Option key={index} value={val?.unit_id}>
                                     {val?.unit_name}
