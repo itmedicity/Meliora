@@ -47,10 +47,11 @@ const IncidentFilterBox = ({ setSearchInput }) => {
                 }}>
                     <Input
                         onChange={(e) => setSearchInput(e.target.value)}
+                        placeholder='Search here'
                         startDecorator={
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <SearchIcon sx={{ fontSize: 18 }} />
-                                <IncidentTextComponent text={"Search Here"} color={'#343537ff'} size={14} weight={400} />
+                                {/* <IncidentTextComponent text={"Search Here"} color={'#343537ff'} size={14} weight={400} /> */}
                             </Box>
                         }
                         sx={{

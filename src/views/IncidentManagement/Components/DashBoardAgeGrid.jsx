@@ -159,7 +159,7 @@ const DashBoardAgeGrid = ({ type, keyword, CurrrentComapny, DashboardIncidents }
                 flex: 1,
                 cellRenderer: (params) => {
 
-                    const IncidentStatus = params.data?.inc_all_approved === 1 ? "All Approved" : params.data?.inc_current_level_review_state === 'A' ? 'Processing' :
+                    const IncidentStatus = params.data?.inc_all_approved === 1 ? "Closed" : params.data?.inc_current_level_review_state === 'A' ? 'Processing' :
                         params.data?.inc_current_level_review_state === 'R' ? 'Rejected' : 'Pending';
 
                     const statusColors = params.data?.inc_all_approved === 1 ? "success" : params.data?.inc_current_level_review_state === 'A' ? 'primary' :

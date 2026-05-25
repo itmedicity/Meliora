@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Box } from '@mui/material';
 import CustomeIncidentLoading from './CustomeIncidentLoading';
+import CommonDetailContainer from './CommonDetailContainer';
 
 // Lazy imports
 const ManualPatientForm = lazy(() => import('./ManualPatientForm'));
@@ -15,8 +16,7 @@ const StaffDetailCard = lazy(() => import('../StaffDetail/StaffDetailCard'));
 
 const StepTwoContent = ({
     isloadingdetail,
-    symbolToLabel,
-    selectedSymbol,
+    RelatedToName,
     iseditdata,
     isvistoredit,
     ishpedit,
@@ -34,14 +34,14 @@ const StepTwoContent = ({
     setIsHpedit,
     HanldePatientDetailEdit,
     HandleVisitorEdit,
-    HandleHpEdit
-
+    HandleHpEdit,
+    commondetail,
+    setCommonDetail
 }) => {
 
 
+    const type = RelatedToName;
 
-
-    const type = symbolToLabel[selectedSymbol];
 
     return (
         <Box sx={{ position: 'relative' }}>
@@ -103,7 +103,7 @@ const StepTwoContent = ({
                     <VisitorDetailCardDisplay visitorDetail={visitordata} HandleVisitorEdit={HandleVisitorEdit} />
                 )}
 
-                {type === 'Hospital Properties' && !ishpedit && (
+                {type === 'Hospital Property' && !ishpedit && (
                     <AddHospitalProperty
                         goBack={setIsHpedit}
                         formData={formData}
@@ -114,12 +114,19 @@ const StepTwoContent = ({
                     />
                 )}
 
-                {type === 'Hospital Properties' && ishpedit && hpdetail?.length > 0 && (
+                {type === 'Hospital Property' && ishpedit && hpdetail?.length > 0 && (
                     <HospitalPropertyDetailCardDisplay
                         propertyDetail={hpdetail}
                         HandleHpEdit={HandleHpEdit}
                     />
                 )}
+
+                {type === 'Others' && (
+                    <CommonDetailContainer
+                        commondetail={commondetail} setCommonDetail={setCommonDetail}
+                    />
+                )}
+
             </Suspense>
         </Box>
     );
