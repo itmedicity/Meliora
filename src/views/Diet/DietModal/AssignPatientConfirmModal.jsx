@@ -237,12 +237,6 @@ const AssignPatientConfirmModal = ({
                     {patients?.map((pt, index) => {
 
                         const isOpen = expandedId === pt.canteen_order_id;
-
-                        console.log({
-                            pt
-                        });
-
-
                         return (
                             <Box
                                 key={pt.canteen_order_id}
