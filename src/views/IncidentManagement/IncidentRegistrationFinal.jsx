@@ -117,11 +117,6 @@ const IncidentRegistrationFinal = () => {
         item => Number(item.inc_initiator_slno) === Number(incidentData?.inc_initiator_slno)
     )?.inc_initiator_alias;
 
-    console.log({ InitiatorName });
-
-    console.log({
-        InitiatorName
-    });
 
 
 
@@ -364,10 +359,7 @@ const IncidentRegistrationFinal = () => {
 
     const incidentInitiator = IncidientInitiator?.find(item => String(item.inc_initiator_alias) === String(selectedSymbol));
 
-    console.log({
-        incidentInitiator
-    });
-
+   
 
     // const incidentInitiator = RelatedToName;
     // for testing puprose remove this after that 
