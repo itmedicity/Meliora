@@ -6,10 +6,11 @@ import {
     Option,
     Tooltip,
     Typography,
-    RadioGroup,
-    Radio,
+    // RadioGroup,
+    // Radio,
     FormLabel,
     Card,
+    Checkbox,
 } from '@mui/joy';
 import { FaTools } from 'react-icons/fa';
 import { MdMonitor, MdOutlinePrecisionManufacturing } from 'react-icons/md';
@@ -191,7 +192,7 @@ const AddHospitalProperty = ({ formData, setFormData, setPropertyDetail, goBack,
 
             <Box>
                 <FormLabel>Is this an Asset?</FormLabel>
-                <RadioGroup
+                {/* <RadioGroup
                     value={item_isAsset === true ? "yes" : item_isAsset === false ? "no" : isAsset === null ? "" : isAsset ? "yes" : "no"}
                     onChange={(e) => {
                         const newValue = e.target.value === 'yes';
@@ -201,7 +202,16 @@ const AddHospitalProperty = ({ formData, setFormData, setPropertyDetail, goBack,
                     }} sx={{ mt: 1 }}>
                     <Radio value="yes" label="Yes" />
                     <Radio value="no" label="No" />
-                </RadioGroup>
+                </RadioGroup> */}
+                <Checkbox
+                    label="Yes"
+                    checked={item_isAsset ?? isAsset ?? false}
+                    onChange={(e) => {
+                        setIsAsset(e.target.checked);
+                        setFormData({});
+                        setErrors({});
+                    }}
+                />
             </Box>
 
             {(isAsset === true || item_isAsset === true) && (

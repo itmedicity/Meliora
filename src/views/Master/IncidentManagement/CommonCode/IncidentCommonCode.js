@@ -735,3 +735,49 @@ export const FetchDashBoardIncident = async (id) => {
         return [];
     }
 };
+
+
+
+export const getAllIncidentInitiator = async () => {
+    try {
+        const res = await axioslogin.post('/incidentMaster/initiator');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getAllPgHsStaffDetail = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/fetchallpghs');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getAllHospitalStaffDetail = async () => {
+    try {
+        const res = await axioslogin.get('/hrmdataGet/getStaffdetail');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};

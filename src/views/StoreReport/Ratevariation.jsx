@@ -80,6 +80,11 @@ const Ratevariation = ({ setActiveComponent }) => {
         staleTime: Infinity
     })
 
+    console.log({
+        RatevarationData
+    });
+    
+
     const slno = useMemo(() => selectedRow?.slno, [selectedRow]);
 
     const { data: RateVariationComments } = useQuery({
@@ -431,7 +436,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     arrow
 
                                                                     sx={{
-                                                                        width: 250,        // ✅ fixed width
+                                                                        width: 250,        //  fixed width
                                                                         maxWidth: 250,     // prevents auto resize
                                                                         whiteSpace: "normal",
                                                                         wordBreak: "break-word",

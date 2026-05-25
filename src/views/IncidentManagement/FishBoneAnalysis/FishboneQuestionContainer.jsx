@@ -1,12 +1,5 @@
 import React, { memo } from 'react';
-import {
-    Box,
-    IconButton,
-    Modal,
-    Sheet,
-    FormControl,
-    Stack
-} from '@mui/joy';
+import { Box, IconButton, Modal, Sheet, FormControl, Stack } from '@mui/joy';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import IncidentTextComponent from '../Components/IncidentTextComponent';
 import { textAreaStyleFivewhy } from '../CommonComponent/CommonCode';
@@ -15,6 +8,7 @@ import ApprovalButton from '../ButtonComponent/ApprovalButton';
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { MdFilePresent } from "react-icons/md";
 import { warningNotify } from 'src/views/Common/CommonCode';
+import { FaFish } from "react-icons/fa";
 
 const FishboneQuestionContainer = ({
     setFormValues, formValues, open, setOpen, setSaveDetail
@@ -38,7 +32,7 @@ const FishboneQuestionContainer = ({
 
     const handleSave = () => {
         if (![MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT]?.some(Boolean)) {
-            warningNotify("Please Enter Any of the Above Before Submitting!");
+            warningNotify("Fishbone : Please Enter Any of the Above Before Submitting!");
             return
         }
         setSaveDetail(true)
@@ -50,28 +44,72 @@ const FishboneQuestionContainer = ({
     return (
         <Box>
             {/* Header */}
+
             <Box
+                onClick={handleOpen}
                 sx={{
                     width: '100%',
                     bgcolor: 'var(--royal-purple-400)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    py: 0.5,
+                    py: 1,
                     px: 1.5,
                     mt: 2,
-                    borderRadius: '6px'
-                }}
-            >
-                <IncidentTextComponent
-                    text="FISHBONE QUESTION"
-                    size={14}
-                    weight={600}
-                    color="white"
-                />
-                <IconButton onClick={handleOpen}>
-                    <InfoOutlinedIcon sx={{ color: 'white' }} />
-                </IconButton>
+                    borderRadius: '6px',
+                    borderLeft: '4px solid #0d0d0e'
+                }}>
+                <Box>
+                    <IncidentTextComponent
+                        text="FISHBONE QUESTION"
+                        size={14}
+                        weight={600}
+                        color="white"
+                    />
+                    <IncidentTextComponent
+                        text="Complete the Fish Bone Analysis Before Submitting...!"
+                        size={10}
+                        weight={400}
+                        color="white"
+                    />
+                </Box>
+
+                {/* ?? Icon + Fish Orbit Wrapper */}
+                <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+
+                    {/* ?? Orbiting Fish */}
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            pointerEvents: 'none',
+
+                            '& > div': {
+                                animation: 'orbit 3s linear infinite'
+                            },
+
+                            '@keyframes orbit': {
+                                '0%': {
+                                    transform: 'rotate(0deg) translateX(16px) rotate(0deg)'
+                                },
+                                '100%': {
+                                    transform: 'rotate(360deg) translateX(16px) rotate(-360deg)'
+                                }
+                            }
+                        }}
+                    >
+                        <div>
+                            <FaFish style={{ fontSize: '14px', opacity: 0.7, color: 'white' }} />
+                        </div>
+                    </Box>
+
+                    {/* ?? Your Original Icon */}
+                    <IconButton onClick={handleOpen}>
+                        <InfoOutlinedIcon sx={{ color: 'white' }} />
+                    </IconButton>
+                </Box>
             </Box>
 
 

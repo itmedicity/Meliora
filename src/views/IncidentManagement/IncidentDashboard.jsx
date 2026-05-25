@@ -234,7 +234,12 @@ const IncidentDashboard = () => {
                         }}>
                             <DetailCardIncident
                                 color='success'
-                                icon={<CheckCircleOutlineIcon sx={{ fontSize: 35, color: 'green', fontWeight: 600 }} />}
+                                icon={<CheckCircleOutlineIcon
+                                    sx={{
+                                        fontSize: 35,
+                                        color: 'green',
+                                        fontWeight: 600
+                                    }} />}
                                 Maintext={"Open "}
                                 count={processingCount}
                                 yesterday={`+${yesterdayProcessing}`}
@@ -249,7 +254,12 @@ const IncidentDashboard = () => {
                         }}>
                             <DetailCardIncident
                                 color='danger'
-                                icon={<PublishedWithChangesIcon sx={{ fontSize: 35, color: 'red', fontWeight: 600 }} />}
+                                icon={<PublishedWithChangesIcon
+                                    sx={{
+                                        fontSize: 35,
+                                        color: 'red',
+                                        fontWeight: 600
+                                    }} />}
                                 Maintext={"Closed"}
                                 count={closedCount}
                                 yesterday={`+${yesterdayClosed}`}
