@@ -26,7 +26,7 @@ const RelatedToCard = lazy(() => import('./Components/RelatedToCard'));
 const IncidentStepper = lazy(() => import('./Components/IncidentStepper'));
 const AddButton = lazy(() => import('./ButtonComponent/AddButton'));
 const PatientFilter = lazy(() => import('./Components/PatientFilter'));
-const SelectDifferentStaffDetail = lazy(() => import('./Components/SelectDifferentStaffDetail'));
+// const SelectDifferentStaffDetail = lazy(() => import('./Components/SelectDifferentStaffDetail'));
 const IncidentDescriptionCard = lazy(() => import('./Components/IncidentDescriptionCard'));
 const CardHeader = lazy(() => import('./Components/CardHeader'));
 const StepCompletedCard = lazy(() => import('./Components/StepCompletedCard'));
@@ -641,7 +641,7 @@ const IncidentRegistrationFinal = () => {
                                                             }
                                                         />
                                                     </Suspense>
-                                                    <SelectDifferentStaffDetail selectstaff={selectstaff} />
+                                                    {/* <SelectDifferentStaffDetail selectstaff={selectstaff} /> */}
                                                 </>
                                             ) : null}
 
