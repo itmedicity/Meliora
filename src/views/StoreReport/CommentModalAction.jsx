@@ -5,9 +5,9 @@ import {
     Typography,
     Textarea,
     Checkbox,
-    Avatar
 } from "@mui/joy";
 import CusIconButton from "../Components/CusIconButton";
+import ChatSummary from "./StoreCommonCode/ChatSummary";
 
 const CommentModalAction = ({
     open,
@@ -23,10 +23,37 @@ const CommentModalAction = ({
     allowedActionButtons,
     hasResolvedRight,
     commentsArr = [],
-    EdMdRights
+    empdept_id,
 }) => {
 
-    const sortedComments = [...commentsArr].sort((a, b) => a.cmt_slno - b.cmt_slno);
+    /* -------------------- SORT COMMENTS -------------------- */
+    const sortedComments = [...commentsArr].sort(
+        (a, b) => a.cmt_slno - b.cmt_slno
+    );
+
+    /* -------------------- STATUS LOGIC -------------------- */
+    const {
+        accounts_status,
+        purchase_status,
+        ed_md_status
+    } = selectedRow || {};
+
+
+    const isAccountsActive =
+        empdept_id === 15 && accounts_status === 0;
+
+    const isPurchaseActive =
+        empdept_id === 26 && purchase_status === 0;
+
+    const isEdMdActive =
+        empdept_id === 30 && ed_md_status === 0;
+
+    const shouldShowActionSection =
+        (isAccountsActive || isPurchaseActive || isEdMdActive) &&
+        checkResolved !== "Resolved";
+
+
+
 
     return (
         <Modal open={open} onClose={onClose}>
@@ -40,11 +67,11 @@ const CommentModalAction = ({
                     p: 3,
                     borderRadius: 2,
                     width: {
-                        xs: "95%",    // mobile
-                        sm: "90%",    // tablet
-                        md: "80%",    // laptop
-                        lg: "70%",    // desktop
-                        xl: "60%",    // large monitor
+                        xs: "95%",
+                        sm: "90%",
+                        md: "80%",
+                        lg: "70%",
+                        xl: "60%",
                     },
                     maxWidth: 1200,
                     maxHeight: {
@@ -56,7 +83,7 @@ const CommentModalAction = ({
                     boxShadow: "0px 8px 25px rgba(0,0,0,0.15)"
                 }}
             >
-                {/* Header */}
+                {/* ---------------- HEADER ---------------- */}
                 <Box
                     sx={{
                         mb: 1.5,
@@ -66,7 +93,7 @@ const CommentModalAction = ({
                         boxShadow: "0 2px 6px rgba(0,0,0,0.05)"
                     }}
                 >
-                    <Typography level="title-md" mb={0.5}>
+                    <Typography level="title-md">
                         <strong>GRN No:</strong> {selectedRow?.grn_no || "--"}
                     </Typography>
                     <Typography level="title-md">
@@ -74,99 +101,26 @@ const CommentModalAction = ({
                     </Typography>
                 </Box>
 
-                {/* ED and MD view  */}
-                {EdMdRights === true ?
+                {/* ---------------- CHAT SUMMARY ---------------- */}
+                <ChatSummary sortedComments={sortedComments} />
 
-                    <Box
-                        sx={{
-                            maxHeight: 260,
-                            overflowY: "auto",
-                            p: 2,
-                            borderRadius: 2,
-                            bgcolor: "#fafafa",
-                            border: "1px solid #d0e2ff",      // subtle blue border
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.05)"
-                        }}
-                    >
-                        {sortedComments.length === 0 ? (
-                            <Typography
-                                sx={{ textAlign: "center", color: "#888", py: 3 }}
-                            >
-                                No comments yet. Be the first to add one!
-                            </Typography>
-                        ) : (
-                            sortedComments.map((cmt) => (
-                                <Box
-                                    key={cmt.cmt_slno}
-                                    sx={{
-                                        display: "flex",
-                                        gap: 1.5,
-                                        mb: 2
-                                    }}
-                                >
-                                    <Avatar
-                                        size="sm"
-                                        sx={{
-                                            bgcolor:
-                                                cmt.cmt_done_by === "Accounts"
-                                                    ? "#1976d2"
-                                                    : cmt.cmt_done_by === "Directors"
-                                                        ? "#14ae69ff"
-                                                        : "#a132cdff", // default / others
-                                            fontSize: 12,
-                                            color: "white"
-                                        }}
-                                    >
-                                        {cmt.cmt_done_by?.[0]?.toUpperCase() || "U"}
-                                    </Avatar>
-
-                                    {/* Chat Bubble */}
-                                    <Box
-                                        sx={{
-                                            bgcolor: "white",
-                                            p: 1.5,
-                                            borderRadius: 2,
-                                            maxWidth: "85%",
-                                            border: "1px solid #e8e8e8",
-                                            boxShadow: "0px 2px 6px rgba(0,0,0,0.06)"
-                                        }}
-                                    >
-                                        <Typography
-                                            level="body-xs"
-                                            sx={{
-                                                fontWeight: "bold",
-                                                mb: 0.5,
-                                                color: "#444"
-                                            }}
-                                        >
-                                            {cmt.cmt_done_by.charAt(0).toUpperCase() + cmt.cmt_done_by.slice(1).toLowerCase() || "Unknown"}
-                                        </Typography>
-
-                                        <Typography level="body-sm">
-                                            {cmt.comment}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            ))
-                        )}
-                    </Box>
-
-                    : null}
-
-
-                {/* ACTION SECTION */}
-                {checkResolved !== "Resolved" && (
+                {/* ---------------- ACTION + REMARK SECTION ---------------- */}
+                {shouldShowActionSection && (
                     <Box>
                         <Box
                             sx={{
-                                p: 2,
+                                p: 1,
                                 borderRadius: 2,
                                 bgcolor: "#eef5ff",
                                 border: "1px solid #d0e2ff",
                                 mt: 1
                             }}
                         >
-                            <Typography level="title-sm" mb={1.5} sx={{ color: "#0a3d91" }}>
+                            <Typography
+                                level="title-sm"
+                                mb={1.5}
+                                sx={{ color: "#0a3d91" }}
+                            >
                                 Select Any Action
                             </Typography>
 
@@ -176,20 +130,24 @@ const CommentModalAction = ({
                                         key={action.id}
                                         label={action.label}
                                         checked={selectedAction === action.value}
-                                        onChange={() => setSelectedAction(action.value)}
+                                        onChange={() =>
+                                            setSelectedAction(action.value)
+                                        }
                                     />
                                 ))}
                             </Box>
                         </Box>
 
-                        <Typography level="title-sm" mt={2} mb={1}>
+                        <Typography level="title-sm" mt={1} mb={1}>
                             Remark
                         </Typography>
 
                         <Textarea
-                            minRows={3}
+                            minRows={2}
                             value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
+                            onChange={(e) =>
+                                setCommentText(e.target.value)
+                            }
                             placeholder="Type your comment…"
                             sx={{
                                 width: "100%",
@@ -202,45 +160,51 @@ const CommentModalAction = ({
                     </Box>
                 )}
 
-                {/* RESOLVED SECTION */}
-                {hasResolvedRight && (
-                    <Box
-                        sx={{
-                            p: 1,
-                            borderRadius: 2,
-                            bgcolor: "#eef5ff",
-                            border: "1px solid #d0e2ff",
-                            mt: 1
-                        }}
-                    >
-                        <Typography level="title-sm" mb={1}>
-                            If Resolved
-                        </Typography>
+                {/* ---------------- RESOLVED CHECKBOX ---------------- */}
+                {hasResolvedRight &&
+                    (
+                        <Box
+                            sx={{
+                                p: 1,
+                                borderRadius: 2,
+                                bgcolor: "#eef5ff",
+                                border: "1px solid #d0e2ff",
+                                mt: 1
+                            }}
+                        >
+                            <Typography level="title-sm" mb={1}>
+                                If Resolved
+                            </Typography>
 
-                        <Checkbox
-                            label="Resolved"
-                            checked={checkResolved === "Resolved"}
-                            onChange={(e) =>
-                                setCheckResolved(e.target.checked ? "Resolved" : null)
-                            }
-                        />
-                    </Box>
-                )}
+                            <Checkbox
+                                label="Resolved"
+                                checked={checkResolved === "Resolved"}
+                                onChange={(e) =>
+                                    setCheckResolved(
+                                        e.target.checked ? "Resolved" : null
+                                    )
+                                }
+                            />
+                        </Box>
+                    )}
 
+                {/* ---------------- RESOLVED REMARK ---------------- */}
                 {checkResolved === "Resolved" && (
                     <Box>
-                        <Typography level="title-sm" mt={2} mb={1}>
+                        <Typography level="title-sm" mt={1} mb={1}>
                             Resolved Remark
                         </Typography>
 
                         <Textarea
-                            minRows={3}
+                            minRows={2}
                             value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
+                            onChange={(e) =>
+                                setCommentText(e.target.value)
+                            }
                             placeholder="Type your comment…"
                             sx={{
                                 width: "100%",
-                                mb: 2,
+                                mb: 1,
                                 borderRadius: 2,
                                 border: "1px solid #d0e2ff",
                                 boxShadow: "0 2px 6px rgba(0,0,0,0.05)"
@@ -249,8 +213,15 @@ const CommentModalAction = ({
                     </Box>
                 )}
 
-                {/* FOOTER BUTTONS */}
-                <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end", mt: 2 }}>
+                {/* ---------------- FOOTER BUTTONS ---------------- */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-end",
+                        mt: 1
+                    }}
+                >
                     <CusIconButton
                         onClick={onSave}
                         style={{ width: "10%", bgcolor: "#926FB1" }}
@@ -271,3 +242,4 @@ const CommentModalAction = ({
 };
 
 export default memo(CommentModalAction);
+

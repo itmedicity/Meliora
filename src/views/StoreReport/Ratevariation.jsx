@@ -8,10 +8,10 @@ import { Virtuoso } from 'react-virtuoso'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getRateVariationComments, getStoreUserRights, getVarationData } from './CommonApiFun'
 import { useSelector } from 'react-redux'
-import { axioslogin } from '../Axios/Axios'
-import { succesNotify, warningNotify } from '../Common/CommonCode'
 import CommentModalAction from './CommentModalAction'
 import { RiFileExcel2Fill } from 'react-icons/ri'
+import { axioslogin } from '../Axios/Axios'
+import { succesNotify, warningNotify } from '../Common/CommonCode'
 
 const Ratevariation = ({ setActiveComponent }) => {
 
@@ -28,6 +28,9 @@ const Ratevariation = ({ setActiveComponent }) => {
 
     const empdept = useSelector(state => state.LoginUserData.empdeptname)
 
+    const empdept_id = useSelector(state => state.LoginUserData?.empdept)
+
+
     const queryClient = useQueryClient()
 
     const OncloseModalFun = useCallback(() => {
@@ -41,7 +44,7 @@ const Ratevariation = ({ setActiveComponent }) => {
         { fontWeight: 350, key: "sl_no", label: "Sl No", width: 100, align: "center" },
         { fontWeight: 350, key: "comments", label: "Status", width: 250, align: "center" },
         { fontWeight: 350, key: "grn_no", label: "GRN No", width: 110, align: "center" },
-        { fontWeight: 350, key: "supplier_name", label: "Supplier name", width: 300, align: "center" },
+        { fontWeight: 350, key: "supplier_name", label: "Supplier name", width: 300, align: "left" },
         { fontWeight: 350, key: "grn_date", label: "GRN Date", width: showExtraCols ? 115 : 180, align: "center" },
         { fontWeight: 350, key: "item_name", label: "Item Name", width: showExtraCols ? 220 : 400, align: "left" },
         { fontWeight: 500, key: "date_diff", label: "Lead Time", width: 120, align: "center" },
@@ -58,12 +61,18 @@ const Ratevariation = ({ setActiveComponent }) => {
         { fontWeight: 500, key: "grn_selling_rate", label: "GRN Selling Rate", width: 135, align: "right" },
         { fontWeight: 500, key: "grn_dis", label: "GRN Dis%", width: 110, align: "center" },
         { fontWeight: 500, key: "rate", label: "PO Rate", width: 90, align: "right" },
+        { fontWeight: 500, key: "po_mrp", label: "Po Selling Rate", width: 135, align: "right" },
         { fontWeight: 500, key: "disc", label: "Disc %", width: 100, align: "center" },
         { fontWeight: 500, key: "grn_variation_qty", label: "GRN Variation Qty", width: 135, align: "center" },
         { fontWeight: 500, key: "grn_variation_free", label: "GRN Variation Free", width: 130, align: "center" },
         { fontWeight: 500, key: "disc_variation", label: "Disc Variation", width: 120, align: "center" },
-
     ];
+
+    const viewRights = [
+        { slno: 1, name: "ACCOUNTS", deptid: 15 },
+        { slno: 2, name: "PURCHASE", deptid: 26 },
+        { slno: 3, name: "ADMINISTRATION", deptid: 30 }
+    ]
 
     const columns = useMemo(() => {
         return showExtraCols ? [...mainColumns, ...extraColumns] : mainColumns;
@@ -75,17 +84,14 @@ const Ratevariation = ({ setActiveComponent }) => {
     }, [setActiveComponent])
 
     const { data: RatevarationData } = useQuery({
-        queryKey: 'getdefaultdata',
+        queryKey: ['getdefaultdata'],
         queryFn: () => getVarationData(),
         staleTime: Infinity
     })
 
-    console.log({
-        RatevarationData
-    });
-    
-
     const slno = useMemo(() => selectedRow?.slno, [selectedRow]);
+
+    // console.log("RatevarationData:", RatevarationData);
 
     const { data: RateVariationComments } = useQuery({
         queryKey: ['getComments', slno],
@@ -94,7 +100,6 @@ const Ratevariation = ({ setActiveComponent }) => {
         enabled: !!slno
     })
 
-
     //rights
     const { data: fetchStoreUserRights } = useQuery({
         queryKey: ["getStoreRights", loginId],
@@ -102,17 +107,20 @@ const Ratevariation = ({ setActiveComponent }) => {
         enabled: !!loginId,
         staleTime: Infinity
     });
+
     /* ================= ACTION CONFIG ================= */
     const actionRightsMap = [
         { id: 7, label: "Hold Payment", value: "Hold Payment" },
         { id: 8, label: "New Quot (Rec)", value: "New Quot (Rec)" },
-        { id: 9, label: "Payment Proceed", value: "Payment Proceed" },
+        { id: 9, label: "Proceed Payment Against PO", value: "Proceed Payment Against PO" },
         { id: 10, label: "Hold Purchase", value: "Hold Purchase" },
         { id: 11, label: "Resolved Status", value: "Resolved" },// handled separately
-        { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" }
+        { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" },
+        { id: 13, label: "Proceed Payment Against Bill", value: "Proceed Payment Against Bill" }
     ];
 
     /* ================= FILTERED RIGHTS ================= */
+
     const allowedActionButtons = actionRightsMap.filter(
         action =>
             fetchStoreUserRights?.includes(action.id) &&
@@ -120,16 +128,147 @@ const Ratevariation = ({ setActiveComponent }) => {
     );
 
     const hasResolvedRight = fetchStoreUserRights?.includes(11);
-    const EdMdRights = fetchStoreUserRights?.includes(12);
-
-
+    // const EdMdRights = fetchStoreUserRights?.includes(12);
 
     const handleOpenComment = useCallback((row) => {
         setSelectedRow(row);
         setOpenCommentModal(true);
     }, []);
 
+
+    const getNextStatuses = (empdept_id, hasAction, prev = {}) => {
+        let accounts_status = Number(prev.accounts_status ?? 1);
+        let purchase_status = Number(prev.purchase_status ?? 1);
+        let ed_md_status = Number(prev.ed_md_status ?? 1);
+
+        if (!hasAction) {
+            if (empdept_id === 15) accounts_status = 1;
+            if (empdept_id === 26) purchase_status = 1;
+            if (empdept_id === 30) ed_md_status = 1;
+        } else {
+            accounts_status = 1;
+            purchase_status = 1;
+            ed_md_status = 1;
+
+            if (empdept_id === 15) purchase_status = 0;
+            else if (empdept_id === 26) ed_md_status = 0;
+            else if (empdept_id === 30) accounts_status = 0;
+        }
+
+        return { accounts_status, purchase_status, ed_md_status };
+    };
+
+    const handleApiCall = async (postComment) => {
+        const result = await axioslogin.post("RateVariationReport/insertComment", postComment);
+        const { success, message } = result.data;
+
+        if (success === 1) {
+            succesNotify(message);
+            queryClient.invalidateQueries(['getComments']);
+            queryClient.invalidateQueries(['getdefaultdata']);
+        } else {
+            warningNotify(message);
+        }
+
+        // reset
+        setCommentText("");
+        setSelectedAction("");
+        setOpenCommentModal(false);
+        setCheckResolved(null);
+    };
+
     const handleSaveComment = useCallback(async () => {
+
+        const hasAction = selectedAction !== "";
+
+        // block when no action (only for non-resolve flow)
+        if (checkResolved === null && !hasAction) {
+            warningNotify("Please select an action before saving.");
+            return;
+        }
+
+        // resolve validation
+        if (checkResolved !== null) {
+
+            const matchedData = (RatevarationData || []).filter(
+                (val) => Number(val?.grn_no) === Number(selectedRow?.grn_no)
+            );
+
+            const allApproved =
+                matchedData.length > 0 &&
+                matchedData.every(val => Number(val?.ed_approval_status) === 1);
+
+
+
+            const IntitalResolveStatus = matchedData.length > 0 &&
+                matchedData.every(val => (Number(val?.accounts_status) === 0) && (Number(val?.ed_md_status) === 1) && (Number(val?.purchase_status) === 1));
+
+
+
+
+            if (!allApproved && !IntitalResolveStatus) {
+                warningNotify("Previous items are still pending for approval. We cannot resolve until all are approved");
+                return;
+            }
+        }
+
+
+        // if (checkResolved !== null) {
+        //     const matchedData = (RatevarationData || []).filter(
+        //         (val) => Number(val?.grn_no) === Number(selectedRow?.grn_no)
+        //     );
+
+        //     if (matchedData.length === 0) return;
+
+        //     // Find pending department
+        //     const pendingItem = matchedData.find((val) => {
+        //         // const acc = Number(val?.accounts_status);
+        //         const pur = Number(val?.purchase_status);
+        //         const ed = Number(val?.ed_md_status);
+
+        //         return !(pur === 1 && ed === 1);
+        //     });
+
+        //     if (pendingItem) {
+        //         // const acc = Number(pendingItem?.accounts_status);
+        //         const pur = Number(pendingItem?.purchase_status);
+        //         const ed = Number(pendingItem?.ed_md_status);
+
+        //         let message = "";
+        //         if (pur === 0) {
+        //             message = "Approval pending in Purchase Department.";
+        //         } else if (ed === 0) {
+        //             message = "Approval pending in ED/MD.";
+        //         } else {
+        //             message = "Some items are still pending approval.";
+        //         }
+
+        //         warningNotify(message);
+        //         return;
+        //     }
+        // }
+
+        // status calculation (single place)
+        const { accounts_status, purchase_status, ed_md_status } =
+            getNextStatuses(empdept_id, hasAction, selectedRow);
+
+        // approval logic (only for non-resolve flow)
+        let ed_approval_status = selectedRow?.ed_approval_status;
+
+        if (checkResolved === null) {
+            const calculatedApproval =
+                Number(ed_md_status) === 1 &&
+                    Number(accounts_status) === 0 &&
+                    Number(purchase_status) === 1
+                    ? 1
+                    : 0;
+
+            ed_approval_status =
+                Number(selectedRow?.ed_approval_status) === 1
+                    ? 1
+                    : calculatedApproval;
+        }
+
         const postComment = {
             grn_no: selectedRow?.grn_no,
             item_name: selectedRow?.item_name,
@@ -137,38 +276,149 @@ const Ratevariation = ({ setActiveComponent }) => {
             Cmt_Dept: empdept,
             rate_variation_slno: selectedRow?.slno,
             loginId: loginId,
-            selectedAction: selectedAction !== '' ? selectedAction : checkResolved,
-            checkResolved: checkResolved !== null ? 1 : 0
-        }
-        const result = await axioslogin.post("RateVariationReport/insertComment", postComment)
-        const { success, message } = result.data;
-        if (success === 1) {
-            succesNotify(message)
-            queryClient.invalidateQueries('getComments');
-            setCommentText("")
-            setSelectedAction("")
-            setOpenCommentModal(false)
-            setCheckResolved(null)
-        } else {
-            warningNotify(message)
-            setCommentText("")
-            setSelectedAction("")
-            setOpenCommentModal(false)
-            setCheckResolved(null)
-        }
-    }, [selectedRow, commentText, empdept, loginId, queryClient, selectedAction, checkResolved, setCheckResolved])
+            selectedAction: hasAction ? selectedAction : checkResolved,
+            checkResolved: checkResolved !== null ? 1 : 0,
+            accounts_status,
+            purchase_status,
+            ed_md_status,
+            ed_approval_status
+        };
+
+        await handleApiCall(postComment);
+
+    }, [
+        selectedRow,
+        commentText,
+        empdept,
+        loginId,
+        selectedAction,
+        checkResolved,
+        empdept_id,
+        RatevarationData
+    ]);
+
+
+
+
+    // original code 
+    //  const handleSaveComment = useCallback(async () => {
+    //     let accounts_status = Number(selectedRow?.accounts_status ?? 1);
+    //     let purchase_status = Number(selectedRow?.purchase_status ?? 1);
+    //     let ed_md_status = Number(selectedRow?.ed_md_status ?? 1);
+
+    //     const hasAction =
+    //         selectedAction !== "" || checkResolved !== null;
+
+    //     /* ------------------------------------
+    //        CASE 1: NO action & NO resolved
+    //        → Logged dept status = 1
+    //     ------------------------------------ */
+    //     if (!hasAction) {
+    //         if (empdept_id === 15) accounts_status = 1;
+    //         if (empdept_id === 26) purchase_status = 1;
+    //         if (empdept_id === 30) ed_md_status = 1;
+    //     }
+
+    //     /* ------------------------------------
+    //        CASE 2: Action OR Resolved selected
+    //        → Move to NEXT dept
+    //     ------------------------------------ */
+    //     else {
+    //         accounts_status = 1;
+    //         purchase_status = 1;
+    //         ed_md_status = 1;
+
+    //         if (empdept_id === 15) {
+    //             purchase_status = 0;
+    //         }
+    //         else if (empdept_id === 26) {
+    //             ed_md_status = 0;
+    //         }
+    //         else if (empdept_id === 30) {
+    //             accounts_status = 0;
+    //         }
+    //     }
+
+    //     const ed_approval_status =
+    //         Number(ed_md_status) === 1 &&
+    //             Number(accounts_status) === 0 &&
+    //             Number(purchase_status) === 1
+    //             ? 1
+    //             : 0;
+
+
+    //     const postComment = {
+    //         grn_no: selectedRow?.grn_no,
+    //         item_name: selectedRow?.item_name,
+    //         comment: commentText,
+    //         Cmt_Dept: empdept,
+    //         rate_variation_slno: selectedRow?.slno,
+    //         loginId: loginId,
+    //         selectedAction: selectedAction !== "" ? selectedAction : checkResolved,
+    //         checkResolved: checkResolved !== null ? 1 : 0,
+    //         accounts_status,
+    //         purchase_status,
+    //         ed_md_status,
+    //         ed_approval_status: ed_approval_status
+    //     };
+
+    //     console.log("postComment:", postComment);
+
+    //     const result = await axioslogin.post("RateVariationReport/insertComment", postComment)
+    //     const { success, message } = result.data;
+    //     if (success === 1) {
+    //         succesNotify(message)
+    //         queryClient.invalidateQueries(['getComments'])
+    //         queryClient.invalidateQueries(['getdefaultdata'])
+    //         setCommentText("")
+    //         setSelectedAction("")
+    //         setOpenCommentModal(false)
+    //         setCheckResolved(null)
+    //     } else {
+    //         warningNotify(message)
+    //         setCommentText("")
+    //         setSelectedAction("")
+    //         setOpenCommentModal(false)
+    //         setCheckResolved(null)
+    //     }
+    // }, [
+    //     selectedRow,
+    //     commentText,
+    //     empdept,
+    //     loginId,
+    //     selectedAction,
+    //     checkResolved,
+    //     empdept_id,
+    //     setCommentText,
+    //     setSelectedAction,
+    //     setOpenCommentModal,
+    //     setCheckResolved
+    // ]);
+
+
 
     const filtered = useMemo(() => {
-        let result = RatevarationData;
+        let result = RatevarationData ?? [];
+        if (empdept_id === 15) {
+            result = result.filter(val => val.accounts_status === 0);
+        }
+        else if (empdept_id === 26) {
+            result = result.filter(val => val.purchase_status === 0);
+        }
+        else if (empdept_id === 30) {
+            result = result.filter(val => val.ed_md_status === 0);
+        }
+
         if (searchValue.trim()) {
             if (selected === "1") {
-                result = result?.filter(val =>
-                    val["grn_no"]?.toString() === searchValue
+                result = result.filter(
+                    val => val.grn_no?.toString() === searchValue
                 );
             }
         }
+
         return result;
-    }, [searchValue, selected, RatevarationData]);
+    }, [searchValue, selected, RatevarationData, empdept_id]);
 
 
     const onExportClick = () => {
@@ -183,7 +433,8 @@ const Ratevariation = ({ setActiveComponent }) => {
             grn_rate: item["grn_rate"],
             grn_selling_rate: item["grn_selling_rate"],
             grn_dis: item["grn_dis"],
-            rate: item["rate"],
+            po_rate: item["rate"],
+            po_selling_rate: item["po_mrp"],
             dis_percent: item["disc"],
             supplier_name: item["supplier_name"],
             rate_variation: item["rate_variation"],
@@ -260,7 +511,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                     </Box>
 
                     <Box sx={{ overflowX: "auto", width: "100%", }}>
-                        <Box sx={{ minWidth: showExtraCols ? '2500px' : '1500px' }}>
+                        <Box sx={{ minWidth: showExtraCols ? '2650px' : '1500px' }}>
                             <Box
                                 display="flex"
                                 sx={{ borderBottom: "1px solid grey", background: "#F0F0F0" }}
@@ -362,6 +613,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                                             <Box display="flex" sx={{ borderBottom: "1px solid lightgrey" }}>
                                                 {columns.map(col => {
                                                     let value = val[col.key];
+
                                                     if (col.key === "sl_no") value = index + 1;
                                                     if (col.key === "comments") {
                                                         value = value ? value : "Not Updated";
@@ -380,21 +632,46 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     backgroundColor: QtnMarginbg ? "#D1E9F6" : "white"
                                                                 }}
                                                             >
-                                                                {/* <Box
-                                                                    sx={{
-                                                                        borderRadius: 2,
-                                                                        minWidth: 150,
-                                                                        textAlign: "center",
-                                                                        border: "1px solid #90CAF9",
-                                                                        backgroundColor: value === "Payment Proceed" ? "#CAE8BD" : value === "Hold Payment" || value === "New Quot (Rec)" || value === "Hold Purchase" ? "#FFCFCF" : "white",
-                                                                        fontSize: 14,
-                                                                        color: value ? "black" : "#D32F2F",
-                                                                        cursor: "pointer",
+                                                                <Tooltip
+                                                                    title={val.cmt_description}
+                                                                    placement="right"
+                                                                    // color="primary"
+                                                                    size="sm"
+                                                                    variant="outlined"
+                                                                    arrow
 
+                                                                    sx={{
+                                                                        width: 250,        // ✅ fixed width
+                                                                        maxWidth: 250,     // prevents auto resize
+                                                                        whiteSpace: "normal",
+                                                                        wordBreak: "break-word",
+                                                                        fontSize: 13,
+                                                                        color: "#524b4fff"
                                                                     }}
                                                                 >
-                                                                    {statusText}
-                                                                </Box> */}
+                                                                    <Box
+                                                                        sx={{
+                                                                            borderRadius: 2,
+                                                                            minWidth: 200,
+                                                                            textAlign: "center",
+                                                                            fontSize: 13,
+                                                                            color: value ? "black" : "#D32F2F",
+                                                                            cursor: "pointer",
+                                                                            backgroundColor: value === "Hold Payment" ? "#FFC3C3" : value === "New Quot (Rec)" ? "#BBDCE5" : value === "Proceed Payment Against PO" ? "#6ac080b2" : value === "Hold Purchase" ? "#FFC3C3" : value === "Proceed Payment Against Bill" ? "#6ac080b2" : "white",
+                                                                            border: value === "Hold Payment"
+                                                                                ? "2px solid #511a12a7"
+                                                                                : value === "New Quot (Rec)" ||
+                                                                                    value === "Proceed Payment Against PO" ||
+                                                                                    value === "Hold Purchase"
+                                                                                    ? "2px solid #862020a9"
+                                                                                    : value === "Proceed Payment Against Bill" ?
+                                                                                        "2px solid #862020a9"
+                                                                                        : "2px solid #90CAF9",
+                                                                        }}
+                                                                    >
+                                                                        {statusText}
+                                                                    </Box>
+                                                                </Tooltip>
                                                                 {/* <Tooltip
                                                                     title={val.cmt_description}
                                                                     placement="right"
@@ -427,7 +704,9 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     </Box>
                                                                 </Tooltip> */}
 
-                                                                <Tooltip
+
+                                                                {/* Original code */}
+                                                                {/* <Tooltip
                                                                     title={val.cmt_description}
                                                                     placement="right"
                                                                     // color="primary"
@@ -474,12 +753,12 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     >
                                                                         {statusText}
                                                                     </Box>
-                                                                </Tooltip>
+                                                                </Tooltip> */}
                                                             </Box>
                                                         );
                                                     }
                                                     if (["grn_date"].includes(col.key)) value = formatDateTime(value);
-                                                    if (["grn_selling_rate", "grn_dis", "rate", "rate_variation"]
+                                                    if (["grn_selling_rate", "grn_dis", "rate", "rate_variation", "po_mrp"]
                                                         .includes(col.key))
                                                         value = Number(value).toFixed(4);
                                                     if (["quo_margin", "purchase_margin", "po_margin"].includes(col.key)) {
@@ -574,8 +853,6 @@ const Ratevariation = ({ setActiveComponent }) => {
                                         );
                                     }}
                                 />
-
-
                             </Box>
                         </Box>
                     </Box>
@@ -612,11 +889,14 @@ const Ratevariation = ({ setActiveComponent }) => {
                         loginId={loginId}
                         allowedActionButtons={allowedActionButtons}
                         hasResolvedRight={hasResolvedRight}
-                        EdMdRights={EdMdRights}
+                        // EdMdRights={EdMdRights}
+                        RatevarationData={RatevarationData}
+                        empdept_id={empdept_id}
+                        viewRights={viewRights}
+
                     />
                 </Paper>
             </CardCloseOnly>
-            {/* } */}
         </Fragment >
     )
 }

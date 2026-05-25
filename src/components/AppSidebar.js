@@ -41,7 +41,7 @@ import { FcInspection } from 'react-icons/fc'
 import { FcBullish } from 'react-icons/fc'
 import { MdRoomPreferences } from 'react-icons/md'
 import { FcAdvertising } from 'react-icons/fc'
-import { GiMedicines } from 'react-icons/gi'
+import { GiMedicines, GiMeshNetwork } from 'react-icons/gi'
 import { VscSignOut } from 'react-icons/vsc'
 import { FaBedPulse } from "react-icons/fa6";
 import TMCHLogo from '../assets/Svg/tmch_logo.svg'
@@ -240,7 +240,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       name: 'Work Order',
       items: Workorder,
       route: '/Home',
-      icon: <GiMedicines />
+      icon: <GiMeshNetwork color="var(--true-blue-800)" />
     },
     {
       slno: 27,

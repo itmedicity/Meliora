@@ -156,7 +156,7 @@ export const userManagement_two = [
     { to: '/Home/ModuleMast', name: 'Module Master', slno: 9 },
     { to: '/Home/ModuleUserRight', name: 'Module User Right', slno: 15 },
     { to: '/Home/Authorization', name: 'Incharge Hod Authorization', slno: 204 },
-    
+
 ]
 export const userManagement_three = [
     { to: '/Home/UserGroupRight', name: 'User Group Rights', slno: 10 },
@@ -175,7 +175,15 @@ export const ams_one = [
     { to: '/Home/AmsMaster', name: 'Antibiotic Master', slno: 275 }
 ]
 
-export const Work_one = [{ to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 }]
+
+
+
+// work order
+
+export const Work_one = [
+    { to: '/Home/ContractMaster', name: 'Contract Type Master', slno: 300 },
+    { to: '/Home/VendorMaster', name: 'Vendor Master', slno: 336 },
+]
 
 export const Work_two = [
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
