@@ -18,7 +18,7 @@ const HospitalPropertyDetailCardDisplay = ({ propertyDetail, HandleHpEdit }) => 
         obj => !(Object.keys(obj).length === 1 && (obj.item_isAsset === true || obj.item_isAsset === null || obj.item_isAsset === false))
     ) || [];
 
- 
+
     // Get custodian department data
     const { data: custodianArray = [] } = useQuery({
         queryKey: ['getCustdepInci'],
@@ -105,7 +105,7 @@ const HospitalPropertyDetailCardDisplay = ({ propertyDetail, HandleHpEdit }) => 
                             weight={600}
                         />
                         <Card variant="outlined" sx={{ mt: 1, position: 'relative' }}>
-                            {infoItems.map((item, index) => (
+                            {infoItems?.map((item, index) => (
                                 <Box
                                     key={index}
                                     sx={{

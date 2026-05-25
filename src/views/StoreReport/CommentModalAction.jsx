@@ -109,7 +109,7 @@ const CommentModalAction = ({
                     <Box>
                         <Box
                             sx={{
-                                p: 2,
+                                p: 1,
                                 borderRadius: 2,
                                 bgcolor: "#eef5ff",
                                 border: "1px solid #d0e2ff",
@@ -138,12 +138,12 @@ const CommentModalAction = ({
                             </Box>
                         </Box>
 
-                        <Typography level="title-sm" mt={2} mb={1}>
+                        <Typography level="title-sm" mt={1} mb={1}>
                             Remark
                         </Typography>
 
                         <Textarea
-                            minRows={3}
+                            minRows={2}
                             value={commentText}
                             onChange={(e) =>
                                 setCommentText(e.target.value)
@@ -191,12 +191,12 @@ const CommentModalAction = ({
                 {/* ---------------- RESOLVED REMARK ---------------- */}
                 {checkResolved === "Resolved" && (
                     <Box>
-                        <Typography level="title-sm" mt={2} mb={1}>
+                        <Typography level="title-sm" mt={1} mb={1}>
                             Resolved Remark
                         </Typography>
 
                         <Textarea
-                            minRows={3}
+                            minRows={2}
                             value={commentText}
                             onChange={(e) =>
                                 setCommentText(e.target.value)
@@ -204,7 +204,7 @@ const CommentModalAction = ({
                             placeholder="Type your comment…"
                             sx={{
                                 width: "100%",
-                                mb: 2,
+                                mb: 1,
                                 borderRadius: 2,
                                 border: "1px solid #d0e2ff",
                                 boxShadow: "0 2px 6px rgba(0,0,0,0.05)"
@@ -219,7 +219,7 @@ const CommentModalAction = ({
                         display: "flex",
                         gap: 1,
                         justifyContent: "flex-end",
-                        mt: 2
+                        mt: 1
                     }}
                 >
                     <CusIconButton

@@ -7,15 +7,17 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import MonochromePhotosTwoToneIcon from '@mui/icons-material/MonochromePhotosTwoTone';
 import { infoNotify, succesNotify, warningNotify } from '../Common/CommonCode';
 import {
-    relatedOptions,
+    // relatedOptions,
     staffDetail,
-    symbolToLabel,
+    // symbolToLabel,
     textAreaStyle,
 } from './CommonComponent/CommonCode';
 import { axioslogin } from '../Axios/Axios';
 import { getFamilyDetails, handleImageClick, handleImageUpload, normalizeIncidentData } from './CommonComponent/CommonFun';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useFetchAllActiveInitiator } from './CommonComponent/useQuery';
+import DisplayCommonDetail from './Components/DisplayCommonDetail';
 
 
 // Lazy loaded components
@@ -24,6 +26,7 @@ const RelatedToCard = lazy(() => import('./Components/RelatedToCard'));
 const IncidentStepper = lazy(() => import('./Components/IncidentStepper'));
 const AddButton = lazy(() => import('./ButtonComponent/AddButton'));
 const PatientFilter = lazy(() => import('./Components/PatientFilter'));
+// const SelectDifferentStaffDetail = lazy(() => import('./Components/SelectDifferentStaffDetail'));
 const IncidentDescriptionCard = lazy(() => import('./Components/IncidentDescriptionCard'));
 const CardHeader = lazy(() => import('./Components/CardHeader'));
 const StepCompletedCard = lazy(() => import('./Components/StepCompletedCard'));
@@ -75,6 +78,7 @@ const IncidentRegistrationFinal = () => {
     const [regcorrectiveaction, setRegCorrectiveAction] = useState('');
     const [iscorrectiveadded, setIsCorrectiveAdded] = useState(false);
 
+    const { data: IncidientInitiator = [] } = useFetchAllActiveInitiator();
 
     // visitor data
     const [visitordata, setVisitorData] = useState([]);
@@ -93,16 +97,27 @@ const IncidentRegistrationFinal = () => {
     const [staffdetail, setStaffDetail] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
 
+
+    const [commondetail, setCommonDetail] = useState('');
+
     // image data
     const [openModal, setOpenModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [tempFiles, setTempFiles] = useState([]);
 
 
-    const InitiatorName = incidentData?.inc_initiator_slno === 1 ?
-        'P' : incidentData?.inc_initiator_slno === 2 ?
-            'S' : incidentData?.inc_initiator_slno === 3 ?
-                'V' : 'HP';
+    // const InitiatorName = incidentData?.inc_initiator_slno === 1 ?
+    //     'P' : incidentData?.inc_initiator_slno === 2 ?
+    //         'S' : incidentData?.inc_initiator_slno === 3 ?
+    //             'V' : 'HP';
+
+
+
+    const InitiatorName = IncidientInitiator?.find(
+        item => Number(item.inc_initiator_slno) === Number(incidentData?.inc_initiator_slno)
+    )?.inc_initiator_alias;
+
+
 
 
     // For conditionally loading the skeleton component if no data is present
@@ -131,8 +146,10 @@ const IncidentRegistrationFinal = () => {
             setStaffDetail([staffDetails])
         } else if (incidentData?.inc_initiator_slno === 3) {
             setVisitorData([visitorDetail])
-        } else {
+        } else if (incidentData?.inc_initiator_slno === 4) {
             setHpDetail(propertyDetail)
+        } else {
+            setCommonDetail(incidentData?.inc_common_description)
         }
         setIncidentDescription(incidentData?.inc_describtion);
         setRegCorrectiveAction(incidentData?.inc_reg_corrective);
@@ -143,7 +160,9 @@ const IncidentRegistrationFinal = () => {
         setIsDescAdded(true)
         setIsPatientDetail(true)
         setIsCorrectiveAdded(true)
-    }, [incidentData, Files])
+
+    }, [incidentData, Files]);
+
 
     const isImage = (file) => {
         return file?.type?.startsWith("image/") || file?.blob?.type?.startsWith("image/");
@@ -248,7 +267,7 @@ const IncidentRegistrationFinal = () => {
     }, [currentstep, IncidentEditing, navigate]);
 
     const getSetState = () => {
-        const label = symbolToLabel[selectedSymbol];
+        const label = RelatedToName;
         if (label === "Visitors") return setIsVisitorEdit;
         if (label === "Hospital Properties") return setIsHpedit;
         return setIsEditData;
@@ -269,12 +288,13 @@ const IncidentRegistrationFinal = () => {
         setSelectedCategories([]) // nature of incident
         setRelatedTo(false)
         setRegCorrectiveAction("")
+        setCommonDetail("")
     }
 
     // Hanlde Searching Detail
     const HandleSearchDetail = useCallback(async () => {
         if (searchkeyword === "") return warningNotify("Please enter the id");
-        const type = symbolToLabel[selectedSymbol];
+        const type = RelatedToName;
         setGetDetail(false);
         setPtDetail([])
         setStaffDetail([])
@@ -316,14 +336,17 @@ const IncidentRegistrationFinal = () => {
         } finally {
             setIsLoadingDetail(false);
         }
-    }, [setIsLoadingDetail, iseditdata, setStaffDetail, staffDetail, symbolToLabel, searchkeyword, selectstaff]);
+    }, [setIsLoadingDetail, iseditdata, setStaffDetail, staffDetail, searchkeyword, selectstaff]);
 
 
     // hanlde who Caused the Incident
     const HanldeIncidentInitiatorSelect = (newSymbol) => {
+
         const isUnselecting = selectedSymbol === newSymbol;
         const updatedSymbol = isUnselecting ? null : newSymbol;
+
         setSelectedSymbol(updatedSymbol);
+
         if (!isUnselecting) {
             resetAllDetails();      // called when selecting
             setGetDetail(false);    // update flag
@@ -334,12 +357,26 @@ const IncidentRegistrationFinal = () => {
         }
     };
 
-    const incidentInitiator = symbolToLabel[selectedSymbol];
+    const incidentInitiator = IncidientInitiator?.find(item => String(item.inc_initiator_alias) === String(selectedSymbol));
 
+   
+
+    // const incidentInitiator = RelatedToName;
     // for testing puprose remove this after that 
-    const InitiatorSlno = incidentInitiator === "Patient" ? 1 : incidentInitiator === "Staff" ? 2 : incidentInitiator === "Visitors" ? 3 : 4;
+    // const InitiatorSlno = incidentInitiator === "Patient" ? 1 : incidentInitiator === "Staff" ? 2 : incidentInitiator === "Visitors" ? 3 : 4;
+    // const InitiatorDtl = incidentInitiator === "Patient" ? ptdetail : incidentInitiator === "Staff" ? staffdetail : incidentInitiator === "Visitors" ? visitordata : hpdetail;
+
+
     const staffSlno = selectstaff === "HS" ? 1 : selectstaff === "PG" ? 2 : selectstaff === "Hospital Staff" ? 3 : 4;
-    const InitiatorDtl = incidentInitiator === "Patient" ? ptdetail : incidentInitiator === "Staff" ? staffdetail : incidentInitiator === "Visitors" ? visitordata : hpdetail;
+    const InitiatorSlno = incidentInitiator?.inc_initiator_slno || null;
+    const RelatedToName = incidentInitiator?.inc_initiator_name || '';
+
+    const InitiatorDtl =
+        RelatedToName === "Patient" ? ptdetail :
+            RelatedToName === "Staff" ? staffdetail :
+                RelatedToName === "Visitors" ? visitordata :
+                    RelatedToName === "Others" ? commondetail :
+                        hpdetail;
 
 
     // Hanlde Registartions
@@ -501,7 +538,10 @@ const IncidentRegistrationFinal = () => {
 
                         {
                             currentstep >= 1 && (
-                                <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
+                                <Suspense fallback={
+                                    <CustomeIncidentLoading
+                                        text={"Loading...!"}
+                                    />}>
                                     <FloatingBackButton
                                         onClick={hanldeBackFun}
                                     />
@@ -526,13 +566,26 @@ const IncidentRegistrationFinal = () => {
                                     {
                                         !relatedto && !isCompletedFirstStep &&
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 1 }}>
-                                            {relatedOptions?.map(({ label, symbol }) => (
+                                            {/* {relatedOptions?.map(({ label, symbol }) => (
                                                 <Suspense key={symbol} fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                                     <RelatedToCard
                                                         clearfunction={resetAllDetails}
                                                         label={label}
                                                         symbol={symbol}
                                                         selected={selectedSymbol === symbol}
+                                                        onSelect={HanldeIncidentInitiatorSelect}
+                                                        multiple={false}
+                                                        setGetDetail={setGetDetail}
+                                                    />
+                                                </Suspense>
+                                            ))} */}
+                                            {IncidientInitiator?.map((item, index) => (
+                                                <Suspense key={index} fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
+                                                    <RelatedToCard
+                                                        clearfunction={resetAllDetails}
+                                                        label={item?.inc_initiator_name}
+                                                        symbol={item?.inc_initiator_alias}
+                                                        selected={selectedSymbol === item?.inc_initiator_alias}
                                                         onSelect={HanldeIncidentInitiatorSelect}
                                                         multiple={false}
                                                         setGetDetail={setGetDetail}
@@ -558,13 +611,13 @@ const IncidentRegistrationFinal = () => {
                                     (
                                         <Box sx={{ p: 2, position: 'relative' }}>
                                             <IncidentTextComponent
-                                                text={`2. Add ${symbolToLabel[selectedSymbol]} Information`}
+                                                text={`2. Add ${RelatedToName} Information`}
                                                 color="#403d3dff"
                                                 size={18}
                                                 weight={600}
                                             />
                                             {
-                                                symbolToLabel[selectedSymbol] === "Staff"
+                                                RelatedToName === "Staff"
                                                 &&
                                                 <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                                     <StaffCard selected={selectstaff} onSelect={handleSelect} />
@@ -572,23 +625,32 @@ const IncidentRegistrationFinal = () => {
                                             }
 
                                             {/* search input (if needed) */}
-                                            {(symbolToLabel[selectedSymbol] === "Staff" && selectstaff !== "") ||
-                                                symbolToLabel[selectedSymbol] === "Patient" && !iseditdata ? (
-                                                <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
-                                                    <PatientFilter
-                                                        onChange={setSearchKeyword}
-                                                        onClick={HandleSearchDetail}
-                                                        value={searchkeyword}
-                                                        placeholder={symbolToLabel[selectedSymbol] === "Staff" ? "Enter Staff Id" : "Enter MRD Number'"}
-                                                    />
-                                                </Suspense>
+                                            {(RelatedToName === "Staff" && selectstaff !== "") ||
+                                                RelatedToName === "Patient" && !iseditdata ? (
+                                                <>
+
+                                                    <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
+                                                        <PatientFilter
+                                                            onChange={setSearchKeyword}
+                                                            onClick={HandleSearchDetail}
+                                                            value={searchkeyword}
+                                                            placeholder={
+                                                                RelatedToName === "Staff" ?
+                                                                    "Enter Staff Id" :
+                                                                    "Enter MRD Number'"
+                                                            }
+                                                        />
+                                                    </Suspense>
+                                                    {/* <SelectDifferentStaffDetail selectstaff={selectstaff} /> */}
+                                                </>
                                             ) : null}
 
                                             <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                                 <StepTwoContent
                                                     isloadingdetail={isloadingdetail}
-                                                    symbolToLabel={symbolToLabel}
-                                                    selectedSymbol={selectedSymbol}
+                                                    RelatedToName={RelatedToName}
+                                                    commondetail={commondetail}
+                                                    setCommonDetail={setCommonDetail}
                                                     iseditdata={iseditdata}
                                                     isvistoredit={isvistoredit}
                                                     ishpedit={ishpedit}
@@ -616,7 +678,8 @@ const IncidentRegistrationFinal = () => {
                                                     (ptdetail?.length > 0 && iseditdata) ||
                                                     (staffdetail?.length > 0) ||
                                                     (visitordata?.length > 0 && isvistoredit) ||
-                                                    (hpdetail?.length > 0 && ishpedit)
+                                                    (hpdetail?.length > 0 && ishpedit) ||
+                                                    (commondetail?.length > 0)
                                                 ) && (
                                                     <AddButton
                                                         onClick={AddPatientDetailAdding}
@@ -810,7 +873,7 @@ const IncidentRegistrationFinal = () => {
                                 />
                             }
                             <CardHeader icon={MdOutlineAssignment} text="The Incident Related to" />
-                            <IncidentCreatorTag creatorType={symbolToLabel[selectedSymbol] || 'Not Selected'} />
+                            <IncidentCreatorTag creatorType={RelatedToName || 'Not Selected'} />
                         </>
                     )}
                 </Box>
@@ -833,9 +896,7 @@ const IncidentRegistrationFinal = () => {
                             IncidentEditing && currentstep === 2 &&
                             <UndoComponent condition={true} setState={getSetState()} setValue={setIsPatientDetail} />
                         }
-                        <CardHeader icon={TbListDetails} text={
-                            symbolToLabel[selectedSymbol] === "Patient" ? "In-Patient Overview" : symbolToLabel[selectedSymbol] === "Staff" ? "Staff Overview" : symbolToLabel[selectedSymbol] === "Visitors" ? 'Visitor Overview' : 'Property Overview'
-                        } />
+                        <CardHeader icon={TbListDetails} text={`${RelatedToName} Overview`} />
                         <Box
                             sx={{
                                 width: '100%',
@@ -844,23 +905,27 @@ const IncidentRegistrationFinal = () => {
                                 display: 'flex'
                             }}>
                             {
-                                (symbolToLabel[selectedSymbol] === "Patient" || incidentData?.inc_initiator_slno === 1) ? (
+                                (RelatedToName === "Patient" || incidentData?.inc_initiator_slno === 1) ? (
                                     <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                         <IpPatientCard data={ptdetail?.[0]} />
                                     </Suspense>
-                                ) : (symbolToLabel[selectedSymbol] === "Staff" || incidentData?.inc_initiator_slno === 2) ? (
+                                ) : (RelatedToName === "Staff" || incidentData?.inc_initiator_slno === 2) ? (
                                     <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                         <DisplayStaffDetail data={staffdetail?.[0]} />
                                     </Suspense>
-                                ) : (symbolToLabel[selectedSymbol] === "Visitors" || incidentData?.inc_initiator_slno === 3) ? (
+                                ) : (RelatedToName === "Visitors" || incidentData?.inc_initiator_slno === 3) ? (
                                     <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
                                         <DisplayVisitorDetail visitorDetail={visitordata?.[0]} />
                                     </Suspense>
-                                ) : (
+                                ) : (RelatedToName === "Others" || incidentData?.inc_initiator_slno === 5) ?
                                     <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
-                                        <DisplayHospitalProperty propertyDetail={hpdetail} />
+                                        <DisplayCommonDetail CommonDetail={commondetail} />
                                     </Suspense>
-                                )
+                                    : (
+                                        <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
+                                            <DisplayHospitalProperty visitorDetail={visitordata?.[0]} />
+                                        </Suspense>
+                                    )
                             }
                             <Box>
                             </Box>

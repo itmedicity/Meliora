@@ -1,7 +1,70 @@
+// import React, { Fragment, memo, useState, useMemo } from 'react';
+// import Autocomplete from '@mui/joy/Autocomplete';
+// import { CssVarsProvider } from '@mui/joy';
+// import { useQuery } from '@tanstack/react-query';
+// import { getDepartmentSection } from
+//     'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
+
+// const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
+
+//     const [inputValue, setInputValue] = useState('');
+
+//     const { data: sections = [], isLoading } = useQuery({
+//         queryKey: ['getallactivedepsec'],
+//         queryFn: getDepartmentSection,
+//         select: (res) => Array.isArray(res) ? res : res?.data ?? [],
+//     });
+
+//     // 🔹 Convert sec_id into full option object for Autocomplete
+//     const selectedValue = useMemo(() => {
+//         if (!departmentsec || !sections.length) return null;
+//         return sections.find((opt) => opt.sec_id === departmentsec) ?? null;
+//     }, [departmentsec, sections]);
+
+//     return (
+//         <Fragment>
+//             <CssVarsProvider>
+//                 <Autocomplete
+//                     sx={{
+//                         width: '100%',
+//                         minHeight: 35,
+//                         borderRadius: 0
+//                     }}
+//                     placeholder="Select Section"
+//                     options={sections}
+//                     value={selectedValue}
+//                     loading={isLoading}
+//                     clearOnBlur
+
+//                     onChange={(event, newValue) => {
+//                         setDepartmentSec(newValue?.sec_id ?? null);
+//                     }}
+
+//                     inputValue={inputValue}
+//                     onInputChange={(event, newInputValue) => {
+//                         setInputValue(newInputValue);
+//                     }}
+
+//                     isOptionEqualToValue={(option, value) =>
+//                         option?.sec_id === value?.sec_id
+//                     }
+
+//                     getOptionKey={(option) => option.sec_id}
+
+//                     getOptionLabel={(option) => option?.sec_name || ''}
+
+//                     loadingText="Loading..."
+//                 />
+//             </CssVarsProvider>
+//         </Fragment>
+//     );
+// };
+
+// export default memo(SelectDepartmentSection);
+
 import React, { Fragment, memo, useState } from 'react';
 import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider } from '@mui/joy';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useQuery } from '@tanstack/react-query';
 import { getDepartmentSection } from
     'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
@@ -18,7 +81,7 @@ const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
     });
 
 
-    
+
     return (
         <Fragment>
             <CssVarsProvider>
@@ -46,7 +109,6 @@ const SelectDepartmentSection = ({ departmentsec, setDepartmentSec }) => {
                     getOptionKey={(option) => option.sec_id}
                     getOptionLabel={(option) => option?.sec_name || ''}
                     loadingText="Loading..."
-                    endDecorator={<ArrowDropDownIcon />}
                 />
             </CssVarsProvider>
         </Fragment>

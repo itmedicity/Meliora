@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import {
     Box,
     Card,
@@ -11,39 +11,62 @@ import {
     Chip
 } from '@mui/joy'
 import PaymentsIcon from '@mui/icons-material/Payments'
+import { useDispatch, useSelector } from 'react-redux'
+import { setRetentionDetails } from '../../../redux/actions/Workorder.action'
 
-const RetentialDetails = () => {
+const RetentialDetails = ({ localdata }) => {
 
-    const [retentialData, setRetentialData] = useState({
-        description: '',
-        paymentType: '',
-        amount: ''
-    })
+    const dispatch = useDispatch()
+
+
+    const localRentalData = localdata?.retentionDetails || ""
+
+
+    console.log({
+        localRentalData
+    });
+
+
+
+    const retentionDatas = useSelector(
+        state => state.getworkOrderReducer.retentionDetails
+    )
+
+    const retentionData = useMemo(() => retentionDatas, [retentionDatas])
 
     const handleChange = useCallback((e) => {
         const { name, value } = e.target
-        setRetentialData(prev => ({ ...prev, [name]: value }))
-    }, [])
 
-    const handlePaymentType = (e, value) => {
-        setRetentialData(prev => ({
-            ...prev,
+        dispatch(setRetentionDetails({
+            [name]: value
+        }))
+
+    }, [dispatch])
+
+    const handlePaymentType = useCallback((e, value) => {
+        dispatch(setRetentionDetails({
             paymentType: value,
             amount: ''
         }))
-    }
+    }, [dispatch])
+
+
 
     return (
         <Card
             sx={{
-                maxWidth: 700,
-                mx: 'auto',
+                height: 440,
                 p: 3,
                 borderRadius: '2xl',
                 boxShadow: 'xl',
                 background:
-                    'linear-gradient(145deg,#ffffff,#eef2ff)',
-                animation: 'fadeIn 0.4s ease'
+                    'linear-gradient(135deg, #fdfbff, #eef2ff)',
+                backdropFilter: 'blur(8px)',
+                animation: 'fadeUp 0.4s ease',
+                '@keyframes fadeUp': {
+                    from: { opacity: 0, transform: 'translateY(10px)' },
+                    to: { opacity: 1, transform: 'translateY(0)' }
+                }
             }}
         >
             {/* Header */}
@@ -64,70 +87,65 @@ const RetentialDetails = () => {
                 Description
             </Typography>
             <Textarea
-                minRows={4}
+                minRows={6}
+                maxRows={7}
                 name="description"
-                value={retentialData.description}
+                value={retentionData.description || localRentalData.description || ''}
                 onChange={handleChange}
                 placeholder="Enter retention terms & conditions..."
-                sx={{
-                    mt: 0.5,
-                    borderRadius: 'lg'
-                }}
+                sx={{ mt: 0.5, borderRadius: 'lg' }}
             />
 
             {/* Payment Type */}
-            <Box mt={3}>
-                <Typography level="body-sm" fontWeight={600}>
-                    Payment Type
-                </Typography>
-
-                <Select
-                    placeholder="Select retention type"
-                    value={retentialData.paymentType}
-                    onChange={handlePaymentType}
-                    sx={{
-                        mt: 0.5,
-                        borderRadius: 'lg',
-                        '--Select-focusedThickness': '2px',
-                        '--Select-focusedHighlight': '#6366f1'
-                    }}
-                >
-                    <Option value="amount">Fixed Amount</Option>
-                    <Option value="percentage">Fixed Percentage</Option>
-                </Select>
-            </Box>
-
-            {/* Amount / Percentage */}
-            {retentialData.paymentType && (
-                <Box mt={3}>
-                    <Typography level="body-sm" fontWeight={700}>
-                        {retentialData.paymentType === 'amount'
-                            ? 'Retention Amount (₹)'
-                            : 'Retention Percentage (%)'}
+            <Box sx={{ display: "flex", gap: 1 }}>
+                <Box mt={1} sx={{ flex: 1 }}>
+                    <Typography level="body-sm" fontWeight={600}>
+                        Payment Type
                     </Typography>
 
-                    <Input
-                        type="number"
-                        name="amount"
-                        value={retentialData.amount}
-                        onChange={handleChange}
-                        placeholder={
-                            retentialData.paymentType === 'amount'
-                                ? '₹ 0.00'
-                                : '0 %'
-                        }
+                    <Select
+                        placeholder="Select retention type"
+                        value={retentionData.paymentType || localRentalData.paymentType || null}
+                        onChange={handlePaymentType}
                         sx={{
                             mt: 0.5,
                             borderRadius: 'lg',
-                            bgcolor: '#eef2ff',
-                            fontWeight: 800,
-                            color: '#4338ca'
                         }}
-                    />
+                    >
+                        <Option value="amount">Fixed Amount</Option>
+                        <Option value="percentage">Fixed Percentage</Option>
+                    </Select>
                 </Box>
-            )}
 
+                {retentionData.paymentType && (
+                    <Box mt={1} sx={{ flex: 1 }}>
+                        <Typography level="body-sm" fontWeight={700}>
+                            {(retentionData.paymentType || localRentalData.paymentType) === 'amount'
+                                ? 'Retention Amount (₹)'
+                                : 'Retention Percentage (%)'}
+                        </Typography>
 
+                        <Input
+                            type="number"
+                            name="amount"
+                            value={retentionData.amount || localRentalData.amount || ''}
+                            onChange={handleChange}
+                            placeholder={
+                                (retentionData.paymentType || localRentalData.paymentType) === 'amount'
+                                    ? '₹ 0.00'
+                                    : '0 %'
+                            }
+                            sx={{
+                                mt: 0.5,
+                                borderRadius: 'lg',
+                                bgcolor: '#eef2ff',
+                                fontWeight: 800,
+                                color: '#4338ca'
+                            }}
+                        />
+                    </Box>
+                )}
+            </Box>
         </Card>
     )
 }

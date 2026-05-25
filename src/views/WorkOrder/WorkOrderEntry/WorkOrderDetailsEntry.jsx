@@ -1,98 +1,182 @@
-import React, { memo, useState } from 'react'
+
+import React, { memo } from 'react'
 import {
     Box,
     Card,
     Typography,
     Input,
     Textarea,
-    Select,
-    Option,
-    Divider
+    Divider,
 } from '@mui/joy'
+import BusinessIcon from '@mui/icons-material/Business'
+import DescriptionIcon from '@mui/icons-material/Description'
+import SelectDepartmentSection from 'src/views/IncidentManagement/Components/SelectDepartmentSection'
 import SelectVendorNames from '../AddDetails/SelectVendorNames'
 
-const WorkOrderDetailsEntry = () => {
+const WorkOrderDetailsEntry = ({
+    vendorList,
+    SetVendorList,
+    wod,
+    setWod,
+    vendor_Desc,
+    setVendor_Desc,
+    last_wo_slno,
+    departmentsec,
+    setDepartmentSec,
+    crfNo,
+    SetcrfNo,
+    req_date,
+    SetReq_date
+}) => {
 
-    const [vendorList, SetVendorList] = useState(null)
+
+    const labelStyle = { fontWeight: 600, mb: 0.5 }
+    const inputStyle = { borderRadius: 'lg' }
 
     return (
         <Box
             sx={{
-                p: 2,
-                display: 'flex',
-                gap: 2,
-                flexWrap: 'wrap'
+
+                p: 0,
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', md: '1fr 1.2fr' },
+                gap: 2
             }}
         >
-            {/* 🔵 LEFT SIDE – Vendor Details */}
+            {/* LEFT – Vendor Details */}
             <Card
                 sx={{
-                    flex: 1,
-                    minWidth: 320,
-                    borderRadius: 16,
-                    color: '#fff'
+                    height: 440,
+                    borderRadius: '2xl',
+                    p: 2,
+                    background:
+                        'linear-gradient(180deg,#ffffff,#f1f5ff)',
+                    color: '#fff',
+                    boxShadow: 'xl'
                 }}
             >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <BusinessIcon />
+                    <Typography level="h4" fontWeight={800}>
+                        Vendor Details
+                    </Typography>
+                </Box>
 
-                <Typography level="body-sm">Vendor Name</Typography>
+                <Divider sx={{ mb: 2, borderColor: 'rgba(255,255,255,0.3)' }} />
 
-                <SelectVendorNames vendorList={vendorList} SetVendorList={SetVendorList} />
-
-                <Typography level="body-sm">Description</Typography>
-                <Textarea
-                    minRows={4}
-                    placeholder="Enter vendor description..."
-                    sx={{
-                        bgcolor: '#fff',
-                        color: '#000'
-                    }}
-                />
-            </Card>
-
-            {/*  RIGHT SIDE – Work Order Details */}
-            <Card
-                sx={{
-                    flex: 1,
-                    minWidth: 360,
-                    borderRadius: 16,
-                    bgcolor: '#f9fafb'
-                }}
-            >
-                <Typography level="h4" color="primary" mb={1}>
-                    Work Order Details
+                <Typography level="body-sm" sx={labelStyle}>
+                    Vendor Name
                 </Typography>
 
-                <Divider sx={{ mb: 2 }} />
+                <SelectVendorNames
+                    vendorList={vendorList}
+                    SetVendorList={SetVendorList}
+                />
 
-                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                <Box mt={3}>
+                    <Typography level="body-sm" sx={labelStyle}>
+                        Vendor Description
+                    </Typography>
+
+                    <Textarea
+                        minRows={6}
+                        placeholder="Enter vendor scope / remarks..."
+                        value={vendor_Desc}
+                        onChange={(e) => setVendor_Desc(e.target.value)}
+                        sx={{
+                            bgcolor: '#fff',
+                            color: '#000',
+                            borderRadius: 'lg',
+                            boxShadow: 'sm'
+                        }}
+                    />
+                </Box>
+            </Card>
+
+            {/* RIGHT – Work Order Info */}
+            <Card
+                sx={{
+                    borderRadius: '2xl',
+                    p: 2,
+                    background:
+                        'linear-gradient(180deg,#ffffff,#f1f5ff)',
+                    boxShadow: 'xl',
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <DescriptionIcon sx={{ color: '#4338ca' }} />
+                    <Typography level="h4" fontWeight={800}>
+                        Work Order Information
+                    </Typography>
+                </Box>
+
+                <Divider sx={{ my: 2 }} />
+
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                        gap: 2
+                    }}
+                >
                     <Box>
-                        <Typography level="body-sm">Work Order No</Typography>
-                        <Input placeholder="WO-2026-001" />
+                        <Typography level="body-sm" sx={labelStyle}>
+                            Work Order No
+                        </Typography>
+                        <Input
+                            placeholder="WO-2026-001"
+                            sx={inputStyle}
+                            value={`WO-${String(last_wo_slno + 1).padStart(5, '0')}`}
+                            disabled
+                        />
                     </Box>
 
                     <Box>
-                        <Typography level="body-sm">Work Order Date</Typography>
-                        <Input type="date" />
+                        <Typography level="body-sm" sx={labelStyle}>
+                            Work Order Date
+                        </Typography>
+                        <Input
+                            type="date"
+                            value={wod}
+                            onChange={(e) => setWod(e.target.value)}
+                            sx={inputStyle}
+                        />
                     </Box>
 
                     <Box>
-                        <Typography level="body-sm">BOM Req No</Typography>
-                        <Input placeholder="BOM-REQ-456" />
+                        <Typography level="body-sm" sx={labelStyle}>
+                            BOM Req No
+                        </Typography>
+                        <Input
+                            value={crfNo}
+                            onChange={(e) => SetcrfNo(e.target.value)}
+                            sx={{
+                                ...inputStyle,
+                                fontWeight: 700
+                            }}
+                        />
+
                     </Box>
 
                     <Box>
-                        <Typography level="body-sm">BOM Req Date</Typography>
-                        <Input type="date" />
+                        <Typography level="body-sm" sx={labelStyle}>
+                            BOM Req Date
+                        </Typography>
+                        <Input
+                            type="date"
+                            value={req_date}
+                            onChange={(e) => SetReq_date(e.target.value)}
+                            sx={inputStyle}
+                        />
                     </Box>
 
                     <Box sx={{ gridColumn: 'span 2' }}>
-                        <Typography level="body-sm">Department</Typography>
-                        <Select placeholder="Select Department">
-                            <Option value="bio">Biomedical</Option>
-                            <Option value="it">IT</Option>
-                            <Option value="maint">Maintenance</Option>
-                            <Option value="admin">Administration</Option>
-                        </Select>
+                        <Typography level="body-sm" sx={labelStyle}>
+                            Department Section
+                        </Typography>
+                        <SelectDepartmentSection departmentsec={departmentsec} setDepartmentSec={setDepartmentSec} />
                     </Box>
                 </Box>
             </Card>

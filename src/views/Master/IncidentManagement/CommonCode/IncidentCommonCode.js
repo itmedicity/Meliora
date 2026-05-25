@@ -448,14 +448,15 @@ export const IncidentCommonLevelApprovalDetailMaster = async (dep, sec) => {
     }
 };
 
-export const IncidentEmployeeApprovalDepartments = async (emp_id) => {
+export const IncidentEmployeeApprovalDepartments = async (emp_id, levelNo) => {
     if (!emp_id) {
         warningNotify("Employee Id  Missing");
         return [];
     }
     try {
         const res = await axioslogin.post('/incidentMaster/approvaldeps', {
-            emp_id: emp_id
+            emp_id: emp_id,
+            level_no: levelNo
         });
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {
@@ -725,6 +726,52 @@ export const FetchDashBoardIncident = async (id) => {
     }
     try {
         const res = await axioslogin.post('/incidentMaster/getincidentcommon', { inc_register_slno: id });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+export const getAllIncidentInitiator = async () => {
+    try {
+        const res = await axioslogin.post('/incidentMaster/initiator');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getAllPgHsStaffDetail = async () => {
+    try {
+        const res = await axioslogin.get('/incidentMaster/fetchallpghs');
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getAllHospitalStaffDetail = async () => {
+    try {
+        const res = await axioslogin.get('/hrmdataGet/getStaffdetail');
         const { success, data } = res.data || {};
         if (success === 2 && Array.isArray(data) && data.length > 0) {
             return data;

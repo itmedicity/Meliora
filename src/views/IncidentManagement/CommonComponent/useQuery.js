@@ -8,13 +8,16 @@ import {
     FetchDashBoardIncident,
     getAllCommonDataCollectionDeparment,
     getAllDeparmentActions,
+    getAllHospitalStaffDetail,
     getAllIncidentActionMastDetail,
     getAllIncidentCategory,
     getAllIncidentDataCollection,
     getAllIncidentDeparmentAction,
+    getAllIncidentInitiator,
     getAllIncidentLevelMapItemDetail,
     getAllIncidentNature,
     getAllIncidentSubCategory,
+    getAllPgHsStaffDetail,
     getCurrentCompanyDetail,
     getDataCollectEmployee,
     getDepActions,
@@ -184,10 +187,10 @@ export const useCurrentCompanyData = () => {
 };
 
 //  15. Get all incident levels
-export const useApprovalDepartmentFetching = (empid) => {
+export const useApprovalDepartmentFetching = (empid, levelNo) => {
     return useQuery({
-        queryKey: ['getapprovaldeps', empid],
-        queryFn: () => IncidentEmployeeApprovalDepartments(empid),
+        queryKey: ['getapprovaldeps', empid, levelNo],
+        queryFn: () => IncidentEmployeeApprovalDepartments(empid, levelNo),
         enabled: !!empid,
         staleTime: Infinity,
     });
@@ -284,6 +287,33 @@ export const useIncidentDetailDashBoard = (id) => {
         staleTime: Infinity,
     });
 };
+
+export const useFetchAllActiveInitiator = () => {
+    return useQuery({
+        queryKey: ['incidentinitaitor'],
+        queryFn: () => getAllIncidentInitiator(),
+        staleTime: Infinity,
+    });
+};
+
+export const useFetchAllPghHsStaffDetail = () => {
+    return useQuery({
+        queryKey: ['pghsstaff'],
+        queryFn: () => getAllPgHsStaffDetail(),
+        staleTime: Infinity,
+    });
+};
+
+
+export const useFetchAllHospitalStaffDetail = () => {
+    return useQuery({
+        queryKey: ['hospitalstaff'],
+        queryFn: () => getAllHospitalStaffDetail(),
+        staleTime: Infinity,
+    });
+};
+
+
 // fetch current employee type (Clinical and Non Clinical)
 // const { data: empDeptType } = useQuery({
 //     queryKey: ['emptype', empdept],

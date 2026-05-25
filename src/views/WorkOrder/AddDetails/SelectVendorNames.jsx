@@ -2,23 +2,16 @@ import React, { memo, useEffect, useState } from 'react'
 import Autocomplete from '@mui/joy/Autocomplete'
 import { axioslogin } from 'src/views/Axios/Axios'
 
-const SelectVendorNames = ({ vendorList, SetVendorList }) => {
+const SelectVendorNames = ({ value, onChange }) => {
     const [options, setOptions] = useState([])
-
-    const handleChange = (event, newValue) => {
-        SetVendorList(newValue)
-    }
-
     useEffect(() => {
         const getVendors = async () => {
             try {
                 const result = await axioslogin.get('/ItBillSuppDetails/view')
                 const { success, data } = result.data
-                if (success === 2) {
-                    setOptions(data)
-                }
+                if (success === 2) setOptions(data)
             } catch (error) {
-                console.error(error)
+                console.error('Vendor fetch error:', error)
             }
         }
         getVendors()
@@ -26,42 +19,40 @@ const SelectVendorNames = ({ vendorList, SetVendorList }) => {
 
     return (
         <Autocomplete
-            sx={{
-                width: '100%',
-                minHeight: 40,
-                bgcolor: 'transparent',
-                '--Input-radius': '0px',
-                borderTop: 0,
-                borderLeft: 0,
-                borderRight: 0,
-                borderBottom: '2px solid',
-                borderColor: 'neutral.outlinedBorder',
-                '&:hover': {
-                    borderColor: 'neutral.outlinedHoverBorder'
-                },
-                '&::before': {
-                    border: '1px solid var(--Input-focusedHighlight)',
-                    transform: 'scaleX(0)',
-                    left: 0,
-                    right: 0,
-                    bottom: '-2px',
-                    top: 'unset',
-                    transition: 'transform .15s cubic-bezier(0.1,0.9,0.2,1)',
-                    borderRadius: 0
-                },
-                '&:focus-within::before': {
-                    transform: 'scaleX(1)'
-                }
-            }}
-            placeholder="Select Vendor"
-            value={vendorList}
             options={options}
-            onChange={handleChange}
-            isOptionEqualToValue={(option, value) =>
-                option?.it_supplier_slno === value?.it_supplier_slno
+            placeholder="Select Vendor"
+            value={
+                options.find(
+                    (opt) => opt.it_supplier_slno === value
+                ) || null
             }
-            getOptionLabel={(option) => option?.it_supplier_name || ''}
+            onChange={(event, newValue) => {
+                onChange(newValue || null)   // ✅ send full object
+            }}
+            isOptionEqualToValue={(option, value) =>
+                option.it_supplier_slno === value.it_supplier_slno
+            }
+            getOptionLabel={(option) => option.it_supplier_name || ''}
         />
+        //     <Autocomplete
+        //         options={options}
+        //         placeholder="Select Vendor"
+        //         value={
+        //             options.find(
+        //                 (opt) => opt.it_supplier_slno === value
+        //             ) || null
+        //         }
+        //          onChange={( newValue) => {
+        //     onChange(newValue || null)   // ✅ send full object
+        // }}
+        //         // onChange={(event, newValue) => {
+        //         //     onChange(newValue ? newValue.it_supplier_slno : null)
+        //         // }}
+        //         isOptionEqualToValue={(option, value) =>
+        //             option.it_supplier_slno === value.it_supplier_slno
+        //         }
+        //         getOptionLabel={(option) => option.it_supplier_name || ''}
+        //     />
     )
 }
 

@@ -32,7 +32,7 @@ const RateVariationResolved = ({ setActiveComponent }) => {
         { key: "grn_dis", label: "GRN Dis%", width: 110, align: "center" },
         { key: "rate", label: "Rate", width: 90, align: "right" },
         { key: "disc", label: "Disc %", width: 100, align: "center" },
-        { key: "supplier_name", label: "Supplier name", width: 300, align: "center" },
+        { key: "supplier_name", label: "Supplier name", width: 300, align: "left" },
         { key: "rate_variation", label: "Rate Variation", width: 100, align: "center" },
         { key: "quo_margin", label: "Quo Margin%", width: 120, align: "center" },
         { key: "purchase_margin", label: "Purchase Margin%", width: 135, align: "center" },
