@@ -599,6 +599,7 @@ const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
 
 
+
 const DietRoomMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomMaster/DietRoomMaster'));
 const DietRoomTypeGroupingMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomTypeGroupingMaster/DietRoomTypeGroupingMaster'));
 const OrderTakingPage = React.lazy(() => import('./views/Diet/DietOrderList/OrderTakingPage'));
@@ -608,7 +609,9 @@ const PatientDietMaster = React.lazy(() => import('./views/Master/DietMasters/Pa
 const ItemTypeMaster = React.lazy(() => import("./views/Master/DietMasters/ItemType/ItemTypeMaster"))
 const ItemAliasMaster = React.lazy(() => import("./views/Master/DietMasters/ItemAlias/ItemAliasMaster"))
 
+
 const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+
 
 
 const routes = [
@@ -1194,8 +1197,8 @@ const routes = [
     name: 'WorkOrderEntry',
     element: <WorkOrderEntry />
   },
-
   {
+
     path: 'dietroom',
     name: 'Diet Room Master',
     element: <DietRoomMaster />
