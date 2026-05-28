@@ -204,6 +204,11 @@ export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
 ]
+//cdc emr
+
+export const Cdc_one = [
+    { to: '/Home/CdcEmrSetting', name: 'CDC Emr Setting', slno: 339 },
+]
 
 // //Diet Master Menu
 // export const dm_setting_one = [
