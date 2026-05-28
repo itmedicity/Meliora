@@ -11,6 +11,7 @@ import {
 
 import {
     useDepartmentActions,
+    useFetchAllActiveInitiator,
     useIncidentActionsMaster,
     useInvolvedDepartments
 } from '../CommonComponent/useQuery';
@@ -23,7 +24,7 @@ import {
     checkSacMatrix,
     checkUpperLevelApprovedForDDC,
     getFinalLevelActions,
-    getInitiatorName,
+    // getInitiatorName,
     safeParse
 } from '../CommonComponent/Incidnethelper';
 import IncidentFlag from '../Components/IncidentFlag';
@@ -112,6 +113,7 @@ const IncidentViewModal = ({
         handleImageClick(file, setSelectedImage, setOpenViewModalModal)
     }, []); // common export for image viewing
 
+    const { data: IncidientInitiator = [] } = useFetchAllActiveInitiator();
     const {
         data: departmentreqactions,
         isLoading: loadingDepartmentaction
@@ -137,7 +139,10 @@ const IncidentViewModal = ({
         [highlevelapprovals]
     );
 
-    const InitiatorName = getInitiatorName(items?.inc_initiator_slno);
+    // const InitiatorName = getInitiatorName(items?.inc_initiator_slno);
+
+    const InitiatorName = IncidientInitiator?.find(item => Number(item.inc_initiator_slno) === Number(items?.inc_initiator_slno))?.inc_initiator_name;
+
     const isFishBoneForthisLevel = checkFishboneForLevel(levelitems);
     const isDataCollectionRequest = checkDataCollection(levelitems);
     const isActionRequestExist = checkActionRequestExist(levelitems);
@@ -371,9 +376,9 @@ const IncidentViewModal = ({
                                     <DisplayStaffDetail data={staffDetails} />
                                 ) : items?.inc_initiator_slno === 3 ? (
                                     <DisplayVisitorDetail visitorDetail={visitorDetail} />
-                                ) : (
+                                ) : items?.inc_initiator_slno === 4 ? (
                                     <DisplayHospitalProperty propertyDetail={propertyDetail} size={12} />
-                                )}
+                                ) : <IncidentTextComponent text={items?.inc_common_description || "No Data Available"} size={14} weight={400} />}
 
                                 {/* DESCRIPTION */}
                                 <Box sx={{ mt: 1 }}>

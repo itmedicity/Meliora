@@ -88,6 +88,7 @@ const Ratevariation = ({ setActiveComponent }) => {
         queryFn: () => getVarationData(),
         staleTime: Infinity
     })
+
     const slno = useMemo(() => selectedRow?.slno, [selectedRow]);
 
     // console.log("RatevarationData:", RatevarationData);
@@ -714,7 +715,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     arrow
 
                                                                     sx={{
-                                                                        width: 250,        // ✅ fixed width
+                                                                        width: 250,        //  fixed width
                                                                         maxWidth: 250,     // prevents auto resize
                                                                         whiteSpace: "normal",
                                                                         wordBreak: "break-word",

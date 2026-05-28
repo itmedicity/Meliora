@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-    Box, Chip, Sheet, Tooltip
-} from "@mui/joy";
+import { Box, Chip, Sheet, Tooltip } from "@mui/joy";
 import IncidentTextComponent from "../Components/IncidentTextComponent";
 import ApprovalLevelCard from "./ApprovalLevelCard";
 import { formatDate } from "../CommonComponent/Incidnethelper";
@@ -32,40 +30,23 @@ const ApprovalPreview = ({
     // 1. highest approved level
     const highestApprovedLevel = Array.isArray(highlevelapprovals) && Math.max(0, ...highlevelapprovals.map(h => h.level_no));
 
+
     // Final level (fixes crash when incidentlevels = [])
     const finalLevelNo = Array.isArray(incidentlevels) &&
         incidentlevels.length > 0
         ? Math.max(...incidentlevels.map(l => l.level_no))
         : 0;
 
-    // let approvalLevels = incidentlevels
-    //     ?.filter(item => item?.level_status === 1)
-    //     ?.sort((a, b) => a.level_no - b.level_no)
-    //     ?.filter(lvl => {
-    //         const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
-    //         if (found) return true;
-    //         if (lvl.level_no < highestApprovedLevel) return false;
-    //         return true;
-    //     })
-    //     ?.map((lvl) => {
-    //         const found = highlevelapprovals?.find(hl => hl.level_no === lvl.level_no);
+    const uniqueIncidentLevels = Object.values(
+        (incidentlevels || [])?.reduce((acc, curr) => {
+            if (!acc[curr.level_no]) {
+                acc[curr.level_no] = curr;
+            }
+            return acc;
+        }, {})
+    );
 
-    //         const canEdit =
-    //             lvl.level_no === highestApprovedLevel &&
-    //             lvl.level_no !== finalLevelNo;
-
-    //         return {
-    //             label: lvl.level_name,
-    //             name: found?.em_name || "--",
-    //             review: found?.level_review || "Current Level Have No Review...!",
-    //             date: found?.level_review_date || null,
-    //             state: found?.level_review_state || null,
-    //             canEdit,
-    //             level_slno: found?.level_review_slno
-    //         };
-    //     });
-    // }
-    const approvedRejected = incidentlevels
+    const approvedRejected = uniqueIncidentLevels
         ?.filter(lvl => lvl?.level_status === 1)
         ?.sort((a, b) => a.level_no - b.level_no)
         ?.map(lvl => {
@@ -101,6 +82,8 @@ const ApprovalPreview = ({
         return { ...lvl, canEdit };
     });
 
+
+
     const rejectIndex = approvalLevels?.findIndex((lvl) => lvl.state === "R");
 
 
@@ -124,7 +107,6 @@ const ApprovalPreview = ({
         }
         return 40;
     };
-
 
 
     return (

@@ -286,8 +286,7 @@ const WorkOrderEntry = () => {
     /** SAVE */
     const validateVendorDetails = (draftData) => {
         const vd = draftData?.vendorDetails || {}
-        console.log("vd:", vd);
-
+       
         const requiredFields = [
             { key: 'vendor_desc', label: 'Vendor' },
             { key: 'wod', label: 'WO Date' },

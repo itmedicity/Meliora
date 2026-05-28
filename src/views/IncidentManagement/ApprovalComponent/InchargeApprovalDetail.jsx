@@ -88,7 +88,7 @@ const InchargeApprovalDetail = ({
         async (slno, val) => {
             try {
                 setApprovalLoading(true);
-             
+
                 const hasAnyFishboneValue = [
                     MATERIAL,
                     MACHINE,
@@ -99,7 +99,7 @@ const InchargeApprovalDetail = ({
                 ].some(v => typeof v === "string" && v.trim() !== "");
 
                 if (!hasAnyFishboneValue && isFishBoneForthisLevel && val === "A") {
-                    warningNotify("Please Enter Any of the Above Before Submitting!");
+                    warningNotify("FishBone : Please Enter Any of the Above Before Submitting!");
                     return;
                 }
 
