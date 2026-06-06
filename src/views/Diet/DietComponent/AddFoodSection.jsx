@@ -4,7 +4,7 @@ import DietInputLabel from "src/views/Master/DietMasters/DietComponent/DietInput
 import ChooseDietMeasurementSelect from "src/views/CommonSelectCode/ChooseDietMeasurementSelect";
 import FoodSuggestionItem from "src/views/Master/DietMasters/ItemMaster/RecipeCards/FoodSuggestionItem";
 import DietButton from "../DietComponent/DietButton";
-import { useItemFullDetials } from "../CommonData/UseQuery";
+import { useAllFoodAndBeverage } from "../CommonData/UseQuery";
 import { infoNotify } from "src/views/Common/CommonCode";
 
 const AddFoodSection = ({
@@ -17,7 +17,7 @@ const AddFoodSection = ({
     const [query, setQuery] = useState("");
     const [showSuggestions, setShowSuggestions] = useState(false);
 
-    const { data: ExistFoodDetail = [] } = useItemFullDetials(query.length > 0);
+    const { data: ExistFoodDetail = [] } = useAllFoodAndBeverage(query.length > 0);
     //  Suggestions Filter
     const filteredSuggestions = useMemo(() => {
         if (!query.trim() || !Array.isArray(ExistFoodDetail)) return [];

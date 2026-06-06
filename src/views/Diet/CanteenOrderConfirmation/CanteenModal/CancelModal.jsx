@@ -49,46 +49,73 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
         refetch: refetchExtra
     } = usePatientExtraOrders(memoOrder?.fb_ipad_slno, activeTab);
 
+
+
     // const [items, setItems] = useState([]);
 
     /*  FORMAT EXTRA ITEMS */
     const formattedExtraOrders = useMemo(() => {
         return (PatientExtraOrders || []).map(item => ({
-            item_id: item.item_id,
-            item_name: item.item_name,
+            ...item, // FULL DATA
             qty: Number(item.quantity ?? 0),
             price: Number(item.price ?? 0),
-            description: item.description ?? "",
             gst_amount: Number(item.gst_amount ?? 0),
-
             isExtra: true,
-            order_status: item.order_status,
-            extra_order_id: item.extra_order_id
+            extra_order_id: item.extra_order_id,
+            order_status: item.order_status
         }));
+
     }, [PatientExtraOrders]);
 
 
+
     const items = useMemo(() => {
+
         if (!memoOrder?.canteen_order_id) return [];
 
-        // 1 get all extra item ids
-        const extraItemIds = new Set(
-            formattedExtraOrders.map(item => item.item_id)
-        );
+        // NORMAL ITEMS
+        const normalItems = (OrderFoodDetails || []).map(item => {
 
-        // 2 filter main items (remove duplicates)
-        const normalItems = (OrderFoodDetails || [])
-            .filter(item => !extraItemIds.has(item.item_id)) // KEY FIX
-            .map(item => ({
+            const matchedExtra = formattedExtraOrders?.find(extra =>
+                Number(extra.item_id) === Number(item.item_id) &&
+                Number(extra.qty) === Number(item.quantity)
+            );
+
+            // if exact qty + item match found
+            if (matchedExtra) {
+                return {
+                    ...item,
+                    isExtra: true,
+                    extra_order_id: matchedExtra.extra_order_id,
+                    order_status: matchedExtra.order_status
+                };
+            }
+            // normal item
+            return {
                 ...item,
                 isExtra: false
-            }));
+            };
+        });
 
-        // 3 merge safely
-        return [...normalItems, ...formattedExtraOrders];
+        // EXTRA ITEMS WHICH ARE NOT PRESENT IN MAIN ORDER
+        const remainingExtraItems = formattedExtraOrders?.filter(extra => {
 
-    }, [memoOrder?.canteen_order_id, OrderFoodDetails, formattedExtraOrders, open]);
+            return !OrderFoodDetails.some(item =>
+                Number(item.item_id) === Number(extra.item_id) &&
+                Number(item.quantity) === Number(extra.qty)
+            );
+        });
 
+        return [
+            ...normalItems,
+            ...remainingExtraItems
+        ];
+
+    }, [
+        memoOrder?.canteen_order_id,
+        OrderFoodDetails,
+        formattedExtraOrders
+    ]);
 
     /* TOTAL (ignore cancelled) */
     const totalAmount = items?.reduce((sum, item) => {
@@ -97,6 +124,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
         const gstAmount = Number(item.gst_amount ?? 0);
         return sum + (qty * price) + gstAmount;
     }, 0);
+
 
 
     /* 
@@ -209,7 +237,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
     const handleCancelFullOrder = async () => {
 
         if (!memoOrder?.canteen_order_id) {
-            return warningNotify("Order Id is Missing Kindly Refresh!"); 
+            return warningNotify("Order Id is Missing Kindly Refresh!");
         }
 
         const ExtraOrder = items
@@ -291,8 +319,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
                     minHeight: '40vh',
                     borderRadius: "md",
                     p: 2,
-                }}
-            >
+                }}>
                 <ModalClose />
 
                 {/* HEADER */}
@@ -348,8 +375,6 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
 
                 {/* FOOTER */}
                 <Box sx={{ display: "flex", justifyContent: 'flex-end', mt: 1 }}>
-
-
                     <Box
                         sx={{
                             display: 'flex',
@@ -359,7 +384,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
                         }}
                     >
                         <DietTextComponent
-                            value={`₹ ${totalAmount}`}
+                            value={`₹ ${totalAmount?.toFixed(2)}`}
                             size={15}
                             weight={700}
                             color="#d32f2f"
@@ -373,9 +398,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
                             onClick={handleCancelFullOrder}
                         />
                     </Box>
-
                 </Box>
-
             </ModalDialog>
         </Modal>
     );

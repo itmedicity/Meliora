@@ -9,6 +9,7 @@ import DietInpatientMainPage from './views/Diet/DietInpatientList/DietInpatientM
 
 
 
+
 const NotCorect = React.lazy(() => import('./views/dashboard/Home'))
 const Home = React.lazy(() => import('./views/ComManagement/Dashboard/TicketManagementCmDeptMain'))
 const Settings = React.lazy(() => import('../src/Menus/Settings'))
@@ -333,6 +334,8 @@ const DirectCanteenOrders = React.lazy(() => import('./views/Diet/DirectCanteenO
 const ViewItemDetail = React.lazy(() => import('./views/Master/DietMasters/ItemMaster/RecipeCards/ViewItemDetail'))
 const CanteenHighlight = React.lazy(() => import('./views/Master/DietMasters/CanteenHighlight/CanteenHighlight'))
 const CanteenHighlightMapping = React.lazy(() => import('./views/Master/DietMasters/CanteenHighLightMapping/HighlightMappingMaster'))
+const ConsultationRequired = React.lazy(() => import('./views/Diet/DieticianPage/ConsultationRequired'))
+
 
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
@@ -1321,6 +1324,11 @@ const routes = [
     path: 'WorkOrderApproval',
     name: 'WorkOrderApproval',
     element: <WorkOrderApproval />
+  },
+  {
+    path: 'dietpatients',
+    name: 'Patient Assign',
+    element: <ConsultationRequired />
   },
 
 ]

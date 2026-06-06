@@ -239,6 +239,194 @@ export const PrintFoodPreparationPdf = async (batchList = []) => {
 }
 
 
+export const PrintDietStatusPdf = async (dietList = []) => {
+
+    const snowBase64 = await getBase64Image(snowLogo);
+
+    const today = format(
+        new Date(),
+        "dd MMM yyyy, hh:mm a"
+    );
+
+    const tableBody = [
+
+        [
+            {
+                text: "Sl.No",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9",
+                alignment: "center"
+            },
+            {
+                text: "Patient",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "MRD No",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "Diet",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "Doctor",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "Bed",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "Nursing Station",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9"
+            },
+            {
+                text: "Status",
+                bold: true,
+                fontSize: 8,
+                fillColor: "#d9d9d9",
+                alignment: "center"
+            }
+        ],
+
+        ...dietList.map((item, index) => ([
+            {
+                text: index + 1,
+                fontSize: 7,
+                alignment: "center"
+            },
+            {
+                text: item.patient_name || "-",
+                fontSize: 7
+            },
+            {
+                text: item.patient_id || "-",
+                fontSize: 7
+            },
+            {
+                text: item.diet_name || "-",
+                fontSize: 7
+            },
+            {
+                text: item.doctor_name || "-",
+                fontSize: 7
+            },
+            {
+                text: item.fb_bdc_no || "-",
+                fontSize: 7,
+                alignment: "center"
+            },
+            {
+                text: item.fb_ns_name || "-",
+                fontSize: 7
+            },
+            {
+                text: item.assignment_status || "-",
+                fontSize: 7,
+                alignment: "center"
+            }
+        ]))
+    ];
+
+    const docDefinition = {
+
+        pageOrientation: "landscape",
+
+        pageMargins: [20, 70, 20, 30],
+
+        defaultStyle: {
+            fontSize: 7
+        },
+
+        header: {
+            margin: [20, 10, 20, 0],
+            columns: [
+                {
+                    image: "snow",
+                    fit: [80, 80]
+                }
+            ]
+        },
+
+        footer: (currentPage, pageCount) => ({
+            alignment: "center",
+            fontSize: 8,
+            margin: [0, 5, 0, 0],
+            text: `${currentPage} of ${pageCount}`
+        }),
+
+        content: [
+
+            {
+                text: "DIET STATUS REPORT",
+                alignment: "center",
+                bold: true,
+                fontSize: 14,
+                margin: [0, 0, 0, 8]
+            },
+
+            {
+                text: `Generated On : ${today}`,
+                alignment: "right",
+                fontSize: 8,
+                margin: [0, 0, 0, 10]
+            },
+
+            {
+                table: {
+                    headerRows: 1,
+                    widths: [
+                        25,   // SlNo
+                        90,   // Patient
+                        75,   // MRD
+                        70,   // Diet
+                        "*",  // Doctor
+                        45,   // Bed
+                        80,   // Nursing Station
+                        60    // Status
+                    ],
+                    body: tableBody
+                },
+
+                layout: {
+                    fillColor: (rowIndex) =>
+                        rowIndex === 0 ? "#f1f1f1" : null,
+
+                    hLineWidth: () => 0.5,
+                    vLineWidth: () => 0.5,
+
+                    paddingTop: () => 3,
+                    paddingBottom: () => 3,
+                    paddingLeft: () => 4,
+                    paddingRight: () => 4
+                }
+            }
+
+        ],
+
+        images: {
+            snow: snowBase64
+        }
+    };
+
+    pdfMake.createPdf(docDefinition).open();
+};
+
+
 export const formatDietPayload = (schedule, template_id, created_by) => {
     // Final array that will be sent to backend (INSERT + UPDATE mixed)
     const result = [];
@@ -1257,7 +1445,21 @@ export const getFullDetailofItem = async () => {
     }
 };
 
+export const getFoodandBeverage = async () => {
+    try {
+        const result = await axioslogin.get('/fooditemmast/get-food-bev')
+        const { success, data } = result.data
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
 
+
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching Detail:", error?.message || error);
+        return [];
+    }
+};
 
 export const getAllDietTemplateFood = async (diet) => {
     try {
@@ -1356,6 +1558,22 @@ export const getAllProcessListDetail = async (processlistdate) => {
 };
 
 
+export const getAllConsultationRequiured = async () => {
+    try {
+
+        const result = await axioslogin.get('/patientdietplan/get-consultation');
+        const { success, data } = result.data;
+        if (success === 2 && Array.isArray(data)) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching Process List:", error?.message || error);
+        warningNotify("Something went wrong while fetching data");
+        return [];
+    }
+};
+
 export const getAllProductionBatchDetail = async (processlistdate) => {
     try {
         //  Check if date exists
@@ -1435,6 +1653,27 @@ export const getAllPatientDietPlan = async (nscode) => {
         return [];
     }
 };
+
+export const getLoggedStaffNsStation = async (empsecid) => {
+    if (!empsecid) {
+        console.warn("Error in Fetching Detail")
+        return
+    };
+    try {
+        const res = await axioslogin.post('/patientdietplan/get-emp-nsstation', {
+            empsecid: Number(empsecid)
+        });
+        const { success, data } = res.data;
+        if (success !== 2) {
+            return [];
+        }
+        return data || [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
 export const getAllActivePatientDietDetail = async (date) => {
     if (!date) return warningNotify("Date is Missign Missing");
     try {

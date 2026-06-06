@@ -280,6 +280,11 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
     const isStyleNeed = selectedFood && Object.keys(selectedFood).length > 0;
 
+    console.log({
+        items
+    });
+
+
     if (!order) return null;
 
     return (
@@ -458,7 +463,7 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                     >
 
                         <DietTextComponent
-                            value={`₹ ${totalAmount}`}
+                            value={`₹ ${totalAmount?.toFixed(2)}`}
                             size={15}
                             weight={700}
                             color="#1976d2"

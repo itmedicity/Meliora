@@ -9,6 +9,7 @@ import {
     getAllCancelledFoodDetail,
     getAllCanteenOrders,
     getAllCanteenOrderStatus,
+    getAllConsultationRequiured,
     getAllDietFoodDetail,
     getAllDietician,
     getAllDietPriceMaster,
@@ -49,8 +50,10 @@ import {
     getCustomerPreviousOrder,
     getDietDeliveryTime,
     getDietName,
+    getFoodandBeverage,
     getFullDetailofItem,
     getItemFileDetails,
+    getLoggedStaffNsStation,
     getPatienPlanFoodDetail,
     getPatientMealTypeDetail,
     getPatientTemplateFoodDetail,
@@ -326,6 +329,18 @@ export const useAllPatientDietPlan = (nscode) => {
     });
 };
 
+export const useLoggedEMployeeNsStation = (secid) => {
+    return useSafeQuery({
+        queryKey: ['loggedempnsdtl', secid],
+        queryFn: () => getLoggedStaffNsStation(secid),
+        staleTime: Infinity,
+        defaultValue: [],
+        select: (data) => data?.[0]?.fb_ns_code || null,
+        enabled: !!secid
+    });
+};
+
+
 //it will be not using may be
 export const useAllActivePatientDietPlan = (date) => {
     return useSafeQuery({
@@ -415,6 +430,22 @@ export const useItemFullDetials = (enabled) => {
     });
 };
 
+export const useAllFoodAndBeverage = (enabled) => {
+    return useSafeQuery({
+        queryKey: ['food-bev'],
+        queryFn: getFoodandBeverage,
+        enabled: enabled,
+        staleTime: Infinity,
+        select: (data) => {
+            return data?.filter((val) =>
+                (Number(val?.item_type_id) === 1 || Number(val?.item_type_id) === 3) &&
+                Number(val?.is_active) === 1
+            )
+        }
+    })
+}
+
+
 
 export const useAllDietProcessList = (date) => {
     return useSafeQuery({
@@ -425,6 +456,18 @@ export const useAllDietProcessList = (date) => {
         enabled: !!date
     });
 };
+
+
+
+export const useAllConsultation = () => {
+    return useSafeQuery({
+        queryKey: ['consultion'],
+        queryFn: getAllConsultationRequiured,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
 
 
 export const useAllProductionBatchDetail = (date) => {
@@ -551,7 +594,7 @@ export const useOrderItemDetail = (memoOrder) => {
     return useSafeQuery({
         queryKey: ['canteenorders', memoOrder],
         queryFn: () => getAllOrderItemDetails(memoOrder),
-        staleTime: Infinity,
+        staleTime: 0,
         defaultValue: [],
         enabled: !!memoOrder
     });
@@ -561,7 +604,7 @@ export const usePatientExtraOrders = (ptId, Status) => {
     return useSafeQuery({
         queryKey: ['ptextraorder', ptId, Status],
         queryFn: () => getAllPatientExtraOrdres(ptId, Status),
-        staleTime: Infinity,
+        staleTime: 0,
         defaultValue: [],
         enabled: !!ptId && !!Status
     });

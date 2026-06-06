@@ -55,9 +55,6 @@ const DietWiseProcessing = ({
         refetch: FetchScheduledDietPlan
     } = useFetchAllScheduledDiet(apiDate);
 
-
-
-
     const { data: ProcessedList = [] } = useAllDietProcessList(formattedDate);
 
     const FormatedProcessedList = groupByDiet(ProcessedList);
@@ -71,6 +68,7 @@ const DietWiseProcessing = ({
         ActivePatientTypeDetail, ScheduledPatientDiet
     );
 
+    const today = new Date();
 
     useEffect(() => {
         socket.on("newDietPlanCreated", (data) => {
@@ -130,11 +128,11 @@ const DietWiseProcessing = ({
                     }}>
                         <Suspense fallback={<CustomeIncidentLoading text="Loading Component" />}>
                             <DatePickerComponent
-                                label="Processing Data"
+                                label="Processing Date"
                                 value={todate}
                                 setValue={setToDate}
-                                minDate={todate}
-                                maxDate={addDays(todate, 1)}
+                                minDate={today}
+                                maxDate={addDays(today, 1)}
                             />
                         </Suspense>
                     </Box>

@@ -52,7 +52,7 @@ const ProcessCompletedList = ({
             );
             const { success, message } = response.data ?? {};
             if (success === 0) return warningNotify(message || "Error in Updating Status");
-            succesNotify(message);
+            succesNotify("Diet Served SuccessFully" || message);
             fetchscheduled();
             fetchactive();
         } catch (error) {

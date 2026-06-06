@@ -52,15 +52,16 @@ const InpatientDietTab = ({
     }, [patientList])
 
     const tabs = [
-        {
-            label: 'PLANNED',
-            value: 'PLANNED',
-            count: statusCount.PLANNED
-        },
+
         {
             label: 'NOT PLANNED',
             value: 'NOTPLANNED',
             count: statusCount.NOTPLANNED
+        },
+        {
+            label: 'PLANNED',
+            value: 'PLANNED',
+            count: statusCount.PLANNED
         },
         {
             label: 'STOPPED',

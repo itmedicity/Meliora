@@ -2,11 +2,11 @@ import React from "react";
 import { Box, Stack, Checkbox } from "@mui/joy";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-import PersonIcon from "@mui/icons-material/Person";
+// import PersonIcon from "@mui/icons-material/Person";
 
 import DietTextComponent from "../../DietComponent/DietTextComponent";
 import SelectPatientDiet from "../InpateintFilter.jsx/SelectPatientDiet";
-import SelectDieticain from "src/views/CommonSelectCode/SelectDieticain";
+// import SelectDieticain from "src/views/CommonSelectCode/SelectDieticain";
 
 const NewDietPlanSection = ({
     isPlanned,
@@ -16,8 +16,8 @@ const NewDietPlanSection = ({
     setConsultationRequired,
     dietType,
     setDietType,
-    dietecian,
-    setDietecian,
+    // dietecian,
+    // setDietecian,
     dietHistory = []
 }) => {
 
@@ -187,24 +187,20 @@ const NewDietPlanSection = ({
                     </Stack>
 
                     <Checkbox
-                        checked={consultationRequired}
+                        checked={consultationRequired === true}
                         onChange={(e) => {
 
                             const checked = e.target.checked;
 
                             setConsultationRequired(checked);
-
-                            if (!checked) {
-                                setDietecian(null);
-                            }
                         }}
                     />
 
                 </Box>
             )}
 
-            {/* ===== DIETITIAN ===== */}
-            {consultationRequired && (
+
+            {/* {consultationRequired && (
 
                 <Box
                     sx={{
@@ -271,7 +267,7 @@ const NewDietPlanSection = ({
                     </Box>
 
                 </Box>
-            )}
+            )} */}
 
         </Stack>
     );

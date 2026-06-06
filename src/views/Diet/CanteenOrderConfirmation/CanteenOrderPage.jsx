@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import KotItemHeader from '../KotItemList/KotItemHeader'
 import CanteenOrderTab from './Components/CanteenOrderTab'
@@ -6,6 +6,10 @@ import CanteenFilterComponent from './Components/CanteenFilterComponent'
 import { useCanteenFilter } from '../DietReducer/contextprovider/CanteenFilterContext'
 import CanteenMain from '../CanteenOrderConfirmation/CanteenMain'
 import { useFetchAllCanteenOrders } from '../CommonData/UseQuery'
+import { socket } from 'src/ws/socket'
+import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { initSpeech, speakOrder } from '../Utils/SpeakOrder'
+import { safeText } from '../CommonData/Common'
 
 const CanteenOrderPage = () => {
 
@@ -26,10 +30,50 @@ const CanteenOrderPage = () => {
     } = state
 
     /* API CALL */
-    const { data: allOrders = [] } =
-        useFetchAllCanteenOrders(activeTab)
+    const { data: allOrders = [],
+        refetch: FetchCanteenOrders
+    } = useFetchAllCanteenOrders(activeTab)
 
+    useEffect(() => {
+        initSpeech();
+    }, []);
 
+    useEffect(() => {
+
+        // NEW ORDER
+        socket.on("newCanteenOrder", (data) => {
+            succesNotify(`New Order Arrived ${data?.orderId}`);
+            const voiceText =
+                `New Order ${safeText(data?.orderId)} Arrived.`;
+            speakOrder(voiceText);
+            FetchCanteenOrders();
+        });
+
+        // CANCEL ORDER
+        socket.on("cancelCanteenOrder", (data) => {
+            warningNotify(`Order Cancelled ${data?.orderId}`);
+            const voiceText =
+                `Order ${safeText(data?.orderId)} Cancelled.`;
+
+            speakOrder(voiceText);
+            FetchCanteenOrders();
+        });
+
+        socket.on("newDietOrder", (data) => {
+            succesNotify(data?.message || "New Order Arrived");
+            const voiceText =
+                `New Order Arrived.`;
+            speakOrder(voiceText);
+            FetchCanteenOrders();
+        });
+
+        return () => {
+            socket.off("newCanteenOrder");
+            socket.off("cancelCanteenOrder");
+            socket.off("newDietOrder");
+        };
+
+    }, []);
 
 
     /* FILTER LOGIC */

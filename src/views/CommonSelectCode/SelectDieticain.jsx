@@ -26,7 +26,7 @@ const SelectDieticain = ({ value, setValue }) => {
                 >
 
                     <Option value={""}>
-                        Select Item Group
+                        Select Dieticain
                     </Option>
 
                     {Dietecian?.map((val, index) => (

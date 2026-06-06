@@ -91,8 +91,13 @@ const IngredientSection = ({
     /*Edit Ingredient */
     const editIngredient = useCallback((index) => {
         const item = ingredients[index]
-        setIngredientInput(item)
-        setQuery(item?.name || "")
+        setIngredientInput(prev => ({
+            ...prev,
+            name: item?.ingredient_name,
+            value: item?.quantity,
+            unit: item?.unit_id
+        }))
+        setQuery(item?.ingredient_name || "")
         setIngredientEditIndex(index)
     }, [ingredients]);
 

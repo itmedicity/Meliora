@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Box } from "@mui/joy";
 import { infoNotify, warningNotify } from "src/views/Common/CommonCode";
-import { useItemFullDetials } from "../../CommonData/UseQuery";
+import { useAllFoodAndBeverage } from "../../CommonData/UseQuery";
 import DietInputLabel from "src/views/Master/DietMasters/DietComponent/DietInputLabel";
 import DietButton from "../../DietComponent/DietButton";
 import FoodSuggestionItem from "src/views/Master/DietMasters/ItemMaster/RecipeCards/FoodSuggestionItem";
@@ -29,7 +29,7 @@ const CanteenFoodSection = ({
     const quantityRef = useRef(null);
 
     //  you can change this hook later for canteen-specific API
-    const { data: ExistFoodDetail = [] } = useItemFullDetials(query.length > 0);
+    const { data: ExistFoodDetail = [] } = useAllFoodAndBeverage(query.length > 0);
 
     const toNumber = (val, defaultValue = 0) => {
         const num = Number(val);

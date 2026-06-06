@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Modal,
   ModalDialog,
@@ -35,77 +35,69 @@ const DietPlan = ({
     ipd_date,
     fb_ipd_disc,
     diet_history
-
   } = selectedPatientData || {};
-
-
-
 
   const id = useSelector((state) => state.LoginUserData.empid);
 
   const [dietType, setDietType] = useState("");
-  const [dietecian, setDietecian] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [editingPlanId, setEditingPlanId] = useState(null);
 
   // ONLY FOR DIETITIAN
-  const [consultationRequired, setConsultationRequired] = useState(false);
+  const [consultationRequired, setConsultationRequired] = useState(true);
 
-  const isPlanned = diet_history?.some(
-    (val) =>
-      val?.diet_status &&
-      val?.diet_status !== "STOPPED"
-  ) ?? false;
-
-
-  const hasActiveDiet = diet_history?.find(
-    (val) => val?.diet_status === "ACTIVE"
+  const hasActiveDiet = useMemo(() => diet_history?.find(val => val?.diet_status === "ACTIVE"),
+    [diet_history]
   );
 
+  const isPlanned = useMemo(() => diet_history?.some(val =>
+    val?.diet_status &&
+    val?.diet_status !== "STOPPED"
+  ) ?? false,
+    [diet_history]
+  );
 
   const PlanId = hasActiveDiet?.plan_id;
-
 
   const { data: TemplateFoodDetail } = useAllFetchTemplateFoodDetail(PlanId);
   const { data: FetchPlanFoodDetail = [] } = usePatientPlanFoodDetails(PlanId);
 
-
-  const groupedData = groupByDayAndType(
+  const groupedData = useMemo(() => groupByDayAndType(
     template,
     TemplateFoodDetail,
     FetchPlanFoodDetail
-  );
+  ), [template, TemplateFoodDetail, FetchPlanFoodDetail]);
 
-
-
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setDietType("");
-    setDietecian("");
     setEditMode(false);
     setEditingPlanId(null);
-    setConsultationRequired(false);
-  };
+    setConsultationRequired(true);
+  }, []);
 
-  const HandleClose = useCallback(() => {
-    setOpen(false)
-    resetForm()
-  }, [])
+  const handleClose = useCallback(() => {
+    resetForm();
+    setOpen(false);
+  }, [resetForm, setOpen]);
 
-  const handleEdit = (row) => {
+  const handleEdit = useCallback((row) => {
     if (!row) return infoNotify("Data Missing Please Refresh");
+
     if (editMode && editingPlanId === row?.plan_id) {
       setEditMode(false);
       setEditingPlanId(null);
       return;
     }
+
     setEditMode(true);
     setEditingPlanId(row?.plan_id);
     setDietType(row?.diet_id || "");
-    setDietecian(row?.dietitian_id || "");
     setConsultationRequired(true);
-  };
 
-  const formatDate = (date) => {
+  }, [editMode, editingPlanId]);
+
+
+  const formatDate = useCallback((date) => {
     if (!date) return null;
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime()))
@@ -114,13 +106,14 @@ const DietPlan = ({
       parsedDate,
       "yyyy-MM-dd HH:mm:ss"
     );
-  };
+  }, []);
 
-  const getGender = (sex) => {
+  
+  const getGender = useCallback((sex) => {
     if (sex === "F") return "Female";
     if (sex === "M") return "Male";
     return "-";
-  };
+  }, []);
 
 
   const validateForm = () => {
@@ -131,8 +124,8 @@ const DietPlan = ({
     // Diet always required
     if (!dietType)
       return "Please select Diet";
-    if (consultationRequired && !dietecian)
-      return "Please select Dietitian";
+    if (!do_code)
+      return "Doctor Id is Missing!"
   };
 
   const handleSubmit = async (type = "save") => {
@@ -156,11 +149,7 @@ const DietPlan = ({
           ? formatDate(fb_ipd_disc)
           : null,
         doctor_id: do_code || null,
-
-        dietitian_id: consultationRequired ? dietecian : null,
-
         diet_status: "ACTIVE",
-
         ...(isEdit
           ? {
             is_active: 1,
@@ -285,8 +274,8 @@ const DietPlan = ({
             dietType={dietType}
             ActiveDiet={hasActiveDiet}
             setDietType={setDietType}
-            dietecian={dietecian}
-            setDietecian={setDietecian}
+          // dietecian={dietecian}
+          // setDietecian={setDietecian}
           />
 
         </Box>
@@ -294,7 +283,7 @@ const DietPlan = ({
         {/* FOOTER */}
 
         <DietPlanFooter
-          HandleClose={HandleClose}
+          HandleClose={handleClose}
           handleSubmit={handleSubmit}
           editMode={editMode}
           isPlanned={isPlanned}

@@ -186,6 +186,7 @@ const FoodForm = ({
             }
             // ---------- STEP 2 UPLOAD IMAGE ----------
             // FILE UPLOAD
+
             if (uploadedFiles.length > 0) {
                 try {
                     const formPayload = new FormData();
@@ -211,6 +212,7 @@ const FoodForm = ({
                         "/fooditemmast/uploadItemFiles",
                         formPayload, { headers: { "Content-Type": "multipart/form-data" } }
                     );
+                    
                     const uploadResult = uploadRes.data;
                     if (uploadResult.success !== 1) {
                         warningNotify(`Item saved but image upload failed: ${uploadResult.message}`);
@@ -345,17 +347,10 @@ const FoodForm = ({
                 return warningNotify(message);
             }
 
-            console.log({
-                uploadedFiles
-            });
-
             const newFiles = (uploadedFiles || []).filter(
                 file => file?.isNew === true
             );
 
-            console.log({
-                newFiles
-            });
 
             if (newFiles.length > 0) {
                 try {
@@ -499,7 +494,7 @@ const FoodForm = ({
                     name={formData?.item_id ? 'Update Item' : 'Add Item'}
                     icon={LocalDiningRoundedIcon}
                 />
-                
+
             </Box>
         </ErrorBoundary>
     );

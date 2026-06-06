@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { useAllPatientDietPlan } from '../CommonData/UseQuery'
+import { useAllPatientDietPlan, useLoggedEMployeeNsStation } from '../CommonData/UseQuery'
 import { Box } from '@mui/joy'
 
 import KotItemHeader from '../KotItemList/KotItemHeader'
@@ -16,14 +16,35 @@ import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { formatPatientDietData } from '../CommonData/CommonFun'
 import InpatientDietTab from './DietInpatientComponents/InpatientDietTab'
+import { useSelector } from 'react-redux'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from 'src/NotFound/ErrorFallback'
+import NsStationError from './DietInpatientComponents/Component/NsStationError'
+import DietRoomServiceLoading from './DietInpatientComponents/Component/DietRoomServiceLoading'
+import DietRoomServiceError from './DietInpatientComponents/Component/DietRoomServiceError'
+import NoPatientFound from './DietInpatientComponents/Component/NoPatientFound'
 
 const DietInpatientMainPage = () => {
 
+
+    const empsecid = useSelector(state => {
+        return state.LoginUserData.empsecid
+    });
+
+    const {
+        data: NsCode,
+        isLoading: nsLoading,
+        isError: nsError,
+        error: nsErrorMessage
+    } = useLoggedEMployeeNsStation(empsecid);
+
     const {
         data: allPatientDiet = [],
-        refetch: FetchPatientDietPlan
-    } = useAllPatientDietPlan("W005");
-
+        refetch: FetchPatientDietPlan,
+        isLoading: dietLoading,
+        isError: dietError,
+        error: dietErrorMessage
+    } = useAllPatientDietPlan(NsCode);
 
     const formattedPatients = formatPatientDietData(allPatientDiet);
 
@@ -37,7 +58,7 @@ const DietInpatientMainPage = () => {
     const [templatedetail, setTemplateDetail] = useState([]);
     const [loadingtemplate, setLoadingTemplate] = useState(false);
     const [selectedPatientData, setSelectedPatientData] = useState([])
-    const [activeStatus, setActiveStatus] = useState('PLANNED')
+    const [activeStatus, setActiveStatus] = useState('NOTPLANNED')
 
     const filteredPatients = useMemo(() => {
 
@@ -57,7 +78,8 @@ const DietInpatientMainPage = () => {
             const matchesDietName =
                 !dietName ||
                 patient?.diet_history?.some(
-                    (diet) => diet?.diet_id === dietName
+                    (diet) => Number(diet?.diet_id) === Number(dietName) &&
+                        diet?.diet_status === "ACTIVE"
                 )
 
             // NURSING BED ----------------
@@ -68,7 +90,7 @@ const DietInpatientMainPage = () => {
             // PATIENT --------
             const matchPatient =
                 !dietPatient ||
-                patient?.ip_no === dietPatient
+                patient?.pt_no === dietPatient
 
             //  STATUS ----------------
             const dietHistory = patient?.diet_history || []
@@ -120,8 +142,6 @@ const DietInpatientMainPage = () => {
     ]);
 
 
-
-
     const onTileClick = useCallback(async (item) => {
         if (!item) return;
 
@@ -145,7 +165,6 @@ const DietInpatientMainPage = () => {
                     errorNotify(message || "Error in Fetching Data");
                     return;
                 }
-                console.log({ data });
                 setTemplateDetail(data ?? []);
             } catch (error) {
                 errorNotify(error?.message || "Something went wrong");
@@ -163,105 +182,128 @@ const DietInpatientMainPage = () => {
     }, [warningNotify, errorNotify]);
 
 
+    const isPageLoading = nsLoading || (!!NsCode && dietLoading);
+
+    if (!nsLoading && (!NsCode || (Array.isArray(NsCode) && NsCode.length === 0))) return <NsStationError />;
+
+    if (isPageLoading) return <DietRoomServiceLoading />;
+
+    if (isPageLoading) return <DietRoomServiceLoading />;
+
+    if (nsError || dietError) {
+        return (
+            <DietRoomServiceError
+                error={nsErrorMessage || dietErrorMessage}
+                onRetry={() => { }}
+            />
+        );
+    }
+
     return (
-        <Box
-            sx={{
-                width: '100%',
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                overflow: 'hidden'
-            }}
-        >
-            {
-                loadingtemplate
-                &&
-                <CustomeIncidentLoading
-                    text={"Fetching Diet Detail Please Wait!"}
-                />
-            }
-            {/* Sticky Header Section */}
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
             <Box
                 sx={{
                     width: '100%',
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 1000,
-                    bgcolor: '#fff',
+                    height: '100vh',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
-                    pb: 1
-                }}
-            >
-                <KotItemHeader
-                    name={'PATIENT MANAGEMENT'}
-                    goBackPath={''}
-                    headerIcons={[
-                        FaUserInjured,
-                        FaHospitalUser,
-                        FaProcedures
-                    ]}
-                />
-
-                <InpatientFilter
-                    search={search}
-                    setSearch={setSearch}
-                    nursingBed={nursingBed}
-                    setNursingBed={setNursingBed}
-                    dietPatient={dietPatient}
-                    setDietPatient={setDietPatient}
-                    dietName={dietName}
-                    setDietName={setDietName}
-                    selectedStations={"W005"}
-                    FilteredPatientDetail={formattedPatients}
-                />
-                <InpatientDietTab
-                    patientList={formattedPatients}
-                    activeStatus={activeStatus}
-                    setActiveStatus={setActiveStatus}
-                />
-            </Box>
-
-            {/* Scrollable Patient List */}
-            <Box
-                sx={{
-                    flex: 1,
-                    width: '100%',
-                    overflowY: 'auto',
-                    p: 1,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 2,
-                    alignContent: 'flex-start',
-                    // Hide Scrollbar
-                    scrollbarWidth: 'none', // Firefox
-                    msOverflowStyle: 'none', // IE and Edge
-                    '&::-webkit-scrollbar': {
-                        display: 'none' // Chrome, Safari
-                    }
+                    overflow: 'hidden'
                 }}
             >
                 {
-                    filteredPatients?.map((patient) => (
-                        <PatientCard
-                            key={patient.dietpt_slno}
-                            patient={patient}
-                            onClick={onTileClick}
-                        />
-                    ))
+                    loadingtemplate
+                    &&
+                    <CustomeIncidentLoading
+                        text={"Fetching Diet Detail Please Wait!"}
+                    />
                 }
+                {/* Sticky Header Section */}
+                <Box
+                    sx={{
+                        width: '100%',
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 1000,
+                        bgcolor: '#fff',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        pb: 1
+                    }}
+                >
+                    <KotItemHeader
+                        name={'PATIENT MANAGEMENT'}
+                        goBackPath={''}
+                        headerIcons={[
+                            FaUserInjured,
+                            FaHospitalUser,
+                            FaProcedures
+                        ]}
+                    />
+
+                    <InpatientFilter
+                        search={search}
+                        setSearch={setSearch}
+                        nursingBed={nursingBed}
+                        setNursingBed={setNursingBed}
+                        dietPatient={dietPatient}
+                        setDietPatient={setDietPatient}
+                        dietName={dietName}
+                        setDietName={setDietName}
+                        selectedStations={"W005"}
+                        FilteredPatientDetail={formattedPatients}
+                    />
+                    <InpatientDietTab
+                        patientList={formattedPatients}
+                        activeStatus={activeStatus}
+                        setActiveStatus={setActiveStatus}
+                    />
+                </Box>
+
+                {/* Scrollable Patient List */}
+                <Box
+                    sx={{
+                        flex: 1,
+                        width: '100%',
+                        overflowY: 'auto',
+                        p: 1,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 2,
+                        alignContent: 'flex-start',
+                        // Hide Scrollbar
+                        scrollbarWidth: 'none', // Firefox
+                        msOverflowStyle: 'none', // IE and Edge
+                        '&::-webkit-scrollbar': {
+                            display: 'none' // Chrome, Safari
+                        }
+                    }} >
+
+                    {
+                        filteredPatients?.length > 0 ? (
+                            filteredPatients.map((patient) => (
+                                <PatientCard
+                                    key={patient.dietpt_slno}
+                                    patient={patient}
+                                    onClick={onTileClick}
+                                />
+                            ))
+                        ) : (
+                            <NoPatientFound />
+                        )
+                    }
+                </Box>
+
+
+                <DietPlan
+                    open={deitPlanOpen}
+                    template={templatedetail}
+                    setOpen={setDeitPlanOpen}
+                    selectedPatientData={selectedPatientData}
+                    FetchPatientDietPlan={FetchPatientDietPlan}
+                />
             </Box>
-
-
-            <DietPlan
-                open={deitPlanOpen}
-                template={templatedetail}
-                setOpen={setDeitPlanOpen}
-                selectedPatientData={selectedPatientData}
-                FetchPatientDietPlan={FetchPatientDietPlan}
-            />
-        </Box>
+        </ErrorBoundary>
     )
 }
 

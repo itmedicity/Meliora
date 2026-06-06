@@ -3,6 +3,8 @@ import { Box, IconButton } from "@mui/joy";
 import LunchDiningOutlinedIcon from "@mui/icons-material/LunchDiningOutlined";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DietTextComponent from "../../DietComponent/DietTextComponent";
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
+
 
 const CanteenCancelItemList = ({ data = [], onCancelItem }) => {
 
@@ -50,7 +52,27 @@ const CanteenCancelItemList = ({ data = [], onCancelItem }) => {
                                         size={14}
                                         weight={600}
                                     />
-
+                                    {
+                                        item?.type_desc &&
+                                        <Box
+                                            sx={{
+                                                bgcolor: "#66d1ff",
+                                                color: "#131212",
+                                                fontSize: 10,
+                                                px: 1,
+                                                borderRadius: 1,
+                                                fontWeight: 600,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}>
+                                            <RamenDiningIcon sx={{
+                                                fontSize: 12,
+                                                color: '#aa54ff'
+                                            }} />
+                                            {item?.type_desc}
+                                        </Box>
+                                    }
                                     {/* EXTRA */}
                                     {item?.isExtra && (
                                         <Box sx={{

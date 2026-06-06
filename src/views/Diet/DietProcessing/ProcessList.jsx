@@ -1,5 +1,5 @@
 import { Box, } from '@mui/joy';
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import DietMasterHeader from 'src/views/Master/DietMasters/DietComponent/DietMasterHeader'
 import DietWiseProcessing from './DietWiseProcessing';
@@ -21,6 +21,7 @@ import {
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useSelector } from 'react-redux';
 import PatientSelectionDrawer from './PatientSelectionDrawer';
+import { socket } from 'src/ws/socket';
 
 
 const ProcessList = () => {
@@ -47,6 +48,8 @@ const ProcessList = () => {
         error: errorProcess
     } = useAllDietProcessList(formattedDate);
 
+  
+    
 
     const {
         data: FinalDietNames = [],
@@ -82,6 +85,18 @@ const ProcessList = () => {
     //     error: errorBatch,
     //     // refetch: FetchAllBatchDetail
     // } = useAllProductionBatchDetail(todate);
+
+
+    useEffect(() => {
+        socket.on("newDietPlanCreated", () => {
+            //  refetch latest data
+            FetchScheduledDietPlan();
+            FetchActivePatients()
+            //  stop blink after animation
+        });
+
+        return () => socket.off("newDietPlanCreated");
+    }, []);
 
 
     const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient.diet_id === diet.diet_id));
@@ -162,7 +177,7 @@ const ProcessList = () => {
                 created_by: id
             };
 
-        
+
 
 
             const result = await axioslogin.post('/dietschedule/schedule/list', payload);
