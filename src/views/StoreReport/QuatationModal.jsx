@@ -38,10 +38,10 @@ const QuatationModal = ({ open, onClose, selectedRow, quotationDetails }) => {
     ];
 
     const onExportClick = () => {
-        if (quotationDetails.length === 0) {
+        if (quotationDetails?.length === 0) {
             alert("No data available to export"); return;
         }
-        const exportData = quotationDetails.map((item, index) => ({
+        const exportData = quotationDetails?.map((item, index) => ({
             sl_no: index + 1,
             quotation: item["QUOTATION #"],
             quotation_date: item["QUOTATION DATE"],
