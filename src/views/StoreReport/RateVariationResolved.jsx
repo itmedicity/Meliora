@@ -60,7 +60,7 @@ const RateVariationResolved = ({ setActiveComponent }) => {
         if (searchValue.trim() && selected === "1") {
             result = result.filter(val => val?.grn_no?.toString() === searchValue.trim())
         } else if (fromDate && toDate) {
-            result = result.filter(val => {
+            result = result?.filter(val => {
                 const grnDate = format(new Date(val.grn_date), "yyyy-MM-dd")
                 return grnDate >= fromDate && grnDate <= toDate
             })
@@ -74,12 +74,12 @@ const RateVariationResolved = ({ setActiveComponent }) => {
     }, [])
 
     const onExportClick = () => {
-        if (ResolvedDatas.length === 0) {
+        if (filtered?.length === 0) {
             alert("No data available to export");
             return;
         }
 
-        const exportData = ResolvedDatas.map((item, index) => ({
+        const exportData = filtered?.map((item, index) => ({
             sl_no: index + 1,
             grn_no: item["grn_no"],
             grn_date: item["grn_date"],
