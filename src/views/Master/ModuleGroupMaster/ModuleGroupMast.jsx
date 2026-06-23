@@ -45,7 +45,8 @@ const ModuleGroupMast = () => {
     labresult: false,
     deviceCredentials: false,
     storeModule: false,
-    cdcEmr: false
+    cdcEmr: false,
+    abha: false
 
   })
   /*** Destructuring */
@@ -78,9 +79,9 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
-    cdcEmr
+    cdcEmr,
+    abha
   } = moduleGroup
-
 
   /***Get values from the component */
   const updateModuleGroup = useCallback(
@@ -123,7 +124,8 @@ const ModuleGroupMast = () => {
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
         module_Store: storeModule === true ? 31 : 0,
-        module_CdcEmr: cdcEmr === true ? 32 : 0
+        module_CdcEmr: cdcEmr === true ? 32 : 0,
+        module_abha: abha === true ? 33 : 0
 
       }
     }
@@ -155,7 +157,8 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
-    cdcEmr
+    cdcEmr,
+    abha
   ])
 
   /*** data for  update to module_group_mast table */
@@ -190,7 +193,9 @@ const ModuleGroupMast = () => {
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
         module_Store: storeModule === true ? 31 : 0,
-        module_CdcEmr: cdcEmr === true ? 32 : 0
+        module_CdcEmr: cdcEmr === true ? 32 : 0,
+        module_abha: abha === true ? 33 : 0
+
 
       },
       mod_grp_slno: mod_grp_slno
@@ -224,13 +229,16 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
-    cdcEmr
+    cdcEmr,
+    abha
   ])
 
   // data setting for edit
   const rowSelect = useCallback(data => {
     setvalue(1)
     const datas = data.api.getSelectedRows()
+    console.log(datas[0], "datas");
+
     const { mod_grp_slno, mod_grp_name, module_slno } = datas[0]
     const module_status = JSON.parse(module_slno)
     const formdata = {
@@ -262,7 +270,9 @@ const ModuleGroupMast = () => {
       labresult: module_status.labresult === 0 ? false : true,
       deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
       storeModule: module_status.module_Store === 0 ? false : true,
-      cdcEmrModule: module_status.module_CdcEmr === 0 ? false : true,
+      cdcEmr: module_status.module_CdcEmr === 0 ? false : true,
+      abha: module_status.module_abha === 0 ? false : true,
+
 
     }
     setModuleGroup(formdata)
@@ -299,8 +309,8 @@ const ModuleGroupMast = () => {
         labresult: false,
         deviceCredentials: false,
         storeModule: false,
-        cdcEmr: false
-
+        cdcEmr: false,
+        abha: false
       }
       /***     * insert function for use call back     */
       const InsertFun = async postdata => {
@@ -377,7 +387,8 @@ const ModuleGroupMast = () => {
       labresult: false,
       deviceCredentials: false,
       storeModule: false,
-      cdcEmr: false
+      cdcEmr: false,
+      abha: false
 
     }
     setModuleGroup(frmreset)
@@ -711,6 +722,18 @@ const ModuleGroupMast = () => {
                   variant="outlined"
                   value={cdcEmr}
                   checked={cdcEmr}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="ABHA Registration"
+                  color="primary"
+                  size="md"
+                  name="abha"
+                  variant="outlined"
+                  value={abha}
+                  checked={abha}
                   onCheked={updateModuleGroup}
                 />
               </Grid>
