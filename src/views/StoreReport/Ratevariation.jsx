@@ -1,7 +1,7 @@
 import React, { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import CardCloseOnly from '../Components/CardCloseOnly'
 import { Paper } from '@mui/material'
-import { Box, IconButton, Input, Option, Select, Tooltip, Typography } from '@mui/joy'
+import { Box, Checkbox, IconButton, Input, Option, Select, Tooltip, Typography } from '@mui/joy'
 import * as XLSX from 'xlsx'
 import { formatDateTime } from './StoreCommonCode/CommonStyle'
 import { Virtuoso } from 'react-virtuoso'
@@ -23,6 +23,8 @@ const Ratevariation = ({ setActiveComponent }) => {
     const [selectedAction, setSelectedAction] = useState("");
     const [showExtraCols, setShowExtraCols] = useState(false);
     const [checkResolved, setCheckResolved] = useState(null);
+    const [showApproved, setShowApproved] = useState(false);
+    const [freshList, setFreshList] = useState(false);
 
     const loginId = useSelector(state => state.LoginUserData.empid)
 
@@ -91,7 +93,6 @@ const Ratevariation = ({ setActiveComponent }) => {
 
     const slno = useMemo(() => selectedRow?.slno, [selectedRow]);
 
-    // console.log("RatevarationData:", RatevarationData);
 
     const { data: RateVariationComments } = useQuery({
         queryKey: ['getComments', slno],
@@ -188,62 +189,26 @@ const Ratevariation = ({ setActiveComponent }) => {
         }
 
         // resolve validation
-        if (checkResolved !== null) {
-
-            const matchedData = (RatevarationData || []).filter(
-                (val) => Number(val?.grn_no) === Number(selectedRow?.grn_no)
-            );
-
-            const allApproved =
-                matchedData.length > 0 &&
-                matchedData.every(val => Number(val?.ed_approval_status) === 1);
-
-
-
-            const IntitalResolveStatus = matchedData.length > 0 &&
-                matchedData.every(val => (Number(val?.accounts_status) === 0) && (Number(val?.ed_md_status) === 1) && (Number(val?.purchase_status) === 1));
-
-
-
-
-            if (!allApproved && !IntitalResolveStatus) {
-                warningNotify("Previous items are still pending for approval. We cannot resolve until all are approved");
-                return;
-            }
-        }
-
-
         // if (checkResolved !== null) {
+
         //     const matchedData = (RatevarationData || []).filter(
         //         (val) => Number(val?.grn_no) === Number(selectedRow?.grn_no)
         //     );
 
-        //     if (matchedData.length === 0) return;
+        //     const allApproved =
+        //         matchedData.length > 0 &&
+        //         matchedData.every(val => Number(val?.ed_approval_status) === 1);
 
-        //     // Find pending department
-        //     const pendingItem = matchedData.find((val) => {
-        //         // const acc = Number(val?.accounts_status);
-        //         const pur = Number(val?.purchase_status);
-        //         const ed = Number(val?.ed_md_status);
 
-        //         return !(pur === 1 && ed === 1);
-        //     });
 
-        //     if (pendingItem) {
-        //         // const acc = Number(pendingItem?.accounts_status);
-        //         const pur = Number(pendingItem?.purchase_status);
-        //         const ed = Number(pendingItem?.ed_md_status);
+        //     const IntitalResolveStatus = matchedData.length > 0 &&
+        //         matchedData.every(val => (Number(val?.accounts_status) === 0) && (Number(val?.ed_md_status) === 1) && (Number(val?.purchase_status) === 1));
 
-        //         let message = "";
-        //         if (pur === 0) {
-        //             message = "Approval pending in Purchase Department.";
-        //         } else if (ed === 0) {
-        //             message = "Approval pending in ED/MD.";
-        //         } else {
-        //             message = "Some items are still pending approval.";
-        //         }
 
-        //         warningNotify(message);
+
+
+        //     if (!allApproved && !IntitalResolveStatus) {
+        //         warningNotify("Previous items are still pending for approval. We cannot resolve until all are approved");
         //         return;
         //     }
         // }
@@ -299,133 +264,109 @@ const Ratevariation = ({ setActiveComponent }) => {
 
 
 
+    // let result = RatevarationData ?? [];
 
-    // original code 
-    //  const handleSaveComment = useCallback(async () => {
-    //     let accounts_status = Number(selectedRow?.accounts_status ?? 1);
-    //     let purchase_status = Number(selectedRow?.purchase_status ?? 1);
-    //     let ed_md_status = Number(selectedRow?.ed_md_status ?? 1);
+    // if (empdept_id === 15) {
+    //     // Precompute GRN approval statuses in O(N) time
+    //     const grnApprovedMap = {};
+    //     const grnHasPendingMap = {};
 
-    //     const hasAction =
-    //         selectedAction !== "" || checkResolved !== null;
+    //     result?.forEach(item => {
+    //         const grn = item.grn_no;
+    //         const isApproved = Number(item.ed_approval_status) === 1;
 
-    //     /* ------------------------------------
-    //        CASE 1: NO action & NO resolved
-    //        → Logged dept status = 1
-    //     ------------------------------------ */
-    //     if (!hasAction) {
-    //         if (empdept_id === 15) accounts_status = 1;
-    //         if (empdept_id === 26) purchase_status = 1;
-    //         if (empdept_id === 30) ed_md_status = 1;
-    //     }
-
-    //     /* ------------------------------------
-    //        CASE 2: Action OR Resolved selected
-    //        → Move to NEXT dept
-    //     ------------------------------------ */
-    //     else {
-    //         accounts_status = 1;
-    //         purchase_status = 1;
-    //         ed_md_status = 1;
-
-    //         if (empdept_id === 15) {
-    //             purchase_status = 0;
+    //         if (!(grn in grnApprovedMap)) {
+    //             grnApprovedMap[grn] = true;
     //         }
-    //         else if (empdept_id === 26) {
-    //             ed_md_status = 0;
+    //         if (!isApproved) {
+    //             grnApprovedMap[grn] = false;
     //         }
-    //         else if (empdept_id === 30) {
-    //             accounts_status = 0;
+
+    //         if (!isApproved) {
+    //             grnHasPendingMap[grn] = true;
     //         }
-    //     }
+    //     });
 
-    //     const ed_approval_status =
-    //         Number(ed_md_status) === 1 &&
-    //             Number(accounts_status) === 0 &&
-    //             Number(purchase_status) === 1
-    //             ? 1
-    //             : 0;
-
-
-    //     const postComment = {
-    //         grn_no: selectedRow?.grn_no,
-    //         item_name: selectedRow?.item_name,
-    //         comment: commentText,
-    //         Cmt_Dept: empdept,
-    //         rate_variation_slno: selectedRow?.slno,
-    //         loginId: loginId,
-    //         selectedAction: selectedAction !== "" ? selectedAction : checkResolved,
-    //         checkResolved: checkResolved !== null ? 1 : 0,
-    //         accounts_status,
-    //         purchase_status,
-    //         ed_md_status,
-    //         ed_approval_status: ed_approval_status
-    //     };
-
-    //     console.log("postComment:", postComment);
-
-    //     const result = await axioslogin.post("RateVariationReport/insertComment", postComment)
-    //     const { success, message } = result.data;
-    //     if (success === 1) {
-    //         succesNotify(message)
-    //         queryClient.invalidateQueries(['getComments'])
-    //         queryClient.invalidateQueries(['getdefaultdata'])
-    //         setCommentText("")
-    //         setSelectedAction("")
-    //         setOpenCommentModal(false)
-    //         setCheckResolved(null)
+    //     if (showApproved) {
+    //         result = result.filter(val =>
+    //             grnApprovedMap[val.grn_no] && Number(val.accounts_status) === 0
+    //         );
+    //     } else if (freshList) {
+    //         result = result.filter(val =>
+    //             Number(val.ed_approval_status ?? 0) === 0 && Number(val.accounts_status ?? 0) === 0
+    //         );
     //     } else {
-    //         warningNotify(message)
-    //         setCommentText("")
-    //         setSelectedAction("")
-    //         setOpenCommentModal(false)
-    //         setCheckResolved(null)
+    //         result = result.filter(val =>
+    //             grnHasPendingMap[val.grn_no] && Number(val.accounts_status) === 0
+    //         );
     //     }
-    // }, [
-    //     selectedRow,
-    //     commentText,
-    //     empdept,
-    //     loginId,
-    //     selectedAction,
-    //     checkResolved,
-    //     empdept_id,
-    //     setCommentText,
-    //     setSelectedAction,
-    //     setOpenCommentModal,
-    //     setCheckResolved
-    // ]);
 
-
+    // }
 
     const filtered = useMemo(() => {
         let result = RatevarationData ?? [];
-        if (empdept_id === 15) {
-            result = result.filter(val => val.accounts_status === 0);
-        }
-        else if (empdept_id === 26) {
-            result = result.filter(val => val.purchase_status === 0);
-        }
-        else if (empdept_id === 30) {
-            result = result.filter(val => val.ed_md_status === 0);
-        }
 
-        if (searchValue.trim()) {
-            if (selected === "1") {
+        if (empdept_id === 15) {
+
+            if (showApproved) {
                 result = result.filter(
-                    val => val.grn_no?.toString() === searchValue
+                    val =>
+                        Number(val.ed_approval_status) === 1 &&
+                        Number(val.accounts_status) === 0
+                );
+            } else if (freshList) {
+
+                result = result.filter(
+                    val =>
+                        Number(val.ed_approval_status) === 0 &&
+                        Number(val.accounts_status) === 0
+                );
+
+            } else {
+
+                result = result.filter(
+                    val =>
+                        Number(val.accounts_status) === 0
                 );
             }
+
+        } else if (empdept_id === 26) {
+
+            result = result.filter(
+                val => Number(val.purchase_status) === 0
+            );
+
+        } else if (empdept_id === 30) {
+
+            result = result.filter(
+                val => Number(val.ed_md_status) === 0
+            );
+        }
+
+        // Search by GRN
+        if (searchValue.trim() && selected === "1") {
+            result = result.filter(
+                val => val.grn_no?.toString() === searchValue.trim()
+            );
         }
 
         return result;
-    }, [searchValue, selected, RatevarationData, empdept_id]);
+
+    }, [
+        RatevarationData,
+        empdept_id,
+        showApproved,
+        freshList,
+        searchValue,
+        selected
+    ]);
 
 
     const onExportClick = () => {
-        if (RatevarationData.length === 0) {
+        if (filtered?.length === 0) {
             alert("No data available to export"); return;
         }
-        const exportData = RatevarationData.map((item, index) => ({
+        const exportData = filtered?.map((item, index) => ({
             sl_no: index + 1, grn_no: item["grn_no"],
             status: item["comments"],
             grn_date: item["grn_date"],
@@ -501,6 +442,32 @@ const Ratevariation = ({ setActiveComponent }) => {
                                     />
                                 </IconButton>
                             </Tooltip>
+
+                            {empdept_id === 15 && (
+                                <Box sx={{ display: "flex", gap: 2 }}>
+                                    <Checkbox
+                                        label="Fresh List"
+                                        checked={freshList}
+                                        onChange={(e) => {
+                                            const val = e.target.checked;
+                                            setFreshList(val);
+                                            if (val) setShowApproved(false);
+                                        }}
+                                        size="sm"
+                                    />
+
+                                    <Checkbox
+                                        label="Approved List"
+                                        checked={showApproved}
+                                        onChange={(e) => {
+                                            const val = e.target.checked;
+                                            setShowApproved(val);
+                                            if (val) setFreshList(false);
+                                        }}
+                                        size="sm"
+                                    />
+                                </Box>
+                            )}
                         </Box>
                         <Box sx={{ display: "flex", flex: 1, justifyContent: "space-between" }}>
                             <Box sx={{ display: "flex", mt: 1 }}>
@@ -641,7 +608,7 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                     arrow
 
                                                                     sx={{
-                                                                        width: 250,        // ✅ fixed width
+                                                                        width: 250,        // ? fixed width
                                                                         maxWidth: 250,     // prevents auto resize
                                                                         whiteSpace: "normal",
                                                                         wordBreak: "break-word",

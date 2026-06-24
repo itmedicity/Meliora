@@ -173,7 +173,7 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
     const InsertDatas = useCallback(async () => {
         if (!selectedRows.length) return;
 
-        const insertVal = selectedRows.map(val => ({
+        const insertVal = selectedRows?.map(val => ({
             grn_no: val["GRN NO"],
             grn_date: format(new Date(val["GRN DATE"]), "yyyy-MM-dd"),
             item_name: val["ITEM NAME"],
@@ -218,11 +218,11 @@ const RateVariationUpdation = ({ setActiveComponent }) => {
 
     // --- EXCEL EXPORT ---
     const onExportClick = () => {
-        if (GrmData.length === 0) {
+        if (filtered?.length === 0) {
             alert("No data available to export");
             return;
         }
-        const exportData = GrmData.map((item, index) => ({
+        const exportData = filtered?.map((item, index) => ({
             sl_no: index + 1,
             grn_no: item["GRN NO"],
             grn_date: item["GRN DATE"] ? formatDateTime(item["GRN DATE"]) : "",
