@@ -187,14 +187,14 @@ const AbhaPatientDetails = ({
 
             if (success === 2) {
                 const response2 = await axiosellider.post(updateEndpoint, obj);
-                const { succ } = response2.data;
+                const { succ, msg } = response2.data;
                 if (succ === 1) {
-                    succesNotify("Data Updated");
+                    succesNotify(msg);
                     setOpenOtpModal(false);
                     setOtpValues(["", "", "", "", "", ""]);
                     setPatDetails({});
                 } else {
-                    warningNotify(message);
+                    warningNotify(msg);
                 }
             } else {
                 warningNotify(message);
