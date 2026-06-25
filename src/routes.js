@@ -306,6 +306,9 @@ const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
 const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
+const CdcEmr = React.lazy(() => import('./views/CdcEmr/CdcEmr'));
+const CdcEmrSetting = React.lazy(() => import('./views/Master/CdcMaster/CdcMaster'));
+const AbhaReg = React.lazy(() => import('./views/AbhaRegistration/AbhaReg'));
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
 // const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
@@ -1157,6 +1160,24 @@ const routes = [
     path: 'WorkOrderApproval',
     name: 'WorkOrderApproval',
     element: <WorkOrderApproval />
+  },
+
+  {
+    path: 'CdcEmr',
+    name: 'CdcEmr',
+    element: <CdcEmr />
+  },
+
+  {
+    path: 'CdcEmrSetting',
+    name: 'CdcEmrSetting',
+    element: <CdcEmrSetting />
+  },
+
+  {
+    path: 'abha',
+    name: 'abha',
+    element: <AbhaReg />
   },
 ]
 

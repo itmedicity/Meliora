@@ -32,7 +32,8 @@ import {
   Work_two,
   Inc_One,
   Inc_Two,
-  Inc_Three
+  Inc_Three,
+  Cdc_one
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -79,6 +80,7 @@ const Settings = () => {
   const [inc_one, setInc_one] = useState()
   const [inc_two, setInc_Two] = useState()
   const [inc_three, setInc_Three] = useState()
+  const [CdcEmr_one, setCdc_one] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -197,6 +199,8 @@ const Settings = () => {
       setInc_Two(incident_setting_two)
       const incident_setting_three = Inc_Three.filter(val => menuSlnoArray.includes(val.slno))
       setInc_Three(incident_setting_three)
+      const Cdc_Setting_one = Cdc_one.filter(val => menuSlnoArray.includes(val.slno))
+      setCdc_one(Cdc_Setting_one)
 
     })
   }, [count])
@@ -801,9 +805,45 @@ const Settings = () => {
               })}
           </Box>
 
+
         </Box>
       </CardContent>
+      {/* cdc master */}
+      <CardHeader
+        title={'Cdc Emr Setting'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >
 
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {CdcEmr_one &&
+              CdcEmr_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+          </Box>
+        </Box>
+      </CardContent>
 
     </Card>
   )
