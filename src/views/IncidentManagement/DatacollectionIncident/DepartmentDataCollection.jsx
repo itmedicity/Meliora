@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useEffect } from 'react';
+import React, { memo, useMemo, useEffect, useState } from 'react';
 import { Box } from '@mui/joy';
 import Inciwrapper from '../../Components/Inciwrapper';
 import { useSelector } from 'react-redux';
@@ -9,9 +9,11 @@ import TabComponent from '../Components/TabComponent';
 import { safeParse } from '../CommonComponent/Incidnethelper';
 import { socket } from 'src/ws/socket'
 import { succesNotify } from 'src/views/Common/CommonCode';
+import FloatingSearch from '../Components/FloatingSearch';
 
 const DepartmentDataCollection = () => {
 
+    const [searchKeyword, setSearchKeyword] = useState('');
     const { empsecid, empid } = useSelector(state => {
         return state.LoginUserData
     });
@@ -79,15 +81,43 @@ const DepartmentDataCollection = () => {
 
     // Tab List 
     const TabDetails = useMemo(() => ([
-        { id: 0, name: "Pending", data: PendingList, },
-        { id: 1, name: "All List", data: groupedData },
-        { id: 2, name: "Approved", data: ApprovedList, }
-    ]), [PendingList, groupedData, ApprovedList]);
+        {
+            id: 0, name: "Pending",
+            // data: PendingList,
+            data: PendingList?.filter(item =>
+                !searchKeyword ||
+                String(item?.inc_register_slno)?.includes(searchKeyword) ||
+                String(item?.sec_name.toLowerCase())?.includes(searchKeyword?.toLowerCase())
+            )
+        },
+        {
+            id: 1, name: "All List",
+            //  data: groupedData
+            data: groupedData?.filter(item =>
+                !searchKeyword ||
+                String(item?.inc_register_slno)?.includes(searchKeyword) ||
+                String(item?.sec_name.toLowerCase())?.includes(searchKeyword?.toLowerCase())
+            )
+        },
+        {
+            id: 2, name: "Approved",
+            // data: ApprovedList ,
+            data: ApprovedList?.filter(item =>
+                !searchKeyword ||
+                String(item?.inc_register_slno)?.includes(searchKeyword) ||
+                String(item?.sec_name.toLowerCase())?.includes(searchKeyword?.toLowerCase())
+            )
+        }
+    ]), [PendingList, groupedData, ApprovedList,searchKeyword]);
 
 
     return (
         <Box sx={{ width: '100vw' }}>
             <Inciwrapper title="DEPARTMENT DATA COLLECTION">
+                <FloatingSearch
+                    onSearch={(value) => setSearchKeyword(value)}
+                    placeholder="Search by Incident ID..."
+                />
                 <TabComponent
                     loadinglist={LoadingDepartmentDataCollection}
                     level={"DDC"}

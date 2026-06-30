@@ -16,7 +16,7 @@ import { axioslogin } from '../Axios/Axios';
 import { getFamilyDetails, handleImageClick, handleImageUpload, normalizeIncidentData } from './CommonComponent/CommonFun';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useFetchAllActiveInitiator } from './CommonComponent/useQuery';
+import { useFetchAllActiveInitiator, useIncidentFirstLevelDetail } from './CommonComponent/useQuery';
 import DisplayCommonDetail from './Components/DisplayCommonDetail';
 
 
@@ -50,7 +50,7 @@ const IncidentRegistrationFinal = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const incidentData = location.state?.incidentData;
+    const incidentData = location.state?.incidsentData;
     const Files = location.state?.files || [];
     const IncidentEditing = location.state?.isEdit;
 
@@ -58,6 +58,13 @@ const IncidentRegistrationFinal = () => {
     const { empdept, empsecid } = useSelector(state => {
         return state.LoginUserData
     });
+
+    const { data: EmployeeFirstLevelDetail } = useIncidentFirstLevelDetail(empsecid, 20);
+
+    console.log({
+        EmployeeFirstLevelDetail
+    });
+
 
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(incidentData);
 
@@ -87,6 +94,9 @@ const IncidentRegistrationFinal = () => {
     //hospital preoperyht
     const [ishpedit, setIsHpedit] = useState(false);
     const [hpdetail, setHpDetail] = useState([]);
+
+
+
 
     //Patient data
     const [ptdetail, setPtDetail] = useState([]);
@@ -359,7 +369,7 @@ const IncidentRegistrationFinal = () => {
 
     const incidentInitiator = IncidientInitiator?.find(item => String(item.inc_initiator_alias) === String(selectedSymbol));
 
-   
+
 
     // const incidentInitiator = RelatedToName;
     // for testing puprose remove this after that 
@@ -396,7 +406,8 @@ const IncidentRegistrationFinal = () => {
                 dep_slno: empdept,
                 sec_slno: empsecid,
                 inc_reg_corrective: regcorrectiveaction,
-                inc_data_collection_req: 0
+                inc_data_collection_req: 0,
+                EmployeeFirstLevelDetail:EmployeeFirstLevelDetail
             };
 
             const registerResult = await axioslogin.post('/incidentMaster/incregistration', incidentPostdata);
@@ -894,7 +905,11 @@ const IncidentRegistrationFinal = () => {
                     }}>
                         {
                             IncidentEditing && currentstep === 2 &&
-                            <UndoComponent condition={true} setState={getSetState()} setValue={setIsPatientDetail} />
+                            <UndoComponent
+                                condition={true}
+                                setState={getSetState()}
+                                setValue={setIsPatientDetail}
+                            />
                         }
                         <CardHeader icon={TbListDetails} text={`${RelatedToName} Overview`} />
                         <Box
@@ -923,7 +938,7 @@ const IncidentRegistrationFinal = () => {
                                     </Suspense>
                                     : (
                                         <Suspense fallback={<CustomeIncidentLoading text={"Loading...!"} />}>
-                                            <DisplayHospitalProperty visitorDetail={visitordata?.[0]} />
+                                            <DisplayHospitalProperty propertyDetail={hpdetail} />
                                         </Suspense>
                                     )
                             }

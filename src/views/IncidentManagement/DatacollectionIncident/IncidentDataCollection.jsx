@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 import SelectDepartmentSection from '../Components/SelectDepartmentSection';
 import SelectDataCollectionEmployyee from '../Components/SelectDataCollectionEmployyee';
+import CustomCheckbox from 'src/views/Components/CustomCheckbox';
 
 const IncidentDataCollection = ({
     ismultipledep,
@@ -29,6 +30,11 @@ const IncidentDataCollection = ({
     involvedDepartment
     // setSelectedDeps
 }) => {
+
+
+    const [isRcaNeeded, setIsRcaNeeded] = useState(true);
+    const [isPreventiveNeeded, setIsPreventiveNeeded] = useState(true);
+    const [isFishboneneeded, setIsFishBoneNeeded] = useState(true);
 
     const queryClient = useQueryClient();
     const { empsecid, empid } = useSelector(state => {
@@ -78,8 +84,12 @@ const IncidentDataCollection = ({
                 createUser: employeeNumber(),
                 requested_department: empsecid,
                 requested_employee: em_id,
-                level_no: levelNo
+                level_no: levelNo,
+                is_rca_needed: isRcaNeeded ? 1 : 0,
+                is_fishbone_needed: isFishboneneeded ? 1 : 0,
+                is_preventive_needed: isPreventiveNeeded ? 1 : 0
             }
+
 
 
             const { data } = await axioslogin.post("/incidentMaster/reqdatacollection", payload);
@@ -101,7 +111,17 @@ const IncidentDataCollection = ({
             setLoading(false)
         }
 
-    }, [datacollectionreamark, sec_id, items, empsecid, selectedDeps, em_id, notAcknowledged]);
+    }, [datacollectionreamark,
+        isFishboneneeded,
+        isPreventiveNeeded,
+        sec_id, items,
+        empsecid,
+        selectedDeps,
+        em_id,
+        notAcknowledged,
+        isRcaNeeded
+    ]);
+
 
     return (
         <Box sx={{ mt: 2, borderRadius: 2, overflow: 'hidden', boxShadow: 1 }}>
@@ -180,6 +200,29 @@ const IncidentDataCollection = ({
                                         e.target.style.border = '1.5px solid #d8dde2ff';
                                     }}
                                 />
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                                    <SectionHeader text=" Data Collection Required" color={"Black"} fontSize={14} iconSize={18} />
+                                    <CustomCheckbox
+                                        name="is_rca_needed"
+                                        label="Root Cause Analysis"
+                                        checked={isRcaNeeded}
+                                        onChange={() => setIsRcaNeeded(prev => !prev)}
+                                    />
+
+                                    <CustomCheckbox
+                                        name="is_preventive_needed"
+                                        label="Preventive Action"
+                                        checked={isPreventiveNeeded}
+                                        onChange={() => setIsPreventiveNeeded(prev => !prev)}
+                                    />
+
+                                    <CustomCheckbox
+                                        name="is_fishbone_needed"
+                                        label="Fish Bone Analysis"
+                                        checked={isFishboneneeded}
+                                        onChange={() => setIsFishBoneNeeded(prev => !prev)}
+                                    />
+                                </Box>
                             </Box>
 
                             <Box sx={{ width: 100 }}>

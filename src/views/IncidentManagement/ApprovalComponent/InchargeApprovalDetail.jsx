@@ -76,6 +76,26 @@ const InchargeApprovalDetail = ({
         )
         : null;
 
+
+    console.log({
+        activeLevels
+    });
+
+
+    const currentLevelNo = activeLevels?.find(
+        lvl => lvl?.level_name === level && lvl?.level_no === levelNo
+    )?.level_no;
+
+    const nextLevelNo = activeLevels
+        ?.map(lvl => lvl.level_no)
+        .filter(no => no > currentLevelNo)
+        .sort((a, b) => a - b)[0];
+
+    const nextLevelEmployees = nextLevelNo ? activeLevels?.filter(
+        lvl => lvl.level_no === nextLevelNo
+    ) : [];
+
+
     // Checking is this the last levepl
     const IsLastLevel =
         highestLevel &&
@@ -141,6 +161,7 @@ const InchargeApprovalDetail = ({
                             level_employee: employeeNumber(),
                             level_review_status: 1,
                             actionReviews: actionReviews,
+                            nextLevelEmployees: nextLevelEmployees,
                             ...(Array.isArray(IncidentFiles) &&
                                 IncidentFiles.length === 0 &&
                                 uploadedFiles?.length > 0 && {

@@ -2,7 +2,6 @@ import { Box, Tooltip } from '@mui/joy';
 import React, { memo, useCallback, useState, lazy, Suspense, useEffect, useMemo } from 'react';
 import { FaRegEye } from 'react-icons/fa';
 import { PiEyeClosedDuotone } from "react-icons/pi";
-
 import {
     formatDateTime,
     handleImageClick,
@@ -74,7 +73,8 @@ const IncidentViewModal = ({
     levelactionreview,
     FinalIncidentLevels,
     CompanyName,
-    CurrentYear
+    CurrentYear,
+    setOpenChat
 }) => {
 
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(items);
@@ -273,7 +273,8 @@ const IncidentViewModal = ({
             ?.filter(item =>
                 item.inc_dep_action_status === 0 &&
                 item.inc_dep_action_status !== null)
-            ?.every(item => Number(item.inc_dep_action_status) === 1)
+            ?.every(item => Number(item.inc_dep_action_status) === 1);
+
 
     return (
 
@@ -285,7 +286,7 @@ const IncidentViewModal = ({
             {approvalprocessing && <CustomeIncidentLoading text={"Submitting Please Wait...!"} />}
             <Box
                 sx={{
-                    width: '60vw',
+                    width: '100%',
                     minHeight: '60vh',
                     maxHeight: '95vh',
                     position: 'relative',
@@ -363,7 +364,7 @@ const IncidentViewModal = ({
                             <>
                                 {/* INITIATOR */}
                                 < Box >
-                                    <SectionHeader text="INITIATOR" />
+                                    <SectionHeader text="PERSON INVOLVED" />
                                     <IncidentTextComponent text={InitiatorName?.toUpperCase()} size={16} weight={600} />
                                 </Box>
 
@@ -398,6 +399,24 @@ const IncidentViewModal = ({
                                         size={14}
                                         weight={400}
                                     />
+                                </Box>
+                                <Box sx={{ mt: 1, display: 'flex', gap: 2 }}>
+                                    <Box>
+                                        <SectionHeader text="CATEGORY" />
+                                        <IncidentTextComponent
+                                            text={` ➤ ${items?.inc_category_name || "No provided"}`}
+                                            size={14}
+                                            weight={400}
+                                        />
+                                    </Box>
+                                    <Box>
+                                        <SectionHeader text="SUBCATEGORY" />
+                                        <IncidentTextComponent
+                                            text={` ➤ ${items?.inc_sub_category_name || "No provided"}`}
+                                            size={14}
+                                            weight={400}
+                                        />
+                                    </Box>
                                 </Box>
 
                                 {/* NATURE */}
@@ -499,6 +518,7 @@ const IncidentViewModal = ({
                             setOpen={setOpen}
                             setSaveDetail={setSaveDetail}
                             savedetail={savedetail}
+                            setOpenChat={setOpenChat}
                         />
                     }
 
@@ -544,6 +564,7 @@ const IncidentViewModal = ({
                     {
                         level === 'DAC' &&
                         <IncidentActionSubmit
+                            setOpenChat={setOpenChat}
                             items={items}
                             setOpenModal={setOpenModal}
                         />
@@ -622,6 +643,7 @@ const IncidentViewModal = ({
                                         < FishboneQuestionContainer
                                             setFormValues={setFormValues}
                                             formValues={formValues}
+                                            registraionNo={items?.inc_register_slno}
                                             open={open}
                                             setOpen={setOpen}
                                             setSaveDetail={setSaveDetail}

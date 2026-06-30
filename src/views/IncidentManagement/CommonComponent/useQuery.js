@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
     currentLevelNotApprovedIncident,
     DashBoardIncidentDetails,
@@ -27,8 +27,22 @@ import {
     IncidentCommonLevelApprovalDetailMaster,
     IncidentCommonLevelApprovalDetails,
     IncidentEmployeeApprovalDepartments,
-    incidentLevelApprovalFetch
+    incidentLevelApprovalFetch,
+    getAllEmployyeName,
+    getEmployeeConversation,
+    getConversationMessage,
+    getExternalEmployeeConvestaion,
+    getExternalCoverstaion,
+    getGroupEmployees,
+    getConversationLastMessage,
+    getUnreadNotificationCount,
+    getAllUnreadEmployeeNotificationCount,
+    getAllEmployeeWhatsupNumber,
+    IncidentDepartmentFirstLevel,
+    FetchtAllNotificationEvents,
+    FetchtAllNotificationEventsConfig
 } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
+
 
 
 //  1. Get all incidents (HOD/Incharge Approval)  not using
@@ -196,6 +210,19 @@ export const useApprovalDepartmentFetching = (empid, levelNo) => {
     });
 };
 
+
+
+export const useIncidentFirstLevelDetail = (sec, module_slno) => {
+    return useQuery({
+        queryKey: ['getapprovaldeps', sec, module_slno],
+        queryFn: () => IncidentDepartmentFirstLevel(sec, module_slno),
+        enabled: !!sec && !!module_slno,
+        staleTime: Infinity,
+    });
+};
+
+
+
 //  16. Get all incident levels
 export const useIncidentCommonApprovalLevelMaster = (empdept, empsecid) => {
     return useQuery({
@@ -313,6 +340,209 @@ export const useFetchAllHospitalStaffDetail = () => {
     });
 };
 
+
+export const useAllEmployeeFetch = () => {
+    return useQuery({
+        queryKey: ['allemp'],
+        queryFn: getAllEmployyeName,
+        staleTime: Infinity
+    });
+};
+
+
+
+// export const useConverstionMessages = (chatid, empid) => {
+//     return useQuery({
+//         queryKey: ['employeemessage', chatid, empid],
+//         queryFn: () => getConversationMessage(chatid, empid),
+//         staleTime: Infinity,
+//         enabled: !!chatid && !!empid
+//     });
+// };
+
+export const useConverstionMessages = (chatid, empid) => {
+    return useInfiniteQuery({
+        queryKey: ['employeemessage', empid, chatid],
+
+        queryFn: ({ pageParam = null }) => getConversationMessage(chatid, empid, pageParam),
+
+        getNextPageParam: (lastPage) => {
+            if (!lastPage || lastPage.length === 0) return undefined;
+
+            // safest for chat pagination (older messages)
+            return lastPage[lastPage.length - 1]?.message_id;
+        },
+
+        enabled: !!chatid && !!empid,
+        staleTime: Infinity,
+    });
+};
+
+export const useGroupEmployees = (chatid, groupchat) => {
+    return useQuery({
+        queryKey: ['groupmemb', chatid],
+        queryFn: () => getGroupEmployees(chatid),
+        staleTime: Infinity,
+        enabled: !!chatid && groupchat === 1
+    });
+};
+
+
+
+export const useGetUnReadNotificationCount = (chatid) => {
+    return useQuery({
+        queryKey: ['unread-count', chatid],
+        queryFn: () => getUnreadNotificationCount(chatid),
+        staleTime: Infinity,
+        enabled: !!chatid
+    });
+};
+
+
+export const useAllWhatsappEmployeeMaster = () => {
+    return useQuery({
+        queryKey: ['employeewhatupsno'],
+        queryFn: getAllEmployeeWhatsupNumber,
+        staleTime: Infinity,
+    });
+};
+
+
+export const useAllIncidentNotificationEvents = () => {
+    return useQuery({
+        queryKey: ['evento'],
+        queryFn: FetchtAllNotificationEvents,
+        staleTime: Infinity,
+    });
+};
+
+
+
+export const useAllIncidentNotificationEventsConfig = () => {
+    return useQuery({
+        queryKey: ['enentoconfig'],
+        queryFn: FetchtAllNotificationEventsConfig,
+        staleTime: Infinity,
+    });
+};
+
+
+
+
+export const useAllUnReadEmployeeNotification = (chatid) => {
+    return useQuery({
+        queryKey: ['all-unread-count', chatid],
+        queryFn: () => getAllUnreadEmployeeNotificationCount(chatid),
+        staleTime: Infinity,
+        enabled: !!chatid
+    });
+};
+
+
+// export const useExternalConversationMessage = (
+//     conversation_ids = [],
+//     empid
+// ) => {
+//     return useQuery({
+//         queryKey: [
+//             'externalMessage',
+//             conversation_ids,
+//             empid
+//         ],
+//         queryFn: () =>
+//             getExternalCoverstaion(
+//                 conversation_ids,
+//                 empid
+//             ),
+//         staleTime: Infinity,
+//         enabled:
+//             Array.isArray(conversation_ids) &&
+//             conversation_ids.length > 0 && !!empid
+//     });
+// };
+
+export const useExternalConversationMessage = (
+    conversation_ids = [],
+    empid
+) => {
+
+    console.log({
+        conversation_ids
+    });
+
+    return useInfiniteQuery({
+        queryKey: ['externalMessage', empid, JSON.stringify(conversation_ids || [])],
+        queryFn: ({ pageParam = null }) => getExternalCoverstaion(conversation_ids, empid, pageParam),
+
+        getNextPageParam: (lastPage) => {
+            if (!lastPage || lastPage.length === 0) return undefined;
+            // safest for chat (older messages pagination)
+            return lastPage[lastPage.length - 1]?.message_id;
+        },
+        enabled: Array.isArray(conversation_ids) && conversation_ids.length > 0 && !!empid,
+        staleTime: 0,
+    });
+};
+
+export const useEmployeeConversation = (
+    emp_id,
+    incident_id,
+    entity_id,
+    entity_type,
+    module_name
+) => {
+
+    return useQuery({
+
+        queryKey: [
+            'employee-conversations',
+            emp_id,
+            incident_id,
+            entity_id,
+            entity_type,
+            module_name
+        ],
+
+        queryFn: () =>
+            getEmployeeConversation({
+                emp_id,
+                incident_id,
+                entity_id,
+                entity_type,
+                module_name
+            }),
+
+        enabled:
+            !!emp_id &&
+            !!incident_id &&
+            !!entity_id &&
+            !!entity_type &&
+            !!module_name,
+
+        staleTime: Infinity,
+
+        refetchOnWindowFocus: false
+    });
+};
+
+export const useEmployeeExternalConverstion = (emp_id) => {
+    return useQuery({
+        queryKey: ['exteranl-employee-conversations', emp_id],
+        queryFn: () => getExternalEmployeeConvestaion(emp_id,),
+        enabled: !!emp_id,
+        staleTime: Infinity,
+        refetchOnWindowFocus: false
+    });
+};
+
+export const useConverstaionLasteMessage = (conv_id) => {
+    return useQuery({
+        queryKey: ['last-message', conv_id],
+        queryFn: () => getConversationLastMessage(conv_id,),
+        enabled: !!conv_id,
+        staleTime: 0
+    });
+};
 
 // fetch current employee type (Clinical and Non Clinical)
 // const { data: empDeptType } = useQuery({

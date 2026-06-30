@@ -23,6 +23,11 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [remarks, setRemarks] = useState({});
 
+    console.log({
+        selectedGroups
+    });
+
+
     //  departments that already have collected data
     const collectedDeptIds = DeparmentAction?.map(
         (item) => item?.inc_action_collect_dep
@@ -31,6 +36,11 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
 
     // fetch grouped data
     const { data: datacollectioncommondepartments } = useCommonDataCollectionDepartments();
+
+    console.log({
+        datacollectioncommondepartments
+    });
+
 
     // group by category
     const groupedDataCollectionDeparments =
@@ -92,7 +102,9 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
             inc_dep_action_remark: remarks[group?.inc_cs_slno] || '',
             inc_dep_action_detail_status: 1,
             inc_action_collect_dep: group?.dep_details?.map((dep) => dep.inc_dep_id) || [],
-            level_no: levelNo
+            level_no: levelNo,
+            inc_colled_dep_sec: group.dep_details.map(dep => dep.inc_dep_sec),
+            inc_collect_emp_id: group.dep_details.map(dep => dep.inc_emp_id),
         }));
 
         try {

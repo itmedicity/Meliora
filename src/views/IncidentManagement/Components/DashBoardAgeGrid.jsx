@@ -113,6 +113,18 @@ const DashBoardAgeGrid = ({ type, keyword, CurrrentComapny, DashboardIncidents }
                 flex: 1,
             },
             {
+                headerName: "Category ",
+                field: "inc_category_name",
+                flex: 1,
+                valueFormatter: params => (params.value ? String(params.value) : "–"),
+            },
+            {
+                headerName: "SubCategoyr ",
+                field: "inc_sub_category_name",
+                flex: 1,
+                valueFormatter: params => (params.value ? String(params.value) : "–"),
+            },
+            {
                 headerName: "Files",
                 field: "file_status",
                 width: 70,

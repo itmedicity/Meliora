@@ -448,6 +448,30 @@ export const IncidentCommonLevelApprovalDetailMaster = async (dep, sec) => {
     }
 };
 
+
+export const IncidentDepartmentFirstLevel = async (sec, module_slno) => {
+
+    if (!sec || !module_slno) {
+        warningNotify("Department Id or Section Id Missing");
+        return [];
+    }
+
+    try {
+        const res = await axioslogin.post('/incidentMaster/firstlevel', {
+            sec_id: sec,
+            module_slno: module_slno
+        });
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching approval incidents:", error?.message || error);
+        return [];
+    }
+};
+
 export const IncidentEmployeeApprovalDepartments = async (emp_id, levelNo) => {
     if (!emp_id) {
         warningNotify("Employee Id  Missing");
@@ -737,6 +761,239 @@ export const FetchDashBoardIncident = async (id) => {
     }
 };
 
+// export const getConversationMessage = async (chatid, empid) => {
+//     if (!chatid || !empid) return [];
+
+//     try {
+//         const res = await axioslogin.post('/incidentMaster/get-conversation-messages', {
+//             conversation_id: chatid,
+//             empid: empid
+//         });
+//         const { success, data } = res.data || {};
+//         if (success === 1 && Array.isArray(data) && data.length > 0) {
+//             return data;
+//         }
+//         return [];
+//     } catch (error) {
+//         console.error("Error fetching Dashboard incidents:", error?.message || error);
+//         return [];
+//     }
+// };
+
+
+export const getConversationMessage = async (chatid, empid, cursor = null) => {
+    if (!chatid || !empid) return [];
+
+    try {
+        const res = await axioslogin.post('/incidentMaster/get-conversation-messages', {
+            conversation_id: chatid,
+            empid,
+            cursor: cursor ?? null
+        });
+
+        const { success, data } = res.data || {};
+        return success === 1 ? data : [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getGroupEmployees = async (chatid) => {
+    if (!chatid) return [];
+
+    try {
+        const res = await axioslogin.get(`/incidentMaster/conversation-employees/${chatid}`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+
+export const getUnreadNotificationCount = async (chatid) => {
+    if (!chatid) return [];
+
+    try {
+        const res = await axioslogin.get(`/incidentMaster/unread-message/${chatid}`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+export const getAllEmployeeWhatsupNumber = async () => {
+    try {
+        const res = await axioslogin.get(`/incidentMaster/getall-inc-whatsapp`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const FetchtAllNotificationEvents = async () => {
+    try {
+        const res = await axioslogin.get(`/incidentMaster/getall-inc-event`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+export const FetchtAllNotificationEventsConfig = async () => {
+    try {
+        const res = await axioslogin.get(`/incidentMaster/getall-inc-notification-config`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+
+
+export const getAllUnreadEmployeeNotificationCount = async (chatid) => {
+    if (!chatid) return [];
+
+    try {
+        const res = await axioslogin.get(`/incidentMaster/all-unread-message/${chatid}`);
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+// export const getExternalCoverstaion = async (conversation_ids, empid) => {
+//     if (!conversation_ids || conversation_ids?.length === 0 || !empid) {
+//         console.warn("Coverstian Ids are Missing!")
+//         return []
+//     };
+
+//     try {
+//         const res = await axioslogin.post('/incidentMaster/merged-conversation-messages',
+//             {
+//                 conversation_ids: conversation_ids,
+//                 empid: empid
+//             });
+//         const { success, data } = res.data || {};
+//         if (success === 1 && Array.isArray(data) && data.length > 0) {
+//             return data;
+//         }
+//         return [];
+//     } catch (error) {
+//         console.error("Error fetching Dashboard incidents:", error?.message || error);
+//         return [];
+//     }
+// };
+
+export const getExternalCoverstaion = async (
+    conversation_ids,
+    empid,
+    cursor = null
+) => {
+    if (
+        !conversation_ids ||
+        conversation_ids.length === 0 ||
+        !empid
+    ) {
+        console.warn("Conversation Ids are Missing!");
+        return [];
+    }
+
+    try {
+        const res = await axioslogin.post(
+            '/incidentMaster/merged-conversation-messages',
+            {
+                conversation_ids,
+                empid,
+                cursor: cursor ?? null
+            }
+        );
+
+        const { success, data } = res.data || {};
+
+        return success === 1 ? data : [];
+
+    } catch (error) {
+        console.error(
+            "Error fetching external messages:",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+export const getExternalEmployeeConvestaion = async (emp_id) => {
+    if (!emp_id) {
+        console.warn("Employee id Is missing!");
+        return
+    };
+
+    try {
+        const res = await axioslogin.post('/incidentMaster/exteranl-get-conversation', { emp_id: emp_id });
+        const { success, data } = res.data || {};
+        if (success === 1 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+export const getConversationLastMessage = async (conv_id) => {
+
+    if (!conv_id) return console.warn("Conversation Id Is missing!");
+
+    try {
+        const res = await axioslogin.get(`/incidentMaster/last-message/${conv_id}`);
+        const { success, data } = res.data || {};
+        if (success === 1) return data;
+        return [];
+    } catch (error) {
+        console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
 
 
 export const getAllIncidentInitiator = async () => {
@@ -779,6 +1036,81 @@ export const getAllHospitalStaffDetail = async () => {
         return [];
     } catch (error) {
         console.error("Error fetching Dashboard incidents:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+
+
+export const getAllEmployyeName = async () => {
+    try {
+        const res = await axioslogin.get('/common/empname');
+        const { success, data } = res.data;
+
+        if (success === 0) {
+            // No data found
+            return [];
+        }
+
+        if (success === 1) {
+            return data || [];
+        }
+
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error fetching all nurse stations Bed Detail:", error);
+        return [];
+    }
+};
+
+
+
+export const getEmployeeConversation = async ({
+    emp_id,
+    incident_id,
+    entity_id,
+    entity_type,
+    module_name
+}) => {
+
+    try {
+
+        const payload = {
+            emp_id,
+            incident_id,
+            entity_id,
+            entity_type,
+            module_name
+        };
+
+        const res = await axioslogin.post(
+            '/incidentMaster/get-conversation',
+            payload
+        );
+
+        const {
+            success,
+            data
+        } = res?.data ?? {};
+
+        if (success !== 1) {
+            return [];
+        }
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            'Error fetching conversations:',
+            error
+        );
+
         return [];
     }
 };

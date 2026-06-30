@@ -13,6 +13,8 @@ import CommonSettingSelect from 'src/views/CommonSelectCode/CommonSettingSelect'
 import CommonSettingMapMasterTable from './CommonSettingMapMasterTable';
 // import DeptSectionSelect from 'src/views/CommonSelectCode/DeptSectionSelect';
 import DepartmentSelect from 'src/views/CommonSelectCode/DepartmentSelect';
+import DeptSecUnderDept from 'src/views/CommonSelectCode/DeptSecUnderDept';
+import SelectDepartmentSectionEmployye from 'src/views/IncidentManagement/Components/SelectDepartmentSectionEmployye';
 
 
 const CommonSettingMapMaster = () => {
@@ -35,10 +37,12 @@ const CommonSettingMapMaster = () => {
         slno: 0,
         csslno: 0,
         incdep: 0,
+        incsec: 0,
+        empid: null,
         status: false,
     });
 
-    const { incdep, csslno, status, slno } = formData;
+    const { incdep, csslno, status, slno, empid, incsec } = formData;
 
     const updateField = useCallback(
         (e) => {
@@ -54,12 +58,14 @@ const CommonSettingMapMaster = () => {
     const RowSelect = useCallback((val) => {
         if (!val) return infoNotify("Please select the Row Properlly!");
 
-        const { inc_cs_dep_map_slno, inc_cs_slno, inc_dep_id, inc_dep_map_status } = val
+        const { inc_cs_dep_map_slno, inc_cs_slno, inc_dep_id, inc_dep_map_status, inc_emp_id, inc_dep_sec } = val
         setValue(1)
         const frmdata = {
             slno: inc_cs_dep_map_slno,
             csslno: inc_cs_slno,
             incdep: inc_dep_id,
+            empid: inc_emp_id,
+            incsec: inc_dep_sec,
             status: inc_dep_map_status === 1 ? true : false,
         }
         setFormData(frmdata)
@@ -75,6 +81,8 @@ const CommonSettingMapMaster = () => {
             slno: 0,
             csslno: 0,
             incdep: 0,
+            empid: 0,
+            incsec: 0,
             status: true
         }
         setFormData(frmdata)
@@ -85,19 +93,22 @@ const CommonSettingMapMaster = () => {
     const postdata = useMemo(() => ({
         inc_cs_slno: csslno,
         inc_dep_id: incdep,
+        inc_emp_id: empid?.em_id ?? empid,
+        inc_dep_sec: incsec,
         inc_dep_map_status: status === true ? 1 : 0,
         create_user: id
-    }), [incdep, status, id, csslno]);
+    }), [incdep, status, id, csslno, empid, incsec]);
 
     // PATCH DATA
     const patchdata = useMemo(() => ({
         inc_cs_dep_map_slno: slno,
         inc_cs_slno: csslno,
         inc_dep_id: incdep,
+        inc_emp_id: empid?.em_id ?? empid,
+        inc_dep_sec: incsec,
         inc_dep_map_status: status === true ? 1 : 0,
         edit_user: id
-    }), [slno, incdep, status, id, csslno]);
-
+    }), [slno, incdep, status, id, csslno, empid, incsec]);
 
     // incident registration and updation handling
     const IncidentLevelApproval = useCallback(
@@ -106,6 +117,8 @@ const CommonSettingMapMaster = () => {
             try {
                 // validations
                 if (csslno === 0) return warningNotify("Please Select the Setting Name");
+                if (incsec === 0) return warningNotify("Please Select the Section Id");
+                if (empid === null) return warningNotify("Please Select the Employee Section");
                 if (incdep === 0) return warningNotify("Please Select the Department");
 
                 // API call function common for insert/update
@@ -138,7 +151,7 @@ const CommonSettingMapMaster = () => {
                 console.error("IncidentLevelApproval error:", error);
             }
         },
-        [value, postdata, patchdata, incdep]
+        [value, postdata, patchdata, incdep, incsec, empid]
     );
 
 
@@ -174,6 +187,24 @@ const CommonSettingMapMaster = () => {
                                 />
 
                             </Grid>
+                            <Grid item xl={12} lg={12}>
+
+                                <DeptSecUnderDept value={formData.incsec} setValue={(val) =>
+                                    setFormData((prev) => ({ ...prev, incsec: val }))} dept={formData.incdep} />
+
+                            </Grid>
+                            <Grid item xl={12} lg={12}>
+
+                                <SelectDepartmentSectionEmployye
+                                    value={formData.empid}
+                                    setValue={(val) =>
+                                        setFormData((prev) => ({ ...prev, empid: val }))}
+                                    departmentsection={{ sec_id: formData.incsec }}
+                                />
+
+                            </Grid>
+
+
                             <Grid item lg={12} xl={12}>
                                 <CusCheckBox
                                     label="Data Collection Status"

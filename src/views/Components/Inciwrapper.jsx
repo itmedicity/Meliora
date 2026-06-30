@@ -27,7 +27,7 @@ const Inciwrapper = ({
                 backgroundColor: '#fff',
                 display: 'flex',
                 flexDirection: 'column',
-                maxHeight: '100vh',
+                maxHeight: '92vh',
                 overflow: 'auto',
                 animation: 'fadeIn 0.3s ease-in-out',
                 '&::-webkit-scrollbar': {

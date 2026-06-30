@@ -21,6 +21,7 @@ import '@fontsource/roboto/900.css' // Bold
 import { ToastContainer } from 'react-toastify'
 import ErrorPage from './NotFound/ErrorPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import MobileChat from './views/IncidentManagement/IncidentDIscussion/MobileView/MobileChat'
 
 const queryClient = new QueryClient()
 
@@ -42,6 +43,9 @@ function App() {
             <Route element={<Protected />}>
               <Route path="/Home/*" element={<DefaultLayout />} errorElement={<ErrorPage />} />
             </Route>
+            <Route >
+              <Route path="/mobile/chat" element={<MobileChat />} errorElement={<ErrorPage />} />
+            </Route>
             <Route path="*" element={<NotFound />} errorElement={<ErrorPage />} />
           </Routes>
         </Suspense>
@@ -50,3 +54,4 @@ function App() {
   )
 }
 export default App
+

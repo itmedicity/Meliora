@@ -203,6 +203,9 @@ export const Inc_Two = [
 export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
+    { to: '/Home/whatsappmaster', name: 'WhatsApp Master', slno: 354 },
+    { to: '/Home/eventmaster', name: 'Notification Master', slno: 354 },
+    { to: '/Home/eventconfig', name: 'Notification Config Master', slno: 354 },
 ]
 
 // //Diet Master Menu

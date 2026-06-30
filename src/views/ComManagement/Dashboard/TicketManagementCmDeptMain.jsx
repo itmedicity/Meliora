@@ -6,6 +6,7 @@ import { format, startOfDay, subDays } from 'date-fns'
 import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
 import { useQuery } from '@tanstack/react-query'
 import { errorNotify } from 'src/views/Common/CommonCode'
+import FloatingChatWidget from 'src/views/IncidentManagement/IncidentDIscussion/Component/FloatingChatWidget'
 const DeptTicketTile = React.lazy(() => import('./DeptTicketTile'))
 const TicketTypeListProgressChart = React.lazy(() => import('./TicketTypeListProgressChart'))
 const DepartmentPieChart = React.lazy(() => import('./DepartmentPieChart'))
@@ -214,6 +215,7 @@ const TicketManagementCmDeptMain = () => {
         <Box>{menurights.find(menu => menu.slno === 247)?.component || null}</Box>
       </Box>
       {/* </CssVarsProvider> */}
+      <FloatingChatWidget/>
     </Box>
   )
 }
