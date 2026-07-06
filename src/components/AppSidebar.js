@@ -51,6 +51,10 @@ import IcuTransaction from 'src/Menus/IcuTransaction'
 import { MdPattern } from "react-icons/md";
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
 import StoreTransaction from 'src/Menus/StoreTransaction'
+import CdcEmrr from 'src/Menus/CdcEmr'
+import AbhaTransaction from 'src/Menus/AbhaTransaction'
+
+
 import { FaStore } from "react-icons/fa";
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
@@ -75,6 +79,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
   const [storeTransaction, setStoreTransaction] = useState(0)
+  const [CdcEmr, setCdcEmr] = useState(0)
+  const [abha, setabha] = useState(0)
 
 
   const {
@@ -271,6 +277,24 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       icon: <FaStore color="var(--true-blue-800)" />
     },
 
+    {
+      slno: 32,
+      name: 'CdcEmr',
+      items: CdcEmr,
+      route: '/Home',
+      icon: <FaStore color="var(--true-blue-800)" />
+    },
+
+
+    {
+      slno: 33,
+      name: 'ABHA',
+      items: abha,
+      route: '/Home',
+      icon: <MdPattern color="var(--true-blue-800)" />
+    },
+
+
   ]
 
   useEffect(() => {
@@ -316,6 +340,12 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
 
         const StoreTransact = StoreTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setStoreTransaction(StoreTransact)
+
+        const CdcEmr = CdcEmrr.filter(val => menuSlnoAry.includes(val.men_slno))
+        setCdcEmr(CdcEmr)
+
+        const ABHAreg = AbhaTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
+        setabha(ABHAreg)
 
         // const LabResultTrans = LabResultTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         // setLabResultTransact(LabResultTrans)

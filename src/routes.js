@@ -310,6 +310,11 @@ const WhatsappEmployeeMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentNotificationEventMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationEventMaster/IncidentNotificationEventMaster'));
 const IncidentNotificationConfigMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationConfigMaster/IncidentNotificationConfigMaster'));
 
+const CdcEmr = React.lazy(() => import('./views/CdcEmr/CdcEmr'));
+const CdcEmrSetting = React.lazy(() => import('./views/Master/CdcMaster/CdcMaster'));
+const AbhaReg = React.lazy(() => import('./views/AbhaRegistration/AbhaReg'));
+
+
 // const CommonSetting = React.lazy(() => import('./views/Master'));
 // const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
 
@@ -1170,7 +1175,23 @@ const routes = [
     name: 'Notification Master',
     element: <IncidentNotificationEventMaster />
   },
+  {
+    path: 'CdcEmr',
+    name: 'CdcEmr',
+    element: <CdcEmr />
+  },
 
+  {
+    path: 'CdcEmrSetting',
+    name: 'CdcEmrSetting',
+    element: <CdcEmrSetting />
+  },
+
+  {
+    path: 'abha',
+    name: 'abha',
+    element: <AbhaReg />
+  },
 ]
 
 export default routes

@@ -10,7 +10,6 @@ import { isWithinInterval, startOfYesterday, endOfYesterday, format, isValid, pa
 export const getFamilyDetails = async (mrdnumber) => {
     try {
         let uppercasetext = mrdnumber?.toUpperCase().trim();
-
         if (!uppercasetext) {
             warningNotify('Please Enter MRD Number');
             return null;
