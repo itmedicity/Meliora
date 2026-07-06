@@ -61,9 +61,7 @@ const IncidentRegistrationFinal = () => {
 
     const { data: EmployeeFirstLevelDetail } = useIncidentFirstLevelDetail(empsecid, 20);
 
-    console.log({
-        EmployeeFirstLevelDetail
-    });
+ 
 
 
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(incidentData);

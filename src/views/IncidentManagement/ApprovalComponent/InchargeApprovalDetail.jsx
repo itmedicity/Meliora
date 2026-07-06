@@ -77,9 +77,6 @@ const InchargeApprovalDetail = ({
         : null;
 
 
-    console.log({
-        activeLevels
-    });
 
 
     const currentLevelNo = activeLevels?.find(

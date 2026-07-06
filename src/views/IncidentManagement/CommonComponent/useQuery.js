@@ -40,7 +40,8 @@ import {
     getAllEmployeeWhatsupNumber,
     IncidentDepartmentFirstLevel,
     FetchtAllNotificationEvents,
-    FetchtAllNotificationEventsConfig
+    FetchtAllNotificationEventsConfig,
+    IncidentLevelDetails
 } from 'src/views/Master/IncidentManagement/CommonCode/IncidentCommonCode';
 
 
@@ -189,6 +190,7 @@ export const useIncidentDashBoardData = () => {
         staleTime: Infinity,
     });
 };
+
 
 
 //  14. Get all incident levels
@@ -466,9 +468,7 @@ export const useExternalConversationMessage = (
     empid
 ) => {
 
-    console.log({
-        conversation_ids
-    });
+   
 
     return useInfiniteQuery({
         queryKey: ['externalMessage', empid, JSON.stringify(conversation_ids || [])],
@@ -543,6 +543,20 @@ export const useConverstaionLasteMessage = (conv_id) => {
         staleTime: 0
     });
 };
+
+
+
+export const useIncidentLevelDetails = (incidentNo, level) => {
+    return useQuery({
+        queryKey: ['level-dtl', incidentNo],
+        queryFn: () => IncidentLevelDetails(incidentNo),
+        staleTime: Infinity,
+        enabled: level === "COMMON"
+    });
+};
+
+
+
 
 // fetch current employee type (Clinical and Non Clinical)
 // const { data: empDeptType } = useQuery({

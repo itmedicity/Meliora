@@ -425,6 +425,25 @@ export const IncidentCommonLevelApprovalDetails = async (approvalList) => {
 };
 
 
+export const IncidentLevelDetails = async (incidentNo) => {
+    if (!incidentNo) {
+        console.error("Incident Id is Missing");
+        return [];
+    }
+
+    try {
+        const res = await axioslogin.get(`/incidentMaster/getlevelstatus/${incidentNo}`);
+        const { success, data } = res.data || {};
+        if (success === 2 && Array.isArray(data) && data.length > 0) {
+            return data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error Fetching  incidents Level Detail :", error?.message || error);
+        return [];
+    }
+};
+
 export const IncidentCommonLevelApprovalDetailMaster = async (dep, sec) => {
 
     if (!dep || !sec) {

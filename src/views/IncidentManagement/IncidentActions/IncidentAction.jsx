@@ -23,11 +23,7 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [remarks, setRemarks] = useState({});
 
-    console.log({
-        selectedGroups
-    });
-
-
+   
     //  departments that already have collected data
     const collectedDeptIds = DeparmentAction?.map(
         (item) => item?.inc_action_collect_dep
@@ -37,9 +33,7 @@ const IncidentAction = ({ item, DeparmentAction, levelNo }) => {
     // fetch grouped data
     const { data: datacollectioncommondepartments } = useCommonDataCollectionDepartments();
 
-    console.log({
-        datacollectioncommondepartments
-    });
+   
 
 
     // group by category

@@ -12,6 +12,7 @@ import {
     useDepartmentActions,
     useFetchAllActiveInitiator,
     useIncidentActionsMaster,
+    useIncidentLevelDetails,
     useInvolvedDepartments
 } from '../CommonComponent/useQuery';
 
@@ -29,6 +30,7 @@ import {
 import IncidentFlag from '../Components/IncidentFlag';
 import RcaDetailCard from '../Components/RcaDetailCard';
 import ComonApprovalPreview from '../IncidentCommonView/ComonApprovalPreview';
+import IncidentApprovalStepper from '../IncidentCommonView/IncidentApprovalStepper';
 
 
 const CustomeIncidentLoading = lazy(() => import('../Components/CustomeIncidentLoading'));
@@ -123,6 +125,14 @@ const IncidentViewModal = ({
         data: involvedDepartment,
         isLoading: loadinginvolveddepartment
     } = useInvolvedDepartments(items?.inc_register_slno);
+
+    const {
+        data: LevelDetails = [],
+        // isLoading: LoadingLevelDetail
+    } = useIncidentLevelDetails(items?.inc_register_slno, level);
+
+
+
 
 
     const { data: incidentaction } = useIncidentActionsMaster();
@@ -607,9 +617,14 @@ const IncidentViewModal = ({
                     }
                     {
                         level === 'COMMON' &&
-                        <ComonApprovalPreview
-                            levels={level}
-                            highlevelapprovals={stableHighLevelApprovals} />
+                        <>
+                            <ComonApprovalPreview
+                                levels={level}
+                                highlevelapprovals={stableHighLevelApprovals} />
+
+
+                            <IncidentApprovalStepper data={LevelDetails} />
+                        </>
                     }
                     {/* Approval Preview */}
                     {
