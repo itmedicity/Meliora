@@ -79,9 +79,23 @@ const IncidentDashboard = () => {
             flex: 1
         }}>
             {/* Dashboard Header */}
-            <Box sx={{ display: 'flex', gap: 1, mb: 2, alignItems: 'center' }}>
-                <DashboardTwoToneIcon sx={{ color: 'var(--true-blue-800)', fontSize: 16 }} />
-                <IncidentTextComponent text={"DashBoard"} color={'#2f2e2eff'} size={12} weight={300} />
+            <Box sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                alignItems: 'center'
+            }}>
+                <DashboardTwoToneIcon
+                    sx={{
+                        color: 'var(--true-blue-800)',
+                        fontSize: 16
+                    }} />
+                <IncidentTextComponent
+                    text={"DashBoard"}
+                    color={'#2f2e2eff'}
+                    size={12}
+                    weight={300}
+                />
             </Box>
 
             {/* Create Task */}
@@ -92,7 +106,11 @@ const IncidentDashboard = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <IncidentTextComponent text={"Incident Mangement"} color={'#151414ff'} size={28} weight={400} />
+                <IncidentTextComponent
+                    text={"Incident Mangement"}
+                    color={'#151414ff'}
+                    size={28}
+                    weight={400} />
                 <AnimatedActionButton
                     title="Register Incident"
                     onClick={hanldeNavigateRegisterPage}
@@ -330,6 +348,7 @@ const IncidentDashboard = () => {
                             keyword={searchinput}
                         />
                 }
+
 
             </Box>
 

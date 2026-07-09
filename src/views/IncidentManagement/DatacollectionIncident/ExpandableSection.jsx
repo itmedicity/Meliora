@@ -10,6 +10,7 @@ const ExpandableSection = ({
     hasFile,
     onFileClick,
     fileId,
+    CommonReview
 }) => {
     const [zoomRca, setZoomRca] = useState(false);
     const [zoomPrev, setZoomPrev] = useState(false);
@@ -19,57 +20,92 @@ const ExpandableSection = ({
     return (
         <>
             {/* RCA */}
-            <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
-                <Chip
-                    onDoubleClick={() => setZoomRca(p => !p)}
-                    size="sm"
-                    variant="soft"
-                    color="primary"
-                    sx={{ mb: 0.5, cursor: "zoom-in" }}
-                >
-                    RCA
-                </Chip>
 
-                <Box
-                    onDoubleClick={() => setZoomRca(p => !p)}
-                    sx={{
-                        width: "100%",
-                        cursor: "zoom-in",
-                        transition: "all 0.25s ease",
-                    }}
-                >
-                    <IncidentTextComponent
-                        text={`${rca ? rca : 'Not Acknowledged Yet'}`}
-                        size={zoomRca ? 20 : 14}
-                        weight={400}
-                        color="#444"
-                    />
+            {
+                rca?.trim() &&
+                <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
+                    <Chip
+                        onDoubleClick={() => setZoomRca(p => !p)}
+                        size="sm"
+                        variant="soft"
+                        color="primary"
+                        sx={{ mb: 0.5, cursor: "zoom-in" }}
+                    >
+                        RCA
+                    </Chip>
+
+                    <Box
+                        onDoubleClick={() => setZoomRca(p => !p)}
+                        sx={{
+                            width: "100%",
+                            cursor: "zoom-in",
+                            transition: "all 0.25s ease",
+                        }}
+                    >
+                        <IncidentTextComponent
+                            text={`${rca ? rca : 'Not Acknowledged Yet'}`}
+                            size={zoomRca ? 20 : 14}
+                            weight={400}
+                            color="#444"
+                        />
+                    </Box>
                 </Box>
-            </Box>
-
+            }
             {/* Preventive Action */}
-            <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
-                <Chip onDoubleClick={() => setZoomPrev(p => !p)} size="sm" variant="soft" color="warning"
-                    sx={{ mb: 0.5, cursor: "zoom-in" }}>
-                    Preventive Action
-                </Chip>
+            {
+                preventiveAction?.trim() &&
+                <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
+                    <Chip onDoubleClick={() => setZoomPrev(p => !p)} size="sm" variant="soft" color="warning"
+                        sx={{ mb: 0.5, cursor: "zoom-in" }}>
+                        Preventive Action
+                    </Chip>
 
-                <Box
-                    onDoubleClick={() => setZoomPrev(p => !p)}
-                    sx={{
-                        width: "100%",
-                        cursor: "zoom-in",
-                        transition: "all 0.25s ease",
-                    }}
-                >
-                    <IncidentTextComponent
-                        text={`${preventiveAction ? preventiveAction : 'Not Acknowledged Yet'}`}
-                        size={zoomPrev ? 20 : 14}
-                        weight={400}
-                        color="#444"
-                    />
+                    <Box
+                        onDoubleClick={() => setZoomPrev(p => !p)}
+                        sx={{
+                            width: "100%",
+                            cursor: "zoom-in",
+                            transition: "all 0.25s ease",
+                        }}
+                    >
+                        <IncidentTextComponent
+                            text={`${preventiveAction ? preventiveAction : 'Not Acknowledged Yet'}`}
+                            size={zoomPrev ? 20 : 14}
+                            weight={400}
+                            color="#444"
+                        />
+                    </Box>
+
+
+
+
+
                 </Box>
-            </Box>
+            }
+            {/* Preventive Action */}
+            {
+                CommonReview?.trim() &&
+                <Box sx={{ mt: 1.5, p: 1, borderRadius: "8px", backgroundColor: "#f9f6ff" }}>
+                    <Chip onDoubleClick={() => setZoomPrev(p => !p)} size="sm" variant="soft" color="neutral"
+                        sx={{ mb: 0.5, cursor: "zoom-in" }}>
+                        Common Review
+                    </Chip>
+                    <Box
+                        onDoubleClick={() => setZoomPrev(p => !p)}
+                        sx={{
+                            width: "100%",
+                            cursor: "zoom-in",
+                            transition: "all 0.25s ease",
+                        }} >
+                        <IncidentTextComponent
+                            text={`${CommonReview ? CommonReview : 'Not Acknowledged Yet'}`}
+                            size={zoomPrev ? 20 : 14}
+                            weight={400}
+                            color="#444"
+                        />
+                    </Box>
+                </Box>
+            }
 
             {/* FILE */}
             {hasFile && (

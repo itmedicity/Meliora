@@ -17,9 +17,9 @@ import { useSelector } from 'react-redux';
 import { IoAttachOutline, IoCloseCircle } from "react-icons/io5";
 import { allowedFileType } from '../CommonComponent/CommonCode';
 import { useDepartmentReqActions } from '../CommonComponent/useQuery';
+import ChatIcon from '@mui/icons-material/Chat';
 
-
-const IncidentActionSubmit = ({ items, setOpenModal }) => {
+const IncidentActionSubmit = ({ items, setOpenModal, setOpenChat }) => {
     const queryClient = useQueryClient();
     const [action, setAction] = useState("");
 
@@ -106,12 +106,41 @@ const IncidentActionSubmit = ({ items, setOpenModal }) => {
         }
     };
 
+    const handleChatToggle = () => {
+        setOpenChat(prev => {
+            if (prev?.open) {
+                return {
+                    ...prev,
+                    open: false
+                };
+            }
+
+            return {
+                open: true,
+                actionDetailSlno: firstAction?.inc_dep_action_detail_slno,
+                actionType: 'ACTION_REQUEST',
+                module: 'INCIDENT_MANAGEMENT',
+            };
+        });
+    };
 
     return (
         <Box sx={{ mt: 2 }}>
             {/* Header */}
-            <Box sx={{ width: '100%', bgcolor: 'var(--royal-purple-400)', py: 1, px: 2 }}>
+            <Box sx={{
+                width: '100%', bgcolor: 'var(--royal-purple-400)', py: 1,
+                px: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}>
                 <IncidentTextComponent text="ACTION REQUESTED FROM" size={15} weight={600} color="White" />
+                <Tooltip title={'open'} variant="plain" size='sm'>
+                    <span onClick={handleChatToggle}
+                        style={{ cursor: 'pointer' }}>
+                        <ChatIcon size={18} color="white" />
+                    </span>
+                </Tooltip>
             </Box>
 
             {/* Details */}

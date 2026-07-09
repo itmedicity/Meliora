@@ -43,7 +43,7 @@ const NotificationPanel = () => {
                 </Typography>
             )}
 
-            {notifications.map((n) => (
+            {notifications?.map((n) => (
                 <Box
                     key={n.id}
                     onClick={() => handleClick(n)}

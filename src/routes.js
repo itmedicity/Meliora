@@ -306,9 +306,14 @@ const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
 const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
+const WhatsappEmployeeMaster = React.lazy(() => import('./views/Master/IncidentManagement/WhatsappEmployeeMaster/WhatsappEmployeeMaster'));
+const IncidentNotificationEventMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationEventMaster/IncidentNotificationEventMaster'));
+const IncidentNotificationConfigMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationConfigMaster/IncidentNotificationConfigMaster'));
+
 const CdcEmr = React.lazy(() => import('./views/CdcEmr/CdcEmr'));
 const CdcEmrSetting = React.lazy(() => import('./views/Master/CdcMaster/CdcMaster'));
 const AbhaReg = React.lazy(() => import('./views/AbhaRegistration/AbhaReg'));
+
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
 // const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
@@ -572,7 +577,7 @@ const VendorMaster = React.lazy(() => import('./views/Master/VendorMaster/Vendor
 const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry/WorkOrderEntry'))
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
-const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+// const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
 
 const routes = [
   { path: '', element: <Home /> },
@@ -1155,13 +1160,21 @@ const routes = [
     name: 'WorkOrderEntry',
     element: <WorkOrderEntry />
   },
-
   {
-    path: 'WorkOrderApproval',
-    name: 'WorkOrderApproval',
-    element: <WorkOrderApproval />
+    path: 'whatsappmaster',
+    name: 'WhatsApp Master',
+    element: <WhatsappEmployeeMaster />
   },
-
+  {
+    path: 'eventconfig',
+    name: 'Notification Config Master',
+    element: <IncidentNotificationConfigMaster />
+  },
+  {
+    path: 'eventmaster',
+    name: 'Notification Master',
+    element: <IncidentNotificationEventMaster />
+  },
   {
     path: 'CdcEmr',
     name: 'CdcEmr',

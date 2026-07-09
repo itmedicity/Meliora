@@ -1,5 +1,7 @@
+import React from 'react';
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, Bounce } from 'react-toastify'
+import ChatNotification from '../IncidentManagement/IncidentDIscussion/Component/ChatNotification'
 
 export const succesNotify = message =>
   toast.success(message, {
@@ -51,3 +53,28 @@ export const infoNotify = message =>
     transition: Bounce,
     theme: 'light'
   })
+
+
+export const chatNotify = (title, message) =>
+  toast(
+    <ChatNotification
+      title={title}
+      message={message}
+    />,
+    {
+      position: 'top-right',
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      transition: Bounce,
+      theme: 'light',
+      icon: false,
+      style: {
+        padding: 0,
+        background: 'transparent',
+        boxShadow: 'none'
+      }
+    }
+  );

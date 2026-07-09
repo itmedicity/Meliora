@@ -8,6 +8,8 @@ const CommonSettingMapMasterTable = ({ tableData, rowSelect }) => {
         { headerName: 'SlNo', field: 'inc_cs_dep_map_slno' },
         { headerName: 'Setting Name', field: 'inc_setting_key' },
         { headerName: 'Department Name', field: 'dept_name', filter: 'true' },
+        { headerName: 'Section Name', field: 'sec_name', filter: 'true' },
+        { headerName: 'Employee Name', field: 'em_name', filter: 'true' },
         {
             headerName: 'Status',
             field: 'inc_dep_map_status',

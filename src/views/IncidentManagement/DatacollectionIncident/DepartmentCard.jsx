@@ -81,7 +81,7 @@ const DepartmentCard = ({
                         onClick={() => toggleExpand(index)}
                         sx={{ cursor: 'pointer' }}
                     >
-                        <span style={{cursor:'pointer'}}> 
+                        <span style={{ cursor: 'pointer' }}>
                             {expanded.includes(index)
                                 ? <FaRegEye size={18} />
                                 : <PiEyeClosedDuotone size={18} />}
@@ -152,6 +152,7 @@ const DepartmentCard = ({
                 isOpen={expanded.includes(index)}
                 rca={item?.inc_dep_rca}
                 preventiveAction={item?.inc_dep_preventive_action}
+                CommonReview={item?.inc_common_review}
                 hasFile={item?.inc_ddc_file_status === 1}
                 fileId={item?.inc_data_collection_slno}
                 onFileClick={handleActionfileFetching}
