@@ -19,9 +19,14 @@ const BillNoSearch = ({ PatDetails, setPatDetails }) => {
     });
 
     const handleChange = (field) => (event) => {
+        let value = event.target.value;
+        if (field === "billNumber") {
+            // Only allow numbers and limit to 6 characters
+            value = value.replace(/\D/g, "").slice(0, 6);
+        }
         setSearchData((prev) => ({
             ...prev,
-            [field]: event.target.value,
+            [field]: value,
         }));
     };
 
@@ -119,6 +124,13 @@ const BillNoSearch = ({ PatDetails, setPatDetails }) => {
                             placeholder="Enter Bill Number"
                             value={searchData.billNumber}
                             onChange={handleChange("billNumber")}
+                            slotProps={{
+                                input: {
+                                    maxLength: 6,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                }
+                            }}
                             sx={{
                                 width: "100%",
                             }}

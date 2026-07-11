@@ -39,6 +39,7 @@ const StoreReport = () => {
         { id: 11, name: 'Resolved Status' },
         { id: 12, name: 'ED and MD Rights' },
         { id: 13, name: 'Proceed Payment Against Bill' },
+        { id: 14, name: 'Debit Note' },
     ]
 
     const updateUserCreation = useCallback(
