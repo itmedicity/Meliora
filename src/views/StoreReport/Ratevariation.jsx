@@ -117,7 +117,8 @@ const Ratevariation = ({ setActiveComponent }) => {
         { id: 10, label: "Hold Purchase", value: "Hold Purchase" },
         { id: 11, label: "Resolved Status", value: "Resolved" },// handled separately
         { id: 12, label: "ED and MD Rights", value: "ED and MD Rights" },
-        { id: 13, label: "Proceed Payment Against Bill", value: "Proceed Payment Against Bill" }
+        { id: 13, label: "Proceed Payment Against Bill", value: "Proceed Payment Against Bill" },
+        { id: 14, label: "Debit Note", value: "Debit Note" },
     ];
 
     /* ================= FILTERED RIGHTS ================= */
@@ -248,6 +249,9 @@ const Ratevariation = ({ setActiveComponent }) => {
             ed_md_status,
             ed_approval_status
         };
+
+
+        console.log("postComment:", postComment);
 
         await handleApiCall(postComment);
 
@@ -624,7 +628,9 @@ const Ratevariation = ({ setActiveComponent }) => {
                                                                             fontSize: 13,
                                                                             color: value ? "black" : "#D32F2F",
                                                                             cursor: "pointer",
-                                                                            backgroundColor: value === "Hold Payment" ? "#FFC3C3" : value === "New Quot (Rec)" ? "#BBDCE5" : value === "Proceed Payment Against PO" ? "#6ac080b2" : value === "Hold Purchase" ? "#FFC3C3" : value === "Proceed Payment Against Bill" ? "#6ac080b2" : "white",
+                                                                            backgroundColor: value === "Hold Payment" ? "#FFC3C3" : value === "New Quot (Rec)" ?
+                                                                                "#BBDCE5" : value === "Proceed Payment Against PO" ? "#6ac080b2" : value === "Hold Purchase" ?
+                                                                                    "#FFC3C3" : value === "Proceed Payment Against Bill" ? "#6ac080b2" : value === "Debit Note" ? "#8af3e5b4" : "white",
                                                                             border: value === "Hold Payment"
                                                                                 ? "2px solid #511a12a7"
                                                                                 : value === "New Quot (Rec)" ||
