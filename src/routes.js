@@ -4,6 +4,8 @@ import DietAllergencyMaster from './views/Master/DietMasters/DietAllergencyMaste
 import BillingCategoryMaster from './views/Master/DietMasters/BillingCategoryMaster/BillingCategoryMaster'
 import { CanteenFilterProvider } from './views/Diet/DietReducer/contextprovider/CanteenFilterContext'
 import DietInpatientMainPage from './views/Diet/DietInpatientList/DietInpatientMainPage'
+import { PosFilterProvider } from './views/Diet/DietReducer/contextprovider/PosFilterContext'
+
 
 
 
@@ -335,7 +337,9 @@ const ViewItemDetail = React.lazy(() => import('./views/Master/DietMasters/ItemM
 const CanteenHighlight = React.lazy(() => import('./views/Master/DietMasters/CanteenHighlight/CanteenHighlight'))
 const CanteenHighlightMapping = React.lazy(() => import('./views/Master/DietMasters/CanteenHighLightMapping/HighlightMappingMaster'))
 const ConsultationRequired = React.lazy(() => import('./views/Diet/DieticianPage/ConsultationRequired'))
-
+const DietPosDetail = React.lazy(() => import('./views/Diet/DietPos/DietPosDetail'));
+const DietBillingDetail = React.lazy(() => import('./views/Diet/DietPos/PosComponent/DietBillingDetail'));
+const DietDischargeBill = React.lazy(() => import('./views/Diet/DietPos/DietDischargeBill'));
 
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
@@ -1330,7 +1334,25 @@ const routes = [
     name: 'Patient Assign',
     element: <ConsultationRequired />
   },
-
+  {
+    path: 'dietpos',
+    name: 'POS',
+    element: (
+      <PosFilterProvider>
+        <DietPosDetail />
+      </PosFilterProvider>
+    )
+  },
+  {
+    path: "/diet/billing/:ptNo/:ipNo",
+    name: 'POS',
+    element: <DietBillingDetail />
+  },
+  {
+    path: "/diet/print/:ptNo/:ipNo",
+    name: 'Billing',
+    element: <DietDischargeBill />
+  },
 ]
 
 

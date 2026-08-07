@@ -2,6 +2,7 @@ import {
     ActivebedDetail,
     DietFoodFetching,
     DietItemType,
+    getActiveAdmittedPatients,
     getAllActivePatientDietDetail,
     getAllAllegrenceMaster,
     getAllBatchProductionItemDetail,
@@ -12,6 +13,7 @@ import {
     getAllConsultationRequiured,
     getAllDietFoodDetail,
     getAllDietician,
+    getAllDietPriceDetail,
     getAllDietPriceMaster,
     GetAllDietRoomCategoryDetail,
     getAllDietSpeciality,
@@ -44,6 +46,7 @@ import {
     GetAllRoomTypeDetail,
     getAllUnitMaster,
     getBatchItemDetail,
+    getBystanderBills,
     getCurrentActivePatient,
     getCurrentAssignedFoodDetail,
     getCustomerExtraOrders,
@@ -55,8 +58,15 @@ import {
     getItemFileDetails,
     getLoggedStaffNsStation,
     getPatienPlanFoodDetail,
+    getPatientDetails,
+    getPatientDietBillDetial,
+    getPatientDietHistory,
+    getPatientExtraOrderBills,
+    getPatientFullDeliveryDetail,
     getPatientMealTypeDetail,
+    getPatientSummaryDetail,
     getPatientTemplateFoodDetail,
+    getPatientTransactions,
     getProductionMaping
 } from "./CommonFun";
 import { useSafeQuery } from "./Helper";
@@ -297,6 +307,18 @@ export const useDietPrice = (dietid) => {
 };
 
 
+export const useDietPriceDeatil = (priceid) => {
+    return useSafeQuery({
+        queryKey: ['dietpriceid', priceid],
+        queryFn: () => getAllDietPriceDetail(priceid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!priceid
+    });
+};
+
+
+
 export const useAllDietTemplateFood = (templateid) => {
     return useSafeQuery({
         queryKey: ['templatefood', templateid],
@@ -533,6 +555,103 @@ export const useAllActiveNsPatient = (nscode) => {
     });
 };
 
+export const useAllAdmittedPatientDetail = (selectedStations = []) => {
+    return useSafeQuery({
+        queryKey: ['admitted-ns-patient', selectedStations],
+        queryFn: () => getActiveAdmittedPatients(selectedStations),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: Array.isArray(selectedStations) && selectedStations.length > 0
+    });
+};
+
+
+export const usePatientDietHistory = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-diet-histroy', ipno, ptno],
+        queryFn: () => getPatientDietHistory(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientDetail = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-dtl', ipno, ptno],
+        queryFn: () => getPatientDetails(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+
+export const usePatientSimpleSummary = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-summary', ipno, ptno],
+        queryFn: () => getPatientSummaryDetail(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+export const usePatientFullDeliveryDetails = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-summary-details', ipno, ptno],
+        queryFn: () => getPatientFullDeliveryDetail(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const useBystanderBillDetails = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['bystander-details', ipno, ptno, status],
+        queryFn: () => getBystanderBills(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientDietBillDetails = (ipno, ptno,status) => {
+    return useSafeQuery({
+        queryKey: ['diet-details', ipno, ptno,status],
+        queryFn: () => getPatientDietBillDetial(ipno, ptno,status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientExtraOrderBills = (ipno, ptno,status) => {
+    return useSafeQuery({
+        queryKey: ['patient-extra-details', ipno, ptno,status],
+        queryFn: () => getPatientExtraOrderBills(ipno, ptno,status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientTransactions = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['patient-transactions', ipno, ptno, status],
+        queryFn: () => getPatientTransactions(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
 // new
 export const useAllNursingStationPatient = (nscode) => {
     return useSafeQuery({

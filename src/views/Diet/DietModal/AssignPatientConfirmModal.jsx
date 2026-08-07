@@ -28,11 +28,17 @@ const AssignPatientConfirmModal = ({
     dispatch,
 }) => {
 
+    console.log({
+        assignee
+    });
+
+
     const [remark, setRemark] = useState("");
     const [remarkError, setRemarkError] = useState(false);
     const [priorityMap, setPriorityMap] = useState({});
     const [loading, SetLoading] = useState(false);
     const queryClient = useQueryClient()
+
     const data = useSelector(state => {
         return state.LoginUserData
     })
@@ -91,12 +97,13 @@ const AssignPatientConfirmModal = ({
                 orders: patients?.map((pt) => ({
                     canteen_order_id: pt.canteen_order_id,
                     type_slno: pt.type_slno,
+                    order_party_type: pt.party_type_id,
                     delivery_priority:
                         priorityMap[pt.canteen_order_id] || "NORMAL",
                     remarks: remark.trim()
                 }))
             };
-         
+
 
             const response = await axioslogin.post(
                 '/dietdelivery/create',
@@ -232,129 +239,128 @@ const AssignPatientConfirmModal = ({
                         display: "flex",
                         flexDirection: "column",
                         gap: 1
-                    }}
-                >
-                    {patients?.map((pt, index) => {
-
-                        const isOpen = expandedId === pt.canteen_order_id;
-                        return (
-                            <Box
-                                key={pt.canteen_order_id}
-                                sx={{
-                                    border: "1px solid #e0e0e0",
-                                    borderRadius: 1,
-                                    p: 1,
-                                    transition: "all 0.3s ease",
-                                    backgroundColor: isOpen ? "#f5f5f5" : "#fff"
-                                }}
-                            >
-                                {/* Header Row */}
+                    }}>
+                    {
+                        patients?.map((pt, index) => {
+                            const isOpen = expandedId === pt?.canteen_order_id;
+                            return (
                                 <Box
+                                    key={pt?.canteen_order_id}
                                     sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        cursor: "pointer"
-                                    }}
-                                    onClick={() =>
-                                        setExpandedId(isOpen ? null : pt.canteen_order_id)
-                                    }
-                                >
-                                    <DietTextComponent
-                                        value={`${index + 1}. ${pt.fb_ptc_name}`}
-                                        weight={600}
-                                        size={13}
-                                    />
-
-                                    {/* Remove Icon */}
-                                    <CloseIcon
-                                        fontSize="small"
-                                        sx={{
-                                            cursor: "pointer",
-                                            color: "#d32f2f"
-                                        }}
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // prevent expand toggle
-                                            handleRemovePatient({
-                                                canteen_order_id: pt.canteen_order_id,
-                                                batch_id: pt.batch_id,
-                                                fb_ip_no: pt.fb_ip_no
-                                            });
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Expandable Section */}
-                                <Box
-                                    sx={{
-                                        overflow: "hidden",
+                                        border: "1px solid #e0e0e0",
+                                        borderRadius: 1,
+                                        p: 1,
                                         transition: "all 0.3s ease",
-                                        maxHeight: isOpen ? 200 : 0,
-                                        opacity: isOpen ? 1 : 0
+                                        backgroundColor: isOpen ? "#f5f5f5" : "#fff"
                                     }}
                                 >
-                                    <DietTextComponent
-                                        value={`IP No: ${pt.fb_pt_no}`}
-                                        size={12}
-                                    />
+                                    {/* Header Row */}
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() =>
+                                            setExpandedId(isOpen ? null : pt.canteen_order_id)
+                                        }
+                                    >
+                                        <DietTextComponent
+                                            value={`${index + 1}. ${pt.fb_ptc_name}`}
+                                            weight={600}
+                                            size={13}
+                                        />
 
-                                    <DietTextComponent
-                                        value={`Ns Station: ${pt.nursing_station}`}
-                                        size={12}
-                                    />
-
-                                    <DietTextComponent
-                                        value={`Meal: ${pt.meal_type}`}
-                                        size={12}
-                                    />
-
-
-                                    <DietTextComponent
-                                        value={`Order ID: ${pt.canteen_order_id}`}
-                                        size={11}
-                                    />
-
-                                    <Box sx={{ mt: 1 }}>
-                                        <DietInputLabel name={"Priority"} />
-
-                                        <select
-                                            value={priorityMap[pt.canteen_order_id] || "NORMAL"}
-                                            onChange={(e) => {
-                                                setPriorityMap((prev) => ({
-                                                    ...prev,
-                                                    [pt.canteen_order_id]: e.target.value
-                                                }));
+                                        {/* Remove Icon */}
+                                        <CloseIcon
+                                            fontSize="small"
+                                            sx={{
+                                                cursor: "pointer",
+                                                color: "#d32f2f"
                                             }}
-
-                                            style={{
-                                                width: "100%",
-                                                marginTop: 5,
-                                                padding: 6,
-                                                borderRadius: 5,
-                                                border: "1px solid #cfcfcf",
-                                                outline: "none",
-                                                fontSize: 12
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // prevent expand toggle
+                                                handleRemovePatient({
+                                                    canteen_order_id: pt.canteen_order_id,
+                                                    batch_id: pt.batch_id,
+                                                    fb_ip_no: pt.fb_ip_no
+                                                });
                                             }}
-                                        >
-                                            <option value="NORMAL">
-                                                NORMAL
-                                            </option>
-
-                                            <option value="URGENT">
-                                                URGENT
-                                            </option>
-
-                                            <option value="STAT">
-                                                STAT
-                                            </option>
-                                        </select>
+                                        />
                                     </Box>
+
+                                    {/* Expandable Section */}
+                                    <Box
+                                        sx={{
+                                            overflow: "hidden",
+                                            transition: "all 0.3s ease",
+                                            maxHeight: isOpen ? 200 : 0,
+                                            opacity: isOpen ? 1 : 0
+                                        }}
+                                    >
+                                        <DietTextComponent
+                                            value={`IP No: ${pt.fb_pt_no}`}
+                                            size={12}
+                                        />
+
+                                        <DietTextComponent
+                                            value={`Ns Station: ${pt.nursing_station}`}
+                                            size={12}
+                                        />
+
+                                        <DietTextComponent
+                                            value={`Meal: ${pt.meal_type}`}
+                                            size={12}
+                                        />
+
+
+                                        <DietTextComponent
+                                            value={`Order ID: ${pt.canteen_order_id}`}
+                                            size={11}
+                                        />
+
+                                        <Box sx={{ mt: 1 }}>
+                                            <DietInputLabel name={"Priority"} />
+
+                                            <select
+                                                value={priorityMap[pt.canteen_order_id] || "NORMAL"}
+                                                onChange={(e) => {
+                                                    setPriorityMap((prev) => ({
+                                                        ...prev,
+                                                        [pt.canteen_order_id]: e.target.value
+                                                    }));
+                                                }}
+
+                                                style={{
+                                                    width: "100%",
+                                                    marginTop: 5,
+                                                    padding: 6,
+                                                    borderRadius: 5,
+                                                    border: "1px solid #cfcfcf",
+                                                    outline: "none",
+                                                    fontSize: 12
+                                                }}
+                                            >
+                                                <option value="NORMAL">
+                                                    NORMAL
+                                                </option>
+
+                                                <option value="URGENT">
+                                                    URGENT
+                                                </option>
+
+                                                <option value="STAT">
+                                                    STAT
+                                                </option>
+                                            </select>
+                                        </Box>
+                                    </Box>
+
                                 </Box>
 
-                            </Box>
-
-                        );
-                    })}
+                            );
+                        })}
                 </Box>
 
                 <Divider sx={{ my: 2 }} />

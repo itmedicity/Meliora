@@ -42,6 +42,12 @@ const DietMainPreperation = ({
     const { assignee, selectedPatients } = state
 
 
+    console.log({
+        selectedPatients
+    });
+    
+
+
     const handleOpenAssigneModal = () => {
         if (!assignee) return infoNotify("Please Select Assigneee!")
         setModalType("assignall")

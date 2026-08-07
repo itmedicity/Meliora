@@ -193,9 +193,9 @@ export const dm_setting_one = [
     { to: '/Home/ptdietmaster', name: 'Diet Master', slno: 36 },
     { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
     { to: '/Home/unitmaster', name: 'Unit Master', slno: 345 },
-    { to: '/Home/orderparty', name: 'Order Party Type ', slno: 331 }, 
+    { to: '/Home/orderparty', name: 'Order Party Type ', slno: 331 },
     { to: '/Home/itemalias', name: 'Item Alias Master', slno: 346 },
-    { to: '/Home/highlightmaping', name: 'Canteen Highlight Mapping', slno: 347 }, 
+    { to: '/Home/highlightmaping', name: 'Canteen Highlight Mapping', slno: 347 },
     // change slno
 ]
 
@@ -205,15 +205,15 @@ export const dm_setting_two = [
     { to: '/Home/dietroom', name: 'Diet Room Master', slno: 337 },
     { to: '/Home/dietdelmaster', name: 'Diet Delivery Master', slno: 340 },
     { to: '/Home/itemtypemast', name: 'Item Type Master', slno: 348 },
-    // { to: '/Home/billingmaster', name: 'Billing Category Master', slno: 340 },
+    { to: '/Home/billingmaster', name: 'Billing Category Master', slno: 340 },
 ]
 
 export const dm_setting_three = [
-    { to: '/Home/dietspeciality', name: 'Diet Speciality Master', slno: 349 }, 
+    { to: '/Home/dietspeciality', name: 'Diet Speciality Master', slno: 349 },
     { to: '/Home/dietallergence', name: 'Diet Allergency Master', slno: 350 },
     { to: '/Home/dietdemplate', name: 'Diet Template Master', slno: 351 },
     { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 338 },
-    { to: '/Home/itemcatmast', name: 'Item Category Master', slno: 352 }, 
+    { to: '/Home/itemcatmast', name: 'Item Category Master', slno: 352 },
     { to: '/Home/highlight', name: 'Canteen Highlight', slno: 353 },
 ]
 

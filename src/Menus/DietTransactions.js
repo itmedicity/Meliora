@@ -50,7 +50,12 @@ const DietTransactions = [
     to: '/Home/diettypegroup',
     icon: <CiStop1 />
   },
-
+  {
+    men_slno: 357,
+    name: 'POS',
+    to: '/Home/dietpos',
+    icon: <CiStop1 />
+  },
 ]
 
 export default DietTransactions

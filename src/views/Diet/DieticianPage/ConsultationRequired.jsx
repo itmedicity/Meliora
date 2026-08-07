@@ -37,7 +37,7 @@ const ConsultationRequired = () => {
     });
 
     const {
-        data: DietPlanData = [],
+        data: DietPlanData  = [],
         // isLoading: isLoadingPlan,
         // isError: isPlanError,
         // error: erroplan,

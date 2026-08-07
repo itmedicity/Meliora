@@ -28,11 +28,7 @@ const CanteenFilterComponent = ({ selectedStations }) => {
             borderRadius: 5
         }}>
 
-            {/* <input placeholder="Bed"
-                value={bed}
-                onChange={(e) => dispatch({ type: 'SET_BED', payload: e.target.value })}
-            /> */}
-
+    
             <ChooseNursingBed
                 value={bed}
                 code={selectedStations}

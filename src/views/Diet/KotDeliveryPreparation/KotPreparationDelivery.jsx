@@ -30,10 +30,12 @@ const KotPreparationDelivery = () => {
     } = useFetchAllCanteenOrderStatus();
 
 
+
     const {
         data: AssingedOrders = [],
         refetch: FetchAllAssignOrderDetail
     } = useGetAllAssignedOrderDetail();
+
 
     useEffect(() => {
         initSpeech();
@@ -115,6 +117,12 @@ const KotPreparationDelivery = () => {
         PendingOrder,
         FinalDeliveryOrderDetail
     ]);
+
+
+    console.log({
+        SourceData
+    });
+    
 
     const {
         ptsearch,

@@ -1,12 +1,14 @@
 import React, { memo } from 'react'
 import { Box } from '@mui/joy'
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 const DietTable = ({
     columns = [],
     data = [],
     minWidth = 600,
-    onEdit //  callback
+    onEdit,//  callback
+    onAdd
 }) => {
     if (!columns.length) return null
 
@@ -58,6 +60,18 @@ const DietTable = ({
                             }}
                         >
                             Edit
+                        </th>
+                        <th
+                            style={{
+                                padding: 8,
+                                fontSize: 12,
+                                fontWeight: 700,
+                                background: '#f5f5f5',
+                                borderBottom: '1px solid rgba(0,0,0,0.15)',
+                                textAlign: 'center'
+                            }}
+                        >
+                            Add
                         </th>
                     </tr>
                 </thead>
@@ -116,6 +130,23 @@ const DietTable = ({
                                         onClick={() => onEdit?.(row, index)}
                                     >
                                         <EditIcon sx={{ fontSize: 16 }} />
+                                    </span>
+                                </td>
+                                <td
+                                    style={{
+                                        padding: 8,
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            color: '#1976d2',
+                                            cursor: 'pointer',
+                                            fontWeight: 600
+                                        }}
+                                        onClick={() => onAdd?.(row, index)}
+                                    >
+                                        <AddIcon sx={{ fontSize: 16 }} />
                                     </span>
                                 </td>
                             </tr>

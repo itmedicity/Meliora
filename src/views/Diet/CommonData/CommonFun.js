@@ -759,54 +759,93 @@ export const applyColumnToAll = (
 //     return Object.values(grouped);
 // };
 
-export const organizeBatchData = (
-    batchFoodDetail = []
-) => {
+// export const organizeBatchData = (
+//     batchFoodDetail = []
+// ) => {
 
+//     if (!batchFoodDetail?.length) return [];
+
+//     const grouped = {};
+
+//     batchFoodDetail.forEach(item => {
+
+//         const typeId = item.type_slno;
+
+//         if (!grouped[typeId]) {
+
+//             grouped[typeId] = {
+
+//                 type_id: typeId,
+
+//                 type_desc: item.type_desc,
+
+//                 items: [],
+
+//                 order_ids: new Set()
+//             };
+//         }
+
+//         // ADD ITEM
+//         grouped[typeId].items.push({
+
+//             item_id: item.item_id,
+
+//             item_name: item.item_name,
+
+//             required_qty: item.total_qty
+//         });
+
+//         // ADD ORDER ID
+//         grouped[typeId].order_ids.add(
+//             item.canteen_order_id
+//         );
+//     });
+
+//     // CONVERT SET TO ARRAY
+//     return Object.values(grouped).map(batch => ({
+
+//         ...batch,
+
+//         order_ids: [...batch.order_ids]
+//     }));
+// };
+
+export const organizeBatchData = (batchFoodDetail = []) => {
     if (!batchFoodDetail?.length) return [];
 
     const grouped = {};
 
-    batchFoodDetail.forEach(item => {
-
+    batchFoodDetail?.forEach(item => {
         const typeId = item.type_slno;
 
         if (!grouped[typeId]) {
-
             grouped[typeId] = {
-
                 type_id: typeId,
-
                 type_desc: item.type_desc,
-
                 items: [],
-
-                order_ids: new Set()
+                order_ids: new Set(),
             };
         }
 
-        // ADD ITEM
+        // Add item
         grouped[typeId].items.push({
-
             item_id: item.item_id,
-
             item_name: item.item_name,
-
-            required_qty: item.total_qty
+            required_qty: item.total_qty,
         });
 
-        // ADD ORDER ID
-        grouped[typeId].order_ids.add(
-            item.canteen_order_id
-        );
+        // Add all order ids
+        if (item.order_ids) {
+            item.order_ids
+                .split(",")
+                .map(id => Number(id))
+                .forEach(id => grouped[typeId].order_ids.add(id));
+        }
     });
 
-    // CONVERT SET TO ARRAY
     return Object.values(grouped).map(batch => ({
-
         ...batch,
-
-        order_ids: [...batch.order_ids]
+        order_ids: [...batch.order_ids],
     }));
 };
 
@@ -2470,19 +2509,16 @@ export const getAllDietPriceMaster = async (id) => {
         const res = await axioslogin.post('/dietprice/getall', {
             diet_id: id
         });
-        const { success, data, message } = res.data;
+        const { success, data } = res.data;
         if (success === 0) {
-            console.error("Error Fetching Item Type", message);
             return [];
         }
         if (success === 1) {
             return [];
         }
-
         if (success === 2) {
             return data || [];
         }
-
         // Fallback for any unexpected success code
         return [];
     } catch (error) {
@@ -2490,6 +2526,22 @@ export const getAllDietPriceMaster = async (id) => {
         return [];
     }
 };
+
+
+export const getAllDietPriceDetail = async (id) => {
+    try {
+        const res = await axioslogin.post('/dietprice/pricedtl/get', {
+            price_id: id
+        });
+        const { success, data } = res.data;
+        if (success !== 2) return []
+        return data || [];
+    } catch (error) {
+        console.error("Error fetching Diet Speciality:", error);
+        return [];
+    }
+};
+
 
 export const getAllDietTemplate = async () => {
     try {
@@ -2519,6 +2571,11 @@ export const getAllDietTemplate = async () => {
 
 export const getAllNsActivePatients = async (nscode) => {
     if (!nscode) return warningNotify("Nursing Station Id Missing");
+
+    console.log({
+        nscode
+    });
+
     try {
         const res = await axioslogin.post('/patientdietplan/activepatient', {
             ns_code: nscode
@@ -2537,6 +2594,163 @@ export const getAllNsActivePatients = async (nscode) => {
         return [];
     }
 };
+
+
+export const getActiveAdmittedPatients = async (Nsstation) => {
+    if (Nsstation.length === 0) return warningNotify("Nursing Station Id Missing");
+    try {
+        const res = await axioslogin.post('/patientdietplan/activenspatient', {
+            selectedStations: Nsstation
+        });
+        const { success, data } = res.data;
+        if (success === 1) {
+            return [];
+        }
+        if (success === 2) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
+export const getPatientDietHistory = async (ipno, ptno) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.post('/patientdietplan/diethistory', {
+            ipno, ptno
+        });
+        const { success, data } = res.data;
+        if (success === 1) {
+            return [];
+        }
+        if (success === 2) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getPatientDetails = async (ipno, ptno) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.post('/patientdietplan/patientdtl', {
+            ipno, ptno
+        });
+        const { success, data } = res.data;
+        if (success === 1) {
+            return [];
+        }
+        if (success === 2) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Plan:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getPatientSummaryDetail = async (ipno, ptno) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/summary/${ptno}/${ipno}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getPatientFullDeliveryDetail = async (ipno, ptno) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/delivery-detail/${ptno}/${ipno}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+export const getPatientTransactions = async (ipno, ptno, status) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/transactions/${ptno}/${ipno}/${status}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getBystanderBills = async (ipno, ptno, status) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/bystander/${ptno}/${ipno}/${status}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getPatientExtraOrderBills = async (ipno, ptno, status) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/extra/${ptno}/${ipno}/${status}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+export const getPatientDietBillDetial = async (ipno, ptno, status) => {
+    if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billing/patient/diet/${ptno}/${ipno}/${status}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
 
 export const getAllNursingStationPatients = async (nscode) => {
     if (!nscode) return warningNotify("Nursing Station Id Missing");

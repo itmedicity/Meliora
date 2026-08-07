@@ -831,7 +831,6 @@ export const ProcessedList = [
 ];
 
 
-
 export const headerCell = {
     flex: 1,
     fontSize: 13,
@@ -851,8 +850,6 @@ export const rowStyle = {
     alignItems: 'center',
     padding: '8px 12px'
 }
-
-
 
 export const FoodDetail = [
     {
@@ -1121,7 +1118,6 @@ export const FoodDetail = [
     },
 ];
 
-
 export const patientDietList = [
     {
         dietpt_slno: 1,
@@ -1345,7 +1341,6 @@ export const patientDietList = [
     }
 ];
 
-
 export const MEAL_ITEMS = {
     Breakfast: [
         [
@@ -1385,8 +1380,6 @@ export const MEAL_ITEMS = {
     ]
 }
 
-
-
 export const PATIENT_STATUS = {
     NORMAL: 'NORMAL',
     DIET_CHANGED: 'DIET_CHANGED',
@@ -1421,7 +1414,6 @@ export const getPatientStatus = (index) => {
     return PATIENT_STATUS.NORMAL
 }
 
-
 export const STATUS_FILTERS = [
     { label: 'Normal', code: STATUS_CODES.NORMAL, color: 'success' },
     { label: 'Diet Updated', code: STATUS_CODES.DIET_CHANGED, color: 'warning' },
@@ -1429,18 +1421,12 @@ export const STATUS_FILTERS = [
     // { label: 'Deceased', code: STATUS_CODES.DECEASED, color: 'danger' }
 ]
 
-
-
 export const STATUS_BORDER_COLOR = {
     [STATUS_CODES.NORMAL]: 'success',
     [STATUS_CODES.DIET_CHANGED]: 'warning',
     [STATUS_CODES.DISCHARGED]: 'primary',
     // [STATUS_CODES.DECEASED]: 'danger'
 }
-
-
-
-
 
 export function formatProcessedAt(dateTimeStr, includeMinutes = false) {
     if (!dateTimeStr) return '';
@@ -1450,8 +1436,6 @@ export function formatProcessedAt(dateTimeStr, includeMinutes = false) {
         ? format(date, 'EEEE h:mm a')  // "Tuesday 3:10 PM"
         : format(date, 'EEEE h a');    // "Tuesday 3 PM"
 }
-
-
 
 export const safeParseJSON = (value, fallback = []) => {
     try {
@@ -1467,8 +1451,6 @@ export const safeParseJSON = (value, fallback = []) => {
         return fallback;
     }
 };
-
-
 
 export const statusVoiceMap = {
     PENDING: "pending",
@@ -1491,4 +1473,45 @@ export const safeText = (t) => {
     if (Array.isArray(t)) return t.join(" ");
     if (t === null || t === undefined) return "";
     return String(t);
+};
+
+
+export const prepareBillingPayload = ({
+    patient,
+    items,
+    createdBy,
+}) => {
+
+    const total_amount = items.reduce(
+        (sum, item) => sum + Number(item.net_amount || 0),
+        0
+    );
+
+    return {
+        patient_id: patient.patient_id,
+        admission_id: patient.admission_id,
+        created_by: createdBy,
+        total_amount,
+        items: items.map(item => ({
+            bill_id: item.bill_id,
+            billing_type: item.billing_type,
+            category_id:
+                item.billing_type === "DIET_ORDER"
+                    ? 1
+                    : 2,
+            description:
+                item.billing_type === "DIET_ORDER"
+                    ? `Diet Package - ${item.meal_name}`
+                    : item.item_name,
+            item_id: item.item_id ?? null,
+            quantity: item.quantity,
+            unit_rate: item.unit_rate,
+            gst_rate: item.gst_rate,
+            gst_amount: item.gst_amount,
+            discount: item.discount,
+            net_amount: item.net_amount,
+            created_at: item.created_at,
+        })),
+    };
+
 };

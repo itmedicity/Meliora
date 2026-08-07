@@ -643,3 +643,32 @@ Diet
 
 // export default ProcessCompletedList
 
+
+
+
+
+
+  // Delivery table
+    const filteredDelivery = useMemo(() => {
+
+        switch (filter) {
+
+            case "DIET":
+                return patientDeliveryDetails.filter(
+                    x => x.billing_type === "DIET_PACKAGE"
+                );
+
+            case "EXTRA":
+                return patientDeliveryDetails.filter(
+                    x => x.billing_type === "EXTRA_ITEM"
+                );
+
+            default:
+                return patientDeliveryDetails;
+        }
+
+    }, [filter, patientDeliveryDetails]);
+
+    console.log({
+        filteredDelivery
+    });

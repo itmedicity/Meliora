@@ -15,7 +15,7 @@ import DietTextComponent from "../DietComponent/DietTextComponent";
 import { axioslogin } from "src/views/Axios/Axios";
 import { errorNotify, succesNotify } from "src/views/Common/CommonCode";
 
-const PRIMARY = "#d027e7";
+const PRIMARY =  "#d027e7";
 
 /* ---------- TOP IDENTITY HEADER ---------- */
 const PatientHeader = ({ consultation }) => (

@@ -48,7 +48,7 @@ const CanteenMain = ({
         useBatchFoodDetail(selectedRows)
 
 
-
+    //doubt
     const organizedBatchData = useMemo(() => {
         return organizeBatchData(batchFoodDetail);
     }, [batchFoodDetail]);
@@ -81,7 +81,7 @@ const CanteenMain = ({
                 processed_by: id,
                 remark: batchRemark
             };
-           
+
             const result = await axioslogin.post(
                 '/productionbatch/createproductionbatch',
                 Payload
