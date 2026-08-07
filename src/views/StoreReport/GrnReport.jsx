@@ -71,15 +71,15 @@ const GrnReport = ({ setActiveComponent }) => {
         }
         // 2) Variation filter
         if (variationType === 1) {
-            result = result.filter(val => val["RATE VARIATION"] > 0);
+            result = result?.filter(val => val["RATE VARIATION"] > 0);
         }
         // 2) Qtn>Pu filter
         else if (variationType === 2) {
-            result = result.filter(val => val["QUO MARGIN %"] !== val["PURCHASE MARGIN %"]);
+            result = result?.filter(val => val["QUO MARGIN %"] !== val["PURCHASE MARGIN %"]);
         }
         //3) Discount variation
         else if (variationType === 3) {
-            result = result.filter(val => val["DISCOUNT VARIATION"] > 0);
+            result = result?.filter(val => val["DISCOUNT VARIATION"] > 0);
         }
         return result;
 
@@ -88,12 +88,12 @@ const GrnReport = ({ setActiveComponent }) => {
 
     // --- EXCEL EXPORT ---
     const onExportClick = () => {
-        if (GrmData.length === 0) {
+        if (filtered?.length === 0) {
             alert("No data available to export");
             return;
         }
 
-        const exportData = GrmData.map((item, index) => ({
+        const exportData = filtered?.map((item, index) => ({
             sl_no: index + 1,
             grn_no: item["GRN NO"],
             grn_date: item["GRN DATE"] ? formatDateTime(item["GRN DATE"]) : "",

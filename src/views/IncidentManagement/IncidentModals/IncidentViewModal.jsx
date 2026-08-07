@@ -2,7 +2,6 @@ import { Box, Tooltip } from '@mui/joy';
 import React, { memo, useCallback, useState, lazy, Suspense, useEffect, useMemo } from 'react';
 import { FaRegEye } from 'react-icons/fa';
 import { PiEyeClosedDuotone } from "react-icons/pi";
-
 import {
     formatDateTime,
     handleImageClick,
@@ -13,6 +12,7 @@ import {
     useDepartmentActions,
     useFetchAllActiveInitiator,
     useIncidentActionsMaster,
+    useIncidentLevelDetails,
     useInvolvedDepartments
 } from '../CommonComponent/useQuery';
 
@@ -30,6 +30,7 @@ import {
 import IncidentFlag from '../Components/IncidentFlag';
 import RcaDetailCard from '../Components/RcaDetailCard';
 import ComonApprovalPreview from '../IncidentCommonView/ComonApprovalPreview';
+import IncidentApprovalStepper from '../IncidentCommonView/IncidentApprovalStepper';
 
 
 const CustomeIncidentLoading = lazy(() => import('../Components/CustomeIncidentLoading'));
@@ -74,7 +75,8 @@ const IncidentViewModal = ({
     levelactionreview,
     FinalIncidentLevels,
     CompanyName,
-    CurrentYear
+    CurrentYear,
+    setOpenChat
 }) => {
 
     const { patientDetail, staffDetails, visitorDetail, propertyDetail } = normalizeIncidentData(items);
@@ -123,6 +125,14 @@ const IncidentViewModal = ({
         data: involvedDepartment,
         isLoading: loadinginvolveddepartment
     } = useInvolvedDepartments(items?.inc_register_slno);
+
+    const {
+        data: LevelDetails = [],
+        // isLoading: LoadingLevelDetail
+    } = useIncidentLevelDetails(items?.inc_register_slno, level);
+
+
+
 
 
     const { data: incidentaction } = useIncidentActionsMaster();
@@ -273,7 +283,8 @@ const IncidentViewModal = ({
             ?.filter(item =>
                 item.inc_dep_action_status === 0 &&
                 item.inc_dep_action_status !== null)
-            ?.every(item => Number(item.inc_dep_action_status) === 1)
+            ?.every(item => Number(item.inc_dep_action_status) === 1);
+
 
     return (
 
@@ -285,7 +296,7 @@ const IncidentViewModal = ({
             {approvalprocessing && <CustomeIncidentLoading text={"Submitting Please Wait...!"} />}
             <Box
                 sx={{
-                    width: '60vw',
+                    width: '100%',
                     minHeight: '60vh',
                     maxHeight: '95vh',
                     position: 'relative',
@@ -363,7 +374,7 @@ const IncidentViewModal = ({
                             <>
                                 {/* INITIATOR */}
                                 < Box >
-                                    <SectionHeader text="INITIATOR" />
+                                    <SectionHeader text="PERSON INVOLVED" />
                                     <IncidentTextComponent text={InitiatorName?.toUpperCase()} size={16} weight={600} />
                                 </Box>
 
@@ -398,6 +409,24 @@ const IncidentViewModal = ({
                                         size={14}
                                         weight={400}
                                     />
+                                </Box>
+                                <Box sx={{ mt: 1, display: 'flex', gap: 2 }}>
+                                    <Box>
+                                        <SectionHeader text="CATEGORY" />
+                                        <IncidentTextComponent
+                                            text={` ➤ ${items?.inc_category_name || "No provided"}`}
+                                            size={14}
+                                            weight={400}
+                                        />
+                                    </Box>
+                                    <Box>
+                                        <SectionHeader text="SUBCATEGORY" />
+                                        <IncidentTextComponent
+                                            text={` ➤ ${items?.inc_sub_category_name || "No provided"}`}
+                                            size={14}
+                                            weight={400}
+                                        />
+                                    </Box>
                                 </Box>
 
                                 {/* NATURE */}
@@ -499,6 +528,7 @@ const IncidentViewModal = ({
                             setOpen={setOpen}
                             setSaveDetail={setSaveDetail}
                             savedetail={savedetail}
+                            setOpenChat={setOpenChat}
                         />
                     }
 
@@ -544,6 +574,7 @@ const IncidentViewModal = ({
                     {
                         level === 'DAC' &&
                         <IncidentActionSubmit
+                            setOpenChat={setOpenChat}
                             items={items}
                             setOpenModal={setOpenModal}
                         />
@@ -586,9 +617,14 @@ const IncidentViewModal = ({
                     }
                     {
                         level === 'COMMON' &&
-                        <ComonApprovalPreview
-                            levels={level}
-                            highlevelapprovals={stableHighLevelApprovals} />
+                        <>
+                            <ComonApprovalPreview
+                                levels={level}
+                                highlevelapprovals={stableHighLevelApprovals} />
+
+
+                            <IncidentApprovalStepper data={LevelDetails} />
+                        </>
                     }
                     {/* Approval Preview */}
                     {
@@ -622,6 +658,7 @@ const IncidentViewModal = ({
                                         < FishboneQuestionContainer
                                             setFormValues={setFormValues}
                                             formValues={formValues}
+                                            registraionNo={items?.inc_register_slno}
                                             open={open}
                                             setOpen={setOpen}
                                             setSaveDetail={setSaveDetail}

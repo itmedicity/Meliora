@@ -319,6 +319,14 @@ const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
 const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
+const WhatsappEmployeeMaster = React.lazy(() => import('./views/Master/IncidentManagement/WhatsappEmployeeMaster/WhatsappEmployeeMaster'));
+const IncidentNotificationEventMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationEventMaster/IncidentNotificationEventMaster'));
+const IncidentNotificationConfigMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentNotificationConfigMaster/IncidentNotificationConfigMaster'));
+
+const CdcEmr = React.lazy(() => import('./views/CdcEmr/CdcEmr'));
+const CdcEmrSetting = React.lazy(() => import('./views/Master/CdcMaster/CdcMaster'));
+const AbhaReg = React.lazy(() => import('./views/AbhaRegistration/AbhaReg'));
+
 
 
 
@@ -606,7 +614,6 @@ const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
 
 
-
 const DietRoomMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomMaster/DietRoomMaster'));
 const DietRoomTypeGroupingMaster = React.lazy(() => import('./views/Master/DietMasters/DietRoomTypeGroupingMaster/DietRoomTypeGroupingMaster'));
 const OrderTakingPage = React.lazy(() => import('./views/Diet/DietOrderList/OrderTakingPage'));
@@ -618,6 +625,9 @@ const ItemAliasMaster = React.lazy(() => import("./views/Master/DietMasters/Item
 
 
 const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+
+// const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+
 
 
 
@@ -1205,7 +1215,26 @@ const routes = [
     element: <WorkOrderEntry />
   },
   {
-
+    path: 'whatsappmaster',
+    name: 'WhatsApp Master',
+    element: <WhatsappEmployeeMaster />
+  },
+  {
+    path: 'eventconfig',
+    name: 'Notification Config Master',
+    element: <IncidentNotificationConfigMaster />
+  },
+  {
+    path: 'eventmaster',
+    name: 'Notification Master',
+    element: <IncidentNotificationEventMaster />
+  },
+  {
+    path: 'CdcEmr',
+    name: 'CdcEmr',
+    element: <CdcEmr />
+  },
+{
     path: 'dietroom',
     name: 'Diet Room Master',
     element: <DietRoomMaster />
@@ -1325,9 +1354,15 @@ const routes = [
     element: <CanteenHighlight />
   },
   {
-    path: 'WorkOrderApproval',
-    name: 'WorkOrderApproval',
-    element: <WorkOrderApproval />
+    path: 'CdcEmrSetting',
+    name: 'CdcEmrSetting',
+    element: <CdcEmrSetting />
+  },
+
+  {
+    path: 'abha',
+    name: 'abha',
+    element: <AbhaReg />
   },
   {
     path: 'dietpatients',

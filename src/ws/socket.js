@@ -12,4 +12,7 @@ const URL = "http://192.168.22.8:7000";
 // Always use websocket transport for stability
 export const socket = io(URL, {
     transports: ["websocket"],
+    auth: {
+        emp_id: null  //  Add this
+    }
 });

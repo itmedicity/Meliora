@@ -3,12 +3,13 @@ import { warningNotify } from "src/views/Common/CommonCode";
 import imageCompression from 'browser-image-compression';
 import { useState, useCallback, useMemo } from "react";
 import JSZip from "jszip";
-import { isWithinInterval, startOfYesterday, endOfYesterday, format } from "date-fns";
+import { isWithinInterval, startOfYesterday, endOfYesterday, format, isValid, parseISO } from "date-fns";
+
+
 // GET DETAIL BASED ON MRD NUMBER
 export const getFamilyDetails = async (mrdnumber) => {
     try {
         let uppercasetext = mrdnumber?.toUpperCase().trim();
-
         if (!uppercasetext) {
             warningNotify('Please Enter MRD Number');
             return null;
@@ -41,6 +42,17 @@ export const handleImageUpload = async (imageFile) => {
 
 
 
+export const formatTime = (dateStr) => {
+    if (!dateStr) return '';
+
+    const date = typeof dateStr === 'string'
+        ? parseISO(dateStr.replace(' ', 'T'))
+        : new Date(dateStr);
+
+    if (!isValid(date)) return '';
+
+    return format(date, 'hh:mm a');
+};
 
 //incidentNormalizer.js
 export const normalizeIncidentData = (incidentData) => {
@@ -510,8 +522,6 @@ export const useIncidentStats = (incidents = []) => {
 
 
 
-
-
 // @IncidentListCard.js
 export const useIncidentCardHandlers = ({
     fetchIncidentFiles,
@@ -551,3 +561,6 @@ export const useIncidentCardHandlers = ({
 
     return { fetchAllData };
 };
+
+
+

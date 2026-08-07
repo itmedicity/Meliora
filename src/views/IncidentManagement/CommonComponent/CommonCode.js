@@ -222,3 +222,97 @@ export const getStatusInfo = (val, level) => {
 
 
 export const allowedFileType = ["image/png", "image/jpg", "image/jpeg", "application/pdf"];
+
+
+
+// src/constants/FileConfig.js
+export const MAX_FILE_SIZE = 20 * 1024 * 1024; // 10MB
+
+export const ALLOWED_FILE_TYPES = {
+    Image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+    Video: ['video/mp4', 'video/webm', 'video/quicktime'],
+    PDF: ['application/pdf'],
+    Document: [
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'text/plain'
+    ],
+    Camera: ['image/jpeg', 'image/png']
+};
+
+export const FILE_ACCEPT_MAPPING = {
+    Image: 'image/*',
+    Video: 'video/*',
+    PDF: '.pdf',
+    Document: '.doc,.docx,.xls,.xlsx,.txt',
+    Camera: 'image/*'
+};
+
+
+export const getFileAccept = (type) => {
+    return FILE_ACCEPT_MAPPING[type] || '*';
+};
+
+export const getFileMultiple = (type) => {
+    return type !== 'Camera';
+};
+
+export const validateFile = (file, type, existingAttachments = []) => {
+    const errors = [];
+
+    // Size validation
+    if (file.size > MAX_FILE_SIZE) {
+        errors.push(`File "${file.name}" exceeds ${formatFileSize(MAX_FILE_SIZE)} limit`);
+    }
+
+    // Type validation
+    const allowedTypes = ALLOWED_FILE_TYPES[type] || [];
+    if (allowedTypes.length > 0 && !allowedTypes.includes(file.type)) {
+        errors.push(`File "${file.name}" is not a valid ${type} format`);
+    }
+
+    // Duplicate validation
+    const isDuplicate = existingAttachments.some(
+        existing => existing.name === file.name && existing.size === file.size
+    );
+    if (isDuplicate) {
+        errors.push(`File "${file.name}" is already attached`);
+    }
+
+    return errors;
+};
+
+export const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+};
+
+export const validateFiles = (files, type, existingAttachments = []) => {
+    const validFiles = [];
+    const errors = [];
+
+    files.forEach(file => {
+        const fileErrors = validateFile(file, type, existingAttachments);
+        if (fileErrors.length === 0) {
+            validFiles.push(file);
+        } else {
+            errors.push(fileErrors.join(', '));
+        }
+    });
+
+    return { validFiles, errors };
+};
+
+
+
+
+export const formatName = (name = '') => {
+    return name
+        .toLowerCase()
+        .replace(/\b\w/g, char => char.toUpperCase());
+};

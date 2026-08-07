@@ -60,10 +60,10 @@ const PendingApprovalQuatation = ({ setActiveComponent }) => {
     }, [searchValue, selected, PendingApprovalQtn]);
 
     const onExportClick = () => {
-        if (PendingApprovalQtn.length === 0) {
+        if (filteredqto?.length === 0) {
             alert("No data available to export"); return;
         }
-        const exportData = PendingApprovalQtn.map((item, index) => ({
+        const exportData = filteredqto?.map((item, index) => ({
             sl_no: index + 1,
             quotation: item["QUOTATION #"],
             quotation_amount: item["QUOTATION AMOUNT"],

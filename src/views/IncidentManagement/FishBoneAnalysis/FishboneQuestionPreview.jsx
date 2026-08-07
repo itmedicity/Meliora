@@ -33,6 +33,10 @@ const FishboneQuestionPreview = ({ data, action, setOpen,
 
     const userName = !action && incident?.em_name ? incident.em_name : "—";
 
+
+
+
+
     return (
         <Card
             sx={{

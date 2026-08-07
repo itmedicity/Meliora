@@ -20,6 +20,7 @@ import IncidentStatusSkeleton from '../SkeletonComponent/IncidentStatusSkeleton'
 import { safeParse } from '../CommonComponent/Incidnethelper';
 import { getYear, parse } from 'date-fns';
 import { useLocation } from "react-router-dom";
+import IncidentDiscussionModal from '../IncidentModals/IncidentDiscussionModal';
 // import { useCurrentCompanyData } from '../CommonComponent/useQuery';
 
 // Lazy-loaded components
@@ -58,6 +59,13 @@ const IncidentListCard = ({
     const [approvaldetails, setApprovalDetails] = useState([]);
     const [levelitems, setLevelItems] = useState([]);
     const [levelactionreview, setLevelActionReview] = useState([]);
+
+    const [chatState, setChatState] = useState({
+        open: false,
+        actionDetailSlno: null,
+        actionType: null,
+        module: null,
+    });
 
     const location = useLocation();
 
@@ -174,21 +182,30 @@ const IncidentListCard = ({
     return (
         <Box>
             <Box
-
                 sx={{
-                    width: '100%', mb: 2,
+                    width: '100%',
+                    mb: 2,
                     p: 1,
                     flexDirection: 'column',
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    border: "4px solid var(--rose-pink-400)",
-                    borderLeftWidth: "4px",   // keep left
-                    borderRightWidth: "none",  // keep right
-                    borderTop: "none",        // remove top
+                    // border: "4px solid var(--rose-pink-400)",
+                    border: (items?.dataCollectionPending && items?.ActionPending) ?
+                        "4px solid #d81616" : items?.dataCollectionPending ?
+                            "4px solid #f39c12" : items?.ActionPending
+                                ? "4px  solid #0422e5" :
+                                "4px solid var(--rose-pink-400)",
+                    // borderLeftWidth: "4px",   // keep left
+                    // borderRightWidth: "4px",  // keep right
+                    borderTop: "none",        // remove top 
                     borderBottom: "none",     // remove bottom
                     borderRadius: "20px / 15px",
-                    boxShadow: 'md'
+                    boxShadow: 'md',
+                    //  bgcolor: (items?.dataCollectionPending && items?.ActionPending) ?
+                    // '#ffeef0' : items?.dataCollectionPending ?
+                    // '#fdf7ee' : items?.ActionPending
+                    // ? '#d8eaf6' : 'white',
 
                 }}>
                 {/* Top Card */}
@@ -370,25 +387,80 @@ const IncidentListCard = ({
 
             {/* Lazy Modal */}
             <Modal open={open} onClose={handleClose}>
-                <ModalDialog sx={{ borderRadius: 'lg' }}>
+                <ModalDialog sx={{
+                    width: chatState.open ? "98vw" : "65vw",
+                    height: "95vh",
+                    maxWidth: "none",
+                    p: 0,
+                    borderRadius: "lg",
+                    backgroundColor: "transparent",
+                    boxShadow: "none",
+                    border: "none"
+                }}>
                     <ModalClose onClick={handleClose} />
-                    <Suspense fallback={<CustomeIncidentLoading text={"Loading Data..."} />}>
-                        <IncidentViewModal
-                            items={items}
-                            loading={loadingFiles || loadingapprovals || loadingactionsreviewdetail}
-                            IncidentFiles={uploadedfiles}
-                            fetchAgain={fetchAgain}
-                            setOpenModal={setOpen}
-                            level={level}
-                            levelNo={levelNo}
-                            highlevelapprovals={approvaldetails}
-                            levelitems={levelitems}
-                            levelactionreview={levelactionreview || []}
-                            FinalIncidentLevels={FinalIncidentLevels}
-                            CompanyName={CompanyName}
-                            CurrentYear={CurrentYear}
-                        />
-                    </Suspense>
+                    <Box
+                        sx={{
+
+                            display: "flex",
+                            height: "100%",
+                            gap: 1
+                        }}>
+                        <Box
+                            sx={{
+                                width: chatState.open ? "55%" : '100%',
+                                overflow: "auto",
+                                borderRight: chatState.open
+                                    ? "1px solid #ddd"
+                                    : "none",
+                                scrollbarWidth: "none",
+                                msOverflowStyle: "none",
+                                "&::-webkit-scrollbar": {
+                                    display: "none"
+                                }
+                            }}
+                        >
+                            <Suspense fallback={<CustomeIncidentLoading text={"Loading Data..."} />}>
+                                <IncidentViewModal
+                                    items={items}
+                                    loading={loadingFiles || loadingapprovals || loadingactionsreviewdetail}
+                                    IncidentFiles={uploadedfiles}
+                                    fetchAgain={fetchAgain}
+                                    setOpenModal={setOpen}
+                                    level={level}
+                                    levelNo={levelNo}
+                                    highlevelapprovals={approvaldetails}
+                                    levelitems={levelitems}
+                                    levelactionreview={levelactionreview || []}
+                                    FinalIncidentLevels={FinalIncidentLevels}
+                                    CompanyName={CompanyName}
+                                    CurrentYear={CurrentYear}
+                                    setOpenChat={setChatState}
+                                />
+                            </Suspense>
+                        </Box>
+
+                        <Box
+                            sx={{
+                                width: chatState.open ? "45%" : "0%",
+                                opacity: chatState.open ? 1 : 0,
+                                transform: chatState.open
+                                    ? "translateX(0)"
+                                    : "translateX(100%)",
+                                transition: "all 0.35s ease",
+                                height: "100%"
+                            }}
+                        >
+                            <Suspense fallback={<CustomeIncidentLoading text={"Loading Data..."} />}>
+                                <IncidentDiscussionModal
+                                    mode="INCIDENT"
+                                    items={items}
+                                    CompanyName={CompanyName}
+                                    CurrentYear={CurrentYear}
+                                    chatState={chatState}
+                                />
+                            </Suspense>
+                        </Box>
+                    </Box>
                 </ModalDialog>
             </Modal>
 

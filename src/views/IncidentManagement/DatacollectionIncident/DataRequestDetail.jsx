@@ -36,7 +36,7 @@ const ReviewInput = lazy(() => import('../Components/ReviewInput'));
 const ApprovalButton = lazy(() => import('../ButtonComponent/ApprovalButton'));
 const FishboneQuestionContainer = lazy(() => import('../FishBoneAnalysis/FishboneQuestionContainer'));
 const FishboneQuestionPreview = lazy(() => import('../FishBoneAnalysis/FishboneQuestionPreview'));
-
+import ChatIcon from '@mui/icons-material/Chat';
 
 const DataRequestDetail = ({
     items,
@@ -46,7 +46,8 @@ const DataRequestDetail = ({
     open,
     setOpen,
     setSaveDetail,
-    savedetail
+    savedetail,
+    setOpenChat
 }) => {
 
     const queryClient = useQueryClient();
@@ -58,6 +59,7 @@ const DataRequestDetail = ({
 
     const [departmentrootcause, setDepartmentRootCause] = useState("");
     const [departmentpreventiveaction, setDepartmentPreventiveAction] = useState("");
+    const [commonreview, setCommonReview] = useState("");
     const [uploadfiles, setUploadFiles] = useState([])
     const [openimages, setIpenImages] = useState(false);
     const [expanded, setExpanded] = useState([]);
@@ -88,6 +90,7 @@ const DataRequestDetail = ({
         })
         ?.filter(item => item.hasPending);
 
+
     //Handle modal Close Fun
     const handleImageClose = () => { setIpenImages(false) };
 
@@ -115,23 +118,31 @@ const DataRequestDetail = ({
     // Handling Department Data Collecion
     const handleDepartmentDataCollection = async () => {
 
+        const isRcaNeeded = hasPending?.[0]?.is_rca_needed === 1
+        const isFistBoneNeeded = hasPending?.[0]?.is_fishbone_needed === 1
+        const isPreventiveNeeded = hasPending?.[0]?.is_preventive_needed === 1
+
+        if (!hasPending?.[0]?.inc_data_collection_slno) return warningNotify("Id is Missing!");
         // Input validation
-        if (!departmentrootcause?.trim())
+        if (isRcaNeeded && !departmentrootcause?.trim())
             return warningNotify("Please Enter the RCA Before Submitting!");
-        if (!departmentpreventiveaction?.trim())
+        if (isPreventiveNeeded && !departmentpreventiveaction?.trim())
             return warningNotify("Please Enter the Preventive Action!");
-        if (![MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT].some(Boolean))
+        if (isFistBoneNeeded && ![MATERIAL, MACHINE, MAN, MILIEU, METHOD, MEASUREMENT].some(Boolean))
             return warningNotify("FishBone : Please Enter Any of the Above Before Submitting!");
+
+        if (!isRcaNeeded && !isPreventiveNeeded && !commonreview?.trim()) return warningNotify("Please Enter Review!");
 
         //  Prepare payloads
         const payload = {
             inc_data_collection_slno: hasPending?.[0]?.inc_data_collection_slno,
-            inc_dep_rca: departmentrootcause,
-            inc_dep_preventive_action: departmentpreventiveaction,
+            inc_dep_rca: departmentrootcause?.trim() || null,
+            inc_dep_preventive_action: departmentpreventiveaction?.trim() || null,
             inc_dep_status: 1,
             inc_req_ack_user: employeeNumber(),
             inc_dep_fba_status: 1,
-            inc_ddc_file_status: uploadedFiles?.length > 0 ? 1 : 0
+            inc_ddc_file_status: uploadedFiles?.length > 0 ? 1 : 0,
+            inc_common_review: commonreview?.trim() || null,
         };
 
         const fishbonedetail = {
@@ -154,13 +165,16 @@ const DataRequestDetail = ({
             if (deptRes?.success !== 2) return warningNotify(deptRes?.message);
             succesNotify(deptRes.message);
             //  Submit fishbone analysis
-            const { data: fishRes } = await axioslogin.post("/incidentMaster/insertfishbone", fishbonedetail);
-            if (fishRes?.success === 2) {
-                succesNotify(fishRes.message);
-                setOpenModal(false)
-            } else {
-                warningNotify(fishRes?.message);
+            if (isFistBoneNeeded) {
+                const { data: fishRes } = await axioslogin.post("/incidentMaster/insertfishbone", fishbonedetail);
+                if (fishRes?.success === 2) {
+                    succesNotify(fishRes.message);
+                    setOpenModal(false)
+                } else {
+                    warningNotify(fishRes?.message);
+                }
             }
+
 
             if (uploadedFiles?.length > 0) {
                 try {
@@ -221,7 +235,23 @@ const DataRequestDetail = ({
     };
 
 
+    const handleChatToggle = () => {
+        setOpenChat(prev => {
+            if (prev?.open) {
+                return {
+                    ...prev,
+                    open: false
+                };
+            }
 
+            return {
+                open: true,
+                actionDetailSlno: hasPending?.[0]?.inc_data_collection_slno,
+                actionType: 'DATA_COLLECTION_REQUEST',
+                module: 'INCIDENT_MANAGEMENT',
+            };
+        });
+    };
 
     return (
         <Suspense fallback={
@@ -244,23 +274,32 @@ const DataRequestDetail = ({
                         weight={600}
                         color="White"
                     />
-
-                    {expanded?.length > 0 && (
-                        <Tooltip title="Collapse All" variant="soft" size="sm">
-                            <Box
-
-                                onClick={handleCollapseAll}
-                                sx={{
-                                    color: "white",
-                                    transition: "transform 0.2s ease-in-out",
-                                    '&:hover': { transform: "scale(1.2)" },
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                <MdCloseFullscreen size={20} />
-                            </Box>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Tooltip title={'open'} variant="plain" size='sm'>
+                            <span onClick={handleChatToggle}
+                                style={{ cursor: 'pointer' }}>
+                                <ChatIcon size={18} color="white" />
+                            </span>
                         </Tooltip>
-                    )}
+                        {expanded?.length > 0 && (
+                            <Tooltip title="Collapse All" variant="soft" size="sm">
+                                <Box
+
+                                    onClick={handleCollapseAll}
+                                    sx={{
+                                        color: "white",
+                                        transition: "transform 0.2s ease-in-out",
+                                        '&:hover': { transform: "scale(1.2)" },
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <MdCloseFullscreen size={20} />
+                                </Box>
+                            </Tooltip>
+                        )}
+
+                    </Box>
+
                 </Box>
 
                 {
@@ -340,6 +379,7 @@ const DataRequestDetail = ({
                                             isOpen={true}
                                             rca={item?.inc_dep_rca}
                                             preventiveAction={item?.inc_dep_preventive_action}
+                                            CommonReview={item?.inc_common_review}
                                             hasFile={item?.inc_ddc_file_status === 1}
                                             fileId={item?.inc_data_collection_slno}
                                             onFileClick={handleActionfileFetching}
@@ -353,10 +393,12 @@ const DataRequestDetail = ({
 
                 {
                     hasPending?.[0]?.fba_status === 0 &&
+                    hasPending?.[0]?.is_fishbone_needed === 1 &&
                     <FishboneQuestionContainer
                         setFormValues={setFormValues}
                         formValues={formValues}
                         open={open}
+                        registraionNo={items?.inc_register_slno}
                         setOpen={setOpen}
                         setSaveDetail={setSaveDetail}
                     />
@@ -366,22 +408,37 @@ const DataRequestDetail = ({
                 {
                     hasPending?.[0]?.inc_dep_status === 0 &&
                     <Box >
-                        <ReviewInput
-                            title={'Root Cause Analysis'}
-                            review={departmentrootcause}
-                            setReview={setDepartmentRootCause}
-                        // disabled={currentReview.disabled}
-                        />
-
-                        <ReviewInput
-                            title={'Preventive Action'}
-                            review={departmentpreventiveaction}
-                            setReview={setDepartmentPreventiveAction}
-                        // disabled={currentReview.disabled}
-                        />
-
                         {
-                            hasPending?.[0]?.fba_status === 0 && savedetail &&
+                            hasPending?.[0]?.is_rca_needed === 1 &&
+                            <ReviewInput
+                                title={'Root Cause Analysis'}
+                                review={departmentrootcause}
+                                setReview={setDepartmentRootCause}
+                            // disabled={currentReview.disabled}
+                            />
+                        }
+                        {hasPending?.[0]?.is_preventive_needed === 1 &&
+                            <ReviewInput
+                                title={'Preventive Action'}
+                                review={departmentpreventiveaction}
+                                setReview={setDepartmentPreventiveAction}
+                            // disabled={currentReview.disabled}
+                            />
+                        }
+                        {
+                            hasPending?.[0]?.is_preventive_needed === 0 &&
+                            hasPending?.[0]?.is_rca_needed === 0 &&
+                            <ReviewInput
+                                title={'Enter Review'}
+                                review={commonreview}
+                                setReview={setCommonReview}
+                            // disabled={currentReview.disabled}
+                            />
+                        }
+                        {
+                            hasPending?.[0]?.is_fishbone_needed === 1 &&
+                            hasPending?.[0]?.fba_status === 0 &&
+                            savedetail &&
                             <FishboneQuestionPreview
                                 data={formValues}
                                 action={true}
