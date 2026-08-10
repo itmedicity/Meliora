@@ -398,7 +398,6 @@ const ModuleGroupMast = () => {
       indentModule: false,
       cdcEmr: false,
       abha: false
-
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -731,14 +730,7 @@ const ModuleGroupMast = () => {
                   variant="outlined"
                   value={indentModule}
                   checked={indentModule}
-                  label="Cdc Emr Module"
-                  color="primary"
-                  size="md"
-                  name="cdcEmr"
-                  variant="outlined"
-                  value={cdcEmr}
-                  checked={cdcEmr}
-                  onCheked={updateModuleGroup}
+
                 />
               </Grid>
               <Grid item xl={12} lg={12}>
