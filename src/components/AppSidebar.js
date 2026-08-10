@@ -56,6 +56,8 @@ import AbhaTransaction from 'src/Menus/AbhaTransaction'
 
 
 import { FaStore } from "react-icons/fa";
+import IndentTranscation from 'src/Menus/IndentTranscation'
+import { AiOutlineMedicineBox } from "react-icons/ai";
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -79,6 +81,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
   const [storeTransaction, setStoreTransaction] = useState(0)
+  const [IndentModule, setIndentModule] = useState(0)
   const [CdcEmr, setCdcEmr] = useState(0)
   const [abha, setabha] = useState(0)
 
@@ -276,6 +279,13 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/Home',
       icon: <FaStore color="var(--true-blue-800)" />
     },
+    {
+      slno: 34,
+      name: 'Indent Module',
+      items: IndentModule,
+      route: '/Home',
+      icon: <AiOutlineMedicineBox color="var(--true-blue-800)" />
+    },
 
     {
       slno: 32,
@@ -341,6 +351,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         const StoreTransact = StoreTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setStoreTransaction(StoreTransact)
 
+        const IncedentTransact = IndentTranscation.filter(val => menuSlnoAry.includes(val.men_slno))
+        setIndentModule(IncedentTransact)
         const CdcEmr = CdcEmrr.filter(val => menuSlnoAry.includes(val.men_slno))
         setCdcEmr(CdcEmr)
 

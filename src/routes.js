@@ -577,6 +577,19 @@ const VendorMaster = React.lazy(() => import('./views/Master/VendorMaster/Vendor
 const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry/WorkOrderEntry'))
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
+const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+const MedicineHome = React.lazy(() => import('./views/IndentModule/MedicineBooking'));
+const Token = React.lazy(() => import('./views/Master/IndentMaster/TokenMaster/TokenMaster'))
+const Appointment = React.lazy(() => import('./views/Master/IndentMaster/Appointment/Appointment'))
+const Division = React.lazy(() => import('./views/Master/IndentMaster/DivisionMaster/DivisionMaster'))
+const IndentTax = React.lazy(() => import('./views/Master/IndentMaster/TaxMaster/Taxmaster'))
+const MedicineRep = React.lazy(() => import('./views/IndentModule/MedicalRep/MedicalRep'));
+const WeeklyBooking = React.lazy(() => import('./views/IndentModule/WeekelyBooking/Weekelybooking'));
+const TokenRep = React.lazy(() => import('./views/IndentModule/Token/token'));
+const MedicineStatus = React.lazy(() => import('./views/IndentModule/MedicineStatus/Medicinestatus'));
+const MedicineInformation = React.lazy(() => import('./views/IndentModule/MedicineInformation/MedicineInformation'));
+const Approvemedicine = React.lazy(() => import('./views/IndentModule/ApprovedMedicine/Approvemedicine'));
+const CrfNotification = React.lazy(() => import('./views/Master/RequestManagement/CrfNotification/CrfNotification'))
 // const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
 
 const routes = [
@@ -610,11 +623,7 @@ const routes = [
   { path: 'Floor', name: 'Floor', element: <Floor /> },
   { path: 'RoomType', name: 'Room Type', element: <RoomType /> },
   { path: 'RoomCategory', name: 'Room Category', element: <RoomCategory /> },
-  {
-    path: 'NotificationMainMeNu',
-    name: 'Notification Main Menu',
-    element: <NotificationMainMeNu />
-  },
+  { path: 'NotificationMainMeNu', name: 'Notification Main Menu', element: <NotificationMainMeNu /> },
   { path: 'NursingStation', name: 'Nursing Station', element: <NursingStation /> },
   { path: 'Diet', name: 'Diet Category', element: <DietCategory /> },
   { path: 'DietIssue', name: 'Diet Issue', element: <DietIssue /> },
@@ -639,11 +648,7 @@ const routes = [
   { path: 'WeWork/InpatientList', name: 'WeWork Inpatient', element: <WeWorkInpatient /> },
   { path: 'Reports', name: 'Reports', element: <Reports /> },
   { path: 'Report/Diet', name: 'Diet Report', element: <DietReport /> },
-  {
-    path: 'Report/NurseStation',
-    name: 'Nurse Station Wise Report',
-    element: <NusrseStationReport />
-  },
+  { path: 'Report/NurseStation', name: 'Nurse Station Wise Report', element: <NusrseStationReport /> },
   { path: 'Report/Patientwise', name: 'Patient Wise Report', element: <PatientReport /> },
   { path: 'DirectComplaint', name: 'Direct Complaint Register', element: <DirectComplaintReg /> },
   { path: 'Report/Monthly', name: 'Monthly Report', element: <MonthlyReport /> },
@@ -658,42 +663,13 @@ const routes = [
   { path: 'EscalationMapping', name: 'Escalation Mapping', element: <EscalationMapping /> },
   { path: 'PendingOnholdComplaint', name: 'Pending Onhold List', element: <PendingOnholdList /> },
   { path: 'TotalDeptWiseList', name: 'Total Comp Dept Wise List', element: <TotalDeptWiseList /> },
-  {
-    path: 'PendingDeptWiseList',
-    name: 'Pending For Assign Comp Dept Wise List',
-    element: <PendingDeptWiseList />
-  },
-  {
-    path: 'AssignDeptWiseList',
-    name: 'Assign Comp Dept Wise List',
-    element: <AssignDeptWiseList />
-  },
-  {
-    path: 'VerifyDeptWiseList',
-    name: 'Verify Comp Dept Wise List',
-    element: <VerifyDeptWiseList />
-  },
-  {
-    path: 'OnHoldPendingDeptWiseList',
-    name: 'Onhold Comp Dept Wise List',
-    element: <OnHoldPendingDeptWiseList />
-  },
-  {
-    path: 'AssignEmpWiseList',
-    name: 'Assign Comp Emp Wise List',
-    element: <AssignEmpWiseList />
-  },
-  {
-    path: 'VerifyEmpWiseList',
-    name: 'Verify Comp Emp Wise List',
-    element: <VerifyEmpWiseList />
-  },
-  {
-    path: 'OnHoldPendingEmpWiseList',
-    name: 'Onhold Comp Emp Wise List',
-    element: <OnHoldPendingEmpWiseList />
-  },
-
+  { path: 'PendingDeptWiseList', name: 'Pending For Assign Comp Dept Wise List', element: <PendingDeptWiseList /> },
+  { path: 'AssignDeptWiseList', name: 'Assign Comp Dept Wise List', element: <AssignDeptWiseList /> },
+  { path: 'VerifyDeptWiseList', name: 'Verify Comp Dept Wise List', element: <VerifyDeptWiseList /> },
+  { path: 'OnHoldPendingDeptWiseList', name: 'Onhold Comp Dept Wise List', element: <OnHoldPendingDeptWiseList /> },
+  { path: 'AssignEmpWiseList', name: 'Assign Comp Emp Wise List', element: <AssignEmpWiseList /> },
+  { path: 'VerifyEmpWiseList', name: 'Verify Comp Emp Wise List', element: <VerifyEmpWiseList /> },
+  { path: 'OnHoldPendingEmpWiseList', name: 'Onhold Comp Emp Wise List', element: <OnHoldPendingEmpWiseList /> },
   { path: 'damaList', name: 'Dama count', element: <DamaCount /> },
   { path: 'BhrcList', name: 'Bhrc List', element: <BhrcCount /> },
   { path: 'roundsAfternoon', name: 'Rounds Afternoon', element: <RoundsAfternoonList /> },
@@ -720,11 +696,7 @@ const routes = [
   { path: 'ComplaintEmpMap', name: 'Compalint EMP Mapping', element: <ComEmpMapping /> },
   { path: 'AssetStockDetails', name: 'Asset Stock Details', element: <AssetStockDetails /> },
   { path: 'CompPriority', name: 'Compalint Priority Master', element: <ComPriorityMast /> },
-  {
-    path: 'AssetDashboardMain',
-    name: 'Registred Compalint List',
-    element: <AssetDashboardMain />
-  },
+  { path: 'AssetDashboardMain', name: 'Registred Compalint List', element: <AssetDashboardMain /> },
   { path: 'CmsReportDeptWise', name: 'Registred Compalint List', element: <CmsReportDeptWise /> },
   { path: 'Campus', name: 'Campus master', element: <CampusMaster /> },
   { path: 'BuildingMast', name: 'Building master', element: <BuildingMast /> },
@@ -740,43 +712,15 @@ const routes = [
   { path: 'CrfDataCollection', name: 'CRF data Collection', element: <CRFDataCollection /> },
   { path: 'RoomDashBoard', name: 'Room Dashboard', element: <RoomDashBoard /> },
   { path: 'RequstToAssign', name: 'Request To Assign Report', element: <RequstToAssign /> },
-  {
-    path: 'RequestToRectify',
-    name: 'Request To Rectification Report',
-    element: <RequestToRectify />
-  },
-  {
-    path: 'RequestToVerify',
-    name: 'Request To Verification Report',
-    element: <RequestToVerify />
-  },
-  {
-    path: 'AssignToRectify',
-    name: 'Assign To Rectification Report',
-    element: <AssignToRectify />
-  },
+  { path: 'RequestToRectify', name: 'Request To Rectification Report', element: <RequestToRectify /> },
+  { path: 'RequestToVerify', name: 'Request To Verification Report', element: <RequestToVerify /> },
+  { path: 'AssignToRectify', name: 'Assign To Rectification Report', element: <AssignToRectify /> },
   { path: 'AssignToVerify', name: 'Assign To Verification Report', element: <AssignToVerify /> },
-  {
-    path: 'RectifyToVerify',
-    name: 'Rectification To Verification Report',
-    element: <RectifyToVerify />
-  },
-  {
-    path: 'ComplaintCategoryReport',
-    name: 'Complaint Category Report',
-    element: <ComplaintCategoryRprt />
-  },
+  { path: 'RectifyToVerify', name: 'Rectification To Verification Report', element: <RectifyToVerify /> },
+  { path: 'ComplaintCategoryReport', name: 'Complaint Category Report', element: <ComplaintCategoryRprt /> },
   { path: 'AreaWiseReport', name: 'Area Wise Compalint Report', element: <AreaWiseCompReport /> },
-  {
-    path: 'ComplaintAssignee',
-    name: 'No Of Complaint per Assignee Report',
-    element: <CompPerAssignee />
-  },
-  {
-    path: 'TatPerAssignee',
-    name: 'TAT per Complaint per Assignee Report',
-    element: <TATCompPerAssignee />
-  },
+  { path: 'ComplaintAssignee', name: 'No Of Complaint per Assignee Report', element: <CompPerAssignee /> },
+  { path: 'TatPerAssignee', name: 'TAT per Complaint per Assignee Report', element: <TATCompPerAssignee /> },
   { path: 'ItemNameCreation', name: 'Item Name Creation', element: <ItemNameCreation /> },
   { path: 'PrimaryCustodian', name: 'Primary Custodian', element: <PrimaryCustodian /> },
   { path: 'SecondaryCustodian', name: ' Secondary Custodian', element: <SecondaryCustodian /> },
@@ -795,37 +739,16 @@ const routes = [
   { path: 'ScheduleType', name: 'Backup Schedule Type', element: <BackupScheduleType /> },
   { path: 'ScheduleTime', name: 'Backup Schedule Time', element: <BackupScheduleTime /> },
   { path: 'BackupMast', name: 'Backup Details', element: <Backupmast /> },
-
-  {
-    path: 'CredentialType',
-    name: 'Credential Type',
-    element: <PasswordManagementCredentialType />
-  },
+  { path: 'CredentialType', name: 'Credential Type', element: <PasswordManagementCredentialType /> },
   { path: 'AssetRackMast', name: 'Asset Rack Master', element: <AssetRackMast /> },
-  {
-    path: 'TaskManagementDashboard',
-    name: 'TaskManagement Dashboard',
-    element: <TaskManagementMainDashboard />
-  },
-  {
-    path: 'TaskManagementCreateTask',
-    name: 'TaskManagement Create Task',
-    element: <TaskManagementMainCreateTask />
-  },
+  { path: 'TaskManagementDashboard', name: 'TaskManagement Dashboard', element: <TaskManagementMainDashboard /> },
+  { path: 'TaskManagementCreateTask', name: 'TaskManagement Create Task', element: <TaskManagementMainCreateTask /> },
   { path: 'ItSimdetails', name: 'It Sim Details', element: <ITSimDetails /> },
-  {
-    path: 'AssetDeptTransfer',
-    name: 'Asset Department Transfer',
-    element: <AssetDepartmentTransfer />
-  },
+  { path: 'AssetDeptTransfer', name: 'Asset Department Transfer', element: <AssetDepartmentTransfer /> },
   { path: 'AssetItemReport', name: 'Asset Item Report', element: <AssetItemReport /> },
   { path: 'RequestRegister', name: 'Request Register', element: <RequestRegister /> },
   { path: 'CRFInchargeApproval', name: 'CRF Incharge Approval', element: <CRFIncharge /> },
-  {
-    path: 'Req.DepartmentApproval',
-    name: 'Request Departmental Approval',
-    element: <ReqDepartmentApproval />
-  },
+  { path: 'Req.DepartmentApproval', name: 'Request Departmental Approval', element: <ReqDepartmentApproval /> },
   { path: 'DMSApproval', name: 'DMS Approval', element: <DMSApproval /> },
   { path: 'CrfMSApproval', name: 'CRF MS Approval', element: <CRFMSApproval /> },
   { path: 'Req.OMApproval', name: 'Request OM Approval', element: <ReqOMApproval /> },
@@ -835,36 +758,16 @@ const routes = [
   { path: 'Req.MDApproval', name: 'Request MD Approval', element: <ReqMDApproval /> },
   { path: 'NdrfPurchase', name: 'Request Purchase', element: <NdrfPurchase /> },
   { path: 'CrfDashboard', name: 'CRF Dashboard', element: <CRFDashboard /> },
-  {
-    path: 'DeptSecBasedItemReport',
-    name: 'Department Section Based Item Report',
-    element: <DeptSecBasedItemReport />
-  },
-  {
-    path: 'TaskManagementEmployeeTask',
-    name: 'TaskManagement Employee Task',
-    element: <TaskManagementEmployeeTask />
-  },
+  { path: 'DeptSecBasedItemReport', name: 'Department Section Based Item Report', element: <DeptSecBasedItemReport /> },
+  { path: 'TaskManagementEmployeeTask', name: 'TaskManagement Employee Task', element: <TaskManagementEmployeeTask /> },
   { path: 'EmergencyType', name: 'Emmergency Type Master', element: <EmergencyTypeMast /> },
-  {
-    path: 'CrfNewRequestRegister',
-    name: 'CRF Nw Request Register',
-    element: <CrfNewReqRegister />
-  },
+  { path: 'CrfNewRequestRegister', name: 'CRF Nw Request Register', element: <CrfNewReqRegister /> },
   { path: 'AssetDashboardM', name: 'Asset Inter Departme', element: <AssetDashboardM /> },
-  {
-    path: 'CensusDept',
-    name: 'Daily Census Department Section',
-    element: <CensusDptMast />
-  },
+  { path: 'CensusDept', name: 'Daily Census Department Section', element: <CensusDptMast /> },
   { path: 'QualityIndicator', name: 'Quality Indicator List', element: <QualityIndicator /> },
   { path: 'TMdepartmentReport', name: 'TM department Report', element: <TMdepartmentReport /> },
   { path: 'TMEmployeeReport', name: 'TM employee Report', element: <TMEmployeeReport /> },
-  {
-    path: 'TaskManagementTaskLists',
-    name: 'TaskManagement TaskList',
-    element: <TaskManagementTaskLists />
-  },
+  { path: 'TaskManagementTaskLists', name: 'TaskManagement TaskList', element: <TaskManagementTaskLists /> },
   { path: 'DailyCensus', name: 'Daily Census Entry', element: <DailyCensus /> },
   { path: 'DailyCensusReport', name: 'Daily Census Report', element: <DailyCensusReport /> },
   { path: 'CRFNewInchargeApproval', name: 'Incharge Approval', element: <CRFNewIncharge /> },
@@ -877,11 +780,7 @@ const routes = [
   { path: 'CRFNewMDApproval', name: 'MD Approval', element: <CRFNewMD /> },
   { path: 'CRFNewEDApproval', name: 'ED Approval', element: <CRFNewED /> },
   { path: 'CrfNewDashBoard', name: 'CRF Dashboard', element: <CRFNewDashboard /> },
-  {
-    path: 'CrfNewDataCollection',
-    name: 'CRF Data Collection',
-    element: <CrfNewDataCollection />
-  },
+  { path: 'CrfNewDataCollection', name: 'CRF Data Collection', element: <CrfNewDataCollection /> },
   { path: 'CRFNewPdfView', name: 'CRF New PDF View', element: <CRFNewPdfView /> },
   { path: 'CRFNewPurchase', name: 'CRF New Purchase', element: <CRFNewPurchase /> },
   { path: 'CRFNewCRSStore', name: 'CRF New CRS Store', element: <CRFNewCRSStore /> },
@@ -890,11 +789,7 @@ const routes = [
   { path: 'BillAdds', name: 'Bill Adds', element: <BillAdds /> },
   { path: 'BillCategory', name: 'Bill Category', element: <BillCategory /> },
   { path: 'BillType', name: 'Bill Type', element: <BillType /> },
-  {
-    path: 'BillSupplierDetailsMast',
-    name: 'Bill Supplier Details Mast',
-    element: <BillSupplierDetailsMast />
-  },
+  { path: 'BillSupplierDetailsMast', name: 'Bill Supplier Details Mast', element: <BillSupplierDetailsMast /> },
   { path: 'QIDeptMast', name: 'Quality Department Mast', element: <QIdept /> },
   { path: 'QIPatientMarking', name: 'Dept Wise Patient Marking', element: <QIPatientMarking /> },
   { path: 'AcceptTask', name: 'TaskManagement AcceptTask', element: <AcceptTask /> },
@@ -911,37 +806,17 @@ const routes = [
   { path: 'QiHOD', name: 'Level II Approval', element: <QiHodAprv /> },
   { path: 'CrfNoBased', name: 'CRF No Based', element: <CrfNoBased /> },
   { path: 'userAckldged', name: 'User Acknowledged CRF', element: <UserAcknowldged /> },
-  {
-    path: 'WaitingReport',
-    name: 'Waiting Time For Service Diagnostics',
-    element: <QiWaitingTime />
-  },
-  {
-    path: 'TMOverdueCountMaster',
-    name: 'TM Overdue Count Master',
-    element: <TMOverdueCountMaster />
-  },
-  {
-    path: 'TaskPerformanceSheet',
-    name: 'Task Performance Sheet',
-    element: <TaskPerformanceSheet />
-  },
-  {
-    path: 'TaskPerformanceSlide',
-    name: 'Task Performance Slide',
-    element: <TaskPerformanceSlide />
-  },
+  { path: 'WaitingReport', name: 'Waiting Time For Service Diagnostics', element: <QiWaitingTime /> },
+  { path: 'TMOverdueCountMaster', name: 'TM Overdue Count Master', element: <TMOverdueCountMaster /> },
+  { path: 'TaskPerformanceSheet', name: 'Task Performance Sheet', element: <TaskPerformanceSheet /> },
+  { path: 'TaskPerformanceSlide', name: 'Task Performance Slide', element: <TaskPerformanceSlide /> },
   { path: 'userNotAckldged', name: 'User Not Acknowledged CRF', element: <UserNotAcknowldged /> },
   { path: 'purchaseCRFReport', name: 'Purchase CRF Report', element: <PurchaseCRFReport /> },
   { path: 'AllCRFReport', name: 'All CRF Report', element: <AllCRFReport /> },
   { path: 'feedback', name: 'Feedback', element: <FeedbackForm /> },
   { path: 'QIdeptAccess', name: 'QI Department Access Mast', element: <DeptAcess /> },
   { path: 'AssetServiceList', name: 'Spare Service List', element: <AssetServiceList /> },
-  {
-    path: 'AssetCondemnationList',
-    name: 'Asset Spare Condemnation List',
-    element: <AssetCondemnationList />
-  },
+  { path: 'AssetCondemnationList', name: 'Asset Spare Condemnation List', element: <AssetCondemnationList /> },
   { path: 'PmDueList', name: 'PM Due List in Asset', element: <PmDueList /> },
   { path: 'DeliveryMarking', name: 'CRS Delivery Marking', element: <DeliverMarking /> },
   { path: 'ItemChecking', name: 'Item Checking', element: <ItemChecking /> },
@@ -949,16 +824,8 @@ const routes = [
   { path: 'CompanyMast', name: 'Company Master', element: <CompanyName /> },
   { path: 'CrfBiomedical', name: 'CRF Biomedical View', element: <CrfBiomedical /> },
   { path: 'ApprovalMapping', name: 'CRF Approval Mapping Master', element: <ApprovalMapping /> },
-  {
-    path: 'CRFNewManagingDirector',
-    name: 'Managing Director Approval',
-    element: <ManagingDirectorApproval />
-  },
-  {
-    path: 'ViewCategoryMaster',
-    name: 'MenuView Category Master',
-    element: <ViewCategoryMaster />
-  },
+  { path: 'CRFNewManagingDirector', name: 'Managing Director Approval', element: <ManagingDirectorApproval /> },
+  { path: 'ViewCategoryMaster', name: 'MenuView Category Master', element: <ViewCategoryMaster /> },
   { path: 'CrfView', name: 'Crf View', element: <CrfView /> },
   { path: 'CrfStoreMaster', name: 'Crf StoreMaster', element: <CrfStoreMaster /> },
   { path: 'CrfCommon', name: 'Crf Common Master', element: <CrfCommon /> },
@@ -968,11 +835,7 @@ const routes = [
   { path: 'ItBackupTypeMast', name: 'ItBackupTypeMast', element: <ItBackupTypeMast /> },
   { path: 'SimOperator', name: 'SimOperator', element: <SimOperator /> },
   { path: 'DashBoardMaster', name: 'DashBoardMaster', element: <CrfDashboardMaster /> },
-  {
-    path: 'DataCollectionMaster',
-    name: 'DataCollectionMaster',
-    element: <DataCollectionMaster />
-  },
+  { path: 'DataCollectionMaster', name: 'DataCollectionMaster', element: <DataCollectionMaster /> },
   { path: 'DepartmentMapping', name: 'DashBoardMaster', element: <DepartmentMapping /> },
   { path: 'AmsMaster', name: 'AmsMaster', element: <AmsMaster /> },
   { path: 'AmsPatientDetails', name: 'Ams Patient Details', element: <AmsPatientDetails /> },
@@ -990,121 +853,27 @@ const routes = [
   { path: 'CrfTatReport', name: 'CrfTatReport', element: <CrfTatReport /> },
   { path: 'CrfApprovalpending', name: 'CrfApprovalpending', element: <CrfApprovalpending /> },
   { path: 'PendingPo', name: 'PendingPo', element: <PendingPo /> },
-
-  {
-    path: 'AssetCondemApprovalLevels',
-    name: 'AssetCondemApprovalLevels',
-    element: <CondemApprovalLevelMast />
-  },
-  {
-    path: 'AssetCondemnInchargeApproval',
-    name: 'Asset Condemn Incharge Approval',
-    element: <CondemnInchargeApproval />
-  },
-  {
-    path: 'CondemHodApproval',
-    name: 'CondemHodApproval',
-    element: <CondemHodApproval />
-  },
-  {
-    path: 'CondemnAllApproveMain',
-    name: 'CondemnAllApproveMain',
-    element: <CondemnAllApproveMain />
-  },
-  {
-    path: 'CondemnationCategoryMaster',
-    name: 'CondemnationCategoryMaster',
-    element: <CondemnCategoryMast />
-  },
-  {
-    path: 'CondemnationScarpYard',
-    name: 'CondemnationScarpYard',
-    element: <ScrapYardMain />
-  },
-  {
-    path: 'CondemQualityMaster',
-    name: 'CondemQualityMaster',
-    element: <CondemnQualityMast />
-  },
-
-  {
-    path: 'CondemnQuantityUnit',
-    name: 'CondemnQuantityUnit',
-    element: <CondemUnitMaster />
-  },
-
-  {
-    path: 'CondemnSupplierRate',
-    name: 'CondemnSupplierRate',
-    element: <SupplierCondemRateDetails />
-  },
-
-
-  {
-    path: 'ScrapFormLevelApprove',
-    name: 'ScrapFormLevelApprove',
-    element: <ScrapLevelApproveMaster />
-  },
-
-  {
-    path: 'CondemnedItemCategorization',
-    name: 'CondemnedItemCategorization',
-    element: <ScrapItemMain />
-  },
-  {
-    path: 'condemScrapFormApprovals',
-    name: 'condemScrapFormApprovals',
-    element: <ScrapApproveMain />
-  },
-  {
-    path: 'CustodianTransfer',
-    name: 'CustodianTransfer',
-    element: <CustodianTransfer />
-  },
-
-
-  {
-    path: 'HoldticketPendingTicketsReportReport',
-    name: 'PendingTicketsReport',
-    element: <HoldticketReport />
-  },
-  {
-    path: 'PendingTicketsReport',
-    name: 'PendingTicketsReport',
-    element: <PendingTicketsReport />
-  },
-  {
-    path: 'PendingTicketsCountReport',
-    name: 'PendingTicketsCountReport',
-    element: <PendingTicketsCountReport />
-  },
-  {
-    path: 'CondemnationAssetOld',
-    name: 'CondemnationAssetOld',
-    element: <CondemnationAssetOld />
-  },
-  {
-    path: 'DeliveryMarking_Report',
-    name: 'DeliveryMarking_Report',
-    element: <DeliveryMarking_Report />
-  },
-  {
-
-    path: 'LevelMaster',
-    name: 'LevelMaster',
-    element: <LevelMaster />
-  },
-  {
-    path: 'IcuDashboard',
-    name: 'IcuDashboard',
-    element: <IcuDashboard />
-  },
-  {
-    path: 'AllDeviceCredentialList',
-    name: 'AllDeviceCredentialList',
-    element: <AllDeviceCredentialList />
-  },
-
+  { path: 'AssetCondemApprovalLevels', name: 'AssetCondemApprovalLevels', element: <CondemApprovalLevelMast /> },
+  { path: 'AssetCondemnInchargeApproval', name: 'Asset Condemn Incharge Approval', element: <CondemnInchargeApproval /> },
+  { path: 'CondemHodApproval', name: 'CondemHodApproval', element: <CondemHodApproval /> },
+  { path: 'CondemnAllApproveMain', name: 'CondemnAllApproveMain', element: <CondemnAllApproveMain /> },
+  { path: 'CondemnationCategoryMaster', name: 'CondemnationCategoryMaster', element: <CondemnCategoryMast /> },
+  { path: 'CondemnationScarpYard', name: 'CondemnationScarpYard', element: <ScrapYardMain /> },
+  { path: 'CondemQualityMaster', name: 'CondemQualityMaster', element: <CondemnQualityMast /> },
+  { path: 'CondemnQuantityUnit', name: 'CondemnQuantityUnit', element: <CondemUnitMaster /> },
+  { path: 'CondemnSupplierRate', name: 'CondemnSupplierRate', element: <SupplierCondemRateDetails /> },
+  { path: 'ScrapFormLevelApprove', name: 'ScrapFormLevelApprove', element: <ScrapLevelApproveMaster /> },
+  { path: 'CondemnedItemCategorization', name: 'CondemnedItemCategorization', element: <ScrapItemMain /> },
+  { path: 'condemScrapFormApprovals', name: 'condemScrapFormApprovals', element: <ScrapApproveMain /> },
+  { path: 'CustodianTransfer', name: 'CustodianTransfer', element: <CustodianTransfer /> },
+  { path: 'HoldticketPendingTicketsReportReport', name: 'PendingTicketsReport', element: <HoldticketReport /> },
+  { path: 'PendingTicketsReport', name: 'PendingTicketsReport', element: <PendingTicketsReport /> },
+  { path: 'PendingTicketsCountReport', name: 'PendingTicketsCountReport', element: <PendingTicketsCountReport /> },
+  { path: 'CondemnationAssetOld', name: 'CondemnationAssetOld', element: <CondemnationAssetOld /> },
+  { path: 'DeliveryMarking_Report', name: 'DeliveryMarking_Report', element: <DeliveryMarking_Report /> },
+  { path: 'LevelMaster', name: 'LevelMaster', element: <LevelMaster /> },
+  { path: 'IcuDashboard', name: 'IcuDashboard', element: <IcuDashboard /> },
+  { path: 'AllDeviceCredentialList', name: 'AllDeviceCredentialList', element: <AllDeviceCredentialList /> },
   { path: 'DcReport', name: 'DcReport', element: <DcReport /> },
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
@@ -1124,32 +893,26 @@ const routes = [
   { path: 'dcmapmaster', name: 'Data Collection Map Master', element: <IncDataCollectionEmpRightMap /> },
   // { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
 
-  {
-    path: 'StoreReport',
-    name: 'StoreReport',
-    element: <StoreReport />
-  },
-  {
-    path: 'StoreReportMaster',
-    name: 'StoreReportMaster',
-    element: <StoreReportMaster />
-  },
-  {
-    path: 'WorkOrderList',
-    name: 'WorkOrderList',
-    element: <WorkOrderList />
-  },
-  {
-    path: 'menumaster',
-    name: 'Menu Master',
-    element: <MenuMaster />
-  },
-  {
-    path: 'Inccommonview/:id',
-    name: 'Incident Common View',
-    element: <IncidentCommonView />
-  },
-
+  { path: 'StoreReport', name: 'StoreReport', element: <StoreReport /> },
+  { path: 'StoreReportMaster', name: 'StoreReportMaster', element: <StoreReportMaster /> },
+  { path: 'WorkOrderList', name: 'WorkOrderList', element: <WorkOrderList /> },
+  { path: 'menumaster', name: 'Menu Master', element: <MenuMaster /> },
+  { path: 'Inccommonview/:id', name: 'Incident Common View', element: <IncidentCommonView /> },
+  { path: 'VendorMaster', name: 'VendorMaster', element: <VendorMaster /> },
+  { path: 'WorkOrderEntry', name: 'WorkOrderEntry', element: <WorkOrderEntry /> },
+  { path: 'WorkOrderApproval', name: 'WorkOrderApproval', element: <WorkOrderApproval /> },
+  { path: 'MedicineHome', name: 'Medicine Details', element: <MedicineHome /> },
+  { path: 'Token', name: 'Token Count', element: <Token /> },
+  { path: 'Appointment', name: 'Appointment Dates', element: <Appointment /> },
+  { path: 'Division', name: 'Division', element: <Division /> },
+  { path: 'IndentTax', name: 'Indent Tax Master', element: <IndentTax /> },
+  { path: 'MedicineRep', name: 'Medicine Rep ', element: <MedicineRep /> },
+  { path: 'WeeklyBooking', name: 'Weekly Booking', element: <WeeklyBooking /> },
+  { path: 'TokenRep', name: 'TokenRep', element: <TokenRep /> },
+  { path: 'MedicineStatus', name: 'MedicineStatus', element: <MedicineStatus /> },
+  { path: 'Medicineinformation', name: 'Medicineinformation', element: <MedicineInformation /> },
+  { path: 'Approvemedicine', name: 'Approvemedicine', element: <Approvemedicine /> },
+  { path: 'CrfNotification', name: 'CrfNotification', element: <CrfNotification /> },
   {
     path: 'VendorMaster',
     name: 'VendorMaster',
