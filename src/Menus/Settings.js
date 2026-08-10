@@ -36,7 +36,7 @@ import {
   Indent_One,
   Indent_Three,
   Indent_Two,
-  Cdc_one
+  // Cdc_one
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
