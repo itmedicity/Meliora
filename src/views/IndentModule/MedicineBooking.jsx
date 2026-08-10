@@ -123,3 +123,14 @@
 // }
 
 // export default MedicineBooking
+
+
+import React from 'react'
+
+const MedicineBooking = () => {
+    return (
+        <div>MedicineBooking</div>
+    )
+}
+
+export default MedicineBooking
