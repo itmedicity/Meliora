@@ -201,10 +201,19 @@ export const Inc_Two = [
     { to: '/Home/CommonSetting', name: 'Incident Common Setting', slno: 334 },
     { to: '/Home/commonsettingmap', name: 'Incident Common Setting Map Master', slno: 335 },
     { to: '/Home/categorymaster', name: 'Incident Category Master', slno: 288 },
+    { to: '/Home/eventconfig', name: 'Notification Config Master', slno: 356 },
 ]
 export const Inc_Three = [
     { to: '/Home/subcategorymaster', name: 'Incident SubCategory Master', slno: 289 },
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
+    { to: '/Home/whatsappmaster', name: 'WhatsApp Master', slno: 354 },
+    { to: '/Home/eventmaster', name: 'Notification Master', slno: 355 },
+
+]
+//cdc emr
+
+export const Cdc_one = [
+    { to: '/Home/CdcEmrSetting', name: 'CDC Emr Setting', slno: 339 },
 ]
 
 

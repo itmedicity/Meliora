@@ -110,6 +110,7 @@ const TabComponent = ({ TabDetails, edit, fetchAgain, TotalLevelDepartments, lev
                                 },
                             }} >
                             {TabDetails?.map((item, inx) => {
+
                                 return (
                                     <Tab key={inx} disableIndicator variant="soft" sx={{ flexGrow: 1, position: 'relative' }}>
                                         <Badge

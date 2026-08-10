@@ -5,6 +5,7 @@ import EditButton from 'src/views/Components/EditButton'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
 const ModuleGroupTable = ({ count, rowSelect }) => {
   const [tabledata, setTabledata] = useState([])
+
   const [column] = useState([
     { headerName: 'SlNo', field: 'mod_grp_slno' },
     { headerName: 'Module Group Name', field: 'mod_grp_name', filter: 'true' },

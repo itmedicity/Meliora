@@ -89,7 +89,7 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
                   <LiveClock />
                 </Box>                {/* <Box sx={{ fontWeight: 600,fontSize:12,fontFamily: 'var(--roboto-font)'  }} >Hospital Administration System</Box> */}
               </Box>
-            
+
               <Dropdown>
                 <MenuButton
                   sx={{ ml: 2, background: 'var(--royal-purple-100)' }}
