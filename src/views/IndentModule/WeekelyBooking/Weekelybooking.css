@@ -1,0 +1,339 @@
+/* Main Card Container */
+.calendar-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Hide default react-big-calendar toolbar */
+.rbc-toolbar {
+  display: none !important;
+}
+
+/* Custom Header Toolbar Styling */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.arrow-pill {
+  display: flex;
+  background-color: #926fb1;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #7d5ba1;
+}
+
+.arrow-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  height: 36px;
+}
+
+.arrow-btn:hover {
+  background-color: #8260a2;
+}
+
+.arrow-btn:first-child {
+  border-right: 1px solid #7d5ba1;
+}
+
+.today-btn {
+  background-color: #b49ccb;
+  color: #ffffff;
+  border: none;
+  padding: 0 16px;
+  height: 36px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.today-btn:hover {
+  background-color: #a285ba;
+}
+
+.title-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a252c;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.view-group {
+  display: flex;
+  background-color: #926fb1;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #7d5ba1;
+  padding: 2px;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 6px 16px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-btn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.view-btn.active {
+  background-color: #7d5ba1;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* React Big Calendar Grid Customizations */
+.rbc-month-view {
+  border: 1px solid #eaeaea !important;
+  border-radius: 0 0 12px 12px !important;
+  background-color: #ffffff !important;
+}
+
+.rbc-header {
+  border-bottom: 1px solid #eaeaea !important;
+  padding: 14px 0 !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  color: #926fb1 !important;
+  background-color: #ffffff !important;
+}
+
+.rbc-header+.rbc-header {
+  border-left: 1px solid #eaeaea !important;
+}
+
+.rbc-day-bg {
+  background-color: #ffffff !important;
+}
+
+.rbc-day-bg+.rbc-day-bg {
+  border-left: 1px solid #eaeaea !important;
+}
+
+.rbc-month-row {
+  border-bottom: 1px solid #eaeaea !important;
+}
+
+.rbc-month-row+.rbc-month-row {
+  border-top: none !important;
+}
+
+/* Day Numbers */
+.rbc-date-cell {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: #4a5568 !important;
+  padding: 8px 12px !important;
+  text-align: right !important;
+}
+
+.rbc-off-range {
+  color: #c0c8cc !important;
+}
+
+.rbc-off-range-bg {
+  background-color: #fafafa !important;
+}
+
+/* Selected Cell Lavender Highlight */
+.selected-day-cell {
+  background-color: #dbe0f9 !important;
+  /* Soft blueish lavender overlay */
+  position: relative !important;
+}
+
+.selected-day-cell::before {
+  content: 'Selected';
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #8c94cc;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Calendar Event Styles */
+.rbc-event {
+  background-color: #926fb1 !important;
+  border-radius: 4px !important;
+  font-size: 0.8rem !important;
+  padding: 2px 6px !important;
+}
+
+.rbc-show-more {
+  color: #926fb1 !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+}
+
+/* Today Cell Highlight */
+.rbc-today {
+  background-color: #f5f1fa !important;
+  /* Soft purple background tint */
+}
+
+/* Today Date Number Highlight */
+.rbc-today .rbc-button-link {
+  background-color: #926fb1 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 4px 8px 0 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Remove default blue/green selection cell overlay */
+.rbc-selected-cell {
+  background-color: transparent !important;
+}
+
+
+/* Ensure selected style takes priority over today cell background color */
+.selected-day-cell.rbc-today {
+  background-color: #dbe0f9 !important;
+}
+
+/* Compact & Clean Table Styles */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  padding: 0;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+.custom-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #f8fafc;
+}
+
+.custom-table tbody tr {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s ease;
+}
+
+.custom-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.custom-table tbody td {
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+
+.status-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-pending {
+  background: rgba(217, 119, 6, 0.1);
+  color: #d97706;
+}
+
+.status-approved {
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+}
+
+.status-rejected {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+.action-btn {
+  background: #dbe0f9 !important;
+  color: #7c51a1 !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  padding: 6px 12px !important;
+  font-size: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  border: 1px solid rgba(124, 81, 161, 0.2) !important;
+  margin-left: 4px;
+}
+
+.action-btn:hover {
+  background: #7c51a1 !important;
+  color: #ffffff !important;
+}
+
+.action-btn:active {
+  background: #634082 !important;
+  border-color: #634082 !important;
+}

@@ -378,4 +378,20 @@ export const getAllModuleList = async () => {
     return [];
   }
 };
+export const getDefaultRepData = async () => {
+  return axioslogin.get('/indent/getRepData').then(res => {
+    const { success, data } = res.data
+    if (success === 1 && data.length > 0) {
+      return data
+    } else {
+      return []
+    }
+  })
+}
+
+export const postRepStatus = async postData => {
+  return axioslogin.post('/indent/statusUpdate', postData).then(res => {
+    return res.data
+  })
+}
 

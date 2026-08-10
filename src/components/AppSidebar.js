@@ -52,6 +52,8 @@ import { MdPattern } from "react-icons/md";
 import DeviceCredentialTransactions from 'src/Menus/DeviceCredentialTransactions'
 import StoreTransaction from 'src/Menus/StoreTransaction'
 import { FaStore } from "react-icons/fa";
+import IndentTranscation from 'src/Menus/IndentTranscation'
+import { AiOutlineMedicineBox } from "react-icons/ai";
 
 const AppSidebar = ({ collapsed, setCollapsed }) => {
   const navigation = useNavigate()
@@ -75,6 +77,7 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
   const [count, setCount] = useState(0)
   const [menu, setMenu] = useState([])
   const [storeTransaction, setStoreTransaction] = useState(0)
+  const [IndentModule, setIndentModule] = useState(0)
 
 
   const {
@@ -270,6 +273,13 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
       route: '/Home',
       icon: <FaStore color="var(--true-blue-800)" />
     },
+    {
+      slno: 34,
+      name: 'Indent Module',
+      items: IndentModule,
+      route: '/Home',
+      icon: <AiOutlineMedicineBox color="var(--true-blue-800)" />
+    },
 
   ]
 
@@ -317,6 +327,8 @@ const AppSidebar = ({ collapsed, setCollapsed }) => {
         const StoreTransact = StoreTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         setStoreTransaction(StoreTransact)
 
+        const IncedentTransact = IndentTranscation.filter(val => menuSlnoAry.includes(val.men_slno))
+        setIndentModule(IncedentTransact)
         // const LabResultTrans = LabResultTransaction.filter(val => menuSlnoAry.includes(val.men_slno))
         // setLabResultTransact(LabResultTrans)
       }

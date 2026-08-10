@@ -306,262 +306,6 @@ const CommonSettingMapMaster = React.lazy(() => import('./views/Master/IncidentM
 const IncidentCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentCategoryMaster/IncidentCategoryMaster'));
 const IncidentSubCategoryMaster = React.lazy(() => import('./views/Master/IncidentManagement/IncidentSubCategoryMaster/IncidentSubCategoryMaster'));
 const IncDataCollectionEmpRightMap = React.lazy(() => import('./views/Master/IncidentManagement/DataCollectionMaster/IncDataCollectionEmpRightMap'));
-
-// const CommonSetting = React.lazy(() => import('./views/Master'));
-// const IncidentApprovals = React.lazy(() => import('./views/IncidentManagement/IncidentApprovals'))
-
-// const routes = [
-//   { path: '/', exact: true, name: 'Home' },
-//   { path: '/NotCorect', exact: true, name: 'NotCorect', component: NotCorect },
-//   { path: '/Home', exact: true, name: 'Home', component: Home },
-//   { path: '/Home/Settings', exact: true, name: 'Settings', component: Settings },
-//   { path: '/Home/Administration', exact: true, name: 'Administator', component: Administrtion },
-//   { path: '/Home/Department', exact: true, name: 'Department Mast', component: DepartmentMast },
-//   { path: '/Home/DepartmentSection', exact: true, name: 'Department Mast', component: DepartmentSectionMast },
-//   { path: '/Home/ComplaintDepartment', exact: true, name: 'Complaint Department', component: ComplaintDepartment },
-//   { path: '/Home/ComplaintRegister', exact: true, name: 'Complaint Register', component: ComplaintRegister },
-//   { path: '/Home/Group', exact: true, name: 'User Group Master', component: UserGroupMast },
-//   { path: '/Home/ModuleMast', name: 'Module Master', component: ModuleMast },
-//   { path: '/Home/UserGroupRight', exact: true, name: 'User Group Rights', component: UserGroupRights },
-//   { path: '/Home/ModuleGroupMast', exact: true, name: 'Module group Master', component: ModuleGroupMast },
-//   { path: '/Home/RequestType', exact: true, name: 'Request Type', component: RequestType },
-//   { path: '/Home/ComplaintType', exact: true, name: 'Complaint Type', component: ComplaintType },
-//   { path: '/Home/HicPolicy', exact: true, name: 'Hic Policy', component: HicPolicy },
-//   { path: '/Home/holdReasonsinTicket', exact: true, name: 'hold Reasons in Ticket', component: holdReason },
-//   { path: '/Home/ModuleUserRight', exact: true, name: 'Module User Right', component: moduleuserRight },
-//   { path: '/Home/AssignComplaint', exact: true, name: 'Assign Complaint', component: assignComplaint },
-//   { path: '/Home/DepartmentAssets', exact: true, name: 'Compliant List', component: DepartmentAssets },
-//   { path: '/Home/AssetType', exact: true, name: 'Asset Type', component: AssetType },
-//   { path: '/Home/ItemType', exact: true, name: 'Item Type', component: ItemType },
-//   { path: '/Home/ItemCategory', exact: true, name: 'Item Category', component: ItemCategory },
-//   { path: '/Home/SubCategory', exact: true, name: 'Sub Category', component: SubCategory },
-//   { path: '/Home/AssetGroup', exact: true, name: 'Group', component: AssetGroup },
-//   { path: '/Home/SubGroup', exact: true, name: 'SubGroup', component: SubGroup },
-//   { path: '/Home/Manufacture', exact: true, name: 'Manufacture', component: Manufacture },
-//   { path: '/Home/Building', exact: true, name: 'Building', component: Building },
-//   { path: '/Home/Floor', exact: true, name: 'Floor', component: Floor },
-//   { path: '/Home/RoomType', exact: true, name: 'RoomType', component: RoomType },
-//   { path: '/Home/RoomCategory', exact: true, name: 'RoomCategory', component: RoomCategory },
-//   { path: '/Home/NotificationMainMeNu', exact: true, name: 'NotificationMainMeNu', component: NotificationMainMeNu },
-//   { path: '/Home/NursingStation', exact: true, name: 'NursingStation', component: NursingStation },
-//   { path: '/Home/Diet', exact: true, name: 'DietCategory', component: DietCategory },
-//   { path: '/Home/DietIssue', exact: true, name: 'DietIssue', component: DietIssue },
-//   { path: '/Home/DietType', exact: true, name: 'DietType', component: DietType },
-//   { path: '/Home/RateList', exact: true, name: 'RateList', component: RateList },
-//   { path: '/Home/InpatientList', exact: true, name: 'In-Patient List', component: InpatientList },
-//   { path: '/Home/DietProcess', exact: true, name: 'Diet Process', component: DietProcess },
-//   { path: '/Home/UserCreation', exact: true, name: 'User Creation', component: UserCreation },
-//   { path: '/Home/UserCreationTable', exact: true, name: 'User Creation Table', component: UserCreationTable },
-//   { path: '/Home/RoomCreation', exact: true, name: 'Room Creation', component: RoomCreation },
-//   { path: '/Home/SubRoomCreation', exact: true, name: ' Sub Room Creation', component: SubRoomCreation },
-//   { path: '/Home/DietMenuSetting', exact: true, name: 'Diet Plan', component: DietMenuSetting },
-//   { path: '/Home/ItemGroup', exact: true, name: 'Item Group', component: ItemGroup },
-//   { path: '/Home/ItemMaster', exact: true, name: ' Item Master', component: ItemMaster },
-//   { path: '/Home/DietDetail', exact: true, name: 'Diet Detail', component: DietDetail },
-//   { path: '/Home/DietApproval', exact: true, name: ' Diet Approval', component: DietApproval },
-//   { path: '/Home/DietPlanList', exact: true, name: ' Diet Approval', component: DietPlanList },
-//   { path: '/Home/DietOrderList', exact: true, name: ' Diet Order List', component: DietOrderList },
-//   { path: '/Home/DietExtraOrder', exact: true, name: ' Diet Extra Order', component: DietExtraOrder },
-//   { path: '/Home/DietDelivery', exact: true, name: ' Diet Delivery', component: DietDelivery },
-//   { path: '/Home/RectifyComplaint', exact: true, name: 'Rectify Complaint', component: RectifyComplaint },
-//   { path: '/Home/WeWork/InpatientList', exact: true, name: 'WeWork Inpatient', component: WeWorkInpatient },
-//   { path: '/Home/Reports', exact: true, name: 'Reports', component: Reports },
-//   { path: '/Home/Report/Diet', exact: true, name: 'Diet Report', component: DietReport },
-//   { path: '/Home/Report/NurseStation', exact: true, name: 'Nuse Station Wise Report', component: NusrseStationReport },
-//   { path: '/Home/Report/Pateintwise', exact: true, name: 'Pateint wise Report', component: PatientReport },
-//   { path: '/Home/DirectComplaint', exact: true, name: 'Direct Complaint Register', component: DirectComplaintReg },
-//   { path: '/Home/Report/Monthly', exact: true, name: 'Monthly Report', component: MonthlyReport },
-//   { path: '/Home/totaladmission', exact: true, name: 'Total Admission', component: TotalAdmisson },
-//   { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
-//   { path: '/Home/EscalationTime', exact: true, name: 'Escalation Time', component: EscalationTime },
-//   { path: '/Home/EscalationLevel1', exact: true, name: 'EscalationLevel1', component: EscalationLevel1 },
-//   { path: '/Home/EscalationLevel2', exact: true, name: 'EscalationLevel2', component: EscalationLevel2 },
-//   { path: '/Home/EscalationLevel3', exact: true, name: 'EscalationLevel3', component: EscalationLevel3 },
-//   { path: '/Home/EscalationLevel4', exact: true, name: 'EscalationLevel4', component: EscalationLevel4 },
-//   { path: '/Home/TopLevelED', exact: true, name: 'TopLevelED', component: TopLevelED },
-//   { path: '/Home/EscalationMapping', exact: true, name: 'EscalationMapping', component: EscalationMapping },
-//   { path: '/Home/PendingOnholdComplaint', exact: true, name: 'Pending Onhold List', component: PendingOnholdList },
-//   { path: '/Home/TotalDeptWiseList', exact: true, name: 'Total Comp Dept Wise List', component: TotalDeptWiseList },
-//   { path: '/Home/PendingDeptWiseList', exact: true, name: 'Pending For Assign Comp Dept Wise List', component: PendingDeptWiseList },
-//   { path: '/Home/AssignDeptWiseList', exact: true, name: 'Assign Comp Dept Wise List', component: AssignDeptWiseList },
-//   { path: '/Home/VerifyDeptWiseList', exact: true, name: 'Verify Comp Dept Wise List', component: VerifyDeptWiseList },
-//   { path: '/Home/OnHoldPendingDeptWiseList', exact: true, name: 'Onhold Comp Dept Wise List', component: OnHoldPendingDeptWiseList },
-//   { path: '/Home/AssignEmpWiseList', exact: true, name: 'Assign Comp Emp Wise List', component: AssignEmpWiseList },
-//   { path: '/Home/VerifyEmpWiseList', exact: true, name: 'verify Comp Emp Wise List', component: VerifyEmpWiseList },
-//   { path: '/Home/OnHoldPendingEmpWiseList', exact: true, name: 'Onhold Comp Emp Wise List', component: OnHoldPendingEmpWiseList },
-//   { path: '/Home/damaList', exact: true, name: "Dama count", component: DamaCount },
-//   { path: '/Home/BhrcList', exact: true, name: "Bhrc List", component: BhrcCount },
-//   { path: '/Home/roundsAfternoon', exact: true, name: "Rounds Afternoon", component: RoundsAfternoonList },
-//   { path: "/Home/disafternoonList", exact: true, name: 'Discharge Afternoon', component: DischargeList },
-//   { path: "/Home/HighAntibiotic", exact: true, name: 'High Antibiotic', component: HighAntibiotic },
-//   { path: "/Home/SurvillenceView", exact: true, name: 'Survillence view', component: PatSurvillenceView },
-//   { path: "/Home/noshift", exact: true, name: "No shift", component: NoshiftReport },
-//   { path: '/Home/highbioticReport', exact: true, name: "HighAntiBiotic Report", component: HighAntiBioticReport },
-//   { path: "/Home/WeEmpMap", exact: true, name: "Employee-Ns Wise Mapping", component: EmpNsWiseMaping },
-//   { path: '/Home/ExtraOrderView', exact: true, name: 'Total Admission', component: ExtraOrderView },
-//   { path: "/Home/DashBoard/InPatientList", exact: true, name: "InPatientList View", component: InPatientList },
-//   { path: '/Home/DietPlannedList', exact: true, name: 'DietPlannedList View', component: DietPlannedList },
-//   { path: '/Home/DietPlanPending', exact: true, name: 'DietPlanPending View', component: DietPlanPending },
-//   { path: '/Home/NDRF', exact: true, name: 'NDRF Form', component: NDRFform },
-//   { path: '/Home/HallBooking', exact: true, name: 'Hall Booking', component: HallBooking },
-//   { path: '/Home/Hallmaster', exact: true, name: "Hall master", component: Hallmaster },
-//   { path: '/Home/HallbookingReg', exact: true, name: "HallbookingReg", component: HallbookingReg },
-//   { path: '/Home/HallbookingApproval', exact: true, name: "HallBookingApproval", component: HallBookingApproval },
-//   { path: '/Home/HallCeoApproval', exact: true, name: 'CAoApproval', component: CAoApproval },
-//   { path: '/Home/Hic/Complaint', exact: true, name: 'HIC Complaint List', component: HicComplaint },
-//   { path: '/Home/OMTableMast', exact: true, name: 'OM Table Master', component: OMTableMast },
-//   { path: '/Home/OMEmpMapping', exact: true, name: 'OM Emp Mapping', component: OMEmpMapping },
-//   { path: '/Home/Manual', exact: true, name: 'Manual List', component: ManualList },
-//   { path: '/Home/ComplaintEmpMap', exact: true, name: 'Compalint EMP Mapping', component: ComEmpMapping },
-//   { path: '/Home/AssetStockDetails', exact: true, name: 'Asset Stock Details', component: AssetStockDetails },
-//   { path: '/Home/CompPriority', exact: true, name: 'Compalint Priority Master', component: ComPriorityMast },
-//   { path: '/Home/AssetDashboardMain', exact: true, name: 'Registred Compalint List', component: AssetDashboardMain },
-//   { path: '/Home/CmsReportDeptWise', exact: true, name: 'Registred Compalint List', component: CmsReportDeptWise },
-//   { path: '/Home/Campus', exact: true, name: 'Campus master', component: CampusMaster },
-//   { path: '/Home/BuildingMast', exact: true, name: 'Building master', component: BuildingMast },
-//   { path: '/Home/BuildingBlockMaster', exact: true, name: 'Building block Master', component: BluidBlockMast },
-//   { path: '/Home/InsideBuilding', exact: true, name: 'Inside Building block', component: InsideBuildBlock },
-//   { path: '/Home/FloorMast', exact: true, name: ' Floor Master', component: FloorMaster },
-//   { path: '/Home/RoomTypeMaster', exact: true, name: 'Room Type Master', component: RoomTypeMaster },
-//   { path: '/Home/RoomCategoryMaster', exact: true, name: 'Room Category Master', component: RoomCategoryMaster },
-//   { path: '/Home/FloorCreation', exact: true, name: 'Floor Creation', component: FloorCreation },
-//   { path: '/Home/RoomCreationSideNav', exact: true, name: 'Room New Creation', component: RoomNewCreation },
-//   { path: '/Home/TeamMaster', exact: true, name: 'Team Master', component: TeamMaster },
-//   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
-//   { path: '/Home/CrfDataCollection', exact: true, name: 'CRF data Collection', component: CRFDataCollection },
-//   { path: '/Home/RoomDashBoard', exact: true, name: 'Room Dashboard', component: RoomDashBoard },
-//   { path: '/Home/RequstToAssign', exact: true, name: 'Request To Assign Report', component: RequstToAssign },
-//   { path: '/Home/RequestToRectify', exact: true, name: 'Request To Rectification Report', component: RequestToRectify },
-//   { path: '/Home/RequestToVerify', exact: true, name: 'Request To Verification Report', component: RequestToVerify },
-//   { path: '/Home/AssignToRectify', exact: true, name: 'Assign To Rectification Report', component: AssignToRectify },
-//   { path: '/Home/AssignToVerify', exact: true, name: 'Assign To Verification Report', component: AssignToVerify },
-//   { path: '/Home/RectifyToVerify', exact: true, name: 'Rectification To Verification Report', component: RectifyToVerify },
-//   { path: '/Home/ComplaintCategoryReport', exact: true, name: 'Complaint Category Report', component: ComplaintCategoryRprt },
-//   { path: '/Home/AreaWiseReport', exact: true, name: 'Area Wise Compalint Report', component: AreaWiseCompReport },
-//   { path: '/Home/ComplaintAssignee', exact: true, name: 'No Of Complaint per Assignee Report', component: CompPerAssignee },
-//   { path: '/Home/TatPerAssignee', exact: true, name: 'TAT per Complaint per Assignee Report', component: TATCompPerAssignee },
-//   { path: '/Home/ItemNameCreation', exact: true, name: 'Item Name Creation', component: ItemNameCreation },
-//   { path: '/Home/PrimaryCustodian', exact: true, name: 'Primary Custodian', component: PrimaryCustodian },
-//   { path: '/Home/SecondaryCustodian', exact: true, name: ' Secondary Custodian', component: SecondaryCustodian },
-//   { path: '/Home/UnitOfMeasurement', exact: true, name: 'Unit Of Measurement', component: UnitOfMeasurement },
-//   { path: '/Home/AssetModel', exact: true, name: 'Asset Model', component: AssetModel },
-//   { path: '/Home/AssetSubModel', exact: true, name: 'Asset SubModel', component: AssetSubModel },
-//   { path: '/Home/RoomAsset', exact: true, name: 'Room Asset', component: RoomAsset },
-//   { path: '/Home/ItemCreation', exact: true, name: 'item Creation', component: ItemCreation },
-//   { path: '/Home/DashboardBackup', exact: true, name: 'Dashboard Backup', component: DashboardBackup },
-//   { path: '/Home/PasswordManagement', exact: true, name: 'Password Management', component: PasswordManagement },
-//   { path: '/Home/BackupChecks', exact: true, name: 'Backup Checks & Monitoring', component: BackupChecks },
-//   { path: '/Home/SimType', exact: true, name: 'Device Type', component: SimType },
-//   { path: '/Home/WifiManageMenT', exact: true, name: 'Wifi Management', component: WifiManageMenT },
-//   { path: '/Home/CusodianDepartment', exact: true, name: 'Custodian Department', component: CustodianDeptmt },
-//   { path: '/Home/AssetItemListView', exact: true, name: 'Asset Item List View', component: AssetItemListView },
-//   { path: '/Home/ScheduleType', exact: true, name: 'Backup Schedule Type', component: BackupScheduleType },
-//   { path: '/Home/ScheduleTime', exact: true, name: 'Backup Schedule Time', component: BackupScheduleTime },
-//   { path: '/Home/BackupMast', exact: true, name: 'Backup Details', component: Backupmast },
-//   { path: '/Home/CredentialType', exact: true, name: 'Credential Type', component: PasswordManagementCredentialType },
-//   { path: '/Home/AssetRackMast', exact: true, name: 'Asset Rack Master', component: AssetRackMast },
-//   { path: '/Home/TaskManagementDashboard', exact: true, name: 'TaskManagement Dashboard', component: TaskManagementMainDashboard },
-//   { path: '/Home/TaskManagementCreateTask', exact: true, name: 'TaskManagement Create Task', component: TaskManagementMainCreateTask },
-//   { path: '/Home/ItSimdetails', exact: true, name: 'It Sim Details', component: ITSimDetails },
-//   { path: '/Home/AssetDeptTransfer', exact: true, name: 'Asset Department Transfer', component: AssetDepartmentTransfer },
-//   { path: '/Home/AssetItemReport', exact: true, name: 'Asset Item Report', component: AssetItemReport },
-//   { path: '/Home/RequestRegister', exact: true, name: 'Request Register', component: RequestRegister },
-//   { path: '/Home/CRFInchargeApproval', exact: true, name: 'CRF Incharge Approval', component: CRFIncharge },
-//   { path: '/Home/Req.DepartmentApproval', exact: true, name: 'Request Departmental Approval', component: ReqDepartmentApproval },
-//   { path: '/Home/DMSApproval', exact: true, name: 'DMS Approval', component: DMSApproval },
-//   { path: '/Home/CrfMSApproval', exact: true, name: 'CRF MS Approval', component: CRFMSApproval },
-//   { path: '/Home/Req.OMApproval', exact: true, name: 'Request OM Approval', component: ReqOMApproval },
-//   { path: '/Home/Req.SMOApproval', exact: true, name: 'Request SMO Approval', component: ReqSMOApproval },
-//   { path: '/Home/Req.CAOApproval', exact: true, name: 'Request CAO/MS/COO Approval', component: ReqCAOApproval },
-//   { path: '/Home/Req.EDApproval', exact: true, name: 'Request ED Approval', component: ReqEDApproval },
-//   { path: '/Home/Req.MDApproval', exact: true, name: 'Request MD Approval', component: ReqMDApproval },
-//   { path: '/Home/NdrfPurchase', exact: true, name: 'Request Purchase', component: NdrfPurchase },
-//   { path: '/Home/CrfDashboard', exact: true, name: 'CRF Dashboard', component: CRFDashboard },
-//   { path: '/Home/DeptSecBasedItemReport', exact: true, name: 'Department Section Based Item Report', component: DeptSecBasedItemReport },
-//   { path: '/Home/TaskManagementEmployeeTask', exact: true, name: 'TaskManagement Employee Task', component: TaskManagementEmployeeTask },
-//   { path: '/Home/EmergencyType', exact: true, name: 'Emmergency Type Master', component: EmergencyTypeMast },
-//   { path: '/Home/CrfNewRequestRegister', exact: true, name: 'CRF Nw Request Register', component: CrfNewReqRegister },
-//   { path: '/Home/AssetDashboardM', exact: true, name: 'Asset Inter Departme', component: AssetDashboardM },
-//   { path: '/Home/CensusDept', excat: true, name: 'Daily Census Department Section', component: CensusDptMast },
-//   { path: '/Home/QualityIndicator', exact: true, name: 'Quality Indicator List', component: QualityIndicator },
-//   { path: '/Home/TMdepartmentReport', exact: true, name: 'TM department Report', component: TMdepartmentReport },
-//   { path: '/Home/TMEmployeeReport', exact: true, name: 'TM employee Report', component: TMEmployeeReport },
-//   { path: '/Home/TaskManagementTaskLists', exact: true, name: 'TaskManagement TaskList', component: TaskManagementTaskLists },
-//   { path: '/Home/DailyCensus', exact: true, name: 'Daily Census Entry', component: DailyCensus },
-//   { path: '/Home/DailyCensusReport', exact: true, name: 'Daily Census Report', component: DailyCensusReport },
-//   { path: '/Home/CRFNewInchargeApproval', exact: true, name: 'Incharge Approval', component: CRFNewIncharge },
-//   { path: '/Home/CRFNewHODApproval', exact: true, name: 'HOD Approval', component: CRFNewHOD },
-//   { path: '/Home/CRFNewDMSApproval', exact: true, name: 'DMS Approval', component: CRFNewDMS },
-//   { path: '/Home/CRFNewMSApproval', exact: true, name: 'MS Approval', component: CRFNewMS },
-//   { path: '/Home/CRFNewOMApproval', exact: true, name: 'CRF Documentation', component: CRFNewMO },
-//   { path: '/Home/CRFNewSMOApproval', exact: true, name: 'CRF Verification', component: CRFNewSMO },
-//   { path: '/Home/CRFNewGMApproval', exact: true, name: 'GM Operations Approval', component: CRFNewGM },
-//   { path: '/Home/CRFNewMDApproval', exact: true, name: 'MD Approval', component: CRFNewMD },
-//   { path: '/Home/CRFNewEDApproval', exact: true, name: 'ED Approval', component: CRFNewED },
-//   { path: '/Home/CrfNewDashBoard', exact: true, name: 'CRF Dashboard', component: CRFNewDashboard },
-//   { path: '/Home/CrfNewDataCollection', exact: true, name: 'CRF Data Collection', component: CrfNewDataCollection },
-//   { path: '/Home/CRFNewPdfView', exact: true, name: 'CRF New PDF View', component: CRFNewPdfView },
-//   { path: '/Home/CRFNewPurchase', exact: true, name: 'CRF New Purchase', component: CRFNewPurchase },
-//   { path: '/Home/CRFNewCRSStore', exact: true, name: 'CRF New CRS Store', component: CRFNewCRSStore },
-//   { path: '/Home/CRFNewStore', exact: true, name: 'CRF New Store', component: CRFNewStore },
-//   { path: '/Home/Authorization', exact: true, name: 'Incharge/HOD Authorization', component: IncHodAuthorization },
-//   { path: '/Home/BillAdds', exact: true, name: 'Bill Adds', component: BillAdds },
-//   { path: '/Home/BillCategory', exact: true, name: 'Bill Category', component: BillCategory },
-//   { path: '/Home/BillType', exact: true, name: 'Bill Type', component: BillType },
-//   { path: '/Home/BillSupplierDetailsMast', exact: true, name: 'Bill Supplier Details Mast', component: BillSupplierDetailsMast },
-//   { path: '/Home/QIDeptMast', exact: true, name: 'Quality Department Mast', component: QIdept },
-//   { path: '/Home/QIPatientMarking', exact: true, name: 'Dept Wise Patient Marking', component: QIPatientMarking },
-//   { path: '/Home/AcceptTask', exact: true, name: 'TaskManagement AcceptTask', component: AcceptTask },
-//   { path: '/Home/IncidentList', exact: true, name: 'Incident List View', component: Incident },
-//   { path: '/Home/QIMonthlyReport', exact: true, name: 'QI Monthly Report', component: QIMonthlyReport },
-//   { path: '/Home/QIValidation', exact: true, name: 'QI Validation', component: QIValidation },
-//   { path: '/Home/TimeReport', exact: true, name: 'Initial Assessment Time Report', component: TimeReport },
-//   { path: '/Home/QiListType', exact: true, name: 'QI List Type Mast', component: QIListType },
-//   { path: '/Home/DayWiseReport', exact: true, name: 'Day Wise QI Report', component: DayWiseQiReport },
-//   { path: '/Home/DataTransferHRM', exact: true, name: 'Data Transfer from HR', component: DataTransferHRM },
-//   { path: '/Home/AmcCmcAdding', exact: true, name: 'AMC CMC Adding', component: AmcCmcAdding },
-//   { path: '/Home/QiIncharge', exact: true, name: 'Level I Approval', component: QiInchargeApr },
-//   { path: '/Home/QIEquipment', exact: true, name: 'Quality Equipment Mast', component: QiEquipment },
-//   { path: '/Home/QiHOD', exact: true, name: 'Level II Approval', component: QiHodAprv },
-//   { path: '/Home/CrfNoBased', exact: true, name: 'CRF No Based', component: CrfNoBased },
-//   { path: '/Home/userAckldged', exact: true, name: 'User Acknowledged CRF', component: UserAcknowldged },
-//   { path: '/Home/WaitingReport', exact: true, name: 'Waiting Time For Service Diagnostics', component: qiWaitingTime },
-//   { path: '/Home/TMOverdueCountMaster', exact: true, name: 'TM Overdue Count Master', component: TMOverdueCountMaster },
-//   { path: '/Home/TaskPerformanceSheet', exact: true, name: 'Task Performance Sheet', component: TaskPerformanceSheet },
-//   { path: '/Home/TaskPerformanceSlide', exact: true, name: 'Task Performance Slide', component: TaskPerformanceSlide },
-//   { path: '/Home/userNotAckldged', exact: true, name: 'User Not Acknowledged CRF', component: UserNotAcknowldged },
-//   { path: '/Home/purchaseCRFReport', exact: true, name: 'Purchase CRF Report', component: PurchaseCRFReport },
-//   { path: '/Home/AllCRFReport', exact: true, name: 'All CRF Report', component: AllCRFReport },
-//   { path: '/Home/feedback', exact: true, name: 'Feedback', component: feedbackForm },
-//   { path: '/Home/QIdeptAccess', exact: true, name: 'QI Department Access Mast', component: deptAcess },
-//   { path: '/Home/AssetServiceList', exact: true, name: 'Spare Service List', component: AssetServiceList },
-//   { path: '/Home/AssetCondemnationList', exact: true, name: 'Spare Condemnation List', component: AssetCondemnationList },
-//   { path: '/Home/PmDueList', exact: true, name: 'PM Due List in Asset', component: PmDueList },
-//   { path: '/Home/DeliveryMarking', exact: true, name: 'CRS Delivery Marking', component: deliverMarking },
-//   { path: '/Home/ItemChecking', exact: true, name: 'Item Checking', component: itemChecking },
-//   { path: '/Home/SearchCrfDetails', exact: true, name: 'CRF Search', component: crfSearch },
-//   { path: '/Home/CompanyMast', exact: true, name: 'Company Master', component: companyName },
-//   { path: '/Home/CrfBiomedical', exact: true, name: 'CRF Biomedical View', component: crfBiomedical },
-//   { path: '/Home/ApprovalMapping', exact: true, name: 'CRF Approval Mapping Master', component: approvalMapping },
-//   { path: '/Home/CRFNewManagingDirector', exact: true, name: 'Managing Director Approval', component: managingDirectorApproval },
-//   { path: '/Home/ViewCategoryMaster', exact: true, name: 'MenuView Category Master', component: ViewCategoryMaster },
-//   { path: '/Home/CrfView', exact: true, name: 'Crf View', component: CrfView },
-//   { path: '/Home/CrfStoreMaster', exact: true, name: 'Crf StoreMaster', component: CrfStoreMaster },
-//   { path: '/Home/CrfCommon', exact: true, name: 'Crf Common Master', component: CrfCommon },
-//   { path: '/Home/AllCRFReportWithPO', exact: true, name: 'All CRF Report With PO', component: AllCRFReportWithPO },
-//   { path: '/Home/TicketDashboards', exact: true, name: 'Ticket Dashboards', component: TicketDashboardz },
-//   { path: '/Home/AllDeptCondemList', exact: true, name: 'AllDeptCondemList', component: AllDeptCondemList },
-//   { path: '/Home/ItBackupTypeMast', exact: true, name: 'ItBackupTypeMast', component: ItBackupTypeMast },
-//   { path: '/Home/SimOperator', exact: true, name: 'SimOperator', component: SimOperator },
-//   { path: '/Home/DashBoardMaster', exact: true, name: 'DashBoardMaster', component: CrfDashboardMaster },
-//   { path: '/Home/DataCollectionMaster', exact: true, name: 'DataCollectionMaster', component: DataCollectionMaster },
-//   { path: '/Home/DepartmentMapping', exact: true, name: 'DashBoardMaster', component: DepartmentMapping },
-//   { path: '/Home/AmsMaster', exact: true, name: 'AmsMaster', component: AmsMaster },
-//   { path: '/Home/AmsPatientDetails', exact: true, name: 'Ams Patient Details', component: AmsPatientDetails },
-//   { path: '/Home/DcReport', exact: true, name: 'DcReport', component: DcReport },
-
-// ]
-
 const StoreReport = React.lazy(() => import('./views/StoreReport/ReportMain'))
 const StoreReportMaster = React.lazy(() => import('./views/Master/StoreReportMaster/StoreReport'))
 const WorkOrderList = React.lazy(() => import('./views/WorkOrder/WorkOrderList'))
@@ -570,6 +314,18 @@ const WorkOrderEntry = React.lazy(() => import('./views/WorkOrder/WorkOrderEntry
 const MenuMaster = React.lazy(() => import('./views/Master/MenuMaster/MenuMaster'))
 const IncidentCommonView = React.lazy(() => import('./views/IncidentManagement/IncidentCommonView/IncidentCommonView'))
 const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+const MedicineHome = React.lazy(() => import('./views/IndentModule/MedicineBooking'));
+const Token = React.lazy(() => import('./views/Master/IndentMaster/TokenMaster/TokenMaster'))
+const Appointment = React.lazy(() => import('./views/Master/IndentMaster/Appointment/Appointment'))
+const Division = React.lazy(() => import('./views/Master/IndentMaster/DivisionMaster/DivisionMaster'))
+const IndentTax = React.lazy(() => import('./views/Master/IndentMaster/TaxMaster/Taxmaster'))
+const MedicineRep = React.lazy(() => import('./views/IndentModule/MedicalRep/MedicalRep'));
+const WeeklyBooking = React.lazy(() => import('./views/IndentModule/WeekelyBooking/Weekelybooking'));
+const TokenRep = React.lazy(() => import('./views/IndentModule/Token/token'));
+const MedicineStatus = React.lazy(() => import('./views/IndentModule/MedicineStatus/Medicinestatus'));
+const MedicineInformation = React.lazy(() => import('./views/IndentModule/MedicineInformation/MedicineInformation'));
+const Approvemedicine = React.lazy(() => import('./views/IndentModule/ApprovedMedicine/Approvemedicine'));
+const CrfNotification = React.lazy(() => import('./views/Master/RequestManagement/CrfNotification/CrfNotification'))
 
 const routes = [
   { path: '', element: <Home /> },
@@ -602,11 +358,7 @@ const routes = [
   { path: 'Floor', name: 'Floor', element: <Floor /> },
   { path: 'RoomType', name: 'Room Type', element: <RoomType /> },
   { path: 'RoomCategory', name: 'Room Category', element: <RoomCategory /> },
-  {
-    path: 'NotificationMainMeNu',
-    name: 'Notification Main Menu',
-    element: <NotificationMainMeNu />
-  },
+  { path: 'NotificationMainMeNu', name: 'Notification Main Menu', element: <NotificationMainMeNu /> },
   { path: 'NursingStation', name: 'Nursing Station', element: <NursingStation /> },
   { path: 'Diet', name: 'Diet Category', element: <DietCategory /> },
   { path: 'DietIssue', name: 'Diet Issue', element: <DietIssue /> },
@@ -631,11 +383,7 @@ const routes = [
   { path: 'WeWork/InpatientList', name: 'WeWork Inpatient', element: <WeWorkInpatient /> },
   { path: 'Reports', name: 'Reports', element: <Reports /> },
   { path: 'Report/Diet', name: 'Diet Report', element: <DietReport /> },
-  {
-    path: 'Report/NurseStation',
-    name: 'Nurse Station Wise Report',
-    element: <NusrseStationReport />
-  },
+  { path: 'Report/NurseStation', name: 'Nurse Station Wise Report', element: <NusrseStationReport /> },
   { path: 'Report/Patientwise', name: 'Patient Wise Report', element: <PatientReport /> },
   { path: 'DirectComplaint', name: 'Direct Complaint Register', element: <DirectComplaintReg /> },
   { path: 'Report/Monthly', name: 'Monthly Report', element: <MonthlyReport /> },
@@ -650,42 +398,13 @@ const routes = [
   { path: 'EscalationMapping', name: 'Escalation Mapping', element: <EscalationMapping /> },
   { path: 'PendingOnholdComplaint', name: 'Pending Onhold List', element: <PendingOnholdList /> },
   { path: 'TotalDeptWiseList', name: 'Total Comp Dept Wise List', element: <TotalDeptWiseList /> },
-  {
-    path: 'PendingDeptWiseList',
-    name: 'Pending For Assign Comp Dept Wise List',
-    element: <PendingDeptWiseList />
-  },
-  {
-    path: 'AssignDeptWiseList',
-    name: 'Assign Comp Dept Wise List',
-    element: <AssignDeptWiseList />
-  },
-  {
-    path: 'VerifyDeptWiseList',
-    name: 'Verify Comp Dept Wise List',
-    element: <VerifyDeptWiseList />
-  },
-  {
-    path: 'OnHoldPendingDeptWiseList',
-    name: 'Onhold Comp Dept Wise List',
-    element: <OnHoldPendingDeptWiseList />
-  },
-  {
-    path: 'AssignEmpWiseList',
-    name: 'Assign Comp Emp Wise List',
-    element: <AssignEmpWiseList />
-  },
-  {
-    path: 'VerifyEmpWiseList',
-    name: 'Verify Comp Emp Wise List',
-    element: <VerifyEmpWiseList />
-  },
-  {
-    path: 'OnHoldPendingEmpWiseList',
-    name: 'Onhold Comp Emp Wise List',
-    element: <OnHoldPendingEmpWiseList />
-  },
-
+  { path: 'PendingDeptWiseList', name: 'Pending For Assign Comp Dept Wise List', element: <PendingDeptWiseList /> },
+  { path: 'AssignDeptWiseList', name: 'Assign Comp Dept Wise List', element: <AssignDeptWiseList /> },
+  { path: 'VerifyDeptWiseList', name: 'Verify Comp Dept Wise List', element: <VerifyDeptWiseList /> },
+  { path: 'OnHoldPendingDeptWiseList', name: 'Onhold Comp Dept Wise List', element: <OnHoldPendingDeptWiseList /> },
+  { path: 'AssignEmpWiseList', name: 'Assign Comp Emp Wise List', element: <AssignEmpWiseList /> },
+  { path: 'VerifyEmpWiseList', name: 'Verify Comp Emp Wise List', element: <VerifyEmpWiseList /> },
+  { path: 'OnHoldPendingEmpWiseList', name: 'Onhold Comp Emp Wise List', element: <OnHoldPendingEmpWiseList /> },
   { path: 'damaList', name: 'Dama count', element: <DamaCount /> },
   { path: 'BhrcList', name: 'Bhrc List', element: <BhrcCount /> },
   { path: 'roundsAfternoon', name: 'Rounds Afternoon', element: <RoundsAfternoonList /> },
@@ -712,11 +431,7 @@ const routes = [
   { path: 'ComplaintEmpMap', name: 'Compalint EMP Mapping', element: <ComEmpMapping /> },
   { path: 'AssetStockDetails', name: 'Asset Stock Details', element: <AssetStockDetails /> },
   { path: 'CompPriority', name: 'Compalint Priority Master', element: <ComPriorityMast /> },
-  {
-    path: 'AssetDashboardMain',
-    name: 'Registred Compalint List',
-    element: <AssetDashboardMain />
-  },
+  { path: 'AssetDashboardMain', name: 'Registred Compalint List', element: <AssetDashboardMain /> },
   { path: 'CmsReportDeptWise', name: 'Registred Compalint List', element: <CmsReportDeptWise /> },
   { path: 'Campus', name: 'Campus master', element: <CampusMaster /> },
   { path: 'BuildingMast', name: 'Building master', element: <BuildingMast /> },
@@ -732,43 +447,15 @@ const routes = [
   { path: 'CrfDataCollection', name: 'CRF data Collection', element: <CRFDataCollection /> },
   { path: 'RoomDashBoard', name: 'Room Dashboard', element: <RoomDashBoard /> },
   { path: 'RequstToAssign', name: 'Request To Assign Report', element: <RequstToAssign /> },
-  {
-    path: 'RequestToRectify',
-    name: 'Request To Rectification Report',
-    element: <RequestToRectify />
-  },
-  {
-    path: 'RequestToVerify',
-    name: 'Request To Verification Report',
-    element: <RequestToVerify />
-  },
-  {
-    path: 'AssignToRectify',
-    name: 'Assign To Rectification Report',
-    element: <AssignToRectify />
-  },
+  { path: 'RequestToRectify', name: 'Request To Rectification Report', element: <RequestToRectify /> },
+  { path: 'RequestToVerify', name: 'Request To Verification Report', element: <RequestToVerify /> },
+  { path: 'AssignToRectify', name: 'Assign To Rectification Report', element: <AssignToRectify /> },
   { path: 'AssignToVerify', name: 'Assign To Verification Report', element: <AssignToVerify /> },
-  {
-    path: 'RectifyToVerify',
-    name: 'Rectification To Verification Report',
-    element: <RectifyToVerify />
-  },
-  {
-    path: 'ComplaintCategoryReport',
-    name: 'Complaint Category Report',
-    element: <ComplaintCategoryRprt />
-  },
+  { path: 'RectifyToVerify', name: 'Rectification To Verification Report', element: <RectifyToVerify /> },
+  { path: 'ComplaintCategoryReport', name: 'Complaint Category Report', element: <ComplaintCategoryRprt /> },
   { path: 'AreaWiseReport', name: 'Area Wise Compalint Report', element: <AreaWiseCompReport /> },
-  {
-    path: 'ComplaintAssignee',
-    name: 'No Of Complaint per Assignee Report',
-    element: <CompPerAssignee />
-  },
-  {
-    path: 'TatPerAssignee',
-    name: 'TAT per Complaint per Assignee Report',
-    element: <TATCompPerAssignee />
-  },
+  { path: 'ComplaintAssignee', name: 'No Of Complaint per Assignee Report', element: <CompPerAssignee /> },
+  { path: 'TatPerAssignee', name: 'TAT per Complaint per Assignee Report', element: <TATCompPerAssignee /> },
   { path: 'ItemNameCreation', name: 'Item Name Creation', element: <ItemNameCreation /> },
   { path: 'PrimaryCustodian', name: 'Primary Custodian', element: <PrimaryCustodian /> },
   { path: 'SecondaryCustodian', name: ' Secondary Custodian', element: <SecondaryCustodian /> },
@@ -787,37 +474,16 @@ const routes = [
   { path: 'ScheduleType', name: 'Backup Schedule Type', element: <BackupScheduleType /> },
   { path: 'ScheduleTime', name: 'Backup Schedule Time', element: <BackupScheduleTime /> },
   { path: 'BackupMast', name: 'Backup Details', element: <Backupmast /> },
-
-  {
-    path: 'CredentialType',
-    name: 'Credential Type',
-    element: <PasswordManagementCredentialType />
-  },
+  { path: 'CredentialType', name: 'Credential Type', element: <PasswordManagementCredentialType /> },
   { path: 'AssetRackMast', name: 'Asset Rack Master', element: <AssetRackMast /> },
-  {
-    path: 'TaskManagementDashboard',
-    name: 'TaskManagement Dashboard',
-    element: <TaskManagementMainDashboard />
-  },
-  {
-    path: 'TaskManagementCreateTask',
-    name: 'TaskManagement Create Task',
-    element: <TaskManagementMainCreateTask />
-  },
+  { path: 'TaskManagementDashboard', name: 'TaskManagement Dashboard', element: <TaskManagementMainDashboard /> },
+  { path: 'TaskManagementCreateTask', name: 'TaskManagement Create Task', element: <TaskManagementMainCreateTask /> },
   { path: 'ItSimdetails', name: 'It Sim Details', element: <ITSimDetails /> },
-  {
-    path: 'AssetDeptTransfer',
-    name: 'Asset Department Transfer',
-    element: <AssetDepartmentTransfer />
-  },
+  { path: 'AssetDeptTransfer', name: 'Asset Department Transfer', element: <AssetDepartmentTransfer /> },
   { path: 'AssetItemReport', name: 'Asset Item Report', element: <AssetItemReport /> },
   { path: 'RequestRegister', name: 'Request Register', element: <RequestRegister /> },
   { path: 'CRFInchargeApproval', name: 'CRF Incharge Approval', element: <CRFIncharge /> },
-  {
-    path: 'Req.DepartmentApproval',
-    name: 'Request Departmental Approval',
-    element: <ReqDepartmentApproval />
-  },
+  { path: 'Req.DepartmentApproval', name: 'Request Departmental Approval', element: <ReqDepartmentApproval /> },
   { path: 'DMSApproval', name: 'DMS Approval', element: <DMSApproval /> },
   { path: 'CrfMSApproval', name: 'CRF MS Approval', element: <CRFMSApproval /> },
   { path: 'Req.OMApproval', name: 'Request OM Approval', element: <ReqOMApproval /> },
@@ -827,36 +493,16 @@ const routes = [
   { path: 'Req.MDApproval', name: 'Request MD Approval', element: <ReqMDApproval /> },
   { path: 'NdrfPurchase', name: 'Request Purchase', element: <NdrfPurchase /> },
   { path: 'CrfDashboard', name: 'CRF Dashboard', element: <CRFDashboard /> },
-  {
-    path: 'DeptSecBasedItemReport',
-    name: 'Department Section Based Item Report',
-    element: <DeptSecBasedItemReport />
-  },
-  {
-    path: 'TaskManagementEmployeeTask',
-    name: 'TaskManagement Employee Task',
-    element: <TaskManagementEmployeeTask />
-  },
+  { path: 'DeptSecBasedItemReport', name: 'Department Section Based Item Report', element: <DeptSecBasedItemReport /> },
+  { path: 'TaskManagementEmployeeTask', name: 'TaskManagement Employee Task', element: <TaskManagementEmployeeTask /> },
   { path: 'EmergencyType', name: 'Emmergency Type Master', element: <EmergencyTypeMast /> },
-  {
-    path: 'CrfNewRequestRegister',
-    name: 'CRF Nw Request Register',
-    element: <CrfNewReqRegister />
-  },
+  { path: 'CrfNewRequestRegister', name: 'CRF Nw Request Register', element: <CrfNewReqRegister /> },
   { path: 'AssetDashboardM', name: 'Asset Inter Departme', element: <AssetDashboardM /> },
-  {
-    path: 'CensusDept',
-    name: 'Daily Census Department Section',
-    element: <CensusDptMast />
-  },
+  { path: 'CensusDept', name: 'Daily Census Department Section', element: <CensusDptMast /> },
   { path: 'QualityIndicator', name: 'Quality Indicator List', element: <QualityIndicator /> },
   { path: 'TMdepartmentReport', name: 'TM department Report', element: <TMdepartmentReport /> },
   { path: 'TMEmployeeReport', name: 'TM employee Report', element: <TMEmployeeReport /> },
-  {
-    path: 'TaskManagementTaskLists',
-    name: 'TaskManagement TaskList',
-    element: <TaskManagementTaskLists />
-  },
+  { path: 'TaskManagementTaskLists', name: 'TaskManagement TaskList', element: <TaskManagementTaskLists /> },
   { path: 'DailyCensus', name: 'Daily Census Entry', element: <DailyCensus /> },
   { path: 'DailyCensusReport', name: 'Daily Census Report', element: <DailyCensusReport /> },
   { path: 'CRFNewInchargeApproval', name: 'Incharge Approval', element: <CRFNewIncharge /> },
@@ -869,11 +515,7 @@ const routes = [
   { path: 'CRFNewMDApproval', name: 'MD Approval', element: <CRFNewMD /> },
   { path: 'CRFNewEDApproval', name: 'ED Approval', element: <CRFNewED /> },
   { path: 'CrfNewDashBoard', name: 'CRF Dashboard', element: <CRFNewDashboard /> },
-  {
-    path: 'CrfNewDataCollection',
-    name: 'CRF Data Collection',
-    element: <CrfNewDataCollection />
-  },
+  { path: 'CrfNewDataCollection', name: 'CRF Data Collection', element: <CrfNewDataCollection /> },
   { path: 'CRFNewPdfView', name: 'CRF New PDF View', element: <CRFNewPdfView /> },
   { path: 'CRFNewPurchase', name: 'CRF New Purchase', element: <CRFNewPurchase /> },
   { path: 'CRFNewCRSStore', name: 'CRF New CRS Store', element: <CRFNewCRSStore /> },
@@ -882,11 +524,7 @@ const routes = [
   { path: 'BillAdds', name: 'Bill Adds', element: <BillAdds /> },
   { path: 'BillCategory', name: 'Bill Category', element: <BillCategory /> },
   { path: 'BillType', name: 'Bill Type', element: <BillType /> },
-  {
-    path: 'BillSupplierDetailsMast',
-    name: 'Bill Supplier Details Mast',
-    element: <BillSupplierDetailsMast />
-  },
+  { path: 'BillSupplierDetailsMast', name: 'Bill Supplier Details Mast', element: <BillSupplierDetailsMast /> },
   { path: 'QIDeptMast', name: 'Quality Department Mast', element: <QIdept /> },
   { path: 'QIPatientMarking', name: 'Dept Wise Patient Marking', element: <QIPatientMarking /> },
   { path: 'AcceptTask', name: 'TaskManagement AcceptTask', element: <AcceptTask /> },
@@ -903,37 +541,17 @@ const routes = [
   { path: 'QiHOD', name: 'Level II Approval', element: <QiHodAprv /> },
   { path: 'CrfNoBased', name: 'CRF No Based', element: <CrfNoBased /> },
   { path: 'userAckldged', name: 'User Acknowledged CRF', element: <UserAcknowldged /> },
-  {
-    path: 'WaitingReport',
-    name: 'Waiting Time For Service Diagnostics',
-    element: <QiWaitingTime />
-  },
-  {
-    path: 'TMOverdueCountMaster',
-    name: 'TM Overdue Count Master',
-    element: <TMOverdueCountMaster />
-  },
-  {
-    path: 'TaskPerformanceSheet',
-    name: 'Task Performance Sheet',
-    element: <TaskPerformanceSheet />
-  },
-  {
-    path: 'TaskPerformanceSlide',
-    name: 'Task Performance Slide',
-    element: <TaskPerformanceSlide />
-  },
+  { path: 'WaitingReport', name: 'Waiting Time For Service Diagnostics', element: <QiWaitingTime /> },
+  { path: 'TMOverdueCountMaster', name: 'TM Overdue Count Master', element: <TMOverdueCountMaster /> },
+  { path: 'TaskPerformanceSheet', name: 'Task Performance Sheet', element: <TaskPerformanceSheet /> },
+  { path: 'TaskPerformanceSlide', name: 'Task Performance Slide', element: <TaskPerformanceSlide /> },
   { path: 'userNotAckldged', name: 'User Not Acknowledged CRF', element: <UserNotAcknowldged /> },
   { path: 'purchaseCRFReport', name: 'Purchase CRF Report', element: <PurchaseCRFReport /> },
   { path: 'AllCRFReport', name: 'All CRF Report', element: <AllCRFReport /> },
   { path: 'feedback', name: 'Feedback', element: <FeedbackForm /> },
   { path: 'QIdeptAccess', name: 'QI Department Access Mast', element: <DeptAcess /> },
   { path: 'AssetServiceList', name: 'Spare Service List', element: <AssetServiceList /> },
-  {
-    path: 'AssetCondemnationList',
-    name: 'Asset Spare Condemnation List',
-    element: <AssetCondemnationList />
-  },
+  { path: 'AssetCondemnationList', name: 'Asset Spare Condemnation List', element: <AssetCondemnationList /> },
   { path: 'PmDueList', name: 'PM Due List in Asset', element: <PmDueList /> },
   { path: 'DeliveryMarking', name: 'CRS Delivery Marking', element: <DeliverMarking /> },
   { path: 'ItemChecking', name: 'Item Checking', element: <ItemChecking /> },
@@ -941,16 +559,8 @@ const routes = [
   { path: 'CompanyMast', name: 'Company Master', element: <CompanyName /> },
   { path: 'CrfBiomedical', name: 'CRF Biomedical View', element: <CrfBiomedical /> },
   { path: 'ApprovalMapping', name: 'CRF Approval Mapping Master', element: <ApprovalMapping /> },
-  {
-    path: 'CRFNewManagingDirector',
-    name: 'Managing Director Approval',
-    element: <ManagingDirectorApproval />
-  },
-  {
-    path: 'ViewCategoryMaster',
-    name: 'MenuView Category Master',
-    element: <ViewCategoryMaster />
-  },
+  { path: 'CRFNewManagingDirector', name: 'Managing Director Approval', element: <ManagingDirectorApproval /> },
+  { path: 'ViewCategoryMaster', name: 'MenuView Category Master', element: <ViewCategoryMaster /> },
   { path: 'CrfView', name: 'Crf View', element: <CrfView /> },
   { path: 'CrfStoreMaster', name: 'Crf StoreMaster', element: <CrfStoreMaster /> },
   { path: 'CrfCommon', name: 'Crf Common Master', element: <CrfCommon /> },
@@ -960,11 +570,7 @@ const routes = [
   { path: 'ItBackupTypeMast', name: 'ItBackupTypeMast', element: <ItBackupTypeMast /> },
   { path: 'SimOperator', name: 'SimOperator', element: <SimOperator /> },
   { path: 'DashBoardMaster', name: 'DashBoardMaster', element: <CrfDashboardMaster /> },
-  {
-    path: 'DataCollectionMaster',
-    name: 'DataCollectionMaster',
-    element: <DataCollectionMaster />
-  },
+  { path: 'DataCollectionMaster', name: 'DataCollectionMaster', element: <DataCollectionMaster /> },
   { path: 'DepartmentMapping', name: 'DashBoardMaster', element: <DepartmentMapping /> },
   { path: 'AmsMaster', name: 'AmsMaster', element: <AmsMaster /> },
   { path: 'AmsPatientDetails', name: 'Ams Patient Details', element: <AmsPatientDetails /> },
@@ -982,121 +588,27 @@ const routes = [
   { path: 'CrfTatReport', name: 'CrfTatReport', element: <CrfTatReport /> },
   { path: 'CrfApprovalpending', name: 'CrfApprovalpending', element: <CrfApprovalpending /> },
   { path: 'PendingPo', name: 'PendingPo', element: <PendingPo /> },
-
-  {
-    path: 'AssetCondemApprovalLevels',
-    name: 'AssetCondemApprovalLevels',
-    element: <CondemApprovalLevelMast />
-  },
-  {
-    path: 'AssetCondemnInchargeApproval',
-    name: 'Asset Condemn Incharge Approval',
-    element: <CondemnInchargeApproval />
-  },
-  {
-    path: 'CondemHodApproval',
-    name: 'CondemHodApproval',
-    element: <CondemHodApproval />
-  },
-  {
-    path: 'CondemnAllApproveMain',
-    name: 'CondemnAllApproveMain',
-    element: <CondemnAllApproveMain />
-  },
-  {
-    path: 'CondemnationCategoryMaster',
-    name: 'CondemnationCategoryMaster',
-    element: <CondemnCategoryMast />
-  },
-  {
-    path: 'CondemnationScarpYard',
-    name: 'CondemnationScarpYard',
-    element: <ScrapYardMain />
-  },
-  {
-    path: 'CondemQualityMaster',
-    name: 'CondemQualityMaster',
-    element: <CondemnQualityMast />
-  },
-
-  {
-    path: 'CondemnQuantityUnit',
-    name: 'CondemnQuantityUnit',
-    element: <CondemUnitMaster />
-  },
-
-  {
-    path: 'CondemnSupplierRate',
-    name: 'CondemnSupplierRate',
-    element: <SupplierCondemRateDetails />
-  },
-
-
-  {
-    path: 'ScrapFormLevelApprove',
-    name: 'ScrapFormLevelApprove',
-    element: <ScrapLevelApproveMaster />
-  },
-
-  {
-    path: 'CondemnedItemCategorization',
-    name: 'CondemnedItemCategorization',
-    element: <ScrapItemMain />
-  },
-  {
-    path: 'condemScrapFormApprovals',
-    name: 'condemScrapFormApprovals',
-    element: <ScrapApproveMain />
-  },
-  {
-    path: 'CustodianTransfer',
-    name: 'CustodianTransfer',
-    element: <CustodianTransfer />
-  },
-
-
-  {
-    path: 'HoldticketPendingTicketsReportReport',
-    name: 'PendingTicketsReport',
-    element: <HoldticketReport />
-  },
-  {
-    path: 'PendingTicketsReport',
-    name: 'PendingTicketsReport',
-    element: <PendingTicketsReport />
-  },
-  {
-    path: 'PendingTicketsCountReport',
-    name: 'PendingTicketsCountReport',
-    element: <PendingTicketsCountReport />
-  },
-  {
-    path: 'CondemnationAssetOld',
-    name: 'CondemnationAssetOld',
-    element: <CondemnationAssetOld />
-  },
-  {
-    path: 'DeliveryMarking_Report',
-    name: 'DeliveryMarking_Report',
-    element: <DeliveryMarking_Report />
-  },
-  {
-
-    path: 'LevelMaster',
-    name: 'LevelMaster',
-    element: <LevelMaster />
-  },
-  {
-    path: 'IcuDashboard',
-    name: 'IcuDashboard',
-    element: <IcuDashboard />
-  },
-  {
-    path: 'AllDeviceCredentialList',
-    name: 'AllDeviceCredentialList',
-    element: <AllDeviceCredentialList />
-  },
-
+  { path: 'AssetCondemApprovalLevels', name: 'AssetCondemApprovalLevels', element: <CondemApprovalLevelMast /> },
+  { path: 'AssetCondemnInchargeApproval', name: 'Asset Condemn Incharge Approval', element: <CondemnInchargeApproval /> },
+  { path: 'CondemHodApproval', name: 'CondemHodApproval', element: <CondemHodApproval /> },
+  { path: 'CondemnAllApproveMain', name: 'CondemnAllApproveMain', element: <CondemnAllApproveMain /> },
+  { path: 'CondemnationCategoryMaster', name: 'CondemnationCategoryMaster', element: <CondemnCategoryMast /> },
+  { path: 'CondemnationScarpYard', name: 'CondemnationScarpYard', element: <ScrapYardMain /> },
+  { path: 'CondemQualityMaster', name: 'CondemQualityMaster', element: <CondemnQualityMast /> },
+  { path: 'CondemnQuantityUnit', name: 'CondemnQuantityUnit', element: <CondemUnitMaster /> },
+  { path: 'CondemnSupplierRate', name: 'CondemnSupplierRate', element: <SupplierCondemRateDetails /> },
+  { path: 'ScrapFormLevelApprove', name: 'ScrapFormLevelApprove', element: <ScrapLevelApproveMaster /> },
+  { path: 'CondemnedItemCategorization', name: 'CondemnedItemCategorization', element: <ScrapItemMain /> },
+  { path: 'condemScrapFormApprovals', name: 'condemScrapFormApprovals', element: <ScrapApproveMain /> },
+  { path: 'CustodianTransfer', name: 'CustodianTransfer', element: <CustodianTransfer /> },
+  { path: 'HoldticketPendingTicketsReportReport', name: 'PendingTicketsReport', element: <HoldticketReport /> },
+  { path: 'PendingTicketsReport', name: 'PendingTicketsReport', element: <PendingTicketsReport /> },
+  { path: 'PendingTicketsCountReport', name: 'PendingTicketsCountReport', element: <PendingTicketsCountReport /> },
+  { path: 'CondemnationAssetOld', name: 'CondemnationAssetOld', element: <CondemnationAssetOld /> },
+  { path: 'DeliveryMarking_Report', name: 'DeliveryMarking_Report', element: <DeliveryMarking_Report /> },
+  { path: 'LevelMaster', name: 'LevelMaster', element: <LevelMaster /> },
+  { path: 'IcuDashboard', name: 'IcuDashboard', element: <IcuDashboard /> },
+  { path: 'AllDeviceCredentialList', name: 'AllDeviceCredentialList', element: <AllDeviceCredentialList /> },
   { path: 'DcReport', name: 'DcReport', element: <DcReport /> },
   { path: 'IncidentReg', name: 'Incident Registration', element: <IncidentRegistrationFinal /> },
   { path: 'IncidentDashboard', name: 'Incident Dashboard', element: <IncidentDashboard /> },
@@ -1116,48 +628,28 @@ const routes = [
   { path: 'dcmapmaster', name: 'Data Collection Map Master', element: <IncDataCollectionEmpRightMap /> },
   // { path: 'IncidentApprovals', name: 'Incident Approvals', element: <IncidentApprovals /> },
 
-  {
-    path: 'StoreReport',
-    name: 'StoreReport',
-    element: <StoreReport />
-  },
-  {
-    path: 'StoreReportMaster',
-    name: 'StoreReportMaster',
-    element: <StoreReportMaster />
-  },
-  {
-    path: 'WorkOrderList',
-    name: 'WorkOrderList',
-    element: <WorkOrderList />
-  },
-  {
-    path: 'menumaster',
-    name: 'Menu Master',
-    element: <MenuMaster />
-  },
-  {
-    path: 'Inccommonview/:id',
-    name: 'Incident Common View',
-    element: <IncidentCommonView />
-  },
+  { path: 'StoreReport', name: 'StoreReport', element: <StoreReport /> },
+  { path: 'StoreReportMaster', name: 'StoreReportMaster', element: <StoreReportMaster /> },
+  { path: 'WorkOrderList', name: 'WorkOrderList', element: <WorkOrderList /> },
+  { path: 'menumaster', name: 'Menu Master', element: <MenuMaster /> },
+  { path: 'Inccommonview/:id', name: 'Incident Common View', element: <IncidentCommonView /> },
+  { path: 'VendorMaster', name: 'VendorMaster', element: <VendorMaster /> },
+  { path: 'WorkOrderEntry', name: 'WorkOrderEntry', element: <WorkOrderEntry /> },
+  { path: 'WorkOrderApproval', name: 'WorkOrderApproval', element: <WorkOrderApproval /> },
+  { path: 'MedicineHome', name: 'Medicine Details', element: <MedicineHome /> },
+  { path: 'Token', name: 'Token Count', element: <Token /> },
+  { path: 'Appointment', name: 'Appointment Dates', element: <Appointment /> },
+  { path: 'Division', name: 'Division', element: <Division /> },
+  { path: 'IndentTax', name: 'Indent Tax Master', element: <IndentTax /> },
+  { path: 'MedicineRep', name: 'Medicine Rep ', element: <MedicineRep /> },
+  { path: 'WeeklyBooking', name: 'Weekly Booking', element: <WeeklyBooking /> },
+  { path: 'TokenRep', name: 'TokenRep', element: <TokenRep /> },
+  { path: 'MedicineStatus', name: 'MedicineStatus', element: <MedicineStatus /> },
+  { path: 'Medicineinformation', name: 'Medicineinformation', element: <MedicineInformation /> },
+  { path: 'Approvemedicine', name: 'Approvemedicine', element: <Approvemedicine /> },
+  { path: 'CrfNotification', name: 'CrfNotification', element: <CrfNotification /> },
 
-  {
-    path: 'VendorMaster',
-    name: 'VendorMaster',
-    element: <VendorMaster />
-  },
-  {
-    path: 'WorkOrderEntry',
-    name: 'WorkOrderEntry',
-    element: <WorkOrderEntry />
-  },
 
-  {
-    path: 'WorkOrderApproval',
-    name: 'WorkOrderApproval',
-    element: <WorkOrderApproval />
-  },
 ]
 
 export default routes

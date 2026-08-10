@@ -45,7 +45,7 @@ const ModuleGroupMast = () => {
     labresult: false,
     deviceCredentials: false,
     storeModule: false,
-
+    indentModule: false
   })
   /*** Destructuring */
   const {
@@ -76,7 +76,8 @@ const ModuleGroupMast = () => {
     icubeds,
     labresult,
     deviceCredentials,
-    storeModule
+    storeModule,
+    indentModule
   } = moduleGroup
 
 
@@ -120,7 +121,9 @@ const ModuleGroupMast = () => {
         module_icubeds: icubeds === true ? 27 : 0,
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
-        module_Store: storeModule === true ? 31 : 0
+        module_Store: storeModule === true ? 31 : 0,
+        module_Indent: indentModule === true ? 34 : 0
+
       }
     }
   }, [
@@ -150,7 +153,8 @@ const ModuleGroupMast = () => {
     icubeds,
     labresult,
     deviceCredentials,
-    storeModule
+    storeModule,
+    indentModule
   ])
 
   /*** data for  update to module_group_mast table */
@@ -184,7 +188,9 @@ const ModuleGroupMast = () => {
         module_icubeds: icubeds === true ? 27 : 0,
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
-        module_Store: storeModule === true ? 31 : 0
+        module_Store: storeModule === true ? 31 : 0,
+        module_Indent: indentModule === true ? 34 : 0
+
       },
       mod_grp_slno: mod_grp_slno
     }
@@ -216,7 +222,8 @@ const ModuleGroupMast = () => {
     icubeds,
     labresult,
     deviceCredentials,
-    storeModule
+    storeModule,
+    indentModule
   ])
 
   // data setting for edit
@@ -254,6 +261,7 @@ const ModuleGroupMast = () => {
       labresult: module_status.labresult === 0 ? false : true,
       deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
       storeModule: module_status.module_Store === 0 ? false : true,
+      indentModule: module_status.module_Indent === 0 ? false : true
     }
     setModuleGroup(formdata)
   }, [])
@@ -288,7 +296,8 @@ const ModuleGroupMast = () => {
         icubeds: false,
         labresult: false,
         deviceCredentials: false,
-        storeModule: false
+        storeModule: false,
+        indentModule: false
 
       }
       /***     * insert function for use call back     */
@@ -365,7 +374,9 @@ const ModuleGroupMast = () => {
       icubeds: false,
       labresult: false,
       deviceCredentials: false,
-      storeModule: false
+      storeModule: false,
+      indentModule: false
+
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -686,6 +697,18 @@ const ModuleGroupMast = () => {
                   variant="outlined"
                   value={storeModule}
                   checked={storeModule}
+                  onCheked={updateModuleGroup}
+                />
+              </Grid>
+              <Grid item xl={12} lg={12}>
+                <CusCheckBox
+                  label="Indent Module"
+                  color="primary"
+                  size="md"
+                  name="indentModule"
+                  variant="outlined"
+                  value={indentModule}
+                  checked={indentModule}
                   onCheked={updateModuleGroup}
                 />
               </Grid>

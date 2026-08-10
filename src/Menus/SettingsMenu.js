@@ -38,6 +38,8 @@ export const crm_setting_one = [
     { to: '/Home/EmergencyType', name: 'Emergency Type Mast', slno: 177 },
     { to: '/Home/CompanyMast', name: 'Company Master', slno: 234 },
     { to: '/Home/CrfStoreMaster', name: 'Store Master Right', slno: 258 },
+    { to: '/Home/CrfNotification', name: 'Crf Notification', slno: 356 },
+
 ]
 
 export const crm_setting_two = [
@@ -205,6 +207,18 @@ export const Inc_Three = [
     { to: '/Home/dcmapmaster', name: 'Data Collection Map Master', slno: 332 },
 ]
 
+
+export const Indent_One = [
+    { to: '/Home/Token', name: 'Indent Token Count', slno: 345 },
+    { to: '/Home/IndentTax', name: 'Indent Tax Master', slno: 348 },
+
+]
+export const Indent_Two = [
+    { to: '/Home/Appointment', name: 'Appointment Date', slno: 346 },
+]
+export const Indent_Three = [
+    { to: '/Home/Division', name: 'Division Name', slno: 347 },
+]
 // //Diet Master Menu
 // export const dm_setting_one = [
 //     { to: '/Home/Diet', name: 'Diet ', slno: 36 },
