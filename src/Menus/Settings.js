@@ -86,7 +86,7 @@ const Settings = () => {
   const [indent_one, setIndent_one] = useState()
   const [indent_two, setIndent_two] = useState()
   const [indent_three, setIndent_three] = useState()
-  const [CdcEmr_one, setCdc_one] = useState()
+  // const [CdcEmr_one, setCdc_one] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -212,8 +212,8 @@ const Settings = () => {
       setIndent_two(indent_setting_two)
       const indent_setting_three = Indent_Three.filter(val => menuSlnoArray.includes(val.slno))
       setIndent_three(indent_setting_three)
-      const Cdc_Setting_one = Cdc_one.filter(val => menuSlnoArray.includes(val.slno))
-      setCdc_one(Cdc_Setting_one)
+      // const Cdc_Setting_one = Cdc_one.filter(val => menuSlnoArray.includes(val.slno))
+      // setCdc_one(Cdc_Setting_one)
 
     })
   }, [count])
