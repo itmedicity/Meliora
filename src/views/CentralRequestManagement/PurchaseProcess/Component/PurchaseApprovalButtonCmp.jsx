@@ -3,7 +3,6 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { CssVarsProvider, Tooltip, Typography, Box, IconButton } from '@mui/joy'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import ThumbUpAltTwoToneIcon from '@mui/icons-material/ThumbUpAltTwoTone'
-import { SiAdobeacrobatreader } from 'react-icons/si'
 import { CrfPdfWithDetails } from '../../CrfPdfView/CrfPdfWithDetail'
 import { CrfPdfWithOutDetails } from '../../CrfPdfView/CrfPdfWithOutDetails'
 import AutoModeIcon from '@mui/icons-material/AutoMode'
@@ -15,6 +14,7 @@ import { format } from 'date-fns'
 import { useQueryClient } from '@tanstack/react-query'
 import CustomToolTipForCRF from '../../ComonComponent/Components/CustomToolTipForCRF'
 import JSZip from 'jszip'
+import { PiFilePdf } from "react-icons/pi";
 
 const ImageDisplayModal = React.lazy(() => import('../../ComonComponent/ImageUploadCmp/ImageDisplayModal'))
 const PurchaseModal = React.lazy(() => import('../PurchaseModal'))
@@ -557,7 +557,15 @@ const PurchaseApprovalButtonCmp = ({ val, company }) => {
               <Button
                 variant="contained"
                 startIcon={
-                  <SiAdobeacrobatreader
+                  // <SiAdobeacrobatreader
+                  //   sx={{
+                  //     height: 18,
+                  //     width: 18,
+                  //     color: '#0277bd',
+                  //     marginRight: '8px'
+                  //   }}
+                  // />
+                  <PiFilePdf
                     sx={{
                       height: 18,
                       width: 18,

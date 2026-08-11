@@ -36,7 +36,10 @@ import {
   Inc_One,
   Inc_Two,
   Inc_Three,
-  Cdc_one
+  Indent_One,
+  Indent_Three,
+  Indent_Two,
+  // Cdc_one
 } from './SettingsMenu'
 import { Card, CardContent, CardHeader } from '@mui/material'
 import { titleTypography, cardActionBgClr } from 'src/color/Color'
@@ -83,7 +86,10 @@ const Settings = () => {
   const [inc_one, setInc_one] = useState()
   const [inc_two, setInc_Two] = useState()
   const [inc_three, setInc_Three] = useState()
-  const [CdcEmr_one, setCdc_one] = useState()
+  const [indent_one, setIndent_one] = useState()
+  const [indent_two, setIndent_two] = useState()
+  const [indent_three, setIndent_three] = useState()
+  // const [CdcEmr_one, setCdc_one] = useState()
 
 
   const [count, setCount] = useState(0)
@@ -92,6 +98,7 @@ const Settings = () => {
       const menuSlnoArray = val[0].map(value => {
         return value.menu_slno
       })
+
       //Common Master Setting
       const setting_section_one = co_setting_one.filter(val => menuSlnoArray.includes(val.slno))
       setcommonMast_secOne(setting_section_one)
@@ -202,8 +209,14 @@ const Settings = () => {
       setInc_Two(incident_setting_two)
       const incident_setting_three = Inc_Three.filter(val => menuSlnoArray.includes(val.slno))
       setInc_Three(incident_setting_three)
-      const Cdc_Setting_one = Cdc_one.filter(val => menuSlnoArray.includes(val.slno))
-      setCdc_one(Cdc_Setting_one)
+      const indent_setting_one = Indent_One.filter(val => menuSlnoArray.includes(val.slno))
+      setIndent_one(indent_setting_one)
+      const indent_setting_two = Indent_Two.filter(val => menuSlnoArray.includes(val.slno))
+      setIndent_two(indent_setting_two)
+      const indent_setting_three = Indent_Three.filter(val => menuSlnoArray.includes(val.slno))
+      setIndent_three(indent_setting_three)
+      // const Cdc_Setting_one = Cdc_one.filter(val => menuSlnoArray.includes(val.slno))
+      // setCdc_one(Cdc_Setting_one)
 
     })
   }, [count])
@@ -867,9 +880,9 @@ const Settings = () => {
 
         </Box>
       </CardContent>
-      {/* cdc master */}
       <CardHeader
-        title={'Cdc Emr Setting'}
+        title={'Indent Module'}
+
         titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
         sx={{
           backgroundColor: cardActionBgClr,
@@ -884,10 +897,9 @@ const Settings = () => {
             justifyContent: "space-around"
           }}
         >
-
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
-            {CdcEmr_one &&
-              CdcEmr_one.map(val => {
+            {indent_one &&
+              indent_one.map(val => {
                 return (
                   <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
                     {val.name}
@@ -895,6 +907,27 @@ const Settings = () => {
                 )
               })}
           </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {indent_two &&
+              indent_two.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+            {indent_three &&
+              indent_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)' }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
 
           </Box>

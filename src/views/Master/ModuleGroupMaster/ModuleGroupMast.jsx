@@ -45,6 +45,7 @@ const ModuleGroupMast = () => {
     labresult: false,
     deviceCredentials: false,
     storeModule: false,
+    indentModule: false,
     cdcEmr: false,
     abha: false
 
@@ -79,6 +80,7 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
+    indentModule,
     cdcEmr,
     abha
   } = moduleGroup
@@ -124,6 +126,7 @@ const ModuleGroupMast = () => {
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
         module_Store: storeModule === true ? 31 : 0,
+        module_Indent: indentModule === true ? 34 : 0,
         module_CdcEmr: cdcEmr === true ? 32 : 0,
         module_abha: abha === true ? 33 : 0
 
@@ -157,6 +160,7 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
+    indentModule,
     cdcEmr,
     abha
   ])
@@ -193,6 +197,7 @@ const ModuleGroupMast = () => {
         module_labresult: labresult === true ? 28 : 0,
         module_deviceCredentials: deviceCredentials === true ? 29 : 0,
         module_Store: storeModule === true ? 31 : 0,
+        module_Indent: indentModule === true ? 34 : 0,
         module_CdcEmr: cdcEmr === true ? 32 : 0,
         module_abha: abha === true ? 33 : 0
 
@@ -229,6 +234,7 @@ const ModuleGroupMast = () => {
     labresult,
     deviceCredentials,
     storeModule,
+    indentModule,
     cdcEmr,
     abha
   ])
@@ -270,6 +276,7 @@ const ModuleGroupMast = () => {
       labresult: module_status.labresult === 0 ? false : true,
       deviceCredentials: module_status.module_deviceCredentials === 0 ? false : true,
       storeModule: module_status.module_Store === 0 ? false : true,
+      indentModule: module_status.module_Indent === 0 ? false : true,
       cdcEmr: module_status.module_CdcEmr === 0 ? false : true,
       abha: module_status.module_abha === 0 ? false : true,
 
@@ -309,6 +316,7 @@ const ModuleGroupMast = () => {
         labresult: false,
         deviceCredentials: false,
         storeModule: false,
+        indentModule: false,
         cdcEmr: false,
         abha: false
       }
@@ -387,9 +395,9 @@ const ModuleGroupMast = () => {
       labresult: false,
       deviceCredentials: false,
       storeModule: false,
+      indentModule: false,
       cdcEmr: false,
       abha: false
-
     }
     setModuleGroup(frmreset)
     setvalue(0)
@@ -715,14 +723,14 @@ const ModuleGroupMast = () => {
               </Grid>
               <Grid item xl={12} lg={12}>
                 <CusCheckBox
-                  label="Cdc Emr Module"
+                  label="Indent Module"
                   color="primary"
                   size="md"
-                  name="cdcEmr"
+                  name="indentModule"
                   variant="outlined"
-                  value={cdcEmr}
-                  checked={cdcEmr}
-                  onCheked={updateModuleGroup}
+                  value={indentModule}
+                  checked={indentModule}
+
                 />
               </Grid>
               <Grid item xl={12} lg={12}>
