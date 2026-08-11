@@ -45,6 +45,7 @@ const DietPlan = ({
 
   // ONLY FOR DIETITIAN
   const [consultationRequired, setConsultationRequired] = useState(true);
+  const [remarks, setRemarks] = useState("");
 
   const hasActiveDiet = useMemo(() => diet_history?.find(val => val?.diet_status === "ACTIVE"),
     [diet_history]
@@ -71,6 +72,7 @@ const DietPlan = ({
   const resetForm = useCallback(() => {
     setDietType("");
     setEditMode(false);
+    setRemarks("")
     setEditingPlanId(null);
     setConsultationRequired(true);
   }, []);
@@ -92,6 +94,7 @@ const DietPlan = ({
     setEditMode(true);
     setEditingPlanId(row?.plan_id);
     setDietType(row?.diet_id || "");
+    setRemarks(row?.remarks)
     setConsultationRequired(true);
 
   }, [editMode, editingPlanId]);
@@ -108,7 +111,7 @@ const DietPlan = ({
     );
   }, []);
 
-  
+
   const getGender = useCallback((sex) => {
     if (sex === "F") return "Female";
     if (sex === "M") return "Male";
@@ -126,6 +129,8 @@ const DietPlan = ({
       return "Please select Diet";
     if (!do_code)
       return "Doctor Id is Missing!"
+    if (!remarks)
+      return "Please Enter Remark Before Planning"
   };
 
   const handleSubmit = async (type = "save") => {
@@ -141,6 +146,7 @@ const DietPlan = ({
         patient_id: pt_no,
         admission_id: ip_no,
         diet_id: dietType,
+        remarks: remarks || null,
         is_consultation: consultationRequired ? 1 : 0,
         start_date: ipd_date
           ? formatDate(ipd_date)
@@ -221,7 +227,7 @@ const DietPlan = ({
 
       <ModalDialog
         sx={{
-          width: isPlanned ? '52%' : '45%',
+          width: isPlanned ? '65%' : '45%',
           borderRadius: 10,
           p: 0,
           overflow: 'hidden',
@@ -274,8 +280,8 @@ const DietPlan = ({
             dietType={dietType}
             ActiveDiet={hasActiveDiet}
             setDietType={setDietType}
-          // dietecian={dietecian}
-          // setDietecian={setDietecian}
+            remarks={remarks}
+            setRemarks={setRemarks}
           />
 
         </Box>

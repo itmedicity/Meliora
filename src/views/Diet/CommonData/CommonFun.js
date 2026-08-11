@@ -888,6 +888,7 @@ export const formatPatientDietData = (data = []) => {
                     diet_name: item.diet_name,
                     dietitian_id: item.dietitian_id,
                     Dietecian_name: item.Dietecian_name,
+                    remarks: item.remarks,
                     template_id: item.template_id,
                     template_name: item.template_name,
                     is_consultation: item.is_consultation,

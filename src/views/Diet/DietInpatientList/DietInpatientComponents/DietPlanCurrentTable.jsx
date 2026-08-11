@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Table, Chip, Divider, IconButton } from "@mui/joy";
+import { Box, Table, Chip, Divider, IconButton, Tooltip } from "@mui/joy";
 
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -127,9 +127,10 @@ const DietPlanCurrentTable = ({
                                         <th>Diet</th>
                                         <th>Template</th>
                                         <th>Dietitian</th>
-                                        <th>Status</th>
-                                        <th>Edit</th>
-                                        <th>Stop</th>
+                                        <th>remarks</th>
+                                        <th style={{ width: '100px' }}>Status</th>
+                                        <th style={{ width: '50px' }}>Edit</th>
+                                        <th style={{ width: '50px' }}>Stop</th>
                                     </tr>
                                 </thead>
 
@@ -143,8 +144,27 @@ const DietPlanCurrentTable = ({
                                                 <td>{row?.diet_name || "-"}</td>
                                                 <td>{row?.template_name || "-"}</td>
                                                 <td>{row?.Dietecian_name || "-"}</td>
-
                                                 <td>
+                                                    {row?.remarks ? (
+                                                        <Tooltip title={row.remarks} arrow>
+                                                            <Box
+                                                                sx={{
+                                                                    maxWidth: 200,
+                                                                    overflow: "hidden",
+                                                                    textOverflow: "ellipsis",
+                                                                    whiteSpace: "nowrap",
+                                                                    cursor: "pointer",
+                                                                }}
+                                                            >
+                                                                {row.remarks}
+                                                            </Box>
+                                                        </Tooltip>
+                                                    ) : (
+                                                        "-"
+                                                    )}
+                                                </td>
+
+                                                <td style={{ width: '100px' }}>
                                                     <Chip
                                                         size="sm"
                                                         variant="soft"
@@ -158,7 +178,7 @@ const DietPlanCurrentTable = ({
                                                 </td>
 
                                                 {/* EDIT */}
-                                                <td>
+                                                <td style={{ width: '50px' }}>
                                                     <Box
                                                         onClick={() => {
                                                             if (isStopped) return;
@@ -186,7 +206,7 @@ const DietPlanCurrentTable = ({
                                                 </td>
 
                                                 {/* STOP */}
-                                                <td>
+                                                <td style={{ width: '50px' }}>
                                                     <Box
                                                         onClick={() => {
                                                             if (isStopped) return;
