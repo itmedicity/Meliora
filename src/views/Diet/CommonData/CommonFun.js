@@ -1403,37 +1403,89 @@ export const getProcessedPlanIdsByType = (batchDetail = []) => {
 };
 
 
+// export const filterUnprocessedItemsByType = (
+//     items,
+//     scheduledPatient,
+//     selectedDietTimes
+// ) => {
+//     if (!Array.isArray(items)) return [];
+
+//     // Create a Set for fast lookup
+//     const existingSet = new Set(
+//         (scheduledPatient || [])?.map(
+//             item => `${item.plan_id}_${item.type_id}`
+//         )
+//     );
+
+//     return items.filter(item => {
+
+//         //  1. Check selected types
+//         const selectedTypes = selectedDietTimes[item.diet_id] || [];
+//         if (!selectedTypes.includes(item.type_id)) return false;
+
+//         //  2. Check if already exists
+//         const key = `${item.plan_id}_${item.type_id}`;
+
+//         if (existingSet.has(key)) {
+//             return false; //  already scheduled
+//         }
+
+//         return true; //  allow insert
+//     });
+// };
+
+
 export const filterUnprocessedItemsByType = (
     items,
     scheduledPatient,
-    selectedDietTimes
+    selectedDietTimes,
+    processDate
 ) => {
     if (!Array.isArray(items)) return [];
 
-    // Create a Set for fast lookup
+    // Selected processing date only
+    const selectedDate = processDate
+        ? processDate.split(" ")[0]
+        : null;
+
+    // Existing scheduled items for THIS processing date
     const existingSet = new Set(
-        (scheduledPatient || [])?.map(
-            item => `${item.plan_id}_${item.type_id}`
-        )
+        (scheduledPatient || [])
+            .filter(item => {
+                if (!selectedDate) return true;
+
+                const scheduledDate =
+                    item?.process_date?.split(" ")[0];
+
+                return scheduledDate === selectedDate;
+            })
+            .map(item =>
+                `${item.plan_id}_${item.diet_id}_${item.type_id}`
+            )
     );
 
-    return items.filter(item => {
+    return items?.filter(item => {
 
-        //  1. Check selected types
-        const selectedTypes = selectedDietTimes[item.diet_id] || [];
-        if (!selectedTypes.includes(item.type_id)) return false;
+        // Selected diet times
+        const selectedTypes =
+            selectedDietTimes?.[item.diet_id] || [];
 
-        //  2. Check if already exists
-        const key = `${item.plan_id}_${item.type_id}`;
-
-        if (existingSet.has(key)) {
-            return false; //  already scheduled
+        if (!selectedTypes.includes(item.type_id)) {
+            return false;
         }
 
-        return true; //  allow insert
+        // plan + diet + type
+        const key =
+            `${item.plan_id}_${item.diet_id}_${item.type_id}`;
+
+        // Already processed on this date
+        if (existingSet.has(key)) {
+            return false;
+        }
+
+        return true;
     });
 };
-
 
 /*#############################USE QUERY API CALL USED HERE ####################################*/
 
@@ -1576,10 +1628,13 @@ export const getAllProcessListDetail = async (processlistdate) => {
             warningNotify("Please select a valid date");
             return [];
         }
+
+        // console.log({processlistdate});
+
         // Ensure correct format (fallback handled inside)
-        const formattedDate = getSafeFormattedDate(processlistdate);
+        // const formattedDate = getSafeFormattedDate(processlistdate);
         const result = await axioslogin.post('/patientdietplan/getprocesslist', {
-            date: formattedDate
+            date: processlistdate
         });
         const { success, data } = result.data;
         if (success === 2 && Array.isArray(data)) {

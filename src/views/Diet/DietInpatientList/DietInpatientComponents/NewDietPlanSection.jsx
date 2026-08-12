@@ -47,7 +47,6 @@ const NewDietPlanSection = ({
 
     return (
         <Stack spacing={1.5}>
-
             {/* ===== DIET SELECTION CARD ===== */}
             <Box
                 sx={{

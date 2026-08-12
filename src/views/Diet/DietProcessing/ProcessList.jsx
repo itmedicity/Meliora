@@ -48,8 +48,8 @@ const ProcessList = () => {
         error: errorProcess
     } = useAllDietProcessList(formattedDate);
 
-  
-    
+
+
 
     const {
         data: FinalDietNames = [],
@@ -102,12 +102,9 @@ const ProcessList = () => {
     const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient.diet_id === diet.diet_id));
 
 
-
-
     const itemDetail = getDietProductionItems(ActivePatientTypeDetail, selectedDiets);
 
     const ProcessedList = useMemo(() => groupByDiet(FormatedProcessedList), [FormatedProcessedList]);
-
 
     const allDietNames = DietName?.map(d => d.diet_name);
 
@@ -119,10 +116,10 @@ const ProcessList = () => {
         return filterUnprocessedItemsByType(
             itemDetail,
             ScheduledPatientDiet,
-            selectedDietTimes
+            selectedDietTimes,
+            apiDate
         );
-    }, [itemDetail, selectedDietTimes]);
-
+    }, [itemDetail, ScheduledPatientDiet, selectedDietTimes, apiDate]);
 
     const groupedPlans = useMemo(() => {
         return groupByPlanId(filteredItemDetail);
@@ -135,7 +132,6 @@ const ProcessList = () => {
             : filteredItemDetail.filter(item =>
                 selectedPlans.includes(item.plan_id)
             );
-
 
 
     // Function to GoBack
@@ -178,6 +174,9 @@ const ProcessList = () => {
             };
 
 
+            console.log({
+                payload
+            });
 
 
             const result = await axioslogin.post('/dietschedule/schedule/list', payload);
@@ -194,9 +193,6 @@ const ProcessList = () => {
             setSelectedDiets([]);
             setSelectedDietTimes([]);
         } catch (error) {
-            console.log({
-                error
-            });
 
             warningNotify("Processing Failed");
         }
@@ -232,6 +228,37 @@ const ProcessList = () => {
         // Optional reset
 
     }, [ProcessedList])
+
+
+    // const handleNewPatientOrder = useCallback(() => {
+
+    //     const timeMap = {};
+
+    //     ScheduledPatientDiet?.forEach(item => {
+
+    //         const dietId = item.diet_id;
+    //         const typeId = item.type_id;
+
+    //         if (!dietId || !typeId) return;
+
+    //         if (!timeMap[dietId]) {
+    //             timeMap[dietId] = [];
+    //         }
+
+    //         if (!timeMap[dietId].includes(typeId)) {
+    //             timeMap[dietId] = [
+    //                 ...timeMap[dietId],
+    //                 typeId
+    //             ];
+    //         }
+    //     });
+
+    //     const dietIds = Object.keys(timeMap);
+
+    //     setSelectedDiets(dietIds);
+    //     setSelectedDietTimes(timeMap);
+
+    // }, [ScheduledPatientDiet]);
 
 
     const isLoadingAll =

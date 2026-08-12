@@ -119,9 +119,6 @@ const KotPreparationDelivery = () => {
     ]);
 
 
-    console.log({
-        SourceData
-    });
     
 
     const {

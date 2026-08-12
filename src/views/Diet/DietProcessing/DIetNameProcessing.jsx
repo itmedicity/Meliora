@@ -15,14 +15,6 @@ const DIetNameProcessing = ({
     todate
 }) => {
 
-    console.log({
-        FormatedProcessedList,
-        setSelectedDietTimes,
-        patientsPerDiet
-    });
-
-
-
 
     const { data: DietName = [] } = useAllPatientDietMaster();
     const { data: ActivePatient = [] } = useAllActivePatientDietPlan(todate);
@@ -38,6 +30,7 @@ const DIetNameProcessing = ({
         allDietNames.length > 0 &&
         selectedDiets.length === allDietNames.length &&
         Object.values(selectedDietTimes).every(times => times.length > 0);
+
 
 
     const toggleDiet = (diet_id) => {
@@ -65,6 +58,8 @@ const DIetNameProcessing = ({
     };
 
 
+    
+
     const toggleSelectAll = () => {
         if (isAllSelected) {
             setSelectedDiets([]);
@@ -79,6 +74,7 @@ const DIetNameProcessing = ({
                 if (!diet?.types?.length) return;
                 allTimes[dietId] = diet.types.map(t => t.type_id);
             });
+
             setSelectedDietTimes(allTimes);
         }
     };

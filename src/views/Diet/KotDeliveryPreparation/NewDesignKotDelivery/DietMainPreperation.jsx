@@ -42,9 +42,7 @@ const DietMainPreperation = ({
     const { assignee, selectedPatients } = state
 
 
-    console.log({
-        selectedPatients
-    });
+
     
 
 

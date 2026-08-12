@@ -14,7 +14,6 @@ import ExtraRoomMeliSelect from './ExtraRoomMeliSelect'
 import ExtraDietTypeSelect from './ExtraDietTypeSelect'
 import { format } from 'date-fns'
 import ExtraOrderView from './ExtraOrderView'
-import { Fragment } from 'react'
 import ItemSelectExtra from 'src/views/CommonSelectCode/ItemSelectExtra'
 import { Box, IconButton, Tooltip, Typography } from '@mui/joy'
 
@@ -402,6 +401,8 @@ const ExtraOrder = () => {
           submit={submitExtraorder}
           refresh={refreshWindow}
           view={viewdatas}
+          setEditArry={setEditArry}
+          setEditCount={setEditCount}
         >
           <CusModelMessage
             open={open}

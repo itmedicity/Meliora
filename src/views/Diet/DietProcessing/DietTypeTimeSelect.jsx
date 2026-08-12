@@ -10,8 +10,12 @@ const DietTypeTimeSelect = ({
   setSelectedDietTimes,
   selectedDietTimes,
   FormatedProcessedList,
-  setSelectedDiets
+  setSelectedDiets,
+  todate
 }) => {
+
+
+
 
   const memoizedFormatedProcessedList = useMemo(() => FormatedProcessedList, [FormatedProcessedList]);
 
@@ -41,6 +45,16 @@ const DietTypeTimeSelect = ({
     if (!selectedDiets.length) return [];
 
     const grouped = {}; // Initialize an object to group meal types by time ranges
+    const selectedDate = getSafeFormattedDate(
+      todate,
+      'yyyy-MM-dd'
+    );
+
+    const todayDate = getSafeFormattedDate(
+      new Date(),
+      'yyyy-MM-dd'
+    );
+    const isToday = selectedDate === todayDate;
     const now = new Date();
 
     selectedDiets.forEach(dietId => {
@@ -49,11 +63,19 @@ const DietTypeTimeSelect = ({
 
       diet.types.forEach(typeItem => {
 
-        const start = new Date(`${getSafeFormattedDate(new Date(), 'yyyy-MM-dd')} ${typeItem.start_time}`);
+        // const start = new Date(`${getSafeFormattedDate(new Date(), 'yyyy-MM-dd')} ${typeItem.start_time}`);
         // const end = new Date(`${getSafeFormattedDate(new Date(), 'yyyy-MM-dd')} ${typeItem.end_time}`);
 
         //  skip if started (covers running + past)
-        if (now >= start) return;
+        // if (now >= start) return;
+        // Only compare time when processing TODAY
+        if (isToday) {
+          const start = new Date(
+            `${selectedDate} ${typeItem.start_time}`
+          );
+          // Skip meals that have already started
+          if (now >= start) return;
+        }
 
         const range = `${typeItem.start_time} - ${typeItem.end_time}`; // Create a string for the time range
         if (!grouped[range]) grouped[range] = { range, meals: [] }; // Initialize the group for this range if it doesn't exist
@@ -71,38 +93,76 @@ const DietTypeTimeSelect = ({
     });
 
     return Object.values(grouped); // Convert the grouped object into an array for easier rendering
-  }, [selectedDiets, dietMap]);
+  }, [selectedDiets, dietMap, todate]);
+
+
+  // useEffect(() => {
+  //   if (!selectedDiets.length) return;
+
+  //   setSelectedDietTimes(prev => {
+  //     const updated = { ...prev };
+  //     let changed = false;
+
+  //     selectedDiets.forEach(dietId => {
+  //       const diet = dietMap[dietId] || memoizedFormatedProcessedList?.find(d => d.diet_id === dietId);
+  //       if (!diet?.types?.length) return;
+
+  //       const allowedTimes = diet.types.map(t => t.type_id);
+  //       let currentTimes = updated[dietId] || [];
+
+  //       // Only filter out invalid times (do NOT force select all)
+  //       const filtered = currentTimes.filter(t => allowedTimes.includes(t));
+  //       if (JSON.stringify(filtered) !== JSON.stringify(currentTimes)) {
+  //         currentTimes = filtered;
+  //         changed = true;
+  //       }
+
+  //       updated[dietId] = currentTimes;
+  //     });
+
+  //     return changed ? updated : prev;
+  //   });
+  // }, [selectedDiets, dietMap, memoizedFormatedProcessedList]);
 
 
   useEffect(() => {
     if (!selectedDiets.length) return;
+
+    const visibleTypeIds = new Set(
+      combinedTimes.flatMap(group =>
+        group.meals.map(meal => meal.type_id)
+      )
+    );
 
     setSelectedDietTimes(prev => {
       const updated = { ...prev };
       let changed = false;
 
       selectedDiets.forEach(dietId => {
-        const diet = dietMap[dietId] || memoizedFormatedProcessedList?.find(d => d.diet_id === dietId);
-        if (!diet?.types?.length) return;
+        const currentTimes = updated[dietId] || [];
 
-        const allowedTimes = diet.types.map(t => t.type_id);
-        let currentTimes = updated[dietId] || [];
+        // Keep only types that are actually displayed
+        const filteredTimes = currentTimes.filter(typeId =>
+          visibleTypeIds.has(typeId)
+        );
 
-        // Only filter out invalid times (do NOT force select all)
-        const filtered = currentTimes.filter(t => allowedTimes.includes(t));
-        if (JSON.stringify(filtered) !== JSON.stringify(currentTimes)) {
-          currentTimes = filtered;
+        if (
+          JSON.stringify(filteredTimes) !==
+          JSON.stringify(currentTimes)
+        ) {
           changed = true;
-        }
 
-        updated[dietId] = currentTimes;
+          if (filteredTimes.length > 0) {
+            updated[dietId] = filteredTimes;
+          } else {
+            delete updated[dietId];
+          }
+        }
       });
 
       return changed ? updated : prev;
     });
-  }, [selectedDiets, dietMap, memoizedFormatedProcessedList]);
-
-
+  }, [selectedDiets, combinedTimes, setSelectedDietTimes]);
 
   /*Toggle time selection*/
 

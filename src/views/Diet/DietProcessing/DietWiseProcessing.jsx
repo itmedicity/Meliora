@@ -34,9 +34,8 @@ const DietWiseProcessing = ({
     // const [todate, setToDate] = useState(new Date());
     const [blink, setBlink] = useState(false); // default color
 
-    const formattedDate = getSafeFormattedDate(todate, 'dd-MM-yyyy');
-
     const apiDate = getSafeFormattedDate(todate, "yyyy-MM-dd");
+
 
     const {
         data: ActivePatientTypeDetail = [],
@@ -55,10 +54,14 @@ const DietWiseProcessing = ({
         refetch: FetchScheduledDietPlan
     } = useFetchAllScheduledDiet(apiDate);
 
-    const { data: ProcessedList = [] } = useAllDietProcessList(formattedDate);
-
+    const { data: ProcessedList = [] } = useAllDietProcessList(apiDate);
 
     const FormatedProcessedList = groupByDiet(ProcessedList);
+
+
+    console.log({
+        FormatedProcessedList
+    });
 
     const {
         totalPatients,
@@ -68,6 +71,7 @@ const DietWiseProcessing = ({
     } = summarizePatients(
         ActivePatientTypeDetail, ScheduledPatientDiet
     );
+
 
     const today = new Date();
 
@@ -260,6 +264,7 @@ const DietWiseProcessing = ({
                             isAllSelected={isAllSelected}
                             setSelectedDiets={setSelectedDiets}
                             FormatedProcessedList={FormatedProcessedList}
+                            todate={todate}
                         />
                     </Box>
                 </Box>

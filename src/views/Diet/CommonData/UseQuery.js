@@ -471,9 +471,9 @@ export const useAllFoodAndBeverage = (enabled) => {
 
 export const useAllDietProcessList = (date) => {
     return useSafeQuery({
-        queryKey: ['processlistdtl'],
+        queryKey: ['processlistdtl', date],
         queryFn: () => getAllProcessListDetail(date),
-        staleTime: Infinity,
+        staleTime: 0,
         defaultValue: [],
         enabled: !!date
     });
@@ -621,10 +621,10 @@ export const useBystanderBillDetails = (ipno, ptno, status) => {
 };
 
 
-export const usePatientDietBillDetails = (ipno, ptno,status) => {
+export const usePatientDietBillDetails = (ipno, ptno, status) => {
     return useSafeQuery({
-        queryKey: ['diet-details', ipno, ptno,status],
-        queryFn: () => getPatientDietBillDetial(ipno, ptno,status),
+        queryKey: ['diet-details', ipno, ptno, status],
+        queryFn: () => getPatientDietBillDetial(ipno, ptno, status),
         staleTime: Infinity,
         defaultValue: [],
         enabled: !!ipno && !!ptno
@@ -632,10 +632,10 @@ export const usePatientDietBillDetails = (ipno, ptno,status) => {
 };
 
 
-export const usePatientExtraOrderBills = (ipno, ptno,status) => {
+export const usePatientExtraOrderBills = (ipno, ptno, status) => {
     return useSafeQuery({
-        queryKey: ['patient-extra-details', ipno, ptno,status],
-        queryFn: () => getPatientExtraOrderBills(ipno, ptno,status),
+        queryKey: ['patient-extra-details', ipno, ptno, status],
+        queryFn: () => getPatientExtraOrderBills(ipno, ptno, status),
         staleTime: Infinity,
         defaultValue: [],
         enabled: !!ipno && !!ptno

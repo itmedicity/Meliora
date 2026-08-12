@@ -28,10 +28,7 @@ const AssignPatientConfirmModal = ({
     dispatch,
 }) => {
 
-    console.log({
-        assignee
-    });
-
+  
 
     const [remark, setRemark] = useState("");
     const [remarkError, setRemarkError] = useState(false);
