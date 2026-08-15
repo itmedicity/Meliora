@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DietMasterHeader from 'src/views/Master/DietMasters/DietComponent/DietMasterHeader'
 import DietWiseProcessing from './DietWiseProcessing';
 import ProcessCompletedList from './ProcessCompletedList';
-import { succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import {  succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import {
     useAllActivePatientTypeDetail,
     useAllDietProcessList,
@@ -78,13 +78,6 @@ const ProcessList = () => {
     } = useFetchAllScheduledDiet(apiDate);
 
 
-    // const {
-    //     data: BatchDetail = [],
-    //     isLoading: isLoadingBatch,
-    //     isError: isErrorBatch,
-    //     error: errorBatch,
-    //     // refetch: FetchAllBatchDetail
-    // } = useAllProductionBatchDetail(todate);
 
 
     useEffect(() => {
@@ -94,13 +87,11 @@ const ProcessList = () => {
             FetchActivePatients()
             //  stop blink after animation
         });
-
         return () => socket.off("newDietPlanCreated");
     }, []);
 
-
-    const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient.diet_id === diet.diet_id));
-
+ 
+    const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient?.diet_id === diet?.diet_id));
 
     const itemDetail = getDietProductionItems(ActivePatientTypeDetail, selectedDiets);
 
@@ -172,12 +163,6 @@ const ProcessList = () => {
                 status: 'PENDING',
                 created_by: id
             };
-
-
-            console.log({
-                payload
-            });
-
 
             const result = await axioslogin.post('/dietschedule/schedule/list', payload);
             const { success, message } = result?.data || {};

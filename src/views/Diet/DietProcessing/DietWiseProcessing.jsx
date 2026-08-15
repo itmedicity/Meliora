@@ -11,10 +11,21 @@ import BookmarkAddedTwoToneIcon from '@mui/icons-material/BookmarkAddedTwoTone';
 import CustomeIncidentLoading from 'src/views/IncidentManagement/Components/CustomeIncidentLoading';
 import SmartRealtimeCounter from '../DietComponent/SmartRealtimeCounter';
 import '../../Master/DietMasters/DietStyle/DietStyle.css';
-import { getSafeFormattedDate, groupByDiet, summarizePatients } from '../CommonData/CommonFun';
-import { useAllActivePatientTypeDetail, useAllDietProcessList, useFetchAllScheduledDiet } from '../CommonData/UseQuery';
-import { socket } from 'src/ws/socket'
-import { succesNotify } from 'src/views/Common/CommonCode';
+import {
+    getSafeFormattedDate,
+    groupByDiet,
+    summarizePatients
+} from '../CommonData/CommonFun';
+import {
+    useAllActivePatientTypeDetail,
+    useAllDietProcessList,
+    useFetchAllScheduledDiet,
+    useNewAdmittedPatientDetail
+} from '../CommonData/UseQuery';
+import { socket }
+    from 'src/ws/socket'
+import { infoNotify, succesNotify }
+    from 'src/views/Common/CommonCode';
 
 const DatePickerComponent = lazy(() => import('../DietComponent/DatePickerComponent'));
 
@@ -44,6 +55,25 @@ const DietWiseProcessing = ({
         error: errorPatientType,
     } = useAllActivePatientTypeDetail(todate);
 
+    const {
+        data: NewAdmittedPatientDetail = [],
+        refetch: FetchNewAdmittedPatient
+    } = useNewAdmittedPatientDetail();
+
+
+    useEffect(() => {
+        const handleNewAdmission = ({ data, count }) => {
+            infoNotify(count === 1 ? `New patient admitted: ${data?.[0]?.fb_ptc_name || ""}`
+                : `${count} new patients admitted`
+            );
+            FetchNewAdmittedPatient()
+        };
+
+        socket.on("new-admission", handleNewAdmission);
+        return () => {
+            socket.off("new-admission", handleNewAdmission);
+        };
+    }, [FetchNewAdmittedPatient]);
 
 
     const {
@@ -54,23 +84,23 @@ const DietWiseProcessing = ({
         refetch: FetchScheduledDietPlan
     } = useFetchAllScheduledDiet(apiDate);
 
+
+    const TotalProcessedCount = ScheduledPatientDiet && ScheduledPatientDiet?.length;
+
     const { data: ProcessedList = [] } = useAllDietProcessList(apiDate);
 
     const FormatedProcessedList = groupByDiet(ProcessedList);
 
-
-    console.log({
-        FormatedProcessedList
-    });
-
     const {
-        totalPatients,
+        // totalPatients,
         patientsPerDiet,
         newPatientCount,
         // newPatients
     } = summarizePatients(
         ActivePatientTypeDetail, ScheduledPatientDiet
     );
+
+    const FinalNotPlannedPatient = Number(NewAdmittedPatientDetail?.length) || 0;
 
 
     const today = new Date();
@@ -180,7 +210,7 @@ const DietWiseProcessing = ({
                                         fontFamily: 'Bahnschrift',
                                         whiteSpace: 'nowrap'
                                     }}>
-                                    New Patient
+                                    Not Processed
                                 </Typography>
                             </Box>
 
@@ -214,7 +244,7 @@ const DietWiseProcessing = ({
                                         whiteSpace: 'nowrap'
                                     }}
                                 >
-                                    Total Patient
+                                    Processed
                                 </Typography>
                             </Box>
                             <Typography
@@ -227,7 +257,55 @@ const DietWiseProcessing = ({
                                     textAlign: 'center'
                                 }}
                             >
-                                {totalPatients ?? 0}
+                                <SmartRealtimeCounter value={Number(TotalProcessedCount) || 0} />
+                                {/* {
+                                    TotalProcessedCount ?? 0
+                                } */}
+                            </Typography>
+                        </Box>
+
+                        <Box sx={{
+                            m: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'column',
+                            borderBottom: '4px solid #7c51a1',
+                            borderRadius: 10
+                        }}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+
+                            }}>
+                                <Person4TwoToneIcon sx={{
+                                    color: '#7c51a1'
+                                }} />
+                                <Typography
+                                    sx={{
+                                        fontSize: 18,
+                                        fontWeight: 500,
+                                        color: 'var(--royal-purple-400)',
+                                        fontFamily: 'Bahnschrift',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    New Admission
+                                </Typography>
+                            </Box>
+                            <Typography
+                                sx={{
+                                    fontSize: 28,
+                                    fontWeight: 500,
+                                    color: 'black',
+                                    fontFamily: 'Bahnschrift',
+                                    whiteSpace: 'nowrap',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                <SmartRealtimeCounter value={Number(FinalNotPlannedPatient) || 0} />
+                                {/* {FinalNotPlannedPatient ?? 0} */}
                             </Typography>
                         </Box>
 

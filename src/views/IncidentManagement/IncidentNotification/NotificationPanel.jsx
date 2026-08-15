@@ -32,7 +32,11 @@ const NotificationPanel = () => {
                 overflowY: "auto",
                 borderRadius: "16px",
                 zIndex: 1300,
-                p: 1.5,
+                p: 1.5, // Hide scrollbar
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {
+                    display: "none",
+                },
             }}
         >
 
@@ -73,6 +77,7 @@ const NotificationPanel = () => {
                             transform: "translateY(-2px)",
                             boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
                         },
+
                     }}
                 >
 
@@ -111,10 +116,12 @@ const NotificationPanel = () => {
                                 justifyContent: "space-between",
                                 alignItems: "center",
                                 mt: 0.8,
-                            }}
-                        >
+                            }}>
                             <Typography level="body-xs" sx={{ opacity: 0.6 }}>
-                                {new Date(n?.createdAt).toLocaleTimeString()}
+                                {new Date(n?.createdAt || Date.now()).toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                })}
                             </Typography>
 
                             {!n.read && (

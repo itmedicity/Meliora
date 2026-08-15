@@ -54,7 +54,9 @@ const DirectCanteenOrders = () => {
     })
 
 
-    const { billRef, printBill } = usePrintBill();
+    const { billRef,
+        //  printBill 
+    } = usePrintBill();
 
     const filteredPartyTypes = useMemo(() => {
         return allPartyType?.filter(
@@ -177,7 +179,7 @@ const DirectCanteenOrders = () => {
                 succesNotify("Items added to existing order");
                 RefetchPreviousOrder()
                 // RefetchExtraOrders()
-                printBill();
+                // printBill();
                 resetItem()
                 return;
             }
@@ -213,7 +215,7 @@ const DirectCanteenOrders = () => {
             RefetchPreviousOrder()
             // RefetchExtraOrders()
             resetItem()
-            printBill();
+            // printBill();
 
         } catch (err) {
             console.error(err);
@@ -356,7 +358,7 @@ const DirectCanteenOrders = () => {
                             personType={personType}
                             mealtype={mealtype}
                             PreviousOrders={PreviousOrders}
-                             setMealType={setMealType}
+                            setMealType={setMealType}
                         />
                         <FoodDetailShowCard selectedFood={selectedFood} />
                     </Box>
@@ -400,7 +402,7 @@ const DirectCanteenOrders = () => {
                             <DietButton
                                 width={150}
                                 icon={PrintIcon}
-                                name="Save and Print"
+                                name="Save"
                                 onClick={handleSubmit}
                             />
                         </Box>

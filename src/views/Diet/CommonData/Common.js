@@ -1492,9 +1492,10 @@ export const prepareBillingPayload = ({
         admission_id: patient.admission_id,
         created_by: createdBy,
         total_amount,
-        items: items.map(item => ({
+        items: items?.map(item => ({
             bill_id: item.bill_id,
             billing_type: item.billing_type,
+            party_type_id: item.party_type_id,
             category_id:
                 item.billing_type === "DIET_ORDER"
                     ? 1

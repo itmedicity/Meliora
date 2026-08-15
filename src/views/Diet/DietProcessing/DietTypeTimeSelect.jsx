@@ -71,7 +71,7 @@ const DietTypeTimeSelect = ({
         // Only compare time when processing TODAY
         if (isToday) {
           const start = new Date(
-            `${selectedDate} ${typeItem.start_time}`
+            `${selectedDate} ${typeItem.end_time}`
           );
           // Skip meals that have already started
           if (now >= start) return;

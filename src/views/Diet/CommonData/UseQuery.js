@@ -67,7 +67,9 @@ import {
     getPatientSummaryDetail,
     getPatientTemplateFoodDetail,
     getPatientTransactions,
-    getProductionMaping
+    getProductionMaping,
+    getTotalipPatient,
+    getTotalNewAdmittedPatientDetail
 } from "./CommonFun";
 import { useSafeQuery } from "./Helper";
 
@@ -811,6 +813,7 @@ export const useAllHighlightMaster = () => {
     });
 };
 
+
 export const useAllHighlightMappings = () => {
     return useSafeQuery({
         queryKey: ['highligtmapping',],
@@ -819,6 +822,29 @@ export const useAllHighlightMappings = () => {
         defaultValue: []
     });
 };
+
+
+export const useTotalIpPatientCountDetails = () => {
+    return useSafeQuery({
+        queryKey: ['totalpatientcount'],
+        queryFn: getTotalipPatient,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+
+
+export const useNewAdmittedPatientDetail = () => {
+    return useSafeQuery({
+        queryKey: ['new-admission-count'],
+        queryFn: getTotalNewAdmittedPatientDetail,
+        defaultValue: [],
+        staleTime:0
+    });
+};
+
+
 
 
 

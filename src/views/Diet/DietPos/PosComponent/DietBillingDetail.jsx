@@ -52,6 +52,12 @@ const DietBillingDetail = () => {
         usePatientSimpleSummary(ipNo, ptNo);
 
 
+    console.log({
+        patientSummary
+    });
+
+
+
     const { data: patientTransactions = [] } =
         usePatientTransactions(ipNo, ptNo, 'PENDING');
 
@@ -64,6 +70,12 @@ const DietBillingDetail = () => {
 
     const { data: patientExraFOod = [] } =
         usePatientExtraOrderBills(ipNo, ptNo, 'PENDING');
+
+
+    console.log({
+        patientExraFOod
+    });
+
 
     const Patient = PatientFullDetail?.[0] ?? {};
     const Summary = patientSummary?.[0] ?? {};
@@ -115,6 +127,7 @@ const DietBillingDetail = () => {
             items: filteredTransactions,
             createdBy: id,
         });
+
         try {
             const response = await axioslogin.post("/dietdelivery/billing/create", payload)
             const { success, message } = response?.data ?? {};

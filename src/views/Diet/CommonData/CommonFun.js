@@ -3011,3 +3011,33 @@ export const getAllHighlightMappings = async () => {
         return [];
     }
 };
+
+
+
+export const getTotalipPatient = async () => {
+    try {
+        const res = await axioslogin.get('/patientdietplan/total-ip-patient');
+        const { success, data } = res.data;
+        if (success === 2) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In Total Ip Patient Counts:", error?.message || error);
+        return [];
+    }
+};
+
+export const getTotalNewAdmittedPatientDetail = async () => {
+    try {
+        const res = await axioslogin.get('/patientdietplan/new-admission');
+        const { success, data } = res.data; 
+        if (success === 2) return data || [];
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error In getting All New Admitted Patient", error?.message || error);
+        return [];
+    }
+};
+

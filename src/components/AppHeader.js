@@ -20,6 +20,10 @@ import LiveClock from 'src/views/Components/LiveClock'
 import NotificationBell from 'src/views/IncidentManagement/IncidentNotification/NotificationBell'
 import { initNotificationSound } from 'src/views/IncidentManagement/IncidentNotification/notificationSound'
 import { useSelector } from 'react-redux'
+import { useNewAdmittedPatientDetail } from 'src/views/Diet/CommonData/UseQuery';
+import { socket } from 'src/ws/socket';
+import { useNotifications } from 'src/views/IncidentManagement/IncidentNotification/NotificationContext';
+
 
 
 const AppHeader = ({ collapsed, setCollapsed }) => {
@@ -27,6 +31,46 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
   const empname = useSelector(state => {
     return state.LoginUserData.empname
   })
+  const { addNotification } = useNotifications();
+
+  const {
+    data: NewAdmittedPatientDetail = [],
+    refetch: FetchNewAdmittedPatient
+  } = useNewAdmittedPatientDetail();
+
+  console.log({
+    NewAdmittedPatientDetail
+  });
+  
+
+  useEffect(() => {
+    if (!NewAdmittedPatientDetail?.length) return;
+
+    NewAdmittedPatientDetail.forEach((patient) => {
+      addNotification({
+        id: `admission-${patient.fb_ip_no}`,
+        type: "NEW_ADMISSION",
+        title: "New Patient Admission",
+        message: `${patient?.fb_ptc_name} has been admitted on ${patient?.fb_ns_name || ''}.`,
+        patient
+      });
+    });
+  }, [NewAdmittedPatientDetail]);
+
+
+  useEffect(() => {
+
+    const handleNewAdmission = () => {
+      // Refresh database-backed notification list
+      FetchNewAdmittedPatient();
+    };
+
+    socket.on("new-admission", handleNewAdmission);
+    return () => {
+      socket.off("new-admission", handleNewAdmission);
+    };
+
+  }, [FetchNewAdmittedPatient]);
 
   useEffect(() => {
     const enableSound = () => {
