@@ -159,6 +159,10 @@ const Weekelybooking = () => {
       <UploadIndentFormModal
         open={openUploadModal}
         onClose={() => setOpenUploadModal(false)}
+        onSuccess={() => {
+          setOpenUploadModal(false);
+          fetchAppointments(selectedDate);
+        }}
         detailsData={certData}
         appointmentDate={selectedDate}
       />
@@ -207,11 +211,15 @@ const Weekelybooking = () => {
                 appointments.map((apt, idx) => {
                   const isApproved = apt.VerificationStatus === 1;
                   const isRejected = apt.rejectionstatus === "2";
+                  const isReuploaded = Number(apt.reuploaded_cert_count) > 0;
 
                   let statusText = 'Approval Pending';
                   let statusClass = 'status-pending';
 
-                  if (isRejected) {
+                  if (isReuploaded) {
+                    statusText = 'Certificate Re-uploaded';
+                    statusClass = 'status-reuploaded';
+                  } else if (isRejected) {
                     statusText = 'Rejected by Purchase Team';
                     statusClass = 'status-rejected';
                   } else if (isApproved) {
@@ -220,7 +228,7 @@ const Weekelybooking = () => {
                   }
 
                   return (
-                    <tr key={apt.token_id}>
+                    <tr key={apt.token_id} className={isReuploaded ? 'row-reuploaded' : ''}>
                       <td style={{ fontWeight: 600, color: '#1a252c' }}>{idx + 1}</td>
                       <td style={{ color: '#4a5568' }}>{apt.prefix}/{apt.tokenno}</td>
                       <td style={{ color: '#4a5568' }}>{apt.medicalrep_name}</td>

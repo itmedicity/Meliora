@@ -316,6 +316,21 @@
   color: #dc2626;
 }
 
+.status-reuploaded {
+  background: rgba(99, 102, 241, 0.12);
+  color: #4f46e5;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.row-reuploaded {
+  background-color: #f5f3ff !important;
+  border-left: 4px solid #6366f1 !important;
+}
+
+.row-reuploaded:hover {
+  background-color: #ede9fe !important;
+}
+
 .action-btn {
   background: #dbe0f9 !important;
   color: #7c51a1 !important;
