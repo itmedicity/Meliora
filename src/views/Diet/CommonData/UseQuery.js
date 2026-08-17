@@ -46,6 +46,7 @@ import {
     GetAllRoomTypeDetail,
     getAllUnitMaster,
     getBatchItemDetail,
+    getBillablePatientDetails,
     getBystanderBills,
     getCurrentActivePatient,
     getCurrentAssignedFoodDetail,
@@ -840,11 +841,20 @@ export const useNewAdmittedPatientDetail = () => {
         queryKey: ['new-admission-count'],
         queryFn: getTotalNewAdmittedPatientDetail,
         defaultValue: [],
-        staleTime:0
+        staleTime: 0
     });
 };
 
 
 
+export const useNewBillablePatientDetail = (activeTab) => {
+    return useSafeQuery({
+        queryKey: ['billable-patient', activeTab],
+        queryFn: () => getBillablePatientDetails(activeTab),
+        defaultValue: [],
+        staleTime: 0,
+        enabled: !!activeTab
+    });
+};
 
 

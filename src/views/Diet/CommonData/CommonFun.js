@@ -3031,7 +3031,7 @@ export const getTotalipPatient = async () => {
 export const getTotalNewAdmittedPatientDetail = async () => {
     try {
         const res = await axioslogin.get('/patientdietplan/new-admission');
-        const { success, data } = res.data; 
+        const { success, data } = res.data;
         if (success === 2) return data || [];
         // fallback for any other success code
         return [];
@@ -3041,3 +3041,17 @@ export const getTotalNewAdmittedPatientDetail = async () => {
     }
 };
 
+
+export const getBillablePatientDetails = async (activeTab) => {
+    try {
+        const res = await axioslogin.get(`/dietdelivery/billable-patient/${activeTab}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};

@@ -72,11 +72,6 @@ const DietBillingDetail = () => {
         usePatientExtraOrderBills(ipNo, ptNo, 'PENDING');
 
 
-    console.log({
-        patientExraFOod
-    });
-
-
     const Patient = PatientFullDetail?.[0] ?? {};
     const Summary = patientSummary?.[0] ?? {};
 

@@ -77,7 +77,7 @@ const PosMain = ({
                 >
                     <DietTextComponent
                         size={22}
-                        value="POINT OF SALES"
+                        value="DIET BILLING AREA!"
                     />
                 </Box>
 

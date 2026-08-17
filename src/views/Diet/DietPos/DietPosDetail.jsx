@@ -4,7 +4,10 @@ import KotItemHeader from '../KotItemList/KotItemHeader';
 import PosOrderTab from './PosComponent/PosOrderTab';
 import PosFilterComponent from './PosComponent/PosFilterComponent';
 import PosMain from './PosComponent/PosMain';
-import { useAllAdmittedPatientDetail } from '../CommonData/UseQuery';
+import {
+    // useAllAdmittedPatientDetail,
+    useNewBillablePatientDetail
+} from '../CommonData/UseQuery';
 import { usePosFilter } from '../DietReducer/contextprovider/PosFilterContext';
 
 
@@ -18,8 +21,14 @@ const DietPosDetail = () => {
 
     const { bed, patient } = state;
 
-    const { data: admittedPatients = [] } = useAllAdmittedPatientDetail(selectedStations)
+    // const { data: admittedPatients = [] } = useAllAdmittedPatientDetail(selectedStations)
+    const { data: admittedPatients = [] } = useNewBillablePatientDetail(activeTab)
 
+
+    console.log({
+        activeTab
+    });
+    
 
 
     // Replace with your API data
@@ -44,6 +53,10 @@ const DietPosDetail = () => {
             return bedMatch && patientMatch;
         })
         : [];
+
+    console.log({
+        FinalPatientDetail
+    });
 
 
     return (

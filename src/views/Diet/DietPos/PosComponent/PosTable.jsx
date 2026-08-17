@@ -1,9 +1,10 @@
 import React from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { Paper, Box } from '@mui/material'
-import VisibilityIcon from '@mui/icons-material/Visibility'
 import DietButton from '../../DietComponent/DietButton'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 
 const Cell = ({ width, children }) => (
     <Box
@@ -80,32 +81,36 @@ const PosTable = ({
                     >
 
                         <Cell width={120}>
-                            <DietTextComponent value={row.fb_ip_no} size={12} />
+                            <DietTextComponent value={row?.admission_id} size={12} />
                         </Cell>
 
                         <Cell width={120}>
-                            <DietTextComponent value={row.fb_pt_no} size={12} />
+                            <DietTextComponent value={row?.pt_no} size={12} />
                         </Cell>
 
                         <Cell width={220}>
-                            <DietTextComponent value={row.fb_ptc_name} size={12} />
+                            <PersonPinCircleIcon sx={{
+                                fontSize:16,
+                                color:'#8c2ef0'
+                            }} />
+                            <DietTextComponent value={row?.patient_name} size={12} />
                         </Cell>
 
 
                         <Cell width={100}>
-                            <DietTextComponent value={row.fb_bdc_no} size={12} />
+                            <DietTextComponent value={row?.bed_name} size={12} />
                         </Cell>
 
                         <Cell width={180}>
-                            <DietTextComponent value={row.fb_ns_name} size={12} />
+                            <DietTextComponent value={row?.nursing_station_name} size={12} />
                         </Cell>
 
 
                         <Cell width={100}>
                             <DietButton
                                 width={80}
-                                name="Bill"
-                                icon={VisibilityIcon}
+                                name={`${row?.pending_amount}`}
+                                icon={CurrencyRupeeIcon}
                                 onClick={() => onView(row)}
                             />
                         </Cell>
