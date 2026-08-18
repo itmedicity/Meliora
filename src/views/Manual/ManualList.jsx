@@ -64,6 +64,7 @@ const ManualList = () => {
   const Hospital = () => fetchImages('/newCRFRegisterImages/crfNabhImageGet', 11);
   const Standard = () => fetchImages('/newCRFRegisterImages/crfNabhGuidImageGet', 12);
   const Mfhi = () => fetchImages('/newCRFRegisterImages/mfhi', 13);
+  const Credentialing = () => fetchImages('/newCRFRegisterImages/credentialing', 14);
 
   // SoundAlike
   //  Psychotropic
@@ -98,6 +99,7 @@ const ManualList = () => {
             { label: 'Hospital Manual', action: Hospital },
             { label: 'Standard Treatment Guideline', action: Standard },
             { label: 'MBFHI', action: Mfhi },
+            { label: 'Credentialing  & Privileging ', action: Credentialing },
 
           ].map((item, index) => (
             <Box key={index} sx={{ mb: 1 }}>
