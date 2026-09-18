@@ -258,7 +258,7 @@ const CommonReportToolbar = ({
                             color: excludeOncology ? '#1d4ed8' : '#334155'
                         }}
                     >
-                        Without Oncology Day Care
+                        Non-Oncology Day Care
                     </Typography>
                 </Box>
 
@@ -304,7 +304,7 @@ const CommonReportToolbar = ({
                             color: excludeObservation ? '#1d4ed8' : '#334155'
                         }}
                     >
-                        Without Observation
+                        Non - Observation
                     </Typography>
                 </Box>
 
