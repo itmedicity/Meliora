@@ -592,6 +592,8 @@ const Approvemedicine = React.lazy(() => import('./views/IndentModule/ApprovedMe
 const CrfNotification = React.lazy(() => import('./views/Master/RequestManagement/CrfNotification/CrfNotification'))
 // const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
 const CommonReport = React.lazy(() => import('./views/Report/CommonReport/CommonReport'))
+const Bedcountmaster = React.lazy(() => import('./views/Master/BedCountMaster/Bedcountmaster'))
+const BedStatusReport = React.lazy(() => import('./views/Report/CommonReport/BedStatusReport'))
 
 const routes = [
   { path: '', element: <Home /> },
@@ -958,8 +960,9 @@ const routes = [
   },
 
 
-  { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> }
-
+  { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> },
+  { path: 'Bedcountmaster', name: 'Bedcountmaster', element: <Bedcountmaster /> },
+  { path: 'BedStatusReport', name: 'BedStatusReport', element: <BedStatusReport /> },
 ]
 
 export default routes

@@ -1,12 +1,11 @@
-# Meliora Project - Recent Updates & Changes
-
+## Previous Updates
+### Common Report (Discharge TAT) — `/Home/CommonReport`
 **Date:** September 17, 2026  
-**Module:** Common Report (Discharge TAT) — `/Home/CommonReport`  
 **Author / Tracked By:** Engineering Team  
 
 ---
 
-This document details the recent updates and architectural enhancements made to the **Meliora** application on **September 17, 2026**, specifically within the **Common Report (Discharge TAT)** module.
+This section details the updates and architectural enhancements made to the **Meliora** application on **September 17, 2026**, specifically within the **Common Report (Discharge TAT)** module.
 
 ---
 
@@ -97,3 +96,77 @@ src/views/Report/CommonReport/
 | **Admission Filters** | Department, Oncology Day Care, Discharge Announced | + **Without Observation** filter |
 | **Maintainability** | Difficult to locate UI vs logic | Separated into columns, toolbar, table, and container |
 | **Functionality / UI Parity** | Baseline | 100% identical styling and behavior preserved |
+
+
+
+
+
+# Meliora Project - Recent Updates & Changes
+
+**Last Updated:** September 22, 2026  
+**Author / Tracked By:** Engineering Team  
+
+---
+
+## Bed Status Report & Live Bed Statistics API
+*Released: September 22, 2026*  
+*Module: Bed Status Report — `/Home/BedStatusReport`*  
+*Backend Route: `router.post('/BedStatus', checkToken, getBedStatusReport)`*  
+
+### Overview
+Implemented the **Bed Status Report** feature enabling real-time monitoring of hospital bed occupancy across nursing stations and hospital outlets. On clicking the **"Show Current Bed Status"** action button, the system triggers the backend API to query live inpatient bed distribution from the Oracle database and renders the statistics with KPI summary cards, filtering, and Excel export capabilities.
+
+### 1. Backend Service & SQL Query (`His_Api_Clone`)
+**File:** [supplier.service.js](file:///d:/HIS%20NEW/His_Api_Clone/api/SupplierDetails/supplier.service.js)  
+**Controller:** `supplier.controller.js` (`getBedStatusReport`)  
+**Router:** `supplier.router.js` (`router.post('/BedStatus', checkToken, getBedStatusReport)`)  
+**Mounted Endpoint:** `/api/supplierList/BedStatus`  
+
+
+### 2. Frontend Implementation (`Meliora`)
+**File:** [BedStatusReport.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusReport.jsx)  
+**Route:** `/Home/BedStatusReport` (registered in `routes.js`, menu item slno: 373 in `ReportsMenu.js`)  
+
+#### Key Features:
+- **"Show Current Bed Status" Button**: Primary action button with loading spinner, triggers `axiosellider.post('/supplierList/BedStatus')`.
+- **KPI Summary Cards**: Real-time overview cards displaying:
+  - **Stations**: Total count of active nursing stations.
+  - **Total Beds**: Hospital-wide bed capacity.
+  - **Available Beds**: Green-accented available beds ready for admissions.
+  - **Occupied Beds**: Amber-accented currently occupied beds.
+  - **Admitted Patients**: Purple-accented admitted inpatients.
+  - **Not Ready**: Rose-accented beds pending maintenance/cleaning.
+- **Search & Outlet Filter**: Real-time text search across nursing station and outlet descriptions, plus an outlet dropdown selector.
+- **Interactive Data Table**:
+  - Sticky header Joy UI table with alternating zebra rows.
+  - Columns: `Sl No`, `Nursing Station`, `Outlet / Location`, `Total Beds`, `Occupied Beds`, `Admitted Patients`, `Available Beds`, `Not Ready`, and `Occupancy %`.
+  - Color-coded badges for bed counts and occupancy rate tiers (<70% green, 70-90% amber, >90% danger).
+  - Grand total footer row summarizing all quantitative columns.
+- **Excel Export**: Export filtered rows with formatted columns and totals row to `.xlsx`.
+
+---
+
+## Bed Count Master (`Bedcountmaster`)
+*Released: September 21, 2026*  
+*Module: Master Settings — `/Home/Bedcountmaster`*  
+*Component: [Bedcountmaster.jsx](file:///d:/Meliora/Meliora/src/views/Master/BedCountMaster/Bedcountmaster.jsx)*  
+*Backend APIs: `/feedback/nursestationinsert`, `/feedback/updatenursestation`, `/feedback/getallnursestation`*  
+
+### Overview
+The **Bed Count Master** module provides hospital administration with a centralized interface to configure, update, and manage the total sanctioned bed capacity for every nursing station, mapped by hospital block and floor.
+
+### Key Features:
+- **Nursing Station Integration**: Fetches active nursing stations directly from the Ellider database (`getallNurseStation()`) into the `SelectNursingStation` dropdown.
+- **Block & Floor Association**:
+  - Checkbox selection for Hospital Block (`HB`) and Service Block (`SB`).
+  - Cascading `SelectFloorMaster` dropdown dynamically filtered by the selected Block type.
+- **Bed Capacity Management**: Numerical field to configure `total_beds` with mandatory field validation before submission.
+- **Status Toggle**: Active / Inactive status checkbox for operational control.
+- **Insert & Update Operations**:
+  - Supports new entry creation via `axioslogin.post('/feedback/nursestationinsert')` with duplicate checks (`Item Already Exists`).
+  - Supports inline editing and updating of existing mappings via `axioslogin.post('/feedback/updatenursestation')`.
+- **AG-Grid Master Table**:
+  - Rendered via `CusAgGridMast` with columns: `Sl No`, `Nurse Station`, `Floor Name`, `Total Beds`, `Status` (Active/Inactive), and `Action`.
+  - Action column provides an Edit button (`EditButton`) to populate the form fields for instant record modification.
+
+---
