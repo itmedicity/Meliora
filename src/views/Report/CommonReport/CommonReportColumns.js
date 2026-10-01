@@ -1,0 +1,46 @@
+export const columns = [
+    { key: "SLNO", label: "Sl No", width: 65, align: "center", group: "general", tooltipMl: "ക്രമ നമ്പർ" },
+    { key: "PATIENT_NO", label: "Patient No", width: 120, align: "center", group: "general", tooltipMl: "രോഗിയുടെ നമ്പർ (പേഷ്യന്റ് നമ്പർ)" },
+    { key: "ADMISS_NO", label: "IP No", width: 120, align: "center", group: "general", tooltipMl: "ഇൻപേഷ്യന്റ് അഡ്മിഷൻ നമ്പർ (IP No)" },
+    { key: "ADMISS_REASON", label: "Admission Reason", width: 120, align: "center", group: "general", tooltipMl: "അഡ്മിഷൻ റീസൺ" },
+    { key: "DISCHARGE_STATUS", label: "Discharge Status", width: 120, align: "center", group: "general", tooltipMl: "ഡിസ്ചാർജ് സ്റ്റാറ്റസ്" },
+    { key: "PATIENT_NAME", label: "Patient Name", width: 200, align: "left", group: "general", tooltipMl: "രോഗിയുടെ പേര്" },
+    { key: "DOCTOR_NAME", label: "Doctor Name", width: 220, align: "left", group: "general", tooltipMl: "ചികിത്സിക്കുന്ന ഡോക്ടറുടെ പേര്" },
+    { key: "DEPARTMENT_NAME", label: "Department", width: 170, align: "left", group: "general", tooltipMl: "ചികിത്സാ വിഭാഗം (ഡിപ്പാർട്ട്മെന്റ്)" },
+    { key: "NURSTATION_NAME", label: "Nursing Station", width: 170, align: "left", group: "general", tooltipMl: "നഴ്സിംഗ് സ്റ്റേഷൻ" },
+    { key: "BED_NO", label: "Bed No", width: 100, align: "center", group: "general", tooltipMl: "ബെഡ് നമ്പർ (കിടക്ക നമ്പർ)" },
+    { key: "BILL_TYPES", label: "Bill Type", width: 100, align: "center", group: "general", tooltipMl: "ബിൽ തരം (ക്യാഷ് / ക്രെഡിറ്റ്)" },
+    { key: "DURATION_OF_STAY", label: "Stay (Days)", width: 100, align: "center", group: "general", tooltipMl: "കിടത്തിച്ചികിത്സയിലായിരുന്ന ദിവസങ്ങൾ" },
+    { key: "ADMIS_DATE_TIME", label: "Admission Date & Time", width: 170, align: "center", group: "timestamp", tooltipMl: "രോഗി അഡ്മിറ്റ് ആയ തീയതിയും സമയവും" },
+    { key: "DIS_ANNOUNCED", label: "Discharge Announced", width: 170, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപിച്ച തീയതിയും സമയവും" },
+    { key: "MED_RET_REQ_DATE", label: "Med Return Req Date", width: 170, align: "center", group: "timestamp", tooltipMl: "ബാക്കി മരുന്നുകൾ തിരിച്ചേൽപ്പിക്കാൻ അപേക്ഷിച്ച സമയം" },
+    { key: "RET_BILL_TIME", label: "Return Bill Time", width: 170, align: "center", group: "timestamp", tooltipMl: "മരുന്ന് റിട്ടേൺ ബിൽ രേഖപ്പെടുത്തിയ സമയം" },
+    { key: "DIS_SUM_APR_DATE", label: "Discharge Summary Appr Date", width: 190, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് സമ്മറി ഡോക്ടർ അംഗീകരിച്ച സമയം" },
+    { key: "MED_REQUEST_TIME", label: "Med Request Time", width: 170, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് മരുന്നുകൾക്കായി അപേക്ഷിച്ച സമയം" },
+    { key: "MED_ISSUE_TIME", label: "Med Issue Time", width: 170, align: "center", group: "timestamp", tooltipMl: "ഫാർമസിയിൽ നിന്ന് മരുന്നുകൾ നൽകിയ സമയം" },
+    { key: "MED_DISPENSE_TIME", label: "Med Dispense Time", width: 170, align: "center", group: "timestamp", tooltipMl: "മരുന്നുകൾ ഡിസ്പെൻസ് ചെയ്ത സമയം" },
+    { key: "MED_ACCEPT_TIME", label: "Med Accept Time", width: 170, align: "center", group: "timestamp", tooltipMl: "നഴ്സിങ് സ്റ്റേഷനിൽ മരുന്നുകൾ സ്വീകരിച്ച സമയം" },
+    { key: "DISCHARGE_DATE", label: "Discharge Date", width: 170, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് ചെയ്ത തീയതി" },
+    { key: "BILL_DATE", label: "Bill Date", width: 170, align: "center", group: "timestamp", tooltipMl: "ഫൈനൽ ബിൽ തയ്യാറാക്കിയ തീയതിയും സമയവും" },
+    { key: "RECEIPT_DATE", label: "Receipt Date", width: 170, align: "center", group: "timestamp", tooltipMl: "ബിൽ തുക അടച്ച് രസീത് നൽകിയ സമയം" },
+    { key: "PATIENT_OUT", label: "Patient Out", width: 170, align: "center", group: "timestamp", tooltipMl: "രോഗി വാർഡിൽ നിന്ന് പുറത്തിറങ്ങിയ സമയം" },
+    { key: "DIS_REQ_CANCEL", label: "Discharge Req Cancel", width: 170, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് അപേക്ഷ റദ്ദാക്കിയ സമയം" },
+    { key: "TAT_ANSMT_MEDRET_REQ", label: "TAT: Announce → Med Ret Req", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ മരുന്ന് തിരിച്ചേൽപ്പിക്കൽ അപേക്ഷ വരെയുള്ള സമയം" },
+    { key: "TAT_MEDRETREQ_RETBILL", label: "TAT: Med Ret Req → Ret Bill", width: 180, align: "center", group: "tat", tooltipMl: "മരുന്ന് തിരിച്ചേൽപ്പിക്കൽ അപേക്ഷ മുതൽ റിട്ടേൺ ബിൽ വരെയുള്ള സമയം" },
+    { key: "TAT_ANSMT_DISSUM", label: "TAT: Announce → Disch Summary", width: 185, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് സമ്മറി അംഗീകാരം വരെയുള്ള സമയം" },
+    { key: "TAT_DISSUM_ADV_REQ", label: "TAT: Disch Summary → Adv Req", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് സമ്മറി മുതൽ ഡിസ്ചാർജ് മെഡിക്കൽ റിക്വസ്റ്റ് വരെയുള്ള സമയം" },
+    { key: "TAT_ADV_REQ_ADVBILL", label: "TAT: Adv Req → Adv Bill", width: 175, align: "center", group: "tat", tooltipMl: "അഡ്വാൻസ് റിക്വസ്റ്റ് മുതൽ  ഡിസ്ചാർജ് മെഡിക്കൽ റിക്വസ്റ്റ് വരെയുള്ള സമയം" },
+    { key: "TAT_ADVBILL_DISPENSE", label: "TAT: Adv Bill → Dispense", width: 175, align: "center", group: "tat", tooltipMl: "അഡ്വാൻസ് ബിൽ മുതൽ മരുന്ന് ഡിസ്പെൻസ് ചെയ്യുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_DISPENSE_ACCEPT", label: "TAT: Dispense → Accept", width: 175, align: "center", group: "tat", tooltipMl: "മരുന്ന് നൽകിയത് മുതൽ വാർഡിൽ അത് സ്വീകരിക്കുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_ANOUN_DISENTRY", label: "TAT: Announce → Disch Entry", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് എൻട്രി രേഖപ്പെടുത്തുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_DISENTRY_DISBILL", label: "TAT: Disch Entry → Disch Bill", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് എൻട്രി മുതൽ ഡിസ്ചാർജ് ബിൽ തയ്യാറാക്കുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_DISBILL_RECEIPT", label: "TAT: Disch Bill → Receipt", width: 175, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് ബിൽ മുതൽ പണം അടച്ച രസീത് നൽകുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_RECEIPT_PTOUT", label: "TAT: Receipt → Patient Out", width: 175, align: "center", group: "tat", tooltipMl: "രസീത് നൽകിയത് മുതൽ രോഗി പുറത്തുപോകുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_ANSMT_PTOUT", label: "TAT: Announce → Patient Out", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപിച്ചത് മുതൽ രോഗി ആശുപത്രി വിട്ടിറങ്ങുന്നത് വരെയുള്ള ആകെ സമയം" },
+]
+
+export const formatCellValue = (val, isTat) => {
+    if (val === null || val === undefined || val === '') return '-'
+    if (isTat && (val === '::' || String(val).trim() === '::')) return '-'
+    return String(val)
+}

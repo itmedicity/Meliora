@@ -13,6 +13,7 @@ import { axiosellider } from "../Axios/Axios";
 import AbhaPatientDetails from "./AbhaPatientDetails";
 
 const BillNoSearch = ({ PatDetails, setPatDetails }) => {
+
     const [searchData, setSearchData] = useState({
         billNumber: "",
         billDate: "",
@@ -202,7 +203,7 @@ const BillNoSearch = ({ PatDetails, setPatDetails }) => {
                     </Box>
                 </Box>
             </Card>
-            {PatDetails?.PT_NO && (
+            {PatDetails?.PTC_NAME && (
                 <AbhaPatientDetails
                     key={PatDetails?.PT_NO}
                     PatDetails={PatDetails}

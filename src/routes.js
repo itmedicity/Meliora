@@ -644,6 +644,7 @@ const Approvemedicine = React.lazy(() => import('./views/IndentModule/ApprovedMe
 const CrfNotification = React.lazy(() => import('./views/Master/RequestManagement/CrfNotification/CrfNotification'))
 
 // const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
+const CommonReport = React.lazy(() => import('./views/Report/CommonReport/CommonReport'))
 
 
 
@@ -1156,6 +1157,7 @@ const routes = [
     name: 'abha',
     element: <AbhaReg />
   },
+
   {
     path: 'dietpatients',
     name: 'Patient Assign',
@@ -1190,6 +1192,9 @@ const routes = [
     name: 'User Petty Cash',
     element: <PettycashDetail />
   },
+
+  { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> }
+
 
 ]
 

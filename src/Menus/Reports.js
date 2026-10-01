@@ -11,7 +11,8 @@ import {
   crm_one,
   crm_two,
   crm_three,
-  dc_one
+  dc_one,
+  common_one
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -33,6 +34,7 @@ const Reports = () => {
   const [crm_report_three, setcrm_report_three] = useState()
   const [count, setCount] = useState(0)
   const [dc_report_one, setdc_report_one] = useState()
+  const [common_report_one, setcommon_report_one] = useState()
 
   useEffect(() => {
     getMenuSlno().then(val => {
@@ -72,6 +74,9 @@ const Reports = () => {
       //daily census report
       const dc_report_one = dc_one.filter(val => menuSlnoArray.includes(val.slno))
       setdc_report_one(dc_report_one)
+      //common report
+      const common_report_one = common_one.filter(val => menuSlnoArray.includes(val.slno))
+      setcommon_report_one(common_report_one)
       setCount(1)
     })
   }, [count])
@@ -318,6 +323,38 @@ const Reports = () => {
 
             {dc_report_one &&
               dc_report_one.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+          </Box>
+        </Box>
+      </CardContent>
+      <CardHeader
+        title={'Common Report'}
+        titleTypographyProps={{ variant: 'subtitle1', color: titleTypography }}
+        sx={{
+          backgroundColor: cardActionBgClr,
+          paddingY: 0.5
+        }}
+      />
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: "space-around"
+          }}
+        >                  <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+
+            {common_report_one &&
+              common_report_one.map(val => {
                 return (
                   <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
                     {val.name}
