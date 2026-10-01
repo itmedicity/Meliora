@@ -873,6 +873,7 @@ export const formatPatientDietData = (data = []) => {
                     fb_rtc_desc: item.fb_rtc_desc,
                     fb_ns_name: item.fb_ns_name,
                     do_code: item.do_code,
+                    fb_ipc_curstatus: item.fb_ipc_curstatus,
 
                     // STORE ALL DIETS HERE
                     diet_history: []
@@ -885,6 +886,7 @@ export const formatPatientDietData = (data = []) => {
                     plan_id: item.plan_id,
                     diet_status: item.diet_status,
                     diet_id: item.diet_id,
+                    diet_type: item.diet_type,
                     diet_name: item.diet_name,
                     dietitian_id: item.dietitian_id,
                     Dietecian_name: item.Dietecian_name,
@@ -1157,6 +1159,7 @@ export const getStatusColor = (status) => {
 
 
 export const groupByPlanId = (data = []) => {
+
     const map = new Map();
 
     data?.forEach(item => {
@@ -1170,6 +1173,7 @@ export const groupByPlanId = (data = []) => {
                 diet_id: item.diet_id,
                 diet_name: item.diet_name,
                 fb_ptc_name: item.fb_ptc_name,
+                fb_ipc_curstatus: item.fb_ipc_curstatus,
                 types: []
             });
         }
@@ -2627,11 +2631,6 @@ export const getAllDietTemplate = async () => {
 
 export const getAllNsActivePatients = async (nscode) => {
     if (!nscode) return warningNotify("Nursing Station Id Missing");
-
-    console.log({
-        nscode
-    });
-
     try {
         const res = await axioslogin.post('/patientdietplan/activepatient', {
             ns_code: nscode
@@ -2781,6 +2780,21 @@ export const getPatientExtraOrderBills = async (ipno, ptno, status) => {
     if (!ipno || !ptno) return warningNotify("Patient Detial is Missing!");
     try {
         const res = await axioslogin.get(`/dietdelivery/billing/extra/${ptno}/${ipno}/${status}`);
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data || [];
+        }
+        return [];
+    } catch (error) {
+        console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+export const getPatientPendingBills = async (ipno) => {
+    if (!ipno) return warningNotify("Patient Detial is Missing!");
+    try {
+        const res = await axioslogin.get(`/dietdelivery/pending-billed-details/${ipno}`);
         const { success, data } = res.data;
         if (success === 1) {
             return data || [];
@@ -3052,6 +3066,361 @@ export const getBillablePatientDetails = async (activeTab) => {
         return [];
     } catch (error) {
         console.error("Error In getting Patient Summary:", error?.message || error);
+        return [];
+    }
+};
+
+export const getAllItemDeliveryStatus = async (canteen_order_id, type_slno) => {
+    if (!canteen_order_id) return warningNotify("Employee Id Missing");
+    if (!type_slno) return warningNotify("Assign Id Missing");
+    try {
+        const res = await axioslogin.post('/dietdelivery/fetch-delivery-log', {
+            canteen_order_id: canteen_order_id,
+            type_slno: type_slno
+        });
+        const { success, data, message } = res.data;
+        if (success === 0) {
+            console.error("Error in Fetching Api", message)
+            return []
+        }
+        if (success === 1) return data || [];
+
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error In Delivery Item Status:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+export const getAssingItemStatusDetail = async (emid, assign_id) => {
+    if (!emid) return warningNotify("Employee Id Missing");
+    if (!assign_id) return warningNotify("Assign Id Missing");
+    try {
+        const res = await axioslogin.post('/dietdelivery/fetchassigny-item-status', {
+            assign_to: emid,
+            assignment_id: assign_id
+        });
+        const { success, data, message } = res.data;
+        if (success === 0) {
+            console.error("Error in Fetching Api", message)
+            return []
+        }
+        if (success === 1) return data || [];
+
+        // fallback for any other success code
+        return [];
+    } catch (error) {
+        console.error("Error In getting All Patient Diet Delivery Detail:", error?.message || error);
+        return [];
+    }
+};
+
+
+
+export const getProformaDetails = async (assignmentDetailId) => {
+    if (!assignmentDetailId) {
+        return warningNotify("Assignment Detail ID is Missing");
+    }
+    try {
+        const res = await axioslogin.get(
+            `/dietdelivery/get-proforma/${assignmentDetailId}`
+        );
+        const { success, data } = res.data;
+        if (success === 1) {
+            return data ?? [];
+        }
+        return [];
+    } catch (error) {
+        console.error(
+            "Error In Fetching Proforma Details",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+
+
+export const getBystanderBillingDetails = async (assignment_detail_id) => {
+
+    if (!assignment_detail_id) {
+        warningNotify("Assignment Detail ID is Missing");
+        return {
+            bills: [],
+            bill_items: []
+        };
+    }
+
+    try {
+
+        const res = await axioslogin.post(
+            "/dietdelivery/get-bystander-billing-details",
+            {
+                assignment_detail_id
+            }
+        );
+
+        const {
+            success,
+            data,
+            message
+        } = res?.data || {};
+
+        if (success === 1) {
+            return data ?? {
+                bills: [],
+                bill_items: []
+            };
+        }
+
+        if (success === 2) {
+            return {
+                bills: [],
+                bill_items: []
+            };
+        }
+
+        warningNotify(
+            message || "Failed to fetch bystander billing details"
+        );
+
+        return {
+            bills: [],
+            bill_items: []
+        };
+
+    } catch (error) {
+
+        console.error(
+            "Error In Fetching Bystander Billing Details:",
+            error?.message || error
+        );
+
+        return {
+            bills: [],
+            bill_items: []
+        };
+
+    }
+};
+
+
+
+
+
+
+
+
+export const getPackingDetails = async (assignment_detail_id) => {
+
+    if (!assignment_detail_id) {
+
+        warningNotify("Assignment Detail ID is Missing");
+
+        return [];
+    }
+
+    try {
+
+        const res = await axioslogin.post(
+            "/dietdelivery/package/get-by-assignment",
+            {
+                assignment_detail_id
+            }
+        );
+
+        const {
+            success,
+            data,
+            message
+        } = res?.data || {};
+
+        if (success === 1) {
+
+            return data ?? [];
+        }
+
+        if (success === 2) {
+
+            return [];
+        }
+
+        warningNotify(
+            message || "Failed to fetch packing details"
+        );
+
+        return [];
+
+    } catch (error) {
+
+        console.error(
+            "Error In Fetching Packing Details:",
+            error?.message || error
+        );
+
+        return [];
+    }
+};
+
+
+export const getPettyCashDetails = async (empid, status) => {
+
+    if (!empid) {
+        warningNotify("Employee Id is Needed!");
+        return [];
+    }
+
+    try {
+
+        const res = await axioslogin.get(`/dietdelivery/get-pettycash/${empid}/${status}`);
+
+        const {
+            success,
+            data
+        } = res?.data || {};
+
+        if (success === 1) return data ?? [];
+
+        return [];
+
+    } catch (error) {
+        console.error(
+            "Error In Fetching Packing Details:",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+
+
+export const getBillSummaryDetails = async () => {
+
+    try {
+        const res = await axioslogin.get(`/dietdelivery/get-collection-summary`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+
+        if (success === 1) return data ?? [];
+
+        return [];
+
+    } catch (error) {
+        console.error(
+            "Error In Fetching Collection Details",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+
+
+export const getBillCollectionDetails = async (empid) => {
+    if (!empid) return;
+
+    try {
+        const res = await axioslogin.get(`/dietdelivery/get-collection-details/${empid}`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+
+        if (success === 1) return data ?? [];
+
+        return [];
+
+    } catch (error) {
+        console.error(
+            "Error In Fetching Collection Details",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+
+export const getTodayCashClosingEmployee = async () => {
+    try {
+        const res = await axioslogin.get(`/cashclosing/today-closed-employees`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+
+        if (success === 1) return data ?? [];
+
+        return [];
+
+    } catch (error) {
+        console.error(
+            "Error In Fetching Today Closing Details",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+
+
+export const getTodayEmployeePettyCashDetails = async () => {
+    try {
+        const res = await axioslogin.get(`/cashclosing/today-petty-cash`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+
+        if (success === 1) return data ?? [];
+
+        return [];
+
+    } catch (error) {
+        console.error(
+            "Error In Fetching Today Petty Cash Fetching Details",
+            error?.message || error
+        );
+        return [];
+    }
+};
+
+export const getEmployeeDenominationDetails = async (id) => {
+    try {
+        const res = await axioslogin.post(`/cashclosing/closing-denomination`, {
+            closing_id: id
+        });
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching  Denomination Details !", error?.message || error);
+        return [];
+    }
+};
+
+
+export const getEmployeePetyyDetails = async (id, closingIds) => {
+    try {
+        const res = await axioslogin.post(`/dietdelivery/get-closed-pettycash`, {
+            employee_id: id,
+            closing_ids: closingIds
+        });
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching  Denomination Details !", error?.message || error);
         return [];
     }
 };

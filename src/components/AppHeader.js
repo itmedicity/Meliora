@@ -38,10 +38,7 @@ const AppHeader = ({ collapsed, setCollapsed }) => {
     refetch: FetchNewAdmittedPatient
   } = useNewAdmittedPatientDetail();
 
-  console.log({
-    NewAdmittedPatientDetail
-  });
-  
+
 
   useEffect(() => {
     if (!NewAdmittedPatientDetail?.length) return;

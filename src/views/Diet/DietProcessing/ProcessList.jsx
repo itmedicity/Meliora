@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DietMasterHeader from 'src/views/Master/DietMasters/DietComponent/DietMasterHeader'
 import DietWiseProcessing from './DietWiseProcessing';
 import ProcessCompletedList from './ProcessCompletedList';
-import {  succesNotify, warningNotify } from 'src/views/Common/CommonCode';
+import { deliveryNotify, succesNotify, warningNotify } from 'src/views/Common/CommonCode';
 import {
     useAllActivePatientTypeDetail,
     useAllDietProcessList,
@@ -79,18 +79,51 @@ const ProcessList = () => {
 
 
 
+    useEffect(() => {
+        const handleNewDietPlanCreated = () => {
+            FetchScheduledDietPlan();
+            FetchActivePatients();
+        };
+
+        socket.on("newDietPlanCreated", handleNewDietPlanCreated);
+
+        return () => {
+            socket.off("newDietPlanCreated", handleNewDietPlanCreated);
+        };
+    }, [FetchScheduledDietPlan, FetchActivePatients]);
+
 
     useEffect(() => {
-        socket.on("newDietPlanCreated", () => {
-            //  refetch latest data
-            FetchScheduledDietPlan();
-            FetchActivePatients()
-            //  stop blink after animation
-        });
-        return () => socket.off("newDietPlanCreated");
-    }, []);
 
- 
+        const handleDietDeliveryStatusUpdated = (data) => {
+
+            // Refresh existing data
+            FetchScheduledDietPlan();
+            FetchActivePatients();
+
+            deliveryNotify(
+                data?.meal,
+                data?.delivery_status
+            );
+
+
+        };
+
+        socket.on(
+            "dietDeliveryStatusUpdated",
+            handleDietDeliveryStatusUpdated
+        );
+
+        return () => {
+            socket.off(
+                "dietDeliveryStatusUpdated",
+                handleDietDeliveryStatusUpdated
+            );
+        };
+
+    }, [FetchScheduledDietPlan, FetchActivePatients]);
+
+
     const DietName = FinalDietNames?.filter((diet) => ScheduledPatientDiet?.some((patient) => patient?.diet_id === diet?.diet_id));
 
     const itemDetail = getDietProductionItems(ActivePatientTypeDetail, selectedDiets);
@@ -111,6 +144,9 @@ const ProcessList = () => {
             apiDate
         );
     }, [itemDetail, ScheduledPatientDiet, selectedDietTimes, apiDate]);
+
+
+  
 
     const groupedPlans = useMemo(() => {
         return groupByPlanId(filteredItemDetail);
@@ -325,7 +361,7 @@ const ProcessList = () => {
                                 sx={{
                                     position: 'absolute',
                                     top: '50%',
-                                    left: drawerOpen ? 320 : 0,
+                                    left: drawerOpen ? 520 : 0,
                                     transform: 'translateY(-50%)',
                                     zIndex: 25,
                                     width: 24,

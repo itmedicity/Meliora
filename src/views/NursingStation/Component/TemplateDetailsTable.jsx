@@ -8,10 +8,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const TemplateDetailsTable = ({ groupedData = {} }) => {
 
-    console.log({
-        groupedData
-    });
-
 
     const [expanded, setExpanded] = useState({});
 

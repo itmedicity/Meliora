@@ -19,6 +19,7 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import PizzaLoader from './Components/PizzaLoader'
 import { useQueryClient } from '@tanstack/react-query'
 import BatchPreviewModal from './Components/BatchPreviewModal'
+import { format } from 'date-fns'
 
 const DRAWER_WIDTH = 280
 
@@ -48,6 +49,12 @@ const CanteenMain = ({
         useBatchFoodDetail(selectedRows)
 
 
+    console.log({
+        batchFoodDetail
+    });
+
+
+
     //doubt
     const organizedBatchData = useMemo(() => {
         return organizeBatchData(batchFoodDetail);
@@ -55,7 +62,11 @@ const CanteenMain = ({
 
 
 
-    const HandleOpenBatchCheck = async () => {
+    const HandleOpenBatchCheck = async (todate) => {
+        console.log({
+            todate
+        });
+        const productionDate = format(todate, "yyyy-MM-dd");
         try {
             SetLoading(true)
 
@@ -79,7 +90,8 @@ const CanteenMain = ({
                 BatchDetail: organizedBatchData,
                 SelectedOrders: selectedRows,
                 processed_by: id,
-                remark: batchRemark
+                remark: batchRemark,
+                ProductionDate: productionDate
             };
 
             const result = await axioslogin.post(
@@ -244,11 +256,9 @@ const CanteenMain = ({
                 batchRemark={batchRemark}
                 setBatchRemark={setBatchRemark}
                 loading={loading}
-                onConfirm={async () => {
-
+                onConfirm={async (todate) => {
                     setOpenBatchPreview(false);
-
-                    await HandleOpenBatchCheck();
+                    await HandleOpenBatchCheck(todate);
                 }}
             />
         </Box>

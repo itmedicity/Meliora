@@ -32,11 +32,22 @@ import CanteenCancelItemList from "../Components/CanteenCancelItemList";
 
 const CancelModal = ({ open, onClose, order, activeTab }) => {
 
+
+    console.log({
+        order
+    });
+
+
     const queryClient = useQueryClient();
 
     const memoOrder = useMemo(() => order || {}, [
         order?.canteen_order_id
     ]);
+
+    console.log({
+        memoOrder
+    });
+
 
     const id = useSelector(state => state.LoginUserData.empid);
 
@@ -177,7 +188,7 @@ const CancelModal = ({ open, onClose, order, activeTab }) => {
                 return;
             }
 
-            if (!memoOrder?.order_id) {
+            if (!memoOrder?.canteen_order_id) {
                 warningNotify("Order id missing");
                 return;
             }

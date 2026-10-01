@@ -1,4 +1,4 @@
-import React, { lazy, memo, Suspense, useState } from 'react'
+import React, { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { Box } from '@mui/joy'
 import MenuIcon from '@mui/icons-material/Menu'
 import DietContextDrawer from './DietContextDrawer'
@@ -15,6 +15,10 @@ import { useKotFilter } from '../../DietReducer/contextprovider/KotFilterContext
 import AssignPatientConfirmModal from '../../DietModal/AssignPatientConfirmModal'
 import Delivery from '../DietDelivery/Delivery'
 import { infoNotify } from 'src/views/Common/CommonCode'
+import RightSideDrawer from './RightSideDrawer'
+import ProformaDetailsDrawer from './ProformaDetailsDrawer'
+import { useBystanderBillingDetails, useProformaDetails } from '../../CommonData/UseQuery'
+import CanteenBillDetailDrawer from './CanteenBillDetailDrawer'
 
 
 
@@ -33,7 +37,11 @@ const DietMainPreperation = ({
     const [isScrolled, setIsScrolled] = useState(false); //For animatin Purpsose . Not Important 
     const [selectedPatient, setSelectedPatient] = useState(null); // Hanlde the Selected patient Detail
     const [modalType, setModalType] = useState(null); // Commal State for View and Cancel Modal Hanlding
-    
+
+    const [deliverypatient, setDeliveryPatient] = useState({});
+    const [printOrderIds, setPrintOrderIds] = useState([]);
+    const [printData, setPrintData] = useState({});
+
     /**
      * 
      * Handling the Gloabal Disptch State Access
@@ -43,13 +51,62 @@ const DietMainPreperation = ({
 
 
 
-    
-
-
     const handleOpenAssigneModal = () => {
         if (!assignee) return infoNotify("Please Select Assigneee!")
         setModalType("assignall")
     }
+
+
+    /* PROFORMA DETAILS */
+
+    const {
+        data: ProformaDetails = [],
+        isLoading: isProformaLoading
+    } = useProformaDetails(
+        deliverypatient?.assignment_detail_id
+    );
+    // Getting Orginal Bystander Billing Details
+    const {
+        data: BystanderBillingDetails = {
+            bills: [],
+            bill_items: []
+        },
+        isLoading: isBillingLoading,
+        // refetch: refetchBystanderBilling
+    } = useBystanderBillingDetails(
+        deliverypatient?.assignment_detail_id
+    );
+
+    //Bill and it Item Details
+    const bills = BystanderBillingDetails?.bills || [];
+    const billItems = BystanderBillingDetails?.bill_items || [];
+
+
+    // console.log({
+    //     billItems,
+    //     bills
+    // });
+    const handlePrintData = useCallback((data) => {
+        setPrintData(prev => {
+            const existing = prev[data.orderId];
+
+            // Simple shallow comparison; adjust if your data structure needs more
+            if (
+                existing &&
+                existing.orderId === data.orderId &&
+                existing.itemCount === data.itemCount
+                // optionally compare lengths or a version field if you have one
+            ) {
+                return prev; // no change → avoid re-render
+            }
+
+            return {
+                ...prev,
+                [data.orderId]: data,
+            };
+        });
+    }, []);
+
 
     return (
 
@@ -151,10 +208,50 @@ const DietMainPreperation = ({
                         />
                         : <Delivery
                             filteredPatients={FilteredPatientDetail}
+                            setOpenModal={setModalType}
+                            setDeliveryPatient={setDeliveryPatient}
+                            printData={printData}
+                            printOrderIds={printOrderIds}
+                            setPrintOrderIds={setPrintOrderIds}
+                            setPrintData={setPrintData}
                         />
                 }
 
             </Box>
+
+            <RightSideDrawer
+                open={modalType === "drawer"}
+                onClose={() => setModalType(null)}
+                title="Order Details"
+                width={500}
+                itemDetails={deliverypatient}
+                printOrderIds={printOrderIds}
+                onPrintData={handlePrintData}
+            />
+
+            <CanteenBillDetailDrawer
+                open={modalType === "bill"}
+                onClose={() => setModalType(false)}
+                bills={bills}
+                billItems={billItems}
+                patientData={deliverypatient}
+                loading={isBillingLoading}
+                onReturnItem={(item) => {
+                    console.log("Return item:", item);
+                    // API call here
+                }}
+                onCancelBill={(bill) => {
+                    console.log("Cancel bill:", bill);
+                    // API call here
+                }}
+            />
+
+            <ProformaDetailsDrawer
+                open={modalType === "performa"}
+                loading={isProformaLoading}
+                onClose={() => setModalType(null)}
+                proformaDetails={ProformaDetails}
+            />
 
             <Suspense fallback={"loading...!"}>
                 <PatientOrderModal
@@ -179,7 +276,7 @@ const DietMainPreperation = ({
                 assignee={assignee}
                 patients={selectedPatients}
                 dispatch={dispatch}
-            
+
             />
 
 

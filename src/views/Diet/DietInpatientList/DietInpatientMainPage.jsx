@@ -12,7 +12,7 @@ import {
 import PatientCard from './DietInpatientComponents/PatientCard'
 import DietPlan from '../DietPlan'
 import CustomeIncidentLoading from 'src/views/IncidentManagement/Components/CustomeIncidentLoading'
-import { errorNotify, warningNotify } from 'src/views/Common/CommonCode'
+import { errorNotify, infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { formatPatientDietData } from '../CommonData/CommonFun'
 import InpatientDietTab from './DietInpatientComponents/InpatientDietTab'
@@ -46,7 +46,18 @@ const DietInpatientMainPage = () => {
         error: dietErrorMessage
     } = useAllPatientDietPlan(NsCode);
 
+
+    // console.log({
+    //     allPatientDiet
+    // });
+
+
     const formattedPatients = formatPatientDietData(allPatientDiet);
+
+    console.log({
+        formattedPatients
+    });
+
 
     const [search, setSearch] = useState('')
     const [nursingBed, setNursingBed] = useState(null)
@@ -105,10 +116,20 @@ const DietInpatientMainPage = () => {
                 (val) => val?.diet_status === "STOPPED"
             )
 
+
+            const hasActiveNPO = dietHistory?.some(
+                (val) =>
+                    val?.diet_type === 'NPO' &&
+                    val?.diet_status === 'ACTIVE'
+            )
+
             let matchesStatus = true
             switch (activeStatus) {
                 case "PLANNED":
-                    matchesStatus = hasPlanned
+                    matchesStatus = hasPlanned && !hasActiveNPO
+                    break
+                case "NPO":
+                    matchesStatus = hasActiveNPO
                     break
                 case "STOPPED":
                     matchesStatus =
@@ -143,13 +164,34 @@ const DietInpatientMainPage = () => {
 
 
     const onTileClick = useCallback(async (item) => {
+
         if (!item) return;
 
-        const DietDetail = item?.diet_history?.find(
+        const dietHistory = item?.diet_history || [];
+
+
+        const DietDetail = dietHistory?.find(
             (diet) => diet?.diet_status === "ACTIVE"
         );
+        const hasPlannedDiet = dietHistory?.some(
+            (diet) =>
+                diet?.diet_status &&
+                diet?.diet_status !== "STOPPED"
+        );
+
+        const patientStatus = item?.fb_ipc_curstatus;
+
+
+        if (!hasPlannedDiet && patientStatus !== "ADM") {
+            infoNotify("Diet planning Can't do For this Patient!");
+            return;
+        }
+
+
         setSelectedPatientData(item); // always set
-        if (DietDetail?.diet_status === "ACTIVE") {
+        if (DietDetail?.diet_status === "ACTIVE"
+            &&
+            DietDetail?.diet_type === 'DIET') {
             if (!DietDetail?.template_id) {
                 warningNotify("Template Id is Missing!");
                 return;
@@ -204,7 +246,7 @@ const DietInpatientMainPage = () => {
             <Box
                 sx={{
                     width: '100%',
-                    height: '100vh',
+                    height: '90vh',
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'hidden'

@@ -1,7 +1,7 @@
 import { Box } from '@mui/joy'
 import React, { memo } from 'react'
 
-const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, width }) => {
+const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, width, iconcolor }) => {
     return (
         <Box
             role="button"
@@ -46,7 +46,7 @@ const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, widt
         >
             {Icon && (
                 <Icon
-                    style={{ marginRight: 6, fontSize: 16 }}
+                    style={{ marginRight: 6, fontSize: 16, color: iconcolor ?? '#000000' }}
                 />
             )}
             {name}
@@ -54,4 +54,4 @@ const DietButton = ({ name = "Save", onClick, disabled = false, icon: Icon, widt
     )
 }
 
-    export default memo(DietButton)
+export default memo(DietButton)

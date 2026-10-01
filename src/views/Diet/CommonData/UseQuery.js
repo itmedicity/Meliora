@@ -26,6 +26,7 @@ import {
     getAllItemAlias,
     getAllItemCatgoryMaster,
     getAllItemCatgoryMasterById,
+    getAllItemDeliveryStatus,
     getAllItemFileDetails,
     getAllItemGroupMaster,
     getAllItemMasterDetail,
@@ -45,8 +46,12 @@ import {
     getAllProductionBatchDetail,
     GetAllRoomTypeDetail,
     getAllUnitMaster,
+    getAssingItemStatusDetail,
     getBatchItemDetail,
     getBillablePatientDetails,
+    getBillCollectionDetails,
+    getBillSummaryDetails,
+    getBystanderBillingDetails,
     getBystanderBills,
     getCurrentActivePatient,
     getCurrentAssignedFoodDetail,
@@ -54,10 +59,13 @@ import {
     getCustomerPreviousOrder,
     getDietDeliveryTime,
     getDietName,
+    getEmployeeDenominationDetails,
+    getEmployeePetyyDetails,
     getFoodandBeverage,
     getFullDetailofItem,
     getItemFileDetails,
     getLoggedStaffNsStation,
+    getPackingDetails,
     getPatienPlanFoodDetail,
     getPatientDetails,
     getPatientDietBillDetial,
@@ -65,10 +73,15 @@ import {
     getPatientExtraOrderBills,
     getPatientFullDeliveryDetail,
     getPatientMealTypeDetail,
+    getPatientPendingBills,
     getPatientSummaryDetail,
     getPatientTemplateFoodDetail,
     getPatientTransactions,
+    getPettyCashDetails,
     getProductionMaping,
+    getProformaDetails,
+    getTodayCashClosingEmployee,
+    getTodayEmployeePettyCashDetails,
     getTotalipPatient,
     getTotalNewAdmittedPatientDetail
 } from "./CommonFun";
@@ -646,6 +659,16 @@ export const usePatientExtraOrderBills = (ipno, ptno, status) => {
 };
 
 
+export const usePatientOpenBillDetails = (ipno) => {
+    return useSafeQuery({
+        queryKey: ['patient-open-bill-details', ipno],
+        queryFn: () => getPatientPendingBills(ipno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno
+    });
+};
+
 export const usePatientTransactions = (ipno, ptno, status) => {
     return useSafeQuery({
         queryKey: ['patient-transactions', ipno, ptno, status],
@@ -858,3 +881,130 @@ export const useNewBillablePatientDetail = (activeTab) => {
 };
 
 
+export const useAllItemDeliveryStatus = (canteen_order_id, type_slno) => {
+    return useSafeQuery({
+        queryKey: ['delivery-status', canteen_order_id, type_slno],
+        queryFn: () => getAllItemDeliveryStatus(canteen_order_id, type_slno),
+        staleTime: Infinity,
+        enabled: !!canteen_order_id && !!type_slno
+    });
+};
+
+
+
+export const useAllAssignedItemStatus = (emid, assign_id) => {
+    return useSafeQuery({
+        queryKey: ['assigneditemstatus', emid, assign_id],
+        queryFn: () => getAssingItemStatusDetail(emid, assign_id),
+        staleTime: Infinity,
+        enabled: !!emid && !!assign_id
+    });
+};
+
+
+
+export const useProformaDetails = (assignmentDetailId) => {
+    return useSafeQuery({
+        queryKey: ['proforma-details', assignmentDetailId],
+        queryFn: () => getProformaDetails(assignmentDetailId),
+        staleTime: Infinity,
+        enabled: !!assignmentDetailId
+    });
+
+};
+
+
+export const useBystanderBillingDetails = (assignment_detail_id) => {
+    return useSafeQuery({
+        queryKey: ["bystanderbilling", assignment_detail_id],
+        queryFn: () => getBystanderBillingDetails(assignment_detail_id),
+        staleTime: Infinity,
+        enabled: !!assignment_detail_id
+    });
+};
+
+
+export const usePackingDetails = (assignment_detail_id) => {
+    return useSafeQuery({
+        queryKey: ["packingdetails", assignment_detail_id],
+        queryFn: () =>
+            getPackingDetails(assignment_detail_id),
+        staleTime: Infinity,
+        enabled: !!assignment_detail_id
+    });
+};
+
+
+export const usePettyCashDetails = (empid, status) => {
+    return useSafeQuery({
+        queryKey: ['petty-cash', empid, status],
+        queryFn: () => getPettyCashDetails(empid, status),
+        defaultValue: [],
+        enabled: !!empid && !!status
+    });
+};
+
+
+
+export const useBillSummaryDetails = () => {
+    return useSafeQuery({
+        queryKey: ['bill-sumamryt'],
+        queryFn: getBillSummaryDetails,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useBillClosingDetails = (empid) => {
+    return useSafeQuery({
+        queryKey: ['bill-collections', empid],
+        queryFn: () => getBillCollectionDetails(empid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!empid
+    });
+};
+
+
+
+export const useCashCloseEmployee = () => {
+    return useSafeQuery({
+        queryKey: ['bill-collections-employee'],
+        queryFn: getTodayCashClosingEmployee,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+
+export const useEmployeePettyCashDetails = () => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash'],
+        queryFn: getTodayEmployeePettyCashDetails,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+
+export const useEmployeeDenominationDetails = (id) => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash', id],
+        queryFn: () => getEmployeeDenominationDetails(id),
+        defaultValue: [],
+        enabled: !!id
+    });
+};
+
+
+export const useEMployeeClosedPettyDetails = (empid, closingId) => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash-closed', empid, closingId],
+        queryFn: () => getEmployeePetyyDetails(empid, closingId),
+        defaultValue: [],
+        enabled: !!empid && !!closingId
+    });
+};

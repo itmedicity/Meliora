@@ -29,13 +29,13 @@ const KotPreparationDelivery = () => {
         refetch: FetchAllCanteenOrderDetail
     } = useFetchAllCanteenOrderStatus();
 
-
-
     const {
         data: AssingedOrders = [],
         refetch: FetchAllAssignOrderDetail
     } = useGetAllAssignedOrderDetail();
 
+
+    
 
     useEffect(() => {
         initSpeech();
@@ -92,13 +92,16 @@ const KotPreparationDelivery = () => {
             )
         );
 
+
     const FinalDeliveryOrderDetail = DeliveryOrders?.map(item => {
         const assigned = AssingedOrders?.find(
-            assigned => assigned.canteen_order_id === item.canteen_order_id && assigned?.type_slno === item?.type_slno
+            assigned => assigned.canteen_order_id === item?.canteen_order_id && assigned?.type_slno === item?.type_slno
         );
 
         return {
             ...item,
+            assignment_id: assigned?.assignment_id || null,
+            assignment_detail_id: assigned?.assignment_detail_id || null,
             assigned_to: assigned?.em_name || null,
             ItemPriority: assigned?.ItemPriority || null,
             ItemStatus: assigned?.ItemStatus || null,
@@ -118,8 +121,6 @@ const KotPreparationDelivery = () => {
         FinalDeliveryOrderDetail
     ]);
 
-
-    
 
     const {
         ptsearch,
@@ -146,7 +147,6 @@ const KotPreparationDelivery = () => {
             - selectedTime: selected meal type
         */
         const searchValue = ptsearch?.trim().toLowerCase();
-
         /*
             Apply all filters to the selected data source.
             Every condition must return true for the patient
@@ -228,7 +228,10 @@ const KotPreparationDelivery = () => {
     ]);
 
 
-
+    console.log({
+        filteredPatients
+    });
+    
 
 
     return (

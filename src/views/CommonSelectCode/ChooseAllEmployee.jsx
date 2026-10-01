@@ -36,7 +36,7 @@ const ChooseAllEmployee = ({ value, setValue }) => {
             }}
         >
             <option value="" >
-                Select Diet Type
+                Select Employee
             </option>
 
             {SortedEmployeeArray?.map((item, index) => (

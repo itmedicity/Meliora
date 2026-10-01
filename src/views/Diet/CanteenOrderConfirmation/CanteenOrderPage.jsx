@@ -34,6 +34,14 @@ const CanteenOrderPage = () => {
         refetch: FetchCanteenOrders
     } = useFetchAllCanteenOrders(activeTab)
 
+    console.log(
+        {
+            
+allOrders
+        }
+    );
+    
+
     useEffect(() => {
         initSpeech();
     }, []);

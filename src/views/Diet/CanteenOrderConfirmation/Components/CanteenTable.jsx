@@ -1,13 +1,13 @@
 import React, { } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { Box, Paper, Checkbox } from '@mui/material'
+import { Box, Paper, Checkbox, Chip, Tooltip } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DietButton from '../../DietComponent/DietButton'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
 import { format } from 'date-fns'
 import { useFetchProductionMap } from '../../CommonData/UseQuery'
-import BlenderTwoToneIcon from '@mui/icons-material/BlenderTwoTone';
+import { PatientstatusConfig } from '../../CommonData/Common'
 
 const Cell = ({ width, children }) => (
     <Box sx={{ width, display: 'flex', alignItems: 'center' }}>
@@ -24,19 +24,14 @@ const CanteenTable = ({
     activeTab,
 }) => {
 
-
-
     const isCheckMode = activeTab === "CONFIRMED";
-
 
     const { data: ProductionMapDetail = [] } =
         useFetchProductionMap(isCheckMode);
 
-
     const mappedOrderIds = new Set(
         ProductionMapDetail?.map(item => item.canteen_order_id)
     );
-
 
     const getRowId = (row) => row.canteen_order_id;
 
@@ -131,7 +126,7 @@ const CanteenTable = ({
                     ['Type', 120],
                     ['Room', 100],
                     ['NS', 120],
-                    ['Status', 120],
+                    ['Patient Status', 120],
                     ['Time', 180],
                     ['Order', 100],
                     ['Cancel', 100]
@@ -151,6 +146,8 @@ const CanteenTable = ({
                 itemContent={(index, row) => {
                     const rowId = getRowId(row);
                     const isMapped = mappedOrderIds.has(rowId);
+                    const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
+
                     return (
                         <Box
                             key={`${getRowId(row)}_${index + 1}`}
@@ -182,47 +179,66 @@ const CanteenTable = ({
                             )}
 
                             <Cell width={120}>
-                                <DietTextComponent value={row.canteen_order_id} size={12} />
+                                <DietTextComponent value={row?.canteen_order_id} size={12} />
                             </Cell>
 
                             <Cell width={120}>
-                                <DietTextComponent value={row.admission_id} size={12} />
+                                <DietTextComponent value={row?.admission_id} size={12} />
                             </Cell>
                             <Cell width={120}>
-                                <DietTextComponent value={row.fb_pt_no} size={12} />
+                                <DietTextComponent value={row?.fb_pt_no} size={12} />
                             </Cell>
                             <Cell width={120}>
-                                <DietTextComponent value={row.fb_ptc_name} size={12} />
+                                <DietTextComponent value={row?.fb_ptc_name} size={12} />
                             </Cell>
                             <Cell width={120}>
-                                <DietTextComponent value={row.party_name} size={12} />
+                                <DietTextComponent value={row?.party_name} size={12} />
                             </Cell>
                             <Cell width={100}>
-                                <DietTextComponent value={row.fb_bdc_no} size={12} />
+                                <DietTextComponent value={row?.fb_bdc_no} size={12} />
                             </Cell>
 
                             <Cell width={120}>
-                                <DietTextComponent value={row.fb_ns_name} size={12} />
+                                <DietTextComponent value={row?.fb_ns_name} size={12} />
                             </Cell>
 
                             <Cell width={120}>
-                                <Box display="flex" alignItems="center" gap={0.5}>
-                                    {isMapped && (
-                                        <BlenderTwoToneIcon
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={0.5}
+                                    sx={{
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <Tooltip title={AdmissiongStatus?.label}
+                                        placement='left-start'>
+                                        <Chip
+                                            icon={AdmissiongStatus?.icon && (
+                                                React.cloneElement(AdmissiongStatus.icon, {
+                                                    size: 14,
+                                                    color: AdmissiongStatus?.color,
+                                                })
+                                            )}
+                                            label={AdmissiongStatus?.shortLabel || "-"}
+                                            size="small"
                                             sx={{
-                                                fontSize: 14,
-                                                color: '#84058d'
+                                                height: 24,
+                                                borderRadius: "6px",
+                                                fontSize: 10,
+                                                fontWeight: 700,
+                                                backgroundColor:
+                                                    AdmissiongStatus?.bgColor ||
+                                                    "rgba(37, 99, 235, 0.08)",
+                                                color: AdmissiongStatus?.color || "inherit",
+                                                border: `1px solid ${AdmissiongStatus?.borderColor || "transparent"
+                                                    }`,
                                             }}
                                         />
-                                    )}
-
-                                    <DietTextComponent
-                                        value={isMapped ? "IN PRODUCTION" : row.order_status}
-                                        size={12}
-                                        color={isMapped ? "#84058d" : "inherit"}
-                                    />
+                                    </Tooltip>
                                 </Box>
                             </Cell>
+                            
                             <Cell width={180}>
                                 <DietTextComponent
                                     value={

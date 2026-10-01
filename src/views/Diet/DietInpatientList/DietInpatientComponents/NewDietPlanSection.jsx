@@ -27,6 +27,17 @@ const NewDietPlanSection = ({
     // );
 
 
+    console.log({
+        dietType,
+        isPlanned
+    });
+
+
+    console.log({
+        dietHistory
+    });
+    
+
 
     // CHECK ONLY STOPPED
     const onlyStoppedDiet =
@@ -186,11 +197,9 @@ const NewDietPlanSection = ({
                     </Stack>
 
                     <Checkbox
-                        checked={consultationRequired === true}
+                        checked={consultationRequired === true && dietType !== 'NPO'}
                         onChange={(e) => {
-
                             const checked = e.target.checked;
-
                             setConsultationRequired(checked);
                         }}
                     />

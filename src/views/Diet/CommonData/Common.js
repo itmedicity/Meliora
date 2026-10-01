@@ -1,4 +1,14 @@
+import React from "react";
 import { format, parseISO } from "date-fns";
+import {
+    MdReceiptLong,
+    MdCheckCircle,
+    MdDescription,
+    MdAssignmentTurnedIn,
+    MdPersonOff,
+    MdPersonAddAlt
+} from "react-icons/md";
+
 
 export const Data = {
     "ingredients": [
@@ -1515,4 +1525,222 @@ export const prepareBillingPayload = ({
         })),
     };
 
+};
+
+
+
+
+export const statusConfig = {
+    PENDING: {
+        label: "Pending",
+        color: "#f59e0b",
+        background: "#fffbeb",
+        border: "#fde68a",
+    },
+
+    PICKEDUP: {
+        label: "Picked Up",
+        color: "#2563eb",
+        background: "#eff6ff",
+        border: "#bfdbfe",
+    },
+
+    DELIVERED: {
+        label: "Delivered",
+        color: "#16a34a",
+        background: "#f0fdf4",
+        border: "#bbf7d0",
+    },
+
+    UNDELIVERED: {
+        label: "Undelivered",
+        color: "#dc2626",
+        background: "#fef2f2",
+        border: "#fecaca",
+    },
+
+    RETURNED: {
+        label: "Returned",
+        color: "#9333ea",
+        background: "#faf5ff",
+        border: "#e9d5ff",
+    },
+
+    PARTIAL: {
+        label: "Partial",
+        color: "#ea580c",
+        background: "#fff7ed",
+        border: "#fed7aa",
+    },
+
+    CANCELLED: {
+        label: "Cancelled",
+        color: "#64748b",
+        background: "#f8fafc",
+        border: "#cbd5e1",
+    },
+};
+
+export const formatCurrency = (amount = 0) => {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+    }).format(Number(amount) || 0)
+}
+
+
+
+export const DENOMINATIONS = [
+    { value: 2000, cash: true, coin: false },
+    { value: 500, cash: true, coin: false },
+    { value: 200, cash: true, coin: false },
+    { value: 100, cash: true, coin: false },
+    { value: 50, cash: true, coin: false },
+    { value: 20, cash: true, coin: true },
+    { value: 10, cash: true, coin: true },
+    { value: 5, cash: true, coin: true },
+    { value: 2, cash: false, coin: true },
+    { value: 1, cash: false, coin: true }
+]
+
+
+export const calculateDenominationTotal = (
+    denominations,
+    DENOMINATIONS,
+    type,
+    mode = 'amount'
+) => {
+
+    return DENOMINATIONS?.reduce((total, item) => {
+
+        // Skip if this denomination is not available
+        if (!item?.[type]) {
+            return total
+        }
+
+        const quantity =
+            Number(
+                denominations?.[item?.value]?.[type]
+            ) || 0
+
+        // Amount
+        if (mode === 'amount') {
+            return total + (item.value * quantity)
+        }
+
+        // Pieces
+        return total + quantity
+
+    }, 0)
+}
+
+
+export const parseNumberArray = (value, removeNull = false) => {
+    if (!value) return [];
+
+    try {
+        const parsed = JSON.parse(value);
+
+        if (!Array.isArray(parsed)) return [];
+
+        return parsed
+            .filter((id) => !removeNull || id !== null)
+            .map(Number)
+            .filter(Number.isFinite);
+    } catch {
+        return [];
+    }
+};
+
+
+export const createClosingByEmployeeMap = (closedEmployeeDetail = []) => {
+    const closingByEmployee = new Map();
+
+    closedEmployeeDetail.forEach((closed) => {
+        const employeeId = Number(closed?.employee_id);
+
+        if (!Number.isFinite(employeeId)) {
+            return;
+        }
+
+        if (!closingByEmployee.has(employeeId)) {
+            closingByEmployee.set(employeeId, []);
+        }
+
+        closingByEmployee.get(employeeId).push(closed);
+    });
+
+    return closingByEmployee;
+};
+
+
+
+export const PatientstatusConfig = {
+    // ADMISSION
+    ADM: {
+        label: 'Admitted',
+        shortLabel: 'ADM',
+        color: '#1565c0',
+        bgColor: '#e3f2fd',
+        borderColor: '#64b5f6',
+        icon: <MdPersonAddAlt size={18} />,
+        active: true
+    },
+
+    // BILLING ON PROCESS
+    DBP: {
+        label: 'Billing on Process',
+        shortLabel: 'DBP',
+        color: '#1976d2',
+        bgColor: '#eaf3ff',
+        borderColor: '#90caf9',
+        icon: <MdReceiptLong size={18} />,
+        active: true
+    },
+
+    // BILLING COMPLETED
+    DBC: {
+        label: 'Billing Completed',
+        shortLabel: 'DBC',
+        color: '#2e7d32',
+        bgColor: '#edf7ed',
+        borderColor: '#81c784',
+        icon: <MdCheckCircle size={18} />,
+        active: true
+    },
+
+    // DISCHARGE SUMMARY ON PROCESS
+    DSP: {
+        label: 'Discharge Summary on Process',
+        shortLabel: 'DSP',
+        color: '#ed6c02',
+        bgColor: '#fff4e5',
+        borderColor: '#ffb74d',
+        icon: <MdDescription size={18} />,
+        active: true
+    },
+
+    // DISCHARGE SUMMARY COMPLETED
+    DSC: {
+        label: 'Discharge Summary Completed',
+        shortLabel: 'DSC',
+        color: '#7b1fa2',
+        bgColor: '#f6eefa',
+        borderColor: '#ba68c8',
+        icon: <MdAssignmentTurnedIn size={18} />,
+        active: true
+    },
+
+    // PATIENT CHECKED OUT
+    PCO: {
+        label: 'Patient Checked Out',
+        shortLabel: 'PCO',
+        color: '#757575',
+        bgColor: '#eeeeee',
+        borderColor: '#bdbdbd',
+        icon: <MdPersonOff size={18} />,
+        active: false
+    },
+    
 };

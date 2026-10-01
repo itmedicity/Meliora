@@ -1,16 +1,19 @@
 import React, { memo } from 'react'
 import { Box } from '@mui/joy'
 import ChooseNursingBed from 'src/views/CommonSelectCode/ChooseNursingBed'
-import ChooseOrderType from 'src/views/CommonSelectCode/ChooseOrderType'
 import { usePosFilter } from '../../DietReducer/contextprovider/PosFilterContext'
-import ChooseAdmittedPatient from 'src/views/CommonSelectCode/ChooseAdmittedPatient'
+// import ChooseOrderType from 'src/views/CommonSelectCode/ChooseOrderType'
+import ChooseAdmittedPatient from 'src/views/CommonSelectCode/ChooseAdmittedPatient';
+import DietSearchComponent from '../../DietComponent/DietSearchComponent';
 
 
-const PosFilterComponent = ({ FinalAdmmiteddDetail,selectedStations }) => {
+const PosFilterComponent = ({ FinalAdmmiteddDetail, selectedStations, setSearch, search }) => {
 
     const { state, dispatch } = usePosFilter();
 
-    const { bed, patient, party } = state;
+    const { bed, patient
+        //   , party
+    } = state;
 
     return (
         <Box
@@ -34,7 +37,7 @@ const PosFilterComponent = ({ FinalAdmmiteddDetail,selectedStations }) => {
                     })
                 }
             />
-
+            {/* 
             <ChooseOrderType
                 value={party}
                 setValue={(val) =>
@@ -45,7 +48,7 @@ const PosFilterComponent = ({ FinalAdmmiteddDetail,selectedStations }) => {
                 }
             />
 
-
+*/}
             <ChooseAdmittedPatient
                 patientDetail={FinalAdmmiteddDetail}
                 value={patient}
@@ -55,6 +58,11 @@ const PosFilterComponent = ({ FinalAdmmiteddDetail,selectedStations }) => {
                         payload: val
                     })
                 }
+            />
+
+            <DietSearchComponent
+                value={search}
+                onChange={(val) => setSearch(val)}
             />
         </Box>
     )

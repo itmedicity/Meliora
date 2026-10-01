@@ -27,7 +27,9 @@ const PosView = ({
                     data={orders}
                     activeTab={activeTab}
                     onView={(row) =>
-                        navigate(`/Home/diet/billing/${row.pt_no}/${row.admission_id}`)
+                        navigate(`/Home/diet/billing/${row.pt_no}/${row.admission_id}`, {
+                            state: activeTab
+                        })
                     }
                 />
 

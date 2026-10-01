@@ -4,7 +4,7 @@ import {
     Paper,
     Tooltip,
 } from "@mui/material";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
@@ -59,14 +59,18 @@ const BillingPatientDetail = ({
     filter = "ALL",
     onFilterChange = () => { },
     dietCount = 0,
+    activeTab,
     extraCount = 0,
     bystanderCount = 0,
     onPdfPrint = () => { },
     onThermalPrint = () => { },
-    onGeneratePatientBill = () => { }
+    onGeneratePatientBill = () => { },
+    onSettle = () => { }
 }) => {
 
     const [openPrintDialog, setOpenPrintDialog] = useState(false);
+
+    const canGenerateBill = activeTab === 'PENDING';
 
     const handlePrint = (printType) => {
         setOpenPrintDialog(false);
@@ -250,7 +254,7 @@ const BillingPatientDetail = ({
                     }}
                 >
                     <DietTextComponent
-                        value="PRINT OPTIONS"
+                        value="BILL & PRINT OPTIONS"
                         size={15}
                         weight={700}
                     />
@@ -259,20 +263,32 @@ const BillingPatientDetail = ({
                         sx={{
                             mt: 1.5,
                             display: "grid",
-                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gridTemplateColumns: `repeat(3, 1fr)`,
                             gap: 1.2,
                         }}
                     >
-                        <ActionCard
-                            icon={ReceiptLongIcon}
-                            title="Generate"
-                            onClick={onGeneratePatientBill}
-                            bgColor="#E8F5E9"
-                            borderColor="#A5D6A7"
-                            hoverColor="#C8E6C9"
-                            iconColor="success.main"
-                        />
-
+                        {
+                            !canGenerateBill ?
+                                <ActionCard
+                                    icon={CheckCircleIcon}
+                                    title="Settle Bills"
+                                    onClick={onSettle}
+                                    bgColor="#E8F5E9"
+                                    borderColor="#A5D6A7"
+                                    hoverColor="#C8E6C9"
+                                    iconColor="success.main"
+                                />
+                                :
+                                <ActionCard
+                                    icon={ReceiptLongIcon}
+                                    title="Generate"
+                                    onClick={onGeneratePatientBill}
+                                    bgColor="#E8F5E9"
+                                    borderColor="#A5D6A7"
+                                    hoverColor="#C8E6C9"
+                                    iconColor="success.main"
+                                />
+                        }
                         <ActionCard
                             icon={PictureAsPdfIcon}
                             title="PDF"

@@ -1,6 +1,6 @@
 // BatchPreviewModal.jsx
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
     Modal,
     ModalDialog,
@@ -22,6 +22,11 @@ import DietButton from "../../DietComponent/DietButton";
 
 import CloseIcon from "@mui/icons-material/Close";
 import RecommendIcon from "@mui/icons-material/Recommend";
+import DatePickerComponent from "../../DietComponent/DatePickerComponent";
+import CustomeIncidentLoading from "src/views/IncidentManagement/Components/CustomeIncidentLoading";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 
 const BatchTypeCard = ({ type }) => {
 
@@ -192,170 +197,191 @@ const BatchPreviewModal = ({
     loading
 }) => {
 
+    const today = new Date();
+    const [todate, setToDate] = useState(today);
+
+    console.log({
+        todate
+    });
+
+
     return (
-        <Modal
-            open={open}
-            onClose={onClose}
-        >
-            <ModalDialog
-                sx={{
-                    width: 550,
-                    maxWidth: "95vw",
-                    height: "55vh",
-                    p: 0,
-                    borderRadius: 3,
-                    overflow: "hidden"
-                }}
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Modal
+                open={open}
+                onClose={onClose}
             >
-
-                {/* HEADER */}
-                <Box
+                <ModalDialog
                     sx={{
-                        px: 2,
-                        py: 1.5,
-                        bgcolor: "#dfdae5",
-                        color: "#fff",
-
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        borderLeft: '2px solid #7b2cbf',
-                        borderRight: '2px solid #7b2cbf'
+                        width: 550,
+                        maxWidth: "95vw",
+                        height: "55vh",
+                        p: 0,
+                        borderRadius: 3,
+                        overflow: "hidden"
                     }}
                 >
 
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
+                    {/* HEADER */}
+                    <Box
+                        sx={{
+                            px: 2,
+                            py: 1.5,
+                            bgcolor: "#dfdae5",
+                            color: "#fff",
+
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            borderLeft: '2px solid #7b2cbf',
+                            borderRight: '2px solid #7b2cbf'
+                        }}
                     >
-                        <RestaurantMenuIcon sx={{
-                            color: '#7b2cbf'
-                        }} />
 
-                        <DietTextComponent
-                            value="Batch Preview"
-                            size={17}
-                            weight={700}
-                            color="#222222"
-                        />
-                    </Stack>
+                        <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                        >
+                            <RestaurantMenuIcon sx={{
+                                color: '#7b2cbf'
+                            }} />
 
-                    <Chip
-                        size="sm"
-                        variant="soft"
-                        color="neutral"
-                    >
-                        {organizedBatchData?.length || 0} Types
-                    </Chip>
-                </Box>
+                            <DietTextComponent
+                                value="Batch Preview"
+                                size={17}
+                                weight={700}
+                                color="#222222"
+                            />
+                        </Stack>
 
-                {/* BODY */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        overflow: "hidden",
+                        <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            pb: 0.5,
+                            borderBottom: '4px solid #7c51a1',
+                            m: 1,
+                            borderRadius: 10
+                        }}>
+                            <Suspense fallback={<CustomeIncidentLoading text="Loading Component" />}>
+                                <DatePickerComponent
+                                    label="Select Production Date:"
+                                    value={todate}
+                                    setValue={setToDate}
+                                    minDate={today}
+                                // maxDate={addDays(today, 1)}
+                                />
+                            </Suspense>
+                        </Box>
+                    </Box>
 
-                        display: "flex",
-                        flexDirection: "column",
-                        bgcolor: "#f7f7f7"
-                    }}
-                >
-
-                    {/* SCROLL AREA */}
+                    {/* BODY */}
                     <Box
                         sx={{
                             flex: 1,
-                            overflowY: "auto",
-                            p: 2,
+                            overflow: "hidden",
 
-                            "&::-webkit-scrollbar": {
-                                width: 5
-                            },
-
-                            "&::-webkit-scrollbar-thumb": {
-                                background: "#d4d4d4",
-                                borderRadius: 10
-                            }
+                            display: "flex",
+                            flexDirection: "column",
+                            bgcolor: "#f7f7f7"
                         }}
                     >
 
-                        {
-                            organizedBatchData?.map((type, index) => (
-                                <BatchTypeCard
-                                    key={index}
-                                    type={type}
-                                />
-                            ))
-                        }
-                    </Box>
-
-                    {/* STICKY REMARK */}
-                    <Box
-                        sx={{
-                            p: 2,
-                            borderTop: "1px solid #ececec",
-                            bgcolor: "#fff",
-                            position: "sticky",
-                            bottom: 0
-                        }}
-                    >
-
-                        <DietTextComponent
-                            value="Batch Preparation Remark"
-                            size={13}
-                            weight={700}
-                            color="#7b2cbf"
-                        />
-
-                        <textarea
-                            style={{
-                                width: "100%",
-                                height: 80,
-                                marginTop: 8,
-                                padding: 8,
-                                resize: "none",
-                                borderRadius: 4,
-                                outline: "none",
-                                // ...(error && { border: "1px solid red" })
-                            }}
-                            value={batchRemark}
-                            placeholder="Enter remark..."
-                            onChange={(e) =>
-                                setBatchRemark(e.target.value)
-                            }
-                        />
-
-
-                        {/* FOOTER */}
+                        {/* SCROLL AREA */}
                         <Box
                             sx={{
-                                mt: 2,
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                gap: 1
+                                flex: 1,
+                                overflowY: "auto",
+                                p: 2,
+
+                                "&::-webkit-scrollbar": {
+                                    width: 5
+                                },
+
+                                "&::-webkit-scrollbar-thumb": {
+                                    background: "#d4d4d4",
+                                    borderRadius: 10
+                                }
                             }}
                         >
 
-                            <DietButton
-                                width={100}
-                                name="Cancel"
-                                icon={CloseIcon}
-                                onClick={onClose}
+                            {
+                                organizedBatchData?.map((type, index) => (
+                                    <BatchTypeCard
+                                        key={index}
+                                        type={type}
+                                    />
+                                ))
+                            }
+                        </Box>
+
+                        {/* STICKY REMARK */}
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderTop: "1px solid #ececec",
+                                bgcolor: "#fff",
+                                position: "sticky",
+                                bottom: 0
+                            }}
+                        >
+
+                            <DietTextComponent
+                                value="Batch Preparation Remark"
+                                size={13}
+                                weight={700}
+                                color="#7b2cbf"
                             />
 
-                            <DietButton
-                                width={170}
-                                name="Confirm Batch"
-                                loading={loading}
-                                icon={RecommendIcon}
-                                onClick={onConfirm}
+                            <textarea
+                                style={{
+                                    width: "100%",
+                                    height: 80,
+                                    marginTop: 8,
+                                    padding: 8,
+                                    resize: "none",
+                                    borderRadius: 4,
+                                    outline: "none",
+                                    // ...(error && { border: "1px solid red" })
+                                }}
+                                value={batchRemark}
+                                placeholder="Enter remark..."
+                                onChange={(e) =>
+                                    setBatchRemark(e.target.value)
+                                }
                             />
+
+
+                            {/* FOOTER */}
+                            <Box
+                                sx={{
+                                    mt: 2,
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    gap: 1
+                                }}
+                            >
+
+                                <DietButton
+                                    width={100}
+                                    name="Cancel"
+                                    icon={CloseIcon}
+                                    onClick={onClose}
+                                />
+
+                                <DietButton
+                                    width={170}
+                                    name="Confirm Batch"
+                                    loading={loading}
+                                    icon={RecommendIcon}
+                                    onClick={() => onConfirm(todate)}
+                                />
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-            </ModalDialog>
-        </Modal>
+                </ModalDialog>
+            </Modal>
+        </LocalizationProvider>
     );
 };
 

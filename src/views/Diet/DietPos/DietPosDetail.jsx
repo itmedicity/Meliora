@@ -5,7 +5,6 @@ import PosOrderTab from './PosComponent/PosOrderTab';
 import PosFilterComponent from './PosComponent/PosFilterComponent';
 import PosMain from './PosComponent/PosMain';
 import {
-    // useAllAdmittedPatientDetail,
     useNewBillablePatientDetail
 } from '../CommonData/UseQuery';
 import { usePosFilter } from '../DietReducer/contextprovider/PosFilterContext';
@@ -17,63 +16,88 @@ const DietPosDetail = () => {
     const { state } = usePosFilter();
     const [selectedStations, setSelectedStations] = useState([])
     const [activeTab, setActiveTab] = useState("PENDING");
-    const [activeStatus, setActiveStatus] = useState(null);
+    const [search, setSearch] = useState("");
+
 
     const { bed, patient } = state;
 
-    // const { data: admittedPatients = [] } = useAllAdmittedPatientDetail(selectedStations)
     const { data: admittedPatients = [] } = useNewBillablePatientDetail(activeTab)
 
 
     console.log({
-        activeTab
+        admittedPatients
     });
-    
 
 
-    // Replace with your API data
-    const posOrders = [
-        { bill_status: "PENDING" },
-        { bill_status: "PENDING" },
-        { bill_status: "BILLED" },
-        { bill_status: "BILLED" },
-    ];
+    const FinalAdmmiteddDetail = Array.isArray(admittedPatients)
+        ? admittedPatients.filter(item => {
+            const bedMatch =
+                !bed ||
+                String(item?.bed_code) === String(bed);
 
-    const FinalAdmmiteddDetail = Array.isArray(admittedPatients) && bed
-        ? admittedPatients.filter(item => String(item.fb_bd_code) === String(bed))
-        : admittedPatients;
+            const stationMatch =
+                !selectedStations?.length ||
+                selectedStations.some(
+                    station =>
+                        String(station) === String(item?.nursing_station_code)
+                );
 
+            return bedMatch && stationMatch;
+        })
+        : [];
+
+
+    console.log({
+        admittedPatients
+    });
 
 
     const FinalPatientDetail = Array.isArray(admittedPatients)
         ? admittedPatients.filter(item => {
-            const bedMatch = !bed || String(item.fb_bd_code) === String(bed);
-            const patientMatch = !patient || String(item.fb_pt_no) === String(patient);
+            const bedMatch =
+                !bed || String(item?.bed_code) === String(bed);
 
-            return bedMatch && patientMatch;
+            const patientMatch =
+                !patient || String(item?.pt_no) === String(patient);
+
+            const nsStationMatch =
+                !selectedStations?.length ||
+                selectedStations.some(
+                    station =>
+                        String(station) === String(item?.nursing_station_code)
+                );
+
+            const searchText = String(search ?? '').trim().toLowerCase();
+
+            const searchMatch =
+                !searchText ||
+                String(item?.pt_no ?? '').toLowerCase().includes(searchText) ||
+                String(item?.patient_name ?? '').toLowerCase().includes(searchText);
+
+            return bedMatch && patientMatch && nsStationMatch && searchMatch;
         })
         : [];
 
-    console.log({
-        FinalPatientDetail
-    });
+
+
+   
+
 
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-            <KotItemHeader name="POINT OF SALES" />
+            <KotItemHeader name="PATIENT FINAL SETTLEMENT" />
 
             <PosOrderTab
-                posOrders={posOrders}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
-                activeStatus={activeStatus}
-                setActiveStatus={setActiveStatus}
             />
 
             <PosFilterComponent
                 FinalAdmmiteddDetail={FinalAdmmiteddDetail}
                 selectedStations={selectedStations}
+                search={search}
+                setSearch={setSearch}
             />
             <PosMain
                 orders={FinalPatientDetail}

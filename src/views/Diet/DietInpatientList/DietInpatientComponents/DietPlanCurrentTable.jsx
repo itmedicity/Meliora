@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Box, Table, Chip, Divider, IconButton, Tooltip } from "@mui/joy";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -22,6 +22,21 @@ const DietPlanCurrentTable = ({
     const [openHistory, setOpenHistory] = useState(true);
 
     const DietDetail = patient?.diet_history;
+
+    console.log({
+
+    });
+
+    const IsActiveDietExist = useMemo(
+        () =>
+            DietDetail?.some(
+                diet =>
+                    diet?.diet_id !== null &&
+                    diet?.diet_type === "DIET" &&
+                    diet?.diet_status === "ACTIVE"
+            ),
+        [DietDetail]
+    );
 
     const getDietStatus = (status) => {
         switch (status) {
@@ -65,12 +80,12 @@ const DietPlanCurrentTable = ({
                     border: "1px solid #ececec",
                     mb: 2,
                     overflow: "hidden"
-                }}
-            >
+                }}>
 
                 {/* HEADER */}
                 {
-                    DietDetail && DietDetail?.length > 0 &&
+                    DietDetail &&
+                    DietDetail?.length > 0 &&
                     <Box
                         onClick={() => setOpenHistory(prev => !prev)}
                         sx={{
@@ -108,142 +123,146 @@ const DietPlanCurrentTable = ({
                     </Box>
                 }
                 {/* TABLE CONTENT */}
-                {DietDetail?.length > 0 && (
-                    <Collapse
-                        in={openHistory}
-                        timeout={400}
-                        easing={{
-                            enter: "cubic-bezier(0.4, 0, 0.2, 1)",
-                            exit: "cubic-bezier(0.4, 0, 0.2, 1)"
-                        }}
-                    >
-                        <Box sx={{ p: 2 }}>
-                            <Table
-                                size="sm"
-                                borderAxis="xBetween"
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>Diet</th>
-                                        <th>Template</th>
-                                        <th>Dietitian</th>
-                                        <th>remarks</th>
-                                        <th style={{ width: '100px' }}>Status</th>
-                                        <th style={{ width: '50px' }}>Edit</th>
-                                        <th style={{ width: '50px' }}>Stop</th>
-                                    </tr>
-                                </thead>
+                {DietDetail?.length > 0 &&
+                    (
+                        <Collapse
+                            in={openHistory}
+                            timeout={400}
+                            easing={{
+                                enter: "cubic-bezier(0.4, 0, 0.2, 1)",
+                                exit: "cubic-bezier(0.4, 0, 0.2, 1)"
+                            }}
+                        >
+                            <Box sx={{ p: 2 }}>
+                                <Table
+                                    size="sm"
+                                    borderAxis="xBetween"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Diet</th>
+                                            <th>Template</th>
+                                            <th>Type</th>
+                                            <th>Dietitian</th>
+                                            <th>remarks</th>
+                                            <th style={{ width: '100px' }}>Status</th>
+                                            <th style={{ width: '50px' }}>Edit</th>
+                                            <th style={{ width: '50px' }}>Stop</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {DietDetail?.map((row, i) => {
-                                        const statusUI = getDietStatus(row?.diet_status);
-                                        const isStopped = row?.diet_status === "STOPPED";
+                                    <tbody>
+                                        {DietDetail?.map((row, i) => {
+                                            const statusUI = getDietStatus(row?.diet_status);
+                                            const isStopped = row?.diet_status === "STOPPED";
+                                            const HasNPO = row?.diet_type === "NPO";
 
-                                        return (
-                                            <tr key={i}>
-                                                <td>{row?.diet_name || "-"}</td>
-                                                <td>{row?.template_name || "-"}</td>
-                                                <td>{row?.Dietecian_name || "-"}</td>
-                                                <td>
-                                                    {row?.remarks ? (
-                                                        <Tooltip title={row.remarks} arrow>
-                                                            <Box
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{HasNPO ? "No Diet" : row?.diet_name || "-"}</td>
+                                                    <td>{HasNPO ? "No Template" : row?.template_name || "-"}</td>
+                                                    <td>{row?.diet_type || "-"}</td>
+                                                    <td>{HasNPO ? "No Dietecian" : row?.Dietecian_name || "-"}</td>
+                                                    <td>
+                                                        {row?.remarks ? (
+                                                            <Tooltip title={row.remarks} arrow>
+                                                                <Box
+                                                                    sx={{
+                                                                        maxWidth: 200,
+                                                                        overflow: "hidden",
+                                                                        textOverflow: "ellipsis",
+                                                                        whiteSpace: "nowrap",
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                >
+                                                                    {row.remarks}
+                                                                </Box>
+                                                            </Tooltip>
+                                                        ) : (
+                                                            "-"
+                                                        )}
+                                                    </td>
+
+                                                    <td style={{ width: '100px' }}>
+                                                        <Chip
+                                                            size="sm"
+                                                            variant="soft"
+                                                            sx={{
+                                                                color: statusUI?.color,
+                                                                bgcolor: statusUI?.bg
+                                                            }}
+                                                        >
+                                                            {statusUI?.label}
+                                                        </Chip>
+                                                    </td>
+
+                                                    {/* EDIT */}
+                                                    <td style={{ width: '50px' }}>
+                                                        <Box
+                                                            onClick={() => {
+                                                                if (isStopped) return;
+                                                                handleEdit(row);
+                                                            }}
+                                                            sx={{
+                                                                cursor: isStopped
+                                                                    ? "not-allowed"
+                                                                    : "pointer",
+                                                                opacity: isStopped ? 0.4 : 1,
+                                                                pointerEvents: isStopped
+                                                                    ? "none"
+                                                                    : "auto"
+                                                            }}
+                                                        >
+                                                            <EditIcon
                                                                 sx={{
-                                                                    maxWidth: 200,
-                                                                    overflow: "hidden",
-                                                                    textOverflow: "ellipsis",
-                                                                    whiteSpace: "nowrap",
-                                                                    cursor: "pointer",
+                                                                    fontSize: 18,
+                                                                    color: isStopped
+                                                                        ? "#aaa"
+                                                                        : "#1976d2"
                                                                 }}
-                                                            >
-                                                                {row.remarks}
-                                                            </Box>
-                                                        </Tooltip>
-                                                    ) : (
-                                                        "-"
-                                                    )}
-                                                </td>
+                                                            />
+                                                        </Box>
+                                                    </td>
 
-                                                <td style={{ width: '100px' }}>
-                                                    <Chip
-                                                        size="sm"
-                                                        variant="soft"
-                                                        sx={{
-                                                            color: statusUI?.color,
-                                                            bgcolor: statusUI?.bg
-                                                        }}
-                                                    >
-                                                        {statusUI?.label}
-                                                    </Chip>
-                                                </td>
-
-                                                {/* EDIT */}
-                                                <td style={{ width: '50px' }}>
-                                                    <Box
-                                                        onClick={() => {
-                                                            if (isStopped) return;
-                                                            handleEdit(row);
-                                                        }}
-                                                        sx={{
-                                                            cursor: isStopped
-                                                                ? "not-allowed"
-                                                                : "pointer",
-                                                            opacity: isStopped ? 0.4 : 1,
-                                                            pointerEvents: isStopped
-                                                                ? "none"
-                                                                : "auto"
-                                                        }}
-                                                    >
-                                                        <EditIcon
-                                                            sx={{
-                                                                fontSize: 18,
-                                                                color: isStopped
-                                                                    ? "#aaa"
-                                                                    : "#1976d2"
+                                                    {/* STOP */}
+                                                    <td style={{ width: '50px' }}>
+                                                        <Box
+                                                            onClick={() => {
+                                                                if (isStopped || HasNPO) return;
+                                                                hanldeStopDiet(row?.plan_id);
                                                             }}
-                                                        />
-                                                    </Box>
-                                                </td>
-
-                                                {/* STOP */}
-                                                <td style={{ width: '50px' }}>
-                                                    <Box
-                                                        onClick={() => {
-                                                            if (isStopped) return;
-                                                            hanldeStopDiet(row?.plan_id);
-                                                        }}
-                                                        sx={{
-                                                            cursor: isStopped
-                                                                ? "not-allowed"
-                                                                : "pointer",
-                                                            opacity: isStopped ? 0.4 : 1,
-                                                            pointerEvents: isStopped
-                                                                ? "none"
-                                                                : "auto"
-                                                        }}
-                                                    >
-                                                        <CancelIcon
                                                             sx={{
-                                                                fontSize: 18,
-                                                                color: isStopped
-                                                                    ? "#aaa"
-                                                                    : "#d32f2f"
+                                                                cursor: isStopped || HasNPO
+                                                                    ? "not-allowed"
+                                                                    : "pointer",
+                                                                opacity: isStopped || HasNPO ? 0.4 : 1,
+                                                                pointerEvents: isStopped || HasNPO
+                                                                    ? "none"
+                                                                    : "auto"
                                                             }}
-                                                        />
-                                                    </Box>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                )}
+                                                        >
+                                                            <CancelIcon
+                                                                sx={{
+                                                                    fontSize: 18,
+                                                                    color: isStopped || HasNPO
+                                                                        ? "#aaa"
+                                                                        : "#d32f2f"
+                                                                }}
+                                                            />
+                                                        </Box>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </Table>
+                            </Box>
+                        </Collapse>
+                    )}
             </Box>
 
             {/* TEMPLATE DETAILS */}
-            {isPlanned && !editMode && (
+            {isPlanned && !editMode && IsActiveDietExist && (
                 <TemplateDetailsTable groupedData={groupedData} />
             )}
             {

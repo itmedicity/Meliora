@@ -28,7 +28,7 @@ const CanteenFilterComponent = ({ selectedStations }) => {
             borderRadius: 5
         }}>
 
-    
+
             <ChooseNursingBed
                 value={bed}
                 code={selectedStations}

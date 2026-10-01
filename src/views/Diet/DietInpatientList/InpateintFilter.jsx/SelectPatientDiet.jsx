@@ -6,6 +6,7 @@ import {
 
 import RestaurantMenuRoundedIcon from '@mui/icons-material/RestaurantMenuRounded'
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
+import BlockRoundedIcon from '@mui/icons-material/BlockRounded'
 
 import { useAllPatientDietMaster } from '../../CommonData/UseQuery'
 
@@ -14,6 +15,13 @@ const SelectPatientDiet = ({ value, setValue }) => {
     const {
         data: allDietMaster = []
     } = useAllPatientDietMaster()
+
+    // NPO option
+    const npoOption = {
+        diet_id: 'NPO',
+        diet_name: 'Nil Per Oral (NPO)',
+        isNpo: true
+    }
 
     return (
         <Box
@@ -25,6 +33,97 @@ const SelectPatientDiet = ({ value, setValue }) => {
             }}
         >
 
+            {/* =========================
+                NPO OPTION
+            ========================= */}
+            <Box
+                onClick={() => setValue('NPO')}
+                sx={{
+                    px: 1.2,
+                    py: 0.8,
+                    borderRadius: 12,
+
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+
+                    cursor: 'pointer',
+                    transition: '0.2s',
+
+                    minWidth: 'fit-content',
+                    maxWidth: 200,
+
+                    border: value === 'NPO'
+                        ? '1.5px solid #d32f2f'
+                        : '1px solid #e4e4e4',
+
+                    bgcolor: value === 'NPO'
+                        ? '#fff1f1'
+                        : '#fff',
+
+                    boxShadow: value === 'NPO'
+                        ? '0 2px 8px rgba(211,47,47,0.15)'
+                        : 'xs',
+
+                    '&:hover': {
+                        transform: 'translateY(-1px)',
+                        boxShadow: 'sm'
+                    }
+                }}
+            >
+
+                {/* ICON */}
+                <Box
+                    sx={{
+                        minWidth: 28,
+                        width: 28,
+                        height: 28,
+                        borderRadius: '50%',
+
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+
+                        bgcolor: value === 'NPO'
+                            ? '#d32f2f'
+                            : '#f3f3f3',
+
+                        color: value === 'NPO'
+                            ? '#fff'
+                            : '#666'
+                    }}
+                >
+                    {
+                        value === 'NPO'
+                            ? <CheckRoundedIcon sx={{ fontSize: 16 }} />
+                            : <BlockRoundedIcon sx={{ fontSize: 15 }} />
+                    }
+                </Box>
+
+                {/* TEXT */}
+                <Typography
+                    sx={{
+                        fontSize: 12,
+                        fontWeight: 600,
+
+                        color: value === 'NPO'
+                            ? '#c62828'
+                            : '#333',
+
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                    }}
+                >
+                    {npoOption.diet_name}
+                </Typography>
+
+            </Box>
+
+
+            {/* =========================
+                NORMAL DIETS
+            ========================= */}
             {allDietMaster?.map((val) => {
 
                 const selected = value === val?.diet_id
@@ -100,6 +199,7 @@ const SelectPatientDiet = ({ value, setValue }) => {
                             sx={{
                                 fontSize: 12,
                                 fontWeight: 600,
+
                                 color: selected
                                     ? '#5b35cc'
                                     : '#333',
@@ -115,6 +215,7 @@ const SelectPatientDiet = ({ value, setValue }) => {
                     </Box>
                 )
             })}
+
         </Box>
     )
 }

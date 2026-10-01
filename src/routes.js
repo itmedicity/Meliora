@@ -348,6 +348,8 @@ const ConsultationRequired = React.lazy(() => import('./views/Diet/DieticianPage
 const DietPosDetail = React.lazy(() => import('./views/Diet/DietPos/DietPosDetail'));
 const DietBillingDetail = React.lazy(() => import('./views/Diet/DietPos/PosComponent/DietBillingDetail'));
 const DietDischargeBill = React.lazy(() => import('./views/Diet/DietPos/DietDischargeBill'));
+const CollectionClosing = React.lazy(() => import('./views/Diet/CollectionClosing/CollectionClosing'));
+const PettycashDetail = React.lazy(() => import('./views/Diet/Pettycash/PettycashDetail'));
 
 
 // const CommonSetting = React.lazy(() => import('./views/Master'));
@@ -1024,7 +1026,7 @@ const routes = [
     name: 'CdcEmr',
     element: <CdcEmr />
   },
-{
+  {
     path: 'dietroom',
     name: 'Diet Room Master',
     element: <DietRoomMaster />
@@ -1178,6 +1180,17 @@ const routes = [
     name: 'Billing',
     element: <DietDischargeBill />
   },
+  {
+    path: "/collection",
+    name: 'Collection & Closing',
+    element: <CollectionClosing />
+  },
+  {
+    path: "/pettycash",
+    name: 'User Petty Cash',
+    element: <PettycashDetail />
+  },
+
 ]
 
 

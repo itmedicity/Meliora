@@ -1,6 +1,6 @@
 import React from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { Box, Paper, Checkbox, FormControlLabel } from '@mui/material'
+import { Box, Paper, Checkbox, FormControlLabel, Tooltip, Chip } from '@mui/material'
 import { CssVarsProvider } from '@mui/joy'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -9,6 +9,7 @@ import DietTextComponent from '../../DietComponent/DietTextComponent'
 import { FILTER_ACTIONS } from '../../DietReducer/action/kotPreparationFilter.actions'
 import { useKotFilter } from '../../DietReducer/contextprovider/KotFilterContext'
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
+import { PatientstatusConfig } from '../../CommonData/Common'
 
 const Cell = ({ width, children }) => (
     <Box
@@ -111,7 +112,7 @@ const PatientCardTable = ({
                     ['Order Id', 80],
                     ['Pt No', 130],
                     ['Meal', 120],
-                    ['Ip No', 160],
+                    ['Patient Status', 160],
                     ['Name', 160],
                     ['NS', 160],
                     ['Room', 100],
@@ -171,6 +172,8 @@ const PatientCardTable = ({
                 style={{ height: '72vh' }}
                 data={data}
                 itemContent={(index, row) => {
+                    
+                    const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
 
                     return (
 
@@ -269,12 +272,44 @@ const PatientCardTable = ({
 
                             {/* ORDER TYPE */}
                             <Cell width={160}>
-                                <DietTextComponent
-                                    value={row.fb_ip_no}
-                                    size={12}
-                                />
+
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={0.5}
+                                    sx={{
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <Tooltip title={AdmissiongStatus?.label}
+                                        placement='left-start'>
+                                        <Chip
+                                            icon={AdmissiongStatus?.icon && (
+                                                React.cloneElement(AdmissiongStatus.icon, {
+                                                    size: 14,
+                                                    color: AdmissiongStatus?.color,
+                                                })
+                                            )}
+                                            label={AdmissiongStatus?.shortLabel || "-"}
+                                            size="small"
+                                            sx={{
+                                                height: 24,
+                                                borderRadius: "6px",
+                                                fontSize: 10,
+                                                fontWeight: 700,
+                                                backgroundColor:
+                                                    AdmissiongStatus?.bgColor ||
+                                                    "rgba(37, 99, 235, 0.08)",
+                                                color: AdmissiongStatus?.color || "inherit",
+                                                border: `1px solid ${AdmissiongStatus?.borderColor || "transparent"
+                                                    }`,
+                                            }}
+                                        />
+                                    </Tooltip>
+                                </Box>
+
                             </Cell>
-                             <Cell width={160}>
+                            <Cell width={160}>
                                 <DietTextComponent
                                     value={row.fb_ptc_name}
                                     size={12}

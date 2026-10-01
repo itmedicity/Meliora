@@ -53,7 +53,7 @@ const DietPlan = ({
 
   const isPlanned = useMemo(() => diet_history?.some(val =>
     val?.diet_status &&
-    val?.diet_status !== "STOPPED"
+    val?.diet_status !== "STOPPED" 
   ) ?? false,
     [diet_history]
   );
@@ -145,7 +145,8 @@ const DietPlan = ({
         }),
         patient_id: pt_no,
         admission_id: ip_no,
-        diet_id: dietType,
+        diet_id: dietType === 'NPO' ? null : dietType,
+        diet_type: dietType === 'NPO' ? 'NPO' : 'DIET',
         remarks: remarks || null,
         is_consultation: consultationRequired ? 1 : 0,
         start_date: ipd_date

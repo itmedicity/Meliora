@@ -1,13 +1,8 @@
-import { Box } from '@mui/joy'
 import React from 'react'
-import PendingActionsIcon from '@mui/icons-material/PendingActions'
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import { Box } from '@mui/joy'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
 
 const PosOrderTab = ({
-    posOrders,
-    activeStatus,
-    setActiveStatus,
     activeTab,
     setActiveTab
 }) => {
@@ -17,46 +12,6 @@ const PosOrderTab = ({
         { label: 'PENDING', value: 'PENDING' },
         { label: 'BILLED', value: 'BILLED' }
     ]
-
-    /* STATUS COUNT */
-    const statusCount = Array.isArray(posOrders)
-        ? posOrders.reduce(
-            (acc, item) => {
-                const status = item.bill_status?.toUpperCase()
-
-                if (status === 'BILLED') {
-                    acc.Billed += 1
-                } else {
-                    acc.Pending += 1
-                }
-
-                return acc
-            },
-            {
-                Pending: 0,
-                Billed: 0
-            }
-        )
-        : {
-            Pending: 0,
-            Billed: 0
-        }
-
-    const posStatus = [
-        {
-            label: `${statusCount.Pending}`,
-            value: 'Pending'
-        },
-        {
-            label: `${statusCount.Billed}`,
-            value: 'Billed'
-        }
-    ]
-
-    const getIcon = (status) => {
-        if (status === 'Pending') return <PendingActionsIcon fontSize="small" />
-        if (status === 'Billed') return <ReceiptLongIcon fontSize="small" />
-    }
 
     return (
         <Box
@@ -78,7 +33,7 @@ const PosOrderTab = ({
 
             {/* LEFT TABS */}
             <Box sx={{ display: 'flex', width: '50%', gap: 1 }}>
-                {tabs.map(tab => (
+                {tabs?.map(tab => (
                     <Box
                         key={tab.value}
                         onClick={() => setActiveTab(tab.value)}
@@ -107,68 +62,6 @@ const PosOrderTab = ({
                         />
                     </Box>
                 ))}
-            </Box>
-
-            {/* RIGHT STATUS */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    width: '50%',
-                    gap: 2,
-                    justifyContent: 'end',
-                    alignItems: 'center'
-                }}
-            >
-                {posStatus.map(status => {
-                    const isActive = activeStatus === status.value
-
-                    return (
-                        <Box
-                            key={status.value}
-                            onClick={() =>
-                                setActiveStatus(prev =>
-                                    prev === status.value ? null : status.value
-                                )
-                            }
-                            sx={{
-                                height: 30,
-                                minWidth: 130,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 0.5,
-                                cursor: 'pointer',
-                                borderRadius: 3,
-                                bgcolor: isActive ? '#5b3b7a' : '#fff',
-                                color: isActive ? '#fff' : '#333',
-                                px: 1,
-                                boxShadow: isActive
-                                    ? '0 4px 12px rgba(0,0,0,.2)'
-                                    : '0 2px 6px rgba(0,0,0,.08)',
-                                transition: '.2s',
-                                '&:hover': {
-                                    transform: 'translateY(-3px)'
-                                }
-                            }}
-                        >
-                            {getIcon(status.value)}
-
-                            <DietTextComponent
-                                size={13}
-                                value={status.value}
-                                color={isActive ? '#fff' : '#333'}
-                            />
-
-                            {Number(status.label) > 0 && (
-                                <DietTextComponent
-                                    size={14}
-                                    value={status.label}
-                                    color={isActive ? '#fff' : '#5b3b7a'}
-                                />
-                            )}
-                        </Box>
-                    )
-                })}
             </Box>
         </Box>
     )

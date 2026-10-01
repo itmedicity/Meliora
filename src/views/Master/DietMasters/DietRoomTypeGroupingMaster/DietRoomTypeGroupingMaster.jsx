@@ -48,7 +48,7 @@ const DietRoomTypeGroupingMaster = () => {
         }));
 
         setDetailEditMode(true);
-
+ 
     }, []);
 
     const [diet, setDiet] = useState(0)
@@ -72,9 +72,7 @@ const DietRoomTypeGroupingMaster = () => {
     } = formDataState
 
 
-    console.log({
-        meadId
-    });
+
 
     const { price_id } = selectedroomcategory ?? {}
 

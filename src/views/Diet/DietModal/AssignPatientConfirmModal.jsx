@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
     Modal,
     ModalDialog,
@@ -28,21 +28,23 @@ const AssignPatientConfirmModal = ({
     dispatch,
 }) => {
 
-  
+
 
     const [remark, setRemark] = useState("");
     const [remarkError, setRemarkError] = useState(false);
     const [priorityMap, setPriorityMap] = useState({});
     const [loading, SetLoading] = useState(false);
     const queryClient = useQueryClient()
-
+    const [expandedId, setExpandedId] = useState(null);
     const data = useSelector(state => {
         return state.LoginUserData
     })
 
 
     const { data: AllEmployee = [] } = useAllEmployeeFetch() // Fetching All Employee with status 1
-    const [expandedId, setExpandedId] = useState(null);
+
+
+
     /**
      * 
      * Not Optimize Will be Handle Later 
@@ -427,4 +429,4 @@ const AssignPatientConfirmModal = ({
     );
 };
 
-export default AssignPatientConfirmModal;
+export default memo(AssignPatientConfirmModal);

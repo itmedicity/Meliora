@@ -1,5 +1,8 @@
 import React, { memo, useEffect, } from "react";
 import { Box, Checkbox, Typography } from "@mui/joy";
+import { PatientstatusConfig } from "../CommonData/Common";
+import { Chip, Tooltip } from "@mui/material";
+import DietTextComponent from "../DietComponent/DietTextComponent";
 
 const PatientSelectionDrawer = ({
     open,
@@ -9,16 +12,20 @@ const PatientSelectionDrawer = ({
 }) => {
 
 
- 
-
     // select all initially
     useEffect(() => {
         if (data.length > 0 && selectedPlans.length === 0) {
-            setSelectedPlans(data.map(p => p.plan_id));
+            setSelectedPlans(data
+                ?.filter(p => p.fb_ipc_curstatus !== 'PCO')
+                ?.map(p => p.plan_id));
         }
     }, [data]);
 
-    const handleToggle = (planId) => {
+    const handleToggle = (planId, ptStatus) => {
+
+        // Do not allow inactive patients to be selected
+        if (ptStatus === "PCO") return;
+
         setSelectedPlans(prev =>
             prev.includes(planId)
                 ? prev.filter(id => id !== planId)
@@ -39,7 +46,7 @@ const PatientSelectionDrawer = ({
     return (
         <Box
             sx={{
-                width: open ? 320 : 0,
+                width: open ? 520 : 0,
                 transition: "all 0.3s ease",
                 overflow: "hidden",
                 borderRight: open ? "1px solid #ddd" : "none",
@@ -101,61 +108,102 @@ const PatientSelectionDrawer = ({
                     </Box>
 
                     <Box sx={{ maxHeight: 500, overflowY: "auto" }}>
-                        {data.map(plan => {
-                            const checked = selectedPlans.includes(plan.plan_id);
+                        {
+                            data?.map(plan => {
+                                const checked = selectedPlans?.includes(plan.plan_id);
+                                const AdmissiongStatus = PatientstatusConfig[plan.fb_ipc_curstatus];
+                                return (
+                                    <Box
+                                        key={plan.plan_id}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            p: 1,
+                                            mb: 1,
+                                            borderRadius: 2,
+                                            border: "1px solid #eee",
+                                            backgroundColor: checked ? "#f0f7ff" : "#fff"
+                                        }}
+                                    >
+                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                            <Checkbox
+                                                variant="outlined"
+                                                size="sm"
+                                                sx={{
+                                                    '--Checkbox-radius': '4px',
+                                                    '--Checkbox-gap': '6px',
+                                                    '--Checkbox-size': '20px',
+                                                    '--joy-palette-primary': '#7c51a1',
+                                                    '& .MuiCheckbox-root': {
+                                                        borderColor: '#7c51a1',
+                                                    },
+                                                    '& .Mui-checked': {
+                                                        color: '#7c51a1',
+                                                    }
+                                                }}
+                                                checked={checked}
+                                                onChange={() => handleToggle(plan.plan_id, AdmissiongStatus?.shortLabel)}
+                                            />
+                                            <Box>
+                                                <DietTextComponent
+                                                    value={plan?.fb_ptc_name}
+                                                    size={12}
+                                                    color="#060606"
+                                                />
+                                                <DietTextComponent
+                                                    value={plan?.patient_id}
+                                                    size={10}
+                                                    color="#727070"
+                                                />
+                                            </Box>
+                                        </Box>
 
-                            return (
-                                <Box
-                                    key={plan.plan_id}
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        p: 1,
-                                        mb: 1,
-                                        borderRadius: 2,
-                                        border: "1px solid #eee",
-                                        backgroundColor: checked ? "#f0f7ff" : "#fff"
-                                    }}
-                                >
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                                        <Checkbox
-                                            variant="outlined"
-                                            size="sm"
-                                            sx={{
-                                                '--Checkbox-radius': '4px',
-                                                '--Checkbox-gap': '6px',
-                                                '--Checkbox-size': '20px',
-                                                '--joy-palette-primary': '#7c51a1',
-                                                '& .MuiCheckbox-root': {
-                                                    borderColor: '#7c51a1',
-                                                },
-                                                '& .Mui-checked': {
-                                                    color: '#7c51a1',
-                                                }
-                                            }}
-                                            checked={checked}
-                                            onChange={() => handleToggle(plan.plan_id)}
-                                        />
                                         <Box>
-                                            <Typography level="body-sm">
-                                                {plan.fb_ptc_name}
-                                            </Typography>
-                                            <Typography level="body-xs">
-                                                <b>{plan.patient_id}</b>
-                                            </Typography>
+                                            <Box
+                                                display="flex"
+                                                alignItems="center"
+                                                gap={0.5}
+                                                sx={{
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <Tooltip title={AdmissiongStatus?.label}
+                                                    placement='left-start'>
+                                                    <Chip
+                                                        icon={AdmissiongStatus?.icon && (
+                                                            React.cloneElement(AdmissiongStatus.icon, {
+                                                                size: 14,
+                                                                color: AdmissiongStatus?.color,
+                                                            })
+                                                        )}
+                                                        label={AdmissiongStatus?.shortLabel || "-"}
+                                                        size="small"
+                                                        sx={{
+                                                            height: 24,
+                                                            borderRadius: "6px",
+                                                            fontSize: 10,
+                                                            fontWeight: 700,
+                                                            backgroundColor:
+                                                                AdmissiongStatus?.bgColor ||
+                                                                "rgba(37, 99, 235, 0.08)",
+                                                            color: AdmissiongStatus?.color || "inherit",
+                                                            border: `1px solid ${AdmissiongStatus?.borderColor || "transparent"
+                                                                }`,
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            </Box>
 
+                                            <DietTextComponent
+                                                value={plan?.diet_name}
+                                                size={10}
+                                                color="#131212"
+                                            />
                                         </Box>
                                     </Box>
-
-                                    <Box>
-                                        <Typography level="body-xs">
-                                            {plan.diet_name}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            );
-                        })}
+                                );
+                            })}
                     </Box>
                 </Box>
             )}

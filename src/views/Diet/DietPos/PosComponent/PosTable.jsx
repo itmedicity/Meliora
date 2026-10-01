@@ -1,10 +1,11 @@
 import React from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { Paper, Box } from '@mui/material'
+import { Paper, Box, Tooltip, Chip } from '@mui/material'
 import DietButton from '../../DietComponent/DietButton'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
+import { PatientstatusConfig } from '../../CommonData/Common'
 
 const Cell = ({ width, children }) => (
     <Box
@@ -12,21 +13,23 @@ const Cell = ({ width, children }) => (
             width,
             display: 'flex',
             alignItems: 'center'
-        }}
-    >
+        }}>
         {children}
     </Box>
 )
 
 const PosTable = ({
     data = [],
-    onView
+    onView,
 }) => {
+
+    console.log({
+        data
+    });
+
 
     return (
         <Paper sx={{ width: '100%' }}>
-
-            {/* HEADER */}
 
             <Box
                 display="flex"
@@ -41,13 +44,15 @@ const PosTable = ({
                 }}>
 
                 {[
-                    ['Admission', 120],
-                    ['MRD', 120],
+                    ['Sl No', 80],
+                    ['Admission', 100],
+                    ['MRD', 100],
                     ['Patient Name', 220],
                     ['Room', 100],
-                    ['Nurse Station', 180],
-                    ['Bill', 100]
-                ].map(([label, width]) => (
+                    ['Nurse Station', 140],
+                    ['Patient Status', 240],
+                    ['Diet Charges', 140]
+                ]?.map(([label, width]) => (
                     <Cell
                         key={label}
                         width={width}
@@ -65,62 +70,102 @@ const PosTable = ({
             {/* BODY */}
 
             <Virtuoso
-                style={{ height: '70vh' }}
+                style={{ height: '60vh' }}
                 data={data}
-                itemContent={(index, row) => (
+                itemContent={(index, row) => {
 
-                    <Box
-                        key={row.fb_ip_no}
-                        display="flex"
-                        justifyContent="space-between"
-                        sx={{
-                            borderBottom: '1px solid lightgrey',
-                            px: 1,
-                            py: .5
-                        }}
-                    >
+                    const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
 
-                        <Cell width={120}>
-                            <DietTextComponent value={row?.admission_id} size={12} />
-                        </Cell>
+                    return (
 
-                        <Cell width={120}>
-                            <DietTextComponent value={row?.pt_no} size={12} />
-                        </Cell>
+                        <Box
+                            key={row.fb_ip_no}
+                            display="flex"
+                            justifyContent="space-between"
+                            sx={{
+                                borderBottom: '1px solid lightgrey',
+                                px: 1,
+                                py: .5
+                            }}
+                        >
+                            <Cell width={80}>
+                                <DietTextComponent value={index + 1} size={12} />
+                            </Cell>
 
-                        <Cell width={220}>
-                            <PersonPinCircleIcon sx={{
-                                fontSize:16,
-                                color:'#8c2ef0'
-                            }} />
-                            <DietTextComponent value={row?.patient_name} size={12} />
-                        </Cell>
+                            <Cell width={100}>
+                                <DietTextComponent value={row?.admission_id} size={12} />
+                            </Cell>
 
+                            <Cell width={100}>
+                                <DietTextComponent value={row?.pt_no} size={12} />
+                            </Cell>
 
-                        <Cell width={100}>
-                            <DietTextComponent value={row?.bed_name} size={12} />
-                        </Cell>
-
-                        <Cell width={180}>
-                            <DietTextComponent value={row?.nursing_station_name} size={12} />
-                        </Cell>
+                            <Cell width={220}>
+                                <PersonPinCircleIcon sx={{
+                                    fontSize: 16,
+                                    color: '#8c2ef0'
+                                }} />
+                                <DietTextComponent value={row?.patient_name} size={12} />
+                            </Cell>
 
 
-                        <Cell width={100}>
-                            <DietButton
-                                width={80}
-                                name={`${row?.pending_amount}`}
-                                icon={CurrencyRupeeIcon}
-                                onClick={() => onView(row)}
-                            />
-                        </Cell>
+                            <Cell width={100}>
+                                <DietTextComponent value={row?.bed_name} size={12} />
+                            </Cell>
 
-                    </Box>
-                )}
+                            <Cell width={140}>
+                                <DietTextComponent value={row?.nursing_station_name} size={12} />
+                            </Cell>
+
+                            <Cell width={240}>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={0.5}
+                                    sx={{
+                                        cursor: 'pointer'
+                                    }}>
+                                    <Tooltip title={AdmissiongStatus?.shortLabel}
+                                        placement='left-start'>
+                                        <Chip
+                                            icon={AdmissiongStatus?.icon && (
+                                                React.cloneElement(AdmissiongStatus.icon, {
+                                                    size: 14,
+                                                    color: AdmissiongStatus?.color,
+                                                })
+                                            )}
+                                            label={AdmissiongStatus?.label || "-"}
+                                            size="small"
+                                            sx={{
+                                                height: 24,
+                                                borderRadius: "6px",
+                                                fontSize: 10,
+                                                fontWeight: 700,
+                                                backgroundColor:
+                                                    AdmissiongStatus?.bgColor ||
+                                                    "rgba(37, 99, 235, 0.08)",
+                                                color: AdmissiongStatus?.color || "inherit",
+                                                border: `1px solid ${AdmissiongStatus?.borderColor || "transparent"
+                                                    }`,
+                                            }}
+                                        />
+                                    </Tooltip>
+                                </Box>
+                            </Cell>
+
+                            <Cell width={140}>
+                                <DietButton
+                                    width={80}
+                                    name={`${row?.pending_amount}`}
+                                    icon={CurrencyRupeeIcon}
+                                    onClick={() => onView(row)}
+                                />
+                            </Cell>
+                        </Box>
+                    )
+                }}
             />
-
         </Paper>
     )
 }
-
 export default PosTable

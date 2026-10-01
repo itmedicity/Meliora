@@ -280,9 +280,6 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
     const isStyleNeed = selectedFood && Object.keys(selectedFood).length > 0;
 
-    console.log({
-        items
-    });
 
 
     if (!order) return null;

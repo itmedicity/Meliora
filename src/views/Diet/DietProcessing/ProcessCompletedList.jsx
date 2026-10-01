@@ -9,10 +9,6 @@ import {
     warningNotify
 } from 'src/views/Common/CommonCode'
 import PatientScheduleCancelModal from '../DietModal/PatientScheduleCancelModal'
-// import { useSelector } from 'react-redux'
-// import BrunchDiningIcon from '@mui/icons-material/BrunchDining';
-// import { axioslogin } from 'src/views/Axios/Axios'
-// import CustomeIncidentLoading from 'src/views/IncidentManagement/Components/CustomeIncidentLoading'
 
 
 const ProcessCompletedList = ({
@@ -37,34 +33,6 @@ const ProcessCompletedList = ({
         setSelectedPatient(Patient)
     };
 
-
-
-    // const HanldeFoodDelivered = async (patient) => {
-    //     if (!patient.patient_diet_id) return warningNotify("Patient Id is Missing!");
-    //     const payload = {
-    //         patient_diet_id: patient.patient_diet_id,
-    //         status: "SERVED",
-    //         updated_by: id
-    //     };
-
-    //     try {
-    //         setLoading(true);
-    //         const response = await axioslogin.post(
-    //             "/dietschedule/schedule/serve",
-    //             payload
-    //         );
-    //         const { success, message } = response.data ?? {};
-    //         if (success === 0) return warningNotify(message || "Error in Updating Status");
-    //         succesNotify("Diet Served SuccessFully" || message);
-    //         fetchscheduled();
-    //         fetchactive();
-    //     } catch (error) {
-    //         console.error(error);
-    //         errorNotify("Error in Updating Status");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
 
     return (
         <Box sx={{ width: '100%', borderRadius: 8, overflow: 'hidden', border: '1px solid #e0e0e0' }}>
@@ -101,7 +69,55 @@ const ProcessCompletedList = ({
                                 <Box sx={bodyCell}>{row?.patient_name}</Box>
                                 <Box sx={bodyCell}>{row?.process_date}</Box>
                                 <Box sx={bodyCell}>{row?.type_desc}</Box>
-                                <Box sx={bodyCell}>{row?.schedule_status}</Box>
+                                {/* <Box sx={bodyCell}>{row?.schedule_status}</Box>
+                                 */}
+                                 <Box
+    sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.7,
+        px: 1.2,
+        py: 0.5,
+        borderRadius: "999px",
+        fontSize: "10px",
+        fontWeight: 800,
+        letterSpacing: "0.3px",
+
+        ...(row?.schedule_status === "SERVED" && {
+            color: "#2e7d32",
+            backgroundColor: "#edf7ed",
+            border: "1px solid #c8e6c9",
+        }),
+
+        ...(row?.schedule_status === "PENDING" && {
+            color: "#ed6c02",
+            backgroundColor: "#fff8e1",
+            border: "1px solid #ffe082",
+        }),
+
+        ...(row?.schedule_status === "CANCELLED" && {
+            color: "#d32f2f",
+            backgroundColor: "#fff1f1",
+            border: "1px solid #ffcdd2",
+        }),
+    }}
+>
+    <Box
+        sx={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            backgroundColor:
+                row?.schedule_status === "SERVED"
+                    ? "#43a047"
+                    : row?.schedule_status === "PENDING"
+                    ? "#fb8c00"
+                    : "#e53935",
+        }}
+    />
+
+    {row?.schedule_status || "PENDING"}
+</Box>
                                 <Box sx={bodyCell}>
                                     <DietButton
                                         width={40}
@@ -110,16 +126,6 @@ const ProcessCompletedList = ({
                                         name={''}
                                         icon={InsertPageBreakIcon}
                                     /></Box>
-                                {/* <Box sx={bodyCell}>
-                                    <DietButton
-                                        width={40}
-                                        onClick={() => HanldeFoodDelivered(row)}
-                                        disabled={row?.schedule_status !== 'PENDING'
-                                            || loading}
-                                        name={''}
-                                        icon={BrunchDiningIcon}
-                                    /></Box> */}
-
                             </Box>
                         )
                     })}
@@ -130,7 +136,6 @@ const ProcessCompletedList = ({
                     patient={selectedpatient}
                     fetchscheduled={fetchscheduled}
                     fetchactive={fetchactive}
-                // onConfirm={(data) => HandlePatientMealcancellation(data)}
                 />
 
             </Box>

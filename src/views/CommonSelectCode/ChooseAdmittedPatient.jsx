@@ -14,7 +14,7 @@ const ChooseAdmittedPatient = ({
     const filteredPatients = useMemo(() => {
         return [
             ...new Map(
-                patientDetail.map(item => [item.fb_pt_no, item])
+                patientDetail.map(item => [item.pt_no, item])
             ).values()
         ]
     }, [patientDetail])
@@ -40,10 +40,10 @@ const ChooseAdmittedPatient = ({
 
             {filteredPatients.map((item) => (
                 <option
-                    key={item.fb_pt_no}
-                    value={item.fb_pt_no}
+                    key={item?.admission_id}
+                    value={item?.pt_no}
                 >
-                    {item.fb_ptc_name} ({item.fb_ip_no})
+                    {item?.patient_name} ({item?.pt_no})
                 </option>
             ))}
         </select>

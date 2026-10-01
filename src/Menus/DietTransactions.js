@@ -44,16 +44,30 @@ const DietTransactions = [
     to: '/Home/kotprepdev',
     icon: <CiStop1 />
   },
+
+
   {
-    men_slno: 339,
-    name: 'Diet Type Grouping',
-    to: '/Home/diettypegroup',
+    men_slno: 359,
+    name: 'User Petty Cash',
+    to: '/Home/pettycash',
+    icon: <CiStop1 />
+  },
+  {
+    men_slno: 358,
+    name: 'Daily User Bill Closing',
+    to: '/Home/collection',
     icon: <CiStop1 />
   },
   {
     men_slno: 357,
-    name: 'POS',
+    name: 'Patient Final Settlement',
     to: '/Home/dietpos',
+    icon: <CiStop1 />
+  },
+  {
+    men_slno: 339,
+    name: 'Diet Type Grouping',
+    to: '/Home/diettypegroup',
     icon: <CiStop1 />
   },
 ]
