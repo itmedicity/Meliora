@@ -111,7 +111,10 @@ const DenominationForm = ({
     )
 
     const grandTotal = cashTotal + coinTotal
-    const totalPieces = cashPieces + coinPieces
+    const totalPieces = cashPieces + coinPieces;
+
+
+    const TotalBillAmountTobePaid = Number(collectionAmount) + Number(UserPettyCash);
 
 
 
@@ -498,11 +501,11 @@ const DenominationForm = ({
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <DietTextComponent
-                            value="CLOSED AMOUNT"
+                            value="TOTAL BILL AMOUNT"
                             sx={{ fontSize: 13, color: '#666' }}
                         />
                         <DietTextComponent
-                            value={`₹ ${Number(grandTotal || 0).toLocaleString('en-IN')}`}
+                            value={`₹ ${Number(TotalBillAmountTobePaid || 0).toLocaleString('en-IN')}`}
                             sx={{ fontSize: 14, fontWeight: 600, color: '#222' }}
                         />
                     </Box>
