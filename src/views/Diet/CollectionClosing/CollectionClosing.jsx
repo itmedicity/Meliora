@@ -36,6 +36,12 @@ const CollectionClosing = () => {
 
     const closingByEmployee = createClosingByEmployeeMap(ClosedEmployeeDetail);
 
+    console.log({
+        closingByEmployee,
+        BillSummaryDetails
+    });
+    
+
     const CombinedBillSummary = (BillSummaryDetails || []).map((employee) => {
         const employeeId = Number(employee?.employee_id);
 

@@ -1,7 +1,6 @@
 import React, { memo, useState } from 'react'
 import { Box } from '@mui/joy'
 import MenuIcon from '@mui/icons-material/Menu'
-// import PosViewWrapper from './Components/PosViewWrapper'
 import CanteenContextDrawer from '../../CanteenOrderConfirmation/CanteenContextDrawer'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
 import PosViewWrapper from './PosViewWrapper'
