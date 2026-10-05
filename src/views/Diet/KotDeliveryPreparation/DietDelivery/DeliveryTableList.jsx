@@ -299,7 +299,7 @@ const DeliveryTableList = ({
                         ["Detail", 100],
                         ["Performa", 120],
                         ["Bill", 100],
-                        ["Print & Pdf", 280],
+                        ["Print & Pdf", 240],
                     ].map(([label, width]) => (
                         <Cell key={label} width={width}>
                             <DietTextComponent
@@ -520,7 +520,7 @@ const DeliveryTableList = ({
                                     />
                                 </Cell>
 
-                                <Cell width={280}>
+                                <Cell width={240}>
                                     <Box
                                         sx={{
                                             width: "100%",

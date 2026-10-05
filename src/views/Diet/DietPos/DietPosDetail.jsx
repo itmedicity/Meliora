@@ -24,13 +24,22 @@ const DietPosDetail = () => {
     const { data: admittedPatients = [] } = useNewBillablePatientDetail(activeTab)
 
 
-    console.log({
-        admittedPatients
-    });
 
-
-    const FinalAdmmiteddDetail = Array.isArray(admittedPatients)
+    const filteredPatients = Array.isArray(admittedPatients)
         ? admittedPatients.filter(item => {
+            if (activeTab === 'SETTLED') {
+                return item?.is_settled === 'Y';
+            }
+            if (activeTab === 'BILLED') {
+                return item?.is_settled !== 'Y';
+            }
+            return true;
+        })
+        : [];
+
+
+    const FinalAdmmiteddDetail = Array.isArray(filteredPatients)
+        ? filteredPatients?.filter(item => {
             const bedMatch =
                 !bed ||
                 String(item?.bed_code) === String(bed);
@@ -52,8 +61,8 @@ const DietPosDetail = () => {
     });
 
 
-    const FinalPatientDetail = Array.isArray(admittedPatients)
-        ? admittedPatients.filter(item => {
+    const FinalPatientDetail = Array.isArray(filteredPatients)
+        ? filteredPatients.filter(item => {
             const bedMatch =
                 !bed || String(item?.bed_code) === String(bed);
 
@@ -80,7 +89,7 @@ const DietPosDetail = () => {
 
 
 
-   
+
 
 
 

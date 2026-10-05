@@ -646,6 +646,8 @@ const CrfNotification = React.lazy(() => import('./views/Master/RequestManagemen
 // const WorkOrderApproval = React.lazy(() => import('./views/WorkOrder/WorkOrderApprovals/WorkOrderApproval'))
 const CommonReport = React.lazy(() => import('./views/Report/CommonReport/CommonReport'))
 
+const DailyCanteenClosing = React.lazy(() => import('./views/Diet/DailyCanteenClosing/DailyCanteenClosing'))
+
 
 
 
@@ -1193,7 +1195,16 @@ const routes = [
     element: <PettycashDetail />
   },
 
-  { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> }
+  { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> },
+  {
+    path: '/canteenclose',
+    name: 'Daily Canteen Closing',
+    element: (
+      <PosFilterProvider>
+        <DailyCanteenClosing />
+      </PosFilterProvider>
+    )
+  },
 
 
 ]

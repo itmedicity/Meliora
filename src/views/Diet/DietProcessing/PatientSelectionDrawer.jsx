@@ -16,7 +16,7 @@ const PatientSelectionDrawer = ({
     useEffect(() => {
         if (data.length > 0 && selectedPlans.length === 0) {
             setSelectedPlans(data
-                ?.filter(p => p.fb_ipc_curstatus !== 'PCO')
+                ?.filter(p => p.fb_ipc_curstatus === 'ADM')
                 ?.map(p => p.plan_id));
         }
     }, [data]);
@@ -24,7 +24,7 @@ const PatientSelectionDrawer = ({
     const handleToggle = (planId, ptStatus) => {
 
         // Do not allow inactive patients to be selected
-        if (ptStatus === "PCO") return;
+        if (ptStatus != "ADM") return;
 
         setSelectedPlans(prev =>
             prev.includes(planId)

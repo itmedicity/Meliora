@@ -1,10 +1,11 @@
 import React, { memo } from 'react'
 import { Box } from '@mui/joy'
 import ChooseNursingBed from 'src/views/CommonSelectCode/ChooseNursingBed'
-import { usePosFilter } from '../../DietReducer/contextprovider/PosFilterContext'
+
 // import ChooseOrderType from 'src/views/CommonSelectCode/ChooseOrderType'
 import ChooseAdmittedPatient from 'src/views/CommonSelectCode/ChooseAdmittedPatient';
 import DietSearchComponent from '../../DietComponent/DietSearchComponent';
+import { usePosFilter } from '../../DietReducer/contextprovider/PosFilterContext';
 
 
 const PosFilterComponent = ({ FinalAdmmiteddDetail, selectedStations, setSearch, search }) => {

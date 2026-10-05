@@ -81,7 +81,9 @@ import {
     getProductionMaping,
     getProformaDetails,
     getTodayCashClosingEmployee,
+    getTodayDetaildedBillSummary,
     getTodayEmployeePettyCashDetails,
+    getTodaysettleBillDetails,
     getTotalipPatient,
     getTotalNewAdmittedPatientDetail
 } from "./CommonFun";
@@ -1006,5 +1008,25 @@ export const useEMployeeClosedPettyDetails = (empid, closingId) => {
         queryFn: () => getEmployeePetyyDetails(empid, closingId),
         defaultValue: [],
         enabled: !!empid && !!closingId
+    });
+};
+
+
+
+export const useGetTodaySettledBillDetails = () => {
+    return useSafeQuery({
+        queryKey: ['bill-detail-today'],
+        queryFn: getTodaysettleBillDetails,
+        defaultValue: [],
+    });
+};
+
+
+
+export const useGetTodayDetailBillSumary = () => {
+    return useSafeQuery({
+        queryKey: ['today-detail-summaru'],
+        queryFn: getTodayDetaildedBillSummary,
+        defaultValue: [],
     });
 };

@@ -1,17 +1,17 @@
 import React from 'react'
 import { Box } from '@mui/joy'
-import DietTextComponent from '../../DietComponent/DietTextComponent'
+import DietTextComponent from '../DietComponent/DietTextComponent';
 
-const PosOrderTab = ({
+
+const ClosingTab = ({
     activeTab,
     setActiveTab
 }) => {
 
     /* LEFT TABS */
     const tabs = [
-        { label: 'PENDING', value: 'PENDING' },
-        { label: 'BILLED', value: 'BILLED' },
-        { label: 'SETTLED', value: 'SETTLED' }
+        { label: 'SUMMARY', value: 'SUMMARY' },
+        { label: 'DETAILED', value: 'DETAILED' },
     ];
 
     return (
@@ -68,4 +68,4 @@ const PosOrderTab = ({
     )
 }
 
-export default PosOrderTab
+export default ClosingTab

@@ -466,6 +466,11 @@ const DietBillingDetail = () => {
 
     const activeTab = location.state;
 
+    const apiStatus =
+        activeTab === 'SETTLED'
+            ? 'BILLED'
+            : activeTab;
+
     const employeeId = useSelector(
         state => state.LoginUserData.empid
     );
@@ -505,7 +510,7 @@ const DietBillingDetail = () => {
     } = usePatientTransactions(
         ipNo,
         ptNo,
-        activeTab
+        apiStatus
     );
 
     const {
@@ -513,7 +518,7 @@ const DietBillingDetail = () => {
     } = useBystanderBillDetails(
         ipNo,
         ptNo,
-        activeTab
+        apiStatus
     );
 
     const {
@@ -521,7 +526,7 @@ const DietBillingDetail = () => {
     } = usePatientDietBillDetails(
         ipNo,
         ptNo,
-        activeTab
+        apiStatus
     );
 
     const {
@@ -529,7 +534,7 @@ const DietBillingDetail = () => {
     } = usePatientExtraOrderBills(
         ipNo,
         ptNo,
-        activeTab
+        apiStatus
     );
 
     const {

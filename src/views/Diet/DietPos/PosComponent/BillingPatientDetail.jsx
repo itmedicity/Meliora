@@ -71,6 +71,7 @@ const BillingPatientDetail = ({
     const [openPrintDialog, setOpenPrintDialog] = useState(false);
 
     const canGenerateBill = activeTab === 'PENDING';
+    const IsBillSettled = activeTab === 'SETTLED';
 
     const handlePrint = (printType) => {
         setOpenPrintDialog(false);
@@ -263,11 +264,11 @@ const BillingPatientDetail = ({
                         sx={{
                             mt: 1.5,
                             display: "grid",
-                            gridTemplateColumns: `repeat(3, 1fr)`,
+                            gridTemplateColumns: `repeat(${IsBillSettled ? 2 : 3}, 1fr)`,
                             gap: 1.2,
                         }}
                     >
-                        {
+                        {!IsBillSettled && (
                             !canGenerateBill ?
                                 <ActionCard
                                     icon={CheckCircleIcon}
@@ -288,7 +289,7 @@ const BillingPatientDetail = ({
                                     hoverColor="#C8E6C9"
                                     iconColor="success.main"
                                 />
-                        }
+                        )}
                         <ActionCard
                             icon={PictureAsPdfIcon}
                             title="PDF"

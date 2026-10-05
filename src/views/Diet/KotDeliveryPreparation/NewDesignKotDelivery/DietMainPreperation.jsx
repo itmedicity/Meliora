@@ -248,6 +248,7 @@ const DietMainPreperation = ({
 
             <ProformaDetailsDrawer
                 open={modalType === "performa"}
+                bills={bills}
                 loading={isProformaLoading}
                 onClose={() => setModalType(null)}
                 proformaDetails={ProformaDetails}

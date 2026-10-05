@@ -27,8 +27,14 @@ const ProformaDetailsDrawer = ({
     open,
     onClose,
     proformaDetails = [],
-    width = 480
+    width = 480,
+    bills
 }) => {
+
+    console.log({
+        bills
+    });
+
 
     const queryClient = useQueryClient()
 
@@ -45,6 +51,10 @@ const ProformaDetailsDrawer = ({
         () => proformaDetails?.[0] || {},
         [proformaDetails]
     );
+
+    const hasExistingBill = useMemo(() => {
+        return Array.isArray(bills) && bills.length > 0;
+    }, [bills]);
 
     /*  TOTALS */
 
@@ -192,7 +202,7 @@ const ProformaDetailsDrawer = ({
             succesNotify("Bill Created Successfully!")
 
             setShowBillPayType(false);
-            
+
             queryClient.invalidateQueries(['proforma-details', proforma?.assignment_detail_id])
 
         } catch (error) {
@@ -1005,7 +1015,7 @@ const ProformaDetailsDrawer = ({
                             </Box>
 
 
-                            {proforma?.status === "OPEN" && !showBillPayType && (
+                            {proforma?.status === "OPEN" && !showBillPayType && !hasExistingBill && (
                                 <>
                                     <Box
                                         component="button"

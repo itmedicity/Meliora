@@ -65,6 +65,12 @@ const DietTransactions = [
     icon: <CiStop1 />
   },
   {
+    men_slno: 360,
+    name: 'Daily Canteen Closing',
+    to: '/Home/canteenclose',
+    icon: <CiStop1 />
+  },
+  {
     men_slno: 339,
     name: 'Diet Type Grouping',
     to: '/Home/diettypegroup',

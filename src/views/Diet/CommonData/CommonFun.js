@@ -3057,8 +3057,12 @@ export const getTotalNewAdmittedPatientDetail = async () => {
 
 
 export const getBillablePatientDetails = async (activeTab) => {
+    const apiStatus =
+        activeTab === 'SETTLED'
+            ? 'BILLED'
+            : activeTab;
     try {
-        const res = await axioslogin.get(`/dietdelivery/billable-patient/${activeTab}`);
+        const res = await axioslogin.get(`/dietdelivery/billable-patient/${apiStatus}`);
         const { success, data } = res.data;
         if (success === 1) {
             return data || [];
@@ -3424,3 +3428,40 @@ export const getEmployeePetyyDetails = async (id, closingIds) => {
         return [];
     }
 };
+
+
+export const getTodaysettleBillDetails = async () => {
+    try {
+        const res = await axioslogin.get(`/dietdelivery/today-settle-bill`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching Today  !", error?.message || error);
+        return [];
+    }
+};
+
+
+
+
+
+export const getTodayDetaildedBillSummary = async () => {
+    try {
+        const res = await axioslogin.get(`/dietdelivery/today-detailed-summary`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching Today  !", error?.message || error);
+        return [];
+    }
+};
+
+

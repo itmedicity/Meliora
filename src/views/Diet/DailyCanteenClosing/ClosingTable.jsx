@@ -1,11 +1,11 @@
 import React from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { Paper, Box, Tooltip, Chip } from '@mui/material'
-import DietButton from '../../DietComponent/DietButton'
-import DietTextComponent from '../../DietComponent/DietTextComponent'
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
-import { PatientstatusConfig } from '../../CommonData/Common'
+import DietTextComponent from '../DietComponent/DietTextComponent';
+import DietButton from '../DietComponent/DietButton';
+import { PatientstatusConfig } from '../CommonData/Common';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const Cell = ({ width, children }) => (
     <Box
@@ -18,12 +18,10 @@ const Cell = ({ width, children }) => (
     </Box>
 )
 
-const PosTable = ({
-    data = [],  
+const ClosingTable = ({
+    data = [],
     onView,
 }) => {
-
-
 
     return (
         <Paper sx={{ width: '100%' }}>
@@ -48,7 +46,7 @@ const PosTable = ({
                     ['Room', 100],
                     ['Nurse Station', 140],
                     ['Patient Status', 240],
-                    ['Diet Charges', 140]
+                    ['View Details', 140]
                 ]?.map(([label, width]) => (
                     <Cell
                         key={label}
@@ -71,7 +69,7 @@ const PosTable = ({
                 data={data}
                 itemContent={(index, row) => {
 
-                    const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
+                    const AdmissiongStatus = PatientstatusConfig[row.current_status];
 
                     return (
 
@@ -153,8 +151,8 @@ const PosTable = ({
                             <Cell width={140}>
                                 <DietButton
                                     width={80}
-                                    name={`${row?.pending_amount}`}
-                                    icon={CurrencyRupeeIcon}
+                                    name={`View`}
+                                    icon={RemoveRedEyeIcon}
                                     onClick={() => onView(row)}
                                 />
                             </Cell>
@@ -165,4 +163,4 @@ const PosTable = ({
         </Paper>
     )
 }
-export default PosTable
+export default ClosingTable
