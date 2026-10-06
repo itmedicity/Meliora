@@ -124,25 +124,30 @@ Implemented the **Bed Status Report** feature enabling real-time monitoring of h
 
 
 ### 2. Frontend Implementation (`Meliora`)
-**File:** [BedStatusReport.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusReport.jsx)  
 **Route:** `/Home/BedStatusReport` (registered in `routes.js`, menu item slno: 373 in `ReportsMenu.js`)  
+**Components:**
+- [BedStatusReport.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusReport.jsx): Main coordinator component handling state, queries, bed-count synchronization, and Excel export.
+- [BedStatusToolbar.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusToolbar.jsx): Action controls, real-time fetch/refresh buttons with interactive 360° spin animations, outlet dropdown selector, search box, and export action.
+- [BedStatusKpiCards.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusKpiCards.jsx): KPI summary count cards with customized CSS keyframe micro-animations for each count.
+- [BedStatusTable.jsx](file:///d:/Meliora/Meliora/src/views/Report/CommonReport/BedStatusTable.jsx): Joy UI sticky header table with zebra styling, badge rendering, loading/empty states, and totals footer.
 
 #### Key Features:
-- **"Show Current Bed Status" Button**: Primary action button with loading spinner, triggers `axiosellider.post('/supplierList/BedStatus')`.
-- **KPI Summary Cards**: Real-time overview cards displaying:
-  - **Stations**: Total count of active nursing stations.
-  - **Total Beds**: Hospital-wide bed capacity.
-  - **Available Beds**: Green-accented available beds ready for admissions.
-  - **Occupied Beds**: Amber-accented currently occupied beds.
-  - **Admitted Patients**: Purple-accented admitted inpatients.
-  - **Not Ready**: Rose-accented beds pending maintenance/cleaning.
+- **"Show Current Bed Status" & Animated Refresh Buttons**: Primary action button with spinner and a responsive Refresh button featuring smooth 180° hover transitions, continuous 360° cubic-bezier keyframe spin on click, and glowing active feedback.
+- **KPI Summary Cards**: Real-time overview cards featuring customized, GPU-accelerated animated icons for each count:
+  - **Stations**: Total count with a floating door icon (`MeetingRoomOutlinedIcon`, gentle vertical float).
+  - **Total Beds**: Hospital-wide bed capacity with a pulsing blue bed icon (`HotelOutlinedIcon`, rhythmic scale pulse).
+  - **Available Beds**: Ready beds with a heartbeat pulsing green checkmark (`CheckCircleOutlineIcon`, double-beat pulse).
+  - **Occupied Beds**: Current occupancy with an amber bed sway animation (`HotelOutlinedIcon`, warm breathing sway).
+  - **Admitted Patients**: Inpatient count with a gentle bounce purple people icon (`PeopleAltOutlinedIcon`, subtle tilt & bounce).
+  - **Not Ready**: Pending beds with a caution wobble rose icon (`WarningAmberIcon`, attention wobble pulse).
 - **Search & Outlet Filter**: Real-time text search across nursing station and outlet descriptions, plus an outlet dropdown selector.
 - **Interactive Data Table**:
   - Sticky header Joy UI table with alternating zebra rows.
-  - Columns: `Sl No`, `Nursing Station`, `Outlet / Location`, `Total Beds`, `Occupied Beds`, `Admitted Patients`, `Available Beds`, `Not Ready`, and `Occupancy %`.
+  - Columns: `Sl No`, `Nursing Station`, `Outlet / Location`, `Total Beds`, `Admitted Patients`, `Remaining Beds`, `Discharged`, `Available Beds`, `Not Ready`, and `Occupancy %`.
   - Color-coded badges for bed counts and occupancy rate tiers (<70% green, 70-90% amber, >90% danger).
   - Grand total footer row summarizing all quantitative columns.
-- **Excel Export**: Export filtered rows with formatted columns and totals row to `.xlsx`.
+- **Active Bed Stations Filtering**: Sourced bed counts strictly from `getallnursestation` (`getallNurseStationMaster`), completely disregarding any bed count returned by `/supplierList/BedStatus`. Stations without configured beds in `getallnursestation` (count = 0) are excluded from the report, KPI cards, filter options, and Excel export.
+- **Excel Export**: Export filtered rows with formatted columns and totals row to `.xlsx`, featuring an interactive download bounce animation, tactile press feedback, and active `"Exporting..."` state.
 
 ---
 
