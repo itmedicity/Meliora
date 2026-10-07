@@ -7,15 +7,14 @@ import { useEmployeePettyCashDetails } from '../CommonData/UseQuery';
 import EmployeeSearch from './PettycashComponents/EmployeeSearch';
 
 const PettycashDetail = () => {
+
     const [activetab, setActiveTab] = useState("ISSUED");
 
-    const { data: EmployeePettyCash = [] } = useEmployeePettyCashDetails();
+    const {
+        data: EmployeePettyCash = []
+    } = useEmployeePettyCashDetails();
 
-    console.log({
-        EmployeePettyCash
-    });
-
-
+    
 
     const FilteredEmployeePettyDetails = useMemo(() => {
         return EmployeePettyCash && Array.isArray(EmployeePettyCash) ?
@@ -24,12 +23,10 @@ const PettycashDetail = () => {
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+            
             <KotItemHeader name="USER PETTY CASH" />
 
-            <Box sx={{
-                // // bgcolor: 'red',
-                // height: 40
-            }}>
+            <Box>
                 <EmployeeSearch />
             </Box>
 
@@ -37,6 +34,7 @@ const PettycashDetail = () => {
                 activeTab={activetab}
                 setActiveTab={setActiveTab}
             />
+
             <PettyCashTables
                 activetab={activetab}
                 tabledata={FilteredEmployeePettyDetails}

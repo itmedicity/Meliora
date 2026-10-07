@@ -28,13 +28,9 @@ const ProformaDetailsDrawer = ({
     onClose,
     proformaDetails = [],
     width = 480,
-    bills
+    bills,
+    deliverypatient
 }) => {
-
-    console.log({
-        bills
-    });
-
 
     const queryClient = useQueryClient()
 
@@ -166,7 +162,8 @@ const ProformaDetailsDrawer = ({
                 balance_amount: totals.total,
                 billing_status: "OPEN",
                 bill_pay_type: billPayType,
-                employeeId: id
+                employeeId: deliverypatient?.assign_patient_id,
+                deliveryPatinetId: deliverypatient?.assign_patient_id
             },
 
             // Bill detail rows
@@ -214,7 +211,8 @@ const ProformaDetailsDrawer = ({
         billPayType,
         totals,
         id,
-        queryClient
+        queryClient,
+        deliverypatient
     ]);
 
     return (

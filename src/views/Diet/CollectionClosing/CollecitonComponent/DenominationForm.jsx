@@ -483,7 +483,7 @@ const DenominationForm = ({
                             sx={{ fontSize: 13, color: '#666' }}
                         />
                         <DietTextComponent
-                            value={`₹ ${Number(collectionAmount || 0).toLocaleString('en-IN')}`}
+                            value={`₹ ${Number(Math.round(collectionAmount) || 0).toLocaleString('en-IN')}`}
                             sx={{ fontSize: 14, fontWeight: 600, color: '#222' }}
                         />
                     </Box>
@@ -494,7 +494,7 @@ const DenominationForm = ({
                             sx={{ fontSize: 13, color: '#666' }}
                         />
                         <DietTextComponent
-                            value={`₹ ${Number(UserPettyCash || 0).toLocaleString('en-IN')}`}
+                            value={`₹ ${Number(Math.round(UserPettyCash) || 0).toLocaleString('en-IN')}`}
                             sx={{ fontSize: 14, fontWeight: 600, color: '#222' }}
                         />
                     </Box>
@@ -505,7 +505,7 @@ const DenominationForm = ({
                             sx={{ fontSize: 13, color: '#666' }}
                         />
                         <DietTextComponent
-                            value={`₹ ${Number(TotalBillAmountTobePaid || 0).toLocaleString('en-IN')}`}
+                            value={`₹ ${Number(Math.round(TotalBillAmountTobePaid) || 0).toLocaleString('en-IN')}`}
                             sx={{ fontSize: 14, fontWeight: 600, color: '#222' }}
                         />
                     </Box>
@@ -525,15 +525,13 @@ const DenominationForm = ({
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 1,
-                    }}
-                >
+                    }}>
                     <Box
                         sx={{
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                        }}
-                    >
+                        }}>
                         <DietTextComponent
                             value="TOTAL SETTLED AMOUNT"
                             sx={{
@@ -544,7 +542,7 @@ const DenominationForm = ({
                         />
 
                         <DietTextComponent
-                            value={`₹ ${grandTotal}`}
+                            value={`? ${Math.round(grandTotal)}`}
                             sx={{
                                 fontSize: 16,
                                 fontWeight: 700,
@@ -569,13 +567,13 @@ const DenominationForm = ({
                         />
 
                         <DietTextComponent
-                            value={`₹ ${Number(difference || 0).toLocaleString('en-IN')}`}
+                            value={`₹ ${Number(Math.round(difference) || 0).toLocaleString('en-IN')}`}
                             sx={{
                                 fontSize: 14,
                                 fontWeight: 700,
-                                color: Number(difference) < 0
+                                color: Number(Math.round(difference)) < 0
                                     ? '#d32f2f'
-                                    : Number(difference) > 0
+                                    : Number(Math.round(difference)) > 0
                                         ? '#2e7d32'
                                         : '#555',
                             }}
@@ -610,10 +608,6 @@ const DenominationForm = ({
 
             </Box>
 
-
-            {/* 
-                ACTIONS
-             */}
 
             <Stack
                 direction="row"

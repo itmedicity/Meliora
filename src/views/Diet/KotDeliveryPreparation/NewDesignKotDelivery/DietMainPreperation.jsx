@@ -42,6 +42,8 @@ const DietMainPreperation = ({
     const [printOrderIds, setPrintOrderIds] = useState([]);
     const [printData, setPrintData] = useState({});
 
+    
+
     /**
      * 
      * Handling the Gloabal Disptch State Access
@@ -252,6 +254,7 @@ const DietMainPreperation = ({
                 loading={isProformaLoading}
                 onClose={() => setModalType(null)}
                 proformaDetails={ProformaDetails}
+                deliverypatient={deliverypatient}
             />
 
             <Suspense fallback={"loading...!"}>

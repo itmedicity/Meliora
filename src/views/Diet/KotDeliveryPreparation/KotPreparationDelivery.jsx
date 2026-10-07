@@ -35,8 +35,6 @@ const KotPreparationDelivery = () => {
     } = useGetAllAssignedOrderDetail();
 
 
-    
-
     useEffect(() => {
         initSpeech();
 
@@ -101,6 +99,7 @@ const KotPreparationDelivery = () => {
         return {
             ...item,
             assignment_id: assigned?.assignment_id || null,
+            assign_patient_id:assigned?.em_id,
             assignment_detail_id: assigned?.assignment_detail_id || null,
             assigned_to: assigned?.em_name || null,
             ItemPriority: assigned?.ItemPriority || null,

@@ -240,11 +240,6 @@ const PackingComponent = ({
         getItemId
     ]);
 
-
-    console.log({
-        PackageDetails
-    });
-
     /* 
        PACKET COUNT
      */
@@ -354,9 +349,7 @@ const PackingComponent = ({
         useCallback(
             (item) => {
 
-                console.log({
-                    item
-                });
+              
 
                 if (!activePacketId) {
                     return;

@@ -19,26 +19,24 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { axioslogin } from "src/views/Axios/Axios";
-import { errorNotify, succesNotify } from "src/views/Common/CommonCode";
-import { useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+// import { axioslogin } from "src/views/Axios/Axios";
+// import { errorNotify, succesNotify } from "src/views/Common/CommonCode";
+// import { useQueryClient } from "@tanstack/react-query";
+// import { useSelector } from "react-redux";
 
 const PettyCashAssignmentModal = ({
     open,
     onClose,
     rowdetail,
 }) => {
-
-
-    const queryClient = useQueryClient();
-    const id = useSelector(state => {
-        return state.LoginUserData.empid
-    })
+    // const queryClient = useQueryClient();
+    // const id = useSelector(state => {
+    //     return state.LoginUserData.empid
+    // })
+    // const [loading, setLoading] = useState(false);
 
     const [amount, setAmount] = useState("");
     const [remarks, setRemarks] = useState("");
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (open && rowdetail) {
@@ -55,38 +53,38 @@ const PettyCashAssignmentModal = ({
 
     const currentCash = Number(rowdetail.petty_cash_amount || 0);
 
-    const handleSubmit = async () => {
+    // const handleSubmit = async () => {
 
-        const cashAmount = Number(amount);
+    //     const cashAmount = Number(amount);
 
-        if (!cashAmount || cashAmount <= 0) {
-            return;
-        }
+    //     if (!cashAmount || cashAmount <= 0) {
+    //         return;
+    //     }
 
-        const payload = {
-            assignment_id: rowdetail.assignment_id,
-            employee_id: rowdetail.employee_id,
-            given_by: id,
-            amount: cashAmount,
-            remarks: remarks.trim()
-        };
+    //     const payload = {
+    //         assignment_id: rowdetail.assignment_id,
+    //         employee_id: rowdetail.employee_id,
+    //         given_by: id,
+    //         amount: cashAmount,
+    //         remarks: remarks.trim()
+    //     };
 
-        try {
-            setLoading(true);
-            const response = await axioslogin.post('/cashclosing/assign-pettycash', payload);
-            const { success, message } = response?.data ?? {};
-            if (success !== 1) return errorNotify("error in Inserting Petty Cash Details");
-            succesNotify(message);
-            await queryClient.invalidateQueries({ queryKey: ['employee-petty-cash'] });
-            onClose();
+    //     try {
+    //         setLoading(true);
+    //         const response = await axioslogin.post('/cashclosing/assign-pettycash', payload);
+    //         const { success, message } = response?.data ?? {};
+    //         if (success !== 1) return errorNotify("error in Inserting Petty Cash Details");
+    //         succesNotify(message);
+    //         await queryClient.invalidateQueries({ queryKey: ['employee-petty-cash'] });
+    //         onClose();
 
-        } catch (error) {
-            console.error("Petty cash assignment failed:", error);
-            errorNotify("Error in Inserting petty Cash Details!")
-        } finally {
-            setLoading(false);
-        }
-    };
+    //     } catch (error) {
+    //         console.error("Petty cash assignment failed:", error);
+    //         errorNotify("Error in Inserting petty Cash Details!")
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     return (
         <Modal
@@ -472,7 +470,7 @@ const PettyCashAssignmentModal = ({
                         variant="outlined"
                         color="neutral"
                         onClick={onClose}
-                        disabled={loading}
+                        // disabled={loading}
                         sx={{
                             minWidth: 90
                         }}
@@ -480,7 +478,7 @@ const PettyCashAssignmentModal = ({
                         Cancel
                     </Button>
 
-                    <Button
+                    {/* <Button
                         color="primary"
                         loading={loading}
                         disabled={
@@ -500,7 +498,7 @@ const PettyCashAssignmentModal = ({
                         }}
                     >
                         Assign Petty Cash
-                    </Button>
+                    </Button> */}
 
                 </DialogActions>
 
