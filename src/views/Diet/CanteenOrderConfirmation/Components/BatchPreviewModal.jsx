@@ -200,10 +200,6 @@ const BatchPreviewModal = ({
     const today = new Date();
     const [todate, setToDate] = useState(today);
 
-    console.log({
-        todate
-    });
-
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>

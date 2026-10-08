@@ -139,12 +139,6 @@ const DietBillingDetail = () => {
     const summary = patientSummary[0] ?? {};
 
 
-    console.log({
-        patientOpenBillDetails
-    });
-
-
-
 
     // COUNTS
 

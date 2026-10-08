@@ -21,23 +21,6 @@ const NewDietPlanSection = ({
     dietHistory = []
 }) => {
 
-    // CHECK ACTIVE PLAN
-    // const hasActiveDiet = dietHistory?.some(
-    //     (val) => val?.diet_status === "ACTIVE"
-    // );
-
-
-    console.log({
-        dietType,
-        isPlanned
-    });
-
-
-    console.log({
-        dietHistory
-    });
-    
-
 
     // CHECK ONLY STOPPED
     const onlyStoppedDiet =

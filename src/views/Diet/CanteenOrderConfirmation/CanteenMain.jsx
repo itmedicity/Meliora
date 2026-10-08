@@ -49,12 +49,6 @@ const CanteenMain = ({
         useBatchFoodDetail(selectedRows)
 
 
-    console.log({
-        batchFoodDetail
-    });
-
-
-
     //doubt
     const organizedBatchData = useMemo(() => {
         return organizeBatchData(batchFoodDetail);
@@ -63,9 +57,7 @@ const CanteenMain = ({
 
 
     const HandleOpenBatchCheck = async (todate) => {
-        console.log({
-            todate
-        });
+       
         const productionDate = format(todate, "yyyy-MM-dd");
         try {
             SetLoading(true)

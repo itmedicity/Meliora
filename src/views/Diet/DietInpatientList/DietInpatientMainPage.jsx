@@ -47,16 +47,8 @@ const DietInpatientMainPage = () => {
     } = useAllPatientDietPlan(NsCode);
 
 
-    // console.log({
-    //     allPatientDiet
-    // });
-
 
     const formattedPatients = formatPatientDietData(allPatientDiet);
-
-    console.log({
-        formattedPatients
-    });
 
 
     const [search, setSearch] = useState('')

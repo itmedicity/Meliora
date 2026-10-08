@@ -42,7 +42,7 @@ const DietMainPreperation = ({
     const [printOrderIds, setPrintOrderIds] = useState([]);
     const [printData, setPrintData] = useState({});
 
-    
+
 
     /**
      * 
@@ -84,10 +84,6 @@ const DietMainPreperation = ({
     const billItems = BystanderBillingDetails?.bill_items || [];
 
 
-    // console.log({
-    //     billItems,
-    //     bills
-    // });
     const handlePrintData = useCallback((data) => {
         setPrintData(prev => {
             const existing = prev[data.orderId];

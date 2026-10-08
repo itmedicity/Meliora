@@ -20,13 +20,6 @@ const DietBillItemsTable = ({
 }) => {
 
 
-    console.log({
-        dietBills,
-        extraBills,
-        bystanderBills
-    });
-
-
     const items = useMemo(() => {
 
         const all = [

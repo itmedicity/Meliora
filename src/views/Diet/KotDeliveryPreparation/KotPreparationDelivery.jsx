@@ -226,13 +226,6 @@ const KotPreparationDelivery = () => {
         diettype
     ]);
 
-
-    console.log({
-        filteredPatients
-    });
-    
-
-
     return (
         <Box
             sx={{

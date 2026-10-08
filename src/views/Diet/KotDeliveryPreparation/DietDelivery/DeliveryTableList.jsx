@@ -40,6 +40,9 @@ const DeliveryTableList = ({
     a4PrintData
 
 }) => {
+
+    
+
     const [printQty, setPrintQty] = useState({});
 
 
@@ -288,11 +291,12 @@ const DeliveryTableList = ({
                     {[
                         ["Sl.No", 60],
                         ["Order Id", 70],
+                        ["Party Type", 100],
                         ["Patient", 140],
                         ["Pt No", 120],
                         ["Meal", 120],
                         ["NS", 140],
-                        ["Patient Status", 140],
+                        ["P Status", 70],
                         ["Status", 120],
                         ["Assignee", 140],
                         // ["Assigned At", 160],
@@ -365,6 +369,12 @@ const DeliveryTableList = ({
                                         size={12}
                                     />
                                 </Cell>
+                                <Cell width={100}>
+                                    <DietTextComponent
+                                        value={`${row?.party_name}`}
+                                        size={12}
+                                    />
+                                </Cell>
 
                                 <Cell width={140}>
                                     <DietTextComponent
@@ -393,7 +403,7 @@ const DeliveryTableList = ({
                                         size={12}
                                     />
                                 </Cell>
-                                <Cell width={140}>
+                                <Cell width={70}>
                                     <Box
                                         display="flex"
                                         alignItems="center"
@@ -576,32 +586,7 @@ const DeliveryTableList = ({
                                             {getPrintQuantity(row)}
                                         </Box>
 
-                                        {/* <Box
-                                            onClick={() => {
-                                                const quantity =
-                                                    getPrintQuantity(row);
-
-                                                handlePrintQtyChange(
-                                                    row,
-                                                    quantity + 1
-                                                );
-                                            }}
-                                            sx={{
-                                                width: 24,
-                                                height: 24,
-                                                border: "1px solid #ddd",
-                                                borderRadius: "4px",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                cursor: "pointer",
-                                                color: "#555",
-                                                fontSize: 16,
-                                                userSelect: "none",
-                                            }}
-                                        >
-                                            +
-                                        </Box> */}
+                                    
 
                                         <Box
                                             onClick={() =>

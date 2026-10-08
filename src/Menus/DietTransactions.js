@@ -47,7 +47,7 @@ const DietTransactions = [
 
 
   {
-    men_slno: 359,
+    men_slno: 376,
     name: 'User Petty Cash',
     to: '/Home/pettycash',
     icon: <CiStop1 />
@@ -64,8 +64,11 @@ const DietTransactions = [
     to: '/Home/dietpos',
     icon: <CiStop1 />
   },
+
+  //correct slno live - 374
+  //test slno live - 360
   {
-    men_slno: 360,
+    men_slno: 374,
     name: 'Daily Canteen Closing',
     to: '/Home/canteenclose',
     icon: <CiStop1 />

@@ -56,10 +56,7 @@ const DietPosDetail = () => {
         : [];
 
 
-    console.log({
-        admittedPatients
-    });
-
+    
 
     const FinalPatientDetail = Array.isArray(filteredPatients)
         ? filteredPatients.filter(item => {
