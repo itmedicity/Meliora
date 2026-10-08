@@ -146,7 +146,7 @@ const ProcessList = () => {
     }, [itemDetail, ScheduledPatientDiet, selectedDietTimes, apiDate]);
 
 
-  
+
 
     const groupedPlans = useMemo(() => {
         return groupByPlanId(filteredItemDetail);
@@ -160,11 +160,6 @@ const ProcessList = () => {
                 selectedPlans.includes(item.plan_id)
             );
 
-
-    // Function to GoBack
-    const hanldeGoBack = useCallback(() => {
-        navigate('/Home/InpatientList')
-    }, [navigate]);
 
     // example: '2026-03-24'
     /* Function used for tracking which time have already processed only 
@@ -327,7 +322,7 @@ const ProcessList = () => {
 
                 {/* HEADER */}
                 <DietMasterHeader
-                    onClose={hanldeGoBack}
+                    // onClose={hanldeGoBack}
                     name="DIET PROCESS LIST"
                 />
 
