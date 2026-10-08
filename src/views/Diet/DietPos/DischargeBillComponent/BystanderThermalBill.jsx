@@ -158,8 +158,8 @@ const BystanderThermalBill = forwardRef(
                         const rate =
                             Number(item?.rate || 0);
 
-                        const amount =
-                            Number(item?.amount || 0);
+                        // const amount =
+                        //     Number(item?.amount || 0);
 
                         const itemName =
                             item?.item_name ||
@@ -213,7 +213,7 @@ const BystanderThermalBill = forwardRef(
                                                 "right",
                                         }}
                                     >
-                                        {amount.toFixed(2)}
+                                        {rate.toFixed(2)}
                                     </span>
 
                                 </div>

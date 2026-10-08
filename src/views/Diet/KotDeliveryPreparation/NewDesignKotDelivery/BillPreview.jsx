@@ -235,9 +235,6 @@ const BillPreview = ({
                             const rate =
                                 Number(item?.rate || 0);
 
-                            const amount =
-                                Number(item?.amount || 0);
-
                             return (
                                 <Box
                                     key={
@@ -280,7 +277,7 @@ const BillPreview = ({
                                         </Box>
 
                                         <DietTextComponent
-                                            value={`₹${amount.toFixed(2)}`}
+                                            value={`₹${rate.toFixed(2)}`}
                                             size={8}
                                             fontWeight={800}
                                         />

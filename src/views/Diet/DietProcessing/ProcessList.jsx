@@ -1,6 +1,6 @@
 import { Box, } from '@mui/joy';
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import DietMasterHeader from 'src/views/Master/DietMasters/DietComponent/DietMasterHeader'
 import DietWiseProcessing from './DietWiseProcessing';
 import ProcessCompletedList from './ProcessCompletedList';
@@ -26,7 +26,7 @@ import { socket } from 'src/ws/socket';
 
 const ProcessList = () => {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const id = useSelector(state => { return state.LoginUserData.empid })
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);

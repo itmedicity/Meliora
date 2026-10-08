@@ -909,7 +909,6 @@ export const useProformaDetails = (assignmentDetailId) => {
     return useSafeQuery({
         queryKey: ['proforma-details', assignmentDetailId],
         queryFn: () => getProformaDetails(assignmentDetailId),
-        staleTime: Infinity,
         enabled: !!assignmentDetailId
     });
 
