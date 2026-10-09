@@ -70,6 +70,8 @@ const FoodNameSection = ({
     }, [query, ExistFoodDetail]);
 
 
+
+
     const handleFoodChange = useCallback((e) => {
         const value = e.target.value;
         setQuery(value);
@@ -101,7 +103,6 @@ const FoodNameSection = ({
 
     const handleSelectFood = useCallback((food) => {
 
-        console.log({ food });
 
         const parsedIngredients = food?.ingredients
             ? JSON.parse(food.ingredients)

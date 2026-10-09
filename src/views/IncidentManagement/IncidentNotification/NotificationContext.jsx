@@ -34,13 +34,20 @@ export const NotificationProvider = ({ children }) => {
         setNotifications(prev => prev.filter(n => n.type !== type));
     };
 
+    // Mark all notifications as read
+    const markAllAsRead = () => {
+        setNotifications([]);
+        localStorage.removeItem(STORAGE_KEY);
+    };
+
     return (
         <NotificationContext.Provider
             value={{
                 notifications,
                 addNotification,
                 markAsRead,
-                removeByType
+                removeByType,
+                markAllAsRead
             }}
         >
             {children}

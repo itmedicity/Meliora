@@ -5,8 +5,12 @@ import { FcInspection } from 'react-icons/fc'
 import { useNavigate } from "react-router-dom";
 
 const NotificationPanel = () => {
-    const { notifications, markAsRead } = useNotifications();
+
+    const { notifications, markAsRead, markAllAsRead } = useNotifications();
+
     const navigate = useNavigate();
+
+    const unreadCount = notifications?.filter((n) => !n.read).length;
 
     // Handle Navigation Form the Notification
     const handleClick = (n) => {
@@ -39,7 +43,7 @@ const NotificationPanel = () => {
                 },
             }}
         >
-
+            {/* Header */} <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 0.5, mb: 1.5, }} > <Box> <Typography level="title-sm"> Notifications </Typography> <Typography level="body-xs" sx={{ opacity: 0.65, mt: 0.3 }} > {unreadCount} unread </Typography> </Box> {unreadCount > 0 && (<Typography level="body-xs" color="primary" onClick={markAllAsRead} sx={{ cursor: "pointer", fontWeight: 600, whiteSpace: "nowrap", "&:hover": { textDecoration: "underline", }, }} > Mark all as read </Typography>)} </Box>
 
             {notifications.length === 0 && (
                 <Typography level="body-sm" textAlign="center" sx={{ opacity: 0.7 }}>

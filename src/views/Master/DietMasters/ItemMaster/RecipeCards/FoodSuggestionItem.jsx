@@ -55,7 +55,7 @@ const FoodSuggestionItem = ({ suggestions, onSelect, activeIndex, personType }) 
                             </Typography>
 
                             <Typography fontSize={10} color="neutral.500">
-                                {food.group_name} • {food.category_name} • ₹{match?.price ?? food.price ?? 0}
+                                {food.group_name} • {food.category_name} {match?.price ? ` • ₹ ${food?.price}` : ``}
                             </Typography>
                         </Box>
                     )

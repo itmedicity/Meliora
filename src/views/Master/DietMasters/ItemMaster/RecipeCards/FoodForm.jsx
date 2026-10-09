@@ -212,7 +212,7 @@ const FoodForm = ({
                         "/fooditemmast/uploadItemFiles",
                         formPayload, { headers: { "Content-Type": "multipart/form-data" } }
                     );
-                    
+
                     const uploadResult = uploadRes.data;
                     if (uploadResult.success !== 1) {
                         warningNotify(`Item saved but image upload failed: ${uploadResult.message}`);
