@@ -69,3 +69,4 @@ export const crm_three = [
 export const dc_one = [{ to: '/Home/DcReport', name: 'Daily Census Report', slno: 276 }]
 
 export const common_one = [{ to: '/Home/CommonReport', name: 'Discharge TAT Report', slno: 371 }]
+export const common_two = [{ to: '/Home/BedStatusReport', name: 'Bed Status Report', slno: 373 }]

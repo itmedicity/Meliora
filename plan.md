@@ -1,12 +1,11 @@
-# Meliora Project - Recent Updates & Changes
-
+## Previous Updates
+### Common Report (Discharge TAT) — `/Home/CommonReport`
 **Date:** September 17, 2026  
-**Module:** Common Report (Discharge TAT) — `/Home/CommonReport`  
 **Author / Tracked By:** Engineering Team  
 
 ---
 
-This document details the recent updates and architectural enhancements made to the **Meliora** application on **September 17, 2026**, specifically within the **Common Report (Discharge TAT)** module.
+This section details the updates and architectural enhancements made to the **Meliora** application on **September 17, 2026**, specifically within the **Common Report (Discharge TAT)** module.
 
 ---
 

@@ -13,7 +13,9 @@ export const co_setting_two = [
 
 export const co_setting_three = [
     { to: '/Home/RequestType', name: 'Request Type', slno: 12 },
-    { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 }
+    { to: '/Home/EscalationMapping', name: 'Escalation Mapping', slno: 93 },
+    { to: '/Home/Bedcountmaster', name: 'Bedcountmaster', slno: 372 }
+
 ]
 
 //Compliant Master Menu
