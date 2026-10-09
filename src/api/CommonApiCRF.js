@@ -1,4 +1,4 @@
-import { axioskmc, axioslogin } from 'src/views/Axios/Axios'
+import { axiosellider, axioskmc, axioslogin } from 'src/views/Axios/Axios'
 
 export const getDptSecIcharge = async id => {
   return axioslogin.get(`/InchHODAuthorization/getDeptSeconIncharge/${id}`).then(result => {
@@ -394,4 +394,60 @@ export const postRepStatus = async postData => {
     return res.data
   })
 }
+
+export const getAllFloorMaster = async () => {
+  try {
+    const res = await axioslogin.get('/floorcreation/view');
+    const { success, data } = res.data;
+
+    if (success === 2) {
+      return data || [];
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error fetching floor master data:", error);
+    return [];
+  }
+};
+
+export const getallNurseStation = async () => {
+  try {
+    const res = await axiosellider.get('/melioraEllider/nurse');
+    const { success, data } = res.data;
+    if (success === 1) {
+      // No data found or some specific condition
+      return [];
+    }
+    if (success === 2) {
+      return data || [];
+    }
+    // fallback for any other success code
+    return [];
+  } catch (error) {
+    console.error("Error fetching nurse stations:", error);
+    return [];
+  }
+};
+export const getallNurseStationMaster = async () => {
+  try {
+    const res = await axioslogin.get('/feedback/getallnursestation');
+    const { success, data } = res.data;
+
+    if (success === 0) {
+      // No data found
+      return [];
+    }
+
+    if (success === 2) {
+      return data || [];
+    }
+
+    // fallback for any other success code
+    return [];
+  } catch (error) {
+    console.error("Error fetching all nurse stations:", error);
+    return [];
+  }
+};
 
