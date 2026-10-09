@@ -1,35 +1,27 @@
-import React, { useEffect, useState, memo } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { warningNotify } from 'src/views/Common/CommonCode'
+import React, { useState, memo } from 'react'
 import CusAgGridMast from 'src/views/Components/CusAgGridMast'
 import EditButton from 'src/views/Components/EditButton'
+const ItemGroupTable = ({ rowSelect ,tabledata}) => {
 
-const ItemGroupTable = ({ count, rowSelect }) => {
-  //state for table data set
-  const [tabledata, setTabledata] = useState([])
-  //column title setting
+  // Column definitions for ag-grid
   const [column] = useState([
-    { headerName: 'SlNo', field: 'grp_slno' },
-    { headerName: 'ItemGroup Name', field: 'group_name' },
-    { headerName: 'Status', field: 'grpstatus' },
+    { headerName: 'SlNo', field: 'item_group_id', width: 80 },
+    { headerName: 'Group Name', field: 'group_name', flex: 1 },
+    { headerName: 'Group Code', field: 'group_code', flex: 1 },
+    { headerName: 'Display Order', field: 'display_order', width: 130 },
+    {
+      headerName: 'Status',
+      field: 'is_active',
+      width: 120,
+      cellRenderer: params => (params.value === 1 ? 'Active' : 'Inactive')
+    },
     {
       headerName: 'Action',
+      width: 100,
       cellRenderer: params => <EditButton onClick={() => rowSelect(params)} />
     }
   ])
-  //get all data
-  useEffect(() => {
-    const getItemgroup = async () => {
-      const result = await axioslogin.get('/itemgrp/getitem')
-      const { success, data } = result.data
-      if (success === 1) {
-        setTabledata(data)
-      } else {
-        warningNotify('Error occured contact EDP')
-      }
-    }
-    getItemgroup()
-  }, [count])
+
   return <CusAgGridMast columnDefs={column} tableData={tabledata} onClick={rowSelect} />
 }
 

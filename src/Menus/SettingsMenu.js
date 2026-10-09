@@ -180,8 +180,6 @@ export const ams_one = [
 ]
 
 
-
-
 // work order
 
 export const Work_one = [
@@ -192,6 +190,38 @@ export const Work_one = [
 export const Work_two = [
     { to: '/Home/WorkLocationMaster', name: 'Work Location Master', slno: 301 }
 ]
+
+//Diet Master Menu
+export const dm_setting_one = [
+
+    { to: '/Home/ptdietmaster', name: 'Diet Master', slno: 36 },
+    { to: '/Home/ItemGroup', name: 'Item Group ', slno: 53 },
+    { to: '/Home/unitmaster', name: 'Unit Master', slno: 358 },
+    { to: '/Home/orderparty', name: 'Order Party Type ', slno: 331 },
+    { to: '/Home/itemalias', name: 'Item Alias Master', slno: 346 },
+    { to: '/Home/highlightmaping', name: 'Canteen Highlight Mapping', slno: 360 },
+    // change slno
+]
+
+export const dm_setting_two = [
+    { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
+    { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
+    { to: '/Home/dietroom', name: 'Diet Room Master', slno: 337 },
+    { to: '/Home/dietdelmaster', name: 'Diet Delivery Master', slno: 340 },
+    { to: '/Home/itemtypemast', name: 'Item Type Master', slno: 361 },
+    { to: '/Home/billingmaster', name: 'Billing Category Master', slno: 377 },
+]
+
+export const dm_setting_three = [
+    { to: '/Home/dietspeciality', name: 'Diet Speciality Master', slno: 349 },
+    { to: '/Home/dietallergence', name: 'Diet Allergency Master', slno: 362 },
+    { to: '/Home/dietdemplate', name: 'Diet Template Master', slno: 363 },
+    { to: '/Home/dietroomtypegroup', name: 'Diet Room Type Grouping Master', slno: 338 },
+    { to: '/Home/itemcatmast', name: 'Item Category Master', slno: 352 },
+    { to: '/Home/highlight', name: 'Canteen Highlight', slno: 353 },
+]
+
+//diet ends here
 
 
 export const Inc_One = [
@@ -237,16 +267,8 @@ export const Indent_Three = [
 //     { to: '/Home/DietDetail', name: 'Diet Detail ', slno: 56 },
 // ]
 
-// export const dm_setting_two = [
-//     { to: '/Home/DietType', name: 'Diet Type', slno: 39 },
-//     { to: '/Home/ItemMaster', name: 'Item Master ', slno: 54 },
 
-// ]
 
-// export const dm_setting_three = [
-//     { to: '/Home/RateList', name: 'Rate List', slno: 40 },
-//     { to: '/Home/DietMenuSetting', name: 'Diet Menu Setting', slno: 55 }
-// ]
 
 // //We  Work Menu
 // export const we_setting_one = [

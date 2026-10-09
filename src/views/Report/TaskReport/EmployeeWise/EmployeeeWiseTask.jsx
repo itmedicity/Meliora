@@ -108,7 +108,7 @@ const EmployeeeWiseTask = () => {
     { headerName: "Assignee", field: "em_name", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
     { headerName: "Due Date", field: "tm_task_due_date", autoHeight: true, wrapText: true, minWidth: 200, filter: "true" },
     { headerName: "Description", field: "tm_task_description", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
-
+    { headerName: "Task Status", field: "TaskStatus", autoHeight: true, wrapText: true, minWidth: 300, filter: "true" },
   ])
   const backToSetting = useCallback(() => {
     history(`/Home/Reports`)
