@@ -57,6 +57,9 @@ const AssignPatientConfirmModal = ({
 
 
     const handleFinalConfirm = async () => {
+        // ignore a second click while the assignment is being saved (the server refuses a duplicate, but
+        // the user used to see a confusing error for the second request)
+        if (loading) return;
         try {
             SetLoading(true)
             // ASSIGNEE VALIDATION
@@ -128,7 +131,7 @@ const AssignPatientConfirmModal = ({
             onClose();
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
             warningNotify(
                 error?.response?.data?.message ||
                 "Something Went Wrong"

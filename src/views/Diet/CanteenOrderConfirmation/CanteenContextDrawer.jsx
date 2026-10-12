@@ -26,9 +26,13 @@ const CanteenContextDrawer = ({
 
     /*  FILTER */
     const filteredStations = useMemo(() => {
-        return NURSING_STATIONS?.filter(ns =>
-            ns.fb_ns_name?.toLowerCase().includes(search.toLowerCase())
-        )
+        // the master table can hold the same station code twice (e.g. M003, M005): show each code once
+        const seen = new Set()
+        return NURSING_STATIONS?.filter(ns => {
+            if (seen.has(ns.fb_ns_code)) return false
+            seen.add(ns.fb_ns_code)
+            return ns.fb_ns_name?.toLowerCase().includes(search.toLowerCase())
+        })
     }, [NURSING_STATIONS, search])
 
     /*  TOGGLE SELECT */

@@ -130,30 +130,44 @@ const KotBatchCard = ({
 
 
     const HandleCompleteList = async () => {
-        setLoading(true)
-        if (!batch.batch_id) return warningNotify("Batch is Needed!");
+        if (loading) return;
+
+        // checked BEFORE the loading flag is set: it used to return after setLoading(true), outside the
+        // try / finally, so the spinner never stopped and the card stayed unclickable
+        if (!batch?.batch_id) return warningNotify("Batch is Needed!");
+
+        if (!window.confirm("Mark this kitchen batch as COMPLETED?")) return;
+
         try {
+            setLoading(true)
             const payload = {
                 batch_id: batch.batch_id,
                 kitchen_status: "COMPLETED"
             }
             const response = await axioslogin.patch('/productionbatch/update/batch-complete', payload);
             const { success, message } = response?.data ?? {};
-            if (success === 0) return errorNotify(message || "Error in Updating Kot Batch!")
+            if (success !== 1) return errorNotify(message || "Error in Updating Kot Batch!")
             succesNotify(message || "Successfully Updated Batch!")
             refetch()
         } catch (error) {
             console.error(error)
-            errorNotify("Error in Updating Kot Batch")
+            errorNotify(error?.response?.data?.message || "Error in Updating Kot Batch")
         } finally {
             setLoading(false)
         }
     };
 
     const handleCancelBatch = async () => {
-        setLoading(true)
-        if (!batch.batch_id) return warningNotify("Batch is Needed!");
+        if (loading) return;
+
+        if (!batch?.batch_id) return warningNotify("Batch is Needed!");
+
+        // cancelling a kitchen batch cannot be undone from this screen
+        if (!window.confirm("Cancel this kitchen batch? This cannot be undone.")) return;
+
         try {
+            setLoading(true)
+            // cancelled_by is also set by the server from the logged-in employee
             const payload = {
                 batch_id: batch.batch_id,
                 kitchen_status: "CANCELLED",
@@ -161,12 +175,12 @@ const KotBatchCard = ({
             }
             const response = await axioslogin.patch('/productionbatch/batch/cancel', payload);
             const { success, message } = response?.data ?? {};
-            if (success === 0) return errorNotify(message || "Error in Cancelling Kot Batch!")
+            if (success !== 1) return errorNotify(message || "Error in Cancelling Kot Batch!")
             succesNotify(message || "Batch Cancelled!!")
             refetch()
         } catch (error) {
             console.error(error)
-            errorNotify("Error in Cancelling Kot Batch")
+            errorNotify(error?.response?.data?.message || "Error in Cancelling Kot Batch")
         } finally {
             setLoading(false)
         }

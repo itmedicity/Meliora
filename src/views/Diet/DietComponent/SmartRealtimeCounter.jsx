@@ -45,6 +45,7 @@ const SmartRealtimeCounter = ({ value }) => {
 
     return (
         <Typography
+            component="div" // DigitRoll renders <div>s, which are not allowed inside the default <p>
             sx={{
                 display: "flex",
                 fontSize: 28,

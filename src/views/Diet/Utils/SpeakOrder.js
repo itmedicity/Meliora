@@ -85,16 +85,12 @@ const speakNext = () => {
     speech.pitch = 1;
     speech.volume = 1;
 
-    speech.onstart = () => {
-        console.log(" Speaking:", text);
-    };
-
     speech.onend = () => {
         speakNext();
     };
 
     speech.onerror = (e) => {
-        console.log(" Speech Error:", e);
+        console.error("Speech error:", e);
         speakNext();
     };
 
@@ -107,8 +103,7 @@ const speakNext = () => {
 export const speakOrder = (text = "", priority = false) => {
 
     if (!speechEnabled) {
-        console.log("Speech not enabled yet (user interaction needed)");
-        return;
+        return; // speech needs a user interaction first
     }
 
     if (!text) return;

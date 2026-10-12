@@ -1,9 +1,11 @@
 
 import { io } from "socket.io-client";
+import { API_URL } from "../views/Constant/Static";
 
 // Detect environment and set correct backend URL
 // const URL = "http://192.168.10.88:7070";
-const URL = "http://192.168.22.8:7000";
+// Same host/port as the REST API (strip the trailing /api)
+const URL = API_URL.replace(/\/api\/?$/, "");
 
 // process.env.NODE_ENV === "development"
 //     ? "http://192.168.10.88:7070"  //  backend IP + port

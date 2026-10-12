@@ -53,7 +53,8 @@ const DietBillingDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const activeTab = location.state;
+    // opened by a pasted link (no router state) used to send the status "null" to the API
+    const activeTab = location.state ?? 'PENDING';
 
     const apiStatus =
         activeTab === 'SETTLED'
@@ -229,6 +230,9 @@ const DietBillingDetail = () => {
 
     const handleGeneratePatientBill = useCallback(async () => {
 
+        // ignore repeated clicks while a request is running
+        if (loading) return;
+
         const pendingTransactions = filteredTransactions.filter(
             item =>
                 String(item.status).toUpperCase() === "PENDING"
@@ -236,6 +240,10 @@ const DietBillingDetail = () => {
 
         if (!pendingTransactions.length) {
             warningNotify("No pending transactions found");
+            return;
+        }
+
+        if (!window.confirm(`Generate a bill for ${pendingTransactions.length} pending transaction(s)?`)) {
             return;
         }
 
@@ -293,6 +301,7 @@ const DietBillingDetail = () => {
         }
 
     }, [
+        loading,
         filteredTransactions,
         patient,
         employeeId,
@@ -305,6 +314,9 @@ const DietBillingDetail = () => {
 
 
     const handleSettleBilling = useCallback(async () => {
+
+        // ignore repeated clicks while a request is running
+        if (loading) return;
 
         if (!patientOpenBillDetails.length) {
             warningNotify("No pending bills found");
@@ -333,6 +345,11 @@ const DietBillingDetail = () => {
             return;
         }
 
+        // settle covers ALL open bills of this admission, not only what the current filter shows
+        if (!window.confirm(`Settle ${billingIds.length} open bill(s) for this admission? This cannot be undone.`)) {
+            return;
+        }
+
         const payload = {
             admission_id: ipNo,
             billing_ids: billingIds,
@@ -354,7 +371,7 @@ const DietBillingDetail = () => {
                 message,
             } = response?.data ?? {};
 
-            if (!success) {
+            if (success !== 1) {
                 warningNotify(
                     message ||
                     "Billing settlement failed"
@@ -388,7 +405,9 @@ const DietBillingDetail = () => {
         }
 
     }, [
+        loading,
         patientOpenBillDetails,
+        patient,
         ipNo,
         employeeId,
         navigate,

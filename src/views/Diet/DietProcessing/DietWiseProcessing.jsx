@@ -106,8 +106,7 @@ const DietWiseProcessing = ({
     const today = new Date();
 
     useEffect(() => {
-        socket.on("newDietPlanCreated", (data) => {
-            console.log("New Diet Plan:", data);
+        socket.on("newDietPlanCreated", () => {
             succesNotify("New Diet Plan Added")
             //  trigger blink ONLY on realtime event
             setBlink(true);
@@ -248,6 +247,7 @@ const DietWiseProcessing = ({
                                 </Typography>
                             </Box>
                             <Typography
+                                component="div" // the counter renders <div>s, not allowed inside <p>
                                 sx={{
                                     fontSize: 28,
                                     fontWeight: 500,
@@ -295,6 +295,7 @@ const DietWiseProcessing = ({
                                 </Typography>
                             </Box>
                             <Typography
+                                component="div" // the counter renders <div>s, not allowed inside <p>
                                 sx={{
                                     fontSize: 28,
                                     fontWeight: 500,

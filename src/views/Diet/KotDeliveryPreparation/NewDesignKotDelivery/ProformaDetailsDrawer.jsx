@@ -16,9 +16,7 @@ import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import DietTextComponent from "../../DietComponent/DietTextComponent";
 import BillPayTypeSelector from "./BillPayTypeSelector";
 import BillPreview from "./BillPreview";
-import { format } from "date-fns";
 import { axioslogin } from "src/views/Axios/Axios";
-import { useSelector } from "react-redux";
 import { succesNotify, warningNotify } from "src/views/Common/CommonCode";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -34,12 +32,9 @@ const ProformaDetailsDrawer = ({
 
     const queryClient = useQueryClient()
 
-    const id = useSelector((state) => {
-        return state.LoginUserData.empid
-    });
-
     const [showBillPayType, setShowBillPayType] = useState(false);
     const [showbillpreview, setShowBillPreview] = useState(false);
+    const [converting, setConverting] = useState(false);
 
     const [billPayType, setBillPayType] = useState("CASH");
     /* PROFORMA*/
@@ -142,60 +137,33 @@ const ProformaDetailsDrawer = ({
 
     const handleConvertPerformatoBill = useCallback(async () => {
 
+        // ignore repeated clicks while the request is running
+        if (converting) return;
+
         if (!billPayType || !proforma?.proforma_id) {
             return;
         }
 
+        // The server rebuilds the bill (lines, amounts, GST, discount, paid/balance/status) from
+        // the proforma itself. Only the proforma, the way of payment and - as a fallback for a
+        // proforma without an assignment - the delivery person are sent. The delivery person is
+        // the cash collector the bill belongs to (assign_patient_id is that employee's em_id).
         const payload = {
             proforma_id: proforma.proforma_id,
-            // Bill master details
-            bill: {
-                patient_id: proforma?.patient_id,
-                admission_id: proforma?.admission_id,
-                billing_party_type: proforma?.party_type_id,
-                assignment_detail_id: proforma?.assignment_detail_id,
-                billing_date: format(new Date(), "yyyy-MM-dd"),
-                bill_type: "PRE_GENERATED",
-                bill_generated_location: "CANTEEN",
-                total_amount: totals.total,
-                paid_amount: 0,
-                balance_amount: totals.total,
-                billing_status: "OPEN",
-                bill_pay_type: billPayType,
-                employeeId: deliverypatient?.assign_patient_id,
-                deliveryPatinetId: deliverypatient?.assign_patient_id
-            },
-
-            // Bill detail rows
-            details: proformaDetails.map((item) => ({
-                category_id: 2,
-                description:
-                    item?.item_name ||
-                    item?.description ||
-                    "Item",
-                item_id: item?.item_id || null,
-                quantity: Number(item?.quantity || 0),
-                rate: Number(item?.rate || 0),
-                gst: Number(item?.gst || 0),
-                gst_amount: Number(item?.gst_amount || 0),
-                discount: Number(item?.discount || 0),
-                amount: Number(item?.amount || 0),
-                reference_table:
-                    item?.reference_table ||
-                    "proforma_detail",
-                reference_id:
-                    item?.proforma_detail_id,
-                service_date:
-                    item?.service_date ||
-                    proforma?.proforma_date
-            }))
+            bill_pay_type: billPayType,
+            employeeId: deliverypatient?.assign_patient_id,
+            // only used by the server to log a warning if its own total is different
+            client_total: totals.total
         };
+
         try {
+            setConverting(true);
+
             const response = await axioslogin.post("/dietdelivery/convert-proforma", payload);
 
             const { success, message } = response?.data ?? {};
 
-            if (success !== 1) return warningNotify(message)
+            if (success !== 1) return warningNotify(message || "Unable to create the bill")
             succesNotify("Bill Created Successfully!")
 
             setShowBillPayType(false);
@@ -204,13 +172,18 @@ const ProformaDetailsDrawer = ({
 
         } catch (error) {
             console.error("Failed to generate bill", error);
+            // was silent: the user saw nothing when the request failed
+            warningNotify(
+                error?.response?.data?.message || "Unable to create the bill. Please try again"
+            );
+        } finally {
+            setConverting(false);
         }
     }, [
+        converting,
         proforma,
-        proformaDetails,
         billPayType,
         totals,
-        id,
         queryClient,
         deliverypatient
     ]);

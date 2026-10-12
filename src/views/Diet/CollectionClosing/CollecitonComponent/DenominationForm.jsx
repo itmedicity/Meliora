@@ -24,6 +24,7 @@ import { usePettyCashDetails } from '../../CommonData/UseQuery';
 import DietTextComponent from '../../DietComponent/DietTextComponent';
 import { Tooltip } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { useSelector } from 'react-redux';
 
 const DenominationForm = ({
     collectionAmount = 0,
@@ -36,6 +37,9 @@ const DenominationForm = ({
     // query client to fetch this !
 
     const qureyClient = useQueryClient();
+
+    // the logged-in user who performs the closing (employeedata is the employee being closed)
+    const loggedInEmpId = useSelector(state => state.LoginUserData.empid);
 
 
 
@@ -114,7 +118,8 @@ const DenominationForm = ({
     const totalPieces = cashPieces + coinPieces;
 
 
-    const TotalBillAmountTobePaid = Number(collectionAmount) + Number(UserPettyCash);
+    // UserPettyCash is undefined until the query has loaded; treat that as 0 (was NaN)
+    const TotalBillAmountTobePaid = Number(collectionAmount || 0) + Number(UserPettyCash || 0);
 
 
 
@@ -203,6 +208,9 @@ const DenominationForm = ({
     /*  SAVE */
     const handleSave = async () => {
 
+        // ignore repeated clicks while a save is running
+        if (saving) return;
+
         const collection = Number(collectionAmount) || 0;
 
         if (!employeedata?.employee_id) {
@@ -218,6 +226,19 @@ const DenominationForm = ({
 
 
         if (!remarks?.trim()) return infoNotify("Please Enter Remarks Before Sumbitting!");
+
+        if (!loggedInEmpId) return infoNotify("Login details not found, please login again");
+
+        // a shortage or excess changes the books (excess also settles petty cash), so confirm it
+        const roundedDifference = Math.round(difference * 100) / 100;
+        if (roundedDifference !== 0) {
+            const confirmed = window.confirm(
+                roundedDifference < 0
+                    ? `Counted cash is SHORT by ₹${Math.abs(roundedDifference).toFixed(2)} of the total due. Close anyway?`
+                    : `Counted cash is EXCESS by ₹${roundedDifference.toFixed(2)} over the total due. Close anyway?`
+            );
+            if (!confirmed) return;
+        }
 
         const cashPayload = {}
         const coinPayload = {}
@@ -263,7 +284,7 @@ const DenominationForm = ({
                 coins: coinPayload
             },
             remarks: remarks.trim(),
-            created_by: employeedata?.employee_id,
+            created_by: loggedInEmpId,
             employee_id: employeedata?.employee_id,
             billing_ids: billingIds
         }

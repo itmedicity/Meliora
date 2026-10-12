@@ -33,8 +33,6 @@ const DietOderTaking = () => {
         process_date: selectDate,
         rm_code: room
       }
-      console.log("postdata", postdata);
-
       const gettypeDmenu = async postdata => {
         const result = await axioslogin.post('/dietorder/getproslno/typeslno', postdata)
         const { message, success, data } = result.data
@@ -49,8 +47,6 @@ const DietOderTaking = () => {
     },
     [selectDate, room]
   )
-
-  console.log("dietType", dietType);
 
 
   // useEffect(() => {
@@ -134,7 +130,8 @@ const DietOderTaking = () => {
   const refreshWindow = useCallback(() => {
     setNurse(0)
     setRoom(0)
-    setDate(new Date())
+    // the date input needs a 'YYYY-MM-DD' string; a Date object left the field empty
+    setDate(moment(new Date()).format('YYYY-MM-DD'))
   }, [])
 
   const [aa, setaa] = useState([])

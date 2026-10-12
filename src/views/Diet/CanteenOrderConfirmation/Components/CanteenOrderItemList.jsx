@@ -90,7 +90,7 @@ const CanteenOrderItemList = ({ data = [], onRemove,
             FetcthPatienExtraOrders()
             FetchPatientFoodOrderDetails()
         } catch (error) {
-            console.log(error)
+            console.error(error)
             errorNotify("Error in Updating Quantity")
         }
 

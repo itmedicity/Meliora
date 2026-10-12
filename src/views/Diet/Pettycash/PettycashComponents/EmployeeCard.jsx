@@ -41,7 +41,8 @@ const EmployeeCard = ({
 
     const { data: PettyCashDetail = [] } = usePettyCashDetails(employee?.employee_id, "ISSUED");
 
-    const UserPettyCash = PettyCashDetail?.pending_petty_cash;
+    // undefined until the query has loaded (the default value is an array), so fall back to 0
+    const UserPettyCash = Number(PettyCashDetail?.pending_petty_cash || 0);
 
     const givenBy = useSelector(
         state => state.LoginUserData.empid
@@ -57,12 +58,31 @@ const EmployeeCard = ({
     */
 
     const handleIssuePettyCash = async () => {
+
+        // ignore repeated clicks while the request is running
+        if (loading) return;
+
         const cashAmount = Number(amount);
 
-        if (!cashAmount || cashAmount <= 0) {
+        // more than 0, whole rupees or up to 2 decimals (the server checks this too and also
+        // applies a maximum per issue)
+        if (!/^\d{1,9}(\.\d{1,2})?$/.test(String(amount).trim()) || !(cashAmount > 0)) {
             return errorNotify(
-                "Enter a valid petty cash amount"
+                "Enter a valid petty cash amount (up to 2 decimals)"
             );
+        }
+
+        if (!givenBy) {
+            return errorNotify(
+                "Login details not found, please login again"
+            );
+        }
+
+        // cash is leaving the counter: show who gets how much before sending
+        if (!window.confirm(
+            `Issue ₹${cashAmount.toFixed(2)} petty cash to ${employee?.employee_name || `employee ${employee?.employee_id}`}?`
+        )) {
+            return;
         }
 
         const payload = {
@@ -130,7 +150,9 @@ const EmployeeCard = ({
                 error
             );
 
+            // 403 "no permission" and other refusals carry a readable message from the server
             errorNotify(
+                error?.response?.data?.message ||
                 "Error in issuing petty cash"
             );
 

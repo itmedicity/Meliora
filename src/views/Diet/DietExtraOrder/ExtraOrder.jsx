@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextFieldCustom from 'src/views/Components/TextFieldCustom'
 import { editicon } from 'src/color/Color'
@@ -117,6 +117,11 @@ const ExtraOrder = () => {
   const [sumCanteen, setCanteen] = useState(0)
   const [sumHosptial, setHospital] = useState(0)
   const addnew = () => {
+    // quantity must be a whole number of at least 1 (0, negative and decimal values were accepted)
+    if (!Number.isInteger(Number(Count)) || Number(Count) < 1) {
+      warningNotify('Please enter a valid quantity')
+      return
+    }
     if (item !== 0) {
       setAdd(1)
       const newdata = {
@@ -132,7 +137,8 @@ const ExtraOrder = () => {
       }
 
       if (newfood.length !== 0) {
-        if (newfood[0].item_slno !== item) {
+        // was newfood[0].item_slno !== item: only the FIRST item was compared
+        if (!newfood.some(val => val.item_slno === item)) {
           setNewdata([...newfood, newdata])
           setNewdata([...newfood, newdata])
           setCanteen(sumCanteen + rate_cant * Count)
@@ -199,7 +205,7 @@ const ExtraOrder = () => {
       rate_hos: sumHosptial,
       rate_cant: sumCanteen,
       is_extra_billed: 1,
-      extra_bill_date: format(new Date(), 'yyyy-MM-dd hh-mm-ss')
+      extra_bill_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
     }
   }, [process, sumHosptial, sumCanteen, diet, dietold])
   /**ipdate datas */
@@ -210,7 +216,7 @@ const ExtraOrder = () => {
       rate_hos: sumHosptial,
       rate_cant: sumCanteen,
       is_extra_billed: 1,
-      extra_bill_date: format(new Date(), 'yyyy-MM-dd hh-mm-ss'),
+      extra_bill_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
       prod_slno: procsdetl_slno
     }
   }, [process, sumHosptial, sumCanteen, diet, dietold, procsdetl_slno])
@@ -223,9 +229,18 @@ const ExtraOrder = () => {
     setOpen(true)
   }, [])
 
+  // blocks a second click on "Yes" while the order is being saved
+  const submittingRef = useRef(false)
+
   const submitDiettype = useCallback(
     e => {
       e.preventDefault()
+      if (submittingRef.current) return
+      submittingRef.current = true
+      // allow another submit after the request had time to finish
+      setTimeout(() => {
+        submittingRef.current = false
+      }, 3000)
       /***    * insert function for extra order detail table    */
       const InsertExtra = async extraOrder => {
         const result = await axioslogin.post('/extraorder/insertextra', extraOrder)
@@ -378,8 +393,9 @@ const ExtraOrder = () => {
       if (newdata.item_slno !== undefined) {
         setNewdata([...newarry, newdata])
         if (Count > editCount) {
-          setCanteen(sumCanteen + rate_cant * (editCount + Count))
-          setHospital(sumHosptial + rate_hos * (editCount + Count))
+          // add only the DIFFERENCE (it added old + new count, so the total came out too high)
+          setCanteen(sumCanteen + rate_cant * (Count - editCount))
+          setHospital(sumHosptial + rate_hos * (Count - editCount))
         } else {
           setCanteen(sumCanteen - rate_cant * (editCount - Count))
           setHospital(sumHosptial - rate_hos * (editCount - Count))

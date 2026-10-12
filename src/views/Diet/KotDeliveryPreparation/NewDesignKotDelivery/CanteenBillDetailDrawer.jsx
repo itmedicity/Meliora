@@ -1020,7 +1020,10 @@ const BillDetailsDrawer = ({
 
                                         {/* RETURN BUTTON */}
 
+                                        {/* only shown when the parent really handles returns - it used to
+                                            show the button and the confirmation while nothing was saved */}
                                         {canModify &&
+                                            onReturnItem &&
                                             status === "OPEN" && (
 
                                                 <Button
@@ -1137,7 +1140,8 @@ const BillDetailsDrawer = ({
                     CANCEL BILL
                 ================================================= */}
 
-                {canModify && (
+                {/* only shown when the parent really handles cancelling a bill */}
+                {canModify && onCancelBill && (
                     <Button
                         fullWidth
                         variant="outlined"

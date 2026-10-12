@@ -9,9 +9,6 @@ const DietDashboard = () => {
         data: allPatientDiet = [],
         // refetch: FetchPatientDietPlan
     } = useAllPatientDietPlan("W009")
-    console.log({
-        allPatientDiet
-    });
 
 
     return (

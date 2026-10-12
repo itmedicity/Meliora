@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   Modal,
   ModalDialog,
@@ -133,11 +133,17 @@ const DietPlan = ({
       return "Please Enter Remark Before Planning"
   };
 
+  // blocks a second click on Save / Update / Stop while a request is running (a double click used to
+  // create two ACTIVE plans for the same admission)
+  const busyRef = useRef(false);
+
   const handleSubmit = async (type = "save") => {
+    if (busyRef.current) return;
     try {
       const error = validateForm();
       if (error)
         return errorNotify(error);
+      busyRef.current = true;
       const isEdit = type === "update";
       const payload = {
         ...(isEdit && {
@@ -156,10 +162,11 @@ const DietPlan = ({
           ? formatDate(fb_ipd_disc)
           : null,
         doctor_id: do_code || null,
-        diet_status: "ACTIVE",
+        // The server sets the status itself: a new plan is ACTIVE, and an edit never changes the status
+        // (is_active: 1 / diet_status: "ACTIVE" used to be sent with every edit and re-activated stopped
+        // plans). Only the acting employee is sent, and the server overwrites it with the logged-in user.
         ...(isEdit
           ? {
-            is_active: 1,
             updated_by: id
           }
           : {
@@ -185,19 +192,27 @@ const DietPlan = ({
       setOpen(false);
     } catch (err) {
       errorNotify(
-        type === "update"
+        err?.response?.data?.message ||
+        (type === "update"
           ? "Error Updating Diet"
-          : "Error Inserting Diet"
+          : "Error Inserting Diet")
       );
+    } finally {
+      busyRef.current = false;
     }
   };
 
   const hanldeStopDiet = async (planId) => {
+    if (busyRef.current) return;
+
+    // stopping a diet plan is not undone from this screen
+    if (!window.confirm("Stop this diet plan?")) return;
+
     try {
+      busyRef.current = true;
+      // the server decides the new status (STOPPED, inactive); only the plan and the user are needed
       const payload = {
         plan_id: planId,
-        diet_status: "STOPPED",
-        is_active: 0,
         updated_by: id
       };
       const res = await axioslogin.patch(
@@ -212,7 +227,9 @@ const DietPlan = ({
       resetForm();
       setOpen(false);
     } catch (err) {
-      errorNotify("Error Updating Status");
+      errorNotify(err?.response?.data?.message || "Error Updating Status");
+    } finally {
+      busyRef.current = false;
     }
   };
 

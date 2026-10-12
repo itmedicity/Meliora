@@ -16,6 +16,7 @@ src/**/**/Static.js
 .eslintcache
 .DS_Store
 .idea
+.env
 .env.local
 .env.development.local
 .env.test.local

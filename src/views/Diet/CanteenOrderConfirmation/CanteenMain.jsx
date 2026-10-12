@@ -58,25 +58,33 @@ const CanteenMain = ({
 
     const HandleOpenBatchCheck = async (todate) => {
        
+        // ignore repeated clicks while the batch is being created
+        if (loading) return;
+
         const productionDate = format(todate, "yyyy-MM-dd");
+
+        // The preview modal's confirm button calls this, so the modal is already closed here. It used to be
+        // re-opened at this point while the batch was being posted, and stayed open on an early return.
+        // Now: validate first, and re-open it only when saving did not work, so the user can retry.
+        if (!selectedRows?.length) {
+            return warningNotify("Select Order Before Processing!");
+        }
+
+        if (!batchFoodDetail?.length) {
+            return warningNotify("No Batch Food For Inserting!");
+        }
+
+        if (!batchRemark) {
+            setOpenBatchPreview(true);
+            return warningNotify("please Enter Remarks!");
+        }
+
+        if (!id) {
+            return warningNotify("Processed By Staff Id Missing!");
+        }
+
         try {
             SetLoading(true)
-
-            if (!selectedRows?.length) {
-                return warningNotify("Select Order Before Processing!");
-            }
-
-            if (!batchFoodDetail?.length) {
-                return warningNotify("No Batch Food For Inserting!");
-            }
-
-            if (!batchRemark) return warningNotify("please Enter Remarks!");
-
-            setOpenBatchPreview(true);
-
-            if (!id) {
-                return warningNotify("Processed By Staff Id Missing!");
-            }
 
             const Payload = {
                 BatchDetail: organizedBatchData,
@@ -93,7 +101,9 @@ const CanteenMain = ({
 
             const { success, message } = result?.data ?? {};
 
-            if (success === 0) {
+            // anything but success:1 is a failure (was only success === 0); re-open the preview to retry
+            if (success !== 1) {
+                setOpenBatchPreview(true);
                 return errorNotify(
                     message || "Error In Inserting Batch Detail!"
                 );
@@ -107,7 +117,11 @@ const CanteenMain = ({
             setOpenBatchPreview(false);
             setBatchRemark("")
         } catch (error) {
-            errorNotify("Error In Creating Batch Detail");
+            setOpenBatchPreview(true);
+            errorNotify(
+                error?.response?.data?.message ||
+                "Error In Creating Batch Detail"
+            );
         } finally {
             SetLoading(false)
         }

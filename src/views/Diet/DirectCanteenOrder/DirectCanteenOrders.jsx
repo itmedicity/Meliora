@@ -250,8 +250,12 @@ const DirectCanteenOrders = () => {
                 const now = Date.now();
 
                 if (now - lastKeyPressTime.current < 400) {
-                    submitRef.current(); // latest safe call
                     lastKeyPressTime.current = 0; //  prevent repeat
+                    // A hidden "press p twice" shortcut places a CONFIRMED order at once, so a bumped key
+                    // could create a real order and bill. Ask first.
+                    if (window.confirm("Place this direct canteen order now?")) {
+                        submitRef.current(); // latest safe call
+                    }
                     return;
                 }
 

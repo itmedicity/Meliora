@@ -1,5 +1,5 @@
 import { Box } from '@mui/joy'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import KotItemHeader from './KotItemHeader'
 import DietFilterComponent from '../DietComponent/DietFilterComponent'
 import KotFooterConfirm from './KotFooterConfirm'
@@ -113,7 +113,12 @@ const KotItemContainer = () => {
     }, [FinalFilterdData]);
 
 
+    // blocks a second click while the list is being sent to the kitchen
+    const sendingRef = useRef(false);
+
     const HandleBatchConfirmation = async () => {
+
+        if (sendingRef.current) return;
 
         if (selectedBatches?.length === 0) {
             return warningNotify(
@@ -124,6 +129,7 @@ const KotItemContainer = () => {
         const payloadItems = selectedBatches.map(batch_id => ({ batch_id }));
 
         try {
+            sendingRef.current = true;
 
             const payload = {
                 items: payloadItems,
@@ -140,7 +146,8 @@ const KotItemContainer = () => {
                 message
             } = res.data || {};
 
-            if (success === 0) {
+            // anything but success:1 is a failure (was only success === 0)
+            if (success !== 1) {
                 return warningNotify(message || "Error in Setting List!");
             }
             succesNotify(message || " Successfully Created Kot List");
@@ -149,7 +156,9 @@ const KotItemContainer = () => {
 
         } catch (error) {
             console.error(error);
-            errorNotify("Error in Status Updation");
+            errorNotify(error?.response?.data?.message || "Error in Status Updation");
+        } finally {
+            sendingRef.current = false;
         }
     };
 

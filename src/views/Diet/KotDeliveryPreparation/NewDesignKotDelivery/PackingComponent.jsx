@@ -725,12 +725,13 @@ const PackingComponent = ({
                 return;
             }
 
+            // each of these used to just `return;` - the user pressed Submit and nothing happened
             if (!items.length) {
-                return;
+                return infoNotify("There are no items to pack");
             }
 
             if (!packets.length) {
-                return;
+                return infoNotify("Create at least one packet before submitting");
             }
 
 
@@ -746,7 +747,7 @@ const PackingComponent = ({
 
 
             if (hasUnconfirmedPacket) {
-                return;
+                return infoNotify("Confirm every packet before submitting");
             }
 
 
@@ -758,12 +759,14 @@ const PackingComponent = ({
                 assignedItemIds.size <
                 items.length
             ) {
-                return;
+                return infoNotify(
+                    `Put every item into a packet first (${items.length - assignedItemIds.size} item(s) left)`
+                );
             }
 
 
             if (!orderId) {
-                return;
+                return warningNotify("Order details are missing. Please reload and try again");
             }
 
 
@@ -857,6 +860,12 @@ const PackingComponent = ({
                 console.error(
                     "Packing submit error:",
                     error
+                );
+
+                // was silent: nothing told the user the request failed
+                warningNotify(
+                    error?.response?.data?.message ||
+                    "Unable to save the packing. Please try again"
                 );
 
             } finally {

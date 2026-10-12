@@ -230,8 +230,8 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
             // Step 1: update main order
             const mainRes = await axioslogin.patch("/canteenorder/status", canteenPayload);
 
-            if (mainRes?.data?.success === 0) {
-                return warningNotify(mainRes?.data?.message);
+            if (mainRes?.data?.success !== 1) {
+                return warningNotify(mainRes?.data?.message || "Unable to confirm the order");
             }
 
             //  Step 2: parallel secondary updates
@@ -249,15 +249,28 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                 );
             }
 
-            const responses = await Promise.all(requests);
+            // allSettled: one failing request must not hide the result of the others
+            const settled = await Promise.allSettled(requests);
 
-            for (const res of responses) {
+            let failed = 0;
+            for (const result of settled) {
+                const res = result.status === "fulfilled" ? result.value : null;
                 if (!res || res?.data?.success !== 1) {
-                    errorNotify(res?.data?.message || "Update failed");
+                    failed += 1;
+                    errorNotify(
+                        res?.data?.message ||
+                        result?.reason?.response?.data?.message ||
+                        "Update failed"
+                    );
                 }
             }
 
-            succesNotify("Order Confirmed Successfully");
+            // only claim success when every part was updated
+            if (failed === 0) {
+                succesNotify("Order Confirmed Successfully");
+            } else {
+                warningNotify("The order was confirmed, but part of it could not be updated. Please check the order");
+            }
 
             FetchPatientFoodOrderDetails();
             FetcthPatienExtraOrders();

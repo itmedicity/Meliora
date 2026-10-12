@@ -7,13 +7,6 @@ const ChooseDietPatient = (
     }
 
 
-    console.log(
-        {
-            PtDetail
-        }
-    );
-
-
     const FilterdPatient = useMemo(() => {
         return [
             ...new Map(

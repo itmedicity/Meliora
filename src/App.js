@@ -23,7 +23,20 @@ import ErrorPage from './NotFound/ErrorPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import MobileChat from './views/IncidentManagement/IncidentDIscussion/MobileView/MobileChat'
 
-const queryClient = new QueryClient()
+// React Query v4 wants queryKey to be an Array and warns for every query that uses a plain string
+// (queryKey: 'getdefaultCompany' is used in ~60 places). This client turns a string key into
+// ['key'] before React Query sees it, so the warning is gone and the cache behaves the same
+// (the key was only ever used as an identifier). invalidateQueries('x') is unchanged.
+class AppQueryClient extends QueryClient {
+  defaultQueryOptions(options) {
+    if (typeof options?.queryKey === 'string' && !options._defaulted) {
+      return super.defaultQueryOptions({ ...options, queryKey: [options.queryKey] })
+    }
+    return super.defaultQueryOptions(options)
+  }
+}
+
+const queryClient = new AppQueryClient()
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))

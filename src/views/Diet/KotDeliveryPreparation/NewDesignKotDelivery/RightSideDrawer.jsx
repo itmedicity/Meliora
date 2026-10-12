@@ -172,10 +172,6 @@ const RightSideDrawer = ({
 
 
 
-    console.log({
-        isPageLoading
-    });
-
 
     /* =========================================================
        FORMAT EXTRA ORDERS

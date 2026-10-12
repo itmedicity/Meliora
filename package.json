@@ -38,7 +38,7 @@
     "@mui/system": "^5.15.14",
     "@mui/utils": "^6.4.1",
     "@mui/x-charts": "^6.19.4",
-    "@mui/x-date-pickers": "^5.0.9",
+    "@mui/x-date-pickers": "^5.0.20",
     "@pdf-viewer/react": "^1.8.1",
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf/renderer": "^4.3.1",

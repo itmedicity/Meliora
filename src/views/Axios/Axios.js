@@ -29,9 +29,14 @@ axioslogin.interceptors.response.use(
     return response
   },
   async error => {
-    const localData = localStorage.getItem('app_auth')
-    const userSlno = atob(JSON.parse(localData)?.authNo)
-    const originalRequest = error.config;
+    const originalRequest = error.config
+    let userSlno = null
+    try {
+      const authNo = JSON.parse(localStorage.getItem('app_auth'))?.authNo
+      userSlno = authNo ? atob(authNo) : null
+    } catch (e) {
+      userSlno = null
+    }
     /*  for handling rate limit api by checking the status code as 429  */
 
     if (error.response?.status === 429) {
@@ -41,9 +46,15 @@ axioslogin.interceptors.response.use(
       warningNotify(message);
     }
     // Check if the error is due to an expired token
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/user/getRefershToken')
+    ) {
       originalRequest._retry = true // Prevent infinite retries
       try {
+        // No stored login to refresh, treat as an expired session
+        if (!userSlno) throw new Error('No session')
         await axioslogin.get(`/user/getRefershToken/${userSlno}`, { withCredentials: true })
         return axioslogin(originalRequest)
       } catch (refreshError) {

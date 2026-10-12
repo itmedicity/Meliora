@@ -11,7 +11,7 @@ const ChooseDietName = ({ value, setValue, width, disabled = false }) => {
 
     return (
         <select
-            value={value}
+            value={value ?? 0}
             onChange={(e) => setValue(Number(e.target.value))}
             style={{
                 minWidth: width ? width : 150,

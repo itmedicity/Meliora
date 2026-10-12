@@ -234,14 +234,9 @@ const DietMainPreperation = ({
                 billItems={billItems}
                 patientData={deliverypatient}
                 loading={isBillingLoading}
-                onReturnItem={(item) => {
-                    console.log("Return item:", item);
-                    // API call here
-                }}
-                onCancelBill={(bill) => {
-                    console.log("Cancel bill:", bill);
-                    // API call here
-                }}
+            // onReturnItem / onCancelBill are intentionally NOT passed: returning an item and cancelling
+            // a bill are not implemented yet (the old handlers only did console.log, so the drawer
+            // looked as if a return / cancel had been saved). The buttons stay hidden until they exist.
             />
 
             <ProformaDetailsDrawer
