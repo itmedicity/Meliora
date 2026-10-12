@@ -1,0 +1,1031 @@
+import {
+    ActivebedDetail,
+    DietFoodFetching,
+    DietItemType,
+    getActiveAdmittedPatients,
+    getAllActivePatientDietDetail,
+    getAllAllegrenceMaster,
+    getAllBatchProductionItemDetail,
+    getAllBillingCategory,
+    getAllCancelledFoodDetail,
+    getAllCanteenOrders,
+    getAllCanteenOrderStatus,
+    getAllConsultationRequiured,
+    getAllDietFoodDetail,
+    getAllDietician,
+    getAllDietPriceDetail,
+    getAllDietPriceMaster,
+    GetAllDietRoomCategoryDetail,
+    getAllDietSpeciality,
+    getAllDietTemplate,
+    getAllDietTemplateFood,
+    getAllDietTime,
+    getAllEmployyeName,
+    getAllHighlightMappings,
+    getAllHighlightTypes,
+    getAllItemAlias,
+    getAllItemCatgoryMaster,
+    getAllItemCatgoryMasterById,
+    getAllItemDeliveryStatus,
+    getAllItemFileDetails,
+    getAllItemGroupMaster,
+    getAllItemMasterDetail,
+    getAllItemType,
+    getAllNsActivePatients,
+    getallNurseStationBedDetail,
+    getallNurseStationMaster,
+    getAllNursingStationPatients,
+    getAllOrderItemDetails,
+    getAllOrderPartyType,
+    getAllPateintDietMaster,
+    getAllPatientDietPlan,
+    getAllPatientDietScheduled,
+    getAllPatientExtraOrdres,
+    getAllPendingKotList,
+    getAllProcessListDetail,
+    getAllProductionBatchDetail,
+    GetAllRoomTypeDetail,
+    getAllUnitMaster,
+    getAssingItemStatusDetail,
+    getBatchItemDetail,
+    getBillablePatientDetails,
+    getBillCollectionDetails,
+    getBillSummaryDetails,
+    getBystanderBillingDetails,
+    getBystanderBills,
+    getCurrentActivePatient,
+    getCurrentAssignedFoodDetail,
+    getCustomerExtraOrders,
+    getCustomerPreviousOrder,
+    getDietDeliveryTime,
+    getDietName,
+    getEmployeeDenominationDetails,
+    getEmployeePetyyDetails,
+    getFoodandBeverage,
+    getFullDetailofItem,
+    getItemFileDetails,
+    getLoggedStaffNsStation,
+    getPackingDetails,
+    getPatienPlanFoodDetail,
+    getPatientDetails,
+    getPatientDietBillDetial,
+    getPatientDietHistory,
+    getPatientExtraOrderBills,
+    getPatientFullDeliveryDetail,
+    getPatientMealTypeDetail,
+    getPatientPendingBills,
+    getPatientSummaryDetail,
+    getPatientTemplateFoodDetail,
+    getPatientTransactions,
+    getPettyCashDetails,
+    getProductionMaping,
+    getProformaDetails,
+    getTodayCashClosingEmployee,
+    getTodayDetaildedBillSummary,
+    getTodayEmployeePettyCashDetails,
+    getTodaysettleBillDetails,
+    getTotalipPatient,
+    getTotalNewAdmittedPatientDetail
+} from "./CommonFun";
+import { useSafeQuery } from "./Helper";
+
+
+export const UseFoodDetail = () => {
+    return useSafeQuery({
+        queryKey: ['getFood'],
+        queryFn: () => DietFoodFetching(),
+        staleTime: Infinity,
+        defaultValue: [],
+
+    });
+};
+
+export const UseIemFullDetail = () => {
+    return useSafeQuery({
+        queryKey: ['foodItem'],
+        queryFn: () => getAllItemMasterDetail(),
+        staleTime: 0,
+        defaultValue: [],
+
+    });
+};
+
+
+export const UseFoodTypeDetail = () => {
+    return useSafeQuery({
+        queryKey: ['itemtype'],
+        queryFn: () => DietItemType(),
+        staleTime: Infinity,
+        defaultValue: [],
+
+    });
+};
+
+
+
+export const UseRoomTypeDetail = () => {
+    return useSafeQuery({
+        queryKey: ['dietroomtype'],
+        queryFn: () => GetAllRoomTypeDetail(),
+        staleTime: Infinity,
+        defaultValue: [],
+
+    });
+};
+
+
+
+export const UseRoomCategoryDetail = () => {
+    return useSafeQuery({
+        queryKey: ['dietroomcat'],
+        queryFn: () => GetAllDietRoomCategoryDetail(),
+        staleTime: Infinity,
+        defaultValue: [],
+    });
+};
+
+
+export const useDietTimes = () => {
+    return useSafeQuery({
+        queryKey: ['diettime'],
+        queryFn: () => getAllDietTime(),
+        staleTime: Infinity,
+        defaultValue: [],
+    });
+};
+
+export const useDietNames = () => {
+    return useSafeQuery({
+        queryKey: ['dietname'],
+        queryFn: () => getDietName(),
+        staleTime: Infinity,
+        defaultValue: [],
+    });
+};
+
+
+export const useDietDeliveryTime = () => {
+    return useSafeQuery({
+        queryKey: ['dietdeltime'],
+        queryFn: () => getDietDeliveryTime(),
+        staleTime: Infinity,
+        defaultValue: [],
+    });
+};
+
+export const useNursingStationMaster = () => {
+    return useSafeQuery({
+        queryKey: ['getallnsmaster'],
+        queryFn: getallNurseStationMaster,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useNursingStationBedDetail = (code) => {
+    return useSafeQuery({
+        queryKey: ['getallnsbedmast', code],
+        queryFn: () => getallNurseStationBedDetail(code),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!code
+    });
+};
+
+
+export const UseAllActiveBed = () => {
+    return useSafeQuery({
+        queryKey: ['getallnsbedmast'],
+        queryFn: ActivebedDetail,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useAllEmployeeFetch = () => {
+    return useSafeQuery({
+        queryKey: ['allemp'],
+        queryFn: getAllEmployyeName,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllItemGroupMaster = () => {
+    return useSafeQuery({
+        queryKey: ['allitemgroup'],
+        queryFn: getAllItemGroupMaster,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllItemCategoryMaster = () => {
+    return useSafeQuery({
+        queryKey: ['fetchitemcatdtl'],
+        queryFn: getAllItemCatgoryMaster,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useAllItemCategoryById = (id) => {
+    return useSafeQuery({
+        queryKey: ['fetchitemcatdtlbyid', id],
+        queryFn: () => getAllItemCatgoryMasterById(id),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!id
+    });
+};
+
+export const useAllOrderPartyType = () => {
+    return useSafeQuery({
+        queryKey: ['orderparty'],
+        queryFn: getAllOrderPartyType,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useKitchenOrderList = () => {
+    return useSafeQuery({
+        queryKey: ['kotlist'],
+        queryFn: getAllPendingKotList,
+        // IMPORTANT
+        staleTime: 0,
+        defaultValue: [],
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+    });
+};
+
+
+export const useAllDietSpeciality = () => {
+    return useSafeQuery({
+        queryKey: ['dietspeciality'],
+        queryFn: getAllDietSpeciality,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllUnitMaster = () => {
+    return useSafeQuery({
+        queryKey: ['unimaster'],
+        queryFn: getAllUnitMaster,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+
+
+export const useAllDietTemplate = () => {
+    return useSafeQuery({
+        queryKey: ['diettemplate'],
+        queryFn: getAllDietTemplate,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllPatientDietMaster = () => {
+    return useSafeQuery({
+        queryKey: ['ptdiet'],
+        queryFn: getAllPateintDietMaster,
+        staleTime: Infinity,
+        defaultValue: []
+
+    });
+};
+
+export const useAllItemType = () => {
+    return useSafeQuery({
+        queryKey: ['allitem'],
+        queryFn: getAllItemType,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useDietPrice = (dietid) => {
+    return useSafeQuery({
+        queryKey: ['usedietprice', dietid],
+        queryFn: () => getAllDietPriceMaster(dietid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!dietid
+    });
+};
+
+
+export const useDietPriceDeatil = (priceid) => {
+    return useSafeQuery({
+        queryKey: ['dietpriceid', priceid],
+        queryFn: () => getAllDietPriceDetail(priceid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!priceid
+    });
+};
+
+
+
+export const useAllDietTemplateFood = (templateid) => {
+    return useSafeQuery({
+        queryKey: ['templatefood', templateid],
+        queryFn: () => getAllDietTemplateFood(templateid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!templateid
+    });
+};
+
+export const useAllItemAlias = () => {
+    return useSafeQuery({
+        queryKey: ['itemalias'],
+        queryFn: getAllItemAlias,
+        staleTime: Infinity,
+        defaultValue: []
+
+    });
+};
+
+
+
+export const useAllPatientDietPlan = (nscode) => {
+    return useSafeQuery({
+        queryKey: ['patientdietplan', nscode],
+        queryFn: () => getAllPatientDietPlan(nscode),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!nscode
+    });
+};
+
+export const useLoggedEMployeeNsStation = (secid) => {
+    return useSafeQuery({
+        queryKey: ['loggedempnsdtl', secid],
+        queryFn: () => getLoggedStaffNsStation(secid),
+        staleTime: Infinity,
+        defaultValue: [],
+        select: (data) => data?.[0]?.fb_ns_code || null,
+        enabled: !!secid
+    });
+};
+
+
+//it will be not using may be
+export const useAllActivePatientDietPlan = (date) => {
+    return useSafeQuery({
+        queryKey: ['activediet', date],
+        queryFn: () => getAllActivePatientDietDetail(date),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!date,
+
+    });
+};
+
+export const useAllFetchTemplateFoodDetail = (planId) => {
+    return useSafeQuery({
+        queryKey: ['fetchTemplatefooddetail', planId],
+        queryFn: () => getAllDietFoodDetail(planId),
+        staleTime: 0,
+        enabled: !!planId,
+        defaultValue: []
+    });
+};
+
+
+export const useAllActivePatientTypeDetail = (date) => {
+    return useSafeQuery({
+        queryKey: ['ptmealtype', date],
+        queryFn: () => getPatientMealTypeDetail(date),
+        staleTime: 0,
+        enabled: !!date,
+        defaultValue: []
+    });
+};
+
+export const useFetchAllScheduledDiet = (date) => {
+    return useSafeQuery({
+        queryKey: ['scheduleddiet', date],
+        queryFn: () => getAllPatientDietScheduled(date),
+        staleTime: 0,
+        enabled: !!date,
+        defaultValue: []
+    });
+};
+
+
+
+
+export const useAllPatientTemplateFoodDetail = (plan_id, type_id, batch_id) => {
+    return useSafeQuery({
+        queryKey: ['singlepatientfood', plan_id, type_id, batch_id],
+        queryFn: () => getPatientTemplateFoodDetail(plan_id, type_id, batch_id),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!plan_id && !!type_id && !!batch_id
+    });
+};
+
+
+export const useAllPatientCancelledFOod = (plan_id, type_id, batch_id) => {
+    return useSafeQuery({
+        queryKey: ['patientfoodcancel', plan_id, type_id, batch_id],
+        queryFn: () => getAllCancelledFoodDetail(plan_id, type_id, batch_id),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!plan_id && !!type_id && !!batch_id
+    });
+};
+
+
+export const useGetDietecian = () => {
+    return useSafeQuery({
+        queryKey: ['getdietican'],
+        queryFn: getAllDietician,
+        staleTime: Infinity,
+        defaultValue: []
+
+    });
+};
+
+
+export const useItemFullDetials = (enabled) => {
+    return useSafeQuery({
+        queryKey: ['itemfulldetail'],
+        queryFn: getFullDetailofItem,
+        enabled, // only fetch when needed
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+export const useAllFoodAndBeverage = (enabled) => {
+    return useSafeQuery({
+        queryKey: ['food-bev'],
+        queryFn: getFoodandBeverage,
+        enabled: enabled,
+        staleTime: Infinity,
+        select: (data) => {
+            return data?.filter((val) =>
+                (Number(val?.item_type_id) === 1 || Number(val?.item_type_id) === 3) &&
+                Number(val?.is_active) === 1
+            )
+        }
+    })
+}
+
+
+
+export const useAllDietProcessList = (date) => {
+    return useSafeQuery({
+        queryKey: ['processlistdtl', date],
+        queryFn: () => getAllProcessListDetail(date),
+        staleTime: 0,
+        defaultValue: [],
+        enabled: !!date
+    });
+};
+
+
+
+export const useAllConsultation = () => {
+    return useSafeQuery({
+        queryKey: ['consultion'],
+        queryFn: getAllConsultationRequiured,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+
+
+export const useAllProductionBatchDetail = (date) => {
+    return useSafeQuery({
+        queryKey: ['batch', date],
+        queryFn: () => getAllProductionBatchDetail(date),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!date
+    });
+};
+
+
+// export const useAllPatientProcessList = (date) => {
+//     return useSafeQuery({
+//         queryKey: ['batch', date],
+//         queryFn: () => getAllPatientProcessList(date),
+//         staleTime: Infinity,
+// defaultValue: [],
+//         enabled: !!date
+//     });
+// };
+
+
+export const useAllBatchProductionItemDetail = (date) => {
+    return useSafeQuery({
+        queryKey: ['batchitems', date],
+        queryFn: () => getAllBatchProductionItemDetail(date),
+        staleTime: 0,
+        enabled: !!date,
+        defaultValue: []
+    });
+};
+
+
+export const useAllAllergenMaster = () => {
+    return useSafeQuery({
+        queryKey: ['getallergence'],
+        queryFn: getAllAllegrenceMaster,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useAllBillingCategory = () => {
+    return useSafeQuery({
+        queryKey: ['billingcategory'],
+        queryFn: getAllBillingCategory,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useAllActiveNsPatient = (nscode) => {
+    return useSafeQuery({
+        queryKey: ['nsactivepatient', nscode],
+        queryFn: () => getAllNsActivePatients(nscode),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!nscode
+    });
+};
+
+export const useAllAdmittedPatientDetail = (selectedStations = []) => {
+    return useSafeQuery({
+        queryKey: ['admitted-ns-patient', selectedStations],
+        queryFn: () => getActiveAdmittedPatients(selectedStations),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: Array.isArray(selectedStations) && selectedStations.length > 0
+    });
+};
+
+
+export const usePatientDietHistory = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-diet-histroy', ipno, ptno],
+        queryFn: () => getPatientDietHistory(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientDetail = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-dtl', ipno, ptno],
+        queryFn: () => getPatientDetails(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+
+export const usePatientSimpleSummary = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-summary', ipno, ptno],
+        queryFn: () => getPatientSummaryDetail(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+export const usePatientFullDeliveryDetails = (ipno, ptno) => {
+    return useSafeQuery({
+        queryKey: ['patient-summary-details', ipno, ptno],
+        queryFn: () => getPatientFullDeliveryDetail(ipno, ptno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const useBystanderBillDetails = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['bystander-details', ipno, ptno, status],
+        queryFn: () => getBystanderBills(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientDietBillDetails = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['diet-details', ipno, ptno, status],
+        queryFn: () => getPatientDietBillDetial(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientExtraOrderBills = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['patient-extra-details', ipno, ptno, status],
+        queryFn: () => getPatientExtraOrderBills(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+
+
+export const usePatientOpenBillDetails = (ipno) => {
+    return useSafeQuery({
+        queryKey: ['patient-open-bill-details', ipno],
+        queryFn: () => getPatientPendingBills(ipno),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno
+    });
+};
+
+export const usePatientTransactions = (ipno, ptno, status) => {
+    return useSafeQuery({
+        queryKey: ['patient-transactions', ipno, ptno, status],
+        queryFn: () => getPatientTransactions(ipno, ptno, status),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!ipno && !!ptno
+    });
+};
+// new
+export const useAllNursingStationPatient = (nscode) => {
+    return useSafeQuery({
+        queryKey: ['allnsactive', nscode],
+        queryFn: () => getAllNursingStationPatients(nscode),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!nscode
+    });
+};
+
+
+export const useFetchAllCanteenOrders = (status) => {
+    return useSafeQuery({
+        queryKey: ['canteenorders', status],
+        queryFn: () => getAllCanteenOrders(status),
+        enabled: !!status,
+        keepPreviousData: true,
+        defaultValue: []
+    });
+};
+
+
+
+
+export const useBatchFoodDetail = (selectedRows = []) => {
+    return useSafeQuery({
+        queryKey: ['batchdetail', selectedRows],
+        queryFn: () => getBatchItemDetail(selectedRows),
+        enabled: selectedRows.length > 0,
+        defaultValue: []
+    });
+};
+
+export const useFetchProductionMap = (isCheckMode) => {
+    return useSafeQuery({
+        queryKey: ['ProductionMap'],
+        queryFn: getProductionMaping,
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!isCheckMode
+    });
+};
+
+
+
+export const useFetchAllCanteenOrderStatus = () => {
+    return useSafeQuery({
+        queryKey: ['canteenorderstatus'],
+        queryFn: getAllCanteenOrderStatus,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+
+
+export const useOrderItemDetail = (memoOrder) => {
+    return useSafeQuery({
+        queryKey: ['canteenorders', memoOrder],
+        queryFn: () => getAllOrderItemDetails(memoOrder),
+        staleTime: 0,
+        defaultValue: [],
+        enabled: !!memoOrder
+    });
+};
+
+export const usePatientExtraOrders = (ptId, Status) => {
+    return useSafeQuery({
+        queryKey: ['ptextraorder', ptId, Status],
+        queryFn: () => getAllPatientExtraOrdres(ptId, Status),
+        staleTime: 0,
+        defaultValue: [],
+        enabled: !!ptId && !!Status
+    });
+};
+
+export const useGetPatientDetail = (bed_code) => {
+    return useSafeQuery({
+        queryKey: ['getactivePatient', bed_code],
+        queryFn: () => getCurrentActivePatient(bed_code),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!bed_code
+    });
+};
+
+export const useCustomerPreviousCanteenOrder = (admission_id, personType) => {
+    return useSafeQuery({
+        queryKey: ['customerorder', admission_id, personType],
+        queryFn: () => getCustomerPreviousOrder(admission_id, personType),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!admission_id && !!personType
+    });
+};
+
+
+export const useCustomerExtraOrderDetail = (patient_id, isPatient) => {
+    return useSafeQuery({
+        queryKey: ['customerextraorder', patient_id],
+        queryFn: () => getCustomerExtraOrders(patient_id),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: isPatient && !!patient_id
+    });
+};
+
+
+
+export const useFetchItemFiles = (item_id) => {
+    return useSafeQuery({
+        queryKey: ['itemfiles', item_id],
+        queryFn: () => getItemFileDetails(item_id),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!item_id
+    });
+};
+
+
+export const useGetAllAssignedOrderDetail = () => {
+    return useSafeQuery({
+        queryKey: ['assignedorder'],
+        queryFn: getCurrentAssignedFoodDetail,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+export const usePatientPlanFoodDetails = (plan_id) => {
+    return useSafeQuery({
+        queryKey: ['patientOrder', plan_id],
+        queryFn: () => getPatienPlanFoodDetail(plan_id),
+        staleTime: 0,
+        enabled: !!plan_id,
+        defaultValue: []
+    });
+};
+
+export const useFetchAllItemFileDetail = () => {
+    return useSafeQuery({
+        queryKey: ['fulitemfiles',],
+        queryFn: getAllItemFileDetails,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+
+export const useAllHighlightMaster = () => {
+    return useSafeQuery({
+        queryKey: ['highlights',],
+        queryFn: getAllHighlightTypes,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useAllHighlightMappings = () => {
+    return useSafeQuery({
+        queryKey: ['highligtmapping',],
+        queryFn: getAllHighlightMappings,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useTotalIpPatientCountDetails = () => {
+    return useSafeQuery({
+        queryKey: ['totalpatientcount'],
+        queryFn: getTotalipPatient,
+        staleTime: 0,
+        defaultValue: []
+    });
+};
+
+
+
+export const useNewAdmittedPatientDetail = () => {
+    return useSafeQuery({
+        queryKey: ['new-admission-count'],
+        queryFn: getTotalNewAdmittedPatientDetail,
+        defaultValue: [],
+        staleTime: 0
+    });
+};
+
+
+
+export const useNewBillablePatientDetail = (activeTab) => {
+    return useSafeQuery({
+        queryKey: ['billable-patient', activeTab],
+        queryFn: () => getBillablePatientDetails(activeTab),
+        defaultValue: [],
+        staleTime: 0,
+        enabled: !!activeTab
+    });
+};
+
+
+export const useAllItemDeliveryStatus = (canteen_order_id, type_slno) => {
+    return useSafeQuery({
+        queryKey: ['delivery-status', canteen_order_id, type_slno],
+        queryFn: () => getAllItemDeliveryStatus(canteen_order_id, type_slno),
+        staleTime: Infinity,
+        enabled: !!canteen_order_id && !!type_slno
+    });
+};
+
+
+
+export const useAllAssignedItemStatus = (emid, assign_id) => {
+    return useSafeQuery({
+        queryKey: ['assigneditemstatus', emid, assign_id],
+        queryFn: () => getAssingItemStatusDetail(emid, assign_id),
+        staleTime: Infinity,
+        enabled: !!emid && !!assign_id
+    });
+};
+
+
+
+export const useProformaDetails = (assignmentDetailId) => {
+    return useSafeQuery({
+        queryKey: ['proforma-details', assignmentDetailId],
+        queryFn: () => getProformaDetails(assignmentDetailId),
+        enabled: !!assignmentDetailId
+    });
+
+};
+
+
+export const useBystanderBillingDetails = (assignment_detail_id) => {
+    return useSafeQuery({
+        queryKey: ["bystanderbilling", assignment_detail_id],
+        queryFn: () => getBystanderBillingDetails(assignment_detail_id),
+        staleTime: Infinity,
+        enabled: !!assignment_detail_id
+    });
+};
+
+
+export const usePackingDetails = (assignment_detail_id) => {
+    return useSafeQuery({
+        queryKey: ["packingdetails", assignment_detail_id],
+        queryFn: () =>
+            getPackingDetails(assignment_detail_id),
+        staleTime: Infinity,
+        enabled: !!assignment_detail_id
+    });
+};
+
+
+export const usePettyCashDetails = (empid, status) => {
+    return useSafeQuery({
+        queryKey: ['petty-cash', empid, status],
+        queryFn: () => getPettyCashDetails(empid, status),
+        defaultValue: [],
+        enabled: !!empid && !!status
+    });
+};
+
+
+
+export const useBillSummaryDetails = () => {
+    return useSafeQuery({
+        queryKey: ['bill-sumamryt'],
+        queryFn: getBillSummaryDetails,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+export const useBillClosingDetails = (empid) => {
+    return useSafeQuery({
+        queryKey: ['bill-collections', empid],
+        queryFn: () => getBillCollectionDetails(empid),
+        staleTime: Infinity,
+        defaultValue: [],
+        enabled: !!empid
+    });
+};
+
+
+
+export const useCashCloseEmployee = () => {
+    return useSafeQuery({
+        queryKey: ['bill-collections-employee'],
+        queryFn: getTodayCashClosingEmployee,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+
+export const useEmployeePettyCashDetails = () => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash'],
+        queryFn: getTodayEmployeePettyCashDetails,
+        staleTime: Infinity,
+        defaultValue: []
+    });
+};
+
+
+
+export const useEmployeeDenominationDetails = (id) => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash', id],
+        queryFn: () => getEmployeeDenominationDetails(id),
+        defaultValue: [],
+        enabled: !!id
+    });
+};
+
+
+export const useEMployeeClosedPettyDetails = (empid, closingId) => {
+    return useSafeQuery({
+        queryKey: ['employee-petty-cash-closed', empid, closingId],
+        queryFn: () => getEmployeePetyyDetails(empid, closingId),
+        defaultValue: [],
+        enabled: !!empid && !!closingId
+    });
+};
+
+
+
+export const useGetTodaySettledBillDetails = () => {
+    return useSafeQuery({
+        queryKey: ['bill-detail-today'],
+        queryFn: getTodaysettleBillDetails,
+        defaultValue: [],
+    });
+};
+
+
+
+export const useGetTodayDetailBillSumary = () => {
+    return useSafeQuery({
+        queryKey: ['today-detail-summaru'],
+        queryFn: getTodayDetaildedBillSummary,
+        defaultValue: [],
+    });
+};

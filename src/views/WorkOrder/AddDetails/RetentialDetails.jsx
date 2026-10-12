@@ -22,11 +22,6 @@ const RetentialDetails = ({ localdata }) => {
     const localRentalData = localdata?.retentionDetails || ""
 
 
-    console.log({
-        localRentalData
-    });
-
-
 
     const retentionDatas = useSelector(
         state => state.getworkOrderReducer.retentionDetails

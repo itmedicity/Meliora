@@ -1,16 +1,14 @@
-import { Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import Table from '@mui/material/Table'
-import { Box } from '@mui/system'
+
 import React, { memo } from 'react'
 import CardMaster from '../Components/CardMaster'
-// import CusCheckBox from '../Components/CusCheckBox'
 import TextFieldCustom from '../Components/TextFieldCustom'
-import { Checkbox } from '@mui/material'
+import { Box, Checkbox, Sheet, Table } from '@mui/joy'
+
 const DietOrderSearch = ({ dietdetail, setDietdetail, dietcrct, slno }) => {
   return (
     <CardMaster title="Diet Menu">
       <Box sx={{ width: '100%', pl: 1, pt: 1, pr: 1, pb: 1 }}>
-        <Paper square elevation={3} sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }}>
+        <Box sx={{ pl: 1, pt: 1, pr: 1, pb: 1 }}>
           <Box
             sx={{
               width: '100%',
@@ -51,67 +49,58 @@ const DietOrderSearch = ({ dietdetail, setDietdetail, dietcrct, slno }) => {
               flexDirection: { xl: 'row', lg: 'row', md: 'row', sm: 'column', xs: 'column' }
             }}
           >
-            <TableContainer sx={{ maxHeight: 400 }}>
-              <Table sx={{ minWidth: 100 }} size="small" stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ width: 70 }}>Type Description </TableCell>
-                    <TableCell sx={{ width: 70 }}>Items</TableCell>
-                    {/* <TableCell sx={{ width: 100 }} >Actions</TableCell> */}
-                  </TableRow>
-                </TableHead>
-                {/* <TableBody>
-                                    {
-                                        dietdetail && dietdetail.map((val, index) => {
-                                            return <TableRow key={val.type_slno}>
-                                                <TableCell sx={{ width: 300, bgcolor: "yellow" }} >{val.type_desc}</TableCell>
-                                                <TableCell sx={{ bgcolor: "cyan" }}>{val.item_name}
-                                                    <CusCheckBox />
-                                                </TableCell>
+            <Sheet
+              variant="outlined"
+              sx={{
+                height: 400,
+                overflow: 'auto',
+              }}
+            >
+              <Table
+                stickyHeader
+                size="sm"
+                hoverRow
+                sx={{ minWidth: 100 }}
+              >
+                <thead>
+                  <tr>
+                    <th style={{ width: 70 }}>Type Description</th>
+                    <th style={{ width: 70 }}>Items</th>
+                  </tr>
+                </thead>
 
+                <tbody>
+                  {dietcrct?.map((val) => (
+                    <React.Fragment key={val.type_slno}>
+                      <tr>
+                        <td >
+                          {val.type_desc}
+                        </td>
+                        <td></td>
+                      </tr>
 
-
-                                            </TableRow>
-                                        })
-                                    }
-                                </TableBody> */}
-                <TableBody>
-                  {dietcrct &&
-                    dietcrct.map((val, index) => {
-                      return (
-                        <TableRow key={val.type_slno}>
-                          <TableCell sx={{ borderbottom: '1px solid #ddd' }}>{val.type_desc}</TableCell>
-                          {slno &&
-                            slno.map((value, index) => {
-                              return (
-                                <TableRow key={value.type_slno}>
-                                  <TableCell sx={{ width: 250, borderbottom: '1px solid #ddd' }}>
-                                    {value.item_name}
-                                  </TableCell>
-                                  <TableCell sx={{ borderbottom: '1px solid #ddd', width: 250 }}>
-                                    <Checkbox
-                                      name="check"
-                                      color="primary"
-                                      //  checked={value.check === 1 ? true : select.check}
-                                      className="py-0 px-5"
-
-                                      // onChange={(e) => {
-                                      //     updateSelect(e)
-                                      //     getOttime(e.target.checked)
-                                      // }}
-                                    />
-                                  </TableCell>
-                                </TableRow>
-                              )
-                            })}
-                        </TableRow>
-                      )
-                    })}
-                </TableBody>
+                      {slno?.map((value) => (
+                        <tr key={value.type_slno}>
+                          <td style={{ width: 250, }}>
+                            {value.item_name}
+                          </td>
+                          <td style={{ width: 250, }}>
+                            <Checkbox
+                              name="check"
+                              color="primary"
+                              size="sm"
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </tbody>
               </Table>
-            </TableContainer>
+            </Sheet>
+
           </Box>
-        </Paper>
+        </Box>
       </Box>
     </CardMaster>
   )

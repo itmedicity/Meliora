@@ -1,0 +1,6 @@
+THE ARCHITECUTE WE ARE PLANNING TO BUILD USING THE REDUCER AND CONTEXT . FOR STUDY PURPOSE
+
+KotPreparationDelivery
+ └── KotFilterProvider
+     ├── KotPreparationFilter   (dispatches actions)
+     └── DietNursingStationByFloor (reads filters)

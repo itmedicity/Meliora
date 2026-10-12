@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState, memo } from 'react'
 import CardCloseOnly from 'src/views/Components/CardCloseOnly'
 import CusAgGridForMain from 'src/views/Components/CusAgGridForMain'
-import { Box, Paper } from '@mui/material'
 import { getExtraOrderList } from 'src/redux/actions/DietExtraOrderList'
 import { useDispatch, useSelector } from 'react-redux'
 import EditButton from 'src/views/Components/EditButton'
+import { Box } from '@mui/joy'
 
 const ExtraOrderView = ({ dietExtraViews, setDisview }) => {
   //*** Initializing */
@@ -40,9 +40,9 @@ const ExtraOrderView = ({ dietExtraViews, setDisview }) => {
   return (
     <CardCloseOnly title="Extra Order List" close={backtoSetting}>
       <Box sx={{ width: '100%', p: 1 }}>
-        <Paper square elevation={3}>
+        <Box>
           <CusAgGridForMain columnDefs={column} tableData={tabledata} />
-        </Paper>
+        </Box>
       </Box>
     </CardCloseOnly>
   )
