@@ -23,9 +23,7 @@ const DietPlanCurrentTable = ({
 
     const DietDetail = patient?.diet_history;
 
-    console.log({
 
-    });
 
     const IsActiveDietExist = useMemo(
         () =>

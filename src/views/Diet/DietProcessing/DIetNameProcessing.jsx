@@ -20,11 +20,6 @@ const DIetNameProcessing = ({
     const { data: ActivePatient = [] } = useAllActivePatientDietPlan(todate);
 
 
-    console.log({
-        ActivePatient
-    });
-    
-
     const FinalDietNames = DietName?.filter((diet) =>
         ActivePatient?.some((patient) => patient.diet_id === diet.diet_id)
     );

@@ -44,8 +44,12 @@ const DietTransactions = [
     to: '/Home/kotprepdev',
     icon: <CiStop1 />
   },
-
-
+  {
+    men_slno: 378,
+    name: 'Collection Assignment',
+    to: '/Home/collectionassignment',
+    icon: <CiStop1 />
+  },
   {
     men_slno: 376,
     name: 'User Petty Cash',

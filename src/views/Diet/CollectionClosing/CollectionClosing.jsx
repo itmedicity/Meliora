@@ -19,13 +19,13 @@ const CollectionClosing = () => {
     const [viewdetail, setViewDetails] = useState({});
 
 
-    const { data: ClosedEmployeeDetail = [] } = useCashCloseEmployee();
 
     const [opendenomination, setOpenDenomination] = useState(false);
 
+    const { data: ClosedEmployeeDetail = [] } = useCashCloseEmployee();
     const { data: BillClosingDetails = [] } = useBillClosingDetails(viewdetail?.employee_id);
-
     const { data: BillSummaryDetails = [] } = useBillSummaryDetails();
+
 
     const FilterData = activeTab !== "ALL" ? BillClosingDetails?.filter(item => item.billing_status === activeTab) : BillClosingDetails;
 

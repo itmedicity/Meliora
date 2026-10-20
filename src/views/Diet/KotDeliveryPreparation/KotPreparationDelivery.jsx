@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, memo } from 'react'
 import { Box } from '@mui/joy'
 import KotItemHeader from '../KotItemList/KotItemHeader'
 import CustomeTab from './CustomeTab'
@@ -9,10 +9,13 @@ import {
     useGetAllAssignedOrderDetail,
     useFetchAllCanteenOrderStatus
 } from '../CommonData/UseQuery';
-import { socket } from 'src/ws/socket'
-import { succesNotify } from 'src/views/Common/CommonCode'
-import { initSpeech, speakOrder } from '../Utils/SpeakOrder'
-import { formatStatus, safeText } from '../CommonData/Common'
+// import { socket } from 'src/ws/socket'
+// import { succesNotify } from 'src/views/Common/CommonCode'
+import {
+    initSpeech,
+    //    speakOrder
+} from '../Utils/SpeakOrder'
+// import { formatStatus, safeText } from '../CommonData/Common'
 
 
 
@@ -26,12 +29,12 @@ const KotPreparationDelivery = () => {
 
     const {
         data: CanteenOrderDetails = [],
-        refetch: FetchAllCanteenOrderDetail
+        // refetch: FetchAllCanteenOrderDetail
     } = useFetchAllCanteenOrderStatus();
 
     const {
         data: AssingedOrders = [],
-        refetch: FetchAllAssignOrderDetail
+        // refetch: FetchAllAssignOrderDetail
     } = useGetAllAssignedOrderDetail();
 
 
@@ -40,39 +43,39 @@ const KotPreparationDelivery = () => {
 
     }, []);
 
-    useEffect(() => {
-        const handleDeliveryUpdate = (data) => {
+    // useEffect(() => {
+    //     const handleDeliveryUpdate = (data) => {
 
-            succesNotify(
-                `Your Orderd ${data?.meal} ${data?.item_name} is ${data?.delivery_status} !`
-            );
+    //         succesNotify(
+    //             `Your Orderd ${data?.meal} ${data?.item_name} is ${data?.delivery_status} !`
+    //         );
 
-            const voiceText =
-                data?.delivery_status === "CANCELLED"
-                    ? `Alert. Order for ${safeText(data?.item_name)} has been cancelled.`
-                    : `Order updated. ${safeText(data?.item_name)} is ${formatStatus(data?.delivery_status)}.`;
+    //         const voiceText =
+    //             data?.delivery_status === "CANCELLED"
+    //                 ? `Alert. Order for ${safeText(data?.item_name)} has been cancelled.`
+    //                 : `Order updated. ${safeText(data?.item_name)} is ${formatStatus(data?.delivery_status)}.`;
 
 
-            speakOrder(voiceText);
+    //         speakOrder(voiceText);
 
-            FetchAllAssignOrderDetail();
-            FetchAllCanteenOrderDetail();
-        };
+    //         FetchAllAssignOrderDetail();
+    //         FetchAllCanteenOrderDetail();
+    //     };
 
-        socket.on(
-            "dietDeliveryStatusUpdated",
-            handleDeliveryUpdate
-        );
+    //     socket.on(
+    //         "dietDeliveryStatusUpdated",
+    //         handleDeliveryUpdate
+    //     );
 
-        return () => {
+    //     return () => {
 
-            socket.off(
-                "dietDeliveryStatusUpdated",
-                handleDeliveryUpdate
-            );
-        };
+    //         socket.off(
+    //             "dietDeliveryStatusUpdated",
+    //             handleDeliveryUpdate
+    //         );
+    //     };
 
-    }, []);
+    // }, []);
 
 
     const PendingOrder = CanteenOrderDetails?.filter(
@@ -99,7 +102,7 @@ const KotPreparationDelivery = () => {
         return {
             ...item,
             assignment_id: assigned?.assignment_id || null,
-            assign_patient_id:assigned?.em_id,
+            assign_patient_id: assigned?.em_id,
             assignment_detail_id: assigned?.assignment_detail_id || null,
             assigned_to: assigned?.em_name || null,
             ItemPriority: assigned?.ItemPriority || null,
@@ -267,4 +270,4 @@ const KotPreparationDelivery = () => {
     )
 }
 
-export default KotPreparationDelivery
+export default memo(KotPreparationDelivery)

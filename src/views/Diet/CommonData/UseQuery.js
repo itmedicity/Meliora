@@ -50,6 +50,8 @@ import {
     getBatchItemDetail,
     getBillablePatientDetails,
     getBillCollectionDetails,
+    getBillDetails,
+    getBillingItemDetails,
     getBillSummaryDetails,
     getBystanderBillingDetails,
     getBystanderBills,
@@ -1000,6 +1002,13 @@ export const useEmployeeDenominationDetails = (id) => {
     });
 };
 
+export const useBillDetails = () => {
+    return useSafeQuery({
+        queryKey: ["bill-details"],
+        queryFn: getBillDetails,
+        defaultValue: []
+    });
+};
 
 export const useEMployeeClosedPettyDetails = (empid, closingId) => {
     return useSafeQuery({
@@ -1029,3 +1038,15 @@ export const useGetTodayDetailBillSumary = () => {
         defaultValue: [],
     });
 };
+
+
+
+export const useGetBillingDetails = (id) => {
+    return useSafeQuery({
+        queryKey: ['bill-item-details', id],
+        queryFn: () => getBillingItemDetails(id),
+        defaultValue: [],
+        enabled: !!id
+    });
+}
+

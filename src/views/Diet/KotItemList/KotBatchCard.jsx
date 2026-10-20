@@ -15,7 +15,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { DIET_ALT_COLORS } from "../CommonData/Common";
 import DietTextComponent from "../DietComponent/DietTextComponent";
 import VerifiedIcon from '@mui/icons-material/Verified';
-import { errorNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
+import { confirmNotify, errorNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { axioslogin } from "src/views/Axios/Axios";
 import { useSelector } from "react-redux";
@@ -132,6 +132,12 @@ const KotBatchCard = ({
     const HandleCompleteList = async () => {
         setLoading(true)
         if (!batch.batch_id) return warningNotify("Batch is Needed!");
+
+        const isConfirmed = await confirmNotify(
+            "Are you Sure for Confirming the Batch.!"
+        );
+        if (!isConfirmed) return; //  STOP if cancel
+
         try {
             const payload = {
                 batch_id: batch.batch_id,

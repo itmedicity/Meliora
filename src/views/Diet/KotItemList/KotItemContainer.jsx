@@ -123,6 +123,7 @@ const KotItemContainer = () => {
         // CREATE PAYLOAD ITEMS
         const payloadItems = selectedBatches.map(batch_id => ({ batch_id }));
 
+     
         try {
 
             const payload = {

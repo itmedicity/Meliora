@@ -649,6 +649,7 @@ const Bedcountmaster = React.lazy(() => import('./views/Master/BedCountMaster/Be
 const BedStatusReport = React.lazy(() => import('./views/Report/CommonReport/BedStatusReport'))
 
 const DailyCanteenClosing = React.lazy(() => import('./views/Diet/DailyCanteenClosing/DailyCanteenClosing'))
+const CashCollection = React.lazy(() => import('./views/Diet/CashCollection/CashCollection'))
 
 
 
@@ -1210,6 +1211,12 @@ const routes = [
   { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> },
   { path: 'Bedcountmaster', name: 'Bedcountmaster', element: <Bedcountmaster /> },
   { path: 'BedStatusReport', name: 'BedStatusReport', element: <BedStatusReport /> },
+  {
+    path: 'collectionassignment', name: 'Collection Assignment', element:
+      <KotFilterProvider>
+        <CashCollection />
+      </KotFilterProvider>
+  },
 
 ]
 

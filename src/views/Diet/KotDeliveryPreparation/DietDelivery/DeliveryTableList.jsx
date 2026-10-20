@@ -266,6 +266,8 @@ const DeliveryTableList = ({
             a4PrintDetails: printDetails,
         });
     };
+
+    
     return (
         <>
             <Paper
