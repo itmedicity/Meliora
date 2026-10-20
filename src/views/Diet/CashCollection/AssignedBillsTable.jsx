@@ -51,11 +51,11 @@ const formatAmount = (value) => {
 
     return Number.isFinite(amount)
         ? amount.toLocaleString("en-IN", {
-              style: "currency",
-              currency: "INR",
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-          })
+            style: "currency",
+            currency: "INR",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
         : "₹0.00";
 };
 
@@ -113,9 +113,11 @@ const AssignedBillsTable = ({ data = [], onView }) => {
                 border: "1px solid #e4dce9",
                 borderRadius: 2,
             }}>
-           
+
             <Box sx={{ overflowX: "auto" }}>
                 <Box sx={{ minWidth }}>
+
+                    
                     <Box
                         sx={{
                             display: "flex",
@@ -263,11 +265,10 @@ const AssignedBillsTable = ({ data = [], onView }) => {
 
                                         <Cell width={180}>
                                             <Tooltip
-                                                title={`${row.assigned_employee_name || "-"}${
-                                                    row.assigned_employee_no
+                                                title={`${row.assigned_employee_name || "-"}${row.assigned_employee_no
                                                         ? ` (${row.assigned_employee_no})`
                                                         : ""
-                                                }`}
+                                                    }`}
                                             >
                                                 <Box sx={{ minWidth: 0 }}>
                                                     <DietTextComponent
@@ -282,11 +283,10 @@ const AssignedBillsTable = ({ data = [], onView }) => {
 
                                         <Cell width={180}>
                                             <Tooltip
-                                                title={`${row.assigned_by_employee_name || "-"}${
-                                                    row.assigned_by_employee_no
+                                                title={`${row.assigned_by_employee_name || "-"}${row.assigned_by_employee_no
                                                         ? ` (${row.assigned_by_employee_no})`
                                                         : ""
-                                                }`}
+                                                    }`}
                                             >
                                                 <Box sx={{ minWidth: 0 }}>
                                                     <DietTextComponent
