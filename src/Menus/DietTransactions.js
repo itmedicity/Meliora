@@ -45,7 +45,7 @@ const DietTransactions = [
     icon: <CiStop1 />
   },
   {
-    men_slno: 378,
+    men_slno: 380,
     name: 'Collection Assignment',
     to: '/Home/collectionassignment',
     icon: <CiStop1 />
