@@ -162,7 +162,7 @@ const ProformaDetailsDrawer = ({
                 balance_amount: totals.total,
                 billing_status: "OPEN",
                 bill_pay_type: billPayType,
-                employeeId: deliverypatient?.assign_patient_id,
+                employeeId: id,
                 deliveryPatinetId: deliverypatient?.assign_patient_id
             },
 

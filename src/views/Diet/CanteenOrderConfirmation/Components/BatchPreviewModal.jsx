@@ -209,9 +209,10 @@ const BatchPreviewModal = ({
             >
                 <ModalDialog
                     sx={{
-                        width: 550,
+                        minWidth: '60vw',
                         maxWidth: "95vw",
-                        height: "55vh",
+                        minHeight: "55vh",
+                        maxHeight: '90vh',
                         p: 0,
                         borderRadius: 3,
                         overflow: "hidden"

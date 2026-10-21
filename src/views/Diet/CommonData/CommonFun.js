@@ -3411,6 +3411,22 @@ export const getEmployeeDenominationDetails = async (id) => {
 };
 
 
+export const getBillDetails = async () => {
+    try {
+        const res = await axioslogin.get(`/cashclosing/get-bill-details`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching  Denomination Details !", error?.message || error);
+        return [];
+    }
+};
+
+
 export const getEmployeePetyyDetails = async (id, closingIds) => {
     try {
         const res = await axioslogin.post(`/dietdelivery/get-closed-pettycash`, {
@@ -3464,4 +3480,21 @@ export const getTodayDetaildedBillSummary = async () => {
     }
 };
 
+
+
+export const getBillingItemDetails = async (billId) => {
+    if (!billId) return;
+    try {
+        const res = await axioslogin.get(`/dietdelivery/get-bill-item-detial/${billId}`);
+        const {
+            success,
+            data
+        } = res?.data || {};
+        if (success === 1) return data ?? [];
+        return [];
+    } catch (error) {
+        console.error("Error In Fetching Today Billing Details !", error?.message || error);
+        return [];
+    }
+};
 
