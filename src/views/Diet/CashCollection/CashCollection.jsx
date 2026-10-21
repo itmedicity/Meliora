@@ -19,7 +19,7 @@ const CashCollection = () => {
     const filteredBills = useMemo(() => {
         const searchValue = normalize(search);
 
-        return BillDetails.filter((bill) => {
+        return BillDetails?.filter((bill) => {
             const assigned =
                 bill.assignment_id != null &&
                 String(bill.assignment_status ?? "").toUpperCase() !== "CANCELLED";
@@ -43,6 +43,7 @@ const CashCollection = () => {
                     bill.ip_number,
                     bill.admission_id,
                     bill.bill_no,
+                    bill.assigned_employee_name,
                 ].some((value) => normalize(value).includes(searchValue));
 
             if (!matchesSearch) return false;
