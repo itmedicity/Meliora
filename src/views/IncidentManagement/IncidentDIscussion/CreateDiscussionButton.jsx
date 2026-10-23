@@ -203,11 +203,22 @@ const CreateDiscussionButton = ({
         ) {
             return warningNotify("Please enter group title");
         }
+
+
+        const entityId = Number(actionDetailSlno);
+
+        if (!Number.isInteger(entityId) || entityId <= 0) {
+            console.error("Invalid chatState:", chatState);
+            return warningNotify(
+                "Unable to start conversation: Action Already Approved"
+            );
+        }
+
         const payload = {
             conversation: {
                 module_name: context?.module_name,
                 entity_type: context?.entity_type,
-                entity_id: context?.entity_id,
+                entity_id: entityId,
                 parent_entity_id: null,
                 incident_id: context?.incident_id,
                 department_id: context?.department_id,

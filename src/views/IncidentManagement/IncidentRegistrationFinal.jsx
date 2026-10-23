@@ -50,7 +50,7 @@ const IncidentRegistrationFinal = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const incidentData = location.state?.incidsentData;
+    const incidentData = location.state?.incidentData;
     const Files = location.state?.files || [];
     const IncidentEditing = location.state?.isEdit;
 

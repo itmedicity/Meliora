@@ -29,6 +29,8 @@ const IncidentActionSubmit = ({ items, setOpenModal, setOpenChat }) => {
 
     const firstAction = departmentreqactions && departmentreqactions[0];
 
+   
+
     const { uploadedFiles, previewUrls, handleFileSelect, handleRemoveFile } = useFileUpload(allowedFileType);
 
     /**  Submit Department Action + File Upload */
