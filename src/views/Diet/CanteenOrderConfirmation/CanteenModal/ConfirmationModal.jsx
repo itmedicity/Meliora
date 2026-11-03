@@ -27,6 +27,9 @@ import { useSelector } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import FoodDetailShowCard from "../../DirectCanteenOrder/Components/FoodDetailShowCard";
 import ChooseDIetType from "src/views/CommonSelectCode/ChooseDIetType";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
 
 const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
@@ -35,10 +38,13 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
     const [selectedFood, setSelectedFood] = useState({})
     const [type_slno, setDietType] = useState(0);
     const [typename, setTypeName] = useState("");
+    const [showRemarks, setShowRemarks] = useState(false);
 
     const memoOrder = useMemo(() => order || {}, [
         order?.canteen_order_id
     ]);
+
+
 
     const {
         data: OrderFoodDetails = [],
@@ -58,6 +64,24 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
     const [items, setItems] = useState([]);
     const [opendetailcard, setOpenDetailCard] = useState(false);
     const [initialItemCount, setInitialItemCount] = useState(0);
+
+
+
+    const isPatient = Number(memoOrder?.party_type_id) === 2;
+
+    const orderRemarks = items[0]?.order_remarks || "";
+    const PlanRemarks = items[0]?.diet_plan_remarks || "";
+    const DieticianRemaks = items[0]?.dietician_remarks || "";
+    const dietName = items[0]?.diet_name || "";
+
+
+    const UrgentItemEmergency = Array.isArray(items) &&
+        items.length > 0 ?
+        items
+            ?.filter(val => val.emergency_id !== null && val.emergency_status === 'PENDING_ACKNOWLEDGEMENT')
+            ?.map(id => id.emergency_id)
+        :
+        [];
 
     const [tempFood, setTempFood] = useState({
         item_id: null,
@@ -199,6 +223,44 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
         }
     };
 
+
+
+    const handleAcknowledgeEmergency = async () => {
+        if (!UrgentItemEmergency.length)
+            return warningNotify("No emergency items found");
+
+        if (!id) return warningNotify("Employee Id is Missing !.")
+
+        try {
+            const payload = {
+                emergency_ids: UrgentItemEmergency,
+                acknowledged_by: id,
+            };
+
+            const res = await axioslogin.patch(
+                "/canteenorder/emergency/acknowledge",
+                payload
+            );
+
+            const { success, message, data } = res.data || {};
+
+            if (success === 0)
+                return warningNotify(message);
+
+            succesNotify(
+                `${data?.acknowledged_count || 0} emergency items acknowledged`
+            );
+
+            FetchPatientFoodOrderDetails();
+            FetcthPatienExtraOrders();
+
+        } catch (err) {
+            console.error(err);
+            errorNotify("Error acknowledging emergency items");
+        }
+    };
+
+
     const confirmOrder = async () => {
         if (!memoOrder?.canteen_order_id) {
             return warningNotify("Order Id is Missing Kindly Refresh!");
@@ -320,11 +382,118 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                             />
                         </Box>
 
-                        <DietTextComponent
-                            value={`Order ID: ${memoOrder?.canteen_order_id}`}
-                            size={13}
-                            color="#555"
-                        />
+                        <Box>
+                            <DietTextComponent
+                                value={`Order ID: CAN-${String(memoOrder?.canteen_order_id || 0).padStart(6, "0")}`}
+                                size={13}
+                                color="#555"
+                            />
+
+                            <Box
+                                onClick={() => setShowRemarks((prev) => !prev)}
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 0.6,
+                                    mt: 0.5,
+                                    cursor: "pointer",
+                                    color: "primary.600",
+                                    "&:hover": {
+                                        color: "primary.800",
+                                    },
+                                }}
+                            >
+                                <NotesRoundedIcon sx={{ fontSize: 15 }} />
+
+                                <DietTextComponent
+                                    value={showRemarks ? "Hide remarks" : "View order remarks"}
+                                    size={11}
+                                    color="primary"
+                                    fontWeight={600}
+                                />
+
+                                {showRemarks
+                                    ? <KeyboardArrowUpRoundedIcon sx={{ fontSize: 16 }} />
+                                    : <KeyboardArrowDownRoundedIcon sx={{ fontSize: 16 }} />
+                                }
+                            </Box>
+
+                            {(memoOrder?.is_urgent === 1 && UrgentItemEmergency?.length > 0) && <Box mt={1} >
+
+                                <DietButton
+                                    width={250}
+                                    icon={BrunchDiningIcon}
+                                    name="Acknowledge Urgency"
+                                    onClick={handleAcknowledgeEmergency}
+                                />
+                            </Box>}
+                        </Box>
+
+                        {showRemarks && (
+                            <Box
+                                sx={{
+                                    mt: 1,
+                                    mb: 1,
+                                    p: 1.5,
+                                    borderRadius: "sm",
+                                    bgcolor: "background.level1",
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: 1.2,
+                                }}
+                            >
+                                {isPatient && (
+                                    <Box sx={{
+                                        maxWidth: 800
+                                    }}>
+                                        <DietTextComponent
+                                            value="Diet Plan Remarks"
+                                            size={11}
+                                            color="neutral"
+                                            fontWeight={700}
+                                        />
+                                        <DietTextComponent
+                                            value={PlanRemarks || "No diet plan remarks"}
+                                            size={12}
+                                        />
+                                        {DieticianRemaks?.trim() !== "" &&
+                                            <Box sx={{
+                                                mt: 1
+                                            }}>
+
+                                                <DietTextComponent
+                                                    value="Dietition Remarks"
+                                                    size={11}
+                                                    color="neutral"
+                                                    fontWeight={700}
+                                                />
+                                                <DietTextComponent
+                                                    value={DieticianRemaks || "No Dietition  remarks"}
+                                                    size={12}
+                                                />  </Box>
+                                        }
+                                    </Box>
+                                )}
+
+                                <Box sx={{
+                                    maxWidth: 800
+                                }}>
+                                    <DietTextComponent
+                                        value="Order Remarks"
+                                        size={11}
+                                        color="neutral"
+                                        fontWeight={700}
+                                    />
+                                    <DietTextComponent
+                                        value={orderRemarks || "No order remarks"}
+                                        size={12}
+                                        wrap
+                                    />
+                                </Box>
+                            </Box>
+                        )}
                         {
                             opendetailcard &&
                             <Box mt={1} >
@@ -341,6 +510,22 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                             color="#666"
                         />
                         {
+                            isPatient &&
+                            <Box
+                                sx={{
+                                    bgcolor: "#e74c3c",
+                                    color: "#fff",
+                                    fontSize: 12,
+                                    px: 1,
+                                    borderRadius: 1,
+                                    fontWeight: 600,
+                                    fontFamily: 'Bahnschrift',
+                                    textTransform: 'uppercase'
+                                }}>
+                                {dietName || "Not assigned"}
+                            </Box>
+                        }
+                        {
                             activeTab === "PENDING" &&
                             <Box mt={1} >
 
@@ -353,10 +538,12 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
 
                             </Box>
                         }
-
                     </Box>
-
                 </Box>
+
+
+
+
                 {
                     activeTab === "PENDING" &&
                     <AnimatePresence>

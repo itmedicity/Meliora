@@ -7,9 +7,18 @@ import { useAllActiveNsPatient } from '../../CommonData/UseQuery'
 import ChooseOrderType from 'src/views/CommonSelectCode/ChooseOrderType'
 import ChooseNursingBed from 'src/views/CommonSelectCode/ChooseNursingBed'
 import ChooseDIetType from 'src/views/CommonSelectCode/ChooseDIetType'
+import ChooseDietName from 'src/views/CommonSelectCode/ChooseDietName'
 
 
-const CanteenFilterComponent = ({ selectedStations }) => {
+const CanteenFilterComponent = ({
+    selectedStations,
+    showdietype = true,
+    showordertype = true,
+    showdiet = false,
+    dietName,
+    setDietName
+
+}) => {
 
     const { state, dispatch } = useCanteenFilter()
     const { bed, patient, meal, type, search } = state;
@@ -39,17 +48,19 @@ const CanteenFilterComponent = ({ selectedStations }) => {
                     })
                 }
             />
+            {
+                showdietype &&
 
-            <ChooseDIetType
-                value={meal}
-                setValue={(val) =>
-                    dispatch({
-                        type: 'SET_MEAL_ID',
-                        payload: val
-                    })
-                }
-            />
-
+                <ChooseDIetType
+                    value={meal}
+                    setValue={(val) =>
+                        dispatch({
+                            type: 'SET_MEAL_ID',
+                            payload: val
+                        })
+                    }
+                />
+            }
             <ChooseCanteenActivePatient
                 PtDetail={ActiveNsPatient}
                 value={patient}
@@ -60,15 +71,26 @@ const CanteenFilterComponent = ({ selectedStations }) => {
                     })
                 }
             />
-            <ChooseOrderType
-                value={type}
-                setValue={(value) =>
-                    dispatch({
-                        type: 'SET_TYPE',
-                        payload: value
-                    })
-                }
-            />
+            {
+                showordertype &&
+
+                <ChooseOrderType
+                    value={type}
+                    setValue={(value) =>
+                        dispatch({
+                            type: 'SET_TYPE',
+                            payload: value
+                        })
+                    }
+                />
+            }
+            {
+                showdiet &&
+                <ChooseDietName
+                    value={dietName}
+                    setValue={(val) => setDietName(val)}
+                />
+            }
 
             <DietSearchComponent
                 value={search}

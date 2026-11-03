@@ -1,4 +1,4 @@
-import React, { memo} from 'react'
+import React, { memo } from 'react'
 
 import { useAllPatientDietMaster } from '../Diet/CommonData/UseQuery'
 

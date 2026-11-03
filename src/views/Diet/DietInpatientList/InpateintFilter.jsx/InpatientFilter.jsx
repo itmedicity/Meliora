@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
     Box,
 } from '@mui/joy'
@@ -8,6 +8,10 @@ import DietSearchComponent from '../../DietComponent/DietSearchComponent'
 import ChooseNursingBed from 'src/views/CommonSelectCode/ChooseNursingBed'
 import ChooseDietPatient from 'src/views/CommonSelectCode/ChooseDietPatient'
 import ChooseDietName from 'src/views/CommonSelectCode/ChooseDietName'
+import ChooseNursingStation from './ChooseNursingStation'
+import { useSelector } from 'react-redux'
+import { getEmployeeuserrightsMenu } from 'src/api/TicketApi'
+import { useQuery } from '@tanstack/react-query'
 
 const InpatientFilter = ({
     setSearch,
@@ -19,8 +23,28 @@ const InpatientFilter = ({
     nursingBed,
     FilteredPatientDetail,
     dietPatient,
-    dietName
+    dietName,
+    setNursingStation,
+    nursingStation
 }) => {
+
+    const empid = useSelector(state => {
+        return state.LoginUserData.empid
+    });
+
+    const postEmp = useMemo(() => ({ empid }), [empid])
+
+    const { data: menuRightsEmployee = [] } = useQuery({
+        queryKey: ['getEmployeeuserrightsMenu', postEmp],
+        queryFn: () => getEmployeeuserrightsMenu(postEmp)
+    });
+
+    const employeeMenuRights = useMemo(() => menuRightsEmployee, [menuRightsEmployee]);
+
+    const hasNursingStationRight = useMemo(() => {
+        return employeeMenuRights?.some((item) => Number(item.menu_slno) === 381)
+    }, [menuRightsEmployee]);
+
 
     return (
         <Box
@@ -38,7 +62,7 @@ const InpatientFilter = ({
                 borderRight: '4px solid #7c51a1',
                 borderLeft: '4px solid #7c51a1',
                 borderRadius: 5,
-                flexWrap:'wrap'
+                flexWrap: 'wrap'
             }}
         >
             <Box
@@ -71,6 +95,16 @@ const InpatientFilter = ({
                     value={dietName}
                     setValue={(val) => setDietName(val)}
                 />
+
+                {
+                    hasNursingStationRight &&
+                    <ChooseNursingStation
+                        value={nursingStation}
+                        setValue={setNursingStation}
+                        width={200}
+                    />
+                }
+
             </Box>
 
             <DietSearchComponent

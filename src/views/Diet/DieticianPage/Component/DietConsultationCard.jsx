@@ -1,12 +1,13 @@
+
 import React, { memo } from 'react'
 import { Box, Chip, Sheet } from '@mui/joy'
 import PersonIcon from '@mui/icons-material/Person'
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
 import DietButton from '../../DietComponent/DietButton'
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf'
 
 const DietConsultationCard = ({
     patient,
@@ -16,8 +17,7 @@ const DietConsultationCard = ({
     onConfirm
 }) => {
 
-
-    const status = patient?.assignment_status;
+    const status = patient?.assignment_status
 
     const actionMap = {
         ASSIGNED: "Approve",
@@ -25,23 +25,25 @@ const DietConsultationCard = ({
         IN_PROGRESS: "Complete",
         COMPLETED: "Completed",
         REASSIGNED: "Approve"
-    };
+    }
+
     const colorMap = {
         ASSIGNED: "neutral",
         APPROVED: "primary",
         IN_PROGRESS: "warning",
         COMPLETED: "success",
         REASSIGNED: "danger"
-    };
+    }
 
     const nextStatusMap = {
         ASSIGNED: "APPROVED",
         APPROVED: "IN_PROGRESS",
-        IN_PROGRESS: "COMPLETED"
-    };
+        IN_PROGRESS: "COMPLETED",
+        REASSIGNED: "APPROVED"
+    }
+
     return (
         <Sheet
-
             sx={{
                 position: "relative",
                 p: 1.5,
@@ -54,7 +56,7 @@ const DietConsultationCard = ({
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                minHeight: 190,
+                minHeight: 140,
 
                 "&:hover": {
                     transform: "translateY(-5px)",
@@ -62,6 +64,8 @@ const DietConsultationCard = ({
                 }
             }}
         >
+
+            {/* STATUS */}
             <Box
                 sx={{
                     position: "absolute",
@@ -81,6 +85,7 @@ const DietConsultationCard = ({
                 </Chip>
             </Box>
 
+            {/* PATIENT DETAILS */}
             <Box
                 sx={{
                     display: "flex",
@@ -124,6 +129,7 @@ const DietConsultationCard = ({
                 </Box>
             </Box>
 
+            {/* CONSULTATION DETAILS */}
             <Box
                 sx={{
                     mt: 1.5,
@@ -151,7 +157,7 @@ const DietConsultationCard = ({
                 />
 
                 <DietTextComponent
-                    value={`Calories : ${patient?.calories_per_day}`}
+                    value={`Ns Station : ${patient?.fb_ns_name}`}
                     size={10}
                     weight={600}
                 />
@@ -165,10 +171,13 @@ const DietConsultationCard = ({
                     />
                 )}
             </Box>
+
+            {/* ACTIONS */}
             <Box
                 sx={{
                     display: "flex",
-                    gap: 1
+                    gap: 1,
+                    mt: 1.5
                 }}
             >
                 {!status ? (
@@ -193,7 +202,15 @@ const DietConsultationCard = ({
                             width="100%"
                             icon={AssignmentTurnedInIcon}
                             name={actionMap[status]}
-                            onClick={() => onConfirm(patient, nextStatusMap[status])}
+                            onClick={() => {
+                                const nextStatus = nextStatusMap[status];
+
+                                if (nextStatus === "APPROVED") {
+                                    onConfirm(patient, nextStatus);
+                                } else {
+                                    onQuick(patient, nextStatus);
+                                }
+                            }}
                             disabled={status === "COMPLETED"}
                         />
 
