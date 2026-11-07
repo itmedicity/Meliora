@@ -9,7 +9,25 @@ This section details the updates and architectural enhancements made to the **Me
 
 ---
 
-## 1. New Filter Option: "Without Observation" (Admission Reason)
+## 1. New Filter Option: "Bill Type" (CASH / CREDIT / ALL)
+*Released: October 31, 2026*
+
+### Overview
+Added a filter dropdown based on patient **Bill Type** (e.g. `CASH`, `CREDIT`) in the **Discharge TAT Report** (`/Home/CommonReport`). This allows hospital administrators and billing managers to isolate TAT metrics and discharge workflows specifically for Cash patients or Credit/Insurance patients, or view all records.
+
+### Key Changes
+- **Filter State**: Added `selectedBillType` state (defaults to `'ALL'`).
+- **Dynamic Options**: Extracted distinct bill types from fetched records (`billTypeList`), ensuring standard `CASH` and `CREDIT` options are available once data is loaded, along with any other bill categories from the database.
+- **Filtering Logic**: Case-insensitive filtering on `row.BILL_TYPES` matching `selectedBillType`.
+- **UI Selector**:
+  - Added a Joy UI `Select` component in **CommonReportToolbar** placed next to the Department dropdown.
+  - Equipped with `PaymentsIcon` decorator, clear option selection, and disabled state when no data is loaded.
+- **Excel Export**: Appends `_${selectedBillType}` (e.g., `_CASH`, `_CREDIT`) to the exported filename when filtered.
+- **Table Visuals**: Enhanced bill type badge chips in **CommonReportTable** with case-insensitivity support (`CASH` -> success soft chip, `CREDIT` -> primary soft chip, other -> neutral soft chip).
+
+---
+
+## 2. New Filter Option: "Without Observation" (Admission Reason)
 *Released: September 17, 2026*
 
 ### Overview
@@ -30,7 +48,7 @@ Added an option to filter out patients admitted under the **Observation** catego
 
 ---
 
-## 2. Component Modularization of Common Report
+## 3. Component Modularization of Common Report
 *Released: September 17, 2026*
 
 ### Overview
@@ -87,7 +105,7 @@ src/views/Report/CommonReport/
 
 ---
 
-## 3. Benefits & Impact
+## 4. Benefits & Impact
 
 | Metric / Aspect | Before Refactoring | After Refactoring (Sept 17, 2026) |
 |---|---|---|

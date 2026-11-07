@@ -25,6 +25,8 @@ export const columns = [
     { key: "RECEIPT_DATE", label: "Receipt Date", width: 170, align: "center", group: "timestamp", tooltipMl: "ബിൽ തുക അടച്ച് രസീത് നൽകിയ സമയം" },
     { key: "PATIENT_OUT", label: "Patient Out", width: 170, align: "center", group: "timestamp", tooltipMl: "രോഗി വാർഡിൽ നിന്ന് പുറത്തിറങ്ങിയ സമയം" },
     { key: "DIS_REQ_CANCEL", label: "Discharge Req Cancel", width: 170, align: "center", group: "timestamp", tooltipMl: "ഡിസ്ചാർജ് അപേക്ഷ റദ്ദാക്കിയ സമയം" },
+    { key: "CLN_REQ", label: "Cleaning Req", width: 180, align: "center", group: "timestamp", tooltipMl: "ബെഡ് ക്ലീനിംഗ് അപേക്ഷിച്ച സമയം" },
+    { key: "CLN_COMPLETED", label: "Cleaning Completed", width: 180, align: "center", group: "timestamp", tooltipMl: "ബെഡ് ക്ലീനിംഗ് പൂർത്തിയായ സമയം" },
     { key: "TAT_ANSMT_MEDRET_REQ", label: "TAT: Announce → Med Ret Req", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ മരുന്ന് തിരിച്ചേൽപ്പിക്കൽ അപേക്ഷ വരെയുള്ള സമയം" },
     { key: "TAT_MEDRETREQ_RETBILL", label: "TAT: Med Ret Req → Ret Bill", width: 180, align: "center", group: "tat", tooltipMl: "മരുന്ന് തിരിച്ചേൽപ്പിക്കൽ അപേക്ഷ മുതൽ റിട്ടേൺ ബിൽ വരെയുള്ള സമയം" },
     { key: "TAT_ANSMT_DISSUM", label: "TAT: Announce → Disch Summary", width: 185, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് സമ്മറി അംഗീകാരം വരെയുള്ള സമയം" },
@@ -37,6 +39,7 @@ export const columns = [
     { key: "TAT_DISBILL_RECEIPT", label: "TAT: Disch Bill → Receipt", width: 175, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് ബിൽ മുതൽ പണം അടച്ച രസീത് നൽകുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_RECEIPT_PTOUT", label: "TAT: Receipt → Patient Out", width: 175, align: "center", group: "tat", tooltipMl: "രസീത് നൽകിയത് മുതൽ രോഗി പുറത്തുപോകുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_ANSMT_PTOUT", label: "TAT: Announce → Patient Out", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപിച്ചത് മുതൽ രോഗി ആശുപത്രി വിട്ടിറങ്ങുന്നത് വരെയുള്ള ആകെ സമയം" },
+    { key: "TAT_CL_REW_CL_COMP", label: "TAT: Cln Req → Cln Comp", width: 180, align: "center", group: "tat", tooltipMl: "ബെഡ് ക്ലീനിംഗ് അപേക്ഷ മുതൽ പൂർത്തിയായത് വരെയുള്ള സമയം" },
 ]
 
 export const formatCellValue = (val, isTat) => {

@@ -13,7 +13,8 @@ import {
   crm_three,
   dc_one,
   common_one,
-  common_two
+  common_two,
+  common_three
 } from './ReportsMenu'
 import { getMenuSlno } from '../views/Constant/Constant'
 import { Link } from 'react-router-dom'
@@ -37,6 +38,7 @@ const Reports = () => {
   const [dc_report_one, setdc_report_one] = useState()
   const [common_report_one, setcommon_report_one] = useState()
   const [common_report_two, setcommon_report_two] = useState()
+  const [common_report_three, setcommon_report_three] = useState()
 
   useEffect(() => {
     getMenuSlno().then(val => {
@@ -81,6 +83,8 @@ const Reports = () => {
       setcommon_report_one(common_report_one)
       const common_report_two = common_two.filter(val => menuSlnoArray.includes(val.slno))
       setcommon_report_two(common_report_two)
+      const common_report_three = common_three.filter(val => menuSlnoArray.includes(val.slno))
+      setcommon_report_three(common_report_three)
       setCount(1)
     })
   }, [count])
@@ -377,6 +381,14 @@ const Reports = () => {
                 )
               })}        </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "30%" }}>
+              {common_report_three &&
+              common_report_three.map(val => {
+                return (
+                  <Link to={val.to} className="list-group-item pt-1 pb-1" key={val.slno} style={{ textDecoration: 'none', color: 'var( --true-blue-600)', }}>
+                    {val.name}
+                  </Link>
+                )
+              })}   
           </Box>
         </Box>
       </CardContent>
