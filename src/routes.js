@@ -1211,7 +1211,7 @@ const routes = [
   { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> },
   { path: 'Bedcountmaster', name: 'Bedcountmaster', element: <Bedcountmaster /> },
   { path: 'BedStatusReport', name: 'BedStatusReport', element: <BedStatusReport /> },
-  { path: 'RequisitionReport', name: 'RequisitionReport', element: <RequisitionReport /> }
+  { path: 'RequisitionReport', name: 'RequisitionReport', element: <RequisitionReport /> },
   {
     path: 'collectionassignment', name: 'Collection Assignment', element:
       <KotFilterProvider>
