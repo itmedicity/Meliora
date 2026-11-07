@@ -647,7 +647,7 @@ const CrfNotification = React.lazy(() => import('./views/Master/RequestManagemen
 const CommonReport = React.lazy(() => import('./views/Report/CommonReport/CommonReport'))
 const Bedcountmaster = React.lazy(() => import('./views/Master/BedCountMaster/Bedcountmaster'))
 const BedStatusReport = React.lazy(() => import('./views/Report/CommonReport/BedStatusReport'))
-
+const RequisitionReport = React.lazy(() => import('./views/Report/CommonReport/RequisitionReport'))
 const DailyCanteenClosing = React.lazy(() => import('./views/Diet/DailyCanteenClosing/DailyCanteenClosing'))
 const CashCollection = React.lazy(() => import('./views/Diet/CashCollection/CashCollection'))
 
@@ -1211,6 +1211,7 @@ const routes = [
   { path: 'CommonReport', name: 'CommonReport', element: <CommonReport /> },
   { path: 'Bedcountmaster', name: 'Bedcountmaster', element: <Bedcountmaster /> },
   { path: 'BedStatusReport', name: 'BedStatusReport', element: <BedStatusReport /> },
+  { path: 'RequisitionReport', name: 'RequisitionReport', element: <RequisitionReport /> },
   {
     path: 'collectionassignment', name: 'Collection Assignment', element:
       <KotFilterProvider>

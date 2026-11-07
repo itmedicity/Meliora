@@ -168,16 +168,17 @@ const CommonReportTable = ({
                                     const displayVal = formatCellValue(val, col.group === 'tat')
 
                                     // Formatted badge for Bill Type
-                                    if (col.key === "BILL_TYPES" && (val === 'CASH' || val === 'CREDIT')) {
+                                    if (col.key === "BILL_TYPES" && val && String(val).trim()) {
+                                        const upperVal = String(val).trim().toUpperCase()
                                         return (
                                             <td key={col.key} style={{ textAlign: 'center' }}>
                                                 <Chip
                                                     size="sm"
                                                     variant="soft"
-                                                    color={val === 'CASH' ? 'success' : 'primary'}
+                                                    color={upperVal === 'CASH' ? 'success' : upperVal === 'CREDIT' ? 'primary' : 'neutral'}
                                                     sx={{ fontSize: '11px', fontWeight: 600, px: 1, minHeight: 20 }}
                                                 >
-                                                    {val}
+                                                    {upperVal}
                                                 </Chip>
                                             </td>
                                         )
