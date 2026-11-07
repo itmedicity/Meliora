@@ -1,0 +1,185 @@
+/* Hide the label UI normally */
+.barcode-print-container {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: 38mm 25mm landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        overflow: visible !important;
+    }
+
+    /*
+      Hide main application content.
+      The portal is appended directly to body and is re-enabled below.
+    */
+    body>* {
+        display: none !important;
+    }
+
+    /*
+      IMPORTANT:
+      Do NOT use:
+      position: fixed;
+      inset: 0;
+      height: 25mm;
+      
+      Otherwise only the first label can be visible/printed.
+    */
+    body>.barcode-print-container {
+        display: block !important;
+        position: static !important;
+
+        width: 38mm !important;
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+    }
+
+    .barcode-label {
+        width: 38mm !important;
+        min-width: 38mm !important;
+        max-width: 38mm !important;
+
+        height: 25mm !important;
+        min-height: 25mm !important;
+        max-height: 25mm !important;
+
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 1mm 1.5mm !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow: hidden !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+        text-align: center !important;
+
+        /*
+          Each .barcode-label becomes one printer label/page.
+        */
+        break-before: page !important;
+        page-break-before: always !important;
+
+        break-after: page !important;
+        page-break-after: always !important;
+
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    /*
+      The first label must not create an empty first page.
+    */
+    .barcode-label:first-child {
+        break-before: auto !important;
+        page-break-before: auto !important;
+    }
+
+    /*
+      The final label should not create an extra blank page.
+    */
+    .barcode-label:last-child {
+        break-after: auto !important;
+        page-break-after: auto !important;
+    }
+
+    .barcode-label-content {
+        width: 100% !important;
+        max-width: 35mm !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        text-align: center !important;
+    }
+
+    .label-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 1.5mm !important;
+
+        width: 100% !important;
+
+        font-size: 10px !important;
+        line-height: 11px !important;
+        font-weight: 700 !important;
+
+        white-space: nowrap !important;
+    }
+
+    .label-dot {
+        font-size: 9px !important;
+        line-height: 9px !important;
+    }
+
+    .label-packet-uid {
+        width: 100% !important;
+        margin: 1mm 0 1.25mm !important;
+
+        font-size: 17px !important;
+        line-height: 18px !important;
+        font-weight: 800 !important;
+
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .label-location {
+        width: 100% !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.4mm !important;
+    }
+
+    .label-location-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 100% !important;
+        max-width: 35mm !important;
+
+        font-size: 10px !important;
+        line-height: 11px !important;
+        font-weight: 700 !important;
+
+        white-space: nowrap !important;
+        overflow: hidden !important;
+    }
+
+    .label-location-key {
+        flex: 0 0 auto !important;
+        margin-right: 1mm !important;
+        font-weight: 800 !important;
+    }
+
+    .label-location-value {
+        min-width: 0 !important;
+
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+}

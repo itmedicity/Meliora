@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useMemo, useEffect, memo } from 'react'
 import CardMaster from 'src/views/Components/CardMaster'
-import { Box, Paper } from '@mui/material'
-import { CssVarsProvider } from '@mui/joy'
+import { Box, Button, CssVarsProvider } from '@mui/joy'
 import Typography from '@mui/joy/Typography'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { infoNotify, succesNotify } from 'src/views/Common/CommonCode'
@@ -12,7 +11,6 @@ import { format } from 'date-fns'
 import SelectDiet from '../CommonSelectCode/SelectDiet'
 import CusIconButton from '../Components/CusIconButton'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
-import Button from '@mui/material/Button'
 import RoomSelectDelivery from './RoomSelectDelivery'
 import NursingStationMeliSelect from '../CommonSelectCode/NursingStationMeliSelect'
 import ExtraRoomMeliSelect from './DietExtraOrder/ExtraRoomMeliSelect'
@@ -141,7 +139,7 @@ const DietDeliveryMark = () => {
   return (
     <CardMaster title="Diet Delivery Mark" submit={submitDelivery} refresh={refreshWindow} close={backtoSetting}>
       <Box sx={{ width: '100%', p: 1 }}>
-        <Paper square elevation={3} sx={{ p: 1 }}>
+        <Box square elevation={3} sx={{ p: 1 }}>
           <Box
             sx={{
               width: '100%',
@@ -218,10 +216,10 @@ const DietDeliveryMark = () => {
               </Box>
             )}
           </Box>
-        </Paper>
+        </Box>
         {detail !== 0 ? (
-          <Paper square elevation={3} sx={{ p: 1, mt: 0.5 }}>
-            <Paper square elevation={1} sx={{ p: 1, mb: 2 }}>
+          <Box square elevation={3} sx={{ p: 1, mt: 0.5 }}>
+            <Box square elevation={1} sx={{ p: 1, mb: 2 }}>
               <Box
                 sx={{
                   width: '100%',
@@ -257,9 +255,9 @@ const DietDeliveryMark = () => {
                   </CssVarsProvider>
                 </Box>
               </Box>
-            </Paper>
+            </Box>
             <CustomAGSelect columnDefs={column} tableData={tabledata} onSelectionChanged={onSelectionChanged} />
-          </Paper>
+          </Box>
         ) : null}
       </Box>
     </CardMaster>

@@ -1,0 +1,271 @@
+/* =========================================
+   HIDE A4 PRINT UI ON NORMAL SCREEN
+========================================= */
+
+.a4-barcode-print-container {
+    display: grid !important;
+
+    width: 190mm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #ffffff !important;
+
+    grid-template-columns: repeat(4, 38mm);
+
+    column-gap: 5mm;
+    row-gap: 5mm;
+
+    align-content: start;
+}
+
+
+/* =========================================
+   A4 PRINT
+========================================= */
+
+@media print {
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        overflow: visible !important;
+    }
+
+
+    /* Hide complete application */
+    body>* {
+        display: none !important;
+    }
+
+
+    /* Show only A4 print container */
+    body>.a4-barcode-print-container {
+        display: grid !important;
+
+        width: 190mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+
+        /*
+         * 4 labels across
+         *
+         * 4 × 38mm = 152mm
+         */
+        grid-template-columns:
+            repeat(5, 38mm);
+
+        column-gap: 2mm;
+        row-gap: 2mm;
+
+        align-content: start;
+    }
+
+
+    /* =========================================
+       SAME 38mm × 25mm LABEL
+    ========================================= */
+
+    .a4-barcode-label {
+        width: 38mm !important;
+        min-width: 38mm !important;
+        max-width: 38mm !important;
+
+        height: 25mm !important;
+        min-height: 25mm !important;
+        max-height: 25mm !important;
+
+        box-sizing: border-box !important;
+
+        margin: 0 !important;
+
+        /*
+     * Space inside the packet
+     */
+        padding: 1mm 1.5mm !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow: hidden !important;
+
+        background: #ffffff !important;
+        color: #000000 !important;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif !important;
+
+        text-align: center !important;
+
+        /*
+     * CUTTING LINE
+     */
+        border: 0.3mm dashed #999 !important;
+
+        /*
+     * Prevent packet from splitting
+     */
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+
+    /* =========================================
+       LABEL CONTENT
+    ========================================= */
+
+    .a4-barcode-label-content {
+
+        width: 100% !important;
+
+        max-width: 35mm !important;
+
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        text-align: center !important;
+    }
+
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .a4-label-header {
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        gap: 1.5mm !important;
+
+        width: 100% !important;
+
+        font-size: 10px !important;
+
+        line-height: 11px !important;
+
+        font-weight: 700 !important;
+
+        white-space: nowrap !important;
+    }
+
+
+    .a4-label-dot {
+
+        font-size: 9px !important;
+
+        line-height: 9px !important;
+    }
+
+
+    /* =========================================
+       PACKET UID
+    ========================================= */
+
+    .a4-label-packet-uid {
+
+        width: 100% !important;
+
+        margin:
+            1mm 0 1.25mm !important;
+
+        font-size: 17px !important;
+
+        line-height: 18px !important;
+
+        font-weight: 800 !important;
+
+        white-space: nowrap !important;
+
+        overflow: hidden !important;
+
+        text-overflow: ellipsis !important;
+    }
+
+
+    /* =========================================
+       LOCATION
+    ========================================= */
+
+    .a4-label-location {
+
+        width: 100% !important;
+
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        gap: 0.4mm !important;
+    }
+
+
+    .a4-label-location-row {
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        width: 100% !important;
+
+        max-width: 35mm !important;
+
+        font-size: 10px !important;
+
+        line-height: 11px !important;
+
+        font-weight: 700 !important;
+
+        white-space: nowrap !important;
+
+        overflow: hidden !important;
+    }
+
+
+    .a4-label-location-key {
+
+        flex: 0 0 auto !important;
+
+        margin-right: 1mm !important;
+
+        font-weight: 800 !important;
+    }
+
+
+    .a4-label-location-value {
+
+        min-width: 0 !important;
+
+        overflow: hidden !important;
+
+        text-overflow: ellipsis !important;
+
+        white-space: nowrap !important;
+    }
+}

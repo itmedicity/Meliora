@@ -1,55 +1,55 @@
-import React, { useEffect, memo } from 'react'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import { useDispatch, useSelector } from 'react-redux'
-import { getItemExtra } from 'src/redux/actions/ItemMasterExtra.action '
+import React, { useEffect, memo } from 'react';
+import { Box, FormControl, Select, Option } from '@mui/joy';
+import { useDispatch, useSelector } from 'react-redux';
+import { getItemExtra } from 'src/redux/actions/ItemMasterExtra.action ';
+
 
 const ItemSelectExtra = ({ value, setValue, setName }) => {
-  const dispatch = useDispatch()
-  /**getItem -state update function of reducer
-   *   itemList- initial state of reducer function
-   *itemdata is used to list select box items by using map
-   */
-  const itemdata = useSelector(state => {
-    return state.setItemExtra.itemExtraList || 0
-  })
+  const dispatch = useDispatch();
+
+  const itemdata = useSelector((state) => {
+    return state.setItemExtra.itemExtraList || [];
+  });
+
   useEffect(() => {
-    dispatch(getItemExtra())
-  }, [dispatch])
+    dispatch(getItemExtra());
+  }, [dispatch]);
 
   return (
     <Box>
-      <FormControl fullWidth size="small">
+      <FormControl size="sm" sx={{ width: '100%' }}>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           value={value}
-          onChange={(e, { props }) => {
-            setValue(e.target.value)
-            setName(props.children)
+          placeholder="Select Item"
+          onChange={(e, newValue) => {
+            setValue(newValue);
+
+            // find item name for setName
+            const selected = itemdata.find((x) => x.item_slno === newValue);
+            if (selected) {
+              setName(selected.item_name);
+            }
           }}
-          size="small"
-          fullWidth
-          variant="outlined"
-          sx={{ height: 25, p: 0, m: 0, lineHeight: 1.2 }}
+          sx={{
+            minHeight: 32,
+            p: 0,
+            m: 0,
+            fontSize: 14,
+          }}
         >
-          <MenuItem value={0} disabled>
+          <Option value={0} disabled>
             Select Item
-          </MenuItem>
-          {itemdata &&
-            itemdata.map((val, index) => {
-              return (
-                <MenuItem key={index} value={val.item_slno}>
-                  {val.item_name}
-                </MenuItem>
-              )
-            })}
+          </Option>
+
+          {itemdata?.map((val, index) => (
+            <Option key={index} value={val.item_slno}>
+              {val.item_name}
+            </Option>
+          ))}
         </Select>
       </FormControl>
     </Box>
-  )
-}
+  );
+};
 
-export default memo(ItemSelectExtra)
+export default memo(ItemSelectExtra);

@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo, useEffect, memo, useState } from 'react'
-import { Box, Paper } from '@mui/material'
-import { CssVarsProvider, Typography } from '@mui/joy'
+import { Box, CssVarsProvider, Typography } from '@mui/joy'
 import IconButton from '@mui/joy/IconButton'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { warningNotify } from 'src/views/Common/CommonCode'
 import DietprocessTable from '../Diet/DietprocessTable'
 import { format } from 'date-fns'
+
+
 const DietProcessDashCmp = () => {
   const [process, setProcess] = useState(0)
   const [newOrder, setNewOrder] = useState(0)
@@ -65,8 +66,7 @@ const DietProcessDashCmp = () => {
         width: '100%'
       }}
     >
-      <Paper
-        elevation={3}
+      <Box
         sx={{
           width: '100%',
           p: 0.5,
@@ -84,8 +84,7 @@ const DietProcessDashCmp = () => {
             mt: { xs: 1, sm: 1, lg: 1, xl: 1 }
           }}
         >
-          <Paper
-            elevation={3}
+          <Box
             sx={{
               width: '100%',
               p: 0.5,
@@ -120,7 +119,7 @@ const DietProcessDashCmp = () => {
                 </CssVarsProvider>
               </Box>
             </Box>
-          </Paper>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -131,7 +130,7 @@ const DietProcessDashCmp = () => {
             pl: { xs: 0, sm: 0, xl: 1, lg: 1, md: 1 }
           }}
         >
-          <Paper
+          <Box
             elevation={3}
             sx={{
               width: '100%',
@@ -167,11 +166,11 @@ const DietProcessDashCmp = () => {
                 </CssVarsProvider>
               </Box>
             </Box>
-          </Paper>
+          </Box>
         </Box>
-      </Paper>
+      </Box>
       {proTable === 1 ? (
-        <Paper
+        <Box
           elevation={3}
           sx={{
             width: '100%',
@@ -193,10 +192,10 @@ const DietProcessDashCmp = () => {
             dayselect={dayselect}
             setdayselect={setdayselect}
           />
-        </Paper>
+        </Box>
       ) : null}
       {newordrTable === 1 ? (
-        <Paper
+        <Box
           elevation={3}
           sx={{
             width: '100%',
@@ -218,7 +217,7 @@ const DietProcessDashCmp = () => {
             dayselect={dayselect}
             setdayselect={setdayselect}
           />
-        </Paper>
+        </Box>
       ) : null}
     </Box>
   )

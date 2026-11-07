@@ -186,8 +186,8 @@ const UserCreation = () => {
       create_user: id,
       emp_slno: em_id,
       supervisor: supervis === true ? 1 : 0,
-      department: department,
-      meldeptsec: meldeptsec
+      // department: department,
+      // meldeptsec: meldeptsec
       // comp_type_map: comTpeMap !== [] ? comTpeMap : null
     }
   }, [
@@ -210,8 +210,8 @@ const UserCreation = () => {
     deptsec,
     designation,
     em_status,
-    meldeptsec,
-    department
+    // meldeptsec,
+    // department
   ])
 
   //Update data

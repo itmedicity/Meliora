@@ -24,3 +24,19 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--rose-pink-100);
 }
+
+
+.delivery-toast {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    width: auto !important;
+    min-height: auto !important;
+}
+
+.Toastify__toast-container--top-center {
+    top: 20px !important;
+}
