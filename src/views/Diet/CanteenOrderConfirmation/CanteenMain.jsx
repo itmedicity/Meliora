@@ -1,6 +1,3 @@
-
-
-
 import React, { memo, Suspense, useMemo, useState } from 'react'
 import { Box } from '@mui/joy'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -123,9 +120,9 @@ const CanteenMain = ({
                 bgcolor: '#f6f6f6d9',
                 position: 'relative',
                 overflow: 'hidden',
+
                 borderRadius: 'md',
-            }}
-        >
+            }} >
             {
                 loading && <PizzaLoader />
             }

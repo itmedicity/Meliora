@@ -61,7 +61,7 @@ const ConsultationRequired = () => {
     const { data: TemplateFoodDetail } = useAllFetchTemplateFoodDetail(PlanId);
     const { data: FetchPlanFoodDetail = [] } = usePatientPlanFoodDetails(PlanId);
 
-    const { state } = useCanteenFilter()
+    const { state } = useCanteenFilter();
 
     const {
         bed,
@@ -69,15 +69,9 @@ const ConsultationRequired = () => {
         search
     } = state;
 
-
-
-
     const groupedData = useMemo(() => groupByDayAndType(
         templatedetail, TemplateFoodDetail, FetchPlanFoodDetail, loadingtemplate
     ), [templatedetail, TemplateFoodDetail, FetchPlanFoodDetail, loadingtemplate]);
-
-
-
 
     // Wrap in useMemo
     const filteredData = useMemo(() => {
@@ -109,6 +103,7 @@ const ConsultationRequired = () => {
 
             // BED FILTER
             if (
+
                 bed &&
                 String(item?.bed_code) !== String(bed)
             ) {

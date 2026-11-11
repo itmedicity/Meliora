@@ -21,8 +21,8 @@ const CanteenContextDrawer = ({
     setSelectedStations
 }) => {
 
-    const [search, setSearch] = useState('')
-    const { data: NURSING_STATIONS = [] } = useNursingStationMaster()
+    const [search, setSearch] = useState('');
+    const { data: NURSING_STATIONS = [] } = useNursingStationMaster();
 
     /*  FILTER */
     const filteredStations = useMemo(() => {
@@ -34,17 +34,19 @@ const CanteenContextDrawer = ({
     /*  TOGGLE SELECT */
     const handleToggle = (code) => {
         setSelectedStations(prev =>
-            prev.includes(code)
+            prev.includes(code) 
                 ? prev.filter(id => id !== code)
                 : [...prev, code]
         )
-    }
+    };
+
 
     return (
         <Box
             sx={{
                 position: 'absolute',
                 top: 0,
+
                 left: 0,
                 height: '100%',
                 width,

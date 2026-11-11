@@ -49,8 +49,7 @@ const ProcessList = () => {
     } = useAllDietProcessList(formattedDate);
 
 
-
-
+ 
     const {
         data: FinalDietNames = [],
         isLoading: isLoadingDiet,

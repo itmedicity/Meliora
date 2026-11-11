@@ -28,7 +28,7 @@ const DietInpatientMainPage = () => {
 
 
     const empsecid = useSelector(state => {
-        return state.LoginUserData.empsecid
+        return state.LoginUserData.empsecid 
     });
 
     const {
@@ -182,6 +182,7 @@ const DietInpatientMainPage = () => {
 
 
         setSelectedPatientData(item); // always set
+
         if (DietDetail?.diet_status === "ACTIVE"
             &&
             DietDetail?.diet_type === 'DIET') {
@@ -196,11 +197,14 @@ const DietInpatientMainPage = () => {
                     { template_id: DietDetail.template_id }
                 );
                 const { data, success, message } = response.data;
+
                 if (success === 0) {
                     errorNotify(message || "Error in Fetching Data");
                     return;
-                }
+                };
+
                 setTemplateDetail(data ?? []);
+                
             } catch (error) {
                 errorNotify(error?.message || "Something went wrong");
             } finally {
@@ -278,6 +282,7 @@ const DietInpatientMainPage = () => {
 
                     <InpatientFilter
                         search={search}
+
                         setSearch={setSearch}
                         nursingBed={nursingBed}
                         setNursingBed={setNursingBed}
