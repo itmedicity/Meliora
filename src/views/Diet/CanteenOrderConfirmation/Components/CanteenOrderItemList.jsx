@@ -11,6 +11,9 @@ import SaveIcon from '@mui/icons-material/Save';
 import DietButton from "../../DietComponent/DietButton";
 import { axioslogin } from "src/views/Axios/Axios";
 import { confirmNotify, errorNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
+import { keyframes } from "@mui/system";
+import CampaignIcon from '@mui/icons-material/Campaign';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const CanteenOrderItemList = ({ data = [], onRemove,
     FetcthPatienExtraOrders,
@@ -96,12 +99,28 @@ const CanteenOrderItemList = ({ data = [], onRemove,
 
     };
 
+
+
+
+    const urgentBlink = keyframes`
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.45;
+        }
+    `;
+
     return (
         <Box sx={{ maxHeight: '80%', overflowY: "auto", px: 2, width: '100%' }}>
             {items?.map((item, index) => {
 
                 const isEditing = editId === item.item_id;
                 const currentQty = qtyMap?.[item.item_id] || item.qty;
+                const IsEmergency = item?.emergency_id !== null;
+                const NotAcknowledged = item?.emergency_status === 'PENDING_ACKNOWLEDGEMENT';
+
+
                 return (
                     <Box
 
@@ -185,6 +204,34 @@ const CanteenOrderItemList = ({ data = [], onRemove,
                                             EXTRA
                                         </Box>
                                     )}
+                                    {
+                                        IsEmergency && (
+                                            <Box
+                                                sx={{
+                                                    bgcolor: NotAcknowledged ? "#ae3ce7" : "#2c5017",
+                                                    color: "#fff",
+                                                    fontSize: 10,
+                                                    p: 0.5,
+                                                    borderRadius: 50,
+                                                    fontWeight: 600,
+                                                    animation: `${urgentBlink} 1.5s infinite`,
+                                                }}>
+                                                {NotAcknowledged ? <CampaignIcon
+                                                    sx={{
+                                                        fontSize: '20px !important',
+                                                        color: '#fff !important',
+                                                    }}
+                                                /> : <AssignmentTurnedInIcon
+                                                    sx={{
+                                                        fontSize: '20px !important',
+                                                        color: '#fff !important',
+                                                    }}
+                                                />}
+
+                                            </Box>
+
+                                        )
+                                    }
 
                                 </Box>
 

@@ -1,6 +1,6 @@
 import React, { } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { Box, Paper, Checkbox, Chip, Tooltip } from '@mui/material'
+import { Box, Paper, Checkbox, Chip, Tooltip, Typography } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DietButton from '../../DietComponent/DietButton'
@@ -8,6 +8,11 @@ import DietTextComponent from '../../DietComponent/DietTextComponent'
 import { format } from 'date-fns'
 import { useFetchProductionMap } from '../../CommonData/UseQuery'
 import { PatientstatusConfig } from '../../CommonData/Common'
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import FontDownloadOffIcon from '@mui/icons-material/FontDownloadOff';
+import { keyframes } from "@mui/system";
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+
 
 const Cell = ({ width, children }) => (
     <Box sx={{ width, display: 'flex', alignItems: 'center' }}>
@@ -24,10 +29,13 @@ const CanteenTable = ({
     activeTab,
 }) => {
 
+
+
     const isCheckMode = activeTab === "CONFIRMED";
 
     const { data: ProductionMapDetail = [] } =
         useFetchProductionMap(isCheckMode);
+
 
     const mappedOrderIds = new Set(
         ProductionMapDetail?.map(item => item.canteen_order_id)
@@ -74,6 +82,14 @@ const CanteenTable = ({
 
     const sortedData = [...data].sort((a, b) => {
 
+        // Urgent orders first
+        const aUrgent = Number(a.is_urgent) === 1;
+        const bUrgent = Number(b.is_urgent) === 1;
+
+        if (aUrgent !== bUrgent) {
+            return aUrgent ? -1 : 1;
+        }
+
         const aMapped = mappedOrderIds.has(a.canteen_order_id);
         const bMapped = mappedOrderIds.has(b.canteen_order_id);
 
@@ -85,6 +101,27 @@ const CanteenTable = ({
         return new Date(a.order_time) - new Date(b.order_time);
     });
 
+
+    const urgentPulse = keyframes`
+    0% {
+        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.25);
+    }
+    70% {
+        box-shadow: 0 0 0 5px rgba(211, 47, 47, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
+    }
+`;
+
+    const urgentBlink = keyframes`
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.45;
+    }
+`;
 
     return (
         <Paper sx={{ width: '100%' }}>
@@ -119,6 +156,7 @@ const CanteenTable = ({
                 )}
 
                 {[
+                    ['Sl.No', 60],
                     ['Order ID', 120],
                     ['Admission', 120],
                     ['MRD', 120],
@@ -126,6 +164,7 @@ const CanteenTable = ({
                     ['Type', 120],
                     ['Room', 100],
                     ['NS', 120],
+                    ['Remark', 80],
                     ['Patient Status', 120],
                     ['Time', 180],
                     ['Order', 100],
@@ -148,6 +187,10 @@ const CanteenTable = ({
                     const isMapped = mappedOrderIds.has(rowId);
                     const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
 
+                    const Remarks = `${(row?.canteen_remarks || "") + (row?.diet_remarks || "")}`
+
+                    const isUrgent = Number(row?.is_urgent) === 1;
+
                     return (
                         <Box
                             key={`${getRowId(row)}_${index + 1}`}
@@ -155,15 +198,33 @@ const CanteenTable = ({
                             justifyContent="space-between"
                             sx={{
                                 borderBottom: '1px solid lightgrey',
+                                borderLeft: isUrgent
+                                    ? '4px solid #d32f2f'
+                                    : '4px solid transparent',
+
                                 px: 1,
                                 py: 0.5,
-                                bgcolor: isMapped
-                                    ? '#ececec'
-                                    : selectedRows.includes(rowId)
-                                        ? '#f5edff'
-                                        : '#fff',
+
+                                bgcolor: isUrgent
+                                    ? '#fff1f0'
+                                    : isMapped
+                                        ? '#ececec'
+                                        : selectedRows.includes(rowId)
+                                            ? '#f5edff'
+                                            : '#fff',
+
                                 opacity: isMapped ? 0.7 : 1,
-                                pointerEvents: isMapped ? 'none' : 'auto'
+                                pointerEvents: isMapped ? 'none' : 'auto',
+
+                                transition: 'background-color 0.3s ease, border-color 0.3s ease',
+
+                                ...(isUrgent && {
+                                    animation: `${urgentPulse} 2s infinite`,
+                                }),
+
+                                '&:hover': {
+                                    bgcolor: isUrgent ? '#ffe4e1' : '#f7f4fa',
+                                },
                             }}
                         >
                             {/* ROW CHECKBOX */}
@@ -177,11 +238,51 @@ const CanteenTable = ({
                                     />
                                 </Cell>
                             )}
-
-                            <Cell width={120}>
-                                <DietTextComponent value={row?.canteen_order_id} size={12} />
+                            <Cell width={60}>
+                                <DietTextComponent value={index + 1} size={12} />
                             </Cell>
 
+                            <Cell width={140}>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={0.7}
+                                >
+                                    <DietTextComponent
+                                        value={`CAN-${String(row?.canteen_order_id || 0).padStart(6, "0")}`}
+                                        size={12}
+                                        weight={700}
+                                    />
+
+                                    {isUrgent && (
+                                        <Chip
+                                            icon={
+                                                <WarningAmberRoundedIcon
+                                                    sx={{
+                                                        fontSize: '14px !important',
+                                                        color: '#fff !important',
+                                                    }}
+                                                />
+                                            }
+                                            label=""
+                                            size="small"
+                                            sx={{
+                                                height: 21,
+                                                borderRadius: '5px',
+                                                bgcolor: '#d32f2f',
+                                                color: '#fff',
+                                                fontSize: 9,
+                                                fontWeight: 800,
+                                                letterSpacing: 0.4,
+                                                animation: `${urgentBlink} 1.5s infinite`,
+                                                '& .MuiChip-label': {
+                                                    px: 0.5,
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                </Box>
+                            </Cell>
                             <Cell width={120}>
                                 <DietTextComponent value={row?.admission_id} size={12} />
                             </Cell>
@@ -200,6 +301,37 @@ const CanteenTable = ({
 
                             <Cell width={120}>
                                 <DietTextComponent value={row?.fb_ns_name} size={12} />
+                            </Cell>
+                            <Cell width={80}>
+                                <Tooltip sx={{
+                                    fontSize: 20
+                                }} title={<React.Fragment>
+                                    <Typography
+                                        sx={{
+                                            fontSize: 16,
+                                            fontWeight: 800,
+                                            color: 'inherit',
+                                            fontFamily: 'Bahnschrift',
+                                        }}
+                                    >
+                                        {Remarks}
+                                    </Typography>
+
+                                </React.Fragment>}
+                                    placement='left-start'>
+                                    {
+                                        Remarks?.trim() !== "" ? (<TextSnippetIcon sx={{
+                                            fontSize: 18,
+                                            cursor: 'pointer',
+                                            color: "#3b1263"
+                                        }} />) : (<FontDownloadOffIcon sx={{
+                                            fontSize: 18,
+                                            color: "#696072"
+                                            // cursor: 'pointer'
+                                        }} />)
+                                    }
+
+                                </Tooltip>
                             </Cell>
 
                             <Cell width={120}>
@@ -238,7 +370,7 @@ const CanteenTable = ({
                                     </Tooltip>
                                 </Box>
                             </Cell>
-                            
+
                             <Cell width={180}>
                                 <DietTextComponent
                                     value={

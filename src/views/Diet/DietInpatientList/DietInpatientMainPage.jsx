@@ -19,7 +19,7 @@ import InpatientDietTab from './DietInpatientComponents/InpatientDietTab'
 import { useSelector } from 'react-redux'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from 'src/NotFound/ErrorFallback'
-import NsStationError from './DietInpatientComponents/Component/NsStationError'
+// import NsStationError from './DietInpatientComponents/Component/NsStationError'
 import DietRoomServiceLoading from './DietInpatientComponents/Component/DietRoomServiceLoading'
 import DietRoomServiceError from './DietInpatientComponents/Component/DietRoomServiceError'
 import NoPatientFound from './DietInpatientComponents/Component/NoPatientFound'
@@ -28,7 +28,7 @@ const DietInpatientMainPage = () => {
 
 
     const empsecid = useSelector(state => {
-        return state.LoginUserData.empsecid
+        return state.LoginUserData.empsecid 
     });
 
     const {
@@ -38,30 +38,31 @@ const DietInpatientMainPage = () => {
         error: nsErrorMessage
     } = useLoggedEMployeeNsStation(empsecid);
 
-    const {
-        data: allPatientDiet = [],
-        refetch: FetchPatientDietPlan,
-        isLoading: dietLoading,
-        isError: dietError,
-        error: dietErrorMessage
-    } = useAllPatientDietPlan(NsCode);
-
-
-
-    const formattedPatients = formatPatientDietData(allPatientDiet);
 
 
     const [search, setSearch] = useState('')
     const [nursingBed, setNursingBed] = useState(null)
     const [dietPatient, setDietPatient] = useState(null)
     const [dietName, setDietName] = useState(null);
-
+    const [nursingStation, setNursingStation] = useState("");
 
     const [deitPlanOpen, setDeitPlanOpen] = useState(false);
     const [templatedetail, setTemplateDetail] = useState([]);
     const [loadingtemplate, setLoadingTemplate] = useState(false);
     const [selectedPatientData, setSelectedPatientData] = useState([])
-    const [activeStatus, setActiveStatus] = useState('NOTPLANNED')
+    const [activeStatus, setActiveStatus] = useState('NOTPLANNED');
+
+    const {
+        data: allPatientDiet = [],
+        refetch: FetchPatientDietPlan,
+        isLoading: dietLoading,
+        isError: dietError,
+        error: dietErrorMessage
+    } = useAllPatientDietPlan(NsCode || nursingStation);
+
+
+
+    const formattedPatients = formatPatientDietData(allPatientDiet);
 
     const filteredPatients = useMemo(() => {
 
@@ -181,6 +182,7 @@ const DietInpatientMainPage = () => {
 
 
         setSelectedPatientData(item); // always set
+
         if (DietDetail?.diet_status === "ACTIVE"
             &&
             DietDetail?.diet_type === 'DIET') {
@@ -195,11 +197,14 @@ const DietInpatientMainPage = () => {
                     { template_id: DietDetail.template_id }
                 );
                 const { data, success, message } = response.data;
+
                 if (success === 0) {
                     errorNotify(message || "Error in Fetching Data");
                     return;
-                }
+                };
+
                 setTemplateDetail(data ?? []);
+                
             } catch (error) {
                 errorNotify(error?.message || "Something went wrong");
             } finally {
@@ -218,7 +223,7 @@ const DietInpatientMainPage = () => {
 
     const isPageLoading = nsLoading || (!!NsCode && dietLoading);
 
-    if (!nsLoading && (!NsCode || (Array.isArray(NsCode) && NsCode.length === 0))) return <NsStationError />;
+
 
     if (isPageLoading) return <DietRoomServiceLoading />;
 
@@ -277,6 +282,7 @@ const DietInpatientMainPage = () => {
 
                     <InpatientFilter
                         search={search}
+
                         setSearch={setSearch}
                         nursingBed={nursingBed}
                         setNursingBed={setNursingBed}
@@ -286,6 +292,9 @@ const DietInpatientMainPage = () => {
                         setDietName={setDietName}
                         selectedStations={"W005"}
                         FilteredPatientDetail={formattedPatients}
+                        setNursingStation={setNursingStation}
+                        nursingStation={nursingStation}
+
                     />
                     <InpatientDietTab
                         patientList={formattedPatients}
@@ -315,7 +324,7 @@ const DietInpatientMainPage = () => {
 
                     {
                         filteredPatients?.length > 0 ? (
-                            filteredPatients.map((patient) => (
+                            filteredPatients?.map((patient) => (
                                 <PatientCard
                                     key={patient.dietpt_slno}
                                     patient={patient}

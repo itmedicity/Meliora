@@ -166,7 +166,7 @@ const TicketManagementCmDeptMain = () => {
   //   };
   // }, []);
 
-  
+
 
   return (
     <Box
@@ -215,7 +215,7 @@ const TicketManagementCmDeptMain = () => {
         <Box>{menurights.find(menu => menu.slno === 247)?.component || null}</Box>
       </Box>
       {/* </CssVarsProvider> */}
-      <FloatingChatWidget/>
+      <FloatingChatWidget />
     </Box>
   )
 }

@@ -123,7 +123,6 @@ const KotPreparationDelivery = () => {
         FinalDeliveryOrderDetail
     ]);
 
-
     const {
         ptsearch,
         dietName,
@@ -162,7 +161,7 @@ const KotPreparationDelivery = () => {
             */
             const searchMatch =
                 !searchValue ||
-                pt.ptc_ptname?.toLowerCase().includes(searchValue) ||
+                pt.fb_ptc_name?.toLowerCase().includes(searchValue) ||
                 pt.fb_pt_no?.toLowerCase().includes(searchValue);
 
             /*

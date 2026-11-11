@@ -1166,7 +1166,10 @@ const routes = [
   {
     path: 'dietpatients',
     name: 'Patient Assign',
-    element: <ConsultationRequired />
+    element:
+      (<CanteenFilterProvider>
+        <ConsultationRequired />
+      </CanteenFilterProvider>)
   },
   {
     path: 'dietpos',
