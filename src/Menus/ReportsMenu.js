@@ -70,3 +70,4 @@ export const dc_one = [{ to: '/Home/DcReport', name: 'Daily Census Report', slno
 
 export const common_one = [{ to: '/Home/CommonReport', name: 'Discharge TAT Report', slno: 371 }]
 export const common_two = [{ to: '/Home/BedStatusReport', name: 'Bed Status Report', slno: 373 }]
+export const common_three = [{ to: '/Home/RequisitionReport', name: 'Requisition Report', slno: 382 }]

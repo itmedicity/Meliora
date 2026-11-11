@@ -17,6 +17,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import ClearIcon from '@mui/icons-material/Clear'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import PaymentsIcon from '@mui/icons-material/Payments'
 import moment from 'moment'
 
 const CommonReportToolbar = ({
@@ -29,15 +30,20 @@ const CommonReportToolbar = ({
     tableDataLength,
     filteredDataLength,
     onExportClick,
+    showExport = true,
     selectedDepartment,
     setSelectedDepartment,
     departmentList,
+    selectedBillType,
+    setSelectedBillType,
+    billTypeList = [],
     excludeOncology,
     setExcludeOncology,
     excludeObservation,
     setExcludeObservation,
     onlyWithDischargeAnnounced,
     setOnlyWithDischargeAnnounced,
+    showDischargeAnnounced = true,
     searchTerm,
     setSearchTerm
 }) => {
@@ -152,25 +158,27 @@ const CommonReportToolbar = ({
                         </Chip>
                     )}
 
-                    <Button
-                        size="sm"
-                        variant="outlined"
-                        color="success"
-                        onClick={onExportClick}
-                        disabled={filteredDataLength === 0}
-                        startDecorator={<DownloadIcon />}
-                        sx={{
-                            height: 36,
-                            px: 2,
-                            borderRadius: '6px',
-                            fontWeight: 600,
-                            borderColor: '#16a34a',
-                            color: '#16a34a',
-                            '&:hover': { bgcolor: '#f0fdf4', borderColor: '#15803d' }
-                        }}
-                    >
-                        Export Excel
-                    </Button>
+                    {showExport && Boolean(onExportClick) && (
+                        <Button
+                            size="sm"
+                            variant="outlined"
+                            color="success"
+                            onClick={onExportClick}
+                            disabled={filteredDataLength === 0}
+                            startDecorator={<DownloadIcon />}
+                            sx={{
+                                height: 36,
+                                px: 2,
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                borderColor: '#16a34a',
+                                color: '#16a34a',
+                                '&:hover': { bgcolor: '#f0fdf4', borderColor: '#15803d' }
+                            }}
+                        >
+                            Export Excel
+                        </Button>
+                    )}
                 </Box>
             </Box>
 
@@ -187,7 +195,7 @@ const CommonReportToolbar = ({
                 }}
             >
                 {/* 1) DEPARTMENT SELECTOR */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 260 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 240 }}>
                     <Typography level="body-xs" sx={{ fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                         Dept
                     </Typography>
@@ -217,7 +225,38 @@ const CommonReportToolbar = ({
                     </CssVarsProvider>
                 </Box>
 
-                {/* 2) WITHOUT ONCOLOGY DAY CARE TOGGLE PILL */}
+                {/* 2) BILL TYPE SELECTOR */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 190 }}>
+                    <Typography level="body-xs" sx={{ fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                        Bill Type
+                    </Typography>
+                    <CssVarsProvider>
+                        <Select
+                            size="sm"
+                            value={selectedBillType}
+                            onChange={(e, newValue) => setSelectedBillType(newValue || 'ALL')}
+                            placeholder="All Bill Types"
+                            disabled={!hasData}
+                            startDecorator={<PaymentsIcon sx={{ color: '#4f46e5', fontSize: 18 }} />}
+                            sx={{
+                                flex: 1,
+                                height: 36,
+                                borderRadius: '6px',
+                                fontSize: '13px',
+                                fontWeight: 500
+                            }}
+                        >
+                            <Option value="ALL">All Bill Types</Option>
+                            {billTypeList.map(type => (
+                                <Option key={type} value={type}>
+                                    {type}
+                                </Option>
+                            ))}
+                        </Select>
+                    </CssVarsProvider>
+                </Box>
+
+                {/* 3) WITHOUT ONCOLOGY DAY CARE TOGGLE PILL */}
                 <Box
                     onClick={() => hasData && setExcludeOncology(!excludeOncology)}
                     sx={{
@@ -262,7 +301,7 @@ const CommonReportToolbar = ({
                     </Typography>
                 </Box>
 
-                {/* 3) WITHOUT OBSERVATION (ADMISSION REASON) TOGGLE PILL */}
+                {/* 4) WITHOUT OBSERVATION (ADMISSION REASON) TOGGLE PILL */}
                 <Box
                     onClick={() => hasData && setExcludeObservation(!excludeObservation)}
                     title="Exclude patients with Admission Reason as Observation"
@@ -308,52 +347,54 @@ const CommonReportToolbar = ({
                     </Typography>
                 </Box>
 
-                {/* 4) DISCHARGE ANNOUNCED ONLY TOGGLE PILL */}
-                <Box
-                    onClick={() => hasData && setOnlyWithDischargeAnnounced(!onlyWithDischargeAnnounced)}
-                    sx={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 1,
-                        px: 1.5,
-                        height: 36,
-                        borderRadius: '6px',
-                        cursor: hasData ? 'pointer' : 'default',
-                        opacity: hasData ? 1 : 0.6,
-                        userSelect: 'none',
-                        border: '1px solid',
-                        borderColor: onlyWithDischargeAnnounced ? '#3b82f6' : '#cbd5e1',
-                        bgcolor: onlyWithDischargeAnnounced ? '#eff6ff' : '#f8fafc',
-                        transition: 'all 0.2s ease',
-                        '&:hover': hasData ? {
-                            borderColor: '#3b82f6',
-                            bgcolor: '#f0f7ff'
-                        } : {}
-                    }}
-                >
-                    <CssVarsProvider>
-                        <Checkbox
-                            size="sm"
-                            color="primary"
-                            checked={onlyWithDischargeAnnounced}
-                            onChange={e => setOnlyWithDischargeAnnounced(e.target.checked)}
-                            disabled={!hasData}
-                            sx={{ pointerEvents: 'none' }}
-                        />
-                    </CssVarsProvider>
-                    <Typography
-                        level="body-xs"
+                {/* 5) DISCHARGE ANNOUNCED ONLY TOGGLE PILL */}
+                {showDischargeAnnounced && Boolean(setOnlyWithDischargeAnnounced) && (
+                    <Box
+                        onClick={() => hasData && setOnlyWithDischargeAnnounced(!onlyWithDischargeAnnounced)}
                         sx={{
-                            fontWeight: 600,
-                            fontSize: '12.5px',
-                            color: onlyWithDischargeAnnounced ? '#1d4ed8' : '#334155'
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            px: 1.5,
+                            height: 36,
+                            borderRadius: '6px',
+                            cursor: hasData ? 'pointer' : 'default',
+                            opacity: hasData ? 1 : 0.6,
+                            userSelect: 'none',
+                            border: '1px solid',
+                            borderColor: onlyWithDischargeAnnounced ? '#3b82f6' : '#cbd5e1',
+                            bgcolor: onlyWithDischargeAnnounced ? '#eff6ff' : '#f8fafc',
+                            transition: 'all 0.2s ease',
+                            '&:hover': hasData ? {
+                                borderColor: '#3b82f6',
+                                bgcolor: '#f0f7ff'
+                            } : {}
                         }}
                     >
-                        Discharge Announced Only
-                    </Typography>
-                </Box>
+                        <CssVarsProvider>
+                            <Checkbox
+                                size="sm"
+                                color="primary"
+                                checked={onlyWithDischargeAnnounced}
+                                onChange={e => setOnlyWithDischargeAnnounced(e.target.checked)}
+                                disabled={!hasData}
+                                sx={{ pointerEvents: 'none' }}
+                            />
+                        </CssVarsProvider>
+                        <Typography
+                            level="body-xs"
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '12.5px',
+                                color: onlyWithDischargeAnnounced ? '#1d4ed8' : '#334155'
+                            }}
+                        >
+                            Discharge Announced Only
+                        </Typography>
+                    </Box>
+                )}
 
-                {/* 5) REAL-TIME SEARCH KEYWORD FILTER */}
+                {/* 6) REAL-TIME SEARCH KEYWORD FILTER */}
                 <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 260, ml: 'auto' }}>
                     <CssVarsProvider>
                         <Input
