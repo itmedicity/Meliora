@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
+import * as XLSX from 'xlsx'
 import CardMasterClose from 'src/views/Components/CardMasterClose'
 import { axiosellider } from 'src/views/Axios/Axios'
-import { infoNotify } from 'src/views/Common/CommonCode'
+import { infoNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { columns, formatCellValue } from './CommonReportColumns'
 import CommonReportToolbar from './CommonReportToolbar'
 import CommonReportTable from './CommonReportTable'
@@ -192,6 +193,12 @@ const RequisitionReport = () => {
                                 }
                             }
 
+                            // Recalculate or fallback TAT: Announce -> Disch Bill if missing
+                            if (item.DIS_ANNOUNCED && item.BILL_DATE && (!item.TAT_ANOUN_TODISBILL || item.TAT_ANOUN_TODISBILL === '::' || item.TAT_ANOUN_TODISBILL === '-')) {
+                                const tat = computeTatString(item.DIS_ANNOUNCED, item.BILL_DATE)
+                                if (tat) item.TAT_ANOUN_TODISBILL = tat
+                            }
+
                             // Merge bed cleaning details by BED_NO
                             const bedKey = item.BED_NO ? String(item.BED_NO).trim().toUpperCase() : null
                             if (bedKey && bedCleaningMap.has(bedKey)) {
@@ -321,13 +328,43 @@ const RequisitionReport = () => {
                     (row.DISCHARGE_STATUS && String(row.DISCHARGE_STATUS).toLowerCase().includes(term)) ||
                     (row.CLN_REQ && String(row.CLN_REQ).toLowerCase().includes(term)) ||
                     (row.CLN_COMPLETED && String(row.CLN_COMPLETED).toLowerCase().includes(term)) ||
-                    (row.TAT_CL_REW_CL_COMP && String(row.TAT_CL_REW_CL_COMP).toLowerCase().includes(term))
+                    (row.TAT_CL_REW_CL_COMP && String(row.TAT_CL_REW_CL_COMP).toLowerCase().includes(term)) ||
+                    (row.TAT_ANOUN_TODISBILL && String(row.TAT_ANOUN_TODISBILL).toLowerCase().includes(term))
                 )
             })
         }
 
         return result
     }, [tableData, selectedDepartment, selectedBillType, excludeOncology, excludeObservation, searchTerm])
+
+    // Excel export handler
+    const onExportClick = useCallback(() => {
+        if (!filteredData || filteredData.length === 0) {
+            warningNotify("No data available to export")
+            return
+        }
+
+        const exportRows = filteredData.map((item, index) => {
+            const row = {}
+            columns.forEach(col => {
+                let val = item[col.key]
+                if (col.key === "SLNO") {
+                    val = index + 1
+                }
+                row[col.label] = formatCellValue(val, col.group === 'tat')
+            })
+            return row
+        })
+
+        const worksheet = XLSX.utils.json_to_sheet(exportRows)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Requisition Report")
+        const deptSuffix = selectedDepartment && selectedDepartment !== 'ALL' ? `_${selectedDepartment.replace(/[^a-zA-Z0-9]/g, '_')}` : ''
+        const billTypeSuffix = selectedBillType && selectedBillType !== 'ALL' ? `_${selectedBillType}` : ''
+        const oncologySuffix = excludeOncology ? '_without_Oncology' : ''
+        const observationSuffix = excludeObservation ? '_without_Observation' : ''
+        XLSX.writeFile(workbook, `Discharge_Requisition_Report_${dailyDateFrom}_to_${dailyDateTo}${deptSuffix}${billTypeSuffix}${oncologySuffix}${observationSuffix}.xlsx`)
+    }, [filteredData, dailyDateFrom, dailyDateTo, selectedDepartment, selectedBillType, excludeOncology, excludeObservation])
 
     return (
         <CardMasterClose title=" DISCHARGE REQUISITION REPORT" close={backToSetting}>
@@ -340,7 +377,8 @@ const RequisitionReport = () => {
                 loading={loading}
                 tableDataLength={tableData.length}
                 filteredDataLength={filteredData.length}
-                showExport={false}
+                onExportClick={onExportClick}
+                showExport={true}
                 selectedDepartment={selectedDepartment}
                 setSelectedDepartment={setSelectedDepartment}
                 departmentList={departmentList}

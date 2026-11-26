@@ -194,6 +194,12 @@ const CommonReport = () => {
                                 }
                             }
 
+                            // Recalculate or fallback TAT: Announce -> Disch Bill if missing
+                            if (item.DIS_ANNOUNCED && item.BILL_DATE && (!item.TAT_ANOUN_TODISBILL || item.TAT_ANOUN_TODISBILL === '::' || item.TAT_ANOUN_TODISBILL === '-')) {
+                                const tat = computeTatString(item.DIS_ANNOUNCED, item.BILL_DATE)
+                                if (tat) item.TAT_ANOUN_TODISBILL = tat
+                            }
+
                             // Merge bed cleaning details by BED_NO
                             const bedKey = item.BED_NO ? String(item.BED_NO).trim().toUpperCase() : null
                             if (bedKey && bedCleaningMap.has(bedKey)) {
@@ -334,7 +340,8 @@ const CommonReport = () => {
                     (row.DISCHARGE_STATUS && String(row.DISCHARGE_STATUS).toLowerCase().includes(term)) ||
                     (row.CLN_REQ && String(row.CLN_REQ).toLowerCase().includes(term)) ||
                     (row.CLN_COMPLETED && String(row.CLN_COMPLETED).toLowerCase().includes(term)) ||
-                    (row.TAT_CL_REW_CL_COMP && String(row.TAT_CL_REW_CL_COMP).toLowerCase().includes(term))
+                    (row.TAT_CL_REW_CL_COMP && String(row.TAT_CL_REW_CL_COMP).toLowerCase().includes(term)) ||
+                    (row.TAT_ANOUN_TODISBILL && String(row.TAT_ANOUN_TODISBILL).toLowerCase().includes(term))
                 )
             })
         }
