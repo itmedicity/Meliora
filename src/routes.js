@@ -650,7 +650,8 @@ const BedStatusReport = React.lazy(() => import('./views/Report/CommonReport/Bed
 const RequisitionReport = React.lazy(() => import('./views/Report/CommonReport/RequisitionReport'))
 const DailyCanteenClosing = React.lazy(() => import('./views/Diet/DailyCanteenClosing/DailyCanteenClosing'))
 const CashCollection = React.lazy(() => import('./views/Diet/CashCollection/CashCollection'))
-
+const WaitngTimeReport = React.lazy(() => import('./views/Report/CommonReport/WaitingReport'))
+const IcuReadmissionReport = React.lazy(() => import('./views/Report/CommonReport/IcuReadmission'))
 
 
 
@@ -1218,7 +1219,8 @@ const routes = [
         <CashCollection />
       </KotFilterProvider>
   },
-
+  { path: 'WaitngTimeReport', name: 'WaitngTimeReport', element: <WaitngTimeReport /> },
+  { path: 'IcuReadmissionReport', name: 'IcuReadmissionReport', element: <IcuReadmissionReport /> },
 ]
 
 

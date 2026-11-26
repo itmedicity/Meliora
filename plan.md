@@ -1,3 +1,87 @@
+# Meliora & HIS API - Recent Updates & Feature Implementation Log
+
+## ICU Readmission Within 48 Hours Report — `/Home/IcuReadmissionReport`
+**Date:** November 20, 2026  
+**Module:** Common Reports (Quality Indicators & Inpatient Tracking)  
+**Author / Tracked By:** Engineering Team  
+
+---
+
+### Overview
+Implemented the **ICU Readmission Within 48 Hours Report** matching the modular architecture and design pattern of `WaitingReport`. This report tracks inpatients who were transferred out / released from the Intensive Care Unit (ICU) and subsequently readmitted into an ICU within 48 hours—a critical NABH / JCI hospital quality indicator.
+
+The report provides comprehensive filtering by **Doctor Name** and **Department**, live multi-field text search, rich KPI summary cards, color-coded urgency chips (≤ 24 hours vs 24–48 hours), and complete **Excel export** with calculated averages and summary metrics.
+
+---
+
+### Key Changes & Implementation Details
+
+#### 1. Backend Service & SQL Optimization
+- **File:** `His_Api_Clone/api/SupplierDetails/supplier.service.js`
+- **Endpoint:** `POST /supplierList/icureadmissionReport` (via `supplier.router.js` & `supplier.controller.js`)
+- **SQL Query & Logic Adjustments:**
+  - **Added Columns:** Joined `NURSTATION N` and `BED B` to fetch `N.NSC_DESC` (Nurse Station / ICU Ward) and `B.BDC_NO` (Bed No).
+  - **Hours Calculation:** Difference calculation from days to hours:
+    ```sql
+    ROUND((NEXT_ICU_OCCUPANCY - RMD_RELESEDATE) * 48, 2) AS HOURS_TO_READMIT
+    ```
+  - **Date Range Support:** Bound dynamic `:FROM_DATE` (`dd/MM/yyyy 00:00:00`) and `:TO_DATE` (`dd/MM/yyyy 23:59:59`) parameters:
+    ```sql
+    AND RMD_RELESEDATE >= to_date(:FROM_DATE, 'dd/MM/yyyy hh24:mi:ss')
+    AND RMD_RELESEDATE <= to_date(:TO_DATE, 'dd/MM/yyyy hh24:mi:ss')
+    ```
+  - **Deduplication:** Added unique key deduplication using `IP_NO` and `ICU_RELEASE_TIME`:
+    ```javascript
+    const key = row.IP_NO && row.ICU_RELEASE_TIME ? `${row.IP_NO}_${row.ICU_RELEASE_TIME}_${row.READMIT_TIME || ''}` : null;
+    ```
+
+#### 2. Frontend Module Structure (`src/views/Report/CommonReport/`)
+
+```
+src/views/Report/CommonReport/
+├── IcuReadmissionColumns.js    # Column schema, Malayalam & English tooltips, duration helpers & KPI stats calculator
+├── IcuReadmissionToolbar.jsx   # Date pickers, search button, Dept & Doctor dropdowns, live search, Excel export & KPI banner
+├── IcuReadmissionTable.jsx     # Joy UI Table, sticky headers, group color coding, urgency chips & summary footer
+└── IcuReadmission.jsx          # Main container: State, API fetch, multi-level filtering & Excel export
+```
+
+#### 3. Component Details
+- **`IcuReadmissionColumns.js`**:
+  - Defined 13 columns: `Sl No`, `IP No`, `Patient / OP No`, `Patient Name`, `Department`, `Doctor Name`, `Nurse Station / ICU` (`NSC_DESC`), `Bed No` (`BDC_NO`), `ICU Admission Time`, `ICU Transfer Out Time`, `ICU Readmission Time`, `Hours to Readmit`, and `Readmission Window`.
+  - Added bilingual Malayalam & English tooltips explaining each clinical column.
+  - Exported `computeReadmitDuration()` to compute human-readable duration strings (e.g. `14h 30m`).
+  - Exported `calculateIcuReadmissionStats()` to compute overall and filtered metrics: average readmission hours, shortest readmission time, and count / percentage breakdown for `≤ 24 Hours` vs `24–48 Hours`.
+- **`IcuReadmissionToolbar.jsx`**:
+  - Date inputs (`dailyDateFrom`, `dailyDateTo`) with calendar icons.
+  - Primary **Search Report** button with loading spinner.
+  - **Department Selector**: Populated dynamically from distinct departments present in fetched data.
+  - **Doctor Selector**: Scoped dynamically to the selected department or across all doctors.
+  - **Live Search**: Instant text search filter across all patient, admission, and clinical fields (including Nurse Station and Bed No).
+  - **KPI Summary Banner**: Real-time display showing Average Time to Readmit, Total Evaluated Patients, Readmissions within 24h, and Readmissions between 24–48h.
+- **`IcuReadmissionTable.jsx`**:
+  - Sticky header with semantic group background tints (neutral, timestamp blue, duration purple, status orange).
+  - Color-coded badges for readmission urgency:
+    - **`≤ 24 Hours`**: High risk / critical priority (Red chip).
+    - **`24 - 48 Hours`**: Monitored interval (Orange chip).
+  - Sticky footer displaying Average ICU Readmission Time and total patient count (`colSpan={11}`).
+- **`IcuReadmission.jsx`**:
+  - Integrates with `CardMasterClose` with navigation back to `/Home/Reports`.
+  - Connects to `/supplierList/icureadmissionReport`.
+  - Implements **Excel Download** via `xlsx` library with `NSC_DESC` and `BDC_NO` columns included in both data rows and the summary footer row.
+
+#### 4. Navigation & Routing
+- **Route:** Registered in `src/routes.js`:
+  ```javascript
+  const IcuReadmissionReport = React.lazy(() => import('./views/Report/CommonReport/IcuReadmission'))
+  { path: 'IcuReadmissionReport', name: 'IcuReadmissionReport', element: <IcuReadmissionReport /> },
+  ```
+- **Menu Entry:** Registered in `src/Menus/ReportsMenu.js` (`common_two`, `slno: 384`):
+  ```javascript
+  { to: '/Home/IcuReadmissionReport', name: 'ICU Readmission Report', slno: 384 }
+  ```
+
+---
+
 ## Previous Updates
 ### Common Report (Discharge TAT) — `/Home/CommonReport`
 **Date:** September 17, 2026  
@@ -6,6 +90,42 @@
 ---
 
 This section details the updates and architectural enhancements made to the **Meliora** application on **September 17, 2026**, specifically within the **Common Report (Discharge TAT)** module.
+
+---
+
+## Common Report & Requisition Report — New Column: "TAT: Announce → Disch Bill" & Requisition Excel Export
+*Released: November 21, 2026*
+
+### Overview
+Added the turnaround time (TAT) metric column, **`TAT_ANOUN_TODISBILL`** ("TAT: Announce → Disch Bill"), across both the **Discharge TAT Report** (`/Home/CommonReport`) and the **Discharge Requisition Report** (`/Home/RequisitionReport`). In addition, enabled full **Excel Download** capability in `RequisitionReport.jsx` with formatted durations and filter-aware filenames.
+
+### Key Changes
+- **Backend Query (`supplier.service.js`)**:
+  - In `getCommonReport` and `getrequisitionCommonReport`, added and corrected `TAT_ANOUN_TODISBILL`:
+    ```sql
+    -- 8. TAT_ANOUN_TODISBILL
+    CASE 
+        WHEN DD.REQ_DATE IS NULL OR I.DMD_DATE IS NULL THEN NULL
+        ELSE 
+            CASE WHEN I.DMD_DATE < DD.REQ_DATE THEN '-' ELSE '' END ||
+            CASE WHEN TRUNC(ABS(ROUND((I.DMD_DATE - DD.REQ_DATE) * 86400)) / 3600) < 10 THEN '0' ELSE '' END ||
+            TRUNC(ABS(ROUND((I.DMD_DATE - DD.REQ_DATE) * 86400)) / 3600) || ':' ||
+            LPAD(TRUNC(MOD(ABS(ROUND((I.DMD_DATE - DD.REQ_DATE) * 86400)), 3600) / 60), 2, '0') || ':' ||
+            LPAD(MOD(ABS(ROUND((I.DMD_DATE - DD.REQ_DATE) * 86400)), 60), 2, '0')
+    END AS "TAT_ANOUN_TODISBILL",
+    ```
+- **Frontend Column Definition (`CommonReportColumns.js`)**:
+  - Added column:
+    ```javascript
+    { key: "TAT_ANOUN_TODISBILL", label: "TAT: Announce → Disch Bill", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് ബിൽ തയ്യാറാക്കുന്നത് വരെയുള്ള സമയം" }
+    ```
+  - Formatted with monospace typography, center alignment, and `tat` color group.
+- **Frontend Containers (`CommonReport.js` & `RequisitionReport.jsx`)**:
+  - Added fallback calculation via `computeTatString(item.DIS_ANNOUNCED, item.BILL_DATE)` ensuring valid formatting.
+  - Included `row.TAT_ANOUN_TODISBILL` in real-time text search filters.
+- **Excel Export**:
+  - Enabled Excel Export in **RequisitionReport** (`onExportClick` with `xlsx` library, `showExport={true}`).
+  - Both reports export the new column with formatted duration strings.
 
 ---
 

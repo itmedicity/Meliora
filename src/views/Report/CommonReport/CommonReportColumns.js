@@ -35,6 +35,7 @@ export const columns = [
     { key: "TAT_ADVBILL_DISPENSE", label: "TAT: Adv Bill → Dispense", width: 175, align: "center", group: "tat", tooltipMl: "അഡ്വാൻസ് ബിൽ മുതൽ മരുന്ന് ഡിസ്പെൻസ് ചെയ്യുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_DISPENSE_ACCEPT", label: "TAT: Dispense → Accept", width: 175, align: "center", group: "tat", tooltipMl: "മരുന്ന് നൽകിയത് മുതൽ വാർഡിൽ അത് സ്വീകരിക്കുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_ANOUN_DISENTRY", label: "TAT: Announce → Disch Entry", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് എൻട്രി രേഖപ്പെടുത്തുന്നത് വരെയുള്ള സമയം" },
+    { key: "TAT_ANOUN_TODISBILL", label: "TAT: Announce → Disch Bill", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് പ്രഖ്യാപനം മുതൽ ഡിസ്ചാർജ് ബിൽ തയ്യാറാക്കുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_DISENTRY_DISBILL", label: "TAT: Disch Entry → Disch Bill", width: 180, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് എൻട്രി മുതൽ ഡിസ്ചാർജ് ബിൽ തയ്യാറാക്കുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_DISBILL_RECEIPT", label: "TAT: Disch Bill → Receipt", width: 175, align: "center", group: "tat", tooltipMl: "ഡിസ്ചാർജ് ബിൽ മുതൽ പണം അടച്ച രസീത് നൽകുന്നത് വരെയുള്ള സമയം" },
     { key: "TAT_RECEIPT_PTOUT", label: "TAT: Receipt → Patient Out", width: 175, align: "center", group: "tat", tooltipMl: "രസീത് നൽകിയത് മുതൽ രോഗി പുറത്തുപോകുന്നത് വരെയുള്ള സമയം" },
