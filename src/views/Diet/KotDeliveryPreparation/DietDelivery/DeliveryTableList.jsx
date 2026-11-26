@@ -41,7 +41,7 @@ const DeliveryTableList = ({
 
 }) => {
 
-    
+
 
     const [printQty, setPrintQty] = useState({});
 
@@ -155,10 +155,78 @@ const DeliveryTableList = ({
         setPrintLabelData(null);
     };
 
+    // const getPacketList = (row) => {
+    //     let items = row?.items;
+
+
+
+    //     // If items is JSON string, parse it
+    //     if (typeof items === "string") {
+    //         try {
+    //             items = JSON.parse(items);
+    //         } catch (error) {
+    //             console.error("Invalid items JSON:", error);
+    //             return [];
+    //         }
+    //     }
+
+
+
+    //     if (!Array.isArray(items)) return [];
+
+    //     const uniquePackets = new Map();
+
+    //     items.forEach(item => {
+    //         if (!item?.packet_uid) return;
+
+    //         if (!uniquePackets.has(item.packet_uid)) {
+    //             uniquePackets.set(item.packet_uid, {
+    //                 packet_uid: item.packet_uid,
+    //                 packet_no: item.packet_no,
+    //                 packing_id: item.packing_id,
+    //                 packet_count: item.packet_count,
+    //                 packet_status: item.packet_status,
+    //                 packing_status: item.packing_status,
+
+    //                 // Patient / delivery details
+    //                 order_id: row?.canteen_order_id,
+    //                 admission_id: row?.fb_ip_no,
+    //                 patient_no: row?.fb_pt_no,
+    //                 patient_name: row?.fb_ptc_name,
+
+    //                 // Bed details
+    //                 bed_no: row?.bed_no,
+    //                 bed_code: row?.fb_bd_code,
+
+    //                 // Nursing station
+    //                 nursing_station: row?.nursing_station,
+    //                 nursing_station_code: row?.fb_ns_code,
+
+    //                 // Other details
+    //                 party_name: row?.party_name,
+    //                 meal_type: row?.meal_type,
+    //                 type_slno: row?.type_slno
+
+
+    //             });
+
+
+    //         }
+    //         uniquePackets.get(item.packet_uid).items.push({
+    //             item_id: item.item_id,
+    //             item_code: item.item_code,
+    //             item_name: item.item_name,
+    //             quantity: item.quantity,
+    //             packet_quantity: item.packet_quantity
+    //         });
+    //     });
+
+    //     return Array.from(uniquePackets.values());
+    // };
+
     const getPacketList = (row) => {
         let items = row?.items;
 
-        // If items is JSON string, parse it
         if (typeof items === "string") {
             try {
                 items = JSON.parse(items);
@@ -184,6 +252,9 @@ const DeliveryTableList = ({
                     packet_status: item.packet_status,
                     packing_status: item.packing_status,
 
+                    // Initialize packet items
+                    items: [],
+
                     // Patient / delivery details
                     order_id: row?.canteen_order_id,
                     admission_id: row?.fb_ip_no,
@@ -204,6 +275,14 @@ const DeliveryTableList = ({
                     type_slno: row?.type_slno
                 });
             }
+
+            uniquePackets.get(item.packet_uid).items.push({
+                item_id: item.item_id,
+                item_code: item.item_code,
+                item_name: item.item_name,
+                quantity: item.quantity,
+                packet_quantity: item.packet_quantity
+            });
         });
 
         return Array.from(uniquePackets.values());
@@ -212,7 +291,7 @@ const DeliveryTableList = ({
     const createPrintDetails = (row) => {
         const packetList = getPacketList(row);
 
-        return packetList.map(packet => ({
+        return packetList?.map(packet => ({
             barcodeNumber: packet.packet_uid,
             packetUid: packet.packet_uid,
             packetNo: packet.packet_no,
@@ -233,6 +312,8 @@ const DeliveryTableList = ({
             partyName: packet.party_name,
             mealType: packet.meal_type,
             typeSlno: packet.type_slno,
+
+            items: packet.items
         }));
     };
 
@@ -267,7 +348,7 @@ const DeliveryTableList = ({
         });
     };
 
-    
+
     return (
         <>
             <Paper
@@ -588,7 +669,7 @@ const DeliveryTableList = ({
                                             {getPrintQuantity(row)}
                                         </Box>
 
-                                    
+
 
                                         <Box
                                             onClick={() =>

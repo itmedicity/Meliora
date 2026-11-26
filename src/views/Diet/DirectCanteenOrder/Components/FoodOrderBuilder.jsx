@@ -9,6 +9,7 @@ import FoodSuggestionItem from "src/views/Master/DietMasters/ItemMaster/RecipeCa
 import DietTextComponent from "../../DietComponent/DietTextComponent";
 import { safeParseJSON } from "../../CommonData/Common";
 import ChooseDIetType from "src/views/CommonSelectCode/ChooseDIetType";
+import TodayTomorrowToggle from "./TodayTomorrowToggle";
 
 const FoodOrderBuilder = ({
     tempFood,
@@ -19,7 +20,8 @@ const FoodOrderBuilder = ({
     selectedFood,
     personType,
     mealtype, setMealType,
-    PreviousOrders
+    PreviousOrders,
+    selectedDate, setSelectedDate
 }) => {
 
     const [query, setQuery] = useState("");
@@ -109,7 +111,7 @@ const FoodOrderBuilder = ({
 
     /* ADD ITEM */
 
-  
+
 
     const handleAddFood = () => {
 
@@ -324,8 +326,15 @@ const FoodOrderBuilder = ({
                 />
             </Box>
             <Box sx={{ mb: 1, display: "flex", alignItems: "center", gap: 1 }}>
-                <DietInputLabel name={"Delivery At"} />
+                <DietInputLabel name={"Meal Type"} />
                 <ChooseDIetType value={mealtype} setValue={setMealType} />
+            </Box>
+            <Box sx={{ mb: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                <DietInputLabel name={"Delivery At"} />
+                <TodayTomorrowToggle
+                    value={selectedDate}
+                    onChange={setSelectedDate}
+                />
             </Box>
 
             {/* ACTION BUTTONS */}

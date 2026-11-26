@@ -13,13 +13,24 @@ import DietButton from "../DietComponent/DietButton";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { warningNotify } from "src/views/Common/CommonCode";
 import CollectionAssignmentConfirmModal from "../DietModal/CollectionAssignmentConfirmModal";
+import CanteenContextDrawer from "../CanteenOrderConfirmation/CanteenContextDrawer";
+import MenuIcon from '@mui/icons-material/Menu'
 
-const CollectionMain = ({ bills = [], activeTab }) => {
+const DRAWER_WIDTH = 280
+
+const CollectionMain = ({
+    bills = [],
+    activeTab,
+    selectedStations,
+    setSelectedStations
+}) => {
 
     const [loading, setLoading] = useState(false);
     const [selectedBill, setSelectedBill] = useState(null);
     const [selectedBills, setSelectedBills] = useState([]);
     const [openModal, setOpenModal] = useState("");
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const { state, dispatch } = useKotFilter();
     const { assignee } = state;
@@ -57,11 +68,26 @@ const CollectionMain = ({ bills = [], activeTab }) => {
         >
             {loading && <PizzaLoader />}
 
+            {!open && (
+                <MenuIcon
+                    onClick={() => setOpen(true)}
+                    sx={{
+                        position: "absolute",
+                        top: 8,
+                        left: 8,
+                        zIndex: 20,
+                        fontSize: 18,
+                        cursor: "pointer",
+                    }}
+                />
+            )}
+
             <Box
+                onScroll={(e) => setIsScrolled(e.currentTarget.scrollTop > 0)}
                 sx={{
                     height: "100%",
                     px: 2,
-                    pl: "26px",
+                    pl: open ? `${DRAWER_WIDTH + 20}px` : "26px",
                     transition: "padding-left 0.3s ease",
                     overflowY: "auto",
                     "&::-webkit-scrollbar": {
@@ -79,7 +105,8 @@ const CollectionMain = ({ bills = [], activeTab }) => {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        bgcolor: "#f6f6f6d9",
+                        bgcolor: isScrolled ? "#fffffff2" : "#f6f6f6d9",
+                        boxShadow: isScrolled ? "md" : "",
                     }}
                 >
                     <Box>
@@ -137,6 +164,14 @@ const CollectionMain = ({ bills = [], activeTab }) => {
                     open={openModal === "view"}
                     onClose={handleCloseModal}
                     selectedBill={selectedBill}
+                />
+
+                <CanteenContextDrawer
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    width={DRAWER_WIDTH}
+                    selectedStations={selectedStations}
+                    setSelectedStations={setSelectedStations}
                 />
 
                 <CollectionAssignmentConfirmModal

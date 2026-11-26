@@ -184,7 +184,7 @@ const UnassignedBillsTable = ({
                         </Box>
                     ) : (
                         <Virtuoso
-                            style={{ height: 800 }}
+                            style={{ height: 550 }}
                             data={data}
                             computeItemKey={(_, row) => String(getBillId(row))}
                             itemContent={(index, row) => {
