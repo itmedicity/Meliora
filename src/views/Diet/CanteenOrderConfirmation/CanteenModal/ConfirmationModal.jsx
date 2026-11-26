@@ -45,7 +45,6 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
     ]);
 
 
-
     const {
         data: OrderFoodDetails = [],
         refetch: FetchPatientFoodOrderDetails
@@ -373,15 +372,59 @@ const ConfirmationModal = ({ open, onClose, order, activeTab }) => {
                 <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1.5 }}>
 
                     <Box>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                            <PersonOutlineIcon sx={{ fontSize: 16 }} />
-                            <DietTextComponent
-                                value={memoOrder?.party_name || "Guest"}
-                                size={15}
-                                weight={600}
-                            />
-                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1.5,
+                                px: 1.5,
+                                py: 1,
+                                borderRadius: "10px",
+                                bgcolor: "#f7f5fc",
+                                border: "1px solid #eee8f7",
+                                width: "fit-content",
+                            }}
+                        >
+                            <PersonOutlineIcon sx={{ fontSize: 19, color: "#8b5cf6" }} />
 
+                            <Box>
+                                <DietTextComponent
+                                    value="Party Name"
+                                    size={10}
+                                    weight={600}
+                                    color="#8b8498"
+                                />
+                                <DietTextComponent
+                                    value={memoOrder?.party_name || "Unknown"}
+                                    size={13}
+                                    weight={700}
+                                    color="#29243a"
+                                />
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    width: "1px",
+                                    height: 28,
+                                    bgcolor: "#ded6eb",
+                                }}
+                            />
+
+                            <Box>
+                                <DietTextComponent
+                                    value="Order Taken By"
+                                    size={10}
+                                    weight={600}
+                                    color="#8b8498"
+                                />
+                                <DietTextComponent
+                                    value={memoOrder?.order_taken_by || "Unknown"}
+                                    size={13}
+                                    weight={700}
+                                    color="#6d45b5"
+                                />
+                            </Box>
+                        </Box>
                         <Box>
                             <DietTextComponent
                                 value={`Order ID: CAN-${String(memoOrder?.canteen_order_id || 0).padStart(6, "0")}`}

@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import "./A4Print.css";
 
 const A4Print = ({ printData, onClose }) => {
+
+
     useEffect(() => {
         if (!printData) return;
 
@@ -29,7 +31,7 @@ const A4Print = ({ printData, onClose }) => {
         a4PrintDetails = [],
     } = printData;
 
-    const totalPackets = a4PrintDetails.length;
+    // const totalPackets = a4PrintDetails.length;
 
     const labels = a4PrintDetails.map((item, index) => ({
         packetUid:
@@ -57,82 +59,118 @@ const A4Print = ({ printData, onClose }) => {
         patientName:
             item?.patientName ||
             "",
+
+        orderItem: item?.items ||
+            "",
+        mealType: item?.mealType ||
+            "",
+
+        partyName: item?.partyName || ""
     }));
 
     return createPortal(
         <div className="a4-barcode-print-container">
 
-            {labels.map((label, index) => (
-                <section
-                    className="a4-barcode-label"
-                    key={`${label.packetUid}-${index}`}
-                >
-                    <div className="a4-barcode-label-content">
+            {labels?.map((label, index) => {
+                const isPateint = label?.partyName?.trim() === "PATIENT";
+                const PartyType = isPateint ? "𝑷𝑨𝑻" : "𝑩𝒀𝑺"
+                return (
+                    <section
+                        className="a4-barcode-label"
+                        key={`${label.packetUid}-${index}`}
+                    >
+                        <div className="a4-barcode-label-content">
 
-                        {/* HEADER */}
-                        <div className="a4-label-header">
-                            <span>
-                                #{label.orderId || "-"}
+                            {/* HEADER */}
+                            <div className="a4-label-header">
+                                {/* <span>
+                                    #{label.orderId || "-"}
+                                </span>
+
+                                <span className="a4-label-dot">
+                                    •
+                                </span>
+
+                                <span>
+                                    PKT {label.packetNo}/{totalPackets}
+                                </span> */}
+                                <span className="label-location-row">
+                                    {PartyType}
+                                </span>
+
+                            </div>
+
+                            {/* PACKET UID */}
+                            {/* <div className="a4-label-packet-uid">
+                                {label.packetUid || "-"}
+                            </div> */}
+                            <span className="label-packet-uid">
+                                {label.patientName}
                             </span>
 
-                            <span className="a4-label-dot">
-                                •
-                            </span>
+                            {/* LOCATION */}
+                            <div className="a4-label-location">
 
-                            <span>
-                                PKT {label.packetNo}/{totalPackets}
-                            </span>
-                        </div>
+                                {label.nursingStation && (
+                                    <div className="a4-label-location-row">
+                                        {/* <span className="a4-label-location-key">
+                                            NS:
+                                        </span>
 
-                        {/* PACKET UID */}
-                        <div className="a4-label-packet-uid">
-                            {label.packetUid || "-"}
-                        </div>
+                                        <span className="a4-label-location-value">
+                                            {label.nursingStation}
+                                        </span> */}
 
-                        {/* LOCATION */}
-                        <div className="a4-label-location">
+                                        <span className="label-location-key">
+                                            {label.bedNo}
+                                        </span>
+                                        :
+                                        <span className="label-location-key">
+                                            {label.nursingStation}
+                                        </span>
+                                    </div>
+                                )}
 
-                            {label.nursingStation && (
-                                <div className="a4-label-location-row">
-                                    <span className="a4-label-location-key">
-                                        NS:
-                                    </span>
+                                {label.bedNo && (
+                                    <div className="a4-label-location-row">
+                                        {/* <span className="a4-label-location-key">
+                                            BED:
+                                        </span> */}
 
-                                    <span className="a4-label-location-value">
-                                        {label.nursingStation}
-                                    </span>
-                                </div>
-                            )}
-
-                            {label.bedNo && (
-                                <div className="a4-label-location-row">
-                                    <span className="a4-label-location-key">
-                                        BED:
-                                    </span>
-
-                                    <span className="a4-label-location-value">
-                                        {label.bedNo}
-                                    </span>
-                                </div>
-                            )}
-
-                            {label.patientName && (
-                                <div className="a4-label-location-row">
-                                    <span className="a4-label-location-key">
-                                        PT:
-                                    </span>
-
-                                    <span className="a4-label-location-value">
-                                        {label.patientName}
+                                        {
+                                            label?.orderItem?.map((val) => {
+                                                return (
+                                                    <span key={val.item_id} className="label-location-value">
+                                                        ● {val.item_code}
+                                                    </span>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                )}<div className="label-location-row">
+                                    <span className="label-packet-value">
+                                        {label?.mealType}
                                     </span>
                                 </div>
-                            )}
+
+                                {label.patientName && (
+                                    <div className="a4-label-location-row">
+                                        {/* <span className="a4-label-location-key">
+                                            PT:
+                                        </span> */}
+
+                                        <div className="label-packet-value">
+                                            {label.packetUid || "-"}
+                                        </div>
+                                    </div>
+                                )}
+
+                            </div>
 
                         </div>
-
-                    </div>
-                </section>
-            ))}
+                    </section>
+                )
+            })}
 
         </div>,
         document.body

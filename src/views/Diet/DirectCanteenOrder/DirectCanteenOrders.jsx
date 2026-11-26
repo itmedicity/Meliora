@@ -17,13 +17,14 @@ import RecentOrdersCard from "./Components/RecentOrdersCard";
 import PartyTypeSelector from "./Components/PartyTypeSelector";
 import FoodOrderBuilder from "./Components/FoodOrderBuilder";
 import FoodDetailShowCard from "./Components/FoodDetailShowCard";
-import usePrintBill from "./BillingComponent/usePrintBill";
-import ThermalBill from "./BillingComponent/ThermalBill";
+// import usePrintBill from "./BillingComponent/usePrintBill";
+// import ThermalBill from "./BillingComponent/ThermalBill";
 import BedSelect from "./Components/BedSelect";
 import PrintIcon from '@mui/icons-material/Print';
 import { axioslogin } from "src/views/Axios/Axios";
 import { useSelector } from "react-redux";
 import { errorNotify, succesNotify, warningNotify } from "src/views/Common/CommonCode";
+import { format } from "date-fns";
 
 const DirectCanteenOrders = () => {
 
@@ -32,6 +33,9 @@ const DirectCanteenOrders = () => {
     const [selectedFood, setSelectedFood] = useState({})
     const [mealtype, setMealType] = useState(0)
     const { data: allPartyType = [] } = useAllOrderPartyType();
+    const [selectedDate, setSelectedDate] = useState(
+        format(new Date(), "yyyy-MM-dd")
+    );
 
     const [bed, setBed] = useState(null);
 
@@ -44,7 +48,8 @@ const DirectCanteenOrders = () => {
         measure: "",
     });
 
-    const { data: patient } = useGetPatientDetail(bed)
+    const { data: patient } = useGetPatientDetail(bed);
+
 
 
     const isSubmitting = useRef(false);
@@ -54,9 +59,9 @@ const DirectCanteenOrders = () => {
     })
 
 
-    const { billRef,
-        //  printBill 
-    } = usePrintBill();
+    // const { billRef,
+    //     //  printBill 
+    // } = usePrintBill();
 
     const filteredPartyTypes = useMemo(() => {
         return allPartyType?.filter(
@@ -89,6 +94,8 @@ const DirectCanteenOrders = () => {
 
     const resetItem = () => {
         setItems([])
+        setBed(null)
+        setSelectedFood({})
     }
 
     /* TOTAL */
@@ -194,7 +201,8 @@ const DirectCanteenOrders = () => {
                 status: "CONFIRMED",
                 isExtra: isPatient ? true : false,
                 patient_id: fb_ipad_slno,
-                order_status: 'CONFIRMED'
+                order_status: 'CONFIRMED',
+                expected_delivery_date: selectedDate,
             };
 
             const payload = {
@@ -359,6 +367,7 @@ const DirectCanteenOrders = () => {
                             mealtype={mealtype}
                             PreviousOrders={PreviousOrders}
                             setMealType={setMealType}
+                            selectedDate={selectedDate} setSelectedDate={setSelectedDate}
                         />
                         <FoodDetailShowCard selectedFood={selectedFood} />
                     </Box>
@@ -410,12 +419,12 @@ const DirectCanteenOrders = () => {
                 </Box>
                 {items.length > 0 && (
                     <Box sx={{ p: 2, borderTop: "1px dashed #ccc" }}>
-                        <ThermalBill
+                        {/* <ThermalBill
                             billtype={isPatient}
                             ref={billRef}
                             patient={patient?.[0]}
                             items={items}
-                        />
+                        /> */}
 
                         {/* <button onClick={printBill}>
                             Print Bill

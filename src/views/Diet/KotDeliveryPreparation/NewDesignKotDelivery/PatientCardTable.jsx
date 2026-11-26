@@ -172,7 +172,7 @@ const PatientCardTable = ({
                 style={{ height: '72vh' }}
                 data={data}
                 itemContent={(index, row) => {
-                    
+
                     const AdmissiongStatus = PatientstatusConfig[row.fb_ipc_curstatus];
 
                     return (

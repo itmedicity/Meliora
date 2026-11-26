@@ -93,6 +93,7 @@ const PatientInfoCard = ({ patient }) => {
                         <DietTextComponent value={`MRD No: ${patient?.fb_pt_no}`} size={13} />
                         <DietTextComponent value={`Ns Station: ${patient?.fb_ns_name}`} size={13} />
                         <DietTextComponent value={`Phone: ${patient?.fb_ptc_mobile}`} size={13} />
+                        <DietTextComponent value={`Diet: ${patient?.diet_name}`} size={13} />
                     </Box>
 
                     {/* Bottom */}

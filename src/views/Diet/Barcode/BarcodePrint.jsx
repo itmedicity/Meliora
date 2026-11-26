@@ -4,7 +4,7 @@ import "./BarcodePrint.css";
 
 const BarcodePrint = ({ printData, onClose }) => {
 
-    
+
     useEffect(() => {
         if (!printData) return;
 
@@ -28,7 +28,7 @@ const BarcodePrint = ({ printData, onClose }) => {
 
 
     const { orderId, barcodePrintDetails = [] } = printData;
-    const totalPackets = barcodePrintDetails.length;
+    // const totalPackets = barcodePrintDetails.length;
 
     const labels = barcodePrintDetails.map((item, index) => ({
         packetUid: item?.packetUid || item?.barcodeNumber || "",
@@ -37,65 +37,95 @@ const BarcodePrint = ({ printData, onClose }) => {
         bedNo: item?.bedNo || "",
         nursingStation: item?.nursingStation || "",
         patientName: item?.patientName || "",
+        orderItem: item?.items || "",
+        mealType: item?.mealType || "",
+        partyName: item?.partyName || ""
     }));
 
     return createPortal(
         <div className="barcode-print-container">
-            {labels?.map((label, index) => (
-                <section
-                    className="barcode-label"
-                    key={`${label.packetUid}-${index}`}
-                >
-                    <div className="barcode-label-content">
-                        <div className="label-header">
-                            <span>#{label.orderId || "-"}</span>
-                            <span className="label-dot">•</span>
-                            <span>
-                                PKT {label.packetNo}/{totalPackets}
+            {labels?.map((label, index) => {
+                const isPateint = label?.partyName?.trim() === "PATIENT";
+                const PartyType = isPateint ? "𝑷𝑨𝑻" : "𝑩𝒀𝑺"
+                return (
+                    <section
+                        className="barcode-label"
+                        key={`${label.packetUid}-${index}`}
+                    >
+                        <div className="barcode-label-content">
+                            <div className="label-header">
+                                {/* <span>#{label.orderId || "-"}</span>
+                                <span className="label-dot">•</span>
+                                <span>
+                                    PKT {label.packetNo}/{totalPackets}
+                                </span> */}
+                                <span className="label-location-row">
+                                    {PartyType}
+                                </span>
+
+                            </div>
+
+
+                            <span className="label-packet-uid">
+                                {label.patientName}
                             </span>
-                        </div>
 
-                        <div className="label-packet-uid">
-                            {label.packetUid || "-"}
-                        </div>
 
-                        <div className="label-location">
-                            {label.nursingStation && (
+                            <div className="label-location">
+                                {label.nursingStation && (
+                                    <div className="label-location-row">
+                                        {/* <span className="label-location-key">
+                                            NS:
+                                        </span> */}
+                                        <span className="label-location-key">
+                                            {label.bedNo}
+                                        </span>
+                                        :
+                                        <span className="label-location-key">
+                                            {label.nursingStation}
+                                        </span>
+                                    </div>
+                                )}
+
+
                                 <div className="label-location-row">
-                                    <span className="label-location-key">
-                                        NS:
-                                    </span>
-                                    <span className="label-location-value">
-                                        {label.nursingStation}
+                                    {/* <span className="label-location-key">
+                                            BED:
+                                        </span> */}
+                                    {
+                                        label?.orderItem?.map((val) => {
+                                            return (
+                                                <span key={val.item_id} className="label-location-value">
+                                                    ● {val.item_code}
+                                                </span>
+                                            )
+                                        })
+                                    }
+
+                                </div>
+
+                                <div className="label-location-row">
+                                    <span className="label-packet-value">
+                                        {label?.mealType}
                                     </span>
                                 </div>
-                            )}
 
-                            {label.bedNo && (
-                                <div className="label-location-row">
-                                    <span className="label-location-key">
-                                        BED:
-                                    </span>
-                                    <span className="label-location-value">
-                                        {label.bedNo}
-                                    </span>
-                                </div>
-                            )}
-                            {label.patientName && (
-                                <div className="label-location-row">
-                                    <span className="label-location-key">
-                                        PT:
-                                    </span>
-                                    <span className="label-location-value">
-                                        {label.patientName}
-                                    </span>
-                                </div>
-                            )}
+                                {label.patientName && (
+                                    <div className="label-location-row">
+                                        {/* <span className="label-location-key">
+                                            PT:
+                                        </span> */}
+                                        <div className="label-packet-value">
+                                            {label.packetUid || "-"}
+                                        </div>
+                                    </div>
+                                )}
 
+                            </div>
                         </div>
-                    </div>
-                </section>
-            ))}
+                    </section>
+                )
+            })}
         </div>,
         document.body
     );

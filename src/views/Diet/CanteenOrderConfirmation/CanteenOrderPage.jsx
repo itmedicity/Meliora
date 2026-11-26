@@ -10,13 +10,16 @@ import { socket } from 'src/ws/socket'
 import { succesNotify, warningNotify } from 'src/views/Common/CommonCode'
 import { initSpeech, speakOrder } from '../Utils/SpeakOrder'
 import { safeText } from '../CommonData/Common'
+import { format } from 'date-fns'
 
 const CanteenOrderPage = () => {
 
     const [selectedStations, setSelectedStations] = useState([])
     const [activeStatus, setActiveStatus] = useState(null)
     const [activeTab, setActiveTab] = useState("PENDING")
-
+    const [expectedDate, setExpectedDate] = useState(
+        format(new Date(), 'yyyy-MM-dd')
+    )
 
     const { state } = useCanteenFilter()
 
@@ -84,6 +87,11 @@ const CanteenOrderPage = () => {
         const searchVal = search?.toLowerCase()
 
         return allOrders.filter(order => (
+
+            (!expectedDate ||
+                order.expected_delivery_date === expectedDate
+            ) &&
+
             (!searchVal ||
                 order.fb_ptc_name?.toLowerCase().includes(searchVal) ||
                 order.canteen_order_id?.toString().includes(searchVal)
@@ -109,6 +117,7 @@ const CanteenOrderPage = () => {
         ))
     }, [
         allOrders,
+        expectedDate,
         bed,
         patient,
         meal,
@@ -121,7 +130,7 @@ const CanteenOrderPage = () => {
 
 
     return (
-        <Box sx={{ width: '100%', display: 'flex' , flexDirection: 'column' }}>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
 
             <KotItemHeader name={'CANTEEN ORDER DETAILS'} />
 
@@ -135,7 +144,10 @@ const CanteenOrderPage = () => {
             />
 
             {/* FILTER */}
-            <CanteenFilterComponent selectedStations={selectedStations} />
+            <CanteenFilterComponent
+                selectedStations={selectedStations}
+                onExpectedDateChange={setExpectedDate}
+            />
 
             {/* TABLE */}
             <CanteenMain

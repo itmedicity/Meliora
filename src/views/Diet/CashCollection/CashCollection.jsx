@@ -13,28 +13,36 @@ const CashCollection = () => {
     const [activeTab, setActiveTab] = useState("1");
     const [activeStatus, setActiveStatus] = useState("PENDING");
     const [search, setSearch] = useState("");
-
+    const [selectedStations, setSelectedStations] = useState([])
     const { data: BillDetails = [] } = useBillDetails();
 
     const filteredBills = useMemo(() => {
         const searchValue = normalize(search);
 
         return BillDetails?.filter((bill) => {
+
             const assigned =
                 bill.assignment_id != null &&
                 String(bill.assignment_status ?? "").toUpperCase() !== "CANCELLED";
 
-            // Tab 1: BILL ASSIGNMENT - show unassigned bills only
+            // Tab filtering
             if (activeTab === "1" && assigned) {
                 return false;
             }
 
-            // Tab 2: COLLECTION STATUS - show assigned bills only
             if (activeTab === "2" && !assigned) {
                 return false;
             }
 
-            // Search by patient name, MRD number, IP number, or bill number
+            // Nursing station filtering
+            if (
+                selectedStations.length > 0 &&
+                !selectedStations.includes(bill.fb_ns_code)
+            ) {
+                return false;
+            }
+
+            // Search filtering
             const matchesSearch =
                 !searchValue ||
                 [
@@ -48,7 +56,7 @@ const CashCollection = () => {
 
             if (!matchesSearch) return false;
 
-            // Apply status filter for the selected tab
+            // Status filtering
             if (!activeStatus) return true;
 
             if (activeTab === "1") {
@@ -56,8 +64,15 @@ const CashCollection = () => {
             }
 
             return getCollectionStatus(bill) === activeStatus;
+
         });
-    }, [BillDetails, search, activeTab, activeStatus]);
+    }, [
+        BillDetails,
+        search,
+        activeTab,
+        activeStatus,
+        selectedStations
+    ]);
 
     return (
         <Box
@@ -86,6 +101,8 @@ const CashCollection = () => {
             <CollectionMain
                 bills={filteredBills}
                 activeTab={activeTab}
+                selectedStations={selectedStations}
+                setSelectedStations={setSelectedStations}
             />
         </Box>
     );

@@ -5,14 +5,14 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DietButton from '../../DietComponent/DietButton'
 import DietTextComponent from '../../DietComponent/DietTextComponent'
-import { format } from 'date-fns'
+import { format, isBefore, parseISO, startOfDay } from 'date-fns'
 import { useFetchProductionMap } from '../../CommonData/UseQuery'
 import { PatientstatusConfig } from '../../CommonData/Common'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import FontDownloadOffIcon from '@mui/icons-material/FontDownloadOff';
 import { keyframes } from "@mui/system";
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-
+import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 const Cell = ({ width, children }) => (
     <Box sx={{ width, display: 'flex', alignItems: 'center' }}>
@@ -165,8 +165,8 @@ const CanteenTable = ({
                     ['Room', 100],
                     ['NS', 120],
                     ['Remark', 80],
-                    ['Patient Status', 120],
-                    ['Time', 180],
+                    ['Status', 120],
+                    ['Expected', 180],
                     ['Order', 100],
                     ['Cancel', 100]
                 ].map(([label, width]) => (
@@ -191,6 +191,10 @@ const CanteenTable = ({
 
                     const isUrgent = Number(row?.is_urgent) === 1;
 
+                    const isDeliveryOverdue =
+                        row?.expected_delivery_date &&
+                        isBefore(parseISO(row.expected_delivery_date), startOfDay(new Date()));
+
                     return (
                         <Box
                             key={`${getRowId(row)}_${index + 1}`}
@@ -205,13 +209,15 @@ const CanteenTable = ({
                                 px: 1,
                                 py: 0.5,
 
-                                bgcolor: isUrgent
-                                    ? '#fff1f0'
-                                    : isMapped
-                                        ? '#ececec'
-                                        : selectedRows.includes(rowId)
-                                            ? '#f5edff'
-                                            : '#fff',
+                                bgcolor:
+                                    isDeliveryOverdue ? "#d8dddeea" :
+                                        isUrgent
+                                            ? '#fff1f0'
+                                            : isMapped
+                                                ? '#ececec'
+                                                : selectedRows.includes(rowId)
+                                                    ? '#f5edff'
+                                                    : '#fff',
 
                                 opacity: isMapped ? 0.7 : 1,
                                 pointerEvents: isMapped ? 'none' : 'auto',
@@ -240,6 +246,15 @@ const CanteenTable = ({
                             )}
                             <Cell width={60}>
                                 <DietTextComponent value={index + 1} size={12} />
+                                {
+                                    isDeliveryOverdue &&
+                                    <SearchOffIcon
+                                        sx={{
+                                            fontSize: '14px !important',
+                                            color: '#f81313ff !important',
+                                        }}
+                                    />
+                                }
                             </Cell>
 
                             <Cell width={140}>
@@ -374,8 +389,8 @@ const CanteenTable = ({
                             <Cell width={180}>
                                 <DietTextComponent
                                     value={
-                                        row.order_time
-                                            ? format(new Date(row.order_time), 'dd-MM-yyyy hh:mm a')
+                                        row.expected_delivery_date
+                                            ? format(new Date(row.expected_delivery_date), 'dd-MM-yyyy a')
                                             : '-'
                                     }
                                     size={12}
